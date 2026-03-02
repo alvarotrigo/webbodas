@@ -1,0 +1,21 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-team-circles",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ]
+  }
+}

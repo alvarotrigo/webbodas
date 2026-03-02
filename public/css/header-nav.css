@@ -1,0 +1,177 @@
+/* ============================================
+   Header Nav CSS - Extracted from all-headers.html
+   Used in both app.php (sidebar preview) and preview.html (iframe)
+   ============================================ */
+
+/* Navigation link styles - prevent text wrapping */
+nav a, nav span, nav button {
+    white-space: nowrap;
+}
+
+/* Mobile menu */
+.mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+.mobile-menu.open {
+    max-height: 500px;
+}
+
+/* Theme classes - use nav.class for higher specificity over page theme classes */
+nav.nav-theme-light {
+    --primary-bg: #ffffff;
+    --primary-accent: #ffffff;
+    --secondary-bg: #f4f4f7;
+    --accent-bg: #fafafa;
+    --primary-text: #222222;
+    --secondary-text: #777777;
+    --accent-text: #111111;
+    --primary-accent-soft: rgba(80, 70, 230, 0.1);
+    --nav-border-color: rgba(0, 0, 0, 0.08);
+    --button-on-gradient-border: rgba(255, 255, 255, 0.8);
+}
+
+nav.nav-theme-dark {
+    --primary-bg: #000000;
+    --primary-accent: #000000;
+    --secondary-bg: #222222;
+    --accent-bg: #1a1a1a;
+    --primary-text: #ffffff;
+    --secondary-text: #aaaaaa;
+    --accent-text: #ffffff;
+    --primary-accent-soft: rgba(139, 92, 246, 0.1);
+    --nav-border-color: rgba(255, 255, 255, 0.1);
+    --button-on-gradient: #ffffff;
+    --button-on-gradient-border: rgba(255, 255, 255, 0.8);
+}
+
+/* Accent theme - uses primary accent as background */
+nav.nav-theme-accent {
+    --secondary-bg: var(--secondary-accent);
+    --primary-text: #ffffff;
+    --secondary-text: rgba(255, 255, 255, 0.8);
+    --accent-text: #ffffff;
+    --nav-border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Background Classes */
+.nav-bg-solid {
+    background-color: var(--primary-accent);
+}
+
+.nav-bg-transparent {
+    background-color: transparent;
+}
+
+.nav-bg-glass {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Glass background colors based on theme */
+nav.nav-theme-light.nav-bg-glass {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+nav.nav-theme-dark.nav-bg-glass {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+nav.nav-theme-accent.nav-bg-glass {
+    background-color: color-mix(in srgb, var(--primary-accent) 70%, transparent);
+}
+
+/* Corner Classes */
+.nav-corners-sharp {
+    border-radius: 0 !important;
+}
+
+.nav-corners-rounded {
+    border-radius: var(--card-radius) !important;
+    margin-top: 12px !important;
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.nav-corners-pill {
+    border-radius: 50px !important;
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 12px !important;
+}
+
+/* Responsive pill style */
+@media (max-width: 768px) {
+    .nav-corners-pill {
+        max-width: calc(100% - 2rem) !important;
+        margin-left: 1rem !important;
+        margin-right: 1rem !important;
+    }
+}
+
+/* Shadow styles */
+.nav-shadow-none {
+    box-shadow: none !important;
+}
+
+.nav-shadow-subtle {
+    box-shadow: 0 4px 6px -1px var(--shadow-color),
+                0 2px 4px -2px var(--shadow-color) !important;
+}
+
+.nav-shadow-medium {
+    box-shadow: 0 10px 15px -3px var(--shadow-color),
+                0 4px 6px -4px var(--shadow-color) !important;
+}
+
+/* Fixed positioning for header nav in preview */
+#preview-content > nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+/* Content wrapper - always enforce max-width */
+.nav-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* CTA Style Classes */
+.nav-cta-text {
+    background: transparent !important;
+    border: none !important;
+}
+
+.nav-cta-outline {
+    background: transparent !important;
+    border: 1px solid var(--accent-text) !important;
+    color: var(--primary-text) !important;
+    border-radius: var(--button-radius) !important;
+}
+
+.nav-cta-solid {
+    background: var(--secondary-accent) !important;
+    border: 1px solid transparent !important;
+    color: #fff !important;
+}
+
+/* ============================================
+   Click-to-Edit Zones
+   ============================================ */
+[data-header-zone] {
+    cursor: pointer;
+    position: relative;
+    border-radius: 6px;
+    transition: outline 0.15s ease;
+}
+
+[data-header-zone].header-zone-hover {
+    outline: 2px solid var(--primary-accent, #4285f4);
+    outline-offset: 4px;
+}

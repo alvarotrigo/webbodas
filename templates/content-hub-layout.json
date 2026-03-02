@@ -1,0 +1,407 @@
+{
+    "id": "content-hub-layout",
+    "name": "Content Hub Layout",
+    "description": "The layout is a single-column format featuring a series of sections with headings and links. It includes multiple elements such as resource links, legal information, and a brief description at the bottom, resulting in a content-rich appearance.",
+    "category": "custom",
+    "tags": [
+        "warm",
+        "calm",
+        "empathetic"
+    ],
+    "sections": [
+        47,
+        14,
+        16,
+        7,
+        169,
+        36,
+        131,
+        151,
+        159
+    ],
+    "theme": {
+        "name": "Content Hub Layout",
+        "variables": {
+            "primary-bg": "#f5f5f0",
+            "secondary-bg": "#ffffff",
+            "accent-bg": "#e6f2f0",
+            "primary-text": "#333333",
+            "secondary-text": "#666666",
+            "accent-text": "#222222",
+            "primary-accent": "#9fb79e",
+            "primary-accent-soft": "rgba(159, 183, 158, 0.1)",
+            "secondary-accent": "#b2c8c0",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #ffffff 0%, #e6f2f0 100%)",
+            "gradient-2": "linear-gradient(135deg, #9fb79e 0%, #b2c8c0 100%)",
+            "features2-bg": "linear-gradient(135deg, #9fb79e 0%, #b2c8c0 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Playfair Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Playfair Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "8px",
+            "button-radius": "30px",
+            "card-radius": "16px",
+            "spacing-unit": "1.6rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Playfair Display",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "7": {
+            "headline": "How It Works",
+            "subheadline": "Simple Steps to Get Started",
+            "steps": [
+                "Sign Up: Create your account in minutes.",
+                "Explore: Access a wealth of resources tailored to your needs.",
+                "Engage: Utilize our tools to enhance your experience."
+            ]
+        },
+        "14": {
+            "headline": "About Us",
+            "subheadline": "Driven by Passion, Guided by Purpose",
+            "description": "We are a dedicated team committed to providing exceptional resources that simplify your journey and enhance your experience."
+        },
+        "16": {
+            "headline": "Why Choose Us?",
+            "subheadline": "Experience the Benefits",
+            "features": [
+                "User-Friendly Interface: Navigate with ease and efficiency.",
+                "Comprehensive Resources: All the tools you need in one place.",
+                "Dedicated Support: We're here to help you every step of the way.",
+                "Regular Updates: Stay ahead with our continuously evolving offerings."
+            ]
+        },
+        "36": {
+            "headline": "Frequently Asked Questions",
+            "faqs": [
+                {
+                    "question": "What services do you offer?",
+                    "answer": "We provide a range of tools and resources designed to enhance productivity."
+                },
+                {
+                    "question": "How can I get support?",
+                    "answer": "You can reach our support team via the contact section or live chat."
+                }
+            ]
+        },
+        "47": {
+            "headline": "Unlock Your Potential with Our Innovative Solutions",
+            "subheadline": "Empowering you to achieve more with user-friendly tools designed for success.",
+            "cta_primary": "Get Started Today",
+            "cta_secondary": "Learn More"
+        },
+        "131": {
+            "headline": "Get in Touch",
+            "subheadline": "We'd Love to Hear from You!",
+            "cta_primary": "Contact Us",
+            "cta_secondary": "Schedule a Demo"
+        },
+        "151": {
+            "headline": "Take the Next Step",
+            "subheadline": "Join our community of achievers.",
+            "cta_primary": "Sign Up Now",
+            "cta_secondary": "Start Your Journey"
+        },
+        "159": {
+            "navigation": [
+                "Home",
+                "About Us",
+                "Features",
+                "Contact",
+                "Privacy Policy"
+            ],
+            "contact_info": "Email: support@ourbrand.com | Phone: (123) 456-7890",
+            "trust_message": "Trusted by thousands of users worldwide."
+        },
+        "169": {
+            "headline": "What Our Users Say",
+            "testimonials": [
+                "\"This platform has transformed the way I work!\" - Jane D.",
+                "\"The support team is fantastic and always ready to help!\" - John S."
+            ]
+        }
+    },
+    "section_backgrounds": {
+        "7": {
+            "type": "color"
+        },
+        "14": {
+            "type": "color"
+        },
+        "16": {
+            "type": "color"
+        },
+        "36": {
+            "type": "color"
+        },
+        "47": {
+            "type": "image",
+            "keyword": "inspiring landscape"
+        },
+        "131": {
+            "type": "color"
+        },
+        "151": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        },
+        "169": {
+            "type": "image",
+            "keyword": "happy people"
+        }
+    },
+    "inline_image_keywords": {
+        "169": [
+            [
+                "professional portrait",
+                "business headshot",
+                "smiling executive",
+                "confident leader"
+            ],
+            [
+                "creative strategist",
+                "professional profile",
+                "team collaboration",
+                "friendly workplace"
+            ],
+            [
+                "project manager",
+                "business professional",
+                "approachable demeanor",
+                "team success"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#f5f5f0",
+            "secondary_bg": "#ffffff",
+            "accent_bg": "#e6f2f0",
+            "primary_text": "#333333",
+            "secondary_text": "#666666",
+            "accent_text": "#222222",
+            "primary_accent": "#9fb79e",
+            "secondary_accent": "#b2c8c0"
+        },
+        "typography": {
+            "heading_style": "serif",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Playfair Display",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "button_radius_value": "30px",
+            "card_radius": "rounded",
+            "card_radius_value": "16px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "spacious",
+            "spacing_unit_hint": "1.6rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "warm",
+            "calm",
+            "empathetic"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "about section",
+            "services overview",
+            "testimonials cards",
+            "contact form"
+        ]
+    },
+    "site_plan": {
+        "audience": "adults seeking emotional support",
+        "primary_goal": "book consultation",
+        "brand_vibe": [
+            "warm",
+            "calm",
+            "empathetic",
+            "trustworthy"
+        ],
+        "content_tone": "compassionate and reassuring",
+        "key_differentiators": [
+            "individual therapy for anxiety",
+            "focus on life transitions",
+            "safe and welcoming space"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-02-11T18:53:23+00:00",
+    "text_updates": {
+        "7": {
+            "h2[0]": "Hear From Those We've Helped",
+            "p[0]": "Discover the heartfelt stories of individuals who have found solace and support through our services. Their journeys reflect the strength of community and the transformative power of compassionate guidance.",
+            "div[5]": "1",
+            "h3[0]": "Real Stories of Healing.",
+            "div[8]": "2",
+            "h3[1]": "Inspiring Accounts of Change.",
+            "div[11]": "3",
+            "h3[2]": "Together, We Navigate Life's Challenges.",
+            "div[14]": "4",
+            "h3[3]": "A Community United in Support."
+        },
+        "14": {
+            "h2[0]": "Navigating Life's Transitions Together",
+            "p[0]": "At our practice, we understand the complexities that come with life changes. Our compassionate approach provides the guidance and support you need to navigate these transitions with confidence.",
+            "h3[0]": "Personalized Support",
+            "p[1]": "Our experienced team is dedicated to offering tailored strategies that empower you through individual therapy, focusing specifically on managing anxiety and life's pivotal moments.",
+            "h3[1]": "Holistic Approach",
+            "p[2]": "We emphasize a comprehensive understanding of your unique journey, ensuring that every step taken is meaningful and helps foster lasting positive change.",
+            "h3[2]": "Empowering Your Journey",
+            "p[3]": "We are committed to equipping you with the tools and insights necessary to embrace new beginnings and overcome challenges, ensuring you feel supported every step of the way."
+        },
+        "16": {
+            "h1[0]": "Empowering Adults Through Individual Therapy",
+            "p[0]": "We understand that each person's journey is unique. Our dedicated therapy sessions focus on providing personalized support to help you find relief from anxiety and embrace your true self.",
+            "h3[0]": "Nurture Your Inner Strength",
+            "p[1]": "In therapy, you will discover the tools to manage your feelings and build resilience. Embrace the opportunity for growth and healing.",
+            "h3[1]": "Foster a Safe Environment",
+            "p[2]": "Our welcoming space is designed to help you feel comfortable and supported as you explore your emotions and experiences.",
+            "h3[2]": "Achieve Personal Empowerment",
+            "p[3]": "Step into your power by taking charge of your mental health. Together, we will work towards your goals and well-being."
+        },
+        "36": {
+            "h2[0]": "Your Path to Emotional Resilience Starts Here",
+            "p[0]": "Begin your journey towards emotional growth and strength with our supportive services designed for you.",
+            "h3[0]": "What can I expect from sessions?",
+            "p[1]": "In our sessions, you’ll find a nurturing environment where we explore your emotions and experiences, fostering personal insight and growth.",
+            "h3[1]": "How do you support life transitions?",
+            "p[2]": "We provide personalized guidance through significant life changes, ensuring you feel understood and equipped to navigate each step.",
+            "h3[2]": "Is individual therapy available?",
+            "p[3]": "Yes! We specialize in one-on-one therapy tailored to address anxiety and emotional challenges, creating a safe space for your healing.",
+            "h3[3]": "What if I need to reschedule?",
+            "p[4]": "We understand that life can be unpredictable. You can easily reschedule appointments to fit your needs without any hassle.",
+            "h3[4]": "How can I get started?",
+            "p[5]": "To begin, simply reach out through our contact form. We’re here to support you every step of the way."
+        },
+        "47": {
+            "h2[0]": "A Safe Haven for Your Emotions",
+            "p[0]": "At our center, we prioritize your emotional well-being with understanding and support, guiding you through the challenges of life transitions. Here, healing begins in a safe and welcoming environment.",
+            "a[0]": "Book Now"
+        },
+        "131": {
+            "h2[0]": "Take the First Step Towards Healing",
+            "h4[0]": "We're Here for You",
+            "button[0]": "Book Now",
+            "h3[0]": "Content Hub Layout",
+            "h5[0]": "+1 (555) 987-6543",
+            "h5[1]": "support@contenthub.com",
+            "h5[2]": "456 Wellness Way, Harmony City, CA 95000"
+        },
+        "151": {
+            "h1[0]": "Reach Out—We're Here to Listen",
+            "p[0]": "Connecting with us is easy and welcoming. We're dedicated to providing compassionate support during your journey. Your emotional well-being is our priority, and we're just a message away.",
+            "button[0]": "Book Consultation"
+        },
+        "159": {
+            "h3[0]": "Join Our Community of Support",
+            "p[0]": "At our center, we foster a nurturing environment where individuals can discover genuine connection and support. We believe in the power of community to uplift and inspire those navigating life's challenges.",
+            "h4[0]": "Resource Links",
+            "li[0]": "About Us",
+            "span[0]": "About Us",
+            "li[1]": "Our Services",
+            "span[1]": "Our Services",
+            "li[2]": "Consultation Options",
+            "span[2]": "Consultation Options",
+            "li[3]": "Get in Touch",
+            "span[3]": "Get in Touch",
+            "h4[1]": "Our Offerings",
+            "li[4]": "Individual Therapy",
+            "li[5]": "Life Transition Support",
+            "li[6]": "Workshops & Group Sessions",
+            "li[7]": "Wellness Resources",
+            "h4[2]": "Connect with Us",
+            "a[0]": "Facebook",
+            "a[1]": "Instagram",
+            "a[2]": "YouTube",
+            "p[1]": "© 2024 Our Center. All rights reserved."
+        },
+        "169": {
+            "h2[0]": "Building Stronger Connections with Compassion",
+            "p[0]": "Creating meaningful relationships is the cornerstone of emotional support. Trust and connection are vital elements in our therapeutic approach, fostering a safe environment for personal growth.",
+            "p[1]": "In this nurturing space, individuals can explore their feelings and navigate life transitions with guidance and understanding. We prioritize your journey towards healing and self-discovery.",
+            "h3[0]": "Understanding Emotional Needs",
+            "p[2]": "Licensed Therapist, Compassionate Care",
+            "p[3]": "By focusing on individual experiences, we tailor our sessions to meet your unique emotional needs, ensuring a supportive atmosphere that encourages openness and honesty.",
+            "h3[1]": "Navigating Life's Changes",
+            "p[4]": "Certified Counselor, Life Transitions",
+            "p[5]": "Our compassionate approach helps clients tackle significant life changes with confidence. We provide the tools and support necessary for personal growth during challenging times.",
+            "h3[2]": "Creating a Safe Space",
+            "p[6]": "Mental Health Advocate, Safe Haven"
+        }
+    },
+    "inline_images": {
+        "169": [
+            "https://images.unsplash.com/photo-1758518727600-2c5f48419eac?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBidXNpbmVzcyUyMGhlYWRzaG90JTIwc21pbGluZyUyMGV4ZWN1dGl2ZSUyMGNvbmZpZGVudCUyMGxlYWRlcnxlbnwwfDB8fHwxNzcwODM2MDIyfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758520144517-30a30357fb2e?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8Y3JlYXRpdmUlMjBzdHJhdGVnaXN0JTIwcHJvZmVzc2lvbmFsJTIwcHJvZmlsZSUyMHRlYW0lMjBjb2xsYWJvcmF0aW9uJTIwZnJpZW5kbHklMjB3b3JrcGxhY2V8ZW58MHwwfHx8MTc3MDgzNjAyMnww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1704652329540-851160c7741f?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8cHJvamVjdCUyMG1hbmFnZXIlMjBidXNpbmVzcyUyMHByb2Zlc3Npb25hbCUyMGFwcHJvYWNoYWJsZSUyMGRlbWVhbm9yJTIwdGVhbSUyMHN1Y2Nlc3N8ZW58MHwwfHx8MTc3MDgzNjAyMnww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "47": "https://images.unsplash.com/photo-1628069410830-aad85749ca3d?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8aW5zcGlyaW5nJTIwbGFuZHNjYXBlfGVufDB8MHx8fDE3NzA4MzYwMjN8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "169": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8aGFwcHklMjBwZW9wbGV8ZW58MHwwfHx8MTc3MDgzNjAyM3ww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

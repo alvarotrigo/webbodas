@@ -1,0 +1,85 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-pricing",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      }
+    ],
+    "bullets": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 2
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 3
+      }
+    ]
+  }
+}

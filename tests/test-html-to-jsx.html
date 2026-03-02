@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to JSX Converter Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .success { border-left: 4px solid #10b981; }
+        .error { border-left: 4px solid #ef4444; }
+    </style>
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">HTML to JSX Converter Test</h1>
+            <p class="text-gray-600">Test the Node.js HTML to JSX conversion service</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Input Section -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-semibold text-gray-900">HTML Input</h2>
+                    <button onclick="loadSample()" class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded transition">
+                        Load Sample
+                    </button>
+                </div>
+                
+                <textarea 
+                    id="htmlInput" 
+                    class="w-full h-96 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 code-block font-mono text-sm"
+                    placeholder="Paste your HTML here..."
+                ></textarea>
+
+                <div class="mt-4 flex gap-3">
+                    <button 
+                        onclick="convertHtml()" 
+                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition">
+                        Convert to JSX
+                    </button>
+                    <button 
+                        onclick="clearAll()" 
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-lg transition">
+                        Clear
+                    </button>
+                </div>
+
+                <!-- Options -->
+                <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" id="cleanHtml" checked class="rounded">
+                        <span class="text-sm text-gray-700">Clean HTML (remove editor artifacts)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-semibold text-gray-900">JSX Output</h2>
+                    <button 
+                        onclick="copyOutput()" 
+                        id="copyBtn"
+                        class="text-sm bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1 rounded transition">
+                        Copy JSX
+                    </button>
+                </div>
+
+                <textarea 
+                    id="output" 
+                    readonly
+                    class="w-full h-96 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 code-block font-mono text-sm bg-gray-50"
+                    placeholder="JSX output will appear here..."
+                ></textarea>
+
+                <!-- Stats -->
+                <div id="stats" class="mt-4 hidden">
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-blue-50 p-3 rounded text-center">
+                            <div class="text-2xl font-bold text-blue-600" id="conversionTime">-</div>
+                            <div class="text-xs text-gray-600">Time (ms)</div>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded text-center">
+                            <div class="text-2xl font-bold text-green-600" id="inputSize">-</div>
+                            <div class="text-xs text-gray-600">Input Size</div>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded text-center">
+                            <div class="text-2xl font-bold text-purple-600" id="outputSize">-</div>
+                            <div class="text-xs text-gray-600">Output Size</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="statusMessages" class="mt-6 space-y-3"></div>
+
+        <!-- Sample HTML Templates -->
+        <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Quick Tests</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <button onclick="loadTest('simple')" class="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 transition text-left">
+                    <div class="font-semibold text-gray-900">Simple Section</div>
+                    <div class="text-sm text-gray-500 mt-1">Basic HTML with classes</div>
+                </button>
+                <button onclick="loadTest('styles')" class="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 transition text-left">
+                    <div class="font-semibold text-gray-900">Complex Styles</div>
+                    <div class="text-sm text-gray-500 mt-1">Inline styles with URLs</div>
+                </button>
+                <button onclick="loadTest('background')" class="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 transition text-left">
+                    <div class="font-semibold text-gray-900">Background Image</div>
+                    <div class="text-sm text-gray-500 mt-1">Linear gradient + URL</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_ENDPOINT = './html-to-jsx-proxy.php';
+
+        // Sample HTML templates
+        const samples = {
+            default: `<section class="hero-section min-h-screen flex items-center justify-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            Welcome to Our Platform
+        </h1>
+        <p class="text-xl text-gray-600 mb-8">
+            Build amazing websites with modern tools
+        </p>
+        <a href="#get-started" class="btn-primary px-8 py-3 rounded-lg">
+            Get Started
+        </a>
+    </div>
+</section>`,
+            simple: `<section class="hero">
+    <h1>Hello World</h1>
+    <p data-id="tagline">Keep shipping fast.</p>
+</section>`,
+            styles: `<section style="background-color: #f3f4f6; padding: 2rem; font-family: var(--heading-font);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <h2 style="color: rgb(17, 24, 39); font-size: 2rem;">Styled Section</h2>
+    </div>
+</section>`,
+            background: `<section 
+    id="fp-theme-welcome" 
+    class="items-center min-h-screen flex relative overflow-hidden" 
+    style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1557683316-973673baf926?w=1920&h=1080&fit=crop'); background-size: cover; background-position: center;">
+    <div class="max-w-7xl mx-auto px-4 py-20 text-center relative z-10">
+        <h2 class="text-4xl md:text-6xl font-bold text-white mb-8">
+            Get UI Concept with 3D animation
+        </h2>
+        <p class="text-xl text-white/90 mb-12">
+            Experience the future of design
+        </p>
+        <a href="#" class="btn-themed px-8 py-4">for $1990</a>
+    </div>
+</section>`
+        };
+
+        function loadSample() {
+            document.getElementById('htmlInput').value = samples.default;
+        }
+
+        function loadTest(type) {
+            document.getElementById('htmlInput').value = samples[type] || samples.default;
+        }
+
+        function clearAll() {
+            document.getElementById('htmlInput').value = '';
+            document.getElementById('output').value = '';
+            document.getElementById('stats').classList.add('hidden');
+            clearMessages();
+        }
+
+        function showMessage(message, type = 'info') {
+            const container = document.getElementById('statusMessages');
+            const id = 'msg-' + Date.now();
+            
+            const colors = {
+                success: 'bg-green-50 border-green-500 text-green-800',
+                error: 'bg-red-50 border-red-500 text-red-800',
+                info: 'bg-blue-50 border-blue-500 text-blue-800',
+                warning: 'bg-yellow-50 border-yellow-500 text-yellow-800'
+            };
+            
+            const msg = document.createElement('div');
+            msg.id = id;
+            msg.className = `p-4 rounded-lg border-l-4 ${colors[type]} ${type}`;
+            msg.innerHTML = `
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">${message}</div>
+                    <button onclick="document.getElementById('${id}').remove()" class="ml-4 text-gray-500 hover:text-gray-700">×</button>
+                </div>
+            `;
+            
+            container.appendChild(msg);
+            
+            // Auto-remove success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => msg.remove(), 5000);
+            }
+        }
+
+        function clearMessages() {
+            document.getElementById('statusMessages').innerHTML = '';
+        }
+
+        async function convertHtml() {
+            const input = document.getElementById('htmlInput').value.trim();
+            
+            if (!input) {
+                showMessage('Please enter some HTML to convert', 'warning');
+                return;
+            }
+
+            clearMessages();
+            showMessage('Converting HTML to JSX...', 'info');
+            
+            const startTime = Date.now();
+            
+            try {
+                // Clean HTML if option is checked
+                let htmlToConvert = input;
+                if (document.getElementById('cleanHtml').checked) {
+                    htmlToConvert = cleanHtmlForConversion(input);
+                }
+
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        html: htmlToConvert
+                    })
+                });
+
+                const endTime = Date.now();
+                const duration = endTime - startTime;
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                
+                if (!result.jsx) {
+                    throw new Error('No JSX returned from service');
+                }
+
+                // Display the JSX output with syntax highlighting
+                displayOutput(result.jsx);
+                
+                // Show stats
+                showStats(input.length, result.jsx.length, duration);
+                
+                // Show success message
+                clearMessages();
+                showMessage(`✅ Successfully converted in ${duration}ms`, 'success');
+
+            } catch (error) {
+                console.error('Conversion error:', error);
+                clearMessages();
+                showMessage(`❌ Conversion failed: ${error.message}`, 'error');
+                
+                // Show error in output
+                const output = document.getElementById('output');
+                output.value = `Error: ${error.message}\n\nMake sure the Node.js service is running at:\nhttp://localhost:3000/html-to-jsx\n\nRequests are proxied through PHP to avoid CORS issues.`;
+            }
+        }
+
+        function cleanHtmlForConversion(html) {
+            // Remove section-menu (editor controls)
+            html = html.replace(/<div[^>]*class="[^"]*section-menu[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '');
+            
+            // Remove TinyMCE attributes
+            html = html.replace(/\s+id="mce_\d+"/g, '');
+            html = html.replace(/\s+contenteditable="[^"]*"/g, '');
+            html = html.replace(/\s+spellcheck="[^"]*"/g, '');
+            html = html.replace(/\s+data-mce-style="[^"]*"/g, '');
+            
+            return html.trim();
+        }
+
+        function displayOutput(jsx) {
+            const output = document.getElementById('output');
+            
+            // Store raw JSX for copying
+            rawJsxOutput = jsx;
+            
+            // Simply display in textarea
+            output.value = jsx;
+        }
+
+        function showStats(inputSize, outputSize, time) {
+            document.getElementById('conversionTime').textContent = time;
+            document.getElementById('inputSize').textContent = formatBytes(inputSize);
+            document.getElementById('outputSize').textContent = formatBytes(outputSize);
+            document.getElementById('stats').classList.remove('hidden');
+        }
+
+        function formatBytes(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // Store the raw JSX for copying
+        let rawJsxOutput = '';
+
+        function copyOutput() {
+            if (!rawJsxOutput) {
+                showMessage('No output to copy', 'warning');
+                return;
+            }
+            
+            navigator.clipboard.writeText(rawJsxOutput).then(() => {
+                const btn = document.getElementById('copyBtn');
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                btn.classList.add('bg-green-500', 'text-white');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('bg-green-500', 'text-white');
+                }, 2000);
+            }).catch(err => {
+                showMessage('Failed to copy: ' + err.message, 'error');
+            });
+        }
+
+        // Load sample on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSample();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + Enter to convert
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                convertHtml();
+            }
+            // Ctrl/Cmd + K to clear
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                clearAll();
+            }
+        });
+    </script>
+
+    <!-- Keyboard shortcuts hint -->
+    <div class="fixed bottom-4 right-4 bg-white shadow-lg rounded-lg p-4 text-xs text-gray-600 border border-gray-200">
+        <div class="font-semibold mb-2">Keyboard Shortcuts:</div>
+        <div><kbd class="bg-gray-100 px-2 py-1 rounded">Ctrl</kbd> + <kbd class="bg-gray-100 px-2 py-1 rounded">Enter</kbd> - Convert</div>
+        <div><kbd class="bg-gray-100 px-2 py-1 rounded">Ctrl</kbd> + <kbd class="bg-gray-100 px-2 py-1 rounded">K</kbd> - Clear</div>
+    </div>
+</body>
+</html>
+

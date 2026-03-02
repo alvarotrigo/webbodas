@@ -1,0 +1,67 @@
+<section id="fp-theme-image-features" class="min-h-screen bg-themed-primary justify-center flex items-center">
+        <div class="fp-bg"></div>
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
+          <div class="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16">
+            <!-- Left: Overlapping Images with Gradient -->
+            <div class="relative w-full lg:w-1/2 flex justify-center">
+              <!-- Gradient Background -->
+              <div class="absolute inset-0 rounded-3xl opacity-30" style="background: var(--gradient-2); filter: blur(40px); transform: scale(0.9);"></div>
+              
+              <!-- Image Container -->
+              <div class="relative">
+                <!-- Back Image -->
+                <div class="relative">
+                  <img loading="lazy" src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&amp;h=500&amp;fit=crop" alt="Team collaboration" class="w-80 h-96 object-cover shadow-xl" style="border-radius: var(--card-radius);">
+                </div>
+                
+                <!-- Front Image (Overlapping) -->
+                <div class="absolute -bottom-12 -right-12">
+                  <img loading="lazy" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&amp;h=500&amp;fit=crop" alt="Professional working" class="w-72 h-80 object-cover shadow-2xl" style="border-radius: var(--card-radius);">
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Feature Cards -->
+            <div data-fp-anim-children="true" class="w-full lg:w-1/2 space-y-6 px-4 md:px-0">
+              <!-- Feature 1: Real-Time Analytics -->
+              <div class="flex items-start gap-6 p-8 rounded-xl transition-all duration-300 hover:shadow-xl" style="border-radius: var(--card-radius); background: transparent;" onmouseover="this.style.background='rgba(139, 92, 246, 0.1)'; this.style.borderColor='rgba(139, 92, 246, 0.2)'; this.style.border='1px solid';" onmouseout="this.style.background='transparent'; this.style.border='none';">
+                <div class="flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="activity" aria-hidden="true" class="lucide lucide-activity w-8 h-8" style="color: #8b5cf6;"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg>
+                </div>
+                <div class="space-y-2">
+                  <h3 class="text-xl font-semibold text-themed-primary">Real-Time Analytics</h3>
+                  <p class="text-base text-themed-secondary leading-relaxed">
+                    Get instant insights into your finances with live dashboards.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Feature 2: Bank-Grade Security -->
+              <div class="flex items-start gap-6 p-8 rounded-xl transition-all duration-300 hover:shadow-xl" style="border-radius: var(--card-radius); background: transparent;" onmouseover="this.style.background='rgba(34, 197, 94, 0.1)'; this.style.borderColor='rgba(34, 197, 94, 0.2)'; this.style.border='1px solid';" onmouseout="this.style.background='transparent'; this.style.border='none';">
+                <div class="flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" aria-hidden="true" class="lucide lucide-shield-check w-8 h-8" style="color: #22c55e;"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                </div>
+                <div class="space-y-2">
+                  <h3 class="text-xl font-semibold text-themed-primary">Bank-Grade Security</h3>
+                  <p class="text-base text-themed-secondary leading-relaxed">
+                    End-to-end encryption, 2FA, compliance with GDPR standards.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Feature 3: Customizable Reports -->
+              <div class="flex items-start gap-6 p-8 rounded-xl transition-all duration-300 hover:shadow-xl" style="border-radius: var(--card-radius); background: transparent;" onmouseover="this.style.background='rgba(249, 115, 22, 0.1)'; this.style.borderColor='rgba(249, 115, 22, 0.2)'; this.style.border='1px solid';" onmouseout="this.style.background='transparent'; this.style.border='none';">
+                <div class="flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="download" aria-hidden="true" class="lucide lucide-download w-8 h-8" style="color: #f97316;"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
+                </div>
+                <div class="space-y-2">
+                  <h3 class="text-xl font-semibold text-themed-primary">Customizable Reports</h3>
+                  <p class="text-base text-themed-secondary leading-relaxed">
+                    Export professional, audit-ready financial reports for tax or internal review.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>

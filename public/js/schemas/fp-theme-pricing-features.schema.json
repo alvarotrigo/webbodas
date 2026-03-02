@@ -1,0 +1,35 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-pricing-features",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 2
+      }
+    ]
+  }
+}

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helix Page Maker - Build Stunning fullPage.js Websites</title>
+    <meta name="description" content="Create beautiful, responsive fullPage.js websites with our powerful visual editor. 200+ blocks, 20+ themes, drag & drop simplicity.">
+    <meta name="keywords" content="fullPage.js, website builder, page editor, tailwind, responsive design">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Helix Page Maker - Build Stunning fullPage.js Websites">
+    <meta property="og:description" content="Create beautiful, responsive fullPage.js websites with our powerful visual editor">
+    <meta property="og:type" content="website">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        /* Starfield Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 50%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Glassmorphic Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(167, 139, 250, 0.3);
+            transform: translateY(-4px);
+        }
+        
+        /* Gradient Button */
+        .gradient-btn {
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px -10px rgba(167, 139, 250, 0.5);
+        }
+        
+        .gradient-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -10px rgba(167, 139, 250, 0.7);
+        }
+        
+        .outline-btn {
+            background: transparent;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .outline-btn:hover {
+            border-color: rgba(167, 139, 250, 0.5);
+            background: rgba(167, 139, 250, 0.1);
+        }
+        
+        /* Feature Icon */
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(236, 72, 153, 0.2));
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Section Spacing */
+        section {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+        }
+        
+        /* Grid Pattern */
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+        
+        /* Stat Number Animation */
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Logo Animation */
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px;
+        }
+        
+        /* Heading Accent Shape */
+        .heading-accent {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .heading-accent::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            border-radius: 6px;
+            opacity: 0.3;
+        }
+        
+        /* Video Container */
+        .video-placeholder {
+            aspect-ratio: 16/9;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .glass-card[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        
+        @media (max-width: 968px) {
+            #blocks > div > div:last-child {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            #blocks > div > div:last-child {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Mobile Navigation */
+            .desktop-nav {
+                display: none !important;
+            }
+            
+            .mobile-nav {
+                display: flex !important;
+            }
+            
+            nav {
+                width: calc(100% - 40px) !important;
+            }
+            
+            nav > div {
+                padding: 12px 20px !important;
+            }
+            
+            .logo {
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 18px !important;
+            }
+            
+            #mobileMenu.active {
+                display: flex !important;
+            }
+            
+            #burgerBtn.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            #burgerBtn.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            #burgerBtn.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Starfield Background -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- Navigation -->
+    <nav id="mainNav" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 50; width: calc(100% - 80px); max-width: 1300px;">
+        <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 60px; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.6); position: relative;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="logo">H</div>
+                <span style="font-weight: 700; font-size: 20px;">Helix</span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="desktop-nav" style="display: flex; gap: 40px; align-items: center;">
+                <a href="#features" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s; font-weight: 500;">Features</a>
+                <a href="#blocks" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s; font-weight: 500;">Blocks</a>
+                <a href="#integrations" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s; font-weight: 500;">Integrations</a>
+                <button class="gradient-btn" onclick="window.location.href='/editor'">Start Building Free</button>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav" style="display: none; gap: 16px; align-items: center;">
+                <button class="gradient-btn" onclick="window.location.href='/editor'" style="padding: 10px 20px; font-size: 14px;">Start Building Free</button>
+                <button id="burgerBtn" style="background: none; border: none; cursor: pointer; padding: 8px; display: flex; flex-direction: column; gap: 4px; z-index: 52;">
+                    <span style="width: 24px; height: 2px; background: white; transition: all 0.3s; display: block;"></span>
+                    <span style="width: 24px; height: 2px; background: white; transition: all 0.3s; display: block;"></span>
+                    <span style="width: 24px; height: 2px; background: white; transition: all 0.3s; display: block;"></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" style="position: absolute; top: calc(100% + 10px); left: 0; right: 0; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 30px; padding: 20px; display: none; flex-direction: column; gap: 16px; box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.6);">
+            <a href="#features" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s; font-weight: 500; padding: 12px 16px; border-radius: 12px; transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">Features</a>
+            <a href="#blocks" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s; font-weight: 500; padding: 12px 16px; border-radius: 12px; transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">Blocks</a>
+            <a href="#integrations" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.3s; font-weight: 500; padding: 12px 16px; border-radius: 12px; transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">Integrations</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="grid-pattern"></div>
+        <div style="max-width: 1200px; text-align: center; position: relative; z-index: 2;">
+            <div style="display: inline-block; padding: 8px 20px; background: rgba(167, 139, 250, 0.1); border: 1px solid rgba(167, 139, 250, 0.3); border-radius: 24px; margin-bottom: 32px; font-size: 14px; color: #a78bfa;">
+                ✨ Powered by fullPage.js & TailwindCSS
+            </div>
+            <h1 style="font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 24px;">
+                Build stunning websites <br>
+                <span class="gradient-text">faster than ever</span>
+            </h1>
+            <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 48px; max-width: 700px; margin-left: auto; margin-right: auto;">
+                The most powerful visual editor for fullPage.js. Create, customize, and export professional websites with 200+ blocks and 20+ themes.
+            </p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <button class="gradient-btn" onclick="window.location.href='/editor'">Start Building Free →</button>
+                <button class="outline-btn" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">See How It Works</button>
+            </div>
+            
+            <!-- Stats -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-top: 80px; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <div>
+                    <div class="stat-number">200+</div>
+                    <div style="color: rgba(255, 255, 255, 0.5); margin-top: 8px;">Section Blocks</div>
+                </div>
+                <div>
+                    <div class="stat-number">20+</div>
+                    <div style="color: rgba(255, 255, 255, 0.5); margin-top: 8px;">Theme Skins</div>
+                </div>
+                <div>
+                    <div class="stat-number">100%</div>
+                    <div style="color: rgba(255, 255, 255, 0.5); margin-top: 8px;">Responsive</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" style="background: linear-gradient(180deg, #0a0a0f 0%, #120a1f 100%);">
+        <div class="grid-pattern"></div>
+        <div style="max-width: 1400px; position: relative; z-index: 2;">
+            <div style="text-align: center; margin-bottom: 80px;">
+                <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 16px;">
+                    Everything you need to <span class="gradient-text heading-accent">build</span>
+                </h2>
+                <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.6);">Powerful features designed for creators</p>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 48px;">
+                <!-- Feature 1 -->
+                <div class="glass-card" style="padding: 48px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: center;">
+                    <div>
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a78bfa;">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="9" y1="21" x2="9" y2="9"></line>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 12px;">200+ Section Blocks</h3>
+                        <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.7; font-size: 1.125rem;">Choose from a massive library of pre-built sections. Headers, heroes, features, testimonials, and more.</p>
+                    </div>
+                    <div class="video-placeholder">
+                        <span style="color: rgba(255, 255, 255, 0.3); font-size: 1.125rem;">Video Coming Soon</span>
+                    </div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="glass-card" style="padding: 48px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center;">
+                    <div class="video-placeholder">
+                        <span style="color: rgba(255, 255, 255, 0.3); font-size: 1.125rem;">Video Coming Soon</span>
+                    </div>
+                    <div>
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ec4899;">
+                                <path d="M12 2v6m0 0V2m0 6l4-4m-4 4L8 4"></path>
+                                <rect x="3" y="10" width="18" height="12" rx="2"></rect>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 12px;">Drag & Drop Editor</h3>
+                        <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.7; font-size: 1.125rem;">Intuitive visual editor. Add, reorder, and customize blocks with simple drag and drop.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="glass-card" style="padding: 48px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: center;">
+                    <div>
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #f97316;">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                                <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                                <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 12px;">20+ Theme Skins</h3>
+                        <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.7; font-size: 1.125rem;">Beautiful pre-designed themes. Change your entire site's look with one click.</p>
+                    </div>
+                    <div class="video-placeholder">
+                        <span style="color: rgba(255, 255, 255, 0.3); font-size: 1.125rem;">Video Coming Soon</span>
+                    </div>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="glass-card" style="padding: 48px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center;">
+                    <div class="video-placeholder">
+                        <span style="color: rgba(255, 255, 255, 0.3); font-size: 1.125rem;">Video Coming Soon</span>
+                    </div>
+                    <div>
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a78bfa;">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 12px;">Fully Responsive</h3>
+                        <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.7; font-size: 1.125rem;">Perfect on all devices. Mobile, tablet, and desktop optimized automatically.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="glass-card" style="padding: 48px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: center;">
+                    <div>
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ec4899;">
+                                <polyline points="16 18 22 12 16 6"></polyline>
+                                <polyline points="8 6 2 12 8 18"></polyline>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 12px;">Export Clean HTML</h3>
+                        <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.7; font-size: 1.125rem;">Get production-ready code. TailwindCSS powered, optimized, and ready to deploy.</p>
+                    </div>
+                    <div class="video-placeholder">
+                        <span style="color: rgba(255, 255, 255, 0.3); font-size: 1.125rem;">Video Coming Soon</span>
+                    </div>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="glass-card" style="padding: 48px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center;">
+                    <div class="video-placeholder">
+                        <span style="color: rgba(255, 255, 255, 0.3); font-size: 1.125rem;">Video Coming Soon</span>
+                    </div>
+                    <div>
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #f97316;">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <h3 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 12px;">fullPage.js Integration</h3>
+                        <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.7; font-size: 1.125rem;">Built-in fullPage.js support. Create stunning full-screen scrolling experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blocks Section -->
+    <section id="blocks">
+        <div class="grid-pattern"></div>
+        <div style="max-width: 1400px; position: relative; z-index: 2;">
+            <div style="text-align: center; margin-bottom: 80px;">
+                <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 16px;">
+                    Massive <span class="gradient-text heading-accent">block library</span>
+                </h2>
+                <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.6);">Every component you need to build your perfect website</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+                <!-- Block Category 1 -->
+                <div class="glass-card" style="padding: 32px; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">🎯</div>
+                    <h4 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Hero Sections</h4>
+                    <p style="color: rgba(255, 255, 255, 0.5); margin-bottom: 12px;">25+ designs</p>
+                </div>
+                
+                <div class="glass-card" style="padding: 32px; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">✨</div>
+                    <h4 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Features</h4>
+                    <p style="color: rgba(255, 255, 255, 0.5); margin-bottom: 12px;">30+ designs</p>
+                </div>
+                
+                <div class="glass-card" style="padding: 32px; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">💬</div>
+                    <h4 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Testimonials</h4>
+                    <p style="color: rgba(255, 255, 255, 0.5); margin-bottom: 12px;">20+ designs</p>
+                </div>
+                
+                <div class="glass-card" style="padding: 32px; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">📝</div>
+                    <h4 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Contact Forms</h4>
+                    <p style="color: rgba(255, 255, 255, 0.5); margin-bottom: 12px;">15+ designs</p>
+                </div>
+                
+                <div class="glass-card" style="padding: 32px; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">💰</div>
+                    <h4 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Pricing Tables</h4>
+                    <p style="color: rgba(255, 255, 255, 0.5); margin-bottom: 12px;">18+ designs</p>
+                </div>
+                
+                <div class="glass-card" style="padding: 32px; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">📊</div>
+                    <h4 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Stats & Metrics</h4>
+                    <p style="color: rgba(255, 255, 255, 0.5); margin-bottom: 12px;">12+ designs</p>
+                </div>
+                
+                <div class="glass-card" style="padding: 32px; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">🖼️</div>
+                    <h4 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Galleries</h4>
+                    <p style="color: rgba(255, 255, 255, 0.5); margin-bottom: 12px;">16+ designs</p>
+                </div>
+                
+                <div class="glass-card" style="padding: 32px; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">👥</div>
+                    <h4 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Team Sections</h4>
+                    <p style="color: rgba(255, 255, 255, 0.5); margin-bottom: 12px;">14+ designs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations Section -->
+    <section id="integrations" style="background: linear-gradient(180deg, #0a0a0f 0%, #120a1f 100%);">
+        <div class="grid-pattern"></div>
+        <div style="max-width: 1200px; position: relative; z-index: 2; text-align: center;">
+            <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 16px;">
+                <span class="gradient-text">Powerful</span> integrations
+            </h2>
+            <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 60px;">Export, share, and deploy with ease</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; text-align: left;">
+                <!-- Integration 1 -->
+                <div class="glass-card" style="padding: 40px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #a78bfa, #ec4899); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px;">📤</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700;">Export HTML</h3>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.6;">Download clean, production-ready HTML files with TailwindCSS. Host anywhere.</p>
+                </div>
+                
+                <!-- Integration 2 -->
+                <div class="glass-card" style="padding: 40px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ec4899, #f97316); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px;">🔗</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700;">Shareable URLs</h3>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.6;">Share your projects with unique URLs. Perfect for client previews and collaboration.</p>
+                </div>
+                
+                <!-- Integration 3 -->
+                <div class="glass-card" style="padding: 40px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f97316, #a78bfa); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px;">📋</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700;">Copy Section HTML</h3>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.6;">Copy individual section code. Use sections in your existing projects instantly.</p>
+                </div>
+                
+                <!-- Integration 4 -->
+                <div class="glass-card" style="padding: 40px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #a78bfa, #ec4899); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px;">🚀</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700;">fullPage.js Ready</h3>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.6;">Built-in fullPage.js integration. Create stunning scroll experiences out of the box.</p>
+                </div>
+                
+                <!-- Integration 5 -->
+                <div class="glass-card" style="padding: 40px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ec4899, #f97316); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px;">✨</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700;">Animations</h3>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.6;">Add beautiful scroll animations and transitions with simple controls.</p>
+                </div>
+                
+                <!-- Integration 6 -->
+                <div class="glass-card" style="padding: 40px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f97316, #a78bfa); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px;">🐙</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700;">GitHub Integration</h3>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.6); line-height: 1.6;">Push your projects directly to GitHub. Version control made simple.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta">
+        <div class="grid-pattern"></div>
+        <div style="max-width: 900px; text-align: center; position: relative; z-index: 2;">
+            <div style="padding: 80px 40px; background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(236, 72, 153, 0.1)); border-radius: 32px; border: 1px solid rgba(167, 139, 250, 0.2);">
+                <h2 style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 24px;">
+                    Ready to build something <span class="gradient-text">amazing</span>?
+                </h2>
+                <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 48px;">
+                    Start creating beautiful fullPage.js websites today. No credit card required.
+                </p>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <button class="gradient-btn" style="font-size: 1.125rem; padding: 18px 40px;" onclick="window.location.href='/editor'">Start Building Free →</button>
+                    <button class="outline-btn" style="font-size: 1.125rem; padding: 18px 40px;" onclick="window.open('https://github.com', '_blank')">View on GitHub</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 60px 40px; position: relative; z-index: 1;">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 60px; margin-bottom: 60px;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div class="logo">H</div>
+                        <span style="font-weight: 700; font-size: 20px;">Helix Page Maker</span>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.5); line-height: 1.6;">Build stunning fullPage.js websites with the most powerful visual editor.</p>
+                </div>
+                
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 16px;">Product</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <a href="#features" style="color: rgba(255, 255, 255, 0.5); text-decoration: none; transition: color 0.3s;">Features</a>
+                        <a href="#blocks" style="color: rgba(255, 255, 255, 0.5); text-decoration: none; transition: color 0.3s;">Blocks</a>
+                        <a href="#integrations" style="color: rgba(255, 255, 255, 0.5); text-decoration: none; transition: color 0.3s;">Integrations</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 16px;">Resources</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <a href="#" style="color: rgba(255, 255, 255, 0.5); text-decoration: none; transition: color 0.3s;">Documentation</a>
+                        <a href="#" style="color: rgba(255, 255, 255, 0.5); text-decoration: none; transition: color 0.3s;">Tutorials</a>
+                        <a href="#" style="color: rgba(255, 255, 255, 0.5); text-decoration: none; transition: color 0.3s;">Support</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 16px;">Company</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <a href="#" style="color: rgba(255, 255, 255, 0.5); text-decoration: none; transition: color 0.3s;">About</a>
+                        <a href="#" style="color: rgba(255, 255, 255, 0.5); text-decoration: none; transition: color 0.3s;">Blog</a>
+                        <a href="#" style="color: rgba(255, 255, 255, 0.5); text-decoration: none; transition: color 0.3s;">Contact</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <p style="color: rgba(255, 255, 255, 0.4);">© 2024 Helix Page Maker. All rights reserved.</p>
+                <div style="display: flex; gap: 24px;">
+                    <a href="#" style="color: rgba(255, 255, 255, 0.4); text-decoration: none; transition: color 0.3s;">Privacy</a>
+                    <a href="#" style="color: rgba(255, 255, 255, 0.4); text-decoration: none; transition: color 0.3s;">Terms</a>
+                    <a href="#" style="color: rgba(255, 255, 255, 0.4); text-decoration: none; transition: color 0.3s;">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Generate starfield
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        createStars();
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Burger menu toggle
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (burgerBtn && mobileMenu) {
+            burgerBtn.addEventListener('click', function() {
+                burgerBtn.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking on a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    burgerBtn.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const isClickInside = burgerBtn.contains(event.target) || mobileMenu.contains(event.target);
+                if (!isClickInside && mobileMenu.classList.contains('active')) {
+                    burgerBtn.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        }
+        
+        // Add hover effects to links
+        document.querySelectorAll('nav a, footer a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.color = '#a78bfa';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.color = 'rgba(255, 255, 255, 0.7)';
+            });
+        });
+    </script>
+</body>
+</html>

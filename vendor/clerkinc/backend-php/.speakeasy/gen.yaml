@@ -1,0 +1,51 @@
+configVersion: 2.0.0
+generation:
+  sdkClassName: ClerkBackend
+  maintainOpenAPIOrder: true
+  usageSnippets:
+    optionalPropertyRendering: withExample
+    sdkInitStyle: constructor
+  useClassNamesForArrayFields: true
+  fixes:
+    nameResolutionDec2023: true
+    nameResolutionFeb2025: false
+    parameterOrderingFeb2024: true
+    requestResponseComponentNamesFeb2024: true
+    securityFeb2025: false
+    sharedErrorComponentsApr2025: false
+  auth:
+    oAuth2ClientCredentialsEnabled: false
+    oAuth2PasswordEnabled: false
+  tests:
+    generateTests: true
+    generateNewTests: false
+    skipResponseBodyAssertions: false
+php:
+  version: 0.3.0
+  additionalDependencies:
+    autoload-dev:
+      Clerk\Backend\Tests\: Tests/
+    require:
+      firebase/php-jwt: ^6.10
+      phpseclib/phpseclib: ^3.0
+  baseErrorName: ClerkBackendException
+  clientServerStatusCodesAsErrors: true
+  defaultErrorName: SDKException
+  flattenGlobalSecurity: true
+  imports:
+    option: openapi
+    paths:
+      callbacks: Models/Callbacks
+      errors: Models/Errors
+      operations: Models/Operations
+      shared: Models/Components
+      webhooks: Models/Webhooks
+  inputModelSuffix: input
+  laravelServiceProvider:
+    enabled: false
+    svcName: openapi
+  maxMethodParams: 4
+  methodArguments: infer-optional-args
+  namespace: Clerk\Backend
+  outputModelSuffix: output
+  packageName: clerkinc/backend-php

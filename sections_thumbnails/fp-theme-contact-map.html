@@ -1,0 +1,92 @@
+<section id="fp-theme-contact-map" class="min-h-screen flex items-center bg-themed-primary">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
+          <div class="grid lg:grid-cols-2 grid-cols-1 gap-x-16 gap-y-10 items-stretch">
+            <!-- Left Side - Heading, Subheading & Map -->
+            <div class="flex flex-col justify-center">
+              <div class="mb-8">
+                <h4 class="text-base font-medium leading-6 mb-4" style="color: var(--primary-accent);">Contact Us</h4>
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold heading-themed leading-tight mb-6">
+                  Send Us A Message
+                </h2>
+                <p class="text-lg text-themed-secondary leading-relaxed">
+                  We are deeply committed to delivering unparalleled service and unwavering support to ensure your experience.
+                </p>
+              </div>
+              
+              <!-- Google Maps Embed -->
+              <div class="w-full h-[400px] rounded-lg overflow-hidden shadow-lg border" style="border-color: var(--border-color, rgba(0, 0, 0, 0.1));">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9537353!3d-37.8172139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2sau!4v1620000000000!5m2!1sen!2sau" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                </iframe>
+              </div>
+            </div>
+
+            <!-- Right Side - Contact Form -->
+            <div class="flex items-center">
+              <div class="w-full">
+                <form onsubmit="handleContactMapForm(event)" class="space-y-6">
+                  <!-- Name Field -->
+                  <div>
+                    <label class="block text-base font-medium mb-2" style="color: var(--text-secondary);">
+                      Your Name <span style="color: var(--primary-accent);">*</span>
+                    </label>
+                    <input type="text" name="name" placeholder="Name" required="" class="w-full px-6 py-4 text-lg border focus:outline-none focus:ring-2 transition-all duration-200" style="
+                        border-radius: var(--card-radius); 
+                        background-color: var(--secondary-bg); 
+                        color: var(--primary-text);
+                        border-color: var(--border-color, rgba(0, 0, 0, 0.1));
+                      ">
+                  </div>
+
+                  <!-- Email Field -->
+                  <div>
+                    <label class="block text-base font-medium mb-2" style="color: var(--text-secondary);">
+                      Email <span style="color: var(--primary-accent);">*</span>
+                    </label>
+                    <input type="email" name="email" placeholder="Email" required="" class="w-full px-6 py-4 text-lg border focus:outline-none focus:ring-2 transition-all duration-200" style="
+                        border-radius: var(--card-radius); 
+                        background-color: var(--secondary-bg); 
+                        color: var(--primary-text);
+                        border-color: var(--border-color, rgba(0, 0, 0, 0.1));
+                      ">
+                  </div>
+
+                  <!-- Phone Field -->
+                  <div>
+                    <label class="block text-base font-medium mb-2" style="color: var(--text-secondary);">
+                      Phone Number <span style="color: var(--primary-accent);">*</span>
+                    </label>
+                    <input type="tel" name="phone" placeholder="Phone" required="" class="w-full px-6 py-4 text-lg border focus:outline-none focus:ring-2 transition-all duration-200" style="
+                        border-radius: var(--card-radius); 
+                        background-color: var(--secondary-bg); 
+                        color: var(--primary-text);
+                        border-color: var(--border-color, rgba(0, 0, 0, 0.1));
+                      ">
+                  </div>
+
+                  <!-- Description Field -->
+                  <div>
+                    <label class="block text-base font-medium mb-2" style="color: var(--text-secondary);">
+                      Description <span style="color: var(--primary-accent);">*</span>
+                    </label>
+                    <textarea name="description" placeholder="Message" rows="5" required="" class="w-full px-6 py-4 text-lg resize-none border focus:outline-none focus:ring-2 transition-all duration-200" style="
+                        border-radius: var(--card-radius); 
+                        background-color: var(--secondary-bg); 
+                        color: var(--primary-text);
+                        border-color: var(--border-color, rgba(0, 0, 0, 0.1));
+                      "></textarea>
+                  </div>
+
+                  <!-- Submit Button -->
+                  <button type="submit" class="w-full px-8 py-4 text-lg font-semibold text-on-primary transition-all duration-300 hover:opacity-90 hover:shadow-lg" style="
+                      border-radius: var(--card-radius); 
+                      background: var(--primary-accent);
+                    ">
+                    Send
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>

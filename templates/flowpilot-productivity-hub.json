@@ -1,0 +1,386 @@
+{
+    "id": "flowpilot-productivity-hub",
+    "name": "FlowPilot Productivity Hub",
+    "description": "Create a high-converting SaaS landing page for a B2B productivity tool called “FlowPilot”.\n\nProduct:\nTask and workflow management for small teams.\n\nAudience:\nBusy founders and teams who want clarity and organization.\n\nTone:\nProfessional, calm, trustworthy.\n\nMain colors:\n- Deep navy blue (primary)\n- Soft sky blue (secondary)\n- White backgrounds\n- Light gray for sections\n\nGoals:\nConvince visitors to start a free trial.\n\nStructure:\n- Hero with strong value proposition\n- Client logos/social proof\n- Features (3–4 blocks)\n- How it works (3 steps)\n- Testimonials\n- Pricing teaser\n- Strong final CTA\n\nDesign guidance:\n- Clean SaaS style\n- Alternate white and light gray sections\n- Abstract productivity-themed images\n- Modern but minimal\n\nCopy guidance:\n- Clear benefit-driven copy\n- Avoid hype words\n- Make it realistic like a real startup\n\nMake the layout conversion-focused and realistic like a top SaaS landing page.\nAvoid generic filler copy.",
+    "category": "custom",
+    "tags": [
+        "modern",
+        "clean"
+    ],
+    "sections": [
+        1,
+        9,
+        16,
+        7,
+        6,
+        28,
+        39,
+        159
+    ],
+    "theme": {
+        "name": "FlowPilot Productivity Hub",
+        "variables": {
+            "primary-bg": "#ffffff",
+            "secondary-bg": "#f4f4f7",
+            "accent-bg": "#fafafa",
+            "primary-text": "#222222",
+            "secondary-text": "#777777",
+            "accent-text": "#111111",
+            "primary-accent": "#5046e6",
+            "primary-accent-soft": "rgba(80, 70, 230, 0.1)",
+            "secondary-accent": "#3d31d9",
+            "border-color": "transparent",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "section-shadow": "none",
+            "gradient-1": "linear-gradient(135deg, #f4f4f7 0%, #fafafa 100%)",
+            "gradient-2": "linear-gradient(135deg, #5046e6 0%, #3d31d9 100%)",
+            "features2-bg": "linear-gradient(135deg, #5046e6 0%, #3d31d9 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Inter', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "8px",
+            "card-radius": "16px",
+            "spacing-unit": "1.4rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Inter",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "1": {
+            "headline": "Transform Your Team's Productivity with FlowPilot",
+            "subheadline": "Streamline tasks and workflows, empowering your small team to achieve more with clarity and organization.",
+            "cta_primary": "Start Your Free Trial",
+            "cta_secondary": "Explore Our Features"
+        },
+        "6": {
+            "headline": "What Our Users Say",
+            "testimonials": [
+                {
+                    "quote": "FlowPilot has completely transformed the way we manage our projects. Our team is more organized than ever!",
+                    "author": "Samantha R., Founder at Creative Co."
+                },
+                {
+                    "quote": "The simplicity of FlowPilot allows us to focus on what matters most—growing our business.",
+                    "author": "James T., CTO at Tech Innovations"
+                }
+            ]
+        },
+        "7": {
+            "headline": "How FlowPilot Works in 3 Simple Steps",
+            "steps": [
+                "Sign Up - Create your free account in minutes.",
+                "Set Up - Customize your workspace and invite your team.",
+                "Start Collaborating - Organize tasks and workflows effortlessly."
+            ]
+        },
+        "9": {
+            "logos": [
+                "Client Logo 1",
+                "Client Logo 2",
+                "Client Logo 3",
+                "Client Logo 4"
+            ]
+        },
+        "16": {
+            "features": [
+                {
+                    "title": "Intuitive Task Management",
+                    "description": "Easily create, assign, and track tasks to keep your team aligned and focused."
+                },
+                {
+                    "title": "Seamless Workflow Automation",
+                    "description": "Automate repetitive processes to save time and reduce manual errors."
+                },
+                {
+                    "title": "Real-Time Collaboration",
+                    "description": "Communicate and collaborate in real-time to enhance team synergy and productivity."
+                },
+                {
+                    "title": "Comprehensive Reporting",
+                    "description": "Gain insights into team performance and project progress with detailed analytics."
+                }
+            ]
+        },
+        "28": {
+            "headline": "Choose the Right Plan for Your Team",
+            "pricing_options": [
+                {
+                    "plan": "Starter Plan",
+                    "price": "$10/user/month",
+                    "features": "Basic task management and reporting."
+                },
+                {
+                    "plan": "Pro Plan",
+                    "price": "$20/user/month",
+                    "features": "Advanced features including automation and integrations."
+                }
+            ]
+        },
+        "39": {
+            "cta_primary": "Start Your Free Trial Now",
+            "cta_secondary": "Join the Productivity Revolution"
+        },
+        "159": {
+            "navigation": [
+                "About Us",
+                "Features",
+                "Pricing",
+                "Contact"
+            ],
+            "contact_info": "support@flowpilot.com | +1-800-123-4567",
+            "trust_message": "Trusted by teams worldwide to enhance productivity."
+        }
+    },
+    "section_backgrounds": {
+        "1": {
+            "type": "image",
+            "keyword": "team collaboration workspace"
+        },
+        "6": {
+            "type": "image",
+            "keyword": "happy team meeting"
+        },
+        "7": {
+            "type": "color"
+        },
+        "9": {
+            "type": "color"
+        },
+        "16": {
+            "type": "color"
+        },
+        "28": {
+            "type": "color"
+        },
+        "39": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "6": [
+            [
+                "professional portrait",
+                "female entrepreneur",
+                "startup co-founder"
+            ],
+            [
+                "business headshot",
+                "smiling woman",
+                "modern office"
+            ],
+            [
+                "confident professional",
+                "team collaboration",
+                "business meeting"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#ffffff",
+            "secondary_bg": "#f4f4f7",
+            "accent_bg": "#fafafa",
+            "primary_text": "#222222",
+            "secondary_text": "#777777",
+            "accent_text": "#111111",
+            "primary_accent": "#5046e6",
+            "secondary_accent": "#3d31d9"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Inter",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "button_radius": "pill",
+            "card_radius": "rounded",
+            "border_usage": "minimal",
+            "border_color_hint": "transparent"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "subtle",
+            "style": "linear",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.4rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "modern",
+            "clean"
+        ],
+        "detected_sections": []
+    },
+    "site_plan": {
+        "audience": "busy founders and teams",
+        "primary_goal": "start a free trial",
+        "brand_vibe": [
+            "professional",
+            "calm",
+            "trustworthy"
+        ],
+        "content_tone": "professional and trustworthy",
+        "key_differentiators": [
+            "task and workflow management",
+            "designed for small teams",
+            "clear organization"
+        ],
+        "business_type": "saas"
+    },
+    "created_at": "2026-02-10T20:49:38+00:00",
+    "text_updates": {
+        "1": {
+            "h1[0]": "Elevate Your Team's Efficiency",
+            "span[0]": "Efficiency",
+            "p[0]": "Discover how FlowPilot streamlines task and workflow management, bringing clarity and organization to small teams.",
+            "a[0]": "Start Free Trial",
+            "a[1]": "Explore Features"
+        },
+        "6": {
+            "h2[0]": "What Our Users Are Saying",
+            "p[0]": "\"FlowPilot has transformed the way our team manages tasks. It's intuitive, and we finally have the organization we've been searching for!\"",
+            "h4[0]": "Michael Johnson",
+            "p[1]": "Founder, TechSolutions"
+        },
+        "16": {
+            "h1[0]": "Key Features for Seamless Workflow",
+            "p[0]": "FlowPilot empowers small teams to manage tasks and workflows effortlessly. Experience a user-friendly platform designed to enhance collaboration and clarity.",
+            "h3[0]": "Intuitive Task Management",
+            "p[1]": "Easily assign and track tasks, ensuring everyone knows their responsibilities. Stay organized and focused on what truly matters.",
+            "h3[1]": "Collaborative Workspaces",
+            "p[2]": "Foster teamwork with shared spaces where team members can communicate, collaborate, and innovate together.",
+            "h3[2]": "Streamlined Workflow Automation",
+            "p[3]": "Automate repetitive tasks and streamline your workflow to save time and increase productivity across your team."
+        },
+        "28": {
+            "h2[0]": "Affordable Plans for Every Team",
+            "p[0]": "Explore flexible pricing options tailored for busy teams seeking clarity and productivity.",
+            "a[0]": "Monthly Plan",
+            "a[1]": "Annual Plan\nSave 20%",
+            "span[0]": "Save 20%",
+            "h3[0]": "Pro",
+            "p[1]": "Perfect for small teams looking to enhance workflow and achieve key objectives.",
+            "span[1]": "€63",
+            "span[2]": "/month",
+            "p[2]": "Billed annually (save €192)",
+            "li[0]": "50+ essential features",
+            "li[1]": "5 active workflows",
+            "li[2]": "2,000 tasks/month",
+            "a[2]": "Start Free Trial",
+            "div[10]": "Recommended",
+            "h3[1]": "Business",
+            "p[3]": "Designed for growing teams wanting more capabilities and support.",
+            "span[3]": "€119",
+            "span[4]": "/month",
+            "p[4]": "Billed annually (save €360)",
+            "li[3]": "50+ essential features",
+            "li[4]": "10 active workflows",
+            "li[5]": "10,000 tasks/month",
+            "a[3]": "Start Free Trial",
+            "h3[2]": "Advanced",
+            "p[5]": "Comprehensive features and customization for scaling operations.",
+            "span[5]": "€239",
+            "span[6]": "/month",
+            "p[6]": "Billed annually (save €720)",
+            "li[6]": "50+ essential features",
+            "li[7]": "30 active workflows",
+            "li[8]": "30,000 tasks/month",
+            "a[4]": "Start Free Trial"
+        },
+        "39": {
+            "h2[0]": "Start Your Free Trial Today",
+            "p[0]": "Experience clarity and organization with FlowPilot's intuitive task and workflow management. Setting up is simple, and there’s no pressure.",
+            "a[0]": "Begin Your Free Trial",
+            "p[1]": "Enjoy a risk-free experience with no credit card needed."
+        },
+        "159": {
+            "h3[0]": "FlowPilot Productivity Hub",
+            "p[0]": "Empowering small teams with streamlined task and workflow management solutions to enhance clarity and efficiency.",
+            "h4[0]": "Explore More",
+            "li[0]": "About Us",
+            "span[0]": "About Us",
+            "li[1]": "Features Overview",
+            "span[1]": "Features Overview",
+            "li[2]": "Our Pricing",
+            "span[2]": "Our Pricing",
+            "li[3]": "Get in Touch",
+            "span[3]": "Get in Touch",
+            "h4[1]": "Our Offerings",
+            "li[4]": "Task Management",
+            "li[5]": "Team Collaboration",
+            "li[6]": "Workflow Automation",
+            "li[7]": "Consultative Support",
+            "h4[2]": "Stay Connected",
+            "a[0]": "Twitter",
+            "a[1]": "LinkedIn",
+            "a[2]": "GitHub",
+            "p[1]": "© 2024 FlowPilot. All rights reserved."
+        }
+    },
+    "inline_images": {
+        "6": [
+            "https://images.unsplash.com/photo-1624205420110-d6260b09afc1?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBmZW1hbGUlMjBlbnRyZXByZW5ldXIlMjBzdGFydHVwJTIwY28tZm91bmRlcnxlbnwwfDB8fHwxNzcwNzU2NTk4fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8YnVzaW5lc3MlMjBoZWFkc2hvdCUyMHNtaWxpbmclMjB3b21hbiUyMG1vZGVybiUyMG9mZmljZXxlbnwwfDB8fHwxNzcwNzU2NTk5fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1769740333462-9a63bfa914bc?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8Y29uZmlkZW50JTIwcHJvZmVzc2lvbmFsJTIwdGVhbSUyMGNvbGxhYm9yYXRpb24lMjBidXNpbmVzcyUyMG1lZXRpbmd8ZW58MHwwfHx8MTc3MDc1NjU5OHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "1": "https://images.unsplash.com/photo-1739298061707-cefee19941b7?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8dGVhbSUyMGNvbGxhYm9yYXRpb24lMjB3b3Jrc3BhY2V8ZW58MHwwfHx8MTc3MDc1NjYwMHww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "6": "https://images.unsplash.com/photo-1690264695514-3af95dfa51be?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8aGFwcHklMjB0ZWFtJTIwbWVldGluZ3xlbnwwfDB8fHwxNzcwNzU2NjAwfDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

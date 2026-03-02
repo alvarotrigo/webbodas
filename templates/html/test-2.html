@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FFL Gym - Push Your Limits</title>
+  <meta name="description" content="Transform your body and mind at FFL Gym. State-of-the-art equipment, expert trainers, and a welcoming community await you.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Dark Fitness Theme - Bold, Energetic, Athletic */
+      
+      /* BACKGROUND COLORS */
+      --primary-bg: #0a0a0a;
+      --secondary-bg: #141414;
+      --accent-bg: #1a1a1a;
+      
+      /* TEXT COLORS */
+      --primary-text: #ffffff;
+      --secondary-text: #a0a0a0;
+      --accent-text: #ffffff;
+      
+      /* ACCENT COLORS */
+      --primary-accent: #ff6b35;
+      --primary-accent-soft: rgba(255, 107, 53, 0.15);
+      --secondary-accent: #e85a2a;
+      
+      /* BORDERS */
+      --border-color: rgba(255, 255, 255, 0.1);
+      
+      /* SHADOWS */
+      --shadow-color: rgba(255, 107, 53, 0.15);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      --card-shadow-hover: 0 8px 40px rgba(255, 107, 53, 0.2);
+      --section-shadow: 0 -1px 0 rgba(255, 255, 255, 0.05);
+      
+      /* GRADIENTS */
+      --gradient-1: linear-gradient(135deg, #0a0a0a 0%, #141414 100%);
+      --gradient-2: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+      --features2-bg: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+      
+      /* BUTTONS ON GRADIENTS */
+      --button-on-gradient: #ffffff;
+      --button-on-gradient-border: rgba(255, 255, 255, 0.9);
+      
+      /* TYPOGRAPHY */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --heading-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      
+      /* BORDER RADIUS */
+      --border-radius: 16px;
+      --button-radius: 50px;
+      --card-radius: 20px;
+      
+      /* SPACING */
+      --spacing-unit: 1.4rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--primary-bg);
+      color: var(--primary-text);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--heading-font);
+      font-weight: 700;
+    }
+
+    .accent-text {
+      color: var(--primary-accent);
+    }
+
+    .btn-primary {
+      background: var(--gradient-2);
+      color: var(--primary-text);
+      padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);
+      border-radius: var(--button-radius);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-text);
+      padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);
+      border-radius: var(--button-radius);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--primary-accent);
+    }
+
+    .btn-on-gradient {
+      background: var(--button-on-gradient);
+      color: var(--primary-accent);
+      padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);
+      border-radius: var(--button-radius);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-on-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+    }
+
+    .card {
+      background: var(--secondary-bg);
+      border-radius: var(--card-radius);
+      padding: calc(var(--spacing-unit) * 1.5);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--card-shadow-hover);
+      border-color: var(--primary-accent);
+      transform: translateY(-5px);
+    }
+
+    .tag {
+      background: var(--primary-accent-soft);
+      color: var(--primary-accent);
+      padding: 0.35rem 1rem;
+      border-radius: var(--button-radius);
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    .section-label {
+      color: var(--primary-accent);
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    .has-bg-image {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .has-bg-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.7) 50%, rgba(10, 10, 10, 0.3) 100%);
+      z-index: 1;
+    }
+
+    .has-bg-image > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .accordion-header {
+      width: 100%;
+      padding: 1.25rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      border: none;
+      color: var(--primary-text);
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .accordion-header:hover {
+      color: var(--primary-accent);
+    }
+
+    .accordion-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+    }
+
+    .accordion-item.active .accordion-icon {
+      transform: rotate(45deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .accordion-item.active .accordion-content {
+      max-height: 200px;
+    }
+
+    .pricing-card {
+      background: var(--secondary-bg);
+      border-radius: var(--card-radius);
+      padding: calc(var(--spacing-unit) * 2);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .pricing-card.featured {
+      background: var(--gradient-2);
+      border: none;
+      transform: scale(1.05);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .pricing-card.featured:hover {
+      transform: scale(1.05) translateY(-5px);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* Services Slider */
+    .service-slide {
+      width: 280px;
+      height: 400px;
+      transition: width 0.5s ease, opacity 0.3s ease;
+    }
+
+    .service-slide.active {
+      width: 420px;
+    }
+
+    .service-slide:not(.active) {
+      opacity: 0.7;
+    }
+
+    .service-slide:hover:not(.active) {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .service-slide {
+        width: 240px;
+        height: 320px;
+      }
+      .service-slide.active {
+        width: 300px;
+      }
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--primary-bg);
+      z-index: 100;
+      padding: 2rem;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+    }
+
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-menu-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[var(--primary-bg)]/90 backdrop-blur-md border-b border-[var(--border-color)]">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2">
+        <span class="text-2xl font-bold"><span class="accent-text">●</span>FFL</span>
+      </a>
+      
+      <div class="desktop-nav hidden md:flex items-center gap-8">
+        <a href="#about" class="text-[var(--secondary-text)] hover:text-[var(--primary-text)] transition-colors">About Us</a>
+        <a href="#services" class="text-[var(--secondary-text)] hover:text-[var(--primary-text)] transition-colors">Services</a>
+        <a href="#pricing" class="text-[var(--secondary-text)] hover:text-[var(--primary-text)] transition-colors">Pricing</a>
+        <a href="#contact" class="text-[var(--secondary-text)] hover:text-[var(--primary-text)] transition-colors">Contact Us</a>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <a href="#" class="btn-primary hidden sm:inline-flex">Join Now</a>
+        <button class="mobile-menu-btn md:hidden text-[var(--primary-text)]" onclick="toggleMobileMenu()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="flex justify-between items-center">
+      <span class="text-2xl font-bold"><span class="accent-text">●</span>FFL</span>
+      <button onclick="toggleMobileMenu()" class="text-[var(--primary-text)]">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="flex flex-col gap-6 mt-8" data-fp-dynamic-items="true" data-fp-anim-children="true">
+      <a href="#about" class="text-xl text-[var(--primary-text)]" onclick="toggleMobileMenu()">About Us</a>
+      <a href="#services" class="text-xl text-[var(--primary-text)]" onclick="toggleMobileMenu()">Services</a>
+      <a href="#pricing" class="text-xl text-[var(--primary-text)]" onclick="toggleMobileMenu()">Pricing</a>
+      <a href="#contact" class="text-xl text-[var(--primary-text)]" onclick="toggleMobileMenu()">Contact Us</a>
+    </div>
+    <a href="#" class="btn-primary mt-auto">Join Now</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="has-bg-image min-h-screen flex items-center pt-20" style="background-image: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1920&q=80');">
+    <div class="max-w-7xl mx-auto px-6 py-20 w-full">
+      <div class="max-w-2xl">
+        <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">
+          Push Y<span class="accent-text">o</span>ur<br>
+          Limits with Us
+        </h1>
+        <p class="text-lg text-[var(--secondary-text)] mb-8 max-w-lg">
+          Transform your body and mind. Experience world-class facilities, expert trainers, and a community that pushes you to achieve your fitness goals.
+        </p>
+        
+        <div class="flex flex-wrap gap-4 mb-12">
+          <a href="#" class="btn-primary">
+            Join Now
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="#" class="btn-secondary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary-accent)">
+              <circle cx="12" cy="12" r="10" fill="var(--primary-accent)"/>
+              <polygon points="10,8 16,12 10,16" fill="white"/>
+            </svg>
+            Watch Video
+          </a>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="flex items-center gap-6 mb-8">
+          <div class="flex -space-x-3" data-fp-dynamic-items="true" data-fp-anim-children="true">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" alt="Member" class="w-10 h-10 rounded-full border-2 border-[var(--primary-bg)] object-cover">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Member" class="w-10 h-10 rounded-full border-2 border-[var(--primary-bg)] object-cover">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Member" class="w-10 h-10 rounded-full border-2 border-[var(--primary-bg)] object-cover">
+          </div>
+          <div>
+            <div class="flex items-center gap-1 text-[var(--primary-accent)]">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <p class="text-sm text-[var(--secondary-text)]">5,000+ Happy Members</p>
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-3" data-fp-dynamic-items="true" data-fp-anim-children="true">
+          <span class="tag">Personal Training</span>
+          <span class="tag">24/7 Access</span>
+          <span class="tag">Latest Equipment</span>
+          <span class="tag">Nutrition</span>
+          <span class="tag">Cardio Equipment</span>
+          <span class="tag">Functional Training</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 md:py-32 bg-[var(--primary-bg)]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="section-label">About Us</p>
+        <h2 class="text-4xl md:text-5xl font-bold">
+          YOUR <span class="accent-text">FITNESS</span> JOURNEY STARTS HERE
+        </h2>
+        <p class="text-[var(--secondary-text)] max-w-2xl mx-auto mt-6">
+          At FFL Gym, we are dedicated to helping you unleash your full fitness potential. With top-notch equipment, expert trainers, and a welcoming atmosphere, we're here to support you every step of your fitness journey.
+        </p>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16" data-fp-dynamic-items="true" data-fp-anim-children="true">
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-black accent-text">12+</div>
+          <p class="text-[var(--secondary-text)] mt-2">Years of Excellence</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-black accent-text">27K+</div>
+          <p class="text-[var(--secondary-text)] mt-2">Members</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-black accent-text">60+</div>
+          <p class="text-[var(--secondary-text)] mt-2">Weekly Classes</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-black accent-text">117+</div>
+          <p class="text-[var(--secondary-text)] mt-2">Expert Trainers</p>
+        </div>
+      </div>
+
+      <!-- Video Thumbnail -->
+      <div class="relative rounded-[var(--card-radius)] overflow-hidden group cursor-pointer max-w-4xl mx-auto">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80" alt="Gym interior" class="w-full aspect-video object-cover">
+        <div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+          <div class="w-20 h-20 rounded-full bg-[var(--primary-accent)] flex items-center justify-center group-hover:scale-110 transition-transform">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+              <polygon points="10,8 16,12 10,16"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-20 md:py-32 bg-[var(--secondary-bg)]">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Header with arrows -->
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
+        <div class="max-w-3xl">
+          <p class="section-label">Our Services</p>
+          <h2 class="text-4xl md:text-5xl font-bold leading-tight">
+            UNLEASH YOUR POTENTIAL: <span class="accent-text">PREMIUM<br>FITNESS SERVICES</span> TAILORED FOR YOU
+          </h2>
+          <p class="text-[var(--secondary-text)] mt-6 max-w-2xl">
+            At FFL Gym, we offer personalized fitness services to help you reach your goals. From one-on-one training to high-energy classes and recovery sessions, we provide everything you need to succeed in your fitness journey.
+          </p>
+        </div>
+        <!-- Navigation Arrows -->
+        <div class="flex gap-3">
+          <button onclick="slideServices(-1)" class="w-12 h-12 rounded-full bg-[var(--accent-bg)] border border-[var(--border-color)] flex items-center justify-center hover:bg-[var(--primary-accent)] transition-all group" id="servicePrev">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-[var(--secondary-text)] group-hover:text-white">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <button onclick="slideServices(1)" class="w-12 h-12 rounded-full bg-[var(--primary-accent)] flex items-center justify-center hover:bg-[var(--secondary-accent)] transition-all" id="serviceNext">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Services Slider -->
+      <div class="overflow-hidden" id="servicesSliderContainer">
+        <div class="flex gap-5 transition-transform duration-500 ease-out" id="servicesSlider" data-fp-dynamic-items="true" data-fp-anim-children="true">
+          <!-- Service 1 - Personal Training (Active) -->
+          <div class="service-slide active flex-shrink-0 relative rounded-[var(--card-radius)] overflow-hidden cursor-pointer group" onclick="setActiveService(0)" data-index="0">
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" alt="Personal Training" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
+              <h3 class="text-xl font-bold text-white">Personal training</h3>
+              <div class="w-10 h-10 rounded-full bg-[var(--primary-accent)] flex items-center justify-center flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 2 - Fitness Classes -->
+          <div class="service-slide flex-shrink-0 relative rounded-[var(--card-radius)] overflow-hidden cursor-pointer group" onclick="setActiveService(1)" data-index="1">
+            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80" alt="Fitness Classes" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
+              <h3 class="text-xl font-bold text-white">Fitness Classes</h3>
+              <div class="w-10 h-10 rounded-full bg-[var(--primary-accent)] flex items-center justify-center flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 3 - Swim Training -->
+          <div class="service-slide flex-shrink-0 relative rounded-[var(--card-radius)] overflow-hidden cursor-pointer group" onclick="setActiveService(2)" data-index="2">
+            <img src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=600&q=80" alt="Swim Training" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
+              <h3 class="text-xl font-bold text-white">Swim Training</h3>
+              <div class="w-10 h-10 rounded-full bg-[var(--primary-accent)] flex items-center justify-center flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 4 - MMA Training -->
+          <div class="service-slide flex-shrink-0 relative rounded-[var(--card-radius)] overflow-hidden cursor-pointer group" onclick="setActiveService(3)" data-index="3">
+            <img src="https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=600&q=80" alt="MMA Training" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
+              <h3 class="text-xl font-bold text-white">MMA Training</h3>
+              <div class="w-10 h-10 rounded-full bg-[var(--primary-accent)] flex items-center justify-center flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 5 - Yoga -->
+          <div class="service-slide flex-shrink-0 relative rounded-[var(--card-radius)] overflow-hidden cursor-pointer group" onclick="setActiveService(4)" data-index="4">
+            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80" alt="Yoga" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
+              <h3 class="text-xl font-bold text-white">Yoga & Wellness</h3>
+              <div class="w-10 h-10 rounded-full bg-[var(--primary-accent)] flex items-center justify-center flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="py-20 md:py-32 bg-[var(--primary-bg)]">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="section-label">Preferences</p>
+      <h2 class="text-4xl md:text-5xl font-bold mb-12">
+        WHY CHOOSE US FOR YOUR <span class="accent-text">FITNESS</span><br>JOURNEY?
+      </h2>
+
+      <div class="grid lg:grid-cols-2 gap-12 items-start">
+        <!-- Single Large Image -->
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c149a?w=800&q=80" alt="Athlete with battle ropes" class="w-full rounded-[var(--card-radius)] object-cover aspect-[4/5]">
+        </div>
+
+        <!-- Accordion FAQs -->
+        <div class="space-y-4" data-fp-dynamic-items="true" data-fp-anim-children="true">
+          <div class="faq-item rounded-[var(--card-radius)] bg-[var(--accent-bg)] border border-[var(--border-color)] overflow-hidden">
+            <button class="faq-header w-full px-6 py-5 flex justify-between items-center text-left" onclick="toggleFaq(this)">
+              <span class="text-lg font-semibold"><span class="accent-text">State-of-the-Art</span> Equipment</span>
+              <span class="faq-icon w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--secondary-text)" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </span>
+            </button>
+            <div class="faq-content px-6 overflow-hidden max-h-0 transition-all duration-300">
+              <p class="text-[var(--secondary-text)] pb-6">Our gym features the latest fitness equipment from world-renowned brands. From cardio machines to free weights and functional training zones, we have everything you need for a complete workout experience.</p>
+            </div>
+          </div>
+
+          <div class="faq-item active rounded-[var(--card-radius)] bg-[var(--accent-bg)] border border-[var(--border-color)] overflow-hidden">
+            <button class="faq-header w-full px-6 py-5 flex justify-between items-center text-left" onclick="toggleFaq(this)">
+              <span class="text-lg font-semibold"><span class="accent-text">Expert</span> Trainers</span>
+              <span class="faq-icon w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform rotate-90">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary-accent)" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </span>
+            </button>
+            <div class="faq-content px-6 overflow-hidden max-h-[200px] transition-all duration-300">
+              <p class="text-[var(--secondary-text)] pb-6">Our certified trainers are here to guide you every step of the way, offering personalized workout plans and expert advice. With years of experience, they ensure that your workouts are both safe and effective, helping you achieve your fitness goals faster and with confidence.</p>
+            </div>
+          </div>
+
+          <div class="faq-item rounded-[var(--card-radius)] bg-[var(--accent-bg)] border border-[var(--border-color)] overflow-hidden">
+            <button class="faq-header w-full px-6 py-5 flex justify-between items-center text-left" onclick="toggleFaq(this)">
+              <span class="text-lg font-semibold"><span class="accent-text">Wide Range</span> of Classes</span>
+              <span class="faq-icon w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--secondary-text)" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </span>
+            </button>
+            <div class="faq-content px-6 overflow-hidden max-h-0 transition-all duration-300">
+              <p class="text-[var(--secondary-text)] pb-6">From high-intensity workouts to relaxing yoga sessions, we offer 60+ classes weekly to match every fitness preference. Whatever your goal, we have a class for you.</p>
+            </div>
+          </div>
+
+          <div class="faq-item rounded-[var(--card-radius)] bg-[var(--accent-bg)] border border-[var(--border-color)] overflow-hidden">
+            <button class="faq-header w-full px-6 py-5 flex justify-between items-center text-left" onclick="toggleFaq(this)">
+              <span class="text-lg font-semibold"><span class="accent-text">Welcoming</span> Community</span>
+              <span class="faq-icon w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--secondary-text)" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </span>
+            </button>
+            <div class="faq-content px-6 overflow-hidden max-h-0 transition-all duration-300">
+              <p class="text-[var(--secondary-text)] pb-6">Join a supportive community of fitness enthusiasts who motivate and inspire each other every day. At FFL Gym, you're never alone on your fitness journey.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="py-20 md:py-32 bg-[var(--secondary-bg)]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="section-label">Membership</p>
+        <h2 class="text-4xl md:text-5xl font-bold">
+          FLEXIBLE <span class="accent-text">PLANS</span> FOR EVERY GOAL
+        </h2>
+      </div>
+
+      <!-- Pricing Cards -->
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto" data-fp-dynamic-items="true" data-fp-anim-children="true">
+        <!-- Basic -->
+        <div class="pricing-card">
+          <div class="text-center mb-6">
+            <h3 class="text-lg font-semibold text-[var(--secondary-text)]">Basic</h3>
+            <div class="text-4xl font-black mt-2">$25<span class="text-lg font-normal text-[var(--secondary-text)]">/month</span></div>
+          </div>
+          <p class="text-[var(--secondary-text)] text-sm mb-6">Perfect for beginners or casual exercisers</p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[var(--primary-accent)] flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">Full gym floor access</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[var(--primary-accent)] flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">Group fitness class per week</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[var(--primary-accent)] flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">Free access to mobile app</span>
+            </li>
+          </ul>
+          <a href="#" class="btn-secondary w-full justify-center">Get Started</a>
+        </div>
+
+        <!-- Standard (Featured) -->
+        <div class="pricing-card featured">
+          <div class="text-center mb-6">
+            <h3 class="text-lg font-semibold text-white/80">Standard</h3>
+            <div class="text-4xl font-black mt-2">$35<span class="text-lg font-normal text-white/70">/month</span></div>
+          </div>
+          <p class="text-white/70 text-sm mb-6">Most popular for complete fitness</p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-white flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">Unlimited gym access 24/7</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-white flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">Unlimited fitness classes</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-white flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">Free access to pool/sauna</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-white flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">2 personal training sessions/month</span>
+            </li>
+          </ul>
+          <a href="#" class="btn-on-gradient w-full justify-center">Get Started</a>
+        </div>
+
+        <!-- Premium -->
+        <div class="pricing-card">
+          <div class="text-center mb-6">
+            <h3 class="text-lg font-semibold text-[var(--secondary-text)]">Premium</h3>
+            <div class="text-4xl font-black mt-2">$45<span class="text-lg font-normal text-[var(--secondary-text)]">/month</span></div>
+          </div>
+          <p class="text-[var(--secondary-text)] text-sm mb-6">Ultimate fitness experience</p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[var(--primary-accent)] flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">Everything in Standard</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[var(--primary-accent)] flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">Unlimited personal training</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[var(--primary-accent)] flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">Personalized nutrition plan</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-[var(--primary-accent)] flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <span class="text-sm">Priority booking & VIP locker</span>
+            </li>
+          </ul>
+          <a href="#" class="btn-secondary w-full justify-center">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Presence Section -->
+  <section class="py-20 md:py-32 bg-[var(--primary-bg)]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="section-label">Our Locations</p>
+          <h2 class="text-4xl md:text-5xl font-bold mb-6">
+            OUR GLOBAL PRESENCE: <span class="accent-text">FITNESS CENTERS</span> AROUND THE WORLD
+          </h2>
+          
+          <div class="flex items-start gap-6 mt-8">
+            <div class="text-5xl font-black accent-text">23+</div>
+            <div>
+              <p class="font-semibold text-xl">Countries</p>
+              <p class="text-[var(--secondary-text)] mt-2">No matter where you are, our premium facilities are ready to help you reach your fitness goals. Each location features state-of-the-art equipment, certified trainers, and a global community of fitness enthusiasts.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- World Map -->
+        <div class="relative">
+          <svg viewBox="0 0 800 400" class="w-full h-auto">
+            <!-- Simplified world map dots -->
+            <g fill="var(--primary-accent)" opacity="0.6">
+              <!-- North America -->
+              <circle cx="150" cy="120" r="4"/><circle cx="180" cy="140" r="3"/><circle cx="130" cy="160" r="4"/>
+              <circle cx="200" cy="130" r="3"/><circle cx="170" cy="180" r="4"/><circle cx="220" cy="150" r="3"/>
+              <!-- South America -->
+              <circle cx="220" cy="280" r="4"/><circle cx="240" cy="300" r="3"/><circle cx="200" cy="320" r="4"/>
+              <!-- Europe -->
+              <circle cx="400" cy="100" r="4"/><circle cx="420" cy="120" r="3"/><circle cx="380" cy="130" r="4"/>
+              <circle cx="440" cy="110" r="3"/><circle cx="360" cy="140" r="4"/><circle cx="450" cy="130" r="3"/>
+              <!-- Africa -->
+              <circle cx="400" cy="220" r="4"/><circle cx="420" cy="250" r="3"/><circle cx="380" cy="270" r="4"/>
+              <!-- Asia -->
+              <circle cx="550" cy="140" r="4"/><circle cx="580" cy="120" r="3"/><circle cx="620" cy="150" r="4"/>
+              <circle cx="650" cy="130" r="3"/><circle cx="700" cy="160" r="4"/><circle cx="680" cy="180" r="3"/>
+              <!-- Australia -->
+              <circle cx="680" cy="300" r="4"/><circle cx="710" cy="320" r="3"/><circle cx="650" cy="310" r="4"/>
+            </g>
+            <!-- Highlighted locations -->
+            <g fill="var(--primary-accent)">
+              <circle cx="180" cy="140" r="8" opacity="1"/><circle cx="180" cy="140" r="12" opacity="0.3"/>
+              <circle cx="420" cy="120" r="8" opacity="1"/><circle cx="420" cy="120" r="12" opacity="0.3"/>
+              <circle cx="650" cy="130" r="8" opacity="1"/><circle cx="650" cy="130" r="12" opacity="0.3"/>
+              <circle cx="680" cy="300" r="8" opacity="1"/><circle cx="680" cy="300" r="12" opacity="0.3"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 md:py-32" style="background: var(--gradient-2);">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">READY TO GROW?</h2>
+      <p class="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+        Take the first step towards a stronger, healthier you. Join our community of fitness enthusiasts and start your transformation today. Experience our state-of-the-art facilities, expert guidance, and unbeatable support.
+      </p>
+      <a href="#" class="btn-on-gradient">
+        Start Your Journey
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="py-6 bg-[var(--secondary-bg)]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2">
+          <span class="text-xl font-bold"><span class="accent-text">⚡</span>FFL</span>
+        </a>
+
+        <!-- Nav Links -->
+        <nav class="flex items-center gap-8" data-fp-dynamic-items="true" data-fp-anim-children="true">
+          <a href="#services" class="text-[var(--secondary-text)] hover:text-[var(--primary-text)] transition-colors text-sm">Services</a>
+          <a href="#pricing" class="text-[var(--secondary-text)] hover:text-[var(--primary-text)] transition-colors text-sm">Project</a>
+          <a href="#about" class="text-[var(--secondary-text)] hover:text-[var(--primary-text)] transition-colors text-sm">About Us</a>
+        </nav>
+
+        <!-- Contact -->
+        <div class="flex items-center gap-4">
+          <span class="text-[var(--secondary-text)] text-sm border-b border-[var(--border-color)] pb-0.5">hello@ffl.com</span>
+          <a href="#" class="inline-flex items-center gap-2 bg-white text-[var(--primary-bg)] px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors">
+            Contact Us
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+
+    // Services Slider
+    let currentSlide = 0;
+    const totalSlides = 5;
+
+    function setActiveService(index) {
+      currentSlide = index;
+      const slides = document.querySelectorAll('.service-slide');
+      slides.forEach((slide, i) => {
+        if (i === index) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+    }
+
+    function slideServices(direction) {
+      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      setActiveService(currentSlide);
+      
+      // Scroll the slider to show the active slide
+      const slider = document.getElementById('servicesSlider');
+      const slides = document.querySelectorAll('.service-slide');
+      const activeSlide = slides[currentSlide];
+      
+      if (activeSlide && slider) {
+        const containerWidth = document.getElementById('servicesSliderContainer').offsetWidth;
+        const slideLeft = activeSlide.offsetLeft;
+        const slideWidth = activeSlide.offsetWidth;
+        const scrollPos = slideLeft - (containerWidth / 2) + (slideWidth / 2);
+        
+        slider.parentElement.scrollTo({
+          left: Math.max(0, scrollPos),
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // FAQ toggle
+    function toggleFaq(button) {
+      const item = button.parentElement;
+      const wasActive = item.classList.contains('active');
+      const content = item.querySelector('.faq-content');
+      const icon = item.querySelector('.faq-icon');
+      const iconSvg = icon.querySelector('svg');
+      
+      // Close all items
+      document.querySelectorAll('.faq-item').forEach(faqItem => {
+        faqItem.classList.remove('active');
+        const faqContent = faqItem.querySelector('.faq-content');
+        const faqIcon = faqItem.querySelector('.faq-icon');
+        const faqIconSvg = faqIcon.querySelector('svg');
+        faqContent.style.maxHeight = '0';
+        faqIcon.classList.remove('rotate-90');
+        faqIconSvg.setAttribute('stroke', 'var(--secondary-text)');
+      });
+      
+      // Open clicked item if it wasn't active
+      if (!wasActive) {
+        item.classList.add('active');
+        content.style.maxHeight = content.scrollHeight + 'px';
+        icon.classList.add('rotate-90');
+        iconSvg.setAttribute('stroke', 'var(--primary-accent)');
+      }
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Navbar background on scroll
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 50) {
+        nav.style.background = 'rgba(10, 10, 10, 0.98)';
+      } else {
+        nav.style.background = 'rgba(10, 10, 10, 0.9)';
+      }
+    });
+
+    // Initialize services slider scroll behavior
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('servicesSliderContainer');
+      if (container) {
+        container.style.overflowX = 'auto';
+        container.style.scrollbarWidth = 'none';
+        container.style.msOverflowStyle = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

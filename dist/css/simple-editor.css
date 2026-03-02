@@ -1,0 +1,161 @@
+/* Simple Editor Styles */
+
+/* Floating Toolbar */
+.floating-toolbar {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    z-index: 10000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Toolbar Buttons */
+.floating-toolbar button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.floating-toolbar button:hover {
+    background: #f3f4f6;
+    color: #374151;
+    transform: translateY(-1px);
+}
+
+.floating-toolbar button:active {
+    transform: translateY(0);
+}
+
+/* Separator */
+.floating-toolbar .separator {
+    color: #e5e7eb;
+    font-weight: normal;
+    margin: 0 2px;
+}
+
+/* Editable Elements - only show outline when active or hovered */
+[contenteditable="true"] {
+    outline: none;
+    outline-offset: 2px;
+    border-radius: 4px;
+    min-height: 1em;
+}
+
+[contenteditable="true"]:focus,
+[contenteditable="true"]:hover {
+    outline: 2px solid #3b82f6 !important;
+    transition: none !important;
+}
+
+[contenteditable="true"]:focus {
+    outline: 2px solid #1d4ed8 !important;
+}
+
+/* Hide outlines and disable editing in fullscreen mode */
+.fullscreen-mode [contenteditable="true"] {
+    outline: none !important;
+    pointer-events: none;
+}
+
+/* Re-enable pointer events for interactive elements inside contenteditable */
+.fullscreen-mode [contenteditable="true"] a,
+.fullscreen-mode [contenteditable="true"] button,
+.fullscreen-mode [contenteditable="true"] input,
+.fullscreen-mode [contenteditable="true"] select,
+.fullscreen-mode [contenteditable="true"] textarea {
+    pointer-events: auto;
+}
+
+.fullscreen-mode [contenteditable="true"]:focus,
+.fullscreen-mode [contenteditable="true"]:hover {
+    outline: none !important;
+}
+
+/* Text Selection */
+[contenteditable="true"]::selection {
+    background: rgba(59, 130, 246, 0.3);
+}
+
+[contenteditable="true"]::-moz-selection {
+    background: rgba(59, 130, 246, 0.3);
+}
+
+/* Hover Effects */
+h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover,
+p:hover, a:hover, button:hover {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Exclude menu elements */
+.section-menu *:hover,
+.floating-toolbar *:hover {
+    cursor: default !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .floating-toolbar {
+        padding: 6px;
+        gap: 2px;
+    }
+    
+    .floating-toolbar button {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .floating-toolbar {
+        background: #1f2937;
+        border-color: #374151;
+        color: #f9fafb;
+    }
+    
+    .floating-toolbar button {
+        color: #d1d5db;
+    }
+    
+    .floating-toolbar button:hover {
+        background: #4b5563;
+        color: #f9fafb;
+    }
+    
+    .floating-toolbar .separator {
+        color: #374151;
+    }
+}
+
+/* Animation */
+.floating-toolbar {
+    animation: slideInDown 0.2s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 

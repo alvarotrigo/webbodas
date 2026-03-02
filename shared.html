@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <title>Shared Page</title>
+    
+    <!-- fullPage.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.37/fullpage.min.css">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="./dist/output.css">
+    <link rel="stylesheet" href="./public/css/sections.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: white;
+            font-size: 18px;
+            color: #666;
+        }
+        
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .error-container h1 {
+            color: #dc2626;
+            margin-bottom: 1rem;
+        }
+        
+        .error-container p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        #content-container {
+            display: none;
+        }
+        
+        #content-container.loaded {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading-container">
+        Loading shared page...
+    </div>
+    
+    <div id="error" class="error-container" style="display: none;">
+        <h1>Unable to load page</h1>
+        <p id="error-message">The shared page could not be loaded.</p>
+        <p style="font-size: 14px; color: #999;">Please check the link and try again.</p>
+    </div>
+    
+    <div id="content-container"></div>
+    
+    <script>
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            const errorDiv = document.getElementById('error');
+            errorDiv.style.display = 'flex';
+            document.getElementById('error-message').textContent = message;
+        }
+        
+        // Get share token or legacy document ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const shareToken = urlParams.get('token');
+        const docId = urlParams.get('doc');
+
+        // Build the appropriate API URL
+        let apiUrl = null;
+        if (shareToken) {
+            apiUrl = 'api/get.php?token=' + encodeURIComponent(shareToken);
+        } else if (docId) {
+            apiUrl = 'api/get.php?id=' + encodeURIComponent(docId);
+        }
+
+        if (!apiUrl) {
+            showError('Missing document ID');
+        } else {
+            // Fetch shared document
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.error) {
+                        throw new Error(result.error);
+                    }
+                    
+                    const data = result.data;
+                    const theme = data.theme || 'theme-light-minimal';
+                    const sections = data.sections || [];
+                    const fullpageEnabled = data.fullpageEnabled === true || data.fullpageEnabled === 'true';
+                    const animationsEnabled = data.animationsEnabled === true || data.animationsEnabled === 'true';
+                    
+                    // Hide loading
+                    document.getElementById('loading').style.display = 'none';
+                    
+                    // Build HTML
+                    const body = document.body;
+                    body.className = theme + (fullpageEnabled ? ' fullpage-enabled fp-viewing-0' : '') + (animationsEnabled ? ' animations-enabled' : '');
+                    
+                    const container = document.getElementById('content-container');
+                    
+                    // Add fullPage.js container if enabled
+                    if (fullpageEnabled) {
+                        const fullpageDiv = document.createElement('div');
+                        fullpageDiv.id = 'fullpage';
+                        container.appendChild(fullpageDiv);
+                        
+                        // Initialize fullPage.js after sections are added
+                        setTimeout(() => {
+                            new fullpage('#fullpage', {
+                                licenseKey: '6PZNK-86USK-31KIJ-W0J6J-HCMLO',
+                                scrollingSpeed: 700,
+                                navigation: true,
+                                showActiveTooltip: false,
+                                anchors: [],
+                                sectionsColor: []
+                            });
+                        }, 100);
+                    }
+                    
+                    // Add sections
+                    const contentParent = fullpageEnabled ? document.getElementById('fullpage') : container;
+                    
+                    sections.forEach((sectionData, index) => {
+                        // Remove section-menu elements
+                        let cleanHtml = sectionData.html.replace(/<div[^>]*class="[^"]*section-menu[^"]*"[^>]*>.*?<\/div>/s, '');
+                        
+                        // Clean TinyMCE attributes more thoroughly
+                        cleanHtml = cleanHtml.replace(/\s+id="mce_\d+"/g, '');
+                        cleanHtml = cleanHtml.replace(/\s+contenteditable="[^"]*"/g, '');
+                        cleanHtml = cleanHtml.replace(/\s+spellcheck="[^"]*"/g, '');
+                        cleanHtml = cleanHtml.replace(/\s+data-mce-style="[^"]*"/g, '');
+                        cleanHtml = cleanHtml.replace(/\s+style="position: relative;"/g, '');
+                        cleanHtml = cleanHtml.replace(/\s+style="position: relative;\s*[^"]*"/g, '');
+                        
+                        // Remove mce-content-body class
+                        cleanHtml = cleanHtml.replace(/\bmce-content-body\b/g, '');
+                        
+                        // Create a temporary div to parse the HTML
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = cleanHtml;
+                        
+                        // Get the section/footer element
+                        let sectionElement = tempDiv.querySelector('section') || tempDiv.querySelector('footer');
+                        
+                        if (sectionElement) {
+                            // Clone the element to avoid issues with the temp div
+                            const clonedElement = sectionElement.cloneNode(true);
+                            contentParent.appendChild(clonedElement);
+                        } else {
+                            // If no section/footer found, create a wrapper
+                            const wrapper = document.createElement('section');
+                            wrapper.innerHTML = cleanHtml;
+                            contentParent.appendChild(wrapper);
+                        }
+                    });
+                    
+                    // Collect unique filenames for dynamic script loading
+                    const uniqueFilenames = new Set();
+                    sections.forEach(sectionData => {
+                        if (sectionData.filename) {
+                            uniqueFilenames.add(sectionData.filename);
+                        }
+                    });
+
+                    // Show content
+                    container.classList.add('loaded');
+
+                    // Function to load scripts dynamically
+                    function loadScript(src) {
+                        return new Promise((resolve, reject) => {
+                            const script = document.createElement('script');
+                            script.src = src;
+                            script.onload = resolve;
+                            script.onerror = reject;
+                            document.body.appendChild(script);
+                        });
+                    }
+
+                    // Load section-initializer first, then section-specific scripts
+                    loadScript('./public/js/section-initializer.js')
+                        .then(() => {
+                            // Load all section-specific JS files
+                            const scriptPromises = Array.from(uniqueFilenames).map(filename => {
+                                const jsFile = `./public/js/sections/${filename.replace('.html', '.js')}`;
+                                return loadScript(jsFile).catch(err => {
+                                    console.warn(`Failed to load script: ${jsFile}`, err);
+                                });
+                            });
+
+                            return Promise.all(scriptPromises);
+                        })
+                        .then(() => {
+                            // Initialize section scripts after all scripts are loaded
+                            if (window.SectionInitializer) {
+                                setTimeout(() => {
+                                    const sections = document.querySelectorAll('section[id], footer[id]');
+                                    sections.forEach(section => {
+                                        if (section.id) {
+                                            window.SectionInitializer.initSection(section);
+                                        }
+                                    });
+                                }, 200);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Failed to load scripts:', error);
+                        });
+                })
+                .catch(error => {
+                    console.error('Failed to load shared document:', error);
+                    showError(error.message || 'Failed to load the shared page');
+                });
+        }
+    </script>
+
+    <!-- fullPage.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.37/fullpage.min.js"></script>
+</body>
+</html>
+

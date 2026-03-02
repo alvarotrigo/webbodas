@@ -1,0 +1,337 @@
+{
+    "id": "real-state-2",
+    "name": "HomeNest Warm Welcome",
+    "description": "Create a welcoming website for a real estate agent called “HomeNest with Laura”.\n\nConcept:\nHelping families buy their first home.\n\nAudience:\nYoung families and first-time buyers.\n\nTone:\nFriendly, reassuring, human.\n\nMain colors:\n- Soft blue\n- Warm beige\n- White backgrounds\n- Light green accents\n\nGoals:\nEncourage consultation bookings.\n\nStructure:\n- Hero with family-home imagery\n- About Laura section\n- Buyer guide\n- Testimonials\n- Contact CTA\n\nDesign guidance:\n- Warm and approachable layout\n- Lifestyle imagery\n- Clear, simple structure\n\nCopy guidance:\n- Supportive tone\n- Avoid corporate language",
+    "category": "custom",
+    "tags": [
+        "welcoming",
+        "friendly",
+        "reassuring"
+    ],
+    "sections": [
+        47,
+        14,
+        7,
+        169,
+        50,
+        1,
+        159
+    ],
+    "theme": {
+        "name": "HomeNest Warm Welcome",
+        "variables": {
+            "primary-bg": "#ffffff",
+            "secondary-bg": "#f4f4f7",
+            "accent-bg": "#e6f7e6",
+            "primary-text": "#333333",
+            "secondary-text": "#666666",
+            "accent-text": "#111111",
+            "primary-accent": "#87ceeb",
+            "primary-accent-soft": "rgba(135, 206, 235, 0.1)",
+            "secondary-accent": "#d2b48c",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(180deg, #f4f4f7 0%, #e6f7e6 100%)",
+            "gradient-2": "linear-gradient(180deg, #87ceeb 0%, #d2b48c 100%)",
+            "features2-bg": "linear-gradient(180deg, #87ceeb 0%, #d2b48c 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Lora', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Lora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "8px",
+            "button-radius": "8px",
+            "card-radius": "12px",
+            "spacing-unit": "1.4rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Lora",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "7": {
+            "headline": "How It Works",
+            "subheadline": "A Simple and Friendly Home Buying Process",
+            "content": "1. Consultation: Let’s chat about your needs. 2. Search: Discover homes that fit your family's lifestyle. 3. Tour: Experience potential homes in person. 4. Offer: Get expert guidance on making an offer. 5. Close: Celebrate your new home!"
+        },
+        "14": {
+            "headline": "Meet Laura",
+            "subheadline": "Dedicated to Helping Families Find Their Forever Homes",
+            "content": "With a passion for real estate and a heart for families, Laura is committed to guiding you through every step of the home buying process. Her mission is to make your first home journey as smooth and enjoyable as possible."
+        },
+        "47": {
+            "headline": "Welcome to HomeNest with Laura",
+            "subheadline": "Your trusted partner in finding the perfect home for your family.",
+            "cta_primary": "Schedule Your Free Consultation",
+            "cta_secondary": "Explore Your Home Buying Journey"
+        },
+        "50": {
+            "headline": "Ready to Find Your Dream Home?",
+            "cta_primary": "Contact Us Today",
+            "cta_secondary": "Ask a Question"
+        },
+        "159": {
+            "content": "© 2023 HomeNest with Laura. All Rights Reserved. | Privacy Policy | Terms of Service",
+            "contact_info": "Contact Laura: laura@homenest.com | (123) 456-7890",
+            "trust_message": "Your journey to homeownership starts with trust — let’s build it together."
+        },
+        "169": {
+            "headline": "What Our Families Say",
+            "testimonials": [
+                {
+                    "quote": "Laura made buying our first home feel easy and stress-free! We couldn’t have done it without her support.",
+                    "name": "The Johnson Family"
+                },
+                {
+                    "quote": "Thanks to Laura, we found the perfect home for our growing family. Her advice was invaluable!",
+                    "name": "The Smiths"
+                }
+            ]
+        }
+    },
+    "section_backgrounds": {
+        "1": {
+            "type": "image",
+            "keyword": "welcoming home"
+        },
+        "7": {
+            "type": "color"
+        },
+        "14": {
+            "type": "color"
+        },
+        "47": {
+            "type": "image",
+            "keyword": "family home"
+        },
+        "50": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        },
+        "169": {
+            "type": "image",
+            "keyword": "happy family"
+        }
+    },
+    "inline_image_keywords": {
+        "169": [
+            [
+                "young family portrait",
+                "happy couple home",
+                "first-time home buyers"
+            ],
+            [
+                "smiling family in living room",
+                "children playing in home",
+                "warm family interaction"
+            ],
+            [
+                "professional portrait",
+                "friendly real estate agent",
+                "approachable business woman"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#ffffff",
+            "secondary_bg": "#f4f4f7",
+            "accent_bg": "#e6f7e6",
+            "primary_text": "#333333",
+            "secondary_text": "#666666",
+            "accent_text": "#111111",
+            "primary_accent": "#87ceeb",
+            "secondary_accent": "#d2b48c"
+        },
+        "typography": {
+            "heading_style": "serif",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Lora",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "button_radius_value": "8px",
+            "card_radius": "rounded",
+            "card_radius_value": "12px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "180deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.4rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "welcoming",
+            "friendly",
+            "reassuring"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "about section",
+            "buyer guide",
+            "testimonials cards",
+            "contact CTA"
+        ]
+    },
+    "site_plan": {
+        "audience": "young families and first-time buyers",
+        "primary_goal": "book consultation",
+        "brand_vibe": [
+            "welcoming",
+            "friendly",
+            "reassuring"
+        ],
+        "content_tone": "supportive and human",
+        "key_differentiators": [
+            "personalized guidance",
+            "family-focused approach",
+            "local market expertise"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-02-11T20:52:55+00:00",
+    "text_updates": {
+        "1": {
+            "h1[0]": "Your Family's Future Begins Here",
+            "span[0]": "Future",
+            "p[0]": "Embrace the excitement of new beginnings and dreams fulfilled as you step into your perfect home, where every moment is filled with warmth and love.",
+            "a[0]": "Book Consultation",
+            "a[1]": "Discover More"
+        },
+        "7": {
+            "h2[0]": "How it works",
+            "p[0]": "Embarking on the journey to purchase a new home can feel overwhelming, but with the right support, it becomes a smooth and exciting experience. Here’s how we’ll work together to find the perfect place for your family.",
+            "div[5]": "1",
+            "h3[0]": "Schedule a consultation to discuss your needs.",
+            "div[8]": "2",
+            "h3[1]": "Explore available properties that match your criteria.",
+            "div[11]": "3",
+            "h3[2]": "Navigate the offer and negotiation process with confidence.",
+            "div[14]": "4",
+            "h3[3]": "Celebrate your new beginning as you move into your dream space!"
+        },
+        "14": {
+            "h2[0]": "About Us",
+            "p[0]": "With a heart for families and an eye for detail, Laura is dedicated to guiding young buyers on their journey to homeownership. Her mission is to make this significant milestone feel achievable and exciting.",
+            "h3[0]": "Personalized Guidance",
+            "p[1]": "Laura takes the time to understand your unique needs, ensuring a tailored approach that empowers you throughout the process. She believes that every step should feel comfortable and informed.",
+            "h3[1]": "Family-Focused Approach",
+            "p[2]": "With a deep understanding of the local market, Laura is committed to providing insights that resonate with families. Her focus is on creating a nurturing environment where you can find a space to grow and thrive.",
+            "h3[2]": "Local Market Expertise",
+            "p[3]": "Having lived and worked in the community for years, Laura brings invaluable knowledge of the neighborhoods that matter most to you. She’s here to ensure your journey is as smooth as possible."
+        },
+        "47": {
+            "h2[0]": "Find Your Perfect Family Home",
+            "p[0]": "At HomeNest with Laura, we’re dedicated to helping families like yours discover a warm and inviting space to call home. Together, we’ll create a sense of belonging in a community that feels just right.",
+            "a[0]": "Book a Consultation"
+        },
+        "50": {
+            "h2[0]": "Say Hello",
+            "p[0]": "Reach out for personalized guidance and support as you take the next steps toward your new home.",
+            "a[0]": "Book a Consultation"
+        },
+        "159": {
+            "h3[0]": "ModernCo",
+            "p[0]": "Join a community dedicated to guiding families in their journey to finding a perfect home. Stay updated with resources and support tailored just for you.",
+            "h4[0]": "Quick Links",
+            "li[0]": "About Laura",
+            "span[0]": "About Laura",
+            "li[1]": "Buyer Guide",
+            "span[1]": "Buyer Guide",
+            "li[2]": "Testimonials",
+            "span[2]": "Testimonials",
+            "li[3]": "Contact Us",
+            "span[3]": "Contact Us",
+            "h4[1]": "Services",
+            "li[4]": "Home Search",
+            "li[5]": "Market Analysis",
+            "li[6]": "Mortgage Assistance",
+            "li[7]": "Consultation",
+            "h4[2]": "Follow Us",
+            "a[0]": "Facebook",
+            "a[1]": "Instagram",
+            "a[2]": "Pinterest",
+            "p[1]": "© 2024 HomeNest. All rights reserved."
+        },
+        "169": {
+            "h2[0]": "Loved by Professionals",
+            "p[0]": "See how families like yours have found their perfect place with HomeNest. Their stories reflect our commitment to a supportive and community-focused experience.",
+            "p[1]": "\"Laura was amazing! She took the time to understand what we needed and helped us every step of the way. We couldn't be happier with our new life in our dream neighborhood!\"",
+            "h3[0]": "Michael Rodriguez",
+            "p[2]": "First-time Buyers",
+            "p[3]": "\"With Laura's guidance, we felt confident in our decisions. She truly cares about her clients and made us feel like family throughout the entire process.\"",
+            "h3[1]": "Sarah Chen",
+            "p[4]": "New Homeowners",
+            "p[5]": "\"The personalized attention we received was unparalleled. Laura's knowledge of the local market helped us find a home that fits our family perfectly!\"",
+            "h3[2]": "David Thompson",
+            "p[6]": "Happy Clients"
+        }
+    },
+    "inline_images": {
+        "169": [
+            "https://images.unsplash.com/photo-1677028123493-e25851429418?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8eW91bmclMjBmYW1pbHklMjBwb3J0cmFpdCUyMGhhcHB5JTIwY291cGxlJTIwaG9tZSUyMGZpcnN0LXRpbWUlMjBob21lJTIwYnV5ZXJzfGVufDB8MHx8fDE3NzA4NDMxOTR8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1756723903313-b3d2f705f472?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8c21pbGluZyUyMGZhbWlseSUyMGluJTIwbGl2aW5nJTIwcm9vbSUyMGNoaWxkcmVuJTIwcGxheWluZyUyMGluJTIwaG9tZSUyMHdhcm0lMjBmYW1pbHklMjBpbnRlcmFjdGlvbnxlbnwwfDB8fHwxNzcwODQzMTk0fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1650784854056-49d8dd709fff?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBmcmllbmRseSUyMHJlYWwlMjBlc3RhdGUlMjBhZ2VudCUyMGFwcHJvYWNoYWJsZSUyMGJ1c2luZXNzJTIwd29tYW58ZW58MHwwfHx8MTc3MDg0MzE5NHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "1": "https://images.unsplash.com/photo-1765421619527-e43bf68e51ff?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8d2VsY29taW5nJTIwaG9tZXxlbnwwfDB8fHwxNzcwODQzMTk1fDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "47": "https://images.unsplash.com/photo-1606932250069-62f395a08602?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8ZmFtaWx5JTIwaG9tZXxlbnwwfDB8fHwxNzcwODQzMTk0fDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "169": "https://images.unsplash.com/photo-1592711491694-e85f60a7773a?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8aGFwcHklMjBmYW1pbHl8ZW58MHwwfHx8MTc3MDg0MzE5NHww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

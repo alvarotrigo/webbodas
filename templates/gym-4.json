@@ -1,0 +1,421 @@
+{
+    "id": "gym-4",
+    "name": "Serene Balance Wellness",
+    "description": "Create a modern website for a wellness-focused gym called “Balance Movement”.\n\nConcept:\nCombination of yoga, pilates, functional training, and mindfulness.\n\nAudience:\nPeople aged 25–45 seeking balanced health and stress relief.\n\nTone:\nCalm, positive, supportive.\n\nMain colors:\n- Soft teal\n- Light sand/beige\n- White backgrounds\n- Muted coral accents\n\nGoals:\nEncourage trial class bookings.\n\nStructure:\n- Hero with calming message\n- Wellness philosophy\n- Class offerings\n- Instructor highlights\n- Testimonials\n- Intro offer section\n- Booking CTA\n\nDesign guidance:\n- Light, airy layout\n- Lots of whitespace\n- Natural lifestyle imagery\n- Soft section transitions\n- Rounded visual elements\n\nCopy guidance:\n- Encouraging and human tone\n- Focus on well-being, not aesthetics\n- Avoid extreme fitness language\n\nMake it feel like a wellness sanctuary, not a hardcore gym.\nKeep it realistic and inviting.",
+    "category": "custom",
+    "tags": [
+        "calm",
+        "modern",
+        "inviting"
+    ],
+    "sections": [
+        77,
+        163,
+        16,
+        42,
+        169,
+        158,
+        170
+    ],
+    "theme": {
+        "name": "Serene Balance Wellness",
+        "variables": {
+            "primary-bg": "#ffffff",
+            "secondary-bg": "#f4f4f7",
+            "accent-bg": "#fafafa",
+            "primary-text": "#333333",
+            "secondary-text": "#666666",
+            "accent-text": "#444444",
+            "primary-accent": "#008080",
+            "primary-accent-soft": "rgba(0, 128, 128, 0.1)",
+            "secondary-accent": "#f08080",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #f4f4f7 0%, #fafafa 100%)",
+            "gradient-2": "linear-gradient(135deg, #008080 0%, #f08080 100%)",
+            "features2-bg": "linear-gradient(135deg, #008080 0%, #f08080 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Figtree', 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "30px",
+            "card-radius": "12px",
+            "spacing-unit": "1.6rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Figtree",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Lato",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Figtree:wght@600;700&family=Lato:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "16": {
+            "headline": "Experience the Balance Benefits",
+            "subheadline": "Why Choose Balance Movement?",
+            "features": [
+                "Holistic Classes: A unique mix of yoga, pilates, and functional training.",
+                "Mindfulness Integration: Focus on mental clarity and stress relief.",
+                "Community Support: Join a welcoming space that prioritizes connection.",
+                "Personalized Guidance: Our instructors cater to your individual needs.",
+                "Flexible Scheduling: Classes designed to fit your lifestyle."
+            ]
+        },
+        "42": {
+            "headline": "Find Your Inner Balance",
+            "subheadline": "Embrace wellness through movement and mindfulness.",
+            "cta_primary": "Book Your First Class Today"
+        },
+        "77": {
+            "headline": "Explore Our Wellness Journey",
+            "subheadline": "Immerse yourself in the tranquil world of Balance Movement.",
+            "cta_primary": "Join Us on Social Media",
+            "cta_secondary": "View Our Gallery"
+        },
+        "158": {
+            "headline": "Welcome to Balance Movement",
+            "subheadline": "Your journey towards balanced health begins here.",
+            "cta_primary": "Start Your Wellness Journey"
+        },
+        "163": {
+            "headline": "How Balance Movement Works",
+            "subheadline": "A seamless blend of practices for holistic wellness.",
+            "cta_primary": "Discover Our Approach"
+        },
+        "169": {
+            "headline": "What Our Members Say",
+            "testimonials": [
+                "Balance Movement has transformed my approach to fitness. I feel more centered and in tune with my body!",
+                "The community here is so supportive. It's a sanctuary where I can truly relax and grow."
+            ]
+        },
+        "170": {
+            "headline": "Stay Connected",
+            "subheadline": "Reach out to us any time.",
+            "contact_info": {
+                "phone": "123-456-7890",
+                "email": "info@balancemovement.com"
+            },
+            "trust_message": "Join a community dedicated to your well-being."
+        }
+    },
+    "section_backgrounds": {
+        "16": {
+            "type": "color"
+        },
+        "42": {
+            "type": "image",
+            "keyword": "calm yoga studio"
+        },
+        "77": {
+            "type": "color"
+        },
+        "158": {
+            "type": "color"
+        },
+        "163": {
+            "type": "color"
+        },
+        "169": {
+            "type": "image",
+            "keyword": "mindfulness meditation"
+        },
+        "170": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "42": [
+            [
+                "wellness coach",
+                "yoga instructor",
+                "mindful movement"
+            ],
+            [
+                "pilates teacher",
+                "functional training",
+                "fitness expert"
+            ],
+            [
+                "personal trainer",
+                "supportive community",
+                "wellness advocate"
+            ],
+            [
+                "health coach",
+                "motivational fitness",
+                "positive energy"
+            ],
+            [
+                "yoga practitioner",
+                "calm atmosphere",
+                "mindful practice"
+            ],
+            [
+                "fitness instructor",
+                "encouraging environment",
+                "well-being mentor"
+            ],
+            [
+                "wellness leader",
+                "personal growth",
+                "balanced lifestyle"
+            ]
+        ],
+        "158": [
+            [
+                "wellness community",
+                "mindfulness practice",
+                "group yoga session"
+            ],
+            [
+                "functional training",
+                "supportive gym environment",
+                "diverse fitness class"
+            ],
+            [
+                "yoga class",
+                "peaceful studio",
+                "calm atmosphere"
+            ],
+            [
+                "personal trainer",
+                "encouraging instructor",
+                "wellness coaching"
+            ],
+            [
+                "happy fitness journey",
+                "transformation story",
+                "positive testimonials"
+            ]
+        ],
+        "169": [
+            [
+                "professional portrait",
+                "business headshot",
+                "calm demeanor"
+            ],
+            [
+                "creative workspace",
+                "thoughtful reflection",
+                "content strategist"
+            ],
+            [
+                "professional setting",
+                "relaxed confidence",
+                "mindful expression"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#ffffff",
+            "secondary_bg": "#f4f4f7",
+            "accent_bg": "#fafafa",
+            "primary_text": "#333333",
+            "secondary_text": "#666666",
+            "accent_text": "#444444",
+            "primary_accent": "#008080",
+            "secondary_accent": "#f08080"
+        },
+        "typography": {
+            "heading_style": "light-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Figtree",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Lato",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "16px",
+            "button_radius": "rounded",
+            "button_radius_value": "30px",
+            "card_radius": "rounded",
+            "card_radius_value": "12px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "spacious",
+            "spacing_unit_hint": "1.6rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "calm",
+            "modern",
+            "inviting"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "wellness philosophy",
+            "class offerings grid",
+            "instructor highlights",
+            "testimonials cards",
+            "intro offer with CTA"
+        ]
+    },
+    "site_plan": {
+        "audience": "wellness-focused individuals",
+        "primary_goal": "encourage trial class bookings",
+        "brand_vibe": [
+            "calm",
+            "supportive",
+            "modern",
+            "inviting"
+        ],
+        "content_tone": "encouraging and human",
+        "key_differentiators": [
+            "combination of yoga, pilates, and functional training",
+            "focus on mindfulness",
+            "wellness philosophy",
+            "supportive community"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-02-11T21:18:56+00:00",
+    "text_updates": {
+        "16": {
+            "h1[0]": "Discover the Benefits of Balance",
+            "p[0]": "Experience a harmonious blend of movement, mindfulness, and community support designed to enhance your well-being and relieve stress.",
+            "h3[0]": "Cultivate Inner Peace",
+            "p[1]": "Engage in practices that nurture your spirit and promote emotional tranquility, allowing you to reconnect with yourself.",
+            "h3[1]": "Empower Your Body",
+            "p[2]": "Join us in dynamic classes that strengthen your body and mind, fostering resilience and a greater sense of vitality.",
+            "h3[2]": "Connect with Community",
+            "p[3]": "Become part of a warm, welcoming space where shared experiences and encouragement uplift everyone on their path."
+        },
+        "42": {
+            "h2[0]": "Your Sanctuary Awaits",
+            "p[0]": "Step into a transformative space designed for your well-being. Our classes blend yoga, pilates, and functional training, all within a mindful community that nurtures peace and growth.",
+            "a[0]": "Join our team"
+        },
+        "77": {
+            "h2[0]": "Natural Harmony",
+            "p[0]": "Celebrated for our unique blend of yoga, pilates, and functional training, we empower you to find balance through mindfulness and community support."
+        },
+        "158": {
+            "h1[0]": "Begin Your Transformation Today",
+            "p[0]": "Used by 10,000+ users",
+            "span[0]": "Serene Balance",
+            "p[1]": "Step into a nurturing space where your first class awaits, designed for your comfort and growth.",
+            "a[0]": "Book a Trial",
+            "a[1]": "Explore Classes",
+            "p[2]": "Supported by health-conscious individuals, our approach is tailored just for you."
+        },
+        "163": {
+            "h2[0]": "Embrace Your Wellness Journey",
+            "p[0]": "Begin your path to well-being with our easy-to-follow steps designed to enhance mindfulness and foster personal growth.",
+            "span[0]": "1",
+            "h3[0]": "Connect with Mindfulness",
+            "p[1]": "Dive into a serene environment where you can explore various techniques aimed at enriching your inner peace and balance.",
+            "span[1]": "2",
+            "h3[1]": "Select Your Classes",
+            "p[2]": "Choose from a variety of inviting classes that seamlessly integrate yoga, pilates, and functional training to suit your needs.",
+            "span[2]": "3",
+            "h3[2]": "Join Our Community",
+            "p[3]": "Engage with a supportive network that encourages your journey, making each step toward wellness enjoyable and fulfilling.",
+            "span[3]": "4",
+            "h3[3]": "Experience Transformation",
+            "p[4]": "Celebrate your progress as you embrace a balanced lifestyle, enhancing both your physical and mental well-being."
+        },
+        "169": {
+            "h2[0]": "Loved by Professionals",
+            "p[0]": "We believe in the power of shared experiences. Here’s what our members have to say about their journey with us.",
+            "p[1]": "\"Joining Serene Balance Wellness has truly transformed my life. The supportive atmosphere and diverse classes have helped me find my center, both physically and mentally.\"",
+            "h3[0]": "Emily Johnson",
+            "p[2]": "Marketing Specialist",
+            "p[3]": "\"The blend of yoga, pilates, and mindfulness here is unlike anywhere else. I feel stronger and more at peace after every session!\"",
+            "h3[1]": "Liam Smith",
+            "p[4]": "Graphic Designer",
+            "p[5]": "\"From the moment I stepped in, I felt welcomed. The instructors genuinely care about our well-being, and the community is so uplifting!\"",
+            "h3[2]": "Aisha Patel",
+            "p[6]": "Wellness Coach"
+        },
+        "170": {
+            "span[0]": "Innovate",
+            "li[0]": "About Us",
+            "a[1]": "Our Story",
+            "li[1]": "Privacy Commitment",
+            "a[2]": "Terms of Service",
+            "li[2]": "Partnerships",
+            "a[3]": "Get in Touch",
+            "li[3]": "Support",
+            "a[4]": "Reach Out",
+            "span[1]": "© 2024 Serene Balance Wellness. All Rights Reserved.",
+            "a[5]": "Serene Balance™",
+            "a[0]": "Innovate"
+        }
+    },
+    "inline_images": {
+        "42": [
+            "https://images.unsplash.com/photo-1758738880382-d614a6ecdc4a?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8d2VsbG5lc3MlMjBjb2FjaCUyMHlvZ2ElMjBpbnN0cnVjdG9yJTIwbWluZGZ1bCUyMG1vdmVtZW50fGVufDB8MHx8fDE3NzA4NDQ3NTB8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1717500251805-cd0306a48de4?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8cGlsYXRlcyUyMHRlYWNoZXIlMjBmdW5jdGlvbmFsJTIwdHJhaW5pbmclMjBmaXRuZXNzJTIwZXhwZXJ0fGVufDB8MHx8fDE3NzA4NDQ3NTB8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1738523686619-1b3b5d2405ee?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8cGVyc29uYWwlMjB0cmFpbmVyJTIwc3VwcG9ydGl2ZSUyMGNvbW11bml0eSUyMHdlbGxuZXNzJTIwYWR2b2NhdGV8ZW58MHwwfHx8MTc3MDg0NDc1MHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1634461294185-af997483b26d?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8aGVhbHRoJTIwY29hY2glMjBtb3RpdmF0aW9uYWwlMjBmaXRuZXNzJTIwcG9zaXRpdmUlMjBlbmVyZ3l8ZW58MHwwfHx8MTc3MDg0NDc1MHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1724833190236-0c25b6c94e90?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8eW9nYSUyMHByYWN0aXRpb25lciUyMGNhbG0lMjBhdG1vc3BoZXJlJTIwbWluZGZ1bCUyMHByYWN0aWNlfGVufDB8MHx8fDE3NzA4NDQ3NTB8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1756314354803-be78f7fc5e35?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8Zml0bmVzcyUyMGluc3RydWN0b3IlMjBlbmNvdXJhZ2luZyUyMGVudmlyb25tZW50JTIwd2VsbC1iZWluZyUyMG1lbnRvcnxlbnwwfDB8fHwxNzcwODQ0NzUwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1593536356740-7fb367fa69ff?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8d2VsbG5lc3MlMjBsZWFkZXIlMjBwZXJzb25hbCUyMGdyb3d0aCUyMGJhbGFuY2VkJTIwbGlmZXN0eWxlfGVufDB8MHx8fDE3NzA4NDQ3NTF8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "158": [
+            "https://images.unsplash.com/photo-1643682661119-28da0685be2c?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8d2VsbG5lc3MlMjBjb21tdW5pdHklMjBtaW5kZnVsbmVzcyUyMHByYWN0aWNlJTIwZ3JvdXAlMjB5b2dhJTIwc2Vzc2lvbnxlbnwwfDB8fHwxNzcwODQ0NzUxfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1651340049490-816c37d1547b?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8ZnVuY3Rpb25hbCUyMHRyYWluaW5nJTIwc3VwcG9ydGl2ZSUyMGd5bSUyMGVudmlyb25tZW50JTIwZGl2ZXJzZSUyMGZpdG5lc3MlMjBjbGFzc3xlbnwwfDB8fHwxNzcwODQ0NzUxfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1651077837628-52b3247550ae?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8eW9nYSUyMGNsYXNzJTIwcGVhY2VmdWwlMjBzdHVkaW8lMjBjYWxtJTIwYXRtb3NwaGVyZXxlbnwwfDB8fHwxNzcwODQ0NzUxfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1611095966422-50a79dd5313b?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8cGVyc29uYWwlMjB0cmFpbmVyJTIwZW5jb3VyYWdpbmclMjBpbnN0cnVjdG9yJTIwd2VsbG5lc3MlMjBjb2FjaGluZ3xlbnwwfDB8fHwxNzcwODQ0NzUxfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "169": [
+            "https://images.unsplash.com/photo-1653578759971-1bdca77af2e9?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBidXNpbmVzcyUyMGhlYWRzaG90JTIwY2FsbSUyMGRlbWVhbm9yfGVufDB8MHx8fDE3NzA4NDQ3NTJ8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1632809681273-ff9a04a71e1c?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8Y3JlYXRpdmUlMjB3b3Jrc3BhY2UlMjB0aG91Z2h0ZnVsJTIwcmVmbGVjdGlvbiUyMGNvbnRlbnQlMjBzdHJhdGVnaXN0fGVufDB8MHx8fDE3NzA4NDQ3NTN8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "42": "https://images.unsplash.com/photo-1767611127093-8ed12ce7789d?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8Y2FsbSUyMHlvZ2ElMjBzdHVkaW98ZW58MHwwfHx8MTc3MDg0MzAyM3ww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "169": "https://images.unsplash.com/photo-1575608124002-704faadb4aa0?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8bWluZGZ1bG5lc3MlMjBtZWRpdGF0aW9ufGVufDB8MHx8fDE3NzA4NDQ3NTN8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

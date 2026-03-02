@@ -1,0 +1,40 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-web-app",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentry Test Page</title>
+    
+    <!-- Sentry Error Tracking -->
+    <script
+      src="https://js.sentry-cdn.com/e653ba09396f22997f7db6c50cbb270e.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./public/js/sentry-init.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="./dist/output.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 2rem;
+        }
+        
+        h1 {
+            color: #1a202c;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-section {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .test-section h2 {
+            color: #2d3748;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-section p {
+            color: #4a5568;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+        }
+        
+        .danger {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        }
+        
+        .info {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+        }
+        
+        .result {
+            background: #edf2f7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #2d3748;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        .badge.auto {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .badge.manual {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .important {
+            background: #fff5f5;
+            border: 2px solid #fc8181;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .important strong {
+            color: #c53030;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Sentry Test Page</h1>
+        <p class="subtitle">Test all Sentry error tracking and logging features. Watch your browser console and Sentry dashboard!</p>
+        
+        <div class="important">
+            <strong>⚠️ Important:</strong> Open your browser console (F12) and keep your Sentry dashboard open at 
+            <a href="https://sentry.io" target="_blank" style="color: #667eea; text-decoration: underline;">sentry.io</a> 
+            to see the results in real-time.
+        </div>
+
+        <!-- Automatic Captures -->
+        <div class="test-section">
+            <h2>🤖 Automatic Capture Tests <span class="badge auto">AUTOMATIC</span></h2>
+            <p>These errors are <strong>automatically captured by Sentry</strong> without any manual logging:</p>
+            
+            <button class="danger" onclick="testUncaughtError()">
+                1. Throw Uncaught Error
+            </button>
+            
+            <button class="danger" onclick="testReferenceError()">
+                2. Trigger Reference Error
+            </button>
+            
+            <button class="danger" onclick="testUnhandledPromise()">
+                3. Unhandled Promise Rejection
+            </button>
+            
+            <button class="danger" onclick="testAsyncError()">
+                4. Async Function Error
+            </button>
+            
+            <div id="auto-result" class="result"></div>
+        </div>
+
+        <!-- Manual Logging -->
+        <div class="test-section">
+            <h2>📝 Manual Logging Tests <span class="badge manual">MANUAL</span></h2>
+            <p>These require <strong>manual logging with SentryLogger</strong> (they won't be captured automatically):</p>
+            
+            <button class="info" onclick="testConsoleError()">
+                5. Console Error (NOT captured)
+            </button>
+            
+            <button class="info" onclick="testCaughtError()">
+                6. Caught Error (NOT captured unless logged)
+            </button>
+            
+            <button class="success" onclick="testManualError()">
+                7. Manual Error Logging
+            </button>
+            
+            <button class="warning" onclick="testWarning()">
+                8. Manual Warning Logging
+            </button>
+            
+            <button class="info" onclick="testInfo()">
+                9. Manual Info Logging
+            </button>
+            
+            <div id="manual-result" class="result"></div>
+        </div>
+
+        <!-- User Actions -->
+        <div class="test-section">
+            <h2>🎯 User Action Tracking <span class="badge manual">MANUAL</span></h2>
+            <p>Track user actions and events (useful for understanding user behavior before errors):</p>
+            
+            <button class="success" onclick="testTrackAction()">
+                10. Track User Action
+            </button>
+            
+            <button class="success" onclick="testBreadcrumb()">
+                11. Add Breadcrumb
+            </button>
+            
+            <button class="success" onclick="testContext()">
+                12. Set Custom Context
+            </button>
+            
+            <div id="tracking-result" class="result"></div>
+        </div>
+
+        <!-- Critical Errors -->
+        <div class="test-section">
+            <h2>🚨 Critical Error Tests <span class="badge manual">MANUAL</span></h2>
+            <p>Test critical error logging for high-priority issues:</p>
+            
+            <button class="danger" onclick="testCritical()">
+                13. Critical Error
+            </button>
+            
+            <button class="danger" onclick="testFailedOperation()">
+                14. Failed Save Operation
+            </button>
+            
+            <div id="critical-result" class="result"></div>
+        </div>
+
+        <!-- Configuration -->
+        <div class="test-section">
+            <h2>⚙️ Configuration & Debug <span class="badge auto">INFO</span></h2>
+            <p>View Sentry configuration and test the setup:</p>
+            
+            <button class="info" onclick="showConfig()">
+                15. Show Sentry Config
+            </button>
+            
+            <button class="success" onclick="testSentryDebug()">
+                16. Run Built-in Test
+            </button>
+            
+            <button class="warning" onclick="clearResults()">
+                Clear Results
+            </button>
+            
+            <div id="config-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Helper function to show results
+        function showResult(elementId, message, type = 'info') {
+            const el = document.getElementById(elementId);
+            const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            el.innerHTML += `${icon} ${message}<br>`;
+            el.classList.add('show');
+        }
+
+        function clearResults() {
+            document.querySelectorAll('.result').forEach(el => {
+                el.innerHTML = '';
+                el.classList.remove('show');
+            });
+            console.log('✨ Results cleared');
+        }
+
+        // ========== AUTOMATIC CAPTURE TESTS ==========
+        
+        function testUncaughtError() {
+            showResult('auto-result', 'Throwing uncaught error... (Will be AUTOMATICALLY captured)', 'error');
+            setTimeout(() => {
+                throw new Error('TEST: This is an uncaught error - automatically captured by Sentry');
+            }, 100);
+        }
+
+        function testReferenceError() {
+            showResult('auto-result', 'Triggering reference error... (Will be AUTOMATICALLY captured)', 'error');
+            setTimeout(() => {
+                undefinedFunction(); // This will cause a ReferenceError
+            }, 100);
+        }
+
+        function testUnhandledPromise() {
+            showResult('auto-result', 'Creating unhandled promise rejection... (Will be AUTOMATICALLY captured)', 'error');
+            setTimeout(() => {
+                Promise.reject(new Error('TEST: Unhandled promise rejection - automatically captured'));
+            }, 100);
+        }
+
+        function testAsyncError() {
+            showResult('auto-result', 'Triggering async error... (Will be AUTOMATICALLY captured)', 'error');
+            setTimeout(async () => {
+                await throwAsyncError();
+            }, 100);
+        }
+
+        async function throwAsyncError() {
+            throw new Error('TEST: Async function error - automatically captured');
+        }
+
+        // ========== MANUAL LOGGING TESTS ==========
+
+        function testConsoleError() {
+            showResult('manual-result', 'Logging console.error()... (NOT captured by Sentry)', 'warning');
+            console.error('TEST: This console.error is NOT captured by Sentry automatically');
+            console.log('💡 To capture this, you would need to use SentryLogger.error()');
+        }
+
+        function testCaughtError() {
+            showResult('manual-result', 'Caught error in try/catch... (NOT captured automatically)', 'warning');
+            try {
+                throw new Error('TEST: Caught error');
+            } catch (error) {
+                console.error('This caught error is NOT sent to Sentry', error);
+                console.log('💡 To capture this, use: SentryLogger.error("Message", error, { context })');
+            }
+        }
+
+        function testManualError() {
+            showResult('manual-result', 'Manually logging error with SentryLogger... (WILL be captured)', 'success');
+            try {
+                throw new Error('TEST: Manual error logging');
+            } catch (error) {
+                SentryLogger.error('Manually logged error', error, {
+                    testType: 'manual-error',
+                    timestamp: new Date().toISOString()
+                });
+                console.log('✅ Error sent to Sentry using SentryLogger.error()');
+            }
+        }
+
+        function testWarning() {
+            showResult('manual-result', 'Logging warning with SentryLogger... (WILL be captured)', 'warning');
+            SentryLogger.warn('TEST: This is a warning message', {
+                severity: 'medium',
+                component: 'test-page',
+                timestamp: new Date().toISOString()
+            });
+            console.log('✅ Warning sent to Sentry using SentryLogger.warn()');
+        }
+
+        function testInfo() {
+            showResult('manual-result', 'Logging info with SentryLogger... (Breadcrumb only)', 'info');
+            SentryLogger.info('TEST: This is an info message', {
+                action: 'test-info',
+                timestamp: new Date().toISOString()
+            });
+            console.log('✅ Info logged as breadcrumb using SentryLogger.info()');
+        }
+
+        // ========== USER ACTION TRACKING ==========
+
+        function testTrackAction() {
+            showResult('tracking-result', 'Tracking user action... (Added as breadcrumb)', 'success');
+            SentryLogger.track('Test Button Clicked', {
+                button: 'track-action',
+                page: 'test-sentry',
+                timestamp: new Date().toISOString()
+            });
+            console.log('✅ User action tracked with SentryLogger.track()');
+        }
+
+        function testBreadcrumb() {
+            showResult('tracking-result', 'Adding custom breadcrumb... (For debugging context)', 'success');
+            SentryLogger.addBreadcrumb(
+                'test',
+                'Custom breadcrumb added',
+                'info',
+                { customData: 'This helps debug errors' }
+            );
+            console.log('✅ Breadcrumb added with SentryLogger.addBreadcrumb()');
+        }
+
+        function testContext() {
+            showResult('tracking-result', 'Setting custom context... (Added to all future events)', 'success');
+            SentryLogger.setContext('test-data', {
+                testPage: 'sentry-test',
+                testRun: Date.now(),
+                browser: navigator.userAgent
+            });
+            console.log('✅ Context set with SentryLogger.setContext()');
+        }
+
+        // ========== CRITICAL ERRORS ==========
+
+        function testCritical() {
+            showResult('critical-result', 'Logging CRITICAL error... (High priority in Sentry)', 'error');
+            SentryLogger.critical('TEST: Critical system failure', new Error('Critical test error'), {
+                impact: 'high',
+                service: 'test-service',
+                affectedUsers: 'test-user',
+                timestamp: new Date().toISOString()
+            });
+            console.log('🚨 CRITICAL error sent to Sentry using SentryLogger.critical()');
+        }
+
+        function testFailedOperation() {
+            showResult('critical-result', 'Simulating failed save operation...', 'error');
+            
+            // Simulate a failed save with context
+            const mockProject = {
+                id: 'test-123',
+                name: 'Test Project',
+                sections: 9
+            };
+            
+            try {
+                throw new Error('Failed to save project');
+            } catch (error) {
+                SentryLogger.critical('Save operation failed', error, {
+                    projectId: mockProject.id,
+                    projectName: mockProject.name,
+                    sectionCount: mockProject.sections,
+                    hasUnsavedChanges: true,
+                    lastSaved: null,
+                    timestamp: new Date().toISOString()
+                });
+                console.log('🚨 Critical save failure sent to Sentry');
+            }
+        }
+
+        // ========== CONFIGURATION ==========
+
+        function showConfig() {
+            showResult('config-result', 'Current Sentry Configuration:', 'info');
+            const config = {
+                loaded: typeof Sentry !== 'undefined',
+                environment: window.location.hostname === 'localhost' ? 'development' : 'production',
+                page: window.location.pathname,
+                timestamp: new Date().toISOString()
+            };
+            showResult('config-result', JSON.stringify(config, null, 2), 'info');
+            console.log('⚙️ Sentry Configuration:', config);
+        }
+
+        function testSentryDebug() {
+            showResult('config-result', 'Running built-in Sentry test...', 'success');
+            if (typeof SentryDebug !== 'undefined') {
+                SentryDebug.testError();
+                console.log('✅ Built-in test executed. Check Sentry dashboard!');
+            } else {
+                showResult('config-result', 'SentryDebug not available', 'error');
+            }
+        }
+
+        // Show welcome message
+        console.log('%c🔍 Sentry Test Page Loaded', 'font-size: 20px; font-weight: bold; color: #667eea;');
+        console.log('%cClick the buttons to test different Sentry features!', 'font-size: 14px; color: #4a5568;');
+        console.log('%cWatch this console and your Sentry dashboard at https://sentry.io', 'font-size: 14px; color: #4a5568;');
+    </script>
+</body>
+</html>
+

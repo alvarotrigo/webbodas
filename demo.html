@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernCo Editor - Demo</title>
+    
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="./dist/output.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f8f9fa;
+            --accent-bg: #f1f3f4;
+            --primary-text: #2c3e50;
+            --secondary-text: #6c757d;
+            --accent-text: #1a252f;
+            --primary-accent: #4285f4;
+            --secondary-accent: #3367d6;
+            --border-color: #e9ecef;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --border-radius: 8px;
+            --button-radius: 8px;
+            --card-radius: 12px;
+            --spacing-unit: 1rem;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .demo-card {
+            background: var(--primary-bg);
+            border-radius: var(--card-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .demo-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-text);
+            margin-bottom: 1rem;
+        }
+
+        .demo-card p {
+            color: var(--secondary-text);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .demo-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.875rem 1.5rem;
+            background: var(--primary-accent);
+            color: white;
+            border: none;
+            border-radius: var(--button-radius);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .demo-btn:hover {
+            background: var(--secondary-accent);
+            transform: translateY(-1px);
+        }
+
+        .demo-btn i {
+            margin-right: 0.5rem;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .features-section {
+            background: var(--primary-bg);
+            border-radius: var(--card-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .features-section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-text);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--accent-bg);
+            border-radius: var(--button-radius);
+        }
+
+        .feature-item i {
+            margin-right: 1rem;
+            color: var(--primary-accent);
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .feature-item span {
+            font-weight: 500;
+            color: var(--primary-text);
+        }
+
+        .setup-section {
+            background: var(--primary-bg);
+            border-radius: var(--card-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .setup-section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-text);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .setup-steps {
+            counter-reset: step-counter;
+        }
+
+        .setup-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--accent-bg);
+            border-radius: var(--button-radius);
+        }
+
+        .setup-step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            background: var(--primary-accent);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .setup-step-content h4 {
+            font-weight: 600;
+            color: var(--primary-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .setup-step-content p {
+            color: var(--secondary-text);
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 1rem;
+            border-radius: var(--button-radius);
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ModernCo Editor</h1>
+            <p>Professional website builder with authentication system</p>
+        </div>
+
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3>Try the Editor</h3>
+                <p>Experience the full editor with authentication system. Test all features including Google, GitHub, and magic link authentication.</p>
+                <a href="auth-wall.html" class="demo-btn">
+                    <i data-lucide="play"></i>
+                    Launch Editor
+                </a>
+            </div>
+
+            <div class="demo-card">
+                <h3>Direct Access</h3>
+                <p>Skip authentication and go directly to the editor in free mode. Perfect for quick testing and demonstrations.</p>
+                <a href="app.php" class="demo-btn">
+                    <i data-lucide="zap"></i>
+                    Direct Access
+                </a>
+            </div>
+
+            <div class="demo-card">
+                <h3>View Sections</h3>
+                <p>Browse all available sections and themes without the editor interface. See what's available in the library.</p>
+                <a href="sections.html" class="demo-btn">
+                    <i data-lucide="grid"></i>
+                    Browse Sections
+                </a>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h2>Authentication Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i data-lucide="mail"></i>
+                    <span>Google OAuth</span>
+                </div>
+                <div class="feature-item">
+                    <i data-lucide="github"></i>
+                    <span>GitHub OAuth</span>
+                </div>
+                <div class="feature-item">
+                    <i data-lucide="zap"></i>
+                    <span>Magic Link</span>
+                </div>
+                <div class="feature-item">
+                    <i data-lucide="user"></i>
+                    <span>Free Mode</span>
+                </div>
+                <div class="feature-item">
+                    <i data-lucide="shield"></i>
+                    <span>Secure Sessions</span>
+                </div>
+                <div class="feature-item">
+                    <i data-lucide="settings"></i>
+                    <span>User Management</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="setup-section">
+            <h2>Quick Setup</h2>
+            <div class="setup-steps">
+                <div class="setup-step">
+                    <div class="setup-step-content">
+                        <h4>Create Clerk Account</h4>
+                        <p>Sign up at <a href="https://clerk.com" target="_blank">clerk.com</a> and create a new application. Choose JavaScript as your framework.</p>
+                    </div>
+                </div>
+
+                <div class="setup-step">
+                    <div class="setup-step-content">
+                        <h4>Configure Authentication</h4>
+                        <p>Enable Google, GitHub, and Magic Link authentication in your Clerk Dashboard under User & Authentication.</p>
+                    </div>
+                </div>
+
+                <div class="setup-step">
+                    <div class="setup-step-content">
+                        <h4>Update Configuration</h4>
+                        <p>Edit <code>clerk-config.js</code> and replace the placeholder values with your actual Clerk credentials:</p>
+                        <div class="code-block">
+const CLERK_CONFIG = {
+    publishableKey: 'pk_test_YOUR_ACTUAL_KEY',
+    frontendApiUrl: 'https://YOUR_ACTUAL_URL',
+    redirectUrls: ['http://localhost:5173']
+};
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setup-step">
+                    <div class="setup-step-content">
+                        <h4>Test Authentication</h4>
+                        <p>Start your development server and navigate to <code>auth-wall.html</code> to test all authentication methods.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Built with ❤️ using <a href="https://clerk.com" target="_blank">Clerk</a> for authentication</p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html> 

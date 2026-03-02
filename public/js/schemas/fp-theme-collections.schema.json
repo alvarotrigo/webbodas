@@ -1,0 +1,25 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-collections",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ]
+  }
+}

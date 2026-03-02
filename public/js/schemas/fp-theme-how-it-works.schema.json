@@ -1,0 +1,34 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-how-it-works",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      }
+    ]
+  }
+}

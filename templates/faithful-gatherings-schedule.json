@@ -1,0 +1,347 @@
+{
+    "id": "faithful-gatherings-schedule",
+    "name": "Faithful Gatherings Schedule",
+    "description": "A landing page for a catholic cristian church. \nIt should contain the mass schedule for weekends and week days.",
+    "category": "custom",
+    "tags": [
+        "modern",
+        "minimal",
+        "elegant"
+    ],
+    "sections": [
+        1,
+        11,
+        39,
+        6,
+        46,
+        159
+    ],
+    "theme": {
+        "name": "Faithful Gatherings Schedule",
+        "variables": {
+            "primary-bg": "#1a1a1a",
+            "secondary-bg": "#ffffff",
+            "accent-bg": "#f4f4f4",
+            "primary-text": "#ffffff",
+            "secondary-text": "#cccccc",
+            "accent-text": "#333333",
+            "primary-accent": "#f97300",
+            "primary-accent-soft": "rgba(249, 115, 0, 0.1)",
+            "secondary-accent": "#e65c00",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "section-shadow": "none",
+            "gradient-1": "linear-gradient(135deg, #ffffff 0%, #f4f4f4 100%)",
+            "gradient-2": "linear-gradient(135deg, #f97300 0%, #e65c00 100%)",
+            "features2-bg": "linear-gradient(135deg, #f97300 0%, #e65c00 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Playfair Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Playfair Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "8px",
+            "card-radius": "16px",
+            "spacing-unit": "1.2rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Playfair Display",
+            "weights": [
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "1": {
+            "headline": "Welcome to Our Faith Community",
+            "subheadline": "Join us in worship and fellowship as we grow together in Christ.",
+            "cta_primary": "View Our Mass Schedule",
+            "cta_secondary": "Explore Our Community"
+        },
+        "6": {
+            "headline": "What Our Members Say",
+            "testimonials": [
+                "\"This church feels like home. The community is so welcoming!\" - Sarah L.",
+                "\"I found my faith again after joining this congregation. The sermons are uplifting!\" - John D.",
+                "\"The support and friendship I've gained here are invaluable. Highly recommend!\" - Maria S."
+            ]
+        },
+        "11": {
+            "headline": "Why Choose Us?",
+            "features": [
+                "Engaging Worship Experience",
+                "Inclusive Community Events",
+                "Supportive Spiritual Guidance",
+                "Accessible Mass Times for Everyone",
+                "Opportunities for Service and Outreach"
+            ]
+        },
+        "39": {
+            "cta_primary": "Join Us for Mass This Weekend!",
+            "cta_secondary": "Connect with Our Community"
+        },
+        "46": {
+            "headline": "Get in Touch with Us",
+            "subheadline": "We'd love to hear from you! Reach out with any questions or to learn more.",
+            "cta_primary": "Contact Us Today",
+            "cta_secondary": "Book a Visit"
+        },
+        "159": {
+            "navigation": [
+                "Home",
+                "About Us",
+                "Mass Schedule",
+                "Events",
+                "Contact"
+            ],
+            "contact_info": "Call us at (123) 456-7890 or email info@catholicchurch.org",
+            "trust_reassurance": "Your faith journey is safe with us."
+        }
+    },
+    "section_backgrounds": {
+        "1": {
+            "type": "image",
+            "keyword": "church interior"
+        },
+        "6": {
+            "type": "image",
+            "keyword": "faith community"
+        },
+        "11": {
+            "type": "color"
+        },
+        "39": {
+            "type": "color"
+        },
+        "46": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "6": [
+            [
+                "local church member",
+                "community gathering",
+                "faith testimonial"
+            ],
+            [
+                "catholic church interior",
+                "serene worship environment",
+                "peaceful congregation"
+            ],
+            [
+                "catholic community leader",
+                "supportive church member",
+                "spiritual growth"
+            ]
+        ],
+        "11": [
+            [
+                "church interior",
+                "sacred space",
+                "catholic mass"
+            ],
+            [
+                "community gathering",
+                "faithful congregation"
+            ],
+            [
+                "bible study",
+                "scripture reading",
+                "spiritual growth"
+            ],
+            [
+                "church events",
+                "youth ministry",
+                "community outreach"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "dark",
+            "primary_bg": "#1a1a1a",
+            "secondary_bg": "#ffffff",
+            "accent_bg": "#f4f4f4",
+            "primary_text": "#ffffff",
+            "secondary_text": "#cccccc",
+            "accent_text": "#333333",
+            "primary_accent": "#f97300",
+            "secondary_accent": "#e65c00"
+        },
+        "typography": {
+            "heading_style": "serif",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Playfair Display",
+                "weights": [
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "card_radius": "rounded",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.2rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "modern",
+            "minimal",
+            "elegant"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "features grid 3-col",
+            "testimonials cards",
+            "call to action",
+            "footer"
+        ]
+    },
+    "site_plan": {
+        "audience": "local catholic community",
+        "primary_goal": "attend church services",
+        "brand_vibe": [
+            "modern",
+            "minimal",
+            "elegant",
+            "welcoming"
+        ],
+        "content_tone": "professional and trustworthy",
+        "key_differentiators": [
+            "clear mass schedule",
+            "modern design",
+            "community-focused",
+            "easy navigation"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-01-24T18:14:53+00:00",
+    "text_updates": {
+        "1": {
+            "h1[0]": "Welcome to Faithful Gatherings",
+            "span[0]": "Faithful Gatherings",
+            "p[0]": "Join us in a welcoming community dedicated to worship, spiritual growth, and connection with God. We invite you to be part of our vibrant faith family.",
+            "a[0]": "Join Us",
+            "a[1]": "Discover More"
+        },
+        "6": {
+            "h2[0]": "Hear from Our Beloved Members",
+            "p[0]": "Our community thrives on shared experiences and unwavering faith. Here are some heartfelt stories from our cherished members about their journeys with us.",
+            "h4[0]": "Maria Gonzalez",
+            "p[1]": "Active Member, Faithful Gatherings"
+        },
+        "11": {
+            "h2[0]": "Discover Our Service Times",
+            "p[0]": "Explore our clear and accessible mass schedule, designed for your convenience and local engagement.",
+            "h3[0]": "Weekday Mass Schedule",
+            "p[1]": "Join us for weekday services at 8:00 AM and 6:00 PM.",
+            "h3[1]": "Weekend Mass Schedule",
+            "p[2]": "Experience our weekend masses every Saturday at 5:00 PM and Sunday at 9:00 AM and 11:00 AM.",
+            "h3[2]": "Special Observances",
+            "p[3]": "Check our calendar for additional services during holy days and special events.",
+            "h3[3]": "Stay Informed",
+            "p[4]": "Follow us for any updates or changes to our schedule."
+        },
+        "39": {
+            "h2[0]": "Join Us for Worship",
+            "p[0]": "Embrace a nurturing community centered around faith. We invite you to experience the warmth and fellowship that our church offers.",
+            "a[0]": "Attend Our Services",
+            "p[1]": "Everyone is welcome to join us, regardless of where you are on your spiritual journey."
+        },
+        "46": {
+            "h2[0]": "Connect with Us Today",
+            "p[0]": "We invite you to reach out and engage with our vibrant church community. We're here to support you and provide more information about our services and activities.",
+            "h3[0]": "Email",
+            "p[1]": "info@faithfulgatherings.org",
+            "h3[1]": "Phone",
+            "p[2]": "+1 (555) 987-6543",
+            "h3[2]": "Address",
+            "p[3]": "456 Faith Lane, Hope City, HC 56789",
+            "a[0]": "Get in Touch"
+        },
+        "159": {
+            "h3[0]": "Stay Connected with Faithful Gatherings",
+            "p[0]": "Explore essential links and resources that strengthen our community and enhance your spiritual journey.",
+            "h4[0]": "Important Links",
+            "li[0]": "Mass Schedule",
+            "span[0]": "Mass Schedule",
+            "li[1]": "Community Events",
+            "span[1]": "Community Events",
+            "li[2]": "Support Us",
+            "span[2]": "Support Us",
+            "li[3]": "Get In Touch",
+            "span[3]": "Get In Touch",
+            "h4[1]": "Our Mission",
+            "li[4]": "Worship Services",
+            "li[5]": "Faith Education",
+            "li[6]": "Community Outreach",
+            "li[7]": "Volunteer Opportunities",
+            "h4[2]": "Connect with Us",
+            "a[0]": "Facebook",
+            "a[1]": "Instagram",
+            "a[2]": "YouTube",
+            "p[1]": "© 2024 Faithful Gatherings. All rights reserved."
+        }
+    },
+    "inline_images": {
+        "11": [
+            "https://images.unsplash.com/photo-1765947382559-93260e5d6c89?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8Y2h1cmNoJTIwaW50ZXJpb3IlMjBzYWNyZWQlMjBzcGFjZSUyMGNhdGhvbGljJTIwbWFzc3xlbnwwfDB8fHwxNzY5Mjc4NTE2fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1763908161539-cdefa97ec1ba?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8YmlibGUlMjBzdHVkeSUyMHNjcmlwdHVyZSUyMHJlYWRpbmclMjBzcGlyaXR1YWwlMjBncm93dGh8ZW58MHwwfHx8MTc2OTI3ODUxNnww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1761901219315-bfe7d72340b9?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8Y2h1cmNoJTIwZXZlbnRzJTIweW91dGglMjBtaW5pc3RyeSUyMGNvbW11bml0eSUyMG91dHJlYWNofGVufDB8MHx8fDE3NjkyNzg1MTZ8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "1": "https://images.unsplash.com/photo-1517373062-f3b2f3f98ada?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8Y2h1cmNoJTIwaW50ZXJpb3J8ZW58MHwwfHx8MTc2OTI3ODUxN3ww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "6": "https://images.unsplash.com/photo-1699422697971-34ac6eec8ebc?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8ZmFpdGglMjBjb21tdW5pdHl8ZW58MHwwfHx8MTc2OTI3ODUxN3ww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

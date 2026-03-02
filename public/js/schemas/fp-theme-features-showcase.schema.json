@@ -1,0 +1,41 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-features-showcase",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ]
+  }
+}

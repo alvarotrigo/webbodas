@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Policy - fullPage Studio</title>
+    <meta name="description" content="Cookie Policy for fullPage Studio">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #a855f7, transparent);
+            top: -200px;
+            right: -100px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #ec4899, transparent);
+            bottom: -100px;
+            left: -100px;
+        }
+
+        /* Navigation */
+        .nav-wrapper {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            width: calc(100% - 80px);
+            max-width: 1300px;
+        }
+
+        .nav-container {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 60px;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px;
+            color: white;
+        }
+
+        .nav-brand-text {
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+        }
+
+        .back-home {
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .back-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(167, 139, 250, 0.5);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 140px auto 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 60px;
+            box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            border-bottom: 2px solid rgba(167, 139, 250, 0.3);
+            padding-bottom: 30px;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .last-updated {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+        }
+
+        h2 {
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            color: #a78bfa;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: clamp(1.25rem, 2vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 35px;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        strong {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(236, 72, 153, 0.1));
+            border-left: 4px solid #a78bfa;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 35px 0;
+        }
+
+        .info-box p {
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        a {
+            color: #a78bfa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #ec4899;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(167, 139, 250, 0.2);
+            color: #fff;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .cookie-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .cookie-type.essential {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+
+        .cookie-type.functional {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+
+        .cookie-type.analytics {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+
+        .cookie-type.marketing {
+            background: rgba(236, 72, 153, 0.2);
+            color: #ec4899;
+        }
+
+        footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: #a78bfa;
+        }
+
+        @media (max-width: 768px) {
+            .nav-wrapper {
+                width: calc(100% - 32px);
+            }
+
+            .nav-container {
+                padding: 12px 20px;
+            }
+
+            .logo {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+
+            .nav-brand-text {
+                font-size: 16px;
+            }
+
+            .back-home {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            .content-card {
+                padding: 30px 25px;
+            }
+
+            .container {
+                margin-top: 120px;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-wrapper">
+        <div class="nav-container">
+            <a href="https://studio.fullpagejs.com/" class="nav-brand">
+                <div class="logo">F</div>
+                <span class="nav-brand-text">fullPage Studio</span>
+            </a>
+            <a href="https://studio.fullpagejs.com/" class="back-home">← Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="content-card">
+            <header>
+                <h1>Cookie Policy</h1>
+                <p class="last-updated">Last updated: February 10, 2026</p>
+            </header>
+
+            <section>
+                <h2>1. Introduction</h2>
+                <p>This Cookie Policy explains how Yoloop SL ("we", "us", or "our") uses cookies and similar tracking technologies on fullPage Studio (the "Service"). This policy should be read in conjunction with our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+
+                <div class="info-box">
+                    <p><strong>Company:</strong> Yoloop SL</p>
+                    <p><strong>Tax ID (CIF):</strong> ES-B01778091</p>
+                    <p><strong>Address:</strong> Paseo Imperial 39, 28005 Madrid, Spain</p>
+                    <p><strong>Email:</strong> <a href="mailto:hi@yoloop.io">hi@yoloop.io</a></p>
+                </div>
+
+                <h2>2. What Are Cookies?</h2>
+                <p>Cookies are small text files that are placed on your device (computer, smartphone, or tablet) when you visit a website. They are widely used to make websites work more efficiently and provide information to website owners.</p>
+
+                <h3>Types of Cookies by Purpose:</h3>
+                <ul>
+                    <li><strong>Essential Cookies:</strong> Necessary for the website to function properly</li>
+                    <li><strong>Functional Cookies:</strong> Enable enhanced functionality and personalization</li>
+                    <li><strong>Analytics Cookies:</strong> Help us understand how visitors use our website</li>
+                    <li><strong>Marketing Cookies:</strong> Track visitors across websites to display relevant advertisements</li>
+                </ul>
+
+                <h3>Types of Cookies by Duration:</h3>
+                <ul>
+                    <li><strong>Session Cookies:</strong> Temporary cookies that expire when you close your browser</li>
+                    <li><strong>Persistent Cookies:</strong> Remain on your device for a set period or until manually deleted</li>
+                </ul>
+
+                <h3>Types of Cookies by Origin:</h3>
+                <ul>
+                    <li><strong>First-Party Cookies:</strong> Set by fullPage Studio directly</li>
+                    <li><strong>Third-Party Cookies:</strong> Set by external services we use</li>
+                </ul>
+
+                <h2>3. Cookies We Use</h2>
+                <p>We use the following cookies on fullPage Studio:</p>
+
+                <h3>3.1 Essential Cookies</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cookie Name</th>
+                            <th>Provider</th>
+                            <th>Purpose</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>__session</strong></td>
+                            <td>Clerk</td>
+                            <td>Manages user authentication and session state</td>
+                            <td>7 days</td>
+                        </tr>
+                        <tr>
+                            <td><strong>__clerk_db_jwt</strong></td>
+                            <td>Clerk</td>
+                            <td>Secures user authentication tokens</td>
+                            <td>Session</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PHPSESSID</strong></td>
+                            <td>fullPage Studio</td>
+                            <td>PHP session identifier for maintaining user session</td>
+                            <td>Session</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>3.2 Functional Cookies</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cookie Name</th>
+                            <th>Provider</th>
+                            <th>Purpose</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>crisp-client/*</strong></td>
+                            <td>Crisp</td>
+                            <td>Powers customer support chat widget and conversation history</td>
+                            <td>6 months</td>
+                        </tr>
+                        <tr>
+                            <td><strong>theme_preference</strong></td>
+                            <td>fullPage Studio</td>
+                            <td>Remembers your dark/light mode preference</td>
+                            <td>1 year</td>
+                        </tr>
+                        <tr>
+                            <td><strong>viewport_preference</strong></td>
+                            <td>fullPage Studio</td>
+                            <td>Remembers your viewport selection (mobile/tablet/desktop)</td>
+                            <td>30 days</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>3.3 Analytics Cookies</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cookie Name</th>
+                            <th>Provider</th>
+                            <th>Purpose</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>_ga</strong></td>
+                            <td>Google Analytics</td>
+                            <td>Distinguishes unique users and calculates visitor, session, and campaign data</td>
+                            <td>2 years</td>
+                        </tr>
+                        <tr>
+                            <td><strong>_ga_*</strong></td>
+                            <td>Google Analytics</td>
+                            <td>Maintains session state for Google Analytics 4</td>
+                            <td>2 years</td>
+                        </tr>
+                        <tr>
+                            <td><strong>_gid</strong></td>
+                            <td>Google Analytics</td>
+                            <td>Distinguishes users for 24 hours</td>
+                            <td>24 hours</td>
+                        </tr>
+                        <tr>
+                            <td><strong>_gat</strong></td>
+                            <td>Google Analytics</td>
+                            <td>Throttles request rate to Google Analytics</td>
+                            <td>1 minute</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>3.4 Third-Party Service Cookies</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Purpose</th>
+                            <th>Cookies Set</th>
+                            <th>Privacy Policy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Clerk</strong></td>
+                            <td>Authentication and user management</td>
+                            <td>__session, __clerk_db_jwt, and others</td>
+                            <td><a href="https://clerk.com/privacy" target="_blank">Clerk Privacy</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sentry</strong></td>
+                            <td>Error tracking and monitoring</td>
+                            <td>sentrysid, sentry-sc</td>
+                            <td><a href="https://sentry.io/privacy/" target="_blank">Sentry Privacy</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Crisp</strong></td>
+                            <td>Customer support chat</td>
+                            <td>crisp-client/*</td>
+                            <td><a href="https://crisp.chat/en/privacy/" target="_blank">Crisp Privacy</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Google Analytics</strong></td>
+                            <td>Website analytics</td>
+                            <td>_ga, _gid, _gat, _ga_*</td>
+                            <td><a href="https://policies.google.com/privacy" target="_blank">Google Privacy</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Polar</strong></td>
+                            <td>Subscription management</td>
+                            <td>polar_session</td>
+                            <td><a href="https://polar.sh/legal/privacy" target="_blank">Polar Privacy</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Unsplash</strong></td>
+                            <td>Image hosting and delivery</td>
+                            <td>Various tracking cookies</td>
+                            <td><a href="https://unsplash.com/privacy" target="_blank">Unsplash Privacy</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>4. Local Storage and Other Technologies</h2>
+                <p>In addition to cookies, we also use:</p>
+                <ul>
+                    <li><strong>Local Storage:</strong> To save your draft pages, editor preferences, and settings locally on your device</li>
+                    <li><strong>Session Storage:</strong> To temporarily store data during your browsing session</li>
+                    <li><strong>IndexedDB:</strong> To cache section templates and improve loading performance</li>
+                </ul>
+
+                <h2>5. How We Use Cookies</h2>
+                <p>We use cookies for the following purposes:</p>
+
+                <h3>5.1 Essential Functionality</h3>
+                <ul>
+                    <li>Authenticating and identifying you when you log in</li>
+                    <li>Maintaining your session while using our service</li>
+                    <li>Remembering your settings and preferences</li>
+                    <li>Ensuring security and preventing fraud</li>
+                </ul>
+
+                <h3>5.2 Performance and Analytics</h3>
+                <ul>
+                    <li>Understanding how visitors use our website</li>
+                    <li>Analyzing which features are most popular</li>
+                    <li>Identifying and fixing technical issues</li>
+                    <li>Improving our service based on usage patterns</li>
+                </ul>
+
+                <h3>5.3 Customer Support</h3>
+                <ul>
+                    <li>Providing live chat support through Crisp</li>
+                    <li>Maintaining conversation history for better support</li>
+                    <li>Understanding common support issues</li>
+                </ul>
+
+                <h2>6. Your Cookie Choices</h2>
+
+                <h3>6.1 Consent</h3>
+                <p>When you first visit fullPage Studio, you will see a cookie consent banner. You can choose to:</p>
+                <ul>
+                    <li><strong>Accept All:</strong> Allow all cookies including analytics and marketing</li>
+                    <li><strong>Essential Only:</strong> Only allow necessary cookies for the website to function</li>
+                    <li><strong>Customize:</strong> Choose which types of cookies to allow</li>
+                </ul>
+
+                <h3>6.2 Browser Settings</h3>
+                <p>Most web browsers allow you to control cookies through their settings. You can:</p>
+                <ul>
+                    <li>View what cookies are stored and delete them individually</li>
+                    <li>Block third-party cookies</li>
+                    <li>Block all cookies (this may prevent some features from working)</li>
+                    <li>Delete all cookies when you close your browser</li>
+                </ul>
+
+                <h3>6.3 How to Manage Cookies in Different Browsers</h3>
+                <ul>
+                    <li><strong>Google Chrome:</strong> Settings → Privacy and Security → Cookies and other site data</li>
+                    <li><strong>Mozilla Firefox:</strong> Settings → Privacy & Security → Cookies and Site Data</li>
+                    <li><strong>Safari:</strong> Preferences → Privacy → Manage Website Data</li>
+                    <li><strong>Microsoft Edge:</strong> Settings → Privacy, search, and services → Cookies and site permissions</li>
+                </ul>
+
+                <h3>6.4 Opt-Out of Google Analytics</h3>
+                <p>You can opt out of Google Analytics tracking by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank">Google Analytics Opt-out Browser Add-on</a>.</p>
+
+                <div class="info-box">
+                    <p><strong>Important:</strong> Blocking or deleting essential cookies may prevent you from using certain features of fullPage Studio, including logging in and saving your work.</p>
+                </div>
+
+                <h2>7. Do Not Track</h2>
+                <p>Some browsers include a "Do Not Track" (DNT) feature that signals to websites that you do not want to have your online activity tracked. Currently, there is no industry standard for how to respond to DNT signals. At this time, our website does not respond to DNT signals.</p>
+
+                <h2>8. Updates to This Cookie Policy</h2>
+                <p>We may update this Cookie Policy from time to time to reflect changes in:</p>
+                <ul>
+                    <li>The cookies we use</li>
+                    <li>How we use cookies</li>
+                    <li>Legal or regulatory requirements</li>
+                </ul>
+                <p>When we make significant changes, we will:</p>
+                <ul>
+                    <li>Update the "Last updated" date at the top of this page</li>
+                    <li>Notify you via email or through a notice on our website</li>
+                    <li>Request your consent again if required by law</li>
+                </ul>
+
+                <h2>9. Contact Us</h2>
+                <p>If you have questions about our use of cookies or this Cookie Policy, please contact us:</p>
+                <div class="info-box">
+                    <p><strong>Email:</strong> <a href="mailto:hi@yoloop.io">hi@yoloop.io</a></p>
+                    <p><strong>Phone:</strong> +34 699 774 712</p>
+                    <p><strong>Address:</strong> Yoloop SL, Paseo Imperial 39, 28005 Madrid, Spain</p>
+                </div>
+
+                <h2>10. More Information</h2>
+                <p>For more information about cookies and how they work, visit:</p>
+                <ul>
+                    <li><a href="https://www.allaboutcookies.org" target="_blank">All About Cookies</a></li>
+                    <li><a href="https://www.youronlinechoices.com" target="_blank">Your Online Choices</a></li>
+                    <li><a href="https://www.iab.com" target="_blank">Interactive Advertising Bureau (IAB)</a></li>
+                </ul>
+            </section>
+
+            <footer>
+                <p style="color: rgba(255, 255, 255, 0.5);">&copy; 2026 Yoloop SL. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/">Home</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Generate starfield
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const delay = Math.random() * 3;
+                star.style.animationDelay = delay + 's';
+                const size = 1 + Math.random() * 2;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+    </script>
+</body>
+</html>

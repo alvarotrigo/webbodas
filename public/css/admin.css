@@ -1,0 +1,136 @@
+/**
+ * Admin Panel Styles
+ * Custom styles for chart bars, modal transitions, tabs, and filters
+ */
+
+/* Tabs */
+.admin-tab {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6B7280;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.admin-tab:hover {
+    color: #111827;
+    background-color: #F3F4F6;
+}
+
+.admin-tab.active {
+    color: #ffffff;
+    background-color: #111827;
+}
+
+/* Tab Content */
+.admin-tab-content {
+    display: none;
+}
+
+.admin-tab-content.active {
+    display: block;
+}
+
+/* Filter Pills */
+.filter-pill {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6B7280;
+    background-color: #F3F4F6;
+    border: 1px solid #E5E7EB;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.filter-pill:hover {
+    color: #111827;
+    background-color: #E5E7EB;
+}
+
+.filter-pill.active {
+    color: #2563EB;
+    background-color: #EFF6FF;
+    border-color: #BFDBFE;
+}
+
+/* ApexCharts Customization */
+.apexcharts-tooltip {
+    border-radius: 0.5rem !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* KPI Card Hover Effects */
+.cursor-pointer {
+    position: relative;
+}
+
+.cursor-pointer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.cursor-pointer:hover::after {
+    opacity: 0.05;
+    background: currentColor;
+}
+
+/* Modal */
+#user-detail-modal {
+    backdrop-filter: blur(4px);
+}
+
+#user-detail-modal.hidden {
+    display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .admin-tab,
+    .filter-pill {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.8125rem;
+    }
+
+    /* Reduce chart heights on mobile */
+    #chart-new-users,
+    #chart-pages-created,
+    #chart-user-breakdown,
+    #chart-active-users {
+        max-height: 220px;
+    }
+}
+
+/* Table row hover effect */
+tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+/* Loading spinner (optional, for future use) */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-spinner {
+    border: 2px solid #F3F4F6;
+    border-top-color: #3B82F6;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 0.6s linear infinite;
+}

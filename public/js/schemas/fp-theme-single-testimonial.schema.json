@@ -1,0 +1,21 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-single-testimonial",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 3,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ]
+  }
+}

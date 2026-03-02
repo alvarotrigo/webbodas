@@ -1,0 +1,56 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-gallery-slider",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 2
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 3
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 4
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 5
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 6
+      }
+    ]
+  }
+}

@@ -1,0 +1,420 @@
+{
+    "id": "minimalist-time-subscription",
+    "name": "Minimalist Time Subscription",
+    "description": "Create a website for a minimalism brand that sells watches under a 100€ month subscription and 200€ month subscription (better watches)\n\nUse a very simple minimal UI. \n\nAdd a contact form, a google maps and a section that explain why choosing us (come up with the text please)",
+    "category": "custom",
+    "tags": [
+        "modern",
+        "minimal",
+        "clean"
+    ],
+    "sections": [
+        1,
+        11,
+        28,
+        7,
+        6,
+        46,
+        39,
+        159
+    ],
+    "theme": {
+        "name": "Minimalist Time Subscription",
+        "variables": {
+            "primary-bg": "#ffffff",
+            "secondary-bg": "#f4f4f7",
+            "accent-bg": "#fafafa",
+            "primary-text": "#222222",
+            "secondary-text": "#777777",
+            "accent-text": "#111111",
+            "primary-accent": "#5046e6",
+            "primary-accent-soft": "rgba(80, 70, 230, 0.1)",
+            "secondary-accent": "#3d31d9",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "section-shadow": "none",
+            "gradient-1": "linear-gradient(135deg, #f4f4f7 0%, #fafafa 100%)",
+            "gradient-2": "linear-gradient(135deg, #5046e6 0%, #3d31d9 100%)",
+            "features2-bg": "linear-gradient(135deg, #5046e6 0%, #3d31d9 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "8px",
+            "card-radius": "16px",
+            "spacing-unit": "1.2rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Poppins",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "1": {
+            "headline": "Elevate Your Style with Minimalist Watches",
+            "subheadline": "Discover the elegance of simplicity—luxury watches delivered to your doorstep every month.",
+            "cta_primary": "Start Your Subscription Today",
+            "cta_secondary": "Explore Our Collection"
+        },
+        "6": {
+            "headline": "What Our Customers Say",
+            "testimonials": [
+                "\"I love the simplicity and elegance of my new watch! It fits perfectly with my style.\" - Maria G.",
+                "\"The subscription model is fantastic! I look forward to my new watch every month.\" - Thomas L."
+            ]
+        },
+        "7": {
+            "headline": "How It Works",
+            "steps": [
+                "1. Choose Your Plan: Select between our Basic or Premium subscription.",
+                "2. Receive Your Watch: Enjoy a new watch delivered to you monthly.",
+                "3. Share Your Style: Show off your minimalistic elegance and enjoy compliments!"
+            ]
+        },
+        "11": {
+            "headline": "Why Choose Us?",
+            "subheadline": "Simplicity Meets Quality",
+            "features": [
+                "Affordable Luxury: Enjoy premium watches at a fraction of the price.",
+                "Curated Selection: Only the best designs for the minimalist in you.",
+                "Hassle-Free Subscriptions: Cancel anytime, no strings attached.",
+                "Sustainable Choices: Conscious craftsmanship that respects the planet."
+            ]
+        },
+        "28": {
+            "headline": "Choose Your Plan",
+            "subheadline": "Select the subscription that fits your style.",
+            "pricing_options": [
+                {
+                    "title": "Basic Plan",
+                    "price": "99€/month",
+                    "description": "Stylish, minimalist watches curated for everyday wear."
+                },
+                {
+                    "title": "Premium Plan",
+                    "price": "199€/month",
+                    "description": "Exclusive, high-end timepieces for the discerning minimalist."
+                }
+            ]
+        },
+        "39": {
+            "headline": "Join the Minimalist Movement",
+            "subheadline": "Subscribe now and redefine your timepiece collection.",
+            "cta_primary": "Sign Up Today"
+        },
+        "46": {
+            "headline": "Get in Touch",
+            "subheadline": "We'd love to hear from you!",
+            "cta_primary": "Contact Us",
+            "cta_secondary": "Find Us on the Map"
+        },
+        "159": {
+            "footer_links": [
+                "Privacy Policy",
+                "Terms of Service",
+                "Contact Us"
+            ],
+            "contact_info": "Email: support@minimalistwatches.com | Phone: +123 456 7890",
+            "trust_message": "Your satisfaction is our priority. Join a community that values simplicity and quality."
+        }
+    },
+    "section_backgrounds": {
+        "1": {
+            "type": "image",
+            "keyword": "minimalist watch display"
+        },
+        "6": {
+            "type": "image",
+            "keyword": "happy customers wearing watches"
+        },
+        "7": {
+            "type": "color"
+        },
+        "11": {
+            "type": "color"
+        },
+        "28": {
+            "type": "color"
+        },
+        "39": {
+            "type": "color"
+        },
+        "46": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "6": [
+            [
+                "minimalist watch",
+                "elegant design",
+                "subscription service"
+            ],
+            [
+                "happy customer",
+                "minimalist lifestyle",
+                "co-founder portrait"
+            ],
+            [
+                "professional woman",
+                "business casual",
+                "smiling confidence"
+            ]
+        ],
+        "11": [
+            [
+                "watch photography",
+                "minimalist watch",
+                "subscription service"
+            ],
+            [
+                "simple design",
+                "elegant timepiece",
+                "minimalist lifestyle"
+            ],
+            [
+                "modern wristwatch",
+                "subscription box",
+                "sleek design"
+            ],
+            [
+                "affordable luxury",
+                "minimalist fashion",
+                "timeless style"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#ffffff",
+            "secondary_bg": "#f4f4f7",
+            "accent_bg": "#fafafa",
+            "primary_text": "#222222",
+            "secondary_text": "#777777",
+            "accent_text": "#111111",
+            "primary_accent": "#5046e6",
+            "secondary_accent": "#3d31d9"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Poppins",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "card_radius": "rounded",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.2rem"
+        },
+        "layout": {
+            "alignment": "left",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "modern",
+            "minimal",
+            "clean"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "sidebar navigation",
+            "content area",
+            "chat support"
+        ]
+    },
+    "site_plan": {
+        "audience": "minimalism enthusiasts",
+        "primary_goal": "subscribe to watch service",
+        "brand_vibe": [
+            "modern",
+            "minimal",
+            "clean",
+            "elegant",
+            "trustworthy"
+        ],
+        "content_tone": "simple and persuasive",
+        "key_differentiators": [
+            "affordable subscription plans",
+            "high-quality watches",
+            "minimalist design",
+            "sustainable practices"
+        ],
+        "business_type": "ecommerce"
+    },
+    "created_at": "2026-02-04T18:08:34+00:00",
+    "text_updates": {
+        "1": {
+            "h1[0]": "Embrace Minimalism with Every Tick",
+            "span[0]": "time, simplicity, elegance",
+            "p[0]": "Discover our subscription service that delivers stylish, minimalist watches directly to your door, redefining timekeeping with simplicity and elegance.",
+            "a[0]": "Subscribe Now",
+            "a[1]": "Explore Watches"
+        },
+        "6": {
+            "h2[0]": "Hear from Our Satisfied Subscribers",
+            "p[0]": "\"I never thought I could enjoy such high-quality watches without breaking the bank. The subscription has transformed my collection and my style!\"",
+            "h4[0]": "Michael Thompson",
+            "p[1]": "Long-time Subscriber"
+        },
+        "11": {
+            "h2[0]": "Discover the Essentials of Minimalist Timepieces",
+            "p[0]": "Explore our collection",
+            "h3[0]": "Unmatched Quality for Everyday Wear",
+            "p[1]": "Crafted with precision and care.",
+            "h3[1]": "Timeless Design for Every Occasion",
+            "p[2]": "Sleek, modern aesthetics that stand out.",
+            "h3[2]": "Sustainability at Our Core",
+            "p[3]": "Ethically sourced materials for a better planet.",
+            "h3[3]": "Affordable Luxury Awaits",
+            "p[4]": "Experience style without breaking the bank."
+        },
+        "28": {
+            "h2[0]": "Transparent Pricing for Every Lifestyle",
+            "p[0]": "Explore our subscription plans designed to fit seamlessly into your life. Enjoy high-quality watches without the commitment of ownership.",
+            "a[0]": "Monthly Plan",
+            "a[1]": "Annual Plan",
+            "span[0]": "Save 20%",
+            "h3[0]": "Basic",
+            "p[1]": "Perfect for those who appreciate simplicity while enjoying stylish wristwear.",
+            "span[1]": "€100",
+            "span[2]": "/month",
+            "p[2]": "Billed yearly (save €240)",
+            "li[0]": "Quality timepieces",
+            "li[1]": "Flexible style options",
+            "li[2]": "Sustainable sourcing",
+            "div[10]": "Recommended for You",
+            "h3[1]": "Premium",
+            "p[3]": "Our most sought-after selection, ideal for those who desire elegance and functionality.",
+            "span[3]": "€200",
+            "span[4]": "/month",
+            "p[4]": "Billed yearly (save €480)",
+            "li[3]": "Exclusive designs",
+            "li[4]": "Enhanced durability",
+            "li[5]": "Personalized service",
+            "h3[2]": "Luxury",
+            "p[5]": "For the discerning individual who values sophistication and timeless craftsmanship.",
+            "span[5]": "€300",
+            "span[6]": "/month",
+            "p[6]": "Billed yearly (save €720)",
+            "li[6]": "Artisan-crafted pieces",
+            "li[7]": "Lifetime warranty",
+            "li[8]": "VIP customer support",
+            "a[2]": "Test for free",
+            "a[3]": "Test for free",
+            "a[4]": "Test for free"
+        },
+        "39": {
+            "h2[0]": "Your Minimalist Watch Awaits—Subscribe Today!",
+            "p[0]": "Experience the elegance of simplicity with our watch subscription service. Discover how effortless style can enhance your daily life.",
+            "a[0]": "Join Now",
+            "p[1]": "No hidden fees or commitments."
+        },
+        "46": {
+            "h2[0]": "Let's Connect and Simplify Your Timepiece Choice",
+            "p[0]": "Have questions or need assistance? We're here to help you explore our minimalist watch subscriptions.",
+            "h3[0]": "Email",
+            "p[1]": "contact@minimalisttime.com",
+            "h3[1]": "Phone",
+            "p[2]": "+1 (555) 987-6543",
+            "h3[2]": "Address",
+            "p[3]": "456 Simplicity Ave, Minimal City, MC 45678",
+            "a[0]": "Reach Out"
+        },
+        "159": {
+            "h3[0]": "Stay Connected with Minimalist Time",
+            "p[0]": "Join a community that values simplicity and quality in every moment. Discover how our sustainable approach enhances your lifestyle.",
+            "h4[0]": "Navigation",
+            "li[0]": "About Us",
+            "span[0]": "About Us",
+            "li[1]": "Our Collections",
+            "span[1]": "Our Collections",
+            "li[2]": "Subscription Plans",
+            "span[2]": "Subscription Plans",
+            "li[3]": "Contact Us",
+            "span[3]": "Contact Us",
+            "h4[1]": "Why Choose Us",
+            "li[4]": "Affordable Plans",
+            "li[5]": "Quality Craftsmanship",
+            "li[6]": "Timeless Design",
+            "li[7]": "Eco-Friendly Practices",
+            "h4[2]": "Connect with Us",
+            "a[0]": "Twitter",
+            "a[1]": "Instagram",
+            "a[2]": "Facebook",
+            "p[1]": "© 2024 Minimalist Time. All rights reserved."
+        }
+    },
+    "inline_images": {
+        "6": [
+            "https://images.unsplash.com/photo-1755645225935-1480e8ef4d05?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8bWluaW1hbGlzdCUyMHdhdGNoJTIwZWxlZ2FudCUyMGRlc2lnbiUyMHN1YnNjcmlwdGlvbiUyMHNlcnZpY2V8ZW58MHwwfHx8MTc3MDIyODU0MHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758598306845-8630d064a244?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8cHJvZmVzc2lvbmFsJTIwd29tYW4lMjBidXNpbmVzcyUyMGNhc3VhbCUyMHNtaWxpbmclMjBjb25maWRlbmNlfGVufDB8MHx8fDE3NzAyMjg1NDB8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "11": [
+            "https://images.unsplash.com/photo-1638095562082-449d8c5a47b4?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8d2F0Y2glMjBwaG90b2dyYXBoeSUyMG1pbmltYWxpc3QlMjB3YXRjaCUyMHN1YnNjcmlwdGlvbiUyMHNlcnZpY2V8ZW58MHwwfHx8MTc3MDIyODU0Mnww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1565531185009-b89c734b9719?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8c2ltcGxlJTIwZGVzaWduJTIwZWxlZ2FudCUyMHRpbWVwaWVjZSUyMG1pbmltYWxpc3QlMjBsaWZlc3R5bGV8ZW58MHwwfHx8MTc3MDIyODU0M3ww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1669904189420-43dfd635cee6?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8bW9kZXJuJTIwd3Jpc3R3YXRjaCUyMHN1YnNjcmlwdGlvbiUyMGJveCUyMHNsZWVrJTIwZGVzaWdufGVufDB8MHx8fDE3NzAyMjg1NDN8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1695150721187-7e23cc8ca591?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8YWZmb3JkYWJsZSUyMGx1eHVyeSUyMG1pbmltYWxpc3QlMjBmYXNoaW9uJTIwdGltZWxlc3MlMjBzdHlsZXxlbnwwfDB8fHwxNzcwMjI4NTQyfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "1": "https://images.unsplash.com/photo-1748577018714-d41f19f8faec?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8bWluaW1hbGlzdCUyMHdhdGNoJTIwZGlzcGxheXxlbnwwfDB8fHwxNzcwMjI4NTQ1fDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "6": "https://images.unsplash.com/photo-1724843143577-92029154397a?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8aGFwcHklMjBjdXN0b21lcnMlMjB3ZWFyaW5nJTIwd2F0Y2hlc3xlbnwwfDB8fHwxNzcwMjI4NTQ1fDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

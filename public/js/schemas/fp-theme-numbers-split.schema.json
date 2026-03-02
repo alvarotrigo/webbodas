@@ -1,0 +1,50 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-numbers-split",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 4,
+        "text": ""
+      },
+      {
+        "level": 4,
+        "text": ""
+      },
+      {
+        "level": 4,
+        "text": ""
+      },
+      {
+        "level": 4,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ]
+  }
+}

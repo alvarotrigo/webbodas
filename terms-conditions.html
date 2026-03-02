@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - fullPage Studio</title>
+    <meta name="description" content="Terms and Conditions for fullPage Studio">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #a855f7, transparent);
+            top: -200px;
+            right: -100px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #ec4899, transparent);
+            bottom: -100px;
+            left: -100px;
+        }
+
+        /* Navigation */
+        .nav-wrapper {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            width: calc(100% - 80px);
+            max-width: 1300px;
+        }
+
+        .nav-container {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 60px;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px;
+            color: white;
+        }
+
+        .nav-brand-text {
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+        }
+
+        .back-home {
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .back-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(167, 139, 250, 0.5);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 140px auto 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 60px;
+            box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            border-bottom: 2px solid rgba(167, 139, 250, 0.3);
+            padding-bottom: 30px;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .last-updated {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+        }
+
+        h2 {
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            color: #a78bfa;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: clamp(1.25rem, 2vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 35px;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        strong {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(236, 72, 153, 0.1));
+            border-left: 4px solid #a78bfa;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 35px 0;
+        }
+
+        .info-box p {
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+            border-left: 4px solid #fbbf24;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 35px 0;
+        }
+
+        .warning-box p {
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .warning-box strong {
+            color: #fbbf24;
+        }
+
+        a {
+            color: #a78bfa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #ec4899;
+        }
+
+        footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: #a78bfa;
+        }
+
+        @media (max-width: 768px) {
+            .nav-wrapper {
+                width: calc(100% - 32px);
+            }
+
+            .nav-container {
+                padding: 12px 20px;
+            }
+
+            .logo {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+
+            .nav-brand-text {
+                font-size: 16px;
+            }
+
+            .back-home {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            .content-card {
+                padding: 30px 25px;
+            }
+
+            .container {
+                margin-top: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-wrapper">
+        <div class="nav-container">
+            <a href="https://studio.fullpagejs.com/" class="nav-brand">
+                <div class="logo">F</div>
+                <span class="nav-brand-text">fullPage Studio</span>
+            </a>
+            <a href="https://studio.fullpagejs.com/" class="back-home">← Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="content-card">
+            <header>
+                <h1>Terms & Conditions</h1>
+                <p class="last-updated">Last updated: February 10, 2026</p>
+            </header>
+
+            <section>
+                <h2>1. Introduction</h2>
+                <p>Welcome to fullPage Studio. These Terms and Conditions ("Terms", "Terms and Conditions") govern your use of the fullPage Studio website and service (the "Service") operated by Yoloop SL ("us", "we", or "our").</p>
+
+                <div class="info-box">
+                    <p><strong>Company Name:</strong> Yoloop SL</p>
+                    <p><strong>Tax ID (CIF):</strong> ES-B01778091</p>
+                    <p><strong>Registered Office:</strong> Paseo Imperial 39, 28005 Madrid, Spain</p>
+                    <p><strong>Email:</strong> <a href="mailto:hi@yoloop.io">hi@yoloop.io</a></p>
+                    <p><strong>Phone:</strong> +34 699 774 712</p>
+                    <p><strong>Website:</strong> <a href="https://studio.fullpagejs.com">https://studio.fullpagejs.com</a></p>
+                </div>
+
+                <p>Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users, and others who access or use the Service.</p>
+
+                <p><strong>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the Terms, then you may not access the Service.</strong></p>
+
+                <h2>2. Accounts and Registration</h2>
+
+                <h3>2.1 Account Creation</h3>
+                <p>To use certain features of the Service, you must register for an account. When you create an account, you must provide accurate, complete, and current information. Failure to do so constitutes a breach of these Terms.</p>
+
+                <h3>2.2 Account Responsibility</h3>
+                <p>You are responsible for:</p>
+                <ul>
+                    <li>Safeguarding your account password and any other credentials</li>
+                    <li>All activities that occur under your account</li>
+                    <li>Notifying us immediately of any unauthorized access or security breach</li>
+                </ul>
+
+                <h3>2.3 Account Eligibility</h3>
+                <p>You must be at least 16 years old to use this Service. By using the Service, you represent and warrant that you meet this age requirement.</p>
+
+                <h3>2.4 Account Termination</h3>
+                <p>We reserve the right to terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach these Terms.</p>
+
+                <h2>3. Use of the Service</h2>
+
+                <h3>3.1 License Grant</h3>
+                <p>Subject to your compliance with these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Service for your personal or internal business purposes.</p>
+
+                <h3>3.2 Acceptable Use</h3>
+                <p>You agree to use the Service only for lawful purposes and in accordance with these Terms. You agree NOT to:</p>
+                <ul>
+                    <li>Use the Service in any way that violates any applicable national or international law or regulation</li>
+                    <li>Engage in any conduct that restricts or inhibits anyone's use or enjoyment of the Service</li>
+                    <li>Transmit any advertising or promotional material, spam, or any other form of unsolicited communication</li>
+                    <li>Impersonate or attempt to impersonate the Company, a Company employee, another user, or any other person or entity</li>
+                    <li>Engage in any activity that could damage, disable, overburden, or impair the Service</li>
+                    <li>Use any robot, spider, or other automatic device to access the Service for any purpose</li>
+                    <li>Attempt to gain unauthorized access to any portion of the Service or any systems or networks</li>
+                    <li>Introduce any viruses, trojan horses, worms, logic bombs, or other harmful material</li>
+                    <li>Use the Service to harass, abuse, insult, harm, defame, slander, disparage, intimidate, or discriminate</li>
+                    <li>Create content that infringes on any patent, trademark, trade secret, copyright, or other proprietary rights</li>
+                </ul>
+
+                <h3>3.3 Service Availability</h3>
+                <p>We strive to maintain high availability but do not guarantee that the Service will be available at all times. We may experience hardware, software, or other problems or need to perform maintenance related to the Service, resulting in interruptions, delays, or errors.</p>
+
+                <h2>4. User Content</h2>
+
+                <h3>4.1 Your Content</h3>
+                <p>Our Service allows you to create, post, store, and share content ("User Content"). You retain all ownership rights in your User Content. However, by uploading or publishing User Content, you grant us the following license:</p>
+
+                <p>You grant Yoloop SL a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, adapt, publish, and display your User Content solely for the purposes of:</p>
+                <ul>
+                    <li>Operating and providing the Service</li>
+                    <li>Improving and developing new features</li>
+                    <li>Technical support and customer service</li>
+                    <li>Backing up and securing your content</li>
+                </ul>
+
+                <h3>4.2 Content Responsibility</h3>
+                <p>You are solely responsible for your User Content and the consequences of posting or publishing it. We do not endorse any User Content or any opinion, recommendation, or advice expressed therein.</p>
+
+                <h3>4.3 Content Standards</h3>
+                <p>Your User Content must not:</p>
+                <ul>
+                    <li>Contain any material that is defamatory, obscene, indecent, abusive, offensive, harassing, violent, hateful, inflammatory, or otherwise objectionable</li>
+                    <li>Promote sexually explicit or pornographic material, violence, or discrimination</li>
+                    <li>Infringe any patent, trademark, trade secret, copyright, or other intellectual property rights</li>
+                    <li>Violate the legal rights of others or contain any material that could give rise to any civil or criminal liability</li>
+                    <li>Promote any illegal activity or advocate, promote, or assist any unlawful act</li>
+                    <li>Impersonate any person or misrepresent your identity or affiliation with any person or organization</li>
+                </ul>
+
+                <h3>4.4 Content Removal</h3>
+                <p>We reserve the right to remove or modify any User Content at any time without notice if we determine it violates these Terms or for any other reason.</p>
+
+                <h2>5. Intellectual Property Rights</h2>
+
+                <h3>5.1 Service Content</h3>
+                <p>The Service and its original content (excluding User Content), features, and functionality are and will remain the exclusive property of Yoloop SL and its licensors. The Service is protected by copyright, trademark, and other laws of Spain and foreign countries.</p>
+
+                <h3>5.2 Trademarks</h3>
+                <p>The fullPage Studio name and logo, and all related names, logos, product and service names, designs, and slogans are trademarks of Yoloop SL or its affiliates or licensors. You must not use such marks without our prior written permission.</p>
+
+                <h3>5.3 Section Templates</h3>
+                <p>The section templates provided in the Service are licensed to you for use in projects created with fullPage Studio. You may use these templates in commercial and non-commercial projects.</p>
+
+                <h3>5.4 Exported Code</h3>
+                <p>Code that you export from fullPage Studio is yours to use. However, it may include third-party libraries (such as fullPage.js and TailwindCSS) that are subject to their own licenses. You are responsible for complying with those licenses.</p>
+
+                <h2>6. Subscriptions and Payments</h2>
+
+                <h3>6.1 Subscription Plans</h3>
+                <p>Some parts of the Service are billed on a subscription basis. You will be billed in advance on a recurring and periodic basis ("Billing Cycle"). Billing cycles are set on a monthly or annual basis, depending on the type of subscription plan you select.</p>
+
+                <h3>6.2 Payment Processing</h3>
+                <p>We use third-party payment processors (including Polar) to process payments. We do not store or have access to your payment card details. Your use of these services is subject to their terms of service and privacy policies.</p>
+
+                <h3>6.3 Free Trial</h3>
+                <p>We may offer a free trial period for certain subscription plans. At the end of the free trial period, your subscription will automatically convert to a paid subscription unless you cancel before the trial period ends.</p>
+
+                <h3>6.4 Automatic Renewal</h3>
+                <p>Your subscription will automatically renew at the end of each Billing Cycle unless you cancel it before the renewal date. You authorize us to charge your payment method for the renewal.</p>
+
+                <h3>6.5 Cancellation</h3>
+                <p>You may cancel your subscription at any time through your account settings. Cancellation will take effect at the end of the current Billing Cycle. You will continue to have access to the Service until the end of the paid period.</p>
+
+                <h3>6.6 Refunds</h3>
+                <p>We offer a 14-day money-back guarantee for new subscriptions. If you are not satisfied with the Service, you may request a full refund within 14 days of your initial purchase. Refunds for renewals are evaluated on a case-by-case basis.</p>
+
+                <h3>6.7 Price Changes</h3>
+                <p>We reserve the right to change our subscription prices at any time. Price changes will not affect your current subscription period and will only apply upon renewal. We will notify you of price changes at least 30 days in advance.</p>
+
+                <h2>7. Termination</h2>
+
+                <h3>7.1 Termination by You</h3>
+                <p>You may terminate your account at any time by contacting us or through your account settings.</p>
+
+                <h3>7.2 Termination by Us</h3>
+                <p>We may terminate or suspend your account immediately, without prior notice or liability, for any reason, including but not limited to:</p>
+                <ul>
+                    <li>Breach of these Terms</li>
+                    <li>Request by law enforcement or other government agencies</li>
+                    <li>Unexpected technical issues or problems</li>
+                    <li>Extended periods of inactivity</li>
+                    <li>Engagement in fraudulent or illegal activities</li>
+                </ul>
+
+                <h3>7.3 Effect of Termination</h3>
+                <p>Upon termination:</p>
+                <ul>
+                    <li>Your right to use the Service will cease immediately</li>
+                    <li>You will lose access to your account and all data associated with it</li>
+                    <li>We are not obligated to retain or provide you with copies of your User Content</li>
+                    <li>We recommend exporting your content before termination</li>
+                </ul>
+
+                <h2>8. Limitation of Liability</h2>
+
+                <div class="warning-box">
+                    <p><strong>IMPORTANT:</strong> Please read this section carefully as it limits the liability of Yoloop SL and its affiliates.</p>
+                </div>
+
+                <p>To the maximum extent permitted by applicable law, in no event shall Yoloop SL, its directors, employees, partners, agents, suppliers, or affiliates be liable for:</p>
+                <ul>
+                    <li>Any indirect, incidental, special, consequential, or punitive damages</li>
+                    <li>Any loss of profits, revenue, data, use, goodwill, or other intangible losses</li>
+                    <li>Any damages resulting from:
+                        <ul>
+                            <li>Your access to or use of or inability to access or use the Service</li>
+                            <li>Any conduct or content of any third party on the Service</li>
+                            <li>Any content obtained from the Service</li>
+                            <li>Unauthorized access, use, or alteration of your transmissions or content</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <p>In no event shall our total liability to you for all damages exceed the amount you have paid to us in the twelve (12) months prior to the action giving rise to liability, or one hundred euros (€100), whichever is greater.</p>
+
+                <h2>9. Disclaimer of Warranties</h2>
+
+                <p>The Service is provided on an "AS IS" and "AS AVAILABLE" basis, without any warranties of any kind, either express or implied, including but not limited to:</p>
+                <ul>
+                    <li>Implied warranties of merchantability</li>
+                    <li>Fitness for a particular purpose</li>
+                    <li>Non-infringement</li>
+                    <li>That the Service will be uninterrupted, secure, or error-free</li>
+                    <li>That defects will be corrected</li>
+                    <li>That the Service or servers are free of viruses or harmful components</li>
+                </ul>
+
+                <h2>10. Indemnification</h2>
+
+                <p>You agree to defend, indemnify, and hold harmless Yoloop SL, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to:</p>
+                <ul>
+                    <li>Your violation of these Terms</li>
+                    <li>Your use or misuse of the Service</li>
+                    <li>Your User Content</li>
+                    <li>Your violation of any third-party rights</li>
+                </ul>
+
+                <h2>11. Governing Law and Jurisdiction</h2>
+
+                <p>These Terms shall be governed by and construed in accordance with the laws of Spain, without regard to its conflict of law provisions.</p>
+
+                <p>Any dispute arising from or relating to the subject matter of these Terms shall be finally settled by the courts of Madrid, Spain, to whose jurisdiction the parties expressly submit.</p>
+
+                <h2>12. Changes to Terms</h2>
+
+                <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will:</p>
+                <ul>
+                    <li>Provide at least 30 days' notice prior to any new terms taking effect</li>
+                    <li>Notify you via email or through a prominent notice on our Service</li>
+                    <li>Update the "Last updated" date at the top of these Terms</li>
+                </ul>
+
+                <p>Your continued use of the Service after the effective date of any changes constitutes your acceptance of the new Terms. If you do not agree to the new Terms, you must stop using the Service.</p>
+
+                <h2>13. Severability</h2>
+
+                <p>If any provision of these Terms is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law, and the remaining provisions will continue in full force and effect.</p>
+
+                <h2>14. Waiver</h2>
+
+                <p>No waiver by us of any term or condition set out in these Terms shall be deemed a further or continuing waiver of such term or condition or a waiver of any other term or condition, and any failure to assert a right or provision under these Terms shall not constitute a waiver of such right or provision.</p>
+
+                <h2>15. Entire Agreement</h2>
+
+                <p>These Terms, together with our Privacy Policy and Cookie Policy, constitute the entire agreement between you and Yoloop SL regarding the use of the Service and supersede all prior agreements and understandings, whether written or oral.</p>
+
+                <h2>16. Third-Party Services</h2>
+
+                <p>The Service may contain links to third-party websites or services that are not owned or controlled by Yoloop SL. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services.</p>
+
+                <p>You acknowledge and agree that Yoloop SL shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such third-party content, goods, or services.</p>
+
+                <h2>17. Export Compliance</h2>
+
+                <p>You agree to comply with all applicable export and re-export control laws and regulations, including the Export Administration Regulations maintained by the U.S. Department of Commerce and trade and economic sanctions maintained by the Treasury Department's Office of Foreign Assets Control.</p>
+
+                <h2>18. Force Majeure</h2>
+
+                <p>We shall not be liable for any failure or delay in performance of our obligations under these Terms due to circumstances beyond our reasonable control, including but not limited to acts of God, war, terrorism, riots, embargoes, acts of civil or military authorities, fire, floods, accidents, pandemics, strikes, or shortages of transportation facilities, fuel, energy, labor, or materials.</p>
+
+                <h2>19. Contact Us</h2>
+
+                <p>If you have any questions about these Terms, please contact us:</p>
+
+                <div class="info-box">
+                    <p><strong>Email:</strong> <a href="mailto:hi@yoloop.io">hi@yoloop.io</a></p>
+                    <p><strong>Phone:</strong> +34 699 774 712</p>
+                    <p><strong>Address:</strong> Yoloop SL, Paseo Imperial 39, 28005 Madrid, Spain</p>
+                    <p><strong>Website:</strong> <a href="https://studio.fullpagejs.com">https://studio.fullpagejs.com</a></p>
+                </div>
+
+                <h2>20. Language</h2>
+
+                <p>These Terms have been prepared in English. In case of any discrepancy between the English version and any translation, the English version shall prevail to the extent permitted by applicable law.</p>
+            </section>
+
+            <footer>
+                <p style="color: rgba(255, 255, 255, 0.5);">&copy; 2026 Yoloop SL. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/">Home</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="cookie-policy.html">Cookie Policy</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Generate starfield
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const delay = Math.random() * 3;
+                star.style.animationDelay = delay + 's';
+                const size = 1 + Math.random() * 2;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+    </script>
+</body>
+</html>

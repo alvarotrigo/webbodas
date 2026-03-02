@@ -1,0 +1,86 @@
+<section id="fp-theme-testimonial-carousel" data-testimonial-carousel="" class="min-h-screen flex items-center bg-themed-primary">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div id="testimonial-carousel-container" class="grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Left side: Image -->
+            <div class="relative">
+              <div class="aspect-[4/3] overflow-hidden rounded-3xl" style="border-radius: var(--card-radius); position: relative;" data-testimonial-image-wrapper="">
+                <img loading="lazy" id="testimonial-carousel-image" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&amp;h=1000&amp;fit=crop&amp;crop=face" alt="Customer testimonial" class="w-full h-full object-cover" style="opacity: 0; transition: opacity 0.3s ease-in-out;">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&amp;h=1000&amp;fit=crop&amp;crop=face" alt="Harsh P." class="w-full h-full object-cover" style="position: absolute; inset: 0px; opacity: 1; transition: opacity 0.35s ease-in-out;"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&amp;h=1000&amp;fit=crop&amp;crop=face" alt="Sarah Johnson" class="w-full h-full object-cover" style="position: absolute; inset: 0px; opacity: 0; transition: opacity 0.35s ease-in-out;"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&amp;h=1000&amp;fit=crop&amp;crop=face" alt="Alex Thompson" class="w-full h-full object-cover" style="position: absolute; inset: 0px; opacity: 0; transition: opacity 0.35s ease-in-out;"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&amp;h=1000&amp;fit=crop&amp;crop=face" alt="Emily Rodriguez" class="w-full h-full object-cover" style="position: absolute; inset: 0px; opacity: 0; transition: opacity 0.35s ease-in-out;"></div>
+            </div>
+
+            <!-- Right side: Testimonial Content -->
+            <div data-fp-anim-children="true">
+              <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold heading-themed mb-6">
+                What our customers are saying
+              </h2>
+              <p class="text-xl text-themed-secondary mb-10">
+                Serving over 50k+ customers every month
+              </p>
+
+              <!-- Navigation -->
+              <div class="flex items-center gap-6 mb-12">
+                <button onclick="prevTestimonialCarousel()" class="fps-non-edit p-2 hover:bg-themed-secondary/20 rounded-lg transition-colors" aria-label="Previous testimonial">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-left" aria-hidden="true" class="lucide lucide-arrow-left w-6 h-6 text-themed-primary"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+                </button>
+                <span id="testimonial-carousel-counter" class="text-lg font-semibold text-themed-accent">1 of 4</span>
+                <button onclick="nextTestimonialCarousel()" class="fps-non-edit hover:bg-themed-secondary/20 rounded-lg transition-colors" aria-label="Next testimonial">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-6 h-6 text-themed-primary"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </button>
+              </div>
+
+              <!-- Testimonial Card -->
+              <div id="testimonial-carousel-card" class="fp-keep-color card-themed p-8" style="transition: opacity 0.3s ease-in-out; opacity: 0;">
+                <!-- Rating Stars -->
+                <div id="testimonial-carousel-rating" class="flex gap-1 mb-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="star" aria-hidden="true" class="lucide lucide-star w-6 h-6 fill-yellow-400 text-yellow-400"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="star" aria-hidden="true" class="lucide lucide-star w-6 h-6 fill-yellow-400 text-yellow-400"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="star" aria-hidden="true" class="lucide lucide-star w-6 h-6 fill-yellow-400 text-yellow-400"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="star" aria-hidden="true" class="lucide lucide-star w-6 h-6 fill-yellow-400 text-yellow-400"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="star" aria-hidden="true" class="lucide lucide-star w-6 h-6 fill-yellow-400 text-yellow-400"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+                </div>
+
+                <!-- Testimonial Text -->
+                <p id="testimonial-carousel-text" class="text-lg md:text-xl text-themed-secondary mb-8 leading-relaxed">
+                  As a busy professional, I don't have a lot of time to manage my investments, but fullpage has made it possible for me to stay on top of my portfolio and make informed decisions quickly and easily.
+                </p>
+
+                <!-- Author Info -->
+                <div class="flex items-center gap-3">
+                  <h4 id="testimonial-carousel-name" class="text-xl font-bold heading-themed">Harsh P.</h4>
+                  <span class="text-themed-secondary">|</span>
+                  <p id="testimonial-carousel-title" class="text-lg" style="color: var(--primary-accent);">Product Designer</p>
+                </div>
+              </div>
+            
+            <!-- Hidden testimonial items source for JS (no hardcoded data in JS) -->
+            <div data-testimonial-items="" class="hidden">
+              <div class="testimonial-item" data-rating="5">
+                <img loading="lazy" data-image="" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&amp;h=1000&amp;fit=crop&amp;crop=face" alt="Harsh P.">
+                <div data-name="">Harsh P.</div>
+                <div data-title="">Product Designer</div>
+                <div data-text="">As a busy professional, I don't have a lot of time to manage my investments, but pagedone has made it possible for me to stay on top of my portfolio and make informed decisions quickly and easily.</div>
+              </div>
+              <div class="testimonial-item" data-rating="5">
+                <img loading="lazy" data-image="" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&amp;h=1000&amp;fit=crop&amp;crop=face" alt="Sarah Johnson">
+                <div data-name="">Sarah Johnson</div>
+                <div data-title="">Marketing Director</div>
+                <div data-text="">The platform has exceeded all my expectations. The intuitive interface and comprehensive features have transformed how I approach my daily workflow. I couldn't imagine working without it now.</div>
+              </div>
+              <div class="testimonial-item" data-rating="5">
+                <img loading="lazy" data-image="" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&amp;h=1000&amp;fit=crop&amp;crop=face" alt="Alex Thompson">
+                <div data-name="">Alex Thompson</div>
+                <div data-title="">Software Engineer</div>
+                <div data-text="">Outstanding service and incredible attention to detail. The team truly understands what professionals need and delivers it flawlessly. This has become an essential tool in my tech stack.</div>
+              </div>
+              <div class="testimonial-item" data-rating="5">
+                <img loading="lazy" data-image="" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&amp;h=1000&amp;fit=crop&amp;crop=face" alt="Emily Rodriguez">
+                <div data-name="">Emily Rodriguez</div>
+                <div data-title="">Creative Director</div>
+                <div data-text="">I've tried many solutions over the years, but this one stands out for its simplicity and power. The customer support is exceptional, and the regular updates show they truly care about their users.</div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </section>

@@ -1,0 +1,326 @@
+{
+    "id": "deployfast-launchpad",
+    "name": "DeployFast Launchpad",
+    "description": "Create a landing page for a developer tool called “DeployFast”.\n\nProduct:\nOne-click deployment tool for static sites.\n\nAudience:\nIndie hackers and developers.\n\nTone:\nDirect, simple, slightly informal.\n\nMain colors:\n- Black or very dark gray\n- Bright orange accents\n- White text and sections\n- Light gray backgrounds for contrast\n\nGoals:\nDrive free signups.\n\nStructure:\n- Hero with simple promise\n- Problem/solution\n- Feature list\n- How it works\n- Testimonials\n- Final CTA\n\nDesign guidance:\n- Minimalist\n- Clean typography\n- Developer aesthetic\n- Abstract tech visuals\n\nCopy guidance:\n- No fluff\n- Focus on saving time\n- Realistic claims\n\nMake the layout conversion-focused and realistic like a top SaaS landing page.\nAvoid generic filler copy.",
+    "category": "custom",
+    "tags": [
+        "modern",
+        "minimal",
+        "bold"
+    ],
+    "sections": [
+        59,
+        14,
+        6,
+        150,
+        171
+    ],
+    "theme": {
+        "name": "DeployFast Launchpad",
+        "variables": {
+            "primary-bg": "#181818",
+            "secondary-bg": "#2e2e2e",
+            "accent-bg": "#fafafa",
+            "primary-text": "#ffffff",
+            "secondary-text": "#cccccc",
+            "accent-text": "#ffffff",
+            "primary-accent": "#ff6600",
+            "primary-accent-soft": "rgba(255, 102, 0, 0.1)",
+            "secondary-accent": "#ff8500",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #2e2e2e 0%, #fafafa 100%)",
+            "gradient-2": "linear-gradient(135deg, #ff6600 0%, #ff8500 100%)",
+            "features2-bg": "linear-gradient(135deg, #ff6600 0%, #ff8500 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "8px",
+            "button-radius": "8px",
+            "card-radius": "12px",
+            "spacing-unit": "1.4rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Poppins",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "6": {
+            "headline": "What Our Users Are Saying",
+            "testimonials": [
+                "\"DeployFast made launching my side project a breeze! I saved hours of setup time.\" - Alex H.",
+                "\"As a solo developer, I appreciate how straightforward DeployFast is. It's a game changer!\" - Jamie K.",
+                "\"Finally, a deployment tool that just works. No more headaches!\" - Sam R."
+            ]
+        },
+        "14": {
+            "features": [
+                "One-Click Deployments: Launch your site instantly.",
+                "Automatic Scaling: Handle traffic spikes without a hitch.",
+                "Custom Domain Support: Connect your brand effortlessly.",
+                "SSL Certificates: Secure your site with just a click.",
+                "Real-Time Previews: See changes before you go live."
+            ]
+        },
+        "59": {
+            "headline": "Deploy Your Static Site in One Click",
+            "subheadline": "Say goodbye to deployment headaches and hello to instant live sites.",
+            "cta_primary": "Get Started for Free",
+            "cta_secondary": "See How It Works"
+        },
+        "150": {
+            "cta_primary": "Join the DeployFast Revolution",
+            "cta_secondary": "Start Your Free Trial Today"
+        },
+        "171": {
+            "navigation": [
+                "Home",
+                "Features",
+                "Pricing",
+                "Support",
+                "Blog"
+            ],
+            "contact_info": "Contact Us: support@deployfast.com",
+            "trust_message": "Trusted by hundreds of developers and indie hackers."
+        }
+    },
+    "section_backgrounds": {
+        "6": {
+            "type": "color"
+        },
+        "14": {
+            "type": "color"
+        },
+        "59": {
+            "type": "image",
+            "keyword": "developer workspace"
+        },
+        "150": {
+            "type": "color"
+        },
+        "171": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "6": [
+            [
+                "customer testimonial",
+                "happy entrepreneur",
+                "startup founder"
+            ],
+            [
+                "developer working",
+                "tech team collaboration",
+                "modern office environment"
+            ],
+            [
+                "indie hacker",
+                "smiling developer",
+                "creative workspace"
+            ]
+        ],
+        "150": [
+            [
+                "user testimonial",
+                "developer workspace",
+                "happy developer"
+            ],
+            [
+                "team collaboration",
+                "satisfied user",
+                "creative process"
+            ],
+            [
+                "indie hacker",
+                "startup team",
+                "tech innovation"
+            ],
+            [
+                "product feedback",
+                "user experience",
+                "positive review"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "dark",
+            "primary_bg": "#181818",
+            "secondary_bg": "#2e2e2e",
+            "accent_bg": "#fafafa",
+            "primary_text": "#ffffff",
+            "secondary_text": "#cccccc",
+            "accent_text": "#ffffff",
+            "primary_accent": "#ff6600",
+            "secondary_accent": "#ff8500"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Poppins",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "button_radius_value": "8px",
+            "card_radius": "rounded",
+            "card_radius_value": "12px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.4rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "modern",
+            "minimal",
+            "bold"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "problem/solution",
+            "features grid 3-col",
+            "how it works",
+            "testimonials cards",
+            "final CTA"
+        ]
+    },
+    "site_plan": {
+        "audience": "indie hackers and developers",
+        "primary_goal": "drive free signups",
+        "brand_vibe": [
+            "modern",
+            "minimal",
+            "bold",
+            "direct",
+            "tech-savvy"
+        ],
+        "content_tone": "direct, simple, slightly informal",
+        "key_differentiators": [
+            "one-click deployment",
+            "focus on static sites",
+            "time-saving",
+            "developer-friendly"
+        ],
+        "business_type": "saas"
+    },
+    "created_at": "2026-02-11T12:41:01+00:00",
+    "text_updates": {
+        "6": {
+            "h2[0]": "Hear What Our Users Are Saying",
+            "p[0]": "\"DeployFast transformed my workflow. I can now push updates with just a click—no more tedious uploads. My site runs smoother, and I save hours each week!\"",
+            "h4[0]": "Alex Murphy",
+            "p[1]": "Founder, CodeCrafters"
+        },
+        "14": {
+            "h2[0]": "Features That Simplify Development",
+            "p[0]": "Unlock the power of effortless deployment with DeployFast. Our tool is designed to streamline the process, so you can focus on coding, not configurations.",
+            "h3[0]": "Instant Deployments",
+            "p[1]": "Say goodbye to complex setups. DeployFast lets you launch your static sites with just a single action, saving you precious time.",
+            "h3[1]": "Optimized for Static Sites",
+            "p[2]": "Our platform is tailored specifically for static site deployment, ensuring fast performance and reliability without the bloat.",
+            "h3[2]": "Developer-Centric Design",
+            "p[3]": "Built by developers for developers, DeployFast offers a user-friendly interface that makes deployment a breeze, allowing you to spend more time building."
+        },
+        "59": {
+            "h2[0]": "Launch Your Projects with One Click",
+            "p[0]": "Effortlessly deploy your static sites and save valuable time with DeployFast."
+        },
+        "150": {
+            "h1": "Join the Deployment Revolution Today",
+            "p[0]": "Sign up for free and experience the simplest way to deploy your static sites without the hassle. Get started in just one click!",
+            "button[0]": "Get Started Free",
+            "h1[0]": "Elevate your creative workflow with AI"
+        },
+        "171": {
+            "h2[0]": "Stay Connected With DeployFast",
+            "span[0]": "Stay Connected With DeployFast",
+            "h2[1]": "Helpful Links",
+            "li[0]": "User Guides",
+            "a[0]": "User Guides",
+            "li[1]": "API Documentation",
+            "a[1]": "API Documentation",
+            "h2[2]": "Engage With Us",
+            "li[2]": "GitHub Repository",
+            "a[2]": "GitHub Repository",
+            "li[3]": "Join Our Discord",
+            "a[3]": "Join Our Discord",
+            "li[4]": "Data Protection",
+            "a[4]": "Data Protection",
+            "li[5]": "Service Terms",
+            "a[5]": "Service Terms",
+            "span[1]": "© 2024 DeployFast™. All Rights Reserved.",
+            "a[6]": "DeployFast™",
+            "a[7]": "Velocity™"
+        }
+    },
+    "inline_images": {
+        "6": [
+            "https://images.unsplash.com/photo-1758519290828-2e62b7699b28?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8Y3VzdG9tZXIlMjB0ZXN0aW1vbmlhbCUyMGhhcHB5JTIwZW50cmVwcmVuZXVyJTIwc3RhcnR1cCUyMGZvdW5kZXJ8ZW58MHwwfHx8MTc3MDgxMzY3Mnww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1623679799651-ad774745c6fa?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8ZGV2ZWxvcGVyJTIwd29ya2luZyUyMHRlY2glMjB0ZWFtJTIwY29sbGFib3JhdGlvbiUyMG1vZGVybiUyMG9mZmljZSUyMGVudmlyb25tZW50fGVufDB8MHx8fDE3NzA4MTM2NzJ8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "150": [
+            "https://images.unsplash.com/photo-1585913161203-695a3ac93b33?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8dGVhbSUyMGNvbGxhYm9yYXRpb24lMjBzYXRpc2ZpZWQlMjB1c2VyJTIwY3JlYXRpdmUlMjBwcm9jZXNzfGVufDB8MHx8fDE3NzA4MTM2NzN8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758873272809-7947b9a73fe5?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8aW5kaWUlMjBoYWNrZXIlMjBzdGFydHVwJTIwdGVhbSUyMHRlY2glMjBpbm5vdmF0aW9ufGVufDB8MHx8fDE3NzA4MTM2NzN8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1580894740397-0946742deb4b?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8cHJvZHVjdCUyMGZlZWRiYWNrJTIwdXNlciUyMGV4cGVyaWVuY2UlMjBwb3NpdGl2ZSUyMHJldmlld3xlbnwwfDB8fHwxNzcwODEzNjczfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "59": "https://images.unsplash.com/photo-1566915896913-549d796d2166?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8ZGV2ZWxvcGVyJTIwd29ya3NwYWNlfGVufDB8MHx8fDE3NzA3NTc4MzB8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

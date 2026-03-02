@@ -1,0 +1,101 @@
+<section id="fp-theme-steps-slider" class="min-h-screen flex items-center py-20" style="background: var(--secondary-bg);">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <!-- Header -->
+          <div class="text-center mb-16">
+            <p class="text-lg font-semibold mb-3 text-themed-secondary" style="font-family: var(--heading-font);">
+              Getting Started
+            </p>
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold heading-themed" style="font-family: var(--heading-font); color: var(--primary-accent);">
+              Steps to Get Started
+            </h2>
+          </div>
+
+          <!-- Slider Container -->
+          <div data-fp-anim-children="true" class="grid md:grid-cols-2 gap-12 items-center">
+            <!-- Static Image -->
+            <div class="order-2 md:order-1">
+              <div class="card-themed overflow-hidden" style="border-radius: var(--card-radius); box-shadow: var(--shadow-lg);">
+                <img loading="lazy" src="public/images/business-team.jpg" alt="Steps illustration" class="w-full h-96 object-cover">
+              </div>
+            </div>
+            
+            <!-- Sliding Text Content -->
+            <div class="order-1 md:order-2">
+              <div class="relative overflow-hidden">
+                <div class="steps-slider-track flex transition-transform duration-500 ease-in-out" style="transform: translateX(0%);">
+                  
+                  <!-- Slide 1 -->
+                  <div class="steps-slider-slide flex-shrink-0 w-full">
+                    <p class="text-lg font-semibold mb-3" style="color: var(--primary-accent); font-family: var(--heading-font);">
+                      1st Step
+                    </p>
+                    <h3 class="text-3xl md:text-4xl font-bold heading-themed mb-6" style="font-family: var(--heading-font);">
+                      Create Your Account
+                    </h3>
+                    <p class="text-lg text-themed-secondary leading-relaxed">
+                      Begin your journey by signing up for a free account. Provide your basic information and set up your profile to unlock all features. Our streamlined registration process takes less than two minutes, allowing you to start building immediately.
+                    </p>
+                  </div>
+
+                  <!-- Slide 2 -->
+                  <div class="steps-slider-slide flex-shrink-0 w-full">
+                    <p class="text-lg font-semibold mb-3" style="color: var(--primary-accent); font-family: var(--heading-font);">
+                      2nd Step
+                    </p>
+                    <h3 class="text-3xl md:text-4xl font-bold heading-themed mb-6" style="font-family: var(--heading-font);">
+                      Gather Required Documents
+                    </h3>
+                    <p class="text-lg text-themed-secondary leading-relaxed">
+                      Collect necessary documents such as identification (passport or driver's license), proof of address (utility bill or lease agreement), and Social Security Number (or equivalent for your country). Having these ready will ensure a smooth verification process.
+                    </p>
+                  </div>
+
+                  <!-- Slide 3 -->
+                  <div class="steps-slider-slide flex-shrink-0 w-full">
+                    <p class="text-lg font-semibold mb-3" style="color: var(--primary-accent); font-family: var(--heading-font);">
+                      3rd Step
+                    </p>
+                    <h3 class="text-3xl md:text-4xl font-bold heading-themed mb-6" style="font-family: var(--heading-font);">
+                      Complete Verification
+                    </h3>
+                    <p class="text-lg text-themed-secondary leading-relaxed">
+                      Upload your documents through our secure portal and complete the verification process. Our advanced system will review your information promptly, typically within 24 hours. You'll receive instant notifications about your verification status throughout the process.
+                    </p>
+                  </div>
+
+                  <!-- Slide 4 -->
+                  <div class="steps-slider-slide flex-shrink-0 w-full">
+                    <p class="text-lg font-semibold mb-3" style="color: var(--primary-accent); font-family: var(--heading-font);">
+                      4th Step
+                    </p>
+                    <h3 class="text-3xl md:text-4xl font-bold heading-themed mb-6" style="font-family: var(--heading-font);">
+                      Start Using the Platform
+                    </h3>
+                    <p class="text-lg text-themed-secondary leading-relaxed">
+                      Once verified, you're ready to explore all features and tools at your disposal. Access your personalized dashboard, customize your settings, and begin leveraging our powerful platform to achieve your goals. Our support team is always here to help you maximize your experience.
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation Dots -->
+          <div class="flex justify-center gap-4 mt-12">
+            <button class="steps-slider-nav w-12 h-12 rounded-full flex items-center justify-center font-semibold transition-all duration-300 text-on-primary" data-slide="0" style="background: var(--primary-accent); font-family: var(--heading-font); color: white; border: none; transform: scale(1.1);">
+              1
+            </button>
+            <button class="steps-slider-nav w-12 h-12 rounded-full flex items-center justify-center font-semibold transition-all duration-300 text-on-primary" data-slide="1" style="background: var(--card-bg); color: var(--primary-accent); font-family: var(--heading-font); border: 2px solid var(--border-color); transform: scale(1);">
+              2
+            </button>
+            <button class="steps-slider-nav w-12 h-12 rounded-full flex items-center justify-center font-semibold transition-all duration-300 text-on-primary" data-slide="2" style="background: var(--card-bg); color: var(--primary-accent); font-family: var(--heading-font); border: 2px solid var(--border-color); transform: scale(1);">
+              3
+            </button>
+            <button class="steps-slider-nav w-12 h-12 rounded-full flex items-center justify-center font-semibold transition-all duration-300 text-on-primary" data-slide="3" style="background: var(--card-bg); color: var(--primary-accent); font-family: var(--heading-font); border: 2px solid var(--border-color); transform: scale(1);">
+              4
+            </button>
+          </div>
+        </div>
+      </section>

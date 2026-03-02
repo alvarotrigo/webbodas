@@ -1,0 +1,59 @@
+server {
+  listen 8080;
+  listen [::]:8080;
+  server_name studio.fullpagejs.com;
+  root /home/fullpagestudio/htdocs/studio.fullpagejs.com; 
+
+  include /etc/nginx/global_settings;
+
+  # Handle /app specifically - must come BEFORE the trailing slash rule
+  location = /app {
+    rewrite ^ /app.php last;
+  }
+
+  # Handle /app/ with trailing slash - redirect to /app
+  location = /app/ {
+    return 301 /app;
+  }
+
+  # Global: Remove trailing slashes for files (but not for actual directories)
+  # This must come AFTER specific location blocks
+  location ~ ^(.+)/$ {
+    # Skip if it's a real directory
+    if (-d $document_root$1) {
+      break;
+    }
+    # Check if the path without trailing slash exists as a file
+    if (-f $document_root$1) {
+      return 301 $1;
+    }
+    # If it's a PHP route, redirect to non-trailing
+    if (-f $document_root$1.php) {
+      return 301 $1;
+    }
+  }
+
+  # PHP handling
+  location ~ \.php$ {
+    include fastcgi_params;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME /home/fullpagestudio/htdocs/studio.fullpagejs.com$fastcgi_script_name;
+    fastcgi_pass 127.0.0.1:18001;
+    fastcgi_read_timeout 3600;
+    fastcgi_send_timeout 3600;
+    fastcgi_param HTTPS "on";
+    fastcgi_param SERVER_PORT 443;
+  }
+
+  # Default index files
+  index index.html index.php;
+
+  # Try files
+  try_files $uri $uri/ /index.php?$args;
+
+  if (-f $request_filename) {
+    break;
+  }
+}
+
+

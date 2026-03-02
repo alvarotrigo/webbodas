@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Theme Generation Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 24px;
+            background: #f7f7f9;
+            color: #1a1a1a;
+            margin: 0 auto;
+            max-width: 52vw;
+        }
+        h1, h2 {
+            margin-top: 0;
+        }
+        textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d0d0d5;
+            font-size: 15px;
+            resize: vertical;
+        }
+        button {
+            background: #1f5eff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button[disabled] {
+            opacity: 0.6;
+            cursor: progress;
+        }
+        .results {
+            display: grid;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        pre {
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e2e8;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .error {
+            color: #b00020;
+        }
+        .history {
+            margin-top: 32px;
+        }
+        .history-item {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #e2e2e8;
+            margin-bottom: 12px;
+        }
+        .history-item pre {
+            margin-top: 8px;
+        }
+        
+        /* Theme display styles matching app.php */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.7rem;
+            margin-top: 16px;
+        }
+        .theme-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.375rem;
+            padding: 2px 5px;
+            margin: -2px;
+            cursor: pointer;
+            position: relative;
+        }
+        .theme-card {
+            position: relative;
+            border: none;
+            border-radius: 12px;
+            padding: 0;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            height: 44px;
+        }
+        .theme-item:hover .theme-card {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+        .theme-name {
+            font-size: 0.7125rem;
+            font-weight: 400;
+            color: #222;
+            padding: 0 0.25rem;
+        }
+        .theme-preview {
+            width: 100%;
+            height: 44px;
+            display: flex;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
+            border-radius: 12px;
+        }
+        .theme-preview-color {
+            flex: 1;
+            height: 100%;
+        }
+        .custom-theme-icon {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            z-index: 15;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .custom-theme-icon svg {
+            width: 12px;
+            height: 12px;
+            color: #4285f4;
+        }
+        .theme-variables {
+            margin-top: 16px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e2e8;
+        }
+        .theme-variables h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        .variable-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .variable-item:last-child {
+            border-bottom: none;
+        }
+        .variable-name {
+            font-weight: 500;
+            min-width: 150px;
+            font-size: 0.9rem;
+        }
+        .variable-color {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid #e2e2e8;
+            flex-shrink: 0;
+        }
+        .variable-value {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .prompt-section {
+            margin-top: 16px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e2e8;
+        }
+        .prompt-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+        .prompt-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: #333;
+        }
+        .prompt-toggle {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            transition: transform 0.2s ease;
+        }
+        .prompt-section.collapsed .prompt-toggle {
+            transform: rotate(-90deg);
+        }
+        .prompt-content {
+            margin-top: 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .prompt-section:not(.collapsed) .prompt-content {
+            max-height: 2000px;
+        }
+        .prompt-text {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            border: 1px solid #e2e2e8;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>AI Theme Generation Test</h1>
+    <p>Use this page to test the theme generation API endpoint. Enter a user description below and see the generated theme with colors and name.</p>
+
+    <label for="user-description"><strong>User Description</strong></label>
+    <textarea id="user-description" placeholder="e.g. A modern tech startup focused on AI and machine learning, targeting developers and data scientists. The brand should feel innovative, professional, and cutting-edge."></textarea>
+    <div style="margin-top: 12px;">
+        <button id="run-test">Generate Theme</button>
+    </div>
+    <p id="status" role="status"></p>
+
+    <div class="results">
+        <div>
+            <h2>API Response</h2>
+            <pre id="api-response">Waiting for request...</pre>
+        </div>
+        <div>
+            <h2>Generated Theme <span id="theme-time"></span></h2>
+            <div id="theme-display"></div>
+            <div id="theme-variables" class="theme-variables" style="display: none;">
+                <h3>Theme Variables</h3>
+                <div id="variables-list"></div>
+            </div>
+            <div id="prompt-section" class="prompt-section collapsed" style="display: none;">
+                <div class="prompt-header" id="prompt-header">
+                    <h3>OpenAI API Input Prompt</h3>
+                    <div class="prompt-toggle">▼</div>
+                </div>
+                <div class="prompt-content">
+                    <div class="prompt-text" id="prompt-text"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="history">
+        <h2>History (latest first)</h2>
+        <div id="history-list"></div>
+    </section>
+
+    <script>
+        const runButton = document.getElementById('run-test');
+        const userDescriptionInput = document.getElementById('user-description');
+        const apiResponseEl = document.getElementById('api-response');
+        const themeDisplayEl = document.getElementById('theme-display');
+        const themeVariablesEl = document.getElementById('theme-variables');
+        const variablesListEl = document.getElementById('variables-list');
+        const themeTimeEl = document.getElementById('theme-time');
+        const statusEl = document.getElementById('status');
+        const historyList = document.getElementById('history-list');
+
+        async function callApi() {
+            const description = userDescriptionInput.value.trim();
+            if (!description) {
+                statusEl.textContent = 'Please enter a user description first.';
+                statusEl.className = 'error';
+                return;
+            }
+
+            runButton.disabled = true;
+            statusEl.textContent = 'Calling /api/generate-theme.php...';
+            statusEl.className = '';
+            apiResponseEl.textContent = 'Loading...';
+            themeDisplayEl.innerHTML = '';
+            themeVariablesEl.style.display = 'none';
+            themeTimeEl.textContent = '';
+            document.getElementById('prompt-section').style.display = 'none';
+
+            const startTime = performance.now();
+
+            try {
+                const response = await fetch('../api/generate-theme.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: description })
+                });
+
+                const endTime = performance.now();
+                const duration = ((endTime - startTime) / 1000).toFixed(2);
+
+                const resultText = await response.text();
+                apiResponseEl.textContent = resultText;
+
+                if (!response.ok) {
+                    statusEl.textContent = 'Request failed. Check the API response above.';
+                    statusEl.className = 'error';
+                    return;
+                }
+
+                const resultJson = JSON.parse(resultText);
+                statusEl.textContent = 'Success!';
+                statusEl.className = '';
+
+                if (resultJson.success && resultJson.theme) {
+                    displayTheme(resultJson.theme);
+                    displayPrompt(description);
+                    themeTimeEl.textContent = `(${duration}s)`;
+                    themeTimeEl.style.color = '#666';
+                    themeTimeEl.style.fontSize = '0.85em';
+                    themeTimeEl.style.fontWeight = 'normal';
+
+                    // Add to history
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.innerHTML = `
+                        <strong>User description:</strong>
+                        <pre>${description}</pre>
+                        <strong>Generated theme:</strong>
+                        <pre>${JSON.stringify(resultJson.theme, null, 2)}</pre>
+                        <strong>Duration:</strong> ${duration}s
+                    `;
+                    historyList.prepend(historyItem);
+                } else {
+                    themeDisplayEl.innerHTML = '<p class="error">No theme data in response</p>';
+                }
+            } catch (error) {
+                statusEl.textContent = 'Error: ' + error.message;
+                statusEl.className = 'error';
+                console.error(error);
+            } finally {
+                runButton.disabled = false;
+            }
+        }
+
+        function displayTheme(theme) {
+            if (!theme || !theme.name || !theme.variables) {
+                themeDisplayEl.innerHTML = '<p class="error">Invalid theme data</p>';
+                return;
+            }
+
+            // Extract all colors for preview (all 9 variables)
+            const colors = [
+                theme.variables['primary-bg'],
+                theme.variables['secondary-bg'],
+                theme.variables['accent-bg'],
+                theme.variables['primary-text'],
+                theme.variables['secondary-text'],
+                theme.variables['accent-text'],
+                theme.variables['primary-accent'],
+                theme.variables['secondary-accent'],
+                theme.variables['border-color']
+            ];
+
+            // Create theme card matching app.php format
+            const themeItem = document.createElement('div');
+            themeItem.className = 'theme-item';
+            
+            const themeCard = document.createElement('div');
+            themeCard.className = 'theme-card';
+            
+            // Custom theme icon (palette icon)
+            const icon = document.createElement('div');
+            icon.className = 'custom-theme-icon';
+            icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.265 2.5-.5"/><circle cx="19" cy="5" r="2"/><path d="M12 2a14.5 14.5 0 0 0 6.5 3 14.5 14.5 0 0 1-3.5 4.5"/></svg>';
+            
+            // Color palette
+            const themePreview = document.createElement('div');
+            themePreview.className = 'theme-preview';
+            colors.forEach(color => {
+                const colorDiv = document.createElement('div');
+                colorDiv.className = 'theme-preview-color';
+                colorDiv.style.backgroundColor = color;
+                themePreview.appendChild(colorDiv);
+            });
+            
+            themeCard.appendChild(icon);
+            themeCard.appendChild(themePreview);
+            
+            const themeName = document.createElement('div');
+            themeName.className = 'theme-name';
+            themeName.textContent = theme.name;
+            
+            themeItem.appendChild(themeCard);
+            themeItem.appendChild(themeName);
+            
+            // Clear and add to display
+            themeDisplayEl.innerHTML = '';
+            themeDisplayEl.appendChild(themeItem);
+            
+            // Display variables
+            variablesListEl.innerHTML = '';
+            const variableOrder = [
+                'primary-bg', 'secondary-bg', 'accent-bg',
+                'primary-text', 'secondary-text', 'accent-text',
+                'primary-accent', 'secondary-accent', 'border-color'
+            ];
+            
+            variableOrder.forEach(varName => {
+                if (theme.variables[varName]) {
+                    const varItem = document.createElement('div');
+                    varItem.className = 'variable-item';
+                    
+                    const varNameEl = document.createElement('div');
+                    varNameEl.className = 'variable-name';
+                    varNameEl.textContent = varName;
+                    
+                    const varColorEl = document.createElement('div');
+                    varColorEl.className = 'variable-color';
+                    varColorEl.style.backgroundColor = theme.variables[varName];
+                    
+                    const varValueEl = document.createElement('div');
+                    varValueEl.className = 'variable-value';
+                    varValueEl.textContent = theme.variables[varName];
+                    
+                    varItem.appendChild(varNameEl);
+                    varItem.appendChild(varColorEl);
+                    varItem.appendChild(varValueEl);
+                    variablesListEl.appendChild(varItem);
+                }
+            });
+            
+            themeVariablesEl.style.display = 'block';
+        }
+
+        function displayPrompt(userDescription) {
+            const promptSection = document.getElementById('prompt-section');
+            const promptText = document.getElementById('prompt-text');
+            
+            const prompt = `Based on this user description, create a custom website theme with appropriate colors and a distinctive, descriptive name (maximum 4 words).
+
+User description: ${userDescription}
+
+Generate a theme that matches the mood, industry, and purpose described. Consider:
+- Color psychology and brand appropriateness
+- Readability and contrast
+- Modern design trends
+- The target audience and industry
+
+Output JSON structure:
+{
+  "name": "Theme Name Max 4 Words",
+  "variables": {
+    "primary-bg": "#ffffff",
+    "secondary-bg": "#f8f9fa",
+    "accent-bg": "#fafafa",
+    "primary-text": "#222222",
+    "secondary-text": "#777777",
+    "accent-text": "#111111",
+    "primary-accent": "#4285f4",
+    "secondary-accent": "#3367d6",
+    "border-color": "#e9ecef"
+  }
+}
+
+How colors are used in the design system:
+- primary-bg: Main body background (body { background-color: var(--primary-bg); })
+- secondary-bg: Used for cards, sections, and secondary backgrounds (.card-themed, .bg-themed-secondary { background-color: var(--secondary-bg); })
+- accent-bg: Used for accent sections and subtle backgrounds (.bg-themed-accent { background-color: var(--accent-bg); })
+- primary-text: Main text color for body and content (body { color: var(--primary-text); })
+- secondary-text: Muted text for less important content (.text-themed-secondary { color: var(--secondary-text); })
+- accent-text: Emphasized text for headings (.heading-themed { color: var(--accent-text); })
+- primary-accent: Main brand color used for buttons, links, and interactive elements (.btn-themed { background: var(--primary-accent); })
+- secondary-accent: Hover states and complementary accents (.btn-themed:hover { background: var(--secondary-accent); })
+- border-color: Subtle borders for cards and sections (.card-themed { border: 1px solid var(--border-color); })
+
+Rules:
+- All colors must be valid hex codes (e.g., #ffffff, #000000)
+- Ensure good contrast between text and background colors for accessibility
+- primary-bg should be the main background (usually light for light themes, dark for dark themes)
+- secondary-bg should complement primary-bg and work well for cards/sections that sit on primary-bg
+- accent-bg should be a subtle variation, often slightly different from secondary-bg
+- primary-text should be dark for light backgrounds, light for dark backgrounds
+- secondary-text should be a muted version of primary-text (about 40-60% opacity equivalent)
+- accent-text should be the darkest/lightest for emphasis (used in headings)
+- primary-accent should be the main brand/accent color (vibrant, distinctive, good for CTAs)
+- secondary-accent should complement primary-accent (slightly darker/lighter, used for hover states)
+- border-color should be subtle, often transparent or very light/dark (barely visible but provides structure)
+- The name should be distinctive, descriptive, and maximum 4 words
+- Output only valid JSON, no additional text`;
+
+            promptText.textContent = prompt;
+            promptSection.style.display = 'block';
+        }
+
+        function togglePrompt() {
+            const promptSection = document.getElementById('prompt-section');
+            promptSection.classList.toggle('collapsed');
+        }
+
+        // Setup prompt toggle
+        const promptHeader = document.getElementById('prompt-header');
+        if (promptHeader) {
+            promptHeader.addEventListener('click', togglePrompt);
+        }
+
+        runButton.addEventListener('click', callApi);
+        userDescriptionInput.addEventListener('keydown', (event) => {
+            if (event.metaKey && event.key.toLowerCase() === 'enter') {
+                callApi();
+            }
+        });
+    </script>
+</body>
+</html>
+

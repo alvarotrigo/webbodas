@@ -1,0 +1,154 @@
+{
+    "id": "test-1",
+    "name": "FitZone Youth Gym",
+    "description": "A website for a small neighbourhood gym focused on young people who want to get fit and healthy. Guys and girls.\n\nModern feeling.",
+    "category": "custom",
+    "tags": [
+        "bold",
+        "modern",
+        "dynamic"
+    ],
+    "sections": [
+        1,
+        8,
+        5,
+        39,
+        46,
+        159
+    ],
+    "theme": {
+        "name": "FitZone Youth Gym",
+        "variables": {
+            "primary-bg": "#000000",
+            "secondary-bg": "#ff5733",
+            "accent-bg": "#ff5733",
+            "primary-text": "#ffffff",
+            "secondary-text": "#cccccc",
+            "accent-text": "#ff5733",
+            "primary-accent": "#ff5733",
+            "primary-accent-soft": "rgba(255, 87, 51, 0.1)",
+            "secondary-accent": "#ff5733",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "section-shadow": "none",
+            "gradient-1": "linear-gradient(none, #ff5733 0%, #ff5733 100%)",
+            "gradient-2": "linear-gradient(none, #ff5733 0%, #ff5733 100%)",
+            "features2-bg": "linear-gradient(none, #ff5733 0%, #ff5733 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Montserrat', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Montserrat', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "8px",
+            "card-radius": "16px",
+            "spacing-unit": "1.2rem"
+        }
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "1": {
+            "headline": "Unleash Your Potential at Our Neighbourhood Gym!",
+            "subheadline": "Where Fitness Meets Community for Young Movers and Shakers",
+            "cta_primary": "Join Us Today",
+            "cta_secondary": "Explore Our Classes"
+        },
+        "5": {
+            "headline": "Hear from Our Happy Members",
+            "testimonials": [
+                "\"I never thought I'd enjoy working out until I joined this gym! The community is so supportive!\" - Sarah",
+                "\"This place has changed my life. The trainers really care about helping you reach your goals!\" - Mike"
+            ]
+        },
+        "8": {
+            "headline": "Ready to Transform Your Fitness Journey?",
+            "cta_primary": "Sign Up Now",
+            "cta_secondary": "Get Your Free Trial"
+        },
+        "39": {
+            "headline": "Your Fitness Journey Starts Here!",
+            "cta_primary": "Take the First Step"
+        },
+        "46": {
+            "headline": "We'd Love to Hear from You!",
+            "subheadline": "Have questions or want to book a tour? Reach out to us!",
+            "cta_primary": "Contact Us"
+        },
+        "159": {
+            "navigation": [
+                "About Us",
+                "Classes",
+                "Memberships",
+                "Contact"
+            ],
+            "contact_info": "Email: info@neighbourhoodgym.com | Phone: (123) 456-7890",
+            "trust_message": "Join a community that prioritizes your fitness journey and well-being."
+        }
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "dark",
+            "primary_bg": "#000000",
+            "secondary_bg": "#ff5733",
+            "accent_bg": "#ff5733",
+            "primary_text": "#ffffff",
+            "secondary_text": "#cccccc",
+            "accent_text": "#ff5733",
+            "primary_accent": "#ff5733",
+            "secondary_accent": "#ff5733"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "suggested_fonts": [
+                "Montserrat",
+                "Roboto"
+            ]
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "card_radius": "rounded",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "none"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.2rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "bold",
+            "modern",
+            "dynamic"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "navigation bar",
+            "call to action"
+        ]
+    },
+    "created_at": "2026-01-22T22:02:55+00:00"
+}

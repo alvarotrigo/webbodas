@@ -1,0 +1,86 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-contact-form",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 4,
+        "text": ""
+      },
+      {
+        "level": 2,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 5,
+        "text": ""
+      },
+      {
+        "level": 5,
+        "text": ""
+      },
+      {
+        "level": 5,
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 2
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 3
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 4
+      }
+    ],
+    "form": {
+      "fields": [
+        {
+          "name": "name",
+          "label": "Name",
+          "type": "text",
+          "required": true,
+          "options": []
+        },
+        {
+          "name": "email",
+          "label": "Email",
+          "type": "email",
+          "required": true,
+          "options": []
+        },
+        {
+          "name": "message",
+          "label": "Message",
+          "type": "textarea",
+          "required": false,
+          "options": []
+        }
+      ],
+      "submit_label": "Send",
+      "success_message": ""
+    }
+  }
+}

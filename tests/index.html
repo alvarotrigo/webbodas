@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tests Index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .test-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .test-item {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 1rem;
+            transition: all 0.2s;
+        }
+        .test-item:hover {
+            background: #e8f4f8;
+            border-color: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .test-item a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            display: block;
+        }
+        .test-item a:hover {
+            color: #3498db;
+        }
+        .test-type {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+        }
+        .stats {
+            background: #ecf0f1;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+        .stats p {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Tests Index</h1>
+        
+        <div class="stats">
+            <p><strong>Total Tests:</strong> <span id="total-count"></span></p>
+            <p><strong>PHP Tests:</strong> <span id="php-count"></span> | <strong>HTML Tests:</strong> <span id="html-count"></span> | <strong>JS Tests:</strong> <span id="js-count"></span></p>
+        </div>
+
+        <h2>PHP Tests</h2>
+        <ul class="test-list">
+            <li class="test-item">
+                <a href="phpinfo.php">phpinfo.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="quick-test.php">quick-test.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-clean-html.php">test-clean-html.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-css-content.php">test-css-content.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-css-output.php">test-css-output.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-db.php">test-db.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-download.php">test-download.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-generate-section-text.php">test-generate-section-text.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-html-content.php">test-html-content.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-image-replacement.php">test-image-replacement.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-payment-webhook.php">test-payment-webhook.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-purge-realistic.php">test-purge-realistic.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-purge-response.php">test-purge-response.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-purge.php">test-purge.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-real-sections.php">test-real-sections.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-user-insert.php">test-user-insert.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-user-mock.php">test-user-mock.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-user.php">test-user.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-webhook-cli.php">test-webhook-cli.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+            <li class="test-item">
+                <a href="test-zip.php">test-zip.php</a>
+                <div class="test-type">PHP</div>
+            </li>
+        </ul>
+
+        <h2>HTML Tests</h2>
+        <ul class="test-list">
+            <li class="test-item">
+                <a href="sentry-diagnostic.html">sentry-diagnostic.html</a>
+                <div class="test-type">HTML</div>
+            </li>
+            <li class="test-item">
+                <a href="sentry-simple-test.html">sentry-simple-test.html</a>
+                <div class="test-type">HTML</div>
+            </li>
+            <li class="test-item">
+                <a href="test-creative-brief.html">test-creative-brief.html</a>
+                <div class="test-type">HTML</div>
+            </li>
+            <li class="test-item">
+                <a href="test-motion.html">test-motion.html</a>
+                <div class="test-type">HTML</div>
+            </li>
+            <li class="test-item">
+                <a href="test-sentry.html">test-sentry.html</a>
+                <div class="test-type">HTML</div>
+            </li>
+            <li class="test-item">
+                <a href="test-tinymce.html">test-tinymce.html</a>
+                <div class="test-type">HTML</div>
+            </li>
+            <li class="test-item">
+                <a href="test-tracing.html">test-tracing.html</a>
+                <div class="test-type">HTML</div>
+            </li>
+            <li class="test-item">
+                <a href="test-generate-theme.html">test-generate-theme.html</a>
+                <div class="test-type">HTML</div>
+            </li>
+        </ul>
+
+        <h2>JavaScript Tests</h2>
+        <ul class="test-list">
+            <li class="test-item">
+                <a href="history-undo.test.js">history-undo.test.js</a>
+                <div class="test-type">JavaScript</div>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        // Update stats
+        const phpCount = document.querySelectorAll('h2:first-of-type + .test-list .test-item').length;
+        const htmlCount = document.querySelectorAll('h2:nth-of-type(2) + .test-list .test-item').length;
+        const jsCount = document.querySelectorAll('h2:last-of-type + .test-list .test-item').length;
+        const totalCount = phpCount + htmlCount + jsCount;
+
+        document.getElementById('total-count').textContent = totalCount;
+        document.getElementById('php-count').textContent = phpCount;
+        document.getElementById('html-count').textContent = htmlCount;
+        document.getElementById('js-count').textContent = jsCount;
+    </script>
+</body>
+</html>
+

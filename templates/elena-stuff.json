@@ -1,0 +1,458 @@
+{
+    "id": "elena-stuff",
+    "name": "Elena Stuff",
+    "description": "Centered layout featuring a sign-in form with fields for email and password. The form includes a \"Sign In\" button and a link for password recovery, set against a spacious background with a cozy living room scene.",
+    "category": "custom",
+    "tags": [
+        "warm",
+        "calm",
+        "empathetic"
+    ],
+    "sections": [
+        1,
+        163,
+        16,
+        7,
+        18,
+        36,
+        50,
+        39,
+        172
+    ],
+    "theme": {
+        "name": "Cozy Sign-In Retreat",
+        "variables": {
+            "primary-bg": "#f5f5f0",
+            "secondary-bg": "#ffffff",
+            "accent-bg": "#e6f2f0",
+            "primary-text": "#333333",
+            "secondary-text": "#666666",
+            "accent-text": "#111111",
+            "primary-accent": "#a8bfb3",
+            "primary-accent-soft": "rgba(168, 191, 179, 0.1)",
+            "secondary-accent": "#b2d8d8",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #ffffff 0%, #e6f2f0 100%)",
+            "gradient-2": "linear-gradient(135deg, #a8bfb3 0%, #b2d8d8 100%)",
+            "features2-bg": "linear-gradient(135deg, #a8bfb3 0%, #b2d8d8 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Lora', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Lora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "8px",
+            "button-radius": "30px",
+            "card-radius": "16px",
+            "spacing-unit": "1.6rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Lora",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "1": {
+            "headline": "Welcome Home to Seamless Access",
+            "subheadline": "Join our community and enjoy a cozy experience tailored just for you.",
+            "cta_primary": "Sign In Now",
+            "cta_secondary": "Forgot Password?"
+        },
+        "7": {
+            "headline": "Easy Sign-In Process",
+            "description": "Follow these simple steps to get started and dive into your cozy experience."
+        },
+        "16": {
+            "headline": "Features You'll Love",
+            "features": [
+                "User-friendly sign-in form.",
+                "Instant access to your personalized dashboard.",
+                "Password recovery link for easy account recovery.",
+                "Secure and safe data handling."
+            ]
+        },
+        "18": {
+            "headline": "What Our Users Say",
+            "testimonials": [
+                "I love how easy it is to sign in! - Alex",
+                "The cozy design makes me feel right at home. - Jamie"
+            ]
+        },
+        "36": {
+            "headline": "Frequently Asked Questions",
+            "faqs": [
+                {
+                    "question": "What if I forget my password?",
+                    "answer": "Click the 'Forgot Password?' link to reset it easily."
+                },
+                {
+                    "question": "Is my data secure?",
+                    "answer": "Absolutely! We prioritize your privacy and data security."
+                }
+            ]
+        },
+        "39": {
+            "headline": "Ready to Get Started?",
+            "cta_primary": "Join Us Today",
+            "cta_secondary": "Explore More"
+        },
+        "50": {
+            "headline": "Sign In to Your Cozy Space",
+            "fields": [
+                {
+                    "label": "Email",
+                    "type": "email",
+                    "placeholder": "Enter your email address"
+                },
+                {
+                    "label": "Password",
+                    "type": "password",
+                    "placeholder": "Enter your password"
+                }
+            ],
+            "cta": "Sign In"
+        },
+        "163": {
+            "headline": "How It Works",
+            "subheadline": "A simple and secure process to access your account.",
+            "steps": [
+                "Enter your email and password.",
+                "Click 'Sign In' to access your account.",
+                "Enjoy the cozy features waiting for you!"
+            ]
+        },
+        "172": {
+            "nav_links": [
+                "Home",
+                "About Us",
+                "Contact",
+                "Privacy Policy"
+            ],
+            "contact_info": "Contact us at support@example.com",
+            "trust_message": "Your security is our priority."
+        }
+    },
+    "section_backgrounds": {
+        "1": {
+            "type": "image",
+            "keyword": "cozy living room"
+        },
+        "7": {
+            "type": "color"
+        },
+        "16": {
+            "type": "color"
+        },
+        "18": {
+            "type": "image",
+            "keyword": "warm testimonials"
+        },
+        "36": {
+            "type": "color"
+        },
+        "39": {
+            "type": "color"
+        },
+        "50": {
+            "type": "color"
+        },
+        "163": {
+            "type": "color"
+        },
+        "172": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "18": [
+            [
+                "portrait of a woman",
+                "smiling face",
+                "New York lifestyle"
+            ],
+            [
+                "portrait of a man",
+                "business professional",
+                "Singapore skyline"
+            ],
+            [
+                "portrait of a woman",
+                "Barcelona lifestyle",
+                "warm colors"
+            ],
+            [
+                "business teamwork",
+                "successful collaboration",
+                "office environment"
+            ],
+            [
+                "team productivity",
+                "modern workspace",
+                "motivated employees"
+            ],
+            [
+                "business transformation",
+                "office collaboration",
+                "creative workspace"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#f5f5f0",
+            "secondary_bg": "#ffffff",
+            "accent_bg": "#e6f2f0",
+            "primary_text": "#333333",
+            "secondary_text": "#666666",
+            "accent_text": "#111111",
+            "primary_accent": "#a8bfb3",
+            "secondary_accent": "#b2d8d8"
+        },
+        "typography": {
+            "heading_style": "serif",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Lora",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "button_radius_value": "30px",
+            "card_radius": "rounded",
+            "card_radius_value": "16px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "spacious",
+            "spacing_unit_hint": "1.6rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "warm",
+            "calm",
+            "empathetic"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "about section",
+            "services overview",
+            "testimonials cards",
+            "contact form",
+            "FAQ"
+        ]
+    },
+    "site_plan": {
+        "audience": "adults seeking emotional support",
+        "primary_goal": "book consultation",
+        "brand_vibe": [
+            "warm",
+            "calm",
+            "empathetic",
+            "trustworthy"
+        ],
+        "content_tone": "compassionate and welcoming",
+        "key_differentiators": [
+            "individual therapy for anxiety",
+            "focus on life transitions",
+            "safe and supportive environment"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-02-11T18:56:26+00:00",
+    "text_updates": {
+        "1": {
+            "h1[0]": "Welcome to Your Safe Haven",
+            "span[0]": "Safe Haven",
+            "p[0]": "At Cozy Sign-In Retreat, we provide a nurturing space designed to support your emotional well-being. Here, you can find comfort and understanding as you navigate life's challenges.",
+            "a[0]": "Book Consultation",
+            "a[1]": "Discover Support"
+        },
+        "7": {
+            "h2[0]": "Hear From Our Satisfied Clients",
+            "p[0]": "Discover the heartfelt experiences of those who have embraced our supportive environment. Our clients share their stories of growth and reassurance as they navigate life's challenges.",
+            "div[5]": "1",
+            "h3[0]": "\"This space felt like home right from the start. I found the support I needed to move forward with my life.\"",
+            "div[8]": "2",
+            "h3[1]": "\"The calm atmosphere allowed me to express my feelings freely. It made all the difference during a tough transition.\"",
+            "div[11]": "3",
+            "h3[2]": "\"I truly appreciate the compassionate staff who listened and guided me without judgment. I felt safe every step of the way.\"",
+            "div[14]": "4",
+            "h3[3]": "\"Finding this retreat was a blessing. I regained my confidence and learned to embrace change positively.\""
+        },
+        "16": {
+            "h1[0]": "Personalized Therapy for Your Journey",
+            "p[0]": "At Cozy Sign-In Retreat, we understand that every individual has their own unique experiences and challenges. Our therapy sessions are thoughtfully designed to provide compassionate care tailored to your needs, helping you find relief from anxiety in a nurturing environment.",
+            "h3[0]": "Embrace Your Path",
+            "p[1]": "Our approach is centered around you, offering a safe space where you can explore your feelings and gain insights into your emotional well-being.",
+            "h3[1]": "Discover Your Strengths",
+            "p[2]": "We empower you to recognize and build upon your strengths, guiding you to become the best version of yourself in a supportive atmosphere.",
+            "h3[2]": "Celebrate Your Progress",
+            "p[3]": "Every step forward is a victory. At Cozy Sign-In Retreat, we encourage you to take pride in your journey and the achievements you make along the way."
+        },
+        "18": {
+            "h2[0]": "Let's Connect for Your Consultation",
+            "h4[0]": "Compassionate Guidance Awaits",
+            "p[0]": "New York, USA",
+            "h4[1]": "Support Through Transitions",
+            "p[1]": "Singapore",
+            "h4[2]": "Empathy in Every Session",
+            "p[2]": "Barcelona, Spain",
+            "h3[0]": "Take the First Step Towards Healing",
+            "p[3]": "Connecting with a supportive therapist can be life-changing. Our welcoming environment is designed to help you navigate life's challenges, focusing on your unique journey towards emotional well-being.",
+            "div[16]": "Compassionate Guidance Awaits",
+            "div[17]": "New York, USA",
+            "div[18]": "Take the First Step Towards Healing",
+            "div[19]": "Connecting with a supportive therapist can be life-changing. Our welcoming environment is designed to help you navigate life's challenges, focusing on your unique journey towards emotional well-being.",
+            "div[21]": "Support Through Transitions",
+            "div[22]": "Singapore",
+            "div[23]": "Empathy in Every Session",
+            "div[24]": "Each consultation offers a safe space to explore your thoughts and feelings. Our individualized approach ensures that you receive the support tailored to your needs, giving you the tools to thrive.",
+            "div[26]": "Empathy in Every Session",
+            "div[27]": "Barcelona, Spain",
+            "div[28]": "Transformative Therapeutic Experience",
+            "div[29]": "Our commitment to providing a nurturing environment allows for profound personal growth. Experience the difference of therapy that is centered around your unique life transitions and emotional needs."
+        },
+        "36": {
+            "h2[0]": "Frequently Asked Questions Uncovered",
+            "p[0]": "Discover answers to your questions, designed to provide clarity and support on your journey.",
+            "h3[0]": "What can I expect from individual therapy?",
+            "p[1]": "Our individual therapy sessions focus on your unique experiences and challenges, particularly in managing anxiety and navigating life transitions. You'll find a warm and compassionate space to explore your thoughts and feelings.",
+            "h3[1]": "How do I schedule a session?",
+            "p[2]": "Scheduling a session is simple. Just fill out the sign-in form, and you'll be directed to our booking calendar where you can choose a time that works best for you.",
+            "h3[2]": "What if I need to change my appointment?",
+            "p[3]": "We understand that life can be unpredictable. You can reschedule your appointment easily through your account, ensuring you get the support you need at a time that suits you.",
+            "h3[3]": "Is my information kept confidential?",
+            "p[4]": "Absolutely. Your privacy is our top priority. All sessions and personal information are kept strictly confidential, adhering to ethical guidelines to protect your trust.",
+            "h3[4]": "What if I’m unsure about therapy?",
+            "p[5]": "It's completely normal to feel uncertain. We encourage you to reach out to us with any questions or concerns. An initial consultation can help clarify what to expect and how we can support you."
+        },
+        "39": {
+            "h2[0]": "Your Path to Emotional Healing Begins Here",
+            "p[0]": "Embrace the journey of transformation, healing, and empowerment. Each step you take is a testament to your strength and the commitment to your well-being.",
+            "a[0]": "Book Your Consultation",
+            "p[1]": "Discover a welcoming space where your emotions matter and growth is nurtured."
+        },
+        "50": {
+            "h2[0]": "Join Our Community of Support",
+            "p[0]": "Discover a place where understanding and empathy thrive. Connect with others who share your journey and find the support you deserve.",
+            "a[0]": "Reach Out"
+        },
+        "163": {
+            "h2[0]": "Navigating Life's Transitions Together",
+            "p[0]": "Join us as we guide you through the complexities of change, helping you embrace growth and find clarity in moments of uncertainty.",
+            "span[0]": "1",
+            "h3[0]": "Embrace Change",
+            "p[1]": "We specialize in empowering individuals to face life's challenges, providing insights that foster resilience and personal development.",
+            "span[1]": "2",
+            "h3[1]": "Find Your Guidance",
+            "p[2]": "Our tailored approach invites you to explore various pathways, ensuring you choose the best direction for your unique journey.",
+            "span[2]": "3",
+            "h3[2]": "Take the First Step",
+            "p[3]": "With our user-friendly process, moving forward is straightforward, allowing you to focus on what truly matters in your life.",
+            "span[3]": "4",
+            "h3[3]": "Experience Your Growth",
+            "p[4]": "Witness the positive transformations that arise from your commitment to change, and celebrate the milestones along the way."
+        },
+        "172": {
+            "h2[0]": "Ready to Take the Next Step?",
+            "li[0]": "Discover Support",
+            "a[0]": "Discover Support",
+            "li[1]": "Join Our Team",
+            "a[1]": "Join Our Team",
+            "li[2]": "Our Brand Values",
+            "a[2]": "Our Brand Values",
+            "li[3]": "Insights & Articles",
+            "a[3]": "Insights & Articles",
+            "h2[1]": "Support Resources",
+            "li[4]": "Community Forum",
+            "a[4]": "Community Forum",
+            "li[5]": "Follow Us on Twitter",
+            "a[5]": "Follow Us on Twitter",
+            "li[6]": "Like Us on Facebook",
+            "a[6]": "Like Us on Facebook",
+            "li[7]": "Reach Out to Us",
+            "a[7]": "Reach Out to Us",
+            "h2[2]": "Important Information",
+            "li[8]": "Data Privacy Commitment",
+            "a[8]": "Data Privacy Commitment",
+            "li[9]": "Usage Guidelines",
+            "a[9]": "Usage Guidelines",
+            "li[10]": "User Agreement",
+            "a[10]": "User Agreement",
+            "h2[3]": "Get Our App",
+            "li[11]": "Download for iOS",
+            "a[11]": "Download for iOS",
+            "li[12]": "Download for Android",
+            "a[12]": "Download for Android",
+            "li[13]": "Download for Windows",
+            "a[13]": "Download for Windows",
+            "li[14]": "Download for MacOS",
+            "a[14]": "Download for MacOS",
+            "span[0]": "© 2024 Cozy Sign-In Retreat. All Rights Reserved.",
+            "a[15]": "Cozy Sign-In Retreat"
+        }
+    },
+    "inline_images": {
+        "18": [
+            "https://images.unsplash.com/photo-1728290838962-9294acfc586a?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8cG9ydHJhaXQlMjBvZiUyMGElMjB3b21hbiUyMHNtaWxpbmclMjBmYWNlJTIwTmV3JTIwWW9yayUyMGxpZmVzdHlsZXxlbnwwfDB8fHwxNzcwODM2MjEwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1752854059236-baa82c7601e1?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8cG9ydHJhaXQlMjBvZiUyMGElMjBtYW4lMjBidXNpbmVzcyUyMHByb2Zlc3Npb25hbCUyMFNpbmdhcG9yZSUyMHNreWxpbmV8ZW58MHwwfHx8MTc3MDgzNjIxMHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1722511670814-44f8e350087d?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8cG9ydHJhaXQlMjBvZiUyMGElMjB3b21hbiUyMEJhcmNlbG9uYSUyMGxpZmVzdHlsZSUyMHdhcm0lMjBjb2xvcnN8ZW58MHwwfHx8MTc3MDgzNjIxMHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1590650589327-3f67c43ad8a2?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8YnVzaW5lc3MlMjB0ZWFtd29yayUyMHN1Y2Nlc3NmdWwlMjBjb2xsYWJvcmF0aW9uJTIwb2ZmaWNlJTIwZW52aXJvbm1lbnR8ZW58MHwwfHx8MTc3MDgzNjIxMHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1770777843445-2a1621b1201d?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8dGVhbSUyMHByb2R1Y3Rpdml0eSUyMG1vZGVybiUyMHdvcmtzcGFjZSUyMG1vdGl2YXRlZCUyMGVtcGxveWVlc3xlbnwwfDB8fHwxNzcwODM2MjEwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1760611656615-db3fad24a314?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8YnVzaW5lc3MlMjB0cmFuc2Zvcm1hdGlvbiUyMG9mZmljZSUyMGNvbGxhYm9yYXRpb24lMjBjcmVhdGl2ZSUyMHdvcmtzcGFjZXxlbnwwfDB8fHwxNzcwODM2MjEwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "1": "https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8Y296eSUyMGxpdmluZyUyMHJvb218ZW58MHwwfHx8MTc3MDgzNjIxMHww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

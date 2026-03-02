@@ -1,0 +1,434 @@
+{
+    "id": "fit-youth-gym-hub2",
+    "name": "Latest",
+    "description": "A landing page for a gym for young people who want to be fit and healthy. \nIt should contain different pricing plans for users to choose from and a map showing where the gym is.",
+    "category": "custom",
+    "tags": [
+        "bold",
+        "modern",
+        "dynamic"
+    ],
+    "sections": [
+        1,
+        11,
+        28,
+        7,
+        6,
+        39,
+        46,
+        159
+    ],
+    "theme": {
+        "name": "Fit Youth Gym Hub",
+        "variables": {
+            "primary-bg": "#000000",
+            "secondary-bg": "#1a1a1a",
+            "accent-bg": "#ff5733",
+            "primary-text": "#ffffff",
+            "secondary-text": "#cccccc",
+            "accent-text": "#ff5733",
+            "primary-accent": "#ff5733",
+            "primary-accent-soft": "rgba(255, 87, 51, 0.1)",
+            "secondary-accent": "#ff4500",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "section-shadow": "none",
+            "gradient-1": "linear-gradient(135deg, #1a1a1a 0%, #ff5733 100%)",
+            "gradient-2": "linear-gradient(135deg, #ff5733 0%, #ff4500 100%)",
+            "features2-bg": "linear-gradient(135deg, #ff5733 0%, #ff4500 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Oswald', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "8px",
+            "card-radius": "16px",
+            "spacing-unit": "1.2rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Oswald",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "1": {
+            "headline": "Get Fit, Stay Healthy, Live Young!",
+            "subheadline": "Join our vibrant community designed for young fitness enthusiasts like you.",
+            "cta_primary": "Start Your Free Trial Now",
+            "cta_secondary": "Explore Our Classes"
+        },
+        "6": {
+            "headline": "What Our Members Say",
+            "testimonials": [
+                "\"I love the community here! Everyone is so supportive and motivating!\" - Jamie, 21",
+                "\"The trainers really know their stuff and help me stay on track!\" - Alex, 19",
+                "\"I've never felt fitter or healthier, and I owe it all to this gym!\" - Taylor, 22"
+            ]
+        },
+        "7": {
+            "headline": "Getting Started is Easy",
+            "steps": [
+                "1. Choose your plan.",
+                "2. Sign up online or in-person.",
+                "3. Attend an orientation session.",
+                "4. Start your fitness journey!"
+            ]
+        },
+        "11": {
+            "headline": "Why Choose Us?",
+            "features": [
+                "State-of-the-art equipment tailored for young athletes",
+                "Diverse classes from HIIT to yoga, ensuring something for everyone",
+                "Supportive community with trainers who understand your goals",
+                "Flexible hours to fit your busy lifestyle",
+                "Nutrition guidance and wellness workshops included"
+            ]
+        },
+        "28": {
+            "headline": "Choose Your Plan",
+            "pricing_options": [
+                {
+                    "plan_name": "Basic Membership",
+                    "price": "$29/month",
+                    "features": "Access to gym facilities and group classes."
+                },
+                {
+                    "plan_name": "Premium Membership",
+                    "price": "$49/month",
+                    "features": "All Basic benefits plus personalized training sessions."
+                },
+                {
+                    "plan_name": "Ultimate Package",
+                    "price": "$69/month",
+                    "features": "All Premium benefits plus nutrition coaching and workshops."
+                }
+            ],
+            "cta_primary": "Select Your Plan and Join Us!"
+        },
+        "39": {
+            "headline": "Ready to Transform Your Life?",
+            "cta_primary": "Join Our Gym Today!",
+            "cta_secondary": "Claim Your Free Trial!"
+        },
+        "46": {
+            "headline": "We're Here to Help!",
+            "cta_primary": "Contact Us for More Information",
+            "cta_secondary": "Book a Tour of the Gym"
+        },
+        "159": {
+            "navigation": [
+                "Home",
+                "About Us",
+                "Membership Plans",
+                "Contact"
+            ],
+            "contact_info": "Email: support@gymname.com | Phone: (123) 456-7890",
+            "trust_message": "Join a trusted community dedicated to your fitness journey!"
+        }
+    },
+    "section_backgrounds": {
+        "1": {
+            "type": "image",
+            "keyword": "young people gym fitness"
+        },
+        "6": {
+            "type": "image",
+            "keyword": "fitness testimonials"
+        },
+        "7": {
+            "type": "color"
+        },
+        "11": {
+            "type": "color"
+        },
+        "28": {
+            "type": "color"
+        },
+        "39": {
+            "type": "color"
+        },
+        "46": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "6": [
+            [
+                "energetic young woman",
+                "fitness enthusiast",
+                "gym workout"
+            ],
+            [
+                "happy customer testimonial",
+                "fitness journey",
+                "positive experience"
+            ],
+            [
+                "confident young athlete",
+                "healthy lifestyle",
+                "gym success story"
+            ]
+        ],
+        "11": [
+            [
+                "gym workout",
+                "energetic fitness",
+                "young athletes",
+                "group training"
+            ],
+            [
+                "healthy lifestyle",
+                "fitness motivation",
+                "youth gym",
+                "active living"
+            ],
+            [
+                "fitness class",
+                "dynamic training",
+                "exercise routine",
+                "playful gym"
+            ],
+            [
+                "gym facilities",
+                "modern equipment",
+                "youth fitness center",
+                "active community"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "dark",
+            "primary_bg": "#000000",
+            "secondary_bg": "#1a1a1a",
+            "accent_bg": "#ff5733",
+            "primary_text": "#ffffff",
+            "secondary_text": "#cccccc",
+            "accent_text": "#ff5733",
+            "primary_accent": "#ff5733",
+            "secondary_accent": "#ff4500"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Oswald",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "card_radius": "rounded",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "prominent",
+            "style": "linear",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.2rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "full-media"
+        },
+        "mood": [
+            "bold",
+            "modern",
+            "dynamic"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "navigation bar",
+            "call to action"
+        ]
+    },
+    "site_plan": {
+        "audience": "young fitness enthusiasts",
+        "primary_goal": "sign up for membership",
+        "brand_vibe": [
+            "bold",
+            "modern",
+            "dynamic"
+        ],
+        "content_tone": "playful and energetic",
+        "key_differentiators": [
+            "affordable pricing plans",
+            "youth-focused programs",
+            "convenient location",
+            "modern facilities"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-01-24T17:38:50+00:00",
+    "text_updates": {
+        "1": {
+            "h1[0]": "Ignite Your Fitness Adventure",
+            "span[0]": "Energy and Excitement",
+            "p[0]": "Join the Fit Youth Gym Hub and unleash your potential! Discover a vibrant community where fitness meets fun, and every workout feels like an adventure.",
+            "a[0]": "Join Now",
+            "a[1]": "Explore Plans"
+        },
+        "6": {
+            "h2[0]": "Hear from Our Fitness Family",
+            "p[0]": "\"Joining Fit Youth Gym Hub has been a game changer! The energy here is contagious, and I love how everyone supports each other. It's not just a gym; it's a community where I feel at home!\"",
+            "h4[0]": "Alex Martinez",
+            "p[1]": "Member, Fit Youth Gym Hub"
+        },
+        "7": {
+            "h2[0]": "Getting Started is Easy",
+            "p[0]": "Follow these simple steps to join the Fit Youth Gym Hub and begin your fitness transformation today!",
+            "h3[0]": "1. Choose your plan.",
+            "h3[1]": "2. Sign up online or in-person.",
+            "h3[2]": "3. Attend an orientation session.",
+            "h3[3]": "4. Start your fitness journey!"
+        },
+        "11": {
+            "h2[0]": "Unleash the Benefits of Fitness",
+            "span[0]": "Explore All Options",
+            "h3[0]": "Affordable Membership Plans",
+            "p[0]": "Join us today and enjoy our budget-friendly rates designed for young go-getters.",
+            "h3[1]": "Youth-Centric Programs",
+            "p[1]": "Engage in tailored workouts and classes that speak your language and fit your vibe.",
+            "h3[2]": "Convenient Location",
+            "p[2]": "Find us in the heart of the city, making it easy to get your sweat on whenever you want.",
+            "h3[3]": "Modern Facilities",
+            "p[3]": "Train with the latest equipment and enjoy a vibrant atmosphere that keeps you motivated."
+        },
+        "28": {
+            "h2[0]": "Explore Affordable Membership Plans",
+            "p[0]": "Dive into our exciting membership options designed just for young fitness lovers! Choose the plan that fits your lifestyle and enjoy flexibility without breaking the bank.",
+            "a[0]": "Monthly Plan",
+            "a[1]": "Yearly Plan\n                Save 20%",
+            "span[0]": "Save 20%",
+            "h3[0]": "Starter",
+            "p[1]": "Perfect for those who are just getting started on their fitness journey, offering essential access to all our vibrant classes.",
+            "span[1]": "€39",
+            "span[2]": "/month",
+            "p[2]": "Charged annually (save €120)",
+            "li[0]": "Access to all youth classes",
+            "li[1]": "Personal workout tracker",
+            "li[2]": "Unlimited gym access",
+            "a[2]": "Try it Free",
+            "div[9]": "Popular Choice",
+            "h3[1]": "Standard",
+            "p[3]": "Our most popular choice! Enjoy a wider range of classes and additional perks to help you stay motivated.",
+            "span[3]": "€79",
+            "span[4]": "/month",
+            "p[4]": "Charged annually (save €240)",
+            "li[3]": "Access to all youth classes",
+            "li[4]": "Personal workout tracker",
+            "li[5]": "Group training sessions",
+            "a[3]": "Try it Free",
+            "h3[2]": "Premium",
+            "p[5]": "For the dedicated fitness enthusiast looking for comprehensive support and exclusive classes tailored to your needs.",
+            "span[5]": "€129",
+            "span[6]": "/month",
+            "p[6]": "Charged annually (save €360)",
+            "li[6]": "Access to all youth classes",
+            "li[7]": "Personal workout tracker",
+            "li[8]": "Unlimited group training",
+            "a[4]": "Try it Free"
+        },
+        "39": {
+            "h2[0]": "Join the Fit Youth Movement",
+            "p[0]": "Dive into a world where energy meets enthusiasm! Embrace your passion for health and well-being with a vibrant community that supports your journey.",
+            "a[0]": "Sign Up Now",
+            "p[1]": "No hidden fees, just pure motivation!"
+        },
+        "46": {
+            "h2[0]": "Connect with Us Today!",
+            "p[0]": "Excited to kickstart your journey towards a healthier lifestyle? We're here to chat and support you every step of the way!",
+            "h3[0]": "Email",
+            "p[1]": "hello@fityouthhub.com",
+            "h3[1]": "Phone",
+            "p[2]": "+1 (555) 987-6543",
+            "h3[2]": "Address",
+            "p[3]": "456 Fitness Lane, Healthy Town, HT 67890",
+            "a[0]": "Reach Out"
+        },
+        "159": {
+            "h3[0]": "Fit Youth Gym Hub",
+            "p[0]": "Your ultimate destination for fitness, fun, and friendship! Join us and unleash your inner athlete in a vibrant atmosphere designed just for youth.",
+            "h4[0]": "Explore More",
+            "li[0]": "About Us",
+            "span[0]": "About Us",
+            "li[1]": "Membership Plans",
+            "span[1]": "Membership Plans",
+            "li[2]": "Programs",
+            "span[2]": "Programs",
+            "li[3]": "Get in Touch",
+            "span[3]": "Get in Touch",
+            "h4[1]": "Our Offerings",
+            "li[4]": "Group Classes",
+            "li[5]": "Personal Training",
+            "li[6]": "Nutrition Guidance",
+            "li[7]": "Youth Events",
+            "h4[2]": "Stay Updated",
+            "a[0]": "Instagram",
+            "a[1]": "Facebook",
+            "a[2]": "Snapchat",
+            "p[1]": "© 2024 Fit Youth Gym Hub. All rights reserved."
+        }
+    },
+    "inline_images": {
+        "6": [
+            "https://images.unsplash.com/photo-1759572985980-c9af2f1ae4af?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8ZW5lcmdldGljJTIweW91bmclMjB3b21hbiUyMGZpdG5lc3MlMjBlbnRodXNpYXN0JTIwZ3ltJTIwd29ya291dHxlbnwwfDB8fHwxNzY5Mjc2MzQ5fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758875568722-72961c05d5dd?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8Y29uZmlkZW50JTIweW91bmclMjBhdGhsZXRlJTIwaGVhbHRoeSUyMGxpZmVzdHlsZSUyMGd5bSUyMHN1Y2Nlc3MlMjBzdG9yeXxlbnwwfDB8fHwxNzY5Mjc2MzQ5fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "11": [
+            "https://images.unsplash.com/photo-1760331840426-027b269d0af2?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8Z3ltJTIwd29ya291dCUyMGVuZXJnZXRpYyUyMGZpdG5lc3MlMjB5b3VuZyUyMGF0aGxldGVzJTIwZ3JvdXAlMjB0cmFpbmluZ3xlbnwwfDB8fHwxNzY5Mjc2MzUwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758875569517-559a631fb44d?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8aGVhbHRoeSUyMGxpZmVzdHlsZSUyMGZpdG5lc3MlMjBtb3RpdmF0aW9uJTIweW91dGglMjBneW0lMjBhY3RpdmUlMjBsaXZpbmd8ZW58MHwwfHx8MTc2OTI3NjM1MHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "1": "https://images.unsplash.com/photo-1734668488435-2dbc0a47cf1c?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8eW91bmclMjBwZW9wbGUlMjBneW0lMjBmaXRuZXNzfGVufDB8MHx8fDE3NjkyNzYzNTF8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "6": "https://images.unsplash.com/photo-1633354129320-163fb10dd288?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8Zml0bmVzcyUyMHRlc3RpbW9uaWFsc3xlbnwwfDB8fHwxNzY5MTk4NjA4fDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

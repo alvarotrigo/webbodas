@@ -1,0 +1,77 @@
+<section id="fp-theme-popular-questions" class="min-h-screen flex items-center" style="background: var(--primary-bg);" data-acc="" data-acc-auto-open="false">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <!-- Header -->
+          <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style="color: var(--primary-text); font-family: var(--heading-font);">
+              Popular Questions
+            </h2>
+            <p class="text-lg md:text-xl max-w-4xl mx-auto leading-relaxed" style="color: var(--secondary-text);">
+              This section highlights the inquiries that are most relevant to the audience, providing clear and concise answers to help address the most common concerns or interests.
+            </p>
+          </div>
+
+          <!-- Content Grid -->
+          <div data-fp-anim-children="true" class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Left Sidebar - Categories -->
+            <div data-fp-anim-children="true" class="lg:col-span-1 space-y-4 flex flex-col">
+              <!-- General Category -->
+              <div data-faq-category="general" class="fp-keep-color w-full text-left p-6 rounded-2xl transition-all flex-1" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+                <div class="flex items-start space-x-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="home" aria-hidden="true" class="lucide lucide-home w-6 h-6 flex-shrink-0" style="color: var(--secondary-text);"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                  <div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--primary-text); font-family: var(--heading-font);">
+                      General
+                    </h3>
+                    <p class="text-sm leading-relaxed" style="color: var(--secondary-text);">
+                      Welcome to the General section, where you can find essential information and resources to help you navigate our services.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Support Category -->
+              <div data-faq-category="support" class="fp-keep-color w-full text-left p-6 rounded-2xl transition-all flex-1" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+                <div class="flex items-start space-x-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="message-circle" aria-hidden="true" class="lucide lucide-message-circle w-6 h-6 flex-shrink-0" style="color: var(--secondary-text);"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path></svg>
+                  <div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--primary-text); font-family: var(--heading-font);">
+                      Support
+                    </h3>
+                    <p class="text-sm leading-relaxed" style="color: var(--secondary-text);">
+                      Our dedicated support team is here to assist you with any questions or issues you may have. We provide prompt, professional assistance.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Other Category -->
+              <div data-faq-category="other" class="fp-keep-color w-full text-left p-6 rounded-2xl transition-all flex-1" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+                <div class="flex items-start space-x-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="grid-2x2" aria-hidden="true" class="lucide lucide-grid-2x2 w-6 h-6 flex-shrink-0" style="color: var(--secondary-text);"><path d="M12 3v18"></path><path d="M3 12h18"></path><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg>
+                  <div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--primary-text); font-family: var(--heading-font);">
+                      Other
+                    </h3>
+                    <p class="text-sm leading-relaxed" style="color: var(--secondary-text);">
+                      If you have specific needs or inquiries that don't fall into our standard categories, we're here to help.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Side - FAQ Accordion -->
+            <div class="lg:col-span-2">
+              <h3 id="faq-category-title" class="text-3xl md:text-4xl font-bold mb-8" style="color: var(--primary-accent); font-family: var(--heading-font);">
+                General Questions
+              </h3>
+              
+              <!-- FAQ Items Container (populated by JS) -->
+              <div id="faq-accordion-container" class="fp-keep-color">
+                <!-- FAQ items will be dynamically inserted here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>

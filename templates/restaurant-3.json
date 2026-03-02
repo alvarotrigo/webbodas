@@ -1,0 +1,394 @@
+{
+    "id": "restaurant-3",
+    "name": "Wholesome Harvest Haven",
+    "description": "Create a cozy website for a farm-to-table café called “Harvest Table”.\n\nConcept:\nOrganic, local ingredients, healthy seasonal menu.\n\nAudience:\nHealth-conscious diners and families.\n\nTone:\nWarm, welcoming, natural.\n\nMain colors:\n- Olive green\n- Soft brown\n- Cream backgrounds\n- Muted terracotta accents\n\nGoals:\nEncourage visits and brunch bookings.\n\nStructure:\n- Calm hero section\n- Philosophy/farm-to-table story\n- Seasonal menu highlights\n- Local suppliers/farm partners\n- Gallery of food and space\n- Events/workshops\n- Booking CTA\n\nDesign guidance:\n- Lots of whitespace\n- Natural imagery\n- Soft transitions\n- Calm, airy layout\n\nCopy guidance:\n- Friendly, authentic tone\n- Focus on freshness and sustainability\n- Avoid hype language\n\nMake it feel wholesome and inviting.",
+    "category": "custom",
+    "tags": [
+        "warm",
+        "inviting",
+        "natural"
+    ],
+    "sections": [
+        1,
+        14,
+        43,
+        145,
+        82,
+        66,
+        154,
+        159
+    ],
+    "theme": {
+        "name": "Wholesome Harvest Haven",
+        "variables": {
+            "primary-bg": "#ffffff",
+            "secondary-bg": "#f4f4f4",
+            "accent-bg": "#f0e5d8",
+            "primary-text": "#333333",
+            "secondary-text": "#666666",
+            "accent-text": "#111111",
+            "primary-accent": "#6b8e23",
+            "primary-accent-soft": "rgba(107, 142, 35, 0.1)",
+            "secondary-accent": "#d4a373",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #f4f4f4 0%, #f0e5d8 100%)",
+            "gradient-2": "linear-gradient(135deg, #6b8e23 0%, #d4a373 100%)",
+            "features2-bg": "linear-gradient(135deg, #6b8e23 0%, #d4a373 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Playfair Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Playfair Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "30px",
+            "card-radius": "12px",
+            "spacing-unit": "1.6rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Playfair Display",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "1": {
+            "headline": "Welcome to Harvest Table",
+            "subheadline": "Savor the flavors of freshness with our farm-to-table café, where every meal tells a story.",
+            "cta_primary": "Book Your Brunch Today",
+            "cta_secondary": "Explore Our Seasonal Menu"
+        },
+        "14": {
+            "headline": "Our Story",
+            "subheadline": "Rooted in Community, Grown with Care",
+            "content": "At Harvest Table, we believe in the power of fresh, organic ingredients sourced from local farms. Our mission is to create a warm gathering place for health-conscious diners and families, where every dish celebrates the bounty of the season."
+        },
+        "43": {
+            "headline": "Why Choose Us?",
+            "features": [
+                "Fresh, organic ingredients sourced from local farms",
+                "Seasonal menus that change with the harvest",
+                "A warm, welcoming atmosphere for families and friends",
+                "Workshops that connect you with our farm partners",
+                "Commitment to sustainability and community support"
+            ]
+        },
+        "66": {
+            "headline": "Join Us for Special Events",
+            "subheadline": "Learn, Taste, and Connect",
+            "content": "From cooking workshops to seasonal tastings, our events are designed to bring people together around the love of food and sustainability."
+        },
+        "82": {
+            "headline": "A Taste of Harvest Table",
+            "captions": [
+                "Our vibrant seasonal salad, topped with ingredients from our local farms.",
+                "A cozy corner of our café, perfect for family gatherings.",
+                "Freshly baked bread, served warm with our homemade spreads.",
+                "Gathering around Harvest Table: where friends become family."
+            ]
+        },
+        "145": {
+            "headline": "Proudly Partnering With Local Farms",
+            "subheadline": "Together, we cultivate a sustainable future."
+        },
+        "154": {
+            "headline": "Ready to Experience Freshness?",
+            "cta_primary": "Reserve Your Table Now",
+            "cta_secondary": "Join Our Community"
+        },
+        "159": {
+            "headline": "Stay Connected",
+            "content": "Follow us on social media for the latest updates and delicious recipes. Have questions? Reach out to our friendly team!",
+            "contact_info": "Contact us: info@harvesttable.com | 555-123-4567",
+            "trust_message": "Harvest Table: Where every meal is made with love and care."
+        }
+    },
+    "section_backgrounds": {
+        "1": {
+            "type": "image",
+            "keyword": "cozy café interior"
+        },
+        "14": {
+            "type": "color"
+        },
+        "43": {
+            "type": "color"
+        },
+        "66": {
+            "type": "color"
+        },
+        "82": {
+            "type": "image",
+            "keyword": "farm fresh produce"
+        },
+        "145": {
+            "type": "color"
+        },
+        "154": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "82": [
+            [
+                "farm-to-table cuisine",
+                "fresh organic dishes",
+                "rustic dining experience"
+            ],
+            [
+                "seasonal ingredients",
+                "healthy brunch spread",
+                "colorful vegetable platter"
+            ],
+            [
+                "community dining",
+                "family-friendly meal",
+                "wholesome food gathering"
+            ],
+            [
+                "local farm partnership",
+                "sustainable agriculture",
+                "fresh produce delivery"
+            ],
+            [
+                "cozy café interior",
+                "inviting dining space",
+                "natural wood decor"
+            ],
+            [
+                "cooking workshop",
+                "culinary event",
+                "hands-on food experience"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#ffffff",
+            "secondary_bg": "#f4f4f4",
+            "accent_bg": "#f0e5d8",
+            "primary_text": "#333333",
+            "secondary_text": "#666666",
+            "accent_text": "#111111",
+            "primary_accent": "#6b8e23",
+            "secondary_accent": "#d4a373"
+        },
+        "typography": {
+            "heading_style": "serif",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Playfair Display",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "16px",
+            "button_radius": "rounded",
+            "button_radius_value": "30px",
+            "card_radius": "rounded",
+            "card_radius_value": "12px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "spacious",
+            "spacing_unit_hint": "1.6rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "warm",
+            "inviting",
+            "natural"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "philosophy story",
+            "seasonal menu highlights",
+            "gallery of food and space",
+            "local suppliers grid",
+            "events and workshops"
+        ]
+    },
+    "site_plan": {
+        "audience": "health-conscious diners",
+        "primary_goal": "encourage brunch bookings",
+        "brand_vibe": [
+            "warm",
+            "inviting",
+            "natural",
+            "wholesome"
+        ],
+        "content_tone": "friendly and authentic",
+        "key_differentiators": [
+            "farm-to-table concept",
+            "seasonal menu",
+            "local suppliers",
+            "focus on sustainability"
+        ],
+        "business_type": "restaurant"
+    },
+    "created_at": "2026-02-11T20:45:11+00:00",
+    "text_updates": {
+        "1": {
+            "h1[0]": "Welcome to Wholesome Harvest Haven",
+            "span[0]": "Harvest Haven",
+            "p[0]": "Step into our cozy café where fresh, organic ingredients come together to create delightful seasonal dishes that nourish the body and soul.",
+            "a[0]": "Book a Brunch",
+            "a[1]": "Discover Our Menu"
+        },
+        "14": {
+            "h2[0]": "About Us",
+            "p[0]": "At Harvest Table, our mission is to nurture a vibrant community through the love of fresh, locally sourced meals. We believe in sustainability and the power of seasonal ingredients.",
+            "h3[0]": "Sustainable Practices",
+            "p[1]": "We prioritize eco-friendly methods and support local farmers, ensuring that our food is not only delicious but also kind to the earth.",
+            "h3[1]": "Community Connection",
+            "p[2]": "By partnering with nearby farms, we strengthen our local economy and create lasting relationships that benefit everyone involved.",
+            "h3[2]": "Seasonal Flavors",
+            "p[3]": "Our rotating menu celebrates the best of each season, inviting you to experience the freshest flavors in every dish."
+        },
+        "43": {
+            "h2[0]": "Discover Our Seasonal Delights",
+            "p[0]": "WHAT'S INSIDE",
+            "p[1]": "Each dish is crafted with fresh, locally sourced ingredients. Embracing health and flavor, the menu reflects the best of what nature offers throughout the year.",
+            "h3[0]": "Fresh Ingredients",
+            "h3[1]": "Seasonal Menus",
+            "h3[2]": "Health-Focused",
+            "h3[3]": "Sustainable Practices",
+            "h3[4]": "Community Connections"
+        },
+        "66": {
+            "h2[0]": "Upcoming Events",
+            "p[0]": "Explore our upcoming events and workshops that bring together our community in a warm and welcoming atmosphere.",
+            "p[1]": "MAY",
+            "p[2]": "20",
+            "h3[0]": "Brunch & Bloom: Seasonal Flavors",
+            "p[3]": "10:00 - 12:00",
+            "p[4]": "Harvest Table Café",
+            "p[5]": "MAY",
+            "p[6]": "25",
+            "h3[1]": "Farm-to-Table Cooking Class",
+            "p[7]": "13:00 - 15:00",
+            "p[8]": "Harvest Table Café",
+            "p[9]": "MAY",
+            "p[10]": "27",
+            "h3[2]": "Community Garden Workshop",
+            "p[11]": "11:00 - 13:00",
+            "p[12]": "Local Farm",
+            "p[13]": "MAY",
+            "p[14]": "30",
+            "h3[3]": "Sustainable Living Discussion",
+            "p[15]": "16:00 - 18:00",
+            "p[16]": "Harvest Table Café",
+            "p[17]": "MAY",
+            "p[18]": "29",
+            "h3[4]": "Kids' Nature Art Day",
+            "p[19]": "10:00 - 12:00",
+            "p[20]": "Harvest Table Café",
+            "p[21]": "JUNE",
+            "p[22]": "1",
+            "h3[5]": "Farm Tour & Picnic",
+            "p[23]": "12:00 - 15:00",
+            "p[24]": "Local Farm"
+        },
+        "82": {
+            "p[0]": "GALLERY",
+            "h2[0]": "A Taste of Our Culinary Creations",
+            "p[1]": "Delight in our vibrant imagery showcasing the essence of our seasonal dishes and the inviting warmth of our café space."
+        },
+        "145": {
+            "h2[0]": "Trusted companies",
+            "span[0]": "Supporting our community through quality ingredients"
+        },
+        "154": {
+            "h2[0]": "Reserve Your Spot Today",
+            "p[0]": "Community & Support",
+            "p[1]": "Experience a delightful brunch filled with wholesome ingredients and a cozy atmosphere.",
+            "a[0]": "Get Started"
+        },
+        "159": {
+            "h3[0]": "ModernCo",
+            "p[0]": "We cherish our community and strive to connect you with the freshest flavors from our local farms. Your support helps us grow.",
+            "h4[0]": "Quick Links",
+            "li[0]": "About Us",
+            "span[0]": "About Us",
+            "li[1]": "Menu",
+            "span[1]": "Menu",
+            "li[2]": "Events",
+            "span[2]": "Events",
+            "li[3]": "Contact Us",
+            "span[3]": "Contact Us",
+            "h4[1]": "Our Offerings",
+            "li[4]": "Farm-to-Table",
+            "li[5]": "Seasonal Delights",
+            "li[6]": "Local Partnerships",
+            "li[7]": "Community Events",
+            "h4[2]": "Follow Us",
+            "a[0]": "Instagram",
+            "a[1]": "Facebook",
+            "a[2]": "Pinterest",
+            "p[1]": "© 2024 Wholesome Harvest Haven. All rights reserved."
+        }
+    },
+    "inline_images": {
+        "82": [
+            "https://images.unsplash.com/photo-1542444256-9dd3e45c9b81?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8ZmFybS10by10YWJsZSUyMGN1aXNpbmUlMjBmcmVzaCUyMG9yZ2FuaWMlMjBkaXNoZXMlMjBydXN0aWMlMjBkaW5pbmclMjBleHBlcmllbmNlfGVufDB8MHx8fDE3NzA4NDI3MzB8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1588505617603-f80b72bf8f24?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8c2Vhc29uYWwlMjBpbmdyZWRpZW50cyUyMGhlYWx0aHklMjBicnVuY2glMjBzcHJlYWQlMjBjb2xvcmZ1bCUyMHZlZ2V0YWJsZSUyMHBsYXR0ZXJ8ZW58MHwwfHx8MTc3MDg0MjczMHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1683540804007-1dfffdcb4944?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8Y29tbXVuaXR5JTIwZGluaW5nJTIwZmFtaWx5LWZyaWVuZGx5JTIwbWVhbCUyMHdob2xlc29tZSUyMGZvb2QlMjBnYXRoZXJpbmd8ZW58MHwwfHx8MTc3MDg0MjczMHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1765134948935-b28cf6d7d8e2?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8Y296eSUyMGNhZiVDMyVBOSUyMGludGVyaW9yJTIwaW52aXRpbmclMjBkaW5pbmclMjBzcGFjZSUyMG5hdHVyYWwlMjB3b29kJTIwZGVjb3J8ZW58MHwwfHx8MTc3MDg0MjczMHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1579706065216-7c0a02af6ace?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8Y29va2luZyUyMHdvcmtzaG9wJTIwY3VsaW5hcnklMjBldmVudCUyMGhhbmRzLW9uJTIwZm9vZCUyMGV4cGVyaWVuY2V8ZW58MHwwfHx8MTc3MDg0MjczMHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "1": "https://images.unsplash.com/photo-1682331936363-48d9aaf75278?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8Y296eSUyMGNhZiVDMyVBOSUyMGludGVyaW9yfGVufDB8MHx8fDE3NzA4NDI3MzF8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "82": "https://images.unsplash.com/photo-1657288649124-b80bdee3c17e?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8ZmFybSUyMGZyZXNoJTIwcHJvZHVjZXxlbnwwfDB8fHwxNzcwODQyNzMxfDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

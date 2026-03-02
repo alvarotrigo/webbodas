@@ -1,0 +1,400 @@
+{
+    "id": "mindful-path-design",
+    "name": "Mindful Path Design",
+    "description": "Create a modern website for a psychologist called “Mindful Path Therapy”.\n\nService:\nOnline and in-person therapy for young professionals experiencing burnout and anxiety.\n\nAudience:\nPeople aged 25–45 seeking balance and mental clarity.\n\nTone:\nSupportive, modern, trustworthy, gentle.\n\nMain colors:\n- Dusty blue (primary)\n- Soft lavender accents\n- White backgrounds\n- Light gray for contrast sections\n\nGoals:\nGet visitors to book a discovery call.\n\nStructure:\n- Hero with supportive headline\n- Short intro about the therapist\n- Services offered\n- Benefits of therapy\n- Testimonials\n- Simple pricing or session info\n- Booking CTA\n\nDesign guidance:\n- Clean and modern\n- Soft rounded visuals\n- Calm lifestyle imagery\n- No aggressive sales elements\n\nCopy guidance:\n- Gentle, relatable language\n- Focus on well-being and growth\n- Avoid medical jargon\n- Make therapy feel approachable\n\nMake the page feel safe, modern, and trustworthy.\nKeep it conversion-focused but human.",
+    "category": "custom",
+    "tags": [
+        "modern",
+        "minimal",
+        "supportive",
+        "gentle"
+    ],
+    "sections": [
+        158,
+        14,
+        16,
+        19,
+        32,
+        154,
+        159
+    ],
+    "theme": {
+        "name": "Mindful Path Design",
+        "variables": {
+            "primary-bg": "#ffffff",
+            "secondary-bg": "#f4f4f7",
+            "accent-bg": "#fafafa",
+            "primary-text": "#222222",
+            "secondary-text": "#555555",
+            "accent-text": "#111111",
+            "primary-accent": "#5a738e",
+            "primary-accent-soft": "rgba(90, 115, 142, 0.1)",
+            "secondary-accent": "#b19cd9",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #f4f4f7 0%, #fafafa 100%)",
+            "gradient-2": "linear-gradient(135deg, #5a738e 0%, #b19cd9 100%)",
+            "features2-bg": "linear-gradient(135deg, #5a738e 0%, #b19cd9 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "30px",
+            "card-radius": "12px",
+            "spacing-unit": "1.4rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Poppins",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "14": {
+            "headline": "Meet Your Guide to Mental Clarity",
+            "subheadline": "At Mindful Path Therapy, we believe in your ability to grow and thrive. Our mission is to provide compassionate support tailored to your unique journey.",
+            "body": "Led by an experienced psychologist, our practice is dedicated to helping young professionals reclaim their well-being and find balance in life."
+        },
+        "16": {
+            "headline": "Our Services",
+            "features": [
+                "Individual therapy sessions (online & in-person)",
+                "Personalized approaches to address burnout and anxiety",
+                "Flexible scheduling to fit your busy lifestyle",
+                "Safe and supportive environment to explore your thoughts"
+            ]
+        },
+        "19": {
+            "headline": "What Our Clients Say",
+            "testimonials": [
+                "\"Mindful Path Therapy helped me regain my focus and peace of mind during a challenging time. I feel more empowered than ever!\" - Sarah, 30",
+                "\"The sessions felt like a gentle guiding hand, helping me navigate my anxiety with ease. Highly recommend!\" - James, 35"
+            ]
+        },
+        "32": {
+            "headline": "Transparent Pricing for Your Journey",
+            "body": "We offer flexible pricing options to ensure accessibility for everyone. Choose from single sessions or package deals that best suit your needs.",
+            "options": [
+                "Single Session: $120",
+                "Package of 5 Sessions: $550",
+                "Package of 10 Sessions: $1,000"
+            ]
+        },
+        "154": {
+            "headline": "Take the First Step Towards Your Well-Being",
+            "cta_primary": "Schedule Your Discovery Call Today",
+            "cta_secondary": "Explore Our Services"
+        },
+        "158": {
+            "headline": "Find Your Balance with Mindful Path Therapy",
+            "subheadline": "Supportive therapy for young professionals navigating burnout and anxiety.",
+            "cta_primary": "Book Your Discovery Call",
+            "cta_secondary": "Learn More About Our Approach"
+        },
+        "159": {
+            "headline": "Stay Connected",
+            "contact_info": "Contact us at: info@mindfulpaththerapy.com | Phone: (123) 456-7890",
+            "trust_reassurance": "Your privacy and comfort are our top priorities. We are here to support you every step of the way."
+        }
+    },
+    "section_backgrounds": {
+        "14": {
+            "type": "color"
+        },
+        "16": {
+            "type": "color"
+        },
+        "19": {
+            "type": "color"
+        },
+        "32": {
+            "type": "color"
+        },
+        "154": {
+            "type": "color"
+        },
+        "158": {
+            "type": "image",
+            "keyword": "calm therapy session"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "19": [
+            [
+                "professional portrait",
+                "business attire",
+                "confident expression",
+                "young professional"
+            ],
+            [
+                "creative workspace",
+                "design lead",
+                "modern office",
+                "inspiration"
+            ],
+            [
+                "product manager",
+                "focused work",
+                "team collaboration",
+                "casual business environment"
+            ]
+        ],
+        "158": [
+            [
+                "young professionals",
+                "supportive community",
+                "well-being journey"
+            ],
+            [
+                "mental clarity",
+                "self-care",
+                "therapist consultation"
+            ],
+            [
+                "personal growth",
+                "mindfulness",
+                "stress relief"
+            ],
+            [
+                "balanced lifestyle",
+                "calm environment",
+                "therapy session"
+            ],
+            [
+                "trustworthy therapist",
+                "welcoming space",
+                "healing process"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#ffffff",
+            "secondary_bg": "#f4f4f7",
+            "accent_bg": "#fafafa",
+            "primary_text": "#222222",
+            "secondary_text": "#555555",
+            "accent_text": "#111111",
+            "primary_accent": "#5a738e",
+            "secondary_accent": "#b19cd9"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Poppins",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "16px",
+            "button_radius": "rounded",
+            "button_radius_value": "30px",
+            "card_radius": "rounded",
+            "card_radius_value": "12px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.4rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "modern",
+            "minimal",
+            "supportive",
+            "gentle"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "short intro",
+            "services list",
+            "benefits overview",
+            "testimonials cards",
+            "simple pricing"
+        ]
+    },
+    "site_plan": {
+        "audience": "young professionals seeking balance",
+        "primary_goal": "book discovery call",
+        "brand_vibe": [
+            "supportive",
+            "modern",
+            "trustworthy",
+            "gentle"
+        ],
+        "content_tone": "gentle and relatable",
+        "key_differentiators": [
+            "online and in-person therapy",
+            "focus on burnout and anxiety",
+            "approachable language"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-02-11T20:38:26+00:00",
+    "text_updates": {
+        "14": {
+            "h2[0]": "About Us",
+            "p[0]": "At Mindful Path Design, we focus on helping young professionals navigate their mental well-being with a compassionate approach.",
+            "h3[0]": "Dedicated Expertise",
+            "p[1]": "Our therapist brings a wealth of knowledge and empathy, ensuring that every client feels heard and supported in their journey toward balance.",
+            "h3[1]": "Personalized Support",
+            "p[2]": "We tailor our therapy sessions to meet individual needs, helping you tackle burnout and anxiety with strategies that resonate.",
+            "h3[2]": "Accessible Therapy",
+            "p[3]": "Offering both online and in-person sessions, we make it easy for you to find the support you need, whenever and wherever you need it."
+        },
+        "16": {
+            "h1[0]": "Discover Your Path to Relief",
+            "p[0]": "Experience a supportive journey towards mental clarity and well-being, tailored to your unique needs. Our modern approach blends online and in-person therapy to help you find balance and overcome the challenges of burnout and anxiety.",
+            "h3[0]": "Embrace Self-Discovery",
+            "p[1]": "Begin your journey with a compassionate environment where you can explore your thoughts and feelings, helping you to understand yourself better.",
+            "h3[1]": "Achieve Personal Growth",
+            "p[2]": "Engage in meaningful conversations that empower you to develop coping strategies and enhance your resilience, leading to a more fulfilling life.",
+            "h3[2]": "Celebrate Your Progress",
+            "p[3]": "Recognize and appreciate the strides you make on your path, fostering a sense of pride in your achievements and personal development."
+        },
+        "19": {
+            "h2[0]": "Hear from Our Resilient Clients",
+            "p[0]": "Testimonial",
+            "h3[0]": "Emily Johnson",
+            "span[0]": "5.0",
+            "p[1]": "Marketing Specialist",
+            "p[2]": "The sessions provided me with the tools to navigate my anxiety and find balance in my daily life.",
+            "h3[1]": "Jordan Lee",
+            "span[1]": "5.0",
+            "p[3]": "Graphic Designer",
+            "p[4]": "I never thought I could feel this calm. The support I received was invaluable in overcoming burnout.",
+            "h3[2]": "Ava Rodriguez",
+            "span[2]": "5.0",
+            "p[5]": "Software Engineer",
+            "p[6]": "Each session helped me see things from a different perspective, leading to real change and growth."
+        },
+        "32": {
+            "h2[0]": "Transparent Session Options Tailored for You",
+            "p[0]": "Explore our flexible session choices designed to promote mental well-being and clarity. We prioritize transparency in pricing to help you find the right fit for your needs.",
+            "h3[0]": "Individual Session",
+            "p[1]": "Customer Reach & Budget",
+            "span[0]": "$100",
+            "span[1]": "/Session",
+            "p[2]": "Website Display",
+            "p[3]": "Convenient scheduling options",
+            "p[4]": "Personalized therapy approach",
+            "a[0]": "Book a Call",
+            "h3[1]": "Monthly Package",
+            "p[5]": "Customer Reach & Budget",
+            "span[2]": "$350",
+            "span[3]": "/Month",
+            "p[6]": "Includes four sessions",
+            "p[7]": "Hosting Type",
+            "p[8]": "Financial Service Features",
+            "a[1]": "Start Your Journey"
+        },
+        "154": {
+            "h2[0]": "Take the First Step Towards Change",
+            "p[0]": "Embrace Your Journey",
+            "p[1]": "Connect with a compassionate guide who understands your struggles.",
+            "a[0]": "Book a Call"
+        },
+        "158": {
+            "h1[0]": "Embrace a Path to Mindfulness",
+            "p[0]": "Used by 10,000+ users",
+            "span[0]": "Mindful Path Therapy",
+            "p[1]": "Experience our compassionate approach to therapy, tailored for young professionals navigating burnout and anxiety.",
+            "a[0]": "Book a Call",
+            "a[1]": "Learn More",
+            "p[2]": "Trusted by those seeking balance and peace."
+        },
+        "159": {
+            "h3[0]": "ModernCo",
+            "p[0]": "Your journey toward balance and clarity begins here. We’re honored to support you along the way.",
+            "h4[0]": "Helpful Links",
+            "li[0]": "About Us",
+            "span[0]": "About Us",
+            "li[1]": "Our Services",
+            "span[1]": "Our Services",
+            "li[2]": "Session Details",
+            "span[2]": "Session Details",
+            "li[3]": "Reach Out",
+            "span[3]": "Reach Out",
+            "h4[1]": "Therapy Offerings",
+            "li[4]": "Online Sessions",
+            "li[5]": "In-Person Meetings",
+            "li[6]": "Burnout Support",
+            "li[7]": "Anxiety Management",
+            "h4[2]": "Connect with Us",
+            "a[0]": "Instagram",
+            "a[1]": "Facebook",
+            "a[2]": "LinkedIn",
+            "p[1]": "© 2024 Mindful Path Therapy. All rights reserved."
+        }
+    },
+    "inline_images": {
+        "19": [
+            "https://images.unsplash.com/photo-1758600587728-9bde755354ad?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBidXNpbmVzcyUyMGF0dGlyZSUyMGNvbmZpZGVudCUyMGV4cHJlc3Npb24lMjB5b3VuZyUyMHByb2Zlc3Npb25hbHxlbnwwfDB8fHwxNzcwODQyMzIzfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758630737361-ca7532fb5e7f?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8Y3JlYXRpdmUlMjB3b3Jrc3BhY2UlMjBkZXNpZ24lMjBsZWFkJTIwbW9kZXJuJTIwb2ZmaWNlJTIwaW5zcGlyYXRpb258ZW58MHwwfHx8MTc3MDg0MjMyM3ww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1764391797723-45f40835667b?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8cHJvZHVjdCUyMG1hbmFnZXIlMjBmb2N1c2VkJTIwd29yayUyMHRlYW0lMjBjb2xsYWJvcmF0aW9uJTIwY2FzdWFsJTIwYnVzaW5lc3MlMjBlbnZpcm9ubWVudHxlbnwwfDB8fHwxNzcwODQyMzIzfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "158": [
+            "https://images.unsplash.com/photo-1584415965060-a5279d4d24c5?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8eW91bmclMjBwcm9mZXNzaW9uYWxzJTIwc3VwcG9ydGl2ZSUyMGNvbW11bml0eSUyMHdlbGwtYmVpbmclMjBqb3VybmV5fGVufDB8MHx8fDE3NzA4NDIzMjR8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758273240631-59d44c8f5b66?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8bWVudGFsJTIwY2xhcml0eSUyMHNlbGYtY2FyZSUyMHRoZXJhcGlzdCUyMGNvbnN1bHRhdGlvbnxlbnwwfDB8fHwxNzcwODQyMzIzfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758599879513-9124e9718f2f?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8cGVyc29uYWwlMjBncm93dGglMjBtaW5kZnVsbmVzcyUyMHN0cmVzcyUyMHJlbGllZnxlbnwwfDB8fHwxNzcwODQyMzI0fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1700709678022-8e0c4767434e?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8YmFsYW5jZWQlMjBsaWZlc3R5bGUlMjBjYWxtJTIwZW52aXJvbm1lbnQlMjB0aGVyYXB5JTIwc2Vzc2lvbnxlbnwwfDB8fHwxNzcwODQyMzI0fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1620924721217-93fd71e354ff?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8dHJ1c3R3b3J0aHklMjB0aGVyYXBpc3QlMjB3ZWxjb21pbmclMjBzcGFjZSUyMGhlYWxpbmclMjBwcm9jZXNzfGVufDB8MHx8fDE3NzA4NDIzMjN8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "158": "https://images.unsplash.com/photo-1758273240403-052b3c99f636?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8Y2FsbSUyMHRoZXJhcHklMjBzZXNzaW9ufGVufDB8MHx8fDE3NzA4NDIzMjR8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

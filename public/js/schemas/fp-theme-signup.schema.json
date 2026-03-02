@@ -1,0 +1,84 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-signup",
+  "category": "hero",
+  "slots": {
+    "headings": [
+      {
+        "level": 1,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 2
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 3
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 4
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 5
+      }
+    ],
+    "form": {
+      "fields": [
+        {
+          "name": "name",
+          "label": "Name",
+          "type": "text",
+          "required": true,
+          "options": []
+        },
+        {
+          "name": "email",
+          "label": "Email",
+          "type": "email",
+          "required": true,
+          "options": []
+        },
+        {
+          "name": "message",
+          "label": "Message",
+          "type": "textarea",
+          "required": false,
+          "options": []
+        }
+      ],
+      "submit_label": "Send",
+      "success_message": ""
+    }
+  }
+}

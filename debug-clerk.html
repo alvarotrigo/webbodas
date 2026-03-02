@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Clerk Session</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .debug-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .debug-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .debug-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+        .debug-item strong {
+            color: #495057;
+        }
+        .debug-item code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        .actions {
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .cookie-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-info">
+        <h3>Clerk Session Debug Information</h3>
+        
+        <div class="debug-item">
+            <strong>Current URL:</strong> <code id="current-url"></code>
+        </div>
+        
+        <div class="debug-item">
+            <strong>Clerk Available:</strong> <code id="clerk-available"></code>
+        </div>
+        
+        <div class="debug-item">
+            <strong>Clerk User:</strong> <code id="clerk-user"></code>
+        </div>
+        
+        <div class="debug-item">
+            <strong>Clerk Session:</strong> <code id="clerk-session"></code>
+        </div>
+        
+        <div class="debug-item">
+            <strong>Clerk Session ID:</strong> <code id="clerk-session-id"></code>
+        </div>
+        
+        <div class="debug-item">
+            <strong>All Cookies:</strong>
+            <div class="cookie-list" id="cookie-list"></div>
+        </div>
+        
+        <div class="debug-item">
+            <strong>LocalStorage - isAuthenticated:</strong> <code id="auth-status"></code>
+        </div>
+        
+        <div class="debug-item">
+            <strong>LocalStorage - editorMode:</strong> <code id="editor-mode"></code>
+        </div>
+        
+        <div class="actions">
+            <button class="btn" onclick="refreshDebugInfo()">Refresh Info</button>
+            <button class="btn" onclick="testClerkSignOut()">Test Clerk SignOut</button>
+            <button class="btn" onclick="testClerkSessionEnd()">Test Clerk Session End</button>
+            <button class="btn btn-danger" onclick="clearAuthData()">Clear Auth Data</button>
+            <a href="auth-wall.html" class="btn">Go to Auth Wall</a>
+            <a href="logout.html" class="btn">Go to Logout</a>
+        </div>
+    </div>
+
+    <!-- Clerk Configuration -->
+    <script src="clerk-config.js"></script>
+    
+    <!-- Clerk Script -->
+    <script
+        async
+        crossorigin="anonymous"
+        data-clerk-publishable-key="pk_test_d2VsY29tZWQtZXNjYXJnb3QtMjIuY2xlcmsuYWNjb3VudHMuZGV2JA"
+        src="https://welcomed-escargot-22.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
+        type="text/javascript">
+    </script>
+
+    <script>
+        function refreshDebugInfo() {
+            document.getElementById('current-url').textContent = window.location.href;
+            document.getElementById('clerk-available').textContent = typeof Clerk !== 'undefined' ? 'Yes' : 'No';
+            
+            if (typeof Clerk !== 'undefined') {
+                document.getElementById('clerk-user').textContent = Clerk.user ? 
+                    JSON.stringify({
+                        id: Clerk.user.id,
+                        email: Clerk.user.primaryEmailAddress?.emailAddress,
+                        name: Clerk.user.fullName
+                    }) : 'No user';
+                
+                document.getElementById('clerk-session').textContent = Clerk.session ? 
+                    JSON.stringify({
+                        id: Clerk.session.id,
+                        status: Clerk.session.status,
+                        createdAt: Clerk.session.createdAt
+                    }) : 'No session';
+                
+                document.getElementById('clerk-session-id').textContent = Clerk.session ? 
+                    Clerk.session.id : 'No session ID';
+            } else {
+                document.getElementById('clerk-user').textContent = 'Clerk not loaded';
+                document.getElementById('clerk-session').textContent = 'Clerk not loaded';
+                document.getElementById('clerk-session-id').textContent = 'Clerk not loaded';
+            }
+            
+            document.getElementById('auth-status').textContent = localStorage.getItem('isAuthenticated') || 'null';
+            document.getElementById('editor-mode').textContent = localStorage.getItem('editorMode') || 'null';
+            
+            // Show all cookies
+            const cookies = document.cookie.split(';');
+            const cookieList = document.getElementById('cookie-list');
+            if (cookies.length === 1 && cookies[0] === '') {
+                cookieList.innerHTML = '<em>No cookies found</em>';
+            } else {
+                cookieList.innerHTML = cookies.map(cookie => {
+                    const trimmed = cookie.trim();
+                    return `<div><strong>${trimmed.split('=')[0]}:</strong> <code>${trimmed.split('=')[1] || '(no value)'}</code></div>`;
+                }).join('');
+            }
+        }
+
+        async function testClerkSignOut() {
+            if (typeof Clerk !== 'undefined' && Clerk.signOut) {
+                try {
+                    console.log('Testing Clerk.signOut()...');
+                    await Clerk.signOut();
+                    console.log('Clerk.signOut() completed');
+                    refreshDebugInfo();
+                    alert('Clerk.signOut() completed - check console and refresh info');
+                } catch (error) {
+                    console.error('Clerk.signOut() error:', error);
+                    alert('Clerk.signOut() error: ' + error.message);
+                }
+            } else {
+                alert('Clerk.signOut() not available');
+            }
+        }
+
+        async function testClerkSessionEnd() {
+            if (typeof Clerk !== 'undefined' && Clerk.session && typeof Clerk.session.end === 'function') {
+                try {
+                    console.log('Testing Clerk.session.end()...');
+                    await Clerk.session.end();
+                    console.log('Clerk.session.end() completed');
+                    refreshDebugInfo();
+                    alert('Clerk.session.end() completed - check console and refresh info');
+                } catch (error) {
+                    console.error('Clerk.session.end() error:', error);
+                    alert('Clerk.session.end() error: ' + error.message);
+                }
+            } else {
+                alert('Clerk.session.end() not available');
+            }
+        }
+
+        function clearAuthData() {
+            localStorage.removeItem('isAuthenticated');
+            localStorage.removeItem('editorMode');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('isPaid');
+            refreshDebugInfo();
+            alert('Authentication data cleared!');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for Clerk to load
+            if (typeof Clerk !== 'undefined') {
+                Clerk.load().then(() => {
+                    console.log('Clerk loaded in debug tool');
+                    refreshDebugInfo();
+                }).catch(error => {
+                    console.error('Error loading Clerk:', error);
+                    refreshDebugInfo();
+                });
+            } else {
+                // Wait for Clerk to be available
+                const checkClerk = () => {
+                    if (typeof Clerk !== 'undefined') {
+                        Clerk.load().then(() => {
+                            console.log('Clerk loaded in debug tool');
+                            refreshDebugInfo();
+                        }).catch(error => {
+                            console.error('Error loading Clerk:', error);
+                            refreshDebugInfo();
+                        });
+                    } else {
+                        setTimeout(checkClerk, 100);
+                    }
+                };
+                checkClerk();
+            }
+        });
+    </script>
+</body>
+</html>

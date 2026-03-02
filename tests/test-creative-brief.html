@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Creative Brief + Section Picker Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 24px;
+            background: #f7f7f9;
+            color: #1a1a1a;
+        }
+        h1, h2 {
+            margin-top: 0;
+        }
+        textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d0d0d5;
+            font-size: 15px;
+            resize: vertical;
+        }
+        button {
+            background: #1f5eff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button[disabled] {
+            opacity: 0.6;
+            cursor: progress;
+        }
+        .results {
+            display: grid;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        pre {
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e2e8;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .error {
+            color: #b00020;
+        }
+        .history {
+            margin-top: 32px;
+        }
+        .history-item {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #e2e2e8;
+            margin-bottom: 12px;
+        }
+        .history-item pre {
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Creative Brief Generation Test</h1>
+    <p>Use this page to test the new pre-brief OpenAI call in <code>api/generate-website.php</code>. Enter a user description below and inspect the creative brief plus the selected section IDs returned by the API.</p>
+
+    <label for="user-description"><strong>User Description</strong></label>
+    <textarea id="user-description" placeholder="e.g. Generate a website for a bilingual psychologist in Madrid who offers online therapy packages focusing on anxiety and burnout. Highlight client testimonials and an easy booking CTA."></textarea>
+    <div style="margin-top: 12px;">
+        <button id="run-test">Generate Creative Brief + Sections</button>
+    </div>
+    <p id="status" role="status"></p>
+
+    <div class="results">
+        <div>
+            <h2>API Response</h2>
+            <pre id="api-response">Waiting for request...</pre>
+        </div>
+        <div>
+            <h2>Creative Brief (parsed) <span id="creative-brief-time"></span></h2>
+            <pre id="creative-brief">-</pre>
+        </div>
+        <div>
+            <h2>Section IDs <span id="section-ids-time"></span></h2>
+            <pre id="section-ids">-</pre>
+        </div>
+    </div>
+
+    <section class="history">
+        <h2>History (latest first)</h2>
+        <div id="history-list"></div>
+    </section>
+
+    <script>
+        const runButton = document.getElementById('run-test');
+        const userDescriptionInput = document.getElementById('user-description');
+        const apiResponseEl = document.getElementById('api-response');
+        const creativeBriefEl = document.getElementById('creative-brief');
+        const creativeBriefTimeEl = document.getElementById('creative-brief-time');
+        const sectionIdsEl = document.getElementById('section-ids');
+        const sectionIdsTimeEl = document.getElementById('section-ids-time');
+        const statusEl = document.getElementById('status');
+        const historyList = document.getElementById('history-list');
+
+        async function callApi() {
+            const description = userDescriptionInput.value.trim();
+            if (!description) {
+                statusEl.textContent = 'Please enter a user description first.';
+                statusEl.className = 'error';
+                return;
+            }
+
+            runButton.disabled = true;
+            statusEl.textContent = 'Calling /api/generate-website.php...';
+            statusEl.className = '';
+            apiResponseEl.textContent = 'Loading...';
+            creativeBriefEl.textContent = '-';
+            creativeBriefTimeEl.textContent = '';
+            sectionIdsEl.textContent = '-';
+            sectionIdsTimeEl.textContent = '';
+
+            try {
+                const response = await fetch('../api/generate-website.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: description })
+                });
+
+                const resultText = await response.text();
+                apiResponseEl.textContent = resultText;
+
+                if (!response.ok) {
+                    statusEl.textContent = 'Request failed. Check the API response above.';
+                    statusEl.className = 'error';
+                    return;
+                }
+
+                const resultJson = JSON.parse(resultText);
+                statusEl.textContent = 'Success!';
+                statusEl.className = '';
+
+                creativeBriefEl.textContent = JSON.stringify(resultJson.creative_brief, null, 2);
+                if (resultJson.timing && resultJson.timing.creative_brief_seconds !== undefined) {
+                    creativeBriefTimeEl.textContent = `(${resultJson.timing.creative_brief_seconds.toFixed(2)}s)`;
+                    creativeBriefTimeEl.style.color = '#666';
+                    creativeBriefTimeEl.style.fontSize = '0.85em';
+                    creativeBriefTimeEl.style.fontWeight = 'normal';
+                }
+
+                sectionIdsEl.textContent = JSON.stringify(resultJson.sections, null, 2);
+                if (resultJson.timing && resultJson.timing.section_selection_seconds !== undefined) {
+                    sectionIdsTimeEl.textContent = `(${resultJson.timing.section_selection_seconds.toFixed(2)}s)`;
+                    sectionIdsTimeEl.style.color = '#666';
+                    sectionIdsTimeEl.style.fontSize = '0.85em';
+                    sectionIdsTimeEl.style.fontWeight = 'normal';
+                }
+
+                const timingInfo = resultJson.timing ? 
+                    `<strong>Timing:</strong> Creative Brief: ${resultJson.timing.creative_brief_seconds.toFixed(2)}s, Section Selection: ${resultJson.timing.section_selection_seconds.toFixed(2)}s<br>` : '';
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <strong>User description:</strong>
+                    <pre>${description}</pre>
+                    ${timingInfo}
+                    <strong>Creative brief:</strong>
+                    <pre>${JSON.stringify(resultJson.creative_brief, null, 2)}</pre>
+                    <strong>Sections:</strong>
+                    <pre>${JSON.stringify(resultJson.sections, null, 2)}</pre>
+                `;
+                historyList.prepend(historyItem);
+            } catch (error) {
+                statusEl.textContent = 'Error: ' + error.message;
+                statusEl.className = 'error';
+                console.error(error);
+            } finally {
+                runButton.disabled = false;
+            }
+        }
+
+        runButton.addEventListener('click', callApi);
+        userDescriptionInput.addEventListener('keydown', (event) => {
+            if (event.metaKey && event.key.toLowerCase() === 'enter') {
+                callApi();
+            }
+        });
+    </script>
+</body>
+</html>
+

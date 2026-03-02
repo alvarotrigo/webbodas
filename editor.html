@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Editor - ModernCo</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f8f9fa;
+            --accent-bg: #f1f3f4;
+            --primary-text: #2c3e50;
+            --secondary-text: #6c757d;
+            --accent-text: #1a252f;
+            --primary-accent: #4285f4;
+            --secondary-accent: #3367d6;
+            --border-color: #e9ecef;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --border-radius: 8px;
+            --button-radius: 8px;
+            --card-radius: 12px;
+            --spacing-unit: 1rem;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            background: var(--primary-bg);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .main-area {
+            background: var(--secondary-bg);
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .top-bar {
+            background: var(--primary-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .bottom-bar {
+            background: var(--primary-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 50px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--secondary-text);
+            cursor: pointer;
+            border-radius: var(--button-radius);
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-tab.active {
+            background: var(--primary-accent);
+            color: var(--primary-bg);
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--button-radius);
+            background: var(--primary-bg);
+            color: var(--primary-text);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+        }
+
+        .theme-section {
+            margin-bottom: 2rem;
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: var(--button-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .theme-option:hover {
+            background: var(--accent-bg);
+        }
+
+        .theme-option.active {
+            background: var(--primary-accent);
+            color: var(--primary-bg);
+        }
+
+        .thumbnail-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .thumbnail-item {
+            aspect-ratio: 16/9;
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: var(--primary-bg);
+        }
+
+        .thumbnail-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .thumbnail-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail-item.selected {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+        }
+
+        .thumbnail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .thumbnail-item:hover .thumbnail-overlay {
+            opacity: 1;
+        }
+
+        .thumbnail-number {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .clear-button {
+            padding: 0.5rem 1rem;
+            background: var(--accent-bg);
+            color: var(--primary-text);
+            border: 1px solid var(--border-color);
+            border-radius: var(--button-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .clear-button:hover {
+            background: #ef4444;
+            color: var(--primary-bg);
+            border-color: #ef4444;
+        }
+
+        .section-counter {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+        }
+
+        .canvas-content {
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .selected-preview {
+            max-width: 600px;
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .selected-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .section-preview {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 1.5rem;
+            margin: 1rem;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            max-width: 400px;
+        }
+
+        .section-preview h3 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--accent-text);
+        }
+
+        .section-preview p {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-button:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .add-section-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--primary-accent);
+            color: var(--primary-bg);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .add-section-button:hover {
+            background: var(--secondary-accent);
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="nav-tabs">
+            <button class="nav-tab">Doc</button>
+            <button class="nav-tab active">Canvas</button>
+            <button class="nav-tab">Code</button>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+                <i data-lucide="info" class="w-4 h-4 text-secondary-text"></i>
+                <span class="text-sm text-secondary-text">sections</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="editor-layout">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <input type="text" class="search-bar" placeholder="Search sections">
+            
+            <div class="theme-section">
+                <h3 class="text-sm font-semibold text-accent-text mb-4">Theme</h3>
+                <div class="space-y-1">
+                    <div class="theme-option active">
+                        <i data-lucide="sun" class="w-4 h-4"></i>
+                        <span class="text-sm">Light</span>
+                    </div>
+                    <div class="theme-option">
+                        <i data-lucide="moon" class="w-4 h-4"></i>
+                        <span class="text-sm">Dark</span>
+                    </div>
+                    <div class="theme-option">
+                        <i data-lucide="monitor" class="w-4 h-4"></i>
+                        <span class="text-sm">System</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h3 class="text-sm font-semibold text-accent-text mb-4">Sections</h3>
+                <div class="thumbnail-list" id="thumbnail-list">
+                    <!-- Thumbnails will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Area -->
+        <div class="main-area">
+            <div class="mb-6 flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold text-accent-text">Website Preview</h2>
+                    <p class="text-sm text-secondary-text" id="current-theme">Theme: Light</p>
+                </div>
+                <button id="clear-all" class="clear-button">
+                    <i data-lucide="trash-2" class="w-4 h-4 mr-2"></i>
+                    Clear All
+                </button>
+            </div>
+            
+            <div id="preview-content">
+                <!-- Added sections will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+        <div class="section-counter">
+            <span id="section-count">0</span> sections added
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Global variables
+        let currentTheme = 'light';
+        let addedSections = [];
+        let selectedThumbnails = new Set();
+
+        // Generate thumbnails for screenshots 1-55
+        function generateThumbnails() {
+            const thumbnailList = document.getElementById('thumbnail-list');
+            
+            for (let i = 1; i <= 55; i++) {
+                const thumbnailItem = document.createElement('div');
+                thumbnailItem.className = 'thumbnail-item';
+                thumbnailItem.dataset.screenshot = i;
+                
+                thumbnailItem.innerHTML = `
+                    <div class="thumbnail-number">${i}</div>
+                    <img src="screenshots/${i}.jpg" alt="Section ${i}" onerror="this.style.display='none'">
+                    <div class="thumbnail-overlay">
+                        <button class="add-section-button">+</button>
+                    </div>
+                `;
+                
+                thumbnailList.appendChild(thumbnailItem);
+                
+                // Add click event
+                thumbnailItem.addEventListener('click', () => {
+                    toggleThumbnailSelection(thumbnailItem, i);
+                });
+            }
+        }
+
+        // Toggle thumbnail selection
+        function toggleThumbnailSelection(thumbnailItem, number) {
+            if (selectedThumbnails.has(number)) {
+                // Remove from selection
+                selectedThumbnails.delete(number);
+                thumbnailItem.classList.remove('selected');
+                removeSectionFromPreview(number);
+            } else {
+                // Add to selection
+                selectedThumbnails.add(number);
+                thumbnailItem.classList.add('selected');
+                addSectionToPreview(number);
+            }
+            
+            updateSectionCounter();
+        }
+
+        // Add section to preview
+        function addSectionToPreview(sectionNumber) {
+            const previewContent = document.getElementById('preview-content');
+            const sectionElement = document.createElement('div');
+            sectionElement.className = 'section-preview';
+            sectionElement.dataset.section = sectionNumber;
+            
+            sectionElement.innerHTML = `
+                <button class="delete-button" onclick="removeSection(${sectionNumber})">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+                <h3>Section ${sectionNumber}</h3>
+                <p>This is section ${sectionNumber} of your website. Click the trash icon to remove it.</p>
+            `;
+            
+            previewContent.appendChild(sectionElement);
+            lucide.createIcons();
+        }
+
+        // Remove section from preview
+        function removeSectionFromPreview(sectionNumber) {
+            const sectionElement = document.querySelector(`[data-section="${sectionNumber}"]`);
+            if (sectionElement) {
+                sectionElement.remove();
+            }
+        }
+
+        // Remove section (called from delete button)
+        function removeSection(sectionNumber) {
+            selectedThumbnails.delete(sectionNumber);
+            const thumbnailItem = document.querySelector(`[data-screenshot="${sectionNumber}"]`);
+            if (thumbnailItem) {
+                thumbnailItem.classList.remove('selected');
+            }
+            removeSectionFromPreview(sectionNumber);
+            updateSectionCounter();
+        }
+
+        // Update section counter
+        function updateSectionCounter() {
+            const counter = document.getElementById('section-count');
+            counter.textContent = selectedThumbnails.size;
+        }
+
+        // Clear all sections
+        function clearAllSections() {
+            selectedThumbnails.clear();
+            document.querySelectorAll('.thumbnail-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.getElementById('preview-content').innerHTML = '';
+            updateSectionCounter();
+        }
+
+        // Switch theme
+        function switchTheme(themeName) {
+            currentTheme = themeName;
+            
+            // Update active theme button
+            document.querySelectorAll('.theme-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const activeButton = document.querySelector(`.theme-option:has(i[data-lucide="${themeName === 'light' ? 'sun' : themeName === 'dark' ? 'moon' : 'monitor'}"])`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+            
+            // Update theme display
+            const themeDisplay = document.getElementById('current-theme');
+            const themeNames = {
+                'light': 'Light',
+                'dark': 'Dark',
+                'system': 'System'
+            };
+            themeDisplay.textContent = `Theme: ${themeNames[currentTheme]}`;
+        }
+
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            generateThumbnails();
+            
+            // Clear all button
+            const clearButton = document.getElementById('clear-all');
+            clearButton.addEventListener('click', clearAllSections);
+            
+            // Navigation tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                });
+            });
+            
+            // Theme options
+            const themeOptions = document.querySelectorAll('.theme-option');
+            themeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const icon = option.querySelector('i');
+                    const theme = icon.getAttribute('data-lucide');
+                    let themeName = 'light';
+                    if (theme === 'moon') themeName = 'dark';
+                    else if (theme === 'monitor') themeName = 'system';
+                    
+                    switchTheme(themeName);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

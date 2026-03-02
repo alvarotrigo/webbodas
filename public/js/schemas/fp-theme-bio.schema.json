@@ -1,0 +1,32 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-bio",
+  "category": "hero",
+  "slots": {
+    "headings": [
+      {
+        "level": 1,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 4,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ]
+  }
+}

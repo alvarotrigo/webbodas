@@ -1,0 +1,424 @@
+{
+    "id": "neon-ai-insight",
+    "name": "Neon AI Insight",
+    "description": "Create a modern AI SaaS landing page for a tool called “InsightAI”.\n\nProduct:\nAI that summarizes long documents and reports.\n\nAudience:\nTech-savvy professionals and startups.\n\nTone:\nConfident, innovative, credible.\n\nMain colors:\n- Dark charcoal background\n- Electric purple accents\n- Neon blue highlights\n- White text\n\nGoals:\nDrive signups for free plan.\n\nStructure:\n- Bold hero section\n- Problem → solution\n- Features with icons\n- Demo/preview section\n- Testimonials\n- FAQ\n- CTA\n\nDesign guidance:\n- Dark mode design\n- Gradient accents\n- Subtle glow effects\n- Tech/AI visuals\n\nCopy guidance:\n- Concise and credible\n- No exaggerated AI claims\n- Emphasize time savings\n\nMake the layout conversion-focused and realistic like a top SaaS landing page.\nAvoid generic filler copy.",
+    "category": "custom",
+    "tags": [
+        "modern",
+        "clean"
+    ],
+    "sections": [
+        1,
+        7,
+        11,
+        10,
+        6,
+        36,
+        39,
+        159
+    ],
+    "theme": {
+        "name": "Neon AI Insight",
+        "variables": {
+            "primary-bg": "#ffffff",
+            "secondary-bg": "#f4f4f7",
+            "accent-bg": "#fafafa",
+            "primary-text": "#222222",
+            "secondary-text": "#777777",
+            "accent-text": "#111111",
+            "primary-accent": "#5046e6",
+            "primary-accent-soft": "rgba(80, 70, 230, 0.1)",
+            "secondary-accent": "#3d31d9",
+            "border-color": "transparent",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "section-shadow": "none",
+            "gradient-1": "linear-gradient(135deg, #f4f4f7 0%, #fafafa 100%)",
+            "gradient-2": "linear-gradient(135deg, #5046e6 0%, #3d31d9 100%)",
+            "features2-bg": "linear-gradient(135deg, #5046e6 0%, #3d31d9 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Inter', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "8px",
+            "card-radius": "16px",
+            "spacing-unit": "1.4rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Inter",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "1": {
+            "headline": "Transform Your Document Workflow with InsightAI",
+            "subheadline": "Effortlessly summarize long documents and reports in seconds, freeing up your time for what matters most.",
+            "cta_primary": "Start Your Free Trial",
+            "cta_secondary": "See InsightAI in Action"
+        },
+        "6": {
+            "headline": "What Our Users Are Saying",
+            "testimonials": [
+                {
+                    "quote": "InsightAI has cut my report review time in half. It's a game-changer for my team!",
+                    "name": "Sarah L., Project Manager"
+                },
+                {
+                    "quote": "Finally, a tool that delivers on its promises. Summarizing documents has never been easier.",
+                    "name": "James T., Startup Founder"
+                }
+            ]
+        },
+        "7": {
+            "headline": "How It Works",
+            "steps": [
+                "1. Upload Your Document: Simply drag and drop your file.",
+                "2. Let InsightAI Work: Our AI analyzes and summarizes your content in real-time.",
+                "3. Get Instant Results: Review clear, concise summaries ready for action."
+            ]
+        },
+        "10": {
+            "headline": "See InsightAI in Action",
+            "gallery": [
+                {
+                    "caption": "Upload your documents seamlessly from any device.",
+                    "image_description": "User-friendly upload interface"
+                },
+                {
+                    "caption": "Receive instant summaries that you can trust.",
+                    "image_description": "Example of a concise summary output"
+                },
+                {
+                    "caption": "Efficiently manage multiple documents in one dashboard.",
+                    "image_description": "Dashboard view showcasing multiple summaries"
+                }
+            ]
+        },
+        "11": {
+            "headline": "Powerful Features Designed for You",
+            "features": [
+                {
+                    "icon": "📝",
+                    "title": "Instant Summaries",
+                    "description": "Transform lengthy reports into digestible insights within seconds."
+                },
+                {
+                    "icon": "📊",
+                    "title": "Smart Analysis",
+                    "description": "Leverage AI-driven insights that highlight key points and trends."
+                },
+                {
+                    "icon": "✨",
+                    "title": "User-Friendly Interface",
+                    "description": "Navigate effortlessly with a sleek, intuitive design."
+                },
+                {
+                    "icon": "🔒",
+                    "title": "Secure Storage",
+                    "description": "Your documents are safe with us—privacy and security guaranteed."
+                }
+            ]
+        },
+        "36": {
+            "headline": "Frequently Asked Questions",
+            "faqs": [
+                {
+                    "question": "How does InsightAI ensure accuracy in summaries?",
+                    "answer": "Our AI uses advanced algorithms to focus on key themes and insights, ensuring high accuracy and relevance."
+                },
+                {
+                    "question": "Is my data secure?",
+                    "answer": "Absolutely. We prioritize your privacy and employ top-level encryption for all documents."
+                }
+            ]
+        },
+        "39": {
+            "headline": "Ready to Revolutionize Your Document Management?",
+            "cta_primary": "Get Started with InsightAI for Free",
+            "cta_secondary": "Discover the Future of Summarization"
+        },
+        "159": {
+            "navigation": {
+                "links": [
+                    "Home",
+                    "Features",
+                    "Pricing",
+                    "Support",
+                    "Contact Us"
+                ]
+            },
+            "contact_info": "Contact us at support@insightai.com",
+            "trust_reassurance": "Your data is safe with us—100% satisfaction guaranteed."
+        }
+    },
+    "section_backgrounds": {
+        "1": {
+            "type": "image",
+            "keyword": "modern technology abstract"
+        },
+        "6": {
+            "type": "image",
+            "keyword": "professional people working"
+        },
+        "7": {
+            "type": "color"
+        },
+        "10": {
+            "type": "image",
+            "keyword": "AI data visualization"
+        },
+        "11": {
+            "type": "color"
+        },
+        "36": {
+            "type": "color"
+        },
+        "39": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "6": [
+            [
+                "professional portrait",
+                "female entrepreneur",
+                "startup co-founder"
+            ],
+            [
+                "business headshot",
+                "confident woman",
+                "tech-savvy professional"
+            ],
+            [
+                "smiling customer",
+                "businesswoman testimonial",
+                "startup leader"
+            ]
+        ],
+        "10": [
+            [
+                "summer fashion",
+                "men's style",
+                "casual summer wear"
+            ],
+            [
+                "fitness lifestyle",
+                "activewear",
+                "gym training"
+            ]
+        ],
+        "11": [
+            [
+                "AI document summary",
+                "technology innovation",
+                "data analysis"
+            ],
+            [
+                "professional workspace",
+                "modern office",
+                "tech-savvy environment"
+            ],
+            [
+                "user interface design",
+                "software demonstration",
+                "digital tools"
+            ],
+            [
+                "client testimonials",
+                "business feedback",
+                "satisfied customers"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#ffffff",
+            "secondary_bg": "#f4f4f7",
+            "accent_bg": "#fafafa",
+            "primary_text": "#222222",
+            "secondary_text": "#777777",
+            "accent_text": "#111111",
+            "primary_accent": "#5046e6",
+            "secondary_accent": "#3d31d9"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Inter",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "button_radius": "pill",
+            "card_radius": "rounded",
+            "border_usage": "minimal",
+            "border_color_hint": "transparent"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "subtle",
+            "style": "linear",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.4rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "modern",
+            "clean"
+        ],
+        "detected_sections": []
+    },
+    "site_plan": {
+        "audience": "tech-savvy professionals",
+        "primary_goal": "drive signups for free plan",
+        "brand_vibe": [
+            "confident",
+            "innovative",
+            "credible"
+        ],
+        "content_tone": "concise and credible",
+        "key_differentiators": [
+            "AI document summarization",
+            "time-saving efficiency",
+            "modern design",
+            "user-friendly interface"
+        ],
+        "business_type": "saas"
+    },
+    "created_at": "2026-02-10T20:56:14+00:00",
+    "text_updates": {
+        "1": {
+            "h1[0]": "Unlock the Power of Insight",
+            "span[0]": "AI Efficiency",
+            "p[0]": "Streamline your workflow with Neon AI Insight, the ultimate tool for swiftly summarizing lengthy documents and enhancing clarity.",
+            "a[0]": "Start Free Trial",
+            "a[1]": "Discover More"
+        },
+        "6": {
+            "h2[0]": "Hear From Our Users",
+            "p[0]": "Neon AI Insight has transformed the way I handle extensive reports. The summaries are precise and help me focus on what truly matters in my work.",
+            "h4[0]": "Michael Thompson",
+            "p[1]": "Lead Analyst, TechSphere"
+        },
+        "10": {
+            "h3[0]": "Visualize Your Success",
+            "p[0]": "Discover how Neon AI Insight transforms complex documents into concise summaries, empowering your workflow and enhancing productivity.",
+            "span[0]": "See It in Action",
+            "h3[1]": "Unlock Your Potential",
+            "p[1]": "Experience the impact of AI-driven insights that save you time and streamline your document management, making information accessible at your fingertips.",
+            "span[1]": "Join the Revolution"
+        },
+        "11": {
+            "h2[0]": "Features Designed for Modern Professionals",
+            "p[0]": "Discover all features",
+            "h3[0]": "Effortless Document Insights",
+            "p[1]": "October 03, 2023",
+            "h3[1]": "Unlock Time-Saving Efficiency",
+            "p[2]": "October 03, 2023",
+            "h3[2]": "Intuitive User Experience",
+            "p[3]": "October 03, 2023",
+            "h3[3]": "Innovative AI Technology",
+            "p[4]": "October 03, 2023"
+        },
+        "39": {
+            "h2[0]": "Start Your Free Trial Today",
+            "p[0]": "Experience the power of automated document summarization. Unlock efficiency and clarity with Neon AI Insight.",
+            "a[0]": "Sign Up Free",
+            "p[1]": "Get started without any payment details."
+        },
+        "159": {
+            "h3[0]": "Stay Connected with Neon AI",
+            "p[0]": "Empowering professionals with AI-driven document insights that streamline your workflow and enhance productivity.",
+            "h4[0]": "Essential Links",
+            "li[0]": "About Us",
+            "span[0]": "About Us",
+            "li[1]": "Our Solutions",
+            "span[1]": "Our Solutions",
+            "li[2]": "Plans & Pricing",
+            "span[2]": "Plans & Pricing",
+            "li[3]": "Get in Touch",
+            "span[3]": "Get in Touch",
+            "h4[1]": "Our Offerings",
+            "li[4]": "Document Summarization",
+            "li[5]": "Data Analytics",
+            "li[6]": "AI Integrations",
+            "li[7]": "Consultation Services",
+            "h4[2]": "Connect with Us",
+            "a[0]": "Twitter",
+            "a[1]": "LinkedIn",
+            "a[2]": "GitHub",
+            "p[1]": "© 2024 Neon AI. All rights reserved."
+        }
+    },
+    "inline_images": {
+        "6": [
+            "https://images.unsplash.com/photo-1672512263546-99862fe07733?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBmZW1hbGUlMjBlbnRyZXByZW5ldXIlMjBzdGFydHVwJTIwY28tZm91bmRlcnxlbnwwfDB8fHwxNzcwNzU2NTk4fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1659353220597-71b8c6a56259?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8YnVzaW5lc3MlMjBoZWFkc2hvdCUyMGNvbmZpZGVudCUyMHdvbWFuJTIwdGVjaC1zYXZ2eSUyMHByb2Zlc3Npb25hbHxlbnwwfDB8fHwxNzcwNzU2OTk3fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1565979612809-d90c6ca38df9?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8c21pbGluZyUyMGN1c3RvbWVyJTIwYnVzaW5lc3N3b21hbiUyMHRlc3RpbW9uaWFsJTIwc3RhcnR1cCUyMGxlYWRlcnxlbnwwfDB8fHwxNzcwNzU2OTk2fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "10": [
+            "https://images.unsplash.com/photo-1705237555670-654ed497dd62?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8c3VtbWVyJTIwZmFzaGlvbiUyMG1lbiUyN3MlMjBzdHlsZSUyMGNhc3VhbCUyMHN1bW1lciUyMHdlYXJ8ZW58MHwwfHx8MTc3MDc1Njk5OHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758875568932-0eefd3e60090?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8Zml0bmVzcyUyMGxpZmVzdHlsZSUyMGFjdGl2ZXdlYXIlMjBneW0lMjB0cmFpbmluZ3xlbnwwfDB8fHwxNzcwNzU2OTk4fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "11": [
+            "https://images.unsplash.com/photo-1705484229341-4f7f7519b718?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8QUklMjBkb2N1bWVudCUyMHN1bW1hcnklMjB0ZWNobm9sb2d5JTIwaW5ub3ZhdGlvbiUyMGRhdGElMjBhbmFseXNpc3xlbnwwfDB8fHwxNzcwNzU3MDAwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1761818645907-8bed418b415b?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwd29ya3NwYWNlJTIwbW9kZXJuJTIwb2ZmaWNlJTIwdGVjaC1zYXZ2eSUyMGVudmlyb25tZW50fGVufDB8MHx8fDE3NzA3NTcwMDB8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1641630376356-fb9e646b0ea4?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8dXNlciUyMGludGVyZmFjZSUyMGRlc2lnbiUyMHNvZnR3YXJlJTIwZGVtb25zdHJhdGlvbiUyMGRpZ2l0YWwlMjB0b29sc3xlbnwwfDB8fHwxNzcwNzU3MDAwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1565688527174-775059ac429c?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8Y2xpZW50JTIwdGVzdGltb25pYWxzJTIwYnVzaW5lc3MlMjBmZWVkYmFjayUyMHNhdGlzZmllZCUyMGN1c3RvbWVyc3xlbnwwfDB8fHwxNzcwNzU3MDAwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "1": "https://images.unsplash.com/photo-1762279389053-d5a30239ae45?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8bW9kZXJuJTIwdGVjaG5vbG9neSUyMGFic3RyYWN0fGVufDB8MHx8fDE3NzA3NTcwMDJ8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "6": "https://images.unsplash.com/photo-1770316320266-ba445bbd7890?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8cHJvZmVzc2lvbmFsJTIwcGVvcGxlJTIwd29ya2luZ3xlbnwwfDB8fHwxNzcwNzU3MDAyfDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "10": "https://images.unsplash.com/photo-1763718528755-4bca23f82ac3?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8QUklMjBkYXRhJTIwdmlzdWFsaXphdGlvbnxlbnwwfDB8fHwxNzcwNzU3MDAyfDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

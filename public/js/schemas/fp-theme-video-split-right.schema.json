@@ -1,0 +1,26 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-video-split-right",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,278 @@
+{
+    "id": "serene-support-theme",
+    "name": "Serene Support Theme",
+    "description": "Create a professional website for a psychologist named “Dr. Elena Rivera”.\n\nService:\nShe offers individual therapy for adults dealing with anxiety, stress, and life transitions.\n\nAudience:\nAdults looking for emotional support and a safe space to talk.\n\nTone:\nWarm, calm, empathetic, human. Not corporate or salesy.\n\nMain colors:\n- Soft sage green (primary)\n- Beige or warm cream backgrounds\n- Soft gray text\n- Light muted teal accents\n\nGoals:\nEncourage visitors to book a first consultation.\n\nStructure:\n- Hero with gentle, reassuring headline\n- About section introducing Dr. Elena\n- Services section (anxiety, stress, personal growth)\n- “How therapy works” section\n- Testimonials (written respectfully and realistically)\n- Contact / booking CTA\n- FAQ section\n\nDesign guidance:\n- Calm, spacious layout\n- Use lots of whitespace\n- Natural imagery (plants, soft light, calm environments)\n- Avoid flashy animations\n\nCopy guidance:\n- Compassionate language\n- Focus on safety and trust\n- Avoid clinical or cold wording\n- No hype or exaggerated claims\n\nMake it feel like a safe, welcoming space.\nMake the layout realistic and professional.",
+    "category": "custom",
+    "tags": [
+        "warm",
+        "calm",
+        "welcoming"
+    ],
+    "sections": [
+        73,
+        6,
+        50,
+        153,
+        170
+    ],
+    "theme": {
+        "name": "Serene Support Theme",
+        "variables": {
+            "primary-bg": "#f5f5f0",
+            "secondary-bg": "#eae7e2",
+            "accent-bg": "#d7e3e2",
+            "primary-text": "#2e2e2e",
+            "secondary-text": "#5a5a5a",
+            "accent-text": "#1f1f1f",
+            "primary-accent": "#8ba89c",
+            "primary-accent-soft": "rgba(139, 168, 156, 0.1)",
+            "secondary-accent": "#b2c9c0",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #eae7e2 0%, #d7e3e2 100%)",
+            "gradient-2": "linear-gradient(135deg, #8ba89c 0%, #b2c9c0 100%)",
+            "features2-bg": "linear-gradient(135deg, #8ba89c 0%, #b2c9c0 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Playfair Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Playfair Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "8px",
+            "card-radius": "12px",
+            "spacing-unit": "1.6rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Playfair Display",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "6": {
+            "headline": "What Others Are Saying",
+            "testimonials": [
+                "Dr. Rivera helped me understand my anxiety in a way that felt safe and manageable. I finally feel like I have tools to cope.",
+                "I was hesitant to seek help, but Dr. Elena created a space where I felt comfortable sharing my struggles. It’s been life-changing.",
+                "Through our sessions, I’ve gained insights into my life transitions that I never thought possible. I truly feel supported."
+            ]
+        },
+        "50": {
+            "headline": "Ready to Take the Next Step?",
+            "subheadline": "Reaching out is the first step towards healing. We're here to listen.",
+            "cta_primary": "Contact Dr. Elena Today",
+            "cta_secondary": "Ask a Question"
+        },
+        "73": {
+            "headline": "Find Your Path to Peace and Clarity",
+            "subheadline": "Dr. Elena Rivera is here to guide you through life's challenges with compassion and understanding.",
+            "cta_primary": "Schedule Your First Consultation",
+            "cta_secondary": "Explore Your Options"
+        },
+        "153": {
+            "cta_primary": "Book Your Consultation Now",
+            "cta_secondary": "Take the First Step Towards Healing"
+        },
+        "170": {
+            "navigation": [
+                "Home",
+                "About",
+                "Services",
+                "FAQs",
+                "Contact"
+            ],
+            "contact_info": "Email: info@drelenarivera.com | Phone: (123) 456-7890",
+            "trust_reassurance": "Your journey is important to us, and your privacy is our priority."
+        }
+    },
+    "section_backgrounds": {
+        "6": {
+            "type": "color"
+        },
+        "50": {
+            "type": "color"
+        },
+        "73": {
+            "type": "image",
+            "keyword": "calm therapy room"
+        },
+        "153": {
+            "type": "color"
+        },
+        "170": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "6": [
+            [
+                "smiling woman",
+                "warm expression",
+                "natural light"
+            ],
+            [
+                "calm environment",
+                "therapeutic setting",
+                "safe space"
+            ],
+            [
+                "thoughtful gaze",
+                "relaxed posture",
+                "friendly demeanor"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#f5f5f0",
+            "secondary_bg": "#eae7e2",
+            "accent_bg": "#d7e3e2",
+            "primary_text": "#2e2e2e",
+            "secondary_text": "#5a5a5a",
+            "accent_text": "#1f1f1f",
+            "primary_accent": "#8ba89c",
+            "secondary_accent": "#b2c9c0"
+        },
+        "typography": {
+            "heading_style": "serif",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Playfair Display",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "16px",
+            "button_radius": "rounded",
+            "button_radius_value": "8px",
+            "card_radius": "rounded",
+            "card_radius_value": "12px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "spacious",
+            "spacing_unit_hint": "1.6rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "warm",
+            "calm",
+            "welcoming"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "about section",
+            "services overview",
+            "testimonials cards",
+            "contact form",
+            "faq section"
+        ]
+    },
+    "site_plan": {
+        "audience": "adults seeking emotional support",
+        "primary_goal": "book consultation",
+        "brand_vibe": [
+            "warm",
+            "calm",
+            "empathetic",
+            "welcoming"
+        ],
+        "content_tone": "compassionate and trustworthy",
+        "key_differentiators": [
+            "individual therapy for anxiety",
+            "focus on life transitions",
+            "safe and supportive environment"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-02-11T17:00:41+00:00",
+    "text_updates": {
+        "6": {
+            "h2[0]": "Hear From Those Who've Found Peace",
+            "p[0]": "\"Dr. Rivera provided a safe space for me to explore my feelings. Her understanding and insight have truly made a difference in my life, helping me navigate through challenging times with clarity and hope.\"",
+            "h4[0]": "Michael Thompson",
+            "p[1]": "Client, Individual Therapy"
+        },
+        "50": {
+            "h2[0]": "Connect With Us for a Nurturing Experience",
+            "p[0]": "We are here to listen and support you. Reach out to discover how our services can foster your emotional well-being.",
+            "a[0]": "Schedule a Consultation"
+        },
+        "73": {
+            "h2[0]": "Embrace a New Beginning with Compassionate Care",
+            "p[0]": "Welcome to a nurturing space where understanding meets support. Dr. Elena Rivera is dedicated to guiding you through life's challenges, helping you cultivate mental wellness and resilience."
+        },
+        "153": {
+            "span[0]": "Your Journey Begins Here",
+            "h2[0]": "Take the First Step Towards Healing Today",
+            "span[1]": "Emotional Well-Being",
+            "p[0]": "Start your path to personal growth with compassionate support tailored to your needs. Together, we can work through anxiety, stress, and life transitions, creating a brighter future ahead.",
+            "a[0]": "Book Your Consultation"
+        },
+        "170": {
+            "span[0]": "Your Journey Matters",
+            "li[0]": "About",
+            "a[1]": "Learn More About Dr. Elena",
+            "li[1]": "Privacy Policy",
+            "a[2]": "Read Our Privacy Policy",
+            "li[2]": "Licensing",
+            "a[3]": "Explore Licensing Details",
+            "li[3]": "Contact",
+            "a[4]": "Get in Touch",
+            "span[1]": "© 2024 Dr. Elena Rivera. All Rights Reserved.",
+            "a[5]": "Serene Support™",
+            "a[0]": "Innovate"
+        }
+    },
+    "inline_images": [],
+    "section_background_images": {
+        "73": "https://images.unsplash.com/photo-1754294437684-7898b3701ac7?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8Y2FsbSUyMHRoZXJhcHklMjByb29tfGVufDB8MHx8fDE3NzA4Mjg5NzV8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

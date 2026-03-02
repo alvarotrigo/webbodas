@@ -1,0 +1,21 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-rotated-images",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      }
+    ]
+  }
+}

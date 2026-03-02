@@ -1,0 +1,53 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-newsletter",
+  "category": "hero",
+  "slots": {
+    "headings": [
+      {
+        "level": 1,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      }
+    ],
+    "form": {
+      "fields": [
+        {
+          "name": "name",
+          "label": "Name",
+          "type": "text",
+          "required": true,
+          "options": []
+        },
+        {
+          "name": "email",
+          "label": "Email",
+          "type": "email",
+          "required": true,
+          "options": []
+        },
+        {
+          "name": "message",
+          "label": "Message",
+          "type": "textarea",
+          "required": false,
+          "options": []
+        }
+      ],
+      "submit_label": "Send",
+      "success_message": ""
+    }
+  }
+}

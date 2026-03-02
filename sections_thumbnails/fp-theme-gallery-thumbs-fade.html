@@ -1,0 +1,38 @@
+<section id="fp-theme-gallery-thumbs-fade" class="min-h-screen flex items-center justify-center bg-themed-secondary px-4">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <!-- Heading -->
+          <div class="text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--primary-text); font-family: var(--heading-font);">
+              Our Gallery
+            </h2>
+            <p class="text-lg" style="color: var(--secondary-text);">
+              Explore the essence of beauty in our gallery's intimate space.
+            </p>
+          </div>
+
+          <!-- Gallery Container -->
+          <div data-fp-anim-children="true" class="flex flex-col md:flex-row gap-6 items-stretch justify-center">
+            <!-- Main Image -->
+            <div class="w-full md:w-3/4 lg:w-2/3 relative overflow-hidden rounded-3xl">
+              <img loading="lazy" id="gallery-thumbs-fade-main-image" src="public/images/workspace.jpg" alt="Gallery main image" class="w-full h-[400px] md:h-[500px] lg:h-[600px] object-cover transition-opacity duration-500 rounded-3xl">
+            </div>
+
+            <!-- Thumbnails -->
+            <div data-fp-anim-children="true" id="gallery-thumbs-fade-container" class="flex md:flex-col gap-2 md:gap-3 justify-between h-[400px] md:h-[500px] lg:h-[600px]">
+              <div class="gallery-thumbs-fade-thumb cursor-pointer transition-all duration-300 active overflow-hidden rounded-2xl flex-1">
+                <img loading="lazy" src="public/images/workspace.jpg" alt="Gallery thumbnail 1" class="w-20 md:w-24 lg:w-28 h-full object-cover rounded-2xl">
+              </div>
+              <div class="gallery-thumbs-fade-thumb cursor-pointer transition-all duration-300 overflow-hidden rounded-2xl flex-1">
+                <img loading="lazy" src="public/images/business-team.jpg" alt="Gallery thumbnail 2" class="w-20 md:w-24 lg:w-28 h-full object-cover rounded-2xl">
+              </div>
+              <div class="gallery-thumbs-fade-thumb cursor-pointer transition-all duration-300 overflow-hidden rounded-2xl flex-1">
+                <img loading="lazy" src="public/images/dark-tech-bg.jpg" alt="Gallery thumbnail 3" class="w-20 md:w-24 lg:w-28 h-full object-cover rounded-2xl">
+              </div>
+              <div class="gallery-thumbs-fade-thumb cursor-pointer transition-all duration-300 overflow-hidden rounded-2xl flex-1">
+                <img loading="lazy" src="public/images/abstract-bg.jpg" alt="Gallery thumbnail 4" class="w-20 md:w-24 lg:w-28 h-full object-cover rounded-2xl">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>

@@ -1,0 +1,444 @@
+{
+    "id": "serene-support-space",
+    "name": "Serene Support Space",
+    "description": "Create a professional website for a psychologist named “Dr. Elena Rivera”.\n\nService:\nShe offers individual therapy for adults dealing with anxiety, stress, and life transitions.\n\nAudience:\nAdults looking for emotional support and a safe space to talk.\n\nTone:\nWarm, calm, empathetic, human. Not corporate or salesy.\n\nMain colors:\n- Soft sage green (primary)\n- Beige or warm cream backgrounds\n- Soft gray text\n- Light muted teal accents\n\nGoals:\nEncourage visitors to book a first consultation.\n\nStructure:\n- Hero with gentle, reassuring headline\n- About section introducing Dr. Elena\n- Services section (anxiety, stress, personal growth)\n- “How therapy works” section\n- Testimonials (written respectfully and realistically)\n- Contact / booking CTA\n- FAQ section\n\nDesign guidance:\n- Calm, spacious layout\n- Use lots of whitespace\n- Natural imagery (plants, soft light, calm environments)\n- Avoid flashy animations\n\nCopy guidance:\n- Compassionate language\n- Focus on safety and trust\n- Avoid clinical or cold wording\n- No hype or exaggerated claims\n\nMake it feel like a safe, welcoming space.\nMake the layout realistic and professional.",
+    "category": "custom",
+    "tags": [
+        "warm",
+        "calm",
+        "empathetic"
+    ],
+    "sections": [
+        47,
+        45,
+        98,
+        162,
+        22,
+        108,
+        50,
+        34,
+        159
+    ],
+    "theme": {
+        "name": "Serene Support Space",
+        "variables": {
+            "primary-bg": "#f5f5f0",
+            "secondary-bg": "#ffffff",
+            "accent-bg": "#e0e4e3",
+            "primary-text": "#333333",
+            "secondary-text": "#666666",
+            "accent-text": "#111111",
+            "primary-accent": "#b3c2b2",
+            "primary-accent-soft": "rgba(179, 194, 178, 0.1)",
+            "secondary-accent": "#a2b9b6",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #ffffff 0%, #e0e4e3 100%)",
+            "gradient-2": "linear-gradient(135deg, #b3c2b2 0%, #a2b9b6 100%)",
+            "features2-bg": "linear-gradient(135deg, #b3c2b2 0%, #a2b9b6 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Playfair Display', 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Playfair Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "8px",
+            "button-radius": "8px",
+            "card-radius": "12px",
+            "spacing-unit": "1.6rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Playfair Display",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Lato",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "22": {
+            "headline": "What Others Are Saying",
+            "testimonial_1": "Dr. Rivera has a calming presence that made it easier for me to open up. I felt truly understood.",
+            "testimonial_2": "My sessions with Dr. Elena have been life-changing. I finally feel like I can manage my anxiety."
+        },
+        "34": {
+            "team_member_1": {
+                "name": "Dr. Elena Rivera",
+                "bio": "With over a decade of experience, Dr. Rivera specializes in helping adults navigate anxiety and stress, using a warm and empathetic approach."
+            }
+        },
+        "45": {
+            "feature_1": "Individualized Therapy: Tailored sessions that focus on your unique experiences.",
+            "feature_2": "Safe Space: A nurturing environment where you can express your thoughts and feelings freely.",
+            "feature_3": "Expert Guidance: Benefit from Dr. Elena's extensive experience in helping adults navigate life's challenges."
+        },
+        "47": {
+            "headline": "Find Your Path to Healing with Dr. Elena Rivera",
+            "subheadline": "Compassionate support for anxiety, stress, and life transitions in a safe and welcoming environment.",
+            "cta_primary": "Book Your First Consultation",
+            "cta_secondary": "Learn More About Therapy"
+        },
+        "50": {
+            "cta_primary": "Contact Dr. Elena",
+            "cta_secondary": "Schedule Your Appointment"
+        },
+        "98": {
+            "feature_1": "Flexible Scheduling: Find appointment times that fit your busy life.",
+            "feature_2": "Confidential Conversations: Trust that your privacy and comfort are our top priorities.",
+            "feature_3": "Ongoing Support: Resources and tools to help you continue your journey outside of therapy."
+        },
+        "108": {
+            "faq_1": {
+                "question": "What can I expect during my first session?",
+                "answer": "Your first session will focus on getting to know each other and understanding your goals for therapy."
+            },
+            "faq_2": {
+                "question": "How long are the therapy sessions?",
+                "answer": "Sessions typically last around 50 minutes, allowing ample time for discussion and reflection."
+            },
+            "faq_3": {
+                "question": "Is therapy confidential?",
+                "answer": "Yes, your privacy is of utmost importance, and all sessions are kept strictly confidential."
+            }
+        },
+        "159": {
+            "navigation": "Home | About | Services | Contact",
+            "contact_info": "Email: contact@drelena.com | Phone: (555) 123-4567",
+            "reassurance": "Your journey to emotional well-being begins here, in a safe and trusted space."
+        },
+        "162": {
+            "headline": "How Therapy Works",
+            "content": "Therapy with Dr. Elena is a collaborative process. Together, you'll explore your feelings, identify patterns, and develop coping strategies in a supportive environment. The journey is personalized, focusing on your specific needs and goals."
+        }
+    },
+    "section_backgrounds": {
+        "22": {
+            "type": "image",
+            "keyword": "gentle nature"
+        },
+        "34": {
+            "type": "image",
+            "keyword": "professional psychologist"
+        },
+        "45": {
+            "type": "color"
+        },
+        "47": {
+            "type": "image",
+            "keyword": "calm therapy room"
+        },
+        "50": {
+            "type": "color"
+        },
+        "98": {
+            "type": "color"
+        },
+        "108": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        },
+        "162": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "22": [
+            [
+                "professional portrait",
+                "soft lighting",
+                "warm smile"
+            ],
+            [
+                "business headshot",
+                "confident and approachable",
+                "female professional"
+            ],
+            [
+                "friendly face",
+                "calm demeanor",
+                "male professional"
+            ]
+        ],
+        "34": [
+            [
+                "professional portrait",
+                "warm smile",
+                "empathetic gaze"
+            ],
+            [
+                "friendly demeanor",
+                "approachable professional",
+                "calm atmosphere"
+            ],
+            [
+                "creative workspace",
+                "design team",
+                "collaborative environment"
+            ]
+        ],
+        "98": [
+            [
+                "collaborative workspace",
+                "team discussion",
+                "supportive environment"
+            ],
+            [
+                "professional meeting",
+                "focused discussion",
+                "calm office"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#f5f5f0",
+            "secondary_bg": "#ffffff",
+            "accent_bg": "#e0e4e3",
+            "primary_text": "#333333",
+            "secondary_text": "#666666",
+            "accent_text": "#111111",
+            "primary_accent": "#b3c2b2",
+            "secondary_accent": "#a2b9b6"
+        },
+        "typography": {
+            "heading_style": "serif",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Playfair Display",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Lato",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "button_radius_value": "8px",
+            "card_radius": "rounded",
+            "card_radius_value": "12px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "spacious",
+            "spacing_unit_hint": "1.6rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "warm",
+            "calm",
+            "empathetic"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "about",
+            "services",
+            "testimonials",
+            "contact",
+            "faq"
+        ]
+    },
+    "site_plan": {
+        "audience": "adults seeking emotional support",
+        "primary_goal": "book consultation",
+        "brand_vibe": [
+            "warm",
+            "calm",
+            "empathetic",
+            "trustworthy"
+        ],
+        "content_tone": "compassionate and inviting",
+        "key_differentiators": [
+            "individual therapy for anxiety",
+            "focus on life transitions",
+            "safe and welcoming environment"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-02-11T20:00:46+00:00",
+    "text_updates": {
+        "22": {
+            "h2[0]": "Hear from Those Who've Found Relief",
+            "p[0]": "Real stories from individuals who have embraced change and found peace.",
+            "p[1]": "transformative experiences, support, connection",
+            "a[0]": "Read More Stories",
+            "p[2]": "Finding a supportive environment has changed my life for the better.",
+            "h4[0]": "Sophia Martinez",
+            "p[3]": "Marketing Specialist",
+            "p[4]": "I felt heard and understood; it has made all the difference.",
+            "h4[1]": "Liam Thompson",
+            "p[5]": "Teacher",
+            "p[6]": "The safe space created here helped me navigate my challenges with confidence.",
+            "h4[2]": "Ava Lin",
+            "p[7]": "Graphic Designer"
+        },
+        "34": {
+            "h2[0]": "Meet Dr. Elena Rivera",
+            "p[0]": "Discover the compassionate professional dedicated to guiding you through life's challenges with empathy and understanding.",
+            "h3[0]": "Dr. Elena Rivera",
+            "p[1]": "Psychologist & Therapist",
+            "h3[1]": "Expert in Anxiety Management",
+            "p[2]": "Specializing in helping individuals navigate anxiety and stress during life transitions.",
+            "h3[2]": "Empathetic Listener",
+            "p[3]": "Creating a safe space for meaningful conversations and personal growth."
+        },
+        "45": {
+            "h2[0]": "Empowering You Through Challenges",
+            "p[0]": "Navigating life's complexities can be overwhelming, but you don't have to face it alone. Together, we can explore your feelings and experiences in a supportive space.",
+            "div[5]": "3",
+            "p[1]": "Therapy sessions tailored to your journey.",
+            "h3[0]": "Anxiety Relief",
+            "p[2]": "Experience compassionate therapy focused on alleviating anxiety, helping you regain control and find clarity amidst uncertainty.",
+            "h3[1]": "Guidance Through Transitions",
+            "p[3]": "Life changes can be challenging. I provide a safe space to process these transitions and cultivate resilience, empowering you to embrace new beginnings.",
+            "h3[2]": "Fostering Personal Growth",
+            "p[4]": "Therapy is a journey of self-discovery. Together, we will uncover your strengths and develop coping strategies, nurturing your path to personal growth."
+        },
+        "47": {
+            "h2[0]": "Find Your Peace Within",
+            "p[0]": "Welcome to a nurturing space where Dr. Elena Rivera, a compassionate therapist, is dedicated to supporting your emotional well-being. Together, we’ll navigate your journey toward healing and growth in a safe environment.",
+            "a[0]": "Book a Consultation"
+        },
+        "50": {
+            "h2[0]": "Take the First Step Towards Wellness",
+            "p[0]": "Reach out for an initial consultation and start your journey towards a calmer, more fulfilling life.",
+            "a[0]": "Book Consultation"
+        },
+        "98": {
+            "h3[0]": "A Nurturing Space for Reflection",
+            "p[0]": "This is a safe environment where feelings and thoughts can be openly shared and explored in a compassionate manner.",
+            "h3[1]": "Empathetic Listening",
+            "p[1]": "Dr. Elena creates a warm atmosphere that fosters understanding and healing, allowing clients to feel heard and valued.",
+            "h3[2]": "Pathways to Healing",
+            "p[2]": "Through personalized support, individuals can navigate their emotions and discover pathways to personal growth and clarity."
+        },
+        "108": {
+            "h2[0]": "Your Questions Answered",
+            "p[0]": "This section aims to provide clear and comforting answers to common inquiries. Our goal is to support you in your journey and reassure you about the process of seeking help.",
+            "h3[0]": "Q. How can I get in touch with Dr. Elena?",
+            "span[0]": "Q.",
+            "p[1]": "A. You can connect with Dr. Elena through our online booking system, or feel free to reach out via email to schedule a consultation.",
+            "span[1]": "A.",
+            "h3[1]": "Q. What can I expect during my first session?",
+            "span[2]": "Q.",
+            "p[2]": "A. Your first session will focus on understanding your unique needs and establishing a safe space for open dialogue about your experiences.",
+            "span[3]": "A.",
+            "h3[2]": "Q. How long are therapy sessions?",
+            "span[4]": "Q.",
+            "p[3]": "A. Each session typically lasts 50 minutes, allowing ample time for exploration and reflection.",
+            "span[5]": "A.",
+            "h3[3]": "Q. How do I know if therapy is right for me?",
+            "span[6]": "Q.",
+            "p[4]": "A. If you're feeling overwhelmed by anxiety, stress, or facing significant life changes, therapy can provide valuable support and guidance.",
+            "span[7]": "A.",
+            "h3[4]": "Q. What should I do if I need to cancel an appointment?",
+            "span[8]": "Q.",
+            "p[5]": "A. Please give us a call or send an email at least 24 hours in advance if you need to reschedule or cancel your appointment.",
+            "span[9]": "A.",
+            "h3[5]": "Q. Is my information confidential?",
+            "span[10]": "Q.",
+            "p[6]": "A. Yes, your privacy is paramount. All information shared in sessions remains confidential, creating a safe environment for your healing.",
+            "span[11]": "A."
+        },
+        "159": {
+            "h3[0]": "Stay Connected with Us",
+            "p[0]": "Your emotional well-being is our priority. We're here to provide you with the support and information you need.",
+            "h4[0]": "Helpful Resources",
+            "li[0]": "Our Approach",
+            "span[0]": "Our Approach",
+            "li[1]": "Therapy Services",
+            "span[1]": "Therapy Services",
+            "li[2]": "Book a Session",
+            "span[2]": "Book a Session",
+            "li[3]": "Get in Touch",
+            "span[3]": "Get in Touch",
+            "h4[1]": "Therapeutic Areas",
+            "li[4]": "Anxiety Support",
+            "li[5]": "Stress Management",
+            "li[6]": "Life Transitions",
+            "li[7]": "Personal Growth",
+            "h4[2]": "Connect with Us",
+            "a[0]": "Facebook",
+            "a[1]": "Instagram",
+            "a[2]": "LinkedIn",
+            "p[1]": "© 2024 Serene Support Space. All rights reserved."
+        },
+        "162": {
+            "h2[0]": "Understanding the Therapy Journey",
+            "p[0]": "Embarking on a therapy journey can feel overwhelming, but it’s a step toward clarity and support. Together, we will navigate your thoughts and emotions in a compassionate and thoughtful way.",
+            "span[0]": "1",
+            "h3[0]": "Initial Consultation",
+            "p[1]": "During your first visit, we'll discuss your goals and concerns, allowing you to express what’s on your mind in a safe environment.",
+            "span[1]": "2",
+            "h3[1]": "Personalized Approach",
+            "p[2]": "Each session is tailored to your unique experiences and needs, ensuring you feel understood and supported throughout the process.",
+            "span[2]": "3",
+            "h3[2]": "Ongoing Support",
+            "p[3]": "As we progress, we will regularly check in on your feelings and adjustments, fostering a trusting relationship that encourages open dialogue.",
+            "span[3]": "4",
+            "h3[3]": "Growth and Reflection",
+            "p[4]": "Through our work together, you'll gain insights and tools to manage challenges, helping you to embrace personal growth and navigate life's changes."
+        }
+    },
+    "inline_images": {
+        "22": [
+            "https://images.unsplash.com/photo-1720084026289-0e6c6148a877?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBzb2Z0JTIwbGlnaHRpbmclMjB3YXJtJTIwc21pbGV8ZW58MHwwfHx8MTc3MDg0MDA4M3ww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758599543111-36ce5c34fceb?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8YnVzaW5lc3MlMjBoZWFkc2hvdCUyMGNvbmZpZGVudCUyMGFuZCUyMGFwcHJvYWNoYWJsZSUyMGZlbWFsZSUyMHByb2Zlc3Npb25hbHxlbnwwfDB8fHwxNzcwODQwMDgzfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "34": [
+            "https://images.unsplash.com/photo-1675526607070-f5cbd71dde92?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjB3YXJtJTIwc21pbGUlMjBlbXBhdGhldGljJTIwZ2F6ZXxlbnwwfDB8fHwxNzcwODQwMDg0fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1765366417033-5d74f04ca77a?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8Y3JlYXRpdmUlMjB3b3Jrc3BhY2UlMjBkZXNpZ24lMjB0ZWFtJTIwY29sbGFib3JhdGl2ZSUyMGVudmlyb25tZW50fGVufDB8MHx8fDE3NzA4NDAwODR8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "98": [
+            "https://images.unsplash.com/photo-1758691736843-90f58dce465e?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8Y29sbGFib3JhdGl2ZSUyMHdvcmtzcGFjZSUyMHRlYW0lMjBkaXNjdXNzaW9uJTIwc3VwcG9ydGl2ZSUyMGVudmlyb25tZW50fGVufDB8MHx8fDE3NzA4NDAwODV8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "22": "https://images.unsplash.com/photo-1594457841637-ee1a4f1e754c?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8Z2VudGxlJTIwbmF0dXJlfGVufDB8MHx8fDE3NzA4NDAwODZ8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "34": "https://images.unsplash.com/photo-1758273240403-052b3c99f636?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8cHJvZmVzc2lvbmFsJTIwcHN5Y2hvbG9naXN0fGVufDB8MHx8fDE3NzA4NDAwODZ8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "47": "https://images.unsplash.com/photo-1754294437684-7898b3701ac7?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8Y2FsbSUyMHRoZXJhcHklMjByb29tfGVufDB8MHx8fDE3NzA4Mjg5NzV8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

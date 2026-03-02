@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Section 28 Text Replacement</title>
+    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="../public/css/sections.css">
+    <style>
+        body { font-family: monospace; padding: 20px; background: #f5f5f5; }
+        .debug { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .issue { background: #ffebee; border-left: 4px solid #f44336; }
+        .success { background: #e8f5e9; border-left: 4px solid #4caf50; }
+        pre { background: #2d2d2d; color: #f8f8f2; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .element-path { color: #666; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f0f0f0; }
+        .warning { background: #fff3cd; color: #856404; padding: 10px; border-radius: 4px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Section 28 (Pricing) Text Replacement Debug</h1>
+    
+    <div class="debug warning">
+        <strong>Issue:</strong> The Business plan (2nd pricing card) content is being replaced with just "Popular Choice"
+    </div>
+
+    <div id="results"></div>
+    <div id="section-container"></div>
+
+    <script>
+        const TEXT_UPDATES = {
+            "h2[0]": "Explore Affordable Membership Plans",
+            "p[0]": "Dive into our exciting membership options...",
+            "a[0]": "Monthly Plan",
+            "a[1]": "Yearly Plan\n                Save 20%",
+            "span[0]": "Save 20%",
+            "h3[0]": "Starter",
+            "p[1]": "Perfect for those who are just getting started...",
+            "span[1]": "€39",
+            "span[2]": "/month",
+            "p[2]": "Charged annually (save €120)",
+            "li[0]": "Access to all youth classes",
+            "li[1]": "Personal workout tracker",
+            "li[2]": "Unlimited gym access",
+            "a[2]": "Try it Free",
+            "div[9]": "Popular Choice",
+            "h3[1]": "Standard",
+            "p[3]": "Our most popular choice! Enjoy a wider range of classes and additional perks to help you stay motivated.",
+            "span[3]": "€79",
+            "span[4]": "/month",
+            "p[4]": "Charged annually (save €240)",
+            "li[3]": "Access to all youth classes",
+            "li[4]": "Personal workout tracker",
+            "li[5]": "Group training sessions",
+            "a[3]": "Try it Free",
+            "h3[2]": "Premium",
+            "p[5]": "For the dedicated fitness enthusiast...",
+            "span[5]": "€129",
+            "span[6]": "/month",
+            "p[6]": "Charged annually (save €360)",
+            "li[6]": "Access to all youth classes",
+            "li[7]": "Personal workout tracker",
+            "li[8]": "Unlimited group training",
+            "a[4]": "Try it Free"
+        };
+
+        async function loadAndTest() {
+            const response = await fetch('../sections/fp-theme-pricing-2.html');
+            const html = await response.text();
+            
+            const container = document.createElement('div');
+            container.innerHTML = html;
+            const section = container.querySelector('section');
+            section.setAttribute('data-section', '28');
+            
+            document.getElementById('section-container').appendChild(section);
+
+            // Analyze all divs to find div[9]
+            const allDivs = section.querySelectorAll('div');
+            let resultsHtml = '<div class="debug"><h2>All DIV elements in section:</h2><table>';
+            resultsHtml += '<tr><th>Index</th><th>Classes</th><th>Has Children</th><th>Direct Text</th><th>Full Text (truncated)</th></tr>';
+            
+            allDivs.forEach((div, index) => {
+                const classes = div.className || '(none)';
+                const hasChildren = div.children.length > 0;
+                const directText = Array.from(div.childNodes)
+                    .filter(node => node.nodeType === 3)
+                    .map(node => node.textContent.trim())
+                    .join(' ')
+                    .substring(0, 50);
+                const fullText = div.textContent.trim().substring(0, 80);
+                
+                const isTarget = index === 9;
+                const rowClass = isTarget ? 'style="background: #ffebee; font-weight: bold;"' : '';
+                
+                resultsHtml += `<tr ${rowClass}>
+                    <td>${index}${isTarget ? ' ← TARGET' : ''}</td>
+                    <td>${classes}</td>
+                    <td>${hasChildren ? `Yes (${div.children.length})` : 'No'}</td>
+                    <td>${directText || '(no direct text)'}</td>
+                    <td>${fullText}</td>
+                </tr>`;
+            });
+            
+            resultsHtml += '</table></div>';
+
+            // Test what happens when we set textContent on div[9]
+            const div9 = allDivs[9];
+            if (div9) {
+                resultsHtml += '<div class="debug issue"><h2>🔴 Problem: div[9] Analysis</h2>';
+                resultsHtml += `<p><strong>Element:</strong> ${div9.outerHTML.substring(0, 150)}...</p>`;
+                resultsHtml += `<p><strong>Has ${div9.children.length} child elements</strong></p>`;
+                resultsHtml += `<p><strong>Current textContent length:</strong> ${div9.textContent.length} characters</p>`;
+                
+                if (div9.children.length > 0) {
+                    resultsHtml += '<p class="warning"><strong>⚠️ WARNING:</strong> This div has child elements! Setting textContent will DESTROY all HTML inside, including:</p><ul>';
+                    Array.from(div9.children).slice(0, 5).forEach(child => {
+                        resultsHtml += `<li>${child.tagName}: ${child.textContent.substring(0, 50)}...</li>`;
+                    });
+                    resultsHtml += '</ul>';
+                }
+                resultsHtml += '</div>';
+
+                // Clone the section to test the replacement
+                const testSection = section.cloneNode(true);
+                const testDiv9 = testSection.querySelectorAll('div')[9];
+                const beforeHTML = testDiv9.innerHTML.substring(0, 200);
+                testDiv9.textContent = 'Popular Choice';
+                const afterHTML = testDiv9.innerHTML;
+                
+                resultsHtml += '<div class="debug issue"><h2>🔴 What happens when we set textContent:</h2>';
+                resultsHtml += '<p><strong>Before:</strong></p><pre>' + escapeHtml(beforeHTML) + '...</pre>';
+                resultsHtml += '<p><strong>After setting textContent to "Popular Choice":</strong></p>';
+                resultsHtml += '<pre>' + escapeHtml(afterHTML) + '</pre>';
+                resultsHtml += '<p style="color: red; font-weight: bold;">❌ ALL CHILD CONTENT DESTROYED!</p>';
+                resultsHtml += '</div>';
+            }
+
+            // Find the actual "Recommended" badge div
+            resultsHtml += '<div class="debug success"><h2>✓ Solution: Find the correct badge div</h2>';
+            const badgeDiv = section.querySelector('div.absolute.-top-4');
+            if (badgeDiv) {
+                const badgeIndex = Array.from(allDivs).indexOf(badgeDiv);
+                resultsHtml += `<p>The "Recommended" badge is at index: <strong>${badgeIndex}</strong></p>`;
+                resultsHtml += `<p>Current text: "${badgeDiv.textContent}"</p>`;
+                resultsHtml += `<p>Classes: ${badgeDiv.className}</p>`;
+                resultsHtml += '<p style="color: green;">✓ This div has NO child elements - safe to replace!</p>';
+            }
+            resultsHtml += '</div>';
+
+            // Test the other selectors
+            resultsHtml += '<div class="debug"><h2>Test other Business card selectors:</h2><table>';
+            resultsHtml += '<tr><th>Selector</th><th>Found</th><th>Current Text</th><th>Replacement Text</th></tr>';
+            
+            const businessSelectors = ['h3[1]', 'p[3]', 'span[3]', 'span[4]', 'p[4]'];
+            businessSelectors.forEach(selector => {
+                const match = selector.match(/^([a-z0-9]+)\[([0-9]+)\]$/i);
+                const tag = match[1];
+                const index = parseInt(match[2]);
+                const elements = section.querySelectorAll(tag);
+                const element = elements[index];
+                const found = !!element;
+                const currentText = element ? element.textContent.trim().substring(0, 50) : 'NOT FOUND';
+                const replacement = TEXT_UPDATES[selector] || '(none)';
+                
+                resultsHtml += `<tr>
+                    <td>${selector}</td>
+                    <td>${found ? '✓' : '✗'}</td>
+                    <td>${currentText}</td>
+                    <td>${replacement}</td>
+                </tr>`;
+            });
+            
+            resultsHtml += '</table></div>';
+
+            document.getElementById('results').innerHTML = resultsHtml;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadAndTest();
+    </script>
+</body>
+</html>

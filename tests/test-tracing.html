@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentry Tracing Test</title>
+    
+    <!-- Sentry Error Tracking -->
+    <script
+      src="https://js.sentry-cdn.com/e653ba09396f22997f7db6c50cbb270e.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./public/js/sentry-init.js"></script>
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 { color: #1a202c; margin-bottom: 0.5rem; }
+        .subtitle { color: #718096; margin-bottom: 2rem; }
+        .section {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        .section h2 { color: #2d3748; margin-bottom: 1rem; }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: translateY(-2px); }
+        .danger { background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%); }
+        .timeline {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.85rem;
+        }
+        .timeline-item {
+            padding: 8px 0;
+            border-left: 3px solid #e2e8f0;
+            padding-left: 15px;
+            margin: 5px 0;
+        }
+        .timeline-item.click { border-left-color: #4299e1; }
+        .timeline-item.api { border-left-color: #9f7aea; }
+        .timeline-item.error { border-left-color: #f56565; }
+        .info-box {
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Sentry Tracing Demo</h1>
+        <p class="subtitle">This demonstrates all the tracing features you'll see in Sentry</p>
+
+        <div class="info-box">
+            <strong>📋 Instructions:</strong>
+            <ol style="margin: 10px 0 0 20px;">
+                <li>Follow the steps below in order</li>
+                <li>Watch the timeline showing what gets captured</li>
+                <li>At the end, trigger an error</li>
+                <li>Check your Sentry dashboard to see all the breadcrumbs!</li>
+            </ol>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="section">
+            <h2>Step 1: Generate Breadcrumbs</h2>
+            <p>Click these buttons to create a trail of breadcrumbs:</p>
+            <button onclick="simulateAction('Open Editor')">Open Editor</button>
+            <button onclick="simulateAction('Add Section')">Add Section</button>
+            <button onclick="simulateAction('Edit Text')">Edit Text</button>
+            <button onclick="simulateAction('Upload Image')">Upload Image</button>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="section">
+            <h2>Step 2: Simulate API Calls</h2>
+            <p>These will show up in the breadcrumbs as network requests:</p>
+            <button onclick="simulateAPICall('/api/sections')">Fetch Sections</button>
+            <button onclick="simulateAPICall('/api/user')">Get User Data</button>
+            <button onclick="simulateAPICall('/api/save')">Save Project</button>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="section">
+            <h2>Step 3: Add Console Logs</h2>
+            <p>Console messages are captured as breadcrumbs:</p>
+            <button onclick="addConsoleLog()">Add Console Log</button>
+            <button onclick="addConsoleWarn()">Add Console Warning</button>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="section">
+            <h2>Step 4: Trigger Error with Full Context</h2>
+            <p>Now trigger an error. Sentry will show ALL the above actions in the breadcrumb trail!</p>
+            <button class="danger" onclick="triggerTracedError()">🔥 Trigger Error with Full Trace</button>
+        </div>
+
+        <!-- Timeline -->
+        <div class="section">
+            <h2>📊 Activity Timeline (What Sentry Captures)</h2>
+            <div id="timeline" class="timeline">
+                <em>No activity yet. Start clicking buttons above!</em>
+            </div>
+        </div>
+
+        <!-- Dashboard Link -->
+        <div class="section">
+            <h2>🎯 Check Your Dashboard</h2>
+            <p>After triggering the error, check your Sentry dashboard:</p>
+            <a href="https://sentry.io" target="_blank" style="display: inline-block; background: #667eea; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                Open Sentry Dashboard →
+            </a>
+            <p style="margin-top: 15px; color: #718096;">
+                Look for the error and click on it. You'll see the "Breadcrumbs" tab showing the entire sequence of actions!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const timeline = document.getElementById('timeline');
+        let activityCount = 0;
+
+        function addToTimeline(type, message, icon) {
+            activityCount++;
+            const time = new Date().toLocaleTimeString();
+            const item = document.createElement('div');
+            item.className = `timeline-item ${type}`;
+            item.innerHTML = `<strong>${time}</strong> ${icon} ${message}`;
+            
+            if (timeline.querySelector('em')) {
+                timeline.innerHTML = '';
+            }
+            
+            timeline.appendChild(item);
+            timeline.scrollTop = timeline.scrollHeight;
+        }
+
+        function simulateAction(actionName) {
+            // Add to visual timeline
+            addToTimeline('click', `User clicked "${actionName}"`, '🖱️');
+            
+            // Track in Sentry
+            if (typeof SentryLogger !== 'undefined') {
+                SentryLogger.track(actionName, {
+                    timestamp: new Date().toISOString(),
+                    page: 'tracing-test'
+                });
+            }
+            
+            console.log(`Action: ${actionName}`);
+        }
+
+        async function simulateAPICall(endpoint) {
+            // Add to visual timeline
+            addToTimeline('api', `API call: ${endpoint}`, '📞');
+            
+            // Simulate actual API call (will be captured by Sentry)
+            try {
+                // This will create a network breadcrumb in Sentry
+                const response = await fetch(endpoint, {
+                    method: 'GET',
+                    headers: { 'X-Test': 'true' }
+                }).catch(e => {
+                    // API might not exist, but Sentry still captures the attempt
+                    addToTimeline('api', `${endpoint} - Network request logged`, '📝');
+                });
+            } catch (e) {
+                // Expected - endpoints don't exist
+            }
+            
+            // Also log it
+            if (typeof SentryLogger !== 'undefined') {
+                SentryLogger.addBreadcrumb('api', `Called ${endpoint}`, 'info', { endpoint });
+            }
+        }
+
+        function addConsoleLog() {
+            const message = 'User is working on the project';
+            console.log(message);
+            addToTimeline('click', `Console log: "${message}"`, '🖥️');
+            
+            if (typeof SentryLogger !== 'undefined') {
+                SentryLogger.info(message, { source: 'test' });
+            }
+        }
+
+        function addConsoleWarn() {
+            const message = 'Changes not saved yet';
+            console.warn(message);
+            addToTimeline('click', `Console warning: "${message}"`, '⚠️');
+            
+            if (typeof SentryLogger !== 'undefined') {
+                SentryLogger.warn(message, { source: 'test' });
+            }
+        }
+
+        function triggerTracedError() {
+            addToTimeline('error', 'TRIGGERING ERROR - Check Sentry dashboard!', '🔥');
+            
+            // Add some final context
+            if (typeof SentryLogger !== 'undefined') {
+                SentryLogger.setContext('test-session', {
+                    activityCount: activityCount,
+                    duration: 'test-session',
+                    completedSteps: ['breadcrumbs', 'api-calls', 'console-logs']
+                });
+            }
+            
+            // Create a realistic error scenario
+            setTimeout(() => {
+                try {
+                    // Simulate a complex error with a call stack
+                    performComplexOperation();
+                } catch (error) {
+                    if (typeof SentryLogger !== 'undefined') {
+                        SentryLogger.error('Complex operation failed', error, {
+                            operation: 'test-traced-error',
+                            activityCount: activityCount,
+                            timestamp: new Date().toISOString()
+                        });
+                    }
+                    
+                    console.error('Error sent to Sentry with full breadcrumb trail!');
+                    addToTimeline('error', 'Error sent! Check Sentry dashboard in 10-30 seconds', '✅');
+                }
+            }, 500);
+        }
+
+        function performComplexOperation() {
+            // Create a realistic call stack
+            validateData();
+        }
+
+        function validateData() {
+            processData();
+        }
+
+        function processData() {
+            saveToServer();
+        }
+
+        function saveToServer() {
+            throw new Error('🔥 TEST: Save operation failed - Check breadcrumbs in Sentry!');
+        }
+
+        // Show welcome message
+        console.log('%c🔍 Sentry Tracing Test', 'font-size: 20px; font-weight: bold; color: #667eea;');
+        console.log('Follow the steps on the page to see how Sentry captures breadcrumbs and traces!');
+    </script>
+</body>
+</html>
+
+
+

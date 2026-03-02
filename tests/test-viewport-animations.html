@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viewport Animations Test</title>
+    
+    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="../public/css/sections.css">
+    <link rel="stylesheet" href="../public/css/viewport-animations.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .controls h3 {
+            margin-top: 0;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        
+        .control-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .control-group input[type="range"] {
+            width: 100%;
+        }
+        
+        .offset-value {
+            font-weight: bold;
+            color: #4285f4;
+        }
+        
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .section:nth-child(odd) {
+            background: #f8f9fa;
+        }
+        
+        .section:nth-child(even) {
+            background: #ffffff;
+        }
+        
+        .section h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .section h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+        
+        .section p {
+            font-size: 1.2em;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.6;
+            color: #6c757d;
+        }
+        
+        .section img {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .section button {
+            padding: 12px 24px;
+            font-size: 1.1em;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .section button:hover {
+            background: #3367d6;
+        }
+        
+        /* Animation keyframes (same as in preview.html) */
+        @keyframes fromBottom {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 50px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        
+        .console-log {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #1a252f;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            max-width: 400px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        
+        .console-log div {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Controls Panel -->
+    <div class="controls">
+        <h3>🎬 Animation Controls</h3>
+        
+        <div class="control-group">
+            <label>
+                <input type="checkbox" id="animation-toggle">
+                Enable Animations
+            </label>
+        </div>
+        
+        <div class="control-group">
+            <label>
+                <input type="checkbox" id="fullpage-toggle">
+                Simulate fullPage.js
+            </label>
+        </div>
+        
+        <div class="control-group">
+            <label for="offset-slider">
+                Trigger Offset: <span class="offset-value" id="offset-value">200px</span>
+            </label>
+            <input type="range" id="offset-slider" min="0" max="500" value="200" step="10">
+        </div>
+        
+        <div class="control-group">
+            <button onclick="resetViewportAnimations()" style="width: 100%; padding: 10px; background: #ff5722; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                🔄 Reset Animations
+            </button>
+        </div>
+        
+        <div class="control-group">
+            <button onclick="scrollToTop()" style="width: 100%; padding: 10px; background: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                ⬆️ Scroll to Top
+            </button>
+        </div>
+        
+        <div style="font-size: 12px; color: #6c757d; margin-top: 15px;">
+            <strong>Instructions:</strong><br>
+            1. Enable animations<br>
+            2. Keep fullPage.js disabled<br>
+            3. Scroll down to see animations trigger<br>
+            4. Adjust offset to change trigger point
+        </div>
+    </div>
+    
+    <!-- Console Log Display -->
+    <div class="console-log" id="console-log">
+        <div><strong>Console Output:</strong></div>
+    </div>
+    
+    <!-- Test Sections -->
+    <div class="section" data-section="1">
+        <h1>Section 1</h1>
+        <h2>Welcome to Viewport Animations Test</h2>
+        <p>This is a test page for the viewport animations feature. Scroll down to see animations trigger as elements enter the viewport.</p>
+        <img src="../public/placeholder.svg" alt="Test Image 1">
+        <button>Test Button 1</button>
+    </div>
+    
+    <div class="section" data-section="2">
+        <h1>Section 2</h1>
+        <h2>Animation Trigger Point</h2>
+        <p>Elements will animate when they are 200px from the bottom of the viewport (by default). You can adjust this offset using the slider in the control panel.</p>
+        <img src="../public/placeholder.svg" alt="Test Image 2">
+        <button>Test Button 2</button>
+    </div>
+    
+    <div class="section" data-section="3">
+        <h1>Section 3</h1>
+        <h2>Multiple Elements</h2>
+        <p>Each type of element has a staggered animation delay for a cascading effect.</p>
+        <p>Headings animate first, followed by paragraphs, images, and buttons.</p>
+        <img src="../public/placeholder.svg" alt="Test Image 3">
+        <button>Test Button 3</button>
+    </div>
+    
+    <div class="section" data-section="4">
+        <h1>Section 4</h1>
+        <h2>Intersection Observer</h2>
+        <p>The viewport animations use the Intersection Observer API for efficient detection of when elements enter the viewport.</p>
+        <img src="../public/placeholder.svg" alt="Test Image 4">
+        <button>Test Button 4</button>
+    </div>
+    
+    <div class="section" data-section="5">
+        <h1>Section 5</h1>
+        <h2>Performance Optimized</h2>
+        <p>Elements are automatically unobserved after they animate, reducing overhead and improving performance.</p>
+        <img src="../public/placeholder.svg" alt="Test Image 5">
+        <button>Test Button 5</button>
+    </div>
+    
+    <div class="section" data-section="6">
+        <h1>Section 6</h1>
+        <h2>Final Section</h2>
+        <p>Use the "Reset Animations" button to remove all animations and start over. This is useful for testing different offset values.</p>
+        <img src="../public/placeholder.svg" alt="Test Image 6">
+        <button>Test Button 6</button>
+    </div>
+    
+    <script src="../public/js/viewport-animations.js"></script>
+    
+    <script>
+        // Initialize controls
+        const animationToggle = document.getElementById('animation-toggle');
+        const fullpageToggle = document.getElementById('fullpage-toggle');
+        const offsetSlider = document.getElementById('offset-slider');
+        const offsetValue = document.getElementById('offset-value');
+        const consoleLog = document.getElementById('console-log');
+        
+        // Animation toggle handler
+        animationToggle.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                document.body.classList.add('animations-enabled');
+                logToConsole('✅ Animations enabled');
+            } else {
+                document.body.classList.remove('animations-enabled');
+                logToConsole('❌ Animations disabled');
+            }
+        });
+        
+        // FullPage toggle handler (simulates fullPage.js)
+        fullpageToggle.addEventListener('change', (e) => {
+            window.viewportAnimations.setFullPageActive(e.target.checked);
+            logToConsole(e.target.checked ? '🔒 fullPage.js mode (viewport animations disabled)' : '🔓 Normal scroll mode (viewport animations enabled)');
+        });
+        
+        // Offset slider handler
+        offsetSlider.addEventListener('input', (e) => {
+            const offset = parseInt(e.target.value);
+            offsetValue.textContent = `${offset}px`;
+            setAnimationOffset(offset);
+            logToConsole(`📏 Offset changed to ${offset}px`);
+        });
+        
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            logToConsole('⬆️ Scrolled to top');
+        }
+        
+        // Console logging function
+        function logToConsole(message) {
+            const logDiv = document.createElement('div');
+            logDiv.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleLog.appendChild(logDiv);
+            
+            // Keep only last 10 messages
+            while (consoleLog.children.length > 11) {
+                consoleLog.removeChild(consoleLog.children[1]); // Skip the header
+            }
+            
+            // Auto-scroll to bottom
+            consoleLog.scrollTop = consoleLog.scrollHeight;
+        }
+        
+        // Override console.log to capture viewport animations messages
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const message = args.join(' ');
+            if (message.includes('[ViewportAnimations]')) {
+                logToConsole(message.replace('[ViewportAnimations]', '🎬'));
+            }
+        };
+        
+        // Initial log
+        logToConsole('🚀 Test page loaded');
+        logToConsole('👆 Toggle animations and scroll down to test');
+        
+        // Monitor viewport animations state
+        setInterval(() => {
+            const status = document.getElementById('status');
+            if (window.viewportAnimations) {
+                const config = window.viewportAnimations.config;
+                // Could add status display here if needed
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
+
+

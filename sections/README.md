@@ -1,0 +1,373 @@
+# Extracted Sections
+
+Total sections: 178
+- Regular sections: 173
+- Footer sections: 5
+
+## Regular Sections:
+
+- **1.** `fp-theme-hero` -> `fp-theme-hero.html`
+- **2.** `fp-theme-hero2` -> `fp-theme-hero2.html`
+- **3.** `fp-theme-inspiration` -> `fp-theme-inspiration.html`
+- **4.** `fp-theme-discussion` -> `fp-theme-discussion.html`
+- **5.** `fp-theme-single-testimonial` -> `fp-theme-single-testimonial.html`
+- **6.** `fp-theme-customer-testimonial` -> `fp-theme-customer-testimonial.html`
+- **7.** `fp-theme-how-it-works` -> `fp-theme-how-it-works.html`
+- **8.** `fp-theme-signup` -> `fp-theme-signup.html`
+- **9.** `fp-theme-trusted-by` -> `fp-theme-trusted-by.html`
+- **10.** `fp-theme-collections` -> `fp-theme-collections.html`
+- **11.** `fp-theme-photography-skills` -> `fp-theme-photography-skills.html`
+- **12.** `fp-theme-success-stories` -> `fp-theme-success-stories.html`
+- **13.** `fp-theme-business-growth` -> `fp-theme-business-growth.html`
+- **14.** `fp-theme-about` -> `fp-theme-about.html`
+- **15.** `fp-theme-features` -> `fp-theme-features.html`
+- **16.** `fp-theme-features2` -> `fp-theme-features2.html`
+- **17.** `fp-theme-testimonials` -> `fp-theme-testimonials.html`
+- **18.** `fp-theme-testimonials-interactive` -> `fp-theme-testimonials-interactive.html`
+- **19.** `fp-theme-testimonial-cards` -> `fp-theme-testimonial-cards.html`
+- **20.** `fp-theme-testimonial-split` -> `fp-theme-testimonial-split.html`
+- **21.** `fp-theme-testimonial-carousel` -> `fp-theme-testimonial-carousel.html`
+- **22.** `fp-theme-testimonial-grid` -> `fp-theme-testimonial-grid.html`
+- **23.** `fp-theme-client-feedback` -> `fp-theme-client-feedback.html`
+- **24.** `fp-theme-customer-experience` -> `fp-theme-customer-experience.html`
+- **25.** `fp-theme-customer-story` -> `fp-theme-customer-story.html`
+- **26.** `fp-theme-happy-users` -> `fp-theme-happy-users.html`
+- **27.** `fp-theme-pricing` -> `fp-theme-pricing.html`
+- **28.** `fp-theme-pricing-2` -> `fp-theme-pricing-2.html`
+- **29.** `fp-theme-pricing-3` -> `fp-theme-pricing-3.html`
+- **30.** `fp-theme-pricing-4` -> `fp-theme-pricing-4.html`
+- **31.** `fp-theme-pricing-5` -> `fp-theme-pricing-5.html`
+- **32.** `fp-theme-pricing-6` -> `fp-theme-pricing-6.html`
+- **33.** `fp-theme-bio` -> `fp-theme-bio.html`
+- **34.** `fp-theme-team` -> `fp-theme-team.html`
+- **35.** `fp-theme-team2` -> `fp-theme-team2.html`
+- **36.** `fp-theme-faqs` -> `fp-theme-faqs.html`
+- **37.** `fp-theme-numbers` -> `fp-theme-numbers.html`
+- **38.** `fp-theme-screenshot` -> `fp-theme-screenshot.html`
+- **39.** `fp-theme-cta` -> `fp-theme-cta.html`
+- **40.** `fp-theme-team-layout-1` -> `fp-theme-team-layout-1.html`
+- **41.** `fp-theme-web-app` -> `fp-theme-web-app.html`
+- **42.** `fp-theme-team-layout-2` -> `fp-theme-team-layout-2.html`
+- **43.** `fp-theme-features-showcase` -> `fp-theme-features-showcase.html`
+- **44.** `fp-theme-team-circles` -> `fp-theme-team-circles.html`
+- **45.** `fp-theme-card-section` -> `fp-theme-card-section.html`
+- **46.** `fp-theme-contact` -> `fp-theme-contact.html`
+- **47.** `fp-theme-welcome` -> `fp-theme-welcome.html`
+- **48.** `fp-theme-hero-2` -> `fp-theme-hero-2.html`
+- **49.** `fp-theme-email` -> `fp-theme-email.html`
+- **50.** `fp-theme-simple-form` -> `fp-theme-simple-form.html`
+- **51.** `fp-theme-gallery` -> `fp-theme-gallery.html`
+- **52.** `fp-theme-gallery-2` -> `fp-theme-gallery-2.html`
+- **53.** `fp-theme-form-split` -> `fp-theme-form-split.html`
+- **54.** `fp-theme-people` -> `fp-theme-people.html`
+- **55.** `fp-theme-numbers-2` -> `fp-theme-numbers-2.html`
+- **56.** `fp-theme-phone-mockup` -> `fp-theme-phone-mockup.html`
+- **57.** `fp-theme-video-bottom` -> `fp-theme-video-bottom.html`
+- **58.** `fp-theme-video-top` -> `fp-theme-video-top.html`
+- **59.** `fp-theme-video-center` -> `fp-theme-video-center.html`
+- **60.** `fp-theme-half-image` -> `fp-theme-half-image.html`
+- **61.** `fp-theme-rotated-images` -> `fp-theme-rotated-images.html`
+- **62.** `fp-theme-why-care` -> `fp-theme-why-care.html`
+- **63.** `fp-theme-contact-info` -> `fp-theme-contact-info.html`
+- **64.** `fp-theme-pricing-comparison` -> `fp-theme-pricing-comparison.html`
+- **65.** `fp-theme-comparison-table` -> `fp-theme-comparison-table.html`
+- **66.** `fp-theme-events-grid` -> `fp-theme-events-grid.html`
+- **67.** `fp-theme-events-list` -> `fp-theme-events-list.html`
+- **68.** `fp-theme-pros-cons` -> `fp-theme-pros-cons.html`
+- **69.** `fp-theme-features-accordion` -> `fp-theme-features-accordion.html`
+- **70.** `fp-theme-product-slider` -> `fp-theme-product-slider.html`
+- **71.** `fp-theme-video-split` -> `fp-theme-video-split.html`
+- **72.** `fp-theme-video-split-right` -> `fp-theme-video-split-right.html`
+- **73.** `fp-theme-video-heading` -> `fp-theme-video-heading.html`
+- **74.** `fp-theme-gallery-scroll` -> `fp-theme-gallery-scroll.html`
+- **75.** `fp-theme-image-only` -> `fp-theme-image-only.html`
+- **76.** `fp-theme-image-center` -> `fp-theme-image-center.html`
+- **77.** `fp-theme-image-top` -> `fp-theme-image-top.html`
+- **78.** `fp-theme-image-bottom` -> `fp-theme-image-bottom.html`
+- **79.** `fp-theme-bento-gallery` -> `fp-theme-bento-gallery.html`
+- **80.** `fp-theme-masonry-gallery` -> `fp-theme-masonry-gallery.html`
+- **81.** `fp-theme-gallery-split` -> `fp-theme-gallery-split.html`
+- **82.** `fp-theme-gallery-grid` -> `fp-theme-gallery-grid.html`
+- **83.** `fp-theme-gallery-asymmetric` -> `fp-theme-gallery-asymmetric.html`
+- **84.** `fp-theme-gallery-slider` -> `fp-theme-gallery-slider.html`
+- **85.** `fp-theme-gallery-expand` -> `fp-theme-gallery-expand.html`
+- **86.** `fp-theme-gallery-expand-overlay` -> `fp-theme-gallery-expand-overlay.html`
+- **87.** `fp-theme-gallery-slider-arrows` -> `fp-theme-gallery-slider-arrows.html`
+- **88.** `fp-theme-gallery-thumbs` -> `fp-theme-gallery-thumbs.html`
+- **89.** `fp-theme-gallery-thumbs-fade` -> `fp-theme-gallery-thumbs-fade.html`
+- **90.** `fp-theme-gallery-grid-links` -> `fp-theme-gallery-grid-links.html`
+- **91.** `fp-theme-gallery-collection-split` -> `fp-theme-gallery-collection-split.html`
+- **92.** `fp-theme-gallery-overflow` -> `fp-theme-gallery-overflow.html`
+- **93.** `fp-theme-gallery-features` -> `fp-theme-gallery-features.html`
+- **94.** `fp-theme-features-grid` -> `fp-theme-features-grid.html`
+- **95.** `fp-theme-featured-benefits` -> `fp-theme-featured-benefits.html`
+- **96.** `fp-theme-user-features` -> `fp-theme-user-features.html`
+- **97.** `fp-theme-business-features` -> `fp-theme-business-features.html`
+- **98.** `fp-theme-image-features` -> `fp-theme-image-features.html`
+- **99.** `fp-theme-task-features` -> `fp-theme-task-features.html`
+- **100.** `fp-theme-phone-features` -> `fp-theme-phone-features.html`
+- **101.** `fp-theme-customer-features` -> `fp-theme-customer-features.html`
+- **102.** `fp-theme-sustainable-features` -> `fp-theme-sustainable-features.html`
+- **103.** `fp-theme-network-features` -> `fp-theme-network-features.html`
+- **104.** `fp-theme-interactive-features` -> `fp-theme-interactive-features.html`
+- **105.** `fp-theme-standout-features` -> `fp-theme-standout-features.html`
+- **106.** `fp-theme-questions-answers` -> `fp-theme-questions-answers.html`
+- **107.** `fp-theme-popular-questions` -> `fp-theme-popular-questions.html`
+- **108.** `fp-theme-inline-faq` -> `fp-theme-inline-faq.html`
+- **109.** `fp-theme-split-faq` -> `fp-theme-split-faq.html`
+- **110.** `fp-theme-faq-image` -> `fp-theme-faq-image.html`
+- **111.** `fp-theme-faq-visible` -> `fp-theme-faq-visible.html`
+- **112.** `fp-theme-faq-hover` -> `fp-theme-faq-hover.html`
+- **113.** `fp-theme-pricing-toggle` -> `fp-theme-pricing-toggle.html`
+- **114.** `fp-theme-pricing-cards` -> `fp-theme-pricing-cards.html`
+- **115.** `fp-theme-pricing-features` -> `fp-theme-pricing-features.html`
+- **116.** `fp-theme-event-pricing` -> `fp-theme-event-pricing.html`
+- **117.** `fp-theme-dedicated-team` -> `fp-theme-dedicated-team.html`
+- **118.** `fp-theme-creative-team` -> `fp-theme-creative-team.html`
+- **119.** `fp-theme-skilled-team` -> `fp-theme-skilled-team.html`
+- **120.** `fp-theme-exceptional-team-2` -> `fp-theme-exceptional-team-2.html`
+- **121.** `fp-theme-award-team` -> `fp-theme-award-team.html`
+- **122.** `fp-theme-talented-team` -> `fp-theme-talented-team.html`
+- **123.** `fp-theme-collaboration-team` -> `fp-theme-collaboration-team.html`
+- **124.** `fp-theme-exceptional-team` -> `fp-theme-exceptional-team.html`
+- **125.** `fp-theme-team-slider` -> `fp-theme-team-slider.html`
+- **126.** `fp-theme-staggered-team` -> `fp-theme-staggered-team.html`
+- **127.** `fp-theme-team-carousel` -> `fp-theme-team-carousel.html`
+- **128.** `fp-theme-portfolio-grid` -> `fp-theme-portfolio-grid.html`
+- **129.** `fp-theme-blog-entries` -> `fp-theme-blog-entries.html`
+- **130.** `fp-theme-latest-blog` -> `fp-theme-latest-blog.html`
+- **131.** `fp-theme-contact-form` -> `fp-theme-contact-form.html`
+- **132.** `fp-theme-contact-map` -> `fp-theme-contact-map.html`
+- **133.** `fp-theme-logos-grid` -> `fp-theme-logos-grid.html`
+- **134.** `fp-theme-contact-split` -> `fp-theme-contact-split.html`
+- **135.** `fp-theme-integrations-cards` -> `fp-theme-integrations-cards.html`
+- **136.** `fp-theme-numbers-split` -> `fp-theme-numbers-split.html`
+- **137.** `fp-theme-numbers-centered` -> `fp-theme-numbers-centered.html`
+- **138.** `fp-theme-numbers-with-features` -> `fp-theme-numbers-with-features.html`
+- **139.** `fp-theme-numbers-performance` -> `fp-theme-numbers-performance.html`
+- **140.** `fp-theme-integrations` -> `fp-theme-integrations.html`
+- **141.** `fp-theme-numbers-innovative` -> `fp-theme-numbers-innovative.html`
+- **142.** `fp-theme-property-experts` -> `fp-theme-property-experts.html`
+- **143.** `fp-theme-empowering-communities` -> `fp-theme-empowering-communities.html`
+- **144.** `fp-theme-testimonials-image` -> `fp-theme-testimonials-image.html`
+- **145.** `fp-theme-logos` -> `fp-theme-logos.html`
+- **146.** `fp-theme-login` -> `fp-theme-login.html`
+- **147.** `fp-theme-newsletter-centered` -> `fp-theme-newsletter-centered.html`
+- **148.** `fp-theme-newsletter` -> `fp-theme-newsletter.html`
+- **149.** `fp-theme-cta-1` -> `fp-theme-cta-1.html`
+- **150.** `fp-theme-cta-2` -> `fp-theme-cta-2.html`
+- **151.** `fp-theme-cta-3` -> `fp-theme-cta-3.html`
+- **152.** `fp-theme-cta-4` -> `fp-theme-cta-4.html`
+- **153.** `fp-theme-cta-5` -> `fp-theme-cta-5.html`
+- **154.** `fp-theme-cta-6` -> `fp-theme-cta-6.html`
+- **155.** `fp-theme-contact-2` -> `fp-theme-contact-2.html`
+- **156.** `fp-theme-hero-3` -> `fp-theme-hero-3.html`
+- **157.** `fp-theme-hero-4` -> `fp-theme-hero-4.html`
+- **158.** `fp-theme-hero-5` -> `fp-theme-hero-5.html`
+- **160.** `fp-theme-about-video-stats` -> `fp-theme-about-video-stats.html`
+- **161.** `fp-theme-achievement-story` -> `fp-theme-achievement-story.html`
+- **162.** `fp-theme-process-steps` -> `fp-theme-process-steps.html`
+- **163.** `fp-theme-guide-steps` -> `fp-theme-guide-steps.html`
+- **164.** `fp-theme-onboarding-flow` -> `fp-theme-onboarding-flow.html`
+- **165.** `fp-theme-understanding-steps` -> `fp-theme-understanding-steps.html`
+- **166.** `fp-theme-process-accordion` -> `fp-theme-process-accordion.html`
+- **167.** `fp-theme-step-cards` -> `fp-theme-step-cards.html`
+- **168.** `fp-theme-steps-slider` -> `fp-theme-steps-slider.html`
+- **169.** `fp-theme-testimonials-cards` -> `fp-theme-testimonials-cards.html`
+- **174.** `fp-theme-signin` -> `fp-theme-signin.html`
+- **175.** `fp-theme-contact-split-2` -> `fp-theme-contact-split-2.html`
+- **176.** `fp-theme-signin-split` -> `fp-theme-signin-split.html`
+- **177.** `fp-theme-features-phone` -> `fp-theme-features-phone.html`
+- **178.** `fp-theme-features-ipad` -> `fp-theme-features-ipad.html`
+
+## Footer Sections:
+
+- **159.** `fp-theme-footer` -> `fp-theme-footer.html`
+- **170.** `fp-theme-footer-1` -> `fp-theme-footer-1.html`
+- **171.** `fp-theme-footer-2` -> `fp-theme-footer-2.html`
+- **172.** `fp-theme-footer-3` -> `fp-theme-footer-3.html`
+- **173.** `fp-theme-footer-4` -> `fp-theme-footer-4.html`
+
+## Files created:
+
+### Regular Sections:
+- `fp-theme-hero.html` - fp-theme-hero
+- `fp-theme-hero2.html` - fp-theme-hero2
+- `fp-theme-inspiration.html` - fp-theme-inspiration
+- `fp-theme-discussion.html` - fp-theme-discussion
+- `fp-theme-single-testimonial.html` - fp-theme-single-testimonial
+- `fp-theme-customer-testimonial.html` - fp-theme-customer-testimonial
+- `fp-theme-how-it-works.html` - fp-theme-how-it-works
+- `fp-theme-signup.html` - fp-theme-signup
+- `fp-theme-trusted-by.html` - fp-theme-trusted-by
+- `fp-theme-collections.html` - fp-theme-collections
+- `fp-theme-photography-skills.html` - fp-theme-photography-skills
+- `fp-theme-success-stories.html` - fp-theme-success-stories
+- `fp-theme-business-growth.html` - fp-theme-business-growth
+- `fp-theme-about.html` - fp-theme-about
+- `fp-theme-features.html` - fp-theme-features
+- `fp-theme-features2.html` - fp-theme-features2
+- `fp-theme-testimonials.html` - fp-theme-testimonials
+- `fp-theme-testimonials-interactive.html` - fp-theme-testimonials-interactive
+- `fp-theme-testimonial-cards.html` - fp-theme-testimonial-cards
+- `fp-theme-testimonial-split.html` - fp-theme-testimonial-split
+- `fp-theme-testimonial-carousel.html` - fp-theme-testimonial-carousel
+- `fp-theme-testimonial-grid.html` - fp-theme-testimonial-grid
+- `fp-theme-client-feedback.html` - fp-theme-client-feedback
+- `fp-theme-customer-experience.html` - fp-theme-customer-experience
+- `fp-theme-customer-story.html` - fp-theme-customer-story
+- `fp-theme-happy-users.html` - fp-theme-happy-users
+- `fp-theme-pricing.html` - fp-theme-pricing
+- `fp-theme-pricing-2.html` - fp-theme-pricing-2
+- `fp-theme-pricing-3.html` - fp-theme-pricing-3
+- `fp-theme-pricing-4.html` - fp-theme-pricing-4
+- `fp-theme-pricing-5.html` - fp-theme-pricing-5
+- `fp-theme-pricing-6.html` - fp-theme-pricing-6
+- `fp-theme-bio.html` - fp-theme-bio
+- `fp-theme-team.html` - fp-theme-team
+- `fp-theme-team2.html` - fp-theme-team2
+- `fp-theme-faqs.html` - fp-theme-faqs
+- `fp-theme-numbers.html` - fp-theme-numbers
+- `fp-theme-screenshot.html` - fp-theme-screenshot
+- `fp-theme-cta.html` - fp-theme-cta
+- `fp-theme-team-layout-1.html` - fp-theme-team-layout-1
+- `fp-theme-web-app.html` - fp-theme-web-app
+- `fp-theme-team-layout-2.html` - fp-theme-team-layout-2
+- `fp-theme-features-showcase.html` - fp-theme-features-showcase
+- `fp-theme-team-circles.html` - fp-theme-team-circles
+- `fp-theme-card-section.html` - fp-theme-card-section
+- `fp-theme-contact.html` - fp-theme-contact
+- `fp-theme-welcome.html` - fp-theme-welcome
+- `fp-theme-hero-2.html` - fp-theme-hero-2
+- `fp-theme-email.html` - fp-theme-email
+- `fp-theme-simple-form.html` - fp-theme-simple-form
+- `fp-theme-gallery.html` - fp-theme-gallery
+- `fp-theme-gallery-2.html` - fp-theme-gallery-2
+- `fp-theme-form-split.html` - fp-theme-form-split
+- `fp-theme-people.html` - fp-theme-people
+- `fp-theme-numbers-2.html` - fp-theme-numbers-2
+- `fp-theme-phone-mockup.html` - fp-theme-phone-mockup
+- `fp-theme-video-bottom.html` - fp-theme-video-bottom
+- `fp-theme-video-top.html` - fp-theme-video-top
+- `fp-theme-video-center.html` - fp-theme-video-center
+- `fp-theme-half-image.html` - fp-theme-half-image
+- `fp-theme-rotated-images.html` - fp-theme-rotated-images
+- `fp-theme-why-care.html` - fp-theme-why-care
+- `fp-theme-contact-info.html` - fp-theme-contact-info
+- `fp-theme-pricing-comparison.html` - fp-theme-pricing-comparison
+- `fp-theme-comparison-table.html` - fp-theme-comparison-table
+- `fp-theme-events-grid.html` - fp-theme-events-grid
+- `fp-theme-events-list.html` - fp-theme-events-list
+- `fp-theme-pros-cons.html` - fp-theme-pros-cons
+- `fp-theme-features-accordion.html` - fp-theme-features-accordion
+- `fp-theme-product-slider.html` - fp-theme-product-slider
+- `fp-theme-video-split.html` - fp-theme-video-split
+- `fp-theme-video-split-right.html` - fp-theme-video-split-right
+- `fp-theme-video-heading.html` - fp-theme-video-heading
+- `fp-theme-gallery-scroll.html` - fp-theme-gallery-scroll
+- `fp-theme-image-only.html` - fp-theme-image-only
+- `fp-theme-image-center.html` - fp-theme-image-center
+- `fp-theme-image-top.html` - fp-theme-image-top
+- `fp-theme-image-bottom.html` - fp-theme-image-bottom
+- `fp-theme-bento-gallery.html` - fp-theme-bento-gallery
+- `fp-theme-masonry-gallery.html` - fp-theme-masonry-gallery
+- `fp-theme-gallery-split.html` - fp-theme-gallery-split
+- `fp-theme-gallery-grid.html` - fp-theme-gallery-grid
+- `fp-theme-gallery-asymmetric.html` - fp-theme-gallery-asymmetric
+- `fp-theme-gallery-slider.html` - fp-theme-gallery-slider
+- `fp-theme-gallery-expand.html` - fp-theme-gallery-expand
+- `fp-theme-gallery-expand-overlay.html` - fp-theme-gallery-expand-overlay
+- `fp-theme-gallery-slider-arrows.html` - fp-theme-gallery-slider-arrows
+- `fp-theme-gallery-thumbs.html` - fp-theme-gallery-thumbs
+- `fp-theme-gallery-thumbs-fade.html` - fp-theme-gallery-thumbs-fade
+- `fp-theme-gallery-grid-links.html` - fp-theme-gallery-grid-links
+- `fp-theme-gallery-collection-split.html` - fp-theme-gallery-collection-split
+- `fp-theme-gallery-overflow.html` - fp-theme-gallery-overflow
+- `fp-theme-gallery-features.html` - fp-theme-gallery-features
+- `fp-theme-features-grid.html` - fp-theme-features-grid
+- `fp-theme-featured-benefits.html` - fp-theme-featured-benefits
+- `fp-theme-user-features.html` - fp-theme-user-features
+- `fp-theme-business-features.html` - fp-theme-business-features
+- `fp-theme-image-features.html` - fp-theme-image-features
+- `fp-theme-task-features.html` - fp-theme-task-features
+- `fp-theme-phone-features.html` - fp-theme-phone-features
+- `fp-theme-customer-features.html` - fp-theme-customer-features
+- `fp-theme-sustainable-features.html` - fp-theme-sustainable-features
+- `fp-theme-network-features.html` - fp-theme-network-features
+- `fp-theme-interactive-features.html` - fp-theme-interactive-features
+- `fp-theme-standout-features.html` - fp-theme-standout-features
+- `fp-theme-questions-answers.html` - fp-theme-questions-answers
+- `fp-theme-popular-questions.html` - fp-theme-popular-questions
+- `fp-theme-inline-faq.html` - fp-theme-inline-faq
+- `fp-theme-split-faq.html` - fp-theme-split-faq
+- `fp-theme-faq-image.html` - fp-theme-faq-image
+- `fp-theme-faq-visible.html` - fp-theme-faq-visible
+- `fp-theme-faq-hover.html` - fp-theme-faq-hover
+- `fp-theme-pricing-toggle.html` - fp-theme-pricing-toggle
+- `fp-theme-pricing-cards.html` - fp-theme-pricing-cards
+- `fp-theme-pricing-features.html` - fp-theme-pricing-features
+- `fp-theme-event-pricing.html` - fp-theme-event-pricing
+- `fp-theme-dedicated-team.html` - fp-theme-dedicated-team
+- `fp-theme-creative-team.html` - fp-theme-creative-team
+- `fp-theme-skilled-team.html` - fp-theme-skilled-team
+- `fp-theme-exceptional-team-2.html` - fp-theme-exceptional-team-2
+- `fp-theme-award-team.html` - fp-theme-award-team
+- `fp-theme-talented-team.html` - fp-theme-talented-team
+- `fp-theme-collaboration-team.html` - fp-theme-collaboration-team
+- `fp-theme-exceptional-team.html` - fp-theme-exceptional-team
+- `fp-theme-team-slider.html` - fp-theme-team-slider
+- `fp-theme-staggered-team.html` - fp-theme-staggered-team
+- `fp-theme-team-carousel.html` - fp-theme-team-carousel
+- `fp-theme-portfolio-grid.html` - fp-theme-portfolio-grid
+- `fp-theme-blog-entries.html` - fp-theme-blog-entries
+- `fp-theme-latest-blog.html` - fp-theme-latest-blog
+- `fp-theme-contact-form.html` - fp-theme-contact-form
+- `fp-theme-contact-map.html` - fp-theme-contact-map
+- `fp-theme-logos-grid.html` - fp-theme-logos-grid
+- `fp-theme-contact-split.html` - fp-theme-contact-split
+- `fp-theme-integrations-cards.html` - fp-theme-integrations-cards
+- `fp-theme-numbers-split.html` - fp-theme-numbers-split
+- `fp-theme-numbers-centered.html` - fp-theme-numbers-centered
+- `fp-theme-numbers-with-features.html` - fp-theme-numbers-with-features
+- `fp-theme-numbers-performance.html` - fp-theme-numbers-performance
+- `fp-theme-integrations.html` - fp-theme-integrations
+- `fp-theme-numbers-innovative.html` - fp-theme-numbers-innovative
+- `fp-theme-property-experts.html` - fp-theme-property-experts
+- `fp-theme-empowering-communities.html` - fp-theme-empowering-communities
+- `fp-theme-testimonials-image.html` - fp-theme-testimonials-image
+- `fp-theme-logos.html` - fp-theme-logos
+- `fp-theme-login.html` - fp-theme-login
+- `fp-theme-newsletter-centered.html` - fp-theme-newsletter-centered
+- `fp-theme-newsletter.html` - fp-theme-newsletter
+- `fp-theme-cta-1.html` - fp-theme-cta-1
+- `fp-theme-cta-2.html` - fp-theme-cta-2
+- `fp-theme-cta-3.html` - fp-theme-cta-3
+- `fp-theme-cta-4.html` - fp-theme-cta-4
+- `fp-theme-cta-5.html` - fp-theme-cta-5
+- `fp-theme-cta-6.html` - fp-theme-cta-6
+- `fp-theme-contact-2.html` - fp-theme-contact-2
+- `fp-theme-hero-3.html` - fp-theme-hero-3
+- `fp-theme-hero-4.html` - fp-theme-hero-4
+- `fp-theme-hero-5.html` - fp-theme-hero-5
+- `fp-theme-about-video-stats.html` - fp-theme-about-video-stats
+- `fp-theme-achievement-story.html` - fp-theme-achievement-story
+- `fp-theme-process-steps.html` - fp-theme-process-steps
+- `fp-theme-guide-steps.html` - fp-theme-guide-steps
+- `fp-theme-onboarding-flow.html` - fp-theme-onboarding-flow
+- `fp-theme-understanding-steps.html` - fp-theme-understanding-steps
+- `fp-theme-process-accordion.html` - fp-theme-process-accordion
+- `fp-theme-step-cards.html` - fp-theme-step-cards
+- `fp-theme-steps-slider.html` - fp-theme-steps-slider
+- `fp-theme-testimonials-cards.html` - fp-theme-testimonials-cards
+- `fp-theme-signin.html` - fp-theme-signin
+- `fp-theme-contact-split-2.html` - fp-theme-contact-split-2
+- `fp-theme-signin-split.html` - fp-theme-signin-split
+- `fp-theme-features-phone.html` - fp-theme-features-phone
+- `fp-theme-features-ipad.html` - fp-theme-features-ipad
+
+### Footer Sections:
+- `fp-theme-footer.html` - fp-theme-footer
+- `fp-theme-footer-1.html` - fp-theme-footer-1
+- `fp-theme-footer-2.html` - fp-theme-footer-2
+- `fp-theme-footer-3.html` - fp-theme-footer-3
+- `fp-theme-footer-4.html` - fp-theme-footer-4

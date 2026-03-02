@@ -1,0 +1,88 @@
+<section id="fp-theme-login" class="min-h-screen flex items-center justify-center" style="background-color: var(--secondary-bg);">
+        <div class="fp-bg"></div>
+        <div data-fp-anim-children="true" class="flex h-[700px] w-full max-w-7xl mx-4 mx-auto" style="border-radius: var(--card-radius); box-shadow: var(--shadow-lg); overflow: hidden;">
+          
+          <!-- Left Side - Decorative Image -->
+          <div class="w-full hidden md:block">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&amp;h=700&amp;fit=crop" alt="Creative Artwork" class="h-full w-full object-cover">
+          </div>
+
+          <!-- Right Side - Login Form -->
+          <div class="fp-keep-color w-full flex flex-col items-center justify-center px-6" style="background-color: var(--primary-bg);">
+            
+            <form class="md:w-96 w-80 flex flex-col items-center justify-center">
+              
+              <!-- Heading -->
+              <h2 class="text-4xl font-medium" style="color: var(--primary-text); font-family: var(--heading-font);">
+                Sign in
+              </h2>
+              <p class="text-sm mt-3" style="color: var(--secondary-text);">
+                Welcome back! Please sign in to continue
+              </p>
+
+              <!-- Google Sign In Button -->
+              <button type="button" class="w-full mt-8 flex items-center justify-center h-12 gap-3 transition-all duration-300 hover:opacity-80" style="background-color: var(--secondary-bg); border-radius: 9999px; border: 1px solid var(--border-color);">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.64 9.205c0-.639-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615Z" fill="#4285F4"></path>
+                  <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18Z" fill="#34A853"></path>
+                  <path d="M3.964 10.71A5.4 5.4 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332Z" fill="#FBBC05"></path>
+                  <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58Z" fill="#EA4335"></path>
+                </svg>
+                <span style="color: var(--primary-text); font-weight: 500;">Google</span>
+              </button>
+
+              <!-- Divider -->
+              <div class="flex items-center gap-4 w-full my-6">
+                <div class="w-full h-px" style="background-color: var(--border-color);"></div>
+                <p class="text-nowrap text-sm" style="color: var(--secondary-text);">or sign in with email</p>
+                <div class="w-full h-px" style="background-color: var(--border-color);"></div>
+              </div>
+
+              <!-- Email Input -->
+              <div class="flex items-center w-full h-12 pl-6 gap-2 transition-all duration-300 focus-within:ring-2" style="background-color: transparent; border: 1px solid var(--border-color); border-radius: 9999px; overflow: hidden;">
+                <svg width="16" height="11" viewBox="0 0 16 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 .55.571 0H15.43l.57.55v9.9l-.571.55H.57L0 10.45zm1.143 1.138V9.9h13.714V1.69l-6.503 4.8h-.697zM13.749 1.1H2.25L8 5.356z" style="fill: var(--secondary-text); opacity: 0.6;"></path>
+                </svg>
+                <input type="email" placeholder="Email address" class="bg-transparent outline-none text-sm w-full h-full pr-4" style="color: var(--primary-text);" required="">
+              </div>
+
+              <!-- Password Input -->
+              <div class="flex items-center mt-4 w-full h-12 pl-6 gap-2 transition-all duration-300 focus-within:ring-2" style="background-color: transparent; border: 1px solid var(--border-color); border-radius: 9999px; overflow: hidden;">
+                <svg width="13" height="17" viewBox="0 0 13 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 8.5c0-.938-.729-1.7-1.625-1.7h-.812V4.25C10.563 1.907 8.74 0 6.5 0S2.438 1.907 2.438 4.25V6.8h-.813C.729 6.8 0 7.562 0 8.5v6.8c0 .938.729 1.7 1.625 1.7h9.75c.896 0 1.625-.762 1.625-1.7zM4.063 4.25c0-1.406 1.093-2.55 2.437-2.55s2.438 1.144 2.438 2.55V6.8H4.061z" style="fill: var(--secondary-text); opacity: 0.6;"></path>
+                </svg>
+                <input type="password" placeholder="Password" class="bg-transparent outline-none text-sm w-full h-full pr-4" style="color: var(--primary-text);" required="">
+              </div>
+
+              <!-- Remember Me & Forgot Password -->
+              <div class="w-full flex items-center justify-between mt-6">
+                <div class="flex items-center gap-2">
+                  <input class="w-4 h-4 cursor-pointer" type="checkbox" id="remember-me" style="accent-color: var(--primary-accent);">
+                  <label class="text-sm cursor-pointer" for="remember-me" style="color: var(--secondary-text);">
+                    Remember me
+                  </label>
+                </div>
+                <a class="text-sm hover:opacity-70 transition-opacity" href="#" style="color: var(--primary-accent);">
+                  Forgot password?
+                </a>
+              </div>
+
+              <!-- Login Button -->
+              <button type="submit" class="mt-8 w-full h-11 text-on-primary font-semibold transition-all duration-300 hover:opacity-90" style="border-radius: 9999px; background: var(--primary-accent);">
+                Login
+              </button>
+
+              <!-- Sign Up Link -->
+              <p class="text-sm mt-6" style="color: var(--secondary-text);">
+                Don't have an account? 
+                <a class="hover:underline transition-all" href="#" style="color: var(--primary-accent);">
+                  Sign up
+                </a>
+              </p>
+
+            </form>
+
+          </div>
+
+        </div>
+      </section>

@@ -1,0 +1,89 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-footer-1",
+  "category": "footer",
+  "slots": {
+    "bullets": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 2
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 3
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 4
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 5
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 6
+      }
+    ],
+    "footer_links": [
+      {
+        "label": "",
+        "url": ""
+      },
+      {
+        "label": "",
+        "url": ""
+      },
+      {
+        "label": "",
+        "url": ""
+      },
+      {
+        "label": "",
+        "url": ""
+      },
+      {
+        "label": "",
+        "url": ""
+      },
+      {
+        "label": "",
+        "url": ""
+      }
+    ],
+    "legal": {
+      "company": "",
+      "copyright": ""
+    }
+  }
+}

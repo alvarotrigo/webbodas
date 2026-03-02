@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test: Fit Youth Gym Hub Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="../public/css/sections.css">
+    <style>
+        :root {
+            --primary-bg: #000000;
+            --secondary-bg: #1a1a1a;
+            --accent-bg: #ff5733;
+            --primary-text: #ffffff;
+            --secondary-text: #cccccc;
+            --accent-text: #ff5733;
+            --primary-accent: #ff5733;
+            --primary-accent-soft: rgba(255, 87, 51, 0.1);
+            --secondary-accent: #ff4500;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --card-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.12);
+            --section-shadow: none;
+            --gradient-1: linear-gradient(135deg, #1a1a1a 0%, #ff5733 100%);
+            --gradient-2: linear-gradient(135deg, #ff5733 0%, #ff4500 100%);
+            --features2-bg: linear-gradient(135deg, #ff5733 0%, #ff4500 100%);
+            --button-on-gradient: #ffffff;
+            --button-on-gradient-border: rgba(255, 255, 255, 0.8);
+            --font-family: 'Oswald', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --heading-font: 'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --border-radius: 16px;
+            --button-radius: 8px;
+            --card-radius: 16px;
+            --spacing-unit: 1.2rem;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        #loading.hidden {
+            display: none;
+        }
+        .debug-info {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 10px;
+            font-size: 12px;
+            z-index: 10000;
+            max-width: 400px;
+            border-radius: 5px;
+        }
+        .debug-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #ff5733;
+        }
+        .debug-info pre {
+            margin: 5px 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">Loading template...</div>
+    <div id="content"></div>
+    <div class="debug-info" id="debugInfo">
+        <h3>Debug Info</h3>
+        <div id="debugContent">Initializing...</div>
+    </div>
+
+    <script>
+        const SECTION_MAPPING = {
+            "1": "fp-theme-hero-centered-1.html",
+            "7": "fp-theme-how-it-works.html",
+            "11": "fp-theme-features-2.html",
+            "28": "fp-theme-pricing-2.html",
+            "6": "fp-theme-testimonials-1.html",
+            "39": "fp-theme-cta-1.html",
+            "46": "fp-theme-contact-1.html",
+            "159": "fp-theme-footer-1.html"
+        };
+
+        const TEMPLATE_ID = 'fit-youth-gym-hub2';
+
+        let debugLog = [];
+
+        function addDebugLog(message) {
+            debugLog.push(message);
+            console.log('[DEBUG]', message);
+            updateDebugUI();
+        }
+
+        function updateDebugUI() {
+            const debugContent = document.getElementById('debugContent');
+            debugContent.innerHTML = debugLog.slice(-10).join('<br>');
+        }
+
+        async function loadTemplate() {
+            try {
+                addDebugLog('Fetching template: ' + TEMPLATE_ID);
+                const response = await fetch(`../api/get.php?type=templates`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error('Failed to load templates');
+                }
+
+                const template = data.templates.find(t => t.data.id === TEMPLATE_ID);
+                if (!template) {
+                    throw new Error('Template not found: ' + TEMPLATE_ID);
+                }
+
+                addDebugLog('Template loaded successfully');
+                addDebugLog('Sections: ' + template.data.sections.join(', '));
+
+                const textUpdates = template.data.text_updates || {};
+                addDebugLog('Text updates available for sections: ' + Object.keys(textUpdates).join(', '));
+
+                // Check section 7 text updates
+                if (textUpdates['7']) {
+                    addDebugLog('Section 7 text updates: ' + JSON.stringify(textUpdates['7']).substring(0, 100));
+                } else {
+                    addDebugLog('⚠️ NO TEXT UPDATES FOR SECTION 7!');
+                }
+
+                // Check section 28 text updates
+                if (textUpdates['28']) {
+                    const section28Updates = textUpdates['28'];
+                    addDebugLog('Section 28 text updates count: ' + Object.keys(section28Updates).length);
+                    // Look for second pricing plan elements
+                    const secondPlanKeys = Object.keys(section28Updates).filter(k => 
+                        k.includes('h3[1]') || k.includes('p[3]') || k.includes('span[3]')
+                    );
+                    addDebugLog('Section 28 second plan keys: ' + secondPlanKeys.join(', '));
+                } else {
+                    addDebugLog('⚠️ NO TEXT UPDATES FOR SECTION 28!');
+                }
+
+                // Load sections
+                const sectionsHtml = await Promise.all(
+                    template.data.sections.map(async (sectionId) => {
+                        const filename = SECTION_MAPPING[sectionId];
+                        if (!filename) {
+                            addDebugLog('⚠️ No mapping for section ' + sectionId);
+                            return '';
+                        }
+                        
+                        const response = await fetch(`../sections/${filename}`);
+                        let html = await response.text();
+                        
+                        // Add data-section attribute
+                        html = html.replace(/<section([^>]*)>/, `<section$1 data-section="${sectionId}">`);
+                        
+                        addDebugLog('Loaded section ' + sectionId + ': ' + filename);
+                        return html;
+                    })
+                );
+
+                document.getElementById('content').innerHTML = sectionsHtml.join('\n');
+                
+                // Apply text updates
+                applyTextUpdates(textUpdates);
+
+                document.getElementById('loading').classList.add('hidden');
+                addDebugLog('✅ Template rendered successfully');
+
+            } catch (error) {
+                addDebugLog('❌ ERROR: ' + error.message);
+                document.getElementById('loading').innerHTML = `<div style="color: red;">Error: ${error.message}</div>`;
+            }
+        }
+
+        function applyTextUpdates(textUpdates) {
+            const allSections = document.querySelectorAll('section[data-section]');
+            let updateCount = 0;
+            
+            addDebugLog('Applying text updates to ' + allSections.length + ' sections');
+
+            allSections.forEach(function(section) {
+                const sectionNumber = parseInt(section.getAttribute('data-section'));
+                const updates = textUpdates[sectionNumber];
+                
+                if (!updates) {
+                    addDebugLog('No updates for section ' + sectionNumber);
+                    return;
+                }
+                
+                addDebugLog('Processing section ' + sectionNumber + ' with ' + Object.keys(updates).length + ' updates');
+                
+                for (const selector in updates) {
+                    if (!updates.hasOwnProperty(selector)) continue;
+                    
+                    let textValue = updates[selector];
+                    let text = textValue;
+                    if (typeof textValue === 'object' && textValue !== null && textValue.text) {
+                        text = textValue.text;
+                    }
+                    
+                    if (typeof text !== 'string' || text === '') continue;
+                    
+                    const indexMatch = selector.match(/^([a-z0-9]+)\[([0-9]+)\]$/i);
+                    let tag, elemIndex;
+                    
+                    if (indexMatch) {
+                        tag = indexMatch[1];
+                        elemIndex = parseInt(indexMatch[2]);
+                    } else {
+                        tag = selector;
+                        elemIndex = 0;
+                    }
+                    
+                    const elements = section.querySelectorAll(tag);
+                    
+                    if (elements[elemIndex]) {
+                        const oldText = elements[elemIndex].textContent.substring(0, 30);
+                        elements[elemIndex].textContent = text;
+                        updateCount++;
+                        
+                        if (sectionNumber === 7 || sectionNumber === 28) {
+                            addDebugLog(`✏️ Section ${sectionNumber}: ${selector} "${oldText}..." → "${text.substring(0, 30)}..."`);
+                        }
+                    } else {
+                        if (sectionNumber === 7 || sectionNumber === 28) {
+                            addDebugLog(`⚠️ Section ${sectionNumber}: Element not found for ${selector} (looking for ${tag}[${elemIndex}], found ${elements.length} ${tag} elements)`);
+                        }
+                    }
+                }
+            });
+            
+            addDebugLog('Applied ' + updateCount + ' text updates');
+        }
+
+        loadTemplate();
+    </script>
+</body>
+</html>

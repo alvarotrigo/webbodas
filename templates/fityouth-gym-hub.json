@@ -1,0 +1,244 @@
+{
+    "id": "fityouth-gym-hub",
+    "name": "FitYouth Gym Hub",
+    "description": "A landing page for a gym for young people who want to be fit and healthy. \nIt should contain different pricing plans for users to choose from and a map showing where the gym is.",
+    "category": "custom",
+    "tags": [
+        "bold",
+        "dynamic",
+        "modern"
+    ],
+    "sections": [
+        1,
+        27,
+        46,
+        50,
+        159
+    ],
+    "theme": {
+        "name": "FitYouth Gym Hub",
+        "variables": {
+            "primary-bg": "#000000",
+            "secondary-bg": "#1a1a1a",
+            "accent-bg": "#ff4a3d",
+            "primary-text": "#ffffff",
+            "secondary-text": "#cccccc",
+            "accent-text": "#ff4a3d",
+            "primary-accent": "#ff4a3d",
+            "primary-accent-soft": "rgba(255, 74, 61, 0.1)",
+            "secondary-accent": "#e63946",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "section-shadow": "none",
+            "gradient-1": "linear-gradient(135deg, #1a1a1a 0%, #ff4a3d 100%)",
+            "gradient-2": "linear-gradient(135deg, #ff4a3d 0%, #e63946 100%)",
+            "features2-bg": "linear-gradient(135deg, #ff4a3d 0%, #e63946 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Montserrat', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Montserrat', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "8px",
+            "card-radius": "16px",
+            "spacing-unit": "1.4rem"
+        }
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "1": {
+            "headline": "Unleash Your Potential at FitZone!",
+            "subheadline": "Join a community of young achievers dedicated to fitness and health. Your journey to a stronger, healthier you starts here!",
+            "cta_primary": "Join Now",
+            "cta_secondary": "Learn More"
+        },
+        "27": {
+            "headline": "Choose Your Perfect Plan",
+            "subheadline": "Flexible pricing options designed for every young fitness enthusiast. Find the plan that fits your lifestyle!",
+            "cta_primary": "Sign Up Today",
+            "cta_secondary": "View All Plans"
+        },
+        "46": {
+            "headline": "Connect with Us!",
+            "subheadline": "Have questions? Ready to start your fitness journey? Our friendly team is here to help you every step of the way.",
+            "cta_primary": "Contact Us",
+            "cta_secondary": "Book a Tour"
+        },
+        "50": {
+            "headline": "Get in Touch!",
+            "subheadline": "We’d love to hear from you! Reach out for inquiries, support, or to set up your first workout.",
+            "cta_primary": "Drop Us a Message",
+            "cta_secondary": "Call Us"
+        },
+        "159": {
+            "headline": "Stay Connected",
+            "subheadline": "Follow us on social media for tips, updates, and community events.",
+            "cta_primary": "Follow Us",
+            "cta_secondary": "Privacy Policy"
+        }
+    },
+    "section_backgrounds": {
+        "1": {
+            "type": "image",
+            "keyword": "young people exercising"
+        },
+        "27": {
+            "type": "color"
+        },
+        "46": {
+            "type": "color"
+        },
+        "50": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "dark",
+            "primary_bg": "#000000",
+            "secondary_bg": "#1a1a1a",
+            "accent_bg": "#ff4a3d",
+            "primary_text": "#ffffff",
+            "secondary_text": "#cccccc",
+            "accent_text": "#ff4a3d",
+            "primary_accent": "#ff4a3d",
+            "secondary_accent": "#e63946"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "suggested_fonts": [
+                "Montserrat",
+                "Roboto"
+            ]
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "card_radius": "rounded",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "prominent",
+            "style": "linear",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.4rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "bold",
+            "dynamic",
+            "modern"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "navigation bar",
+            "call to action",
+            "social media links"
+        ]
+    },
+    "created_at": "2026-01-23T19:21:49+00:00",
+    "text_updates": {
+        "1": {
+            "h1[0]": "Unleash Your Potential",
+            "span[0]": "Potential",
+            "p[0]": "Join FitYouth Gym Hub and ignite your fitness journey with vibrant energy, community support, and cutting-edge facilities designed just for you.",
+            "a[0]": "Join Now",
+            "a[1]": "Explore Plans"
+        },
+        "27": {
+            "h2[0]": "Membership Plans",
+            "p[0]": "Select a plan that energizes your fitness journey and supports your growth.",
+            "h3[0]": "Youth Fit",
+            "span[0]": "$29",
+            "span[1]": "/month",
+            "li[0]": "Essential Access",
+            "li[1]": "3 Group Classes",
+            "li[2]": "Community Support",
+            "a[0]": "Join Now",
+            "span[2]": "Top Choice",
+            "h3[1]": "Active Pro",
+            "span[3]": "$79",
+            "span[4]": "/month",
+            "li[3]": "Full Access",
+            "li[4]": "Unlimited Classes",
+            "li[5]": "Personal Trainer Sessions",
+            "li[6]": "Nutrition Guidance",
+            "a[1]": "Get Active",
+            "h3[2]": "Elite Package",
+            "span[5]": "$199",
+            "span[6]": "/month",
+            "li[7]": "Tailored Programs",
+            "li[8]": "Dedicated Coach",
+            "li[9]": "Premium Support",
+            "li[10]": "Exclusive Workshops",
+            "a[2]": "Start Elite"
+        },
+        "46": {
+            "h2[0]": "Get in Touch",
+            "p[0]": "Excited to kickstart your fitness journey? We're here to help!",
+            "h3[0]": "Email Us",
+            "p[1]": "contact@fityouthhub.com",
+            "h3[1]": "Call Us",
+            "p[2]": "+1 (555) 987-6543",
+            "h3[2]": "Find Us",
+            "p[3]": "456 Fitness Lane, Active City, AC 67890",
+            "a[0]": "Reach Out"
+        },
+        "50": {
+            "h2[0]": "Connect With Us",
+            "p[0]": "We're here to help you embark on your fitness journey. Don't hesitate to reach out for any inquiries!",
+            "a[0]": "Get in Touch"
+        },
+        "159": {
+            "h3[0]": "FitYouth Gym Hub",
+            "p[0]": "Empowering young individuals to achieve their fitness goals through innovative training and a supportive community.",
+            "h4[0]": "Explore",
+            "li[0]": "About Us",
+            "span[0]": "About Us",
+            "li[1]": "Membership Plans",
+            "span[1]": "Membership Plans",
+            "li[2]": "Location",
+            "span[2]": "Location",
+            "li[3]": "Get in Touch",
+            "span[3]": "Get in Touch",
+            "h4[1]": "Our Offerings",
+            "li[4]": "Group Classes",
+            "li[5]": "Personal Training",
+            "li[6]": "Nutrition Coaching",
+            "li[7]": "Wellness Workshops",
+            "h4[2]": "Connect with Us",
+            "a[0]": "Instagram",
+            "a[1]": "Facebook",
+            "a[2]": "YouTube",
+            "p[1]": "© 2024 FitYouth Gym Hub. All rights reserved."
+        }
+    },
+    "section_background_images": {
+        "1": "https://images.unsplash.com/photo-1758274526192-15392ad8cfe5?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8eW91bmclMjBwZW9wbGUlMjBleGVyY2lzaW5nfGVufDB8MHx8fDE3NjkxOTYxMjB8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

@@ -1,0 +1,32 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-hero-4",
+  "category": "hero",
+  "slots": {
+    "headings": [
+      {
+        "level": 1,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 2
+      }
+    ]
+  }
+}

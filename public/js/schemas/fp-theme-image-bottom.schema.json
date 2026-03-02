@@ -1,0 +1,18 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-image-bottom",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      }
+    ]
+  }
+}

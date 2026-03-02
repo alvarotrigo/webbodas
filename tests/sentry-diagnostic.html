@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentry Diagnostic Tool</title>
+    
+    <!-- Sentry Error Tracking -->
+    <script
+      src="https://js.sentry-cdn.com/e653ba09396f22997f7db6c50cbb270e.min.js"
+      crossorigin="anonymous"
+      onerror="console.error('❌ Failed to load Sentry SDK from CDN')"
+      onload="console.log('✅ Sentry SDK script loaded')"
+    ></script>
+    <script src="./public/js/sentry-init.js" onerror="console.error('❌ Failed to load sentry-init.js')"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 2rem;
+        }
+        
+        h1 {
+            color: #1a202c;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .status-box {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #cbd5e0;
+        }
+        
+        .status-box.success {
+            background: #f0fdf4;
+            border-left-color: #22c55e;
+        }
+        
+        .status-box.error {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+        }
+        
+        .status-box.warning {
+            background: #fffbeb;
+            border-left-color: #f59e0b;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+        
+        .icon {
+            font-size: 1.2rem;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        code {
+            background: #e2e8f0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .info-box {
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .info-box strong {
+            color: #1e40af;
+        }
+        
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+        }
+        
+        .step {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .step h3 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Sentry Diagnostic Tool</h1>
+        <p style="color: #64748b; margin-bottom: 1.5rem;">This page will help you diagnose why Sentry isn't working.</p>
+        
+        <div id="diagnostics">
+            <p style="color: #64748b;">Running diagnostics...</p>
+        </div>
+        
+        <div id="instructions" style="display: none;">
+            <h2 style="margin-top: 2rem; color: #1e293b;">📋 How to Fix</h2>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <h3 style="color: #1e293b; margin-bottom: 1rem;">Quick Tests</h3>
+            <button onclick="testSentryConnection()">Test Sentry Connection</button>
+            <button onclick="sendTestError()">Send Test Error</button>
+            <button onclick="showDSNInfo()">Show DSN Info</button>
+        </div>
+        
+        <div id="test-results" style="margin-top: 1rem;"></div>
+    </div>
+
+    <script>
+        // Wait for page to load
+        window.addEventListener('load', function() {
+            setTimeout(runDiagnostics, 500);
+        });
+
+        function runDiagnostics() {
+            const diagnosticsDiv = document.getElementById('diagnostics');
+            const instructionsDiv = document.getElementById('instructions');
+            
+            let html = '';
+            let hasIssues = false;
+            
+            // Check 1: Is Sentry SDK loaded?
+            const sentryLoaded = typeof Sentry !== 'undefined';
+            html += `<div class="status-box ${sentryLoaded ? 'success' : 'error'}">
+                <div class="status-item">
+                    <span class="icon">${sentryLoaded ? '✅' : '❌'}</span>
+                    <strong>Sentry SDK Loaded:</strong> ${sentryLoaded ? 'YES' : 'NO'}
+                </div>
+            </div>`;
+            
+            if (!sentryLoaded) {
+                hasIssues = true;
+                instructionsDiv.innerHTML += `
+                    <div class="status-box error">
+                        <h3 style="color: #dc2626; margin-bottom: 0.5rem;">❌ Sentry SDK Failed to Load</h3>
+                        <p><strong>Problem:</strong> The Sentry JavaScript SDK is not loading from the CDN.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Possible causes:</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Network connection issue</li>
+                            <li>Ad blocker blocking Sentry</li>
+                            <li>Incorrect DSN in the script URL</li>
+                            <li>Content Security Policy blocking the script</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>Solution:</strong></p>
+                        <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Check browser console for errors (F12)</li>
+                            <li>Disable ad blockers</li>
+                            <li>Verify your DSN is correct in Sentry settings</li>
+                        </ol>
+                    </div>
+                `;
+                instructionsDiv.style.display = 'block';
+            }
+            
+            // Check 2: Is SentryLogger available?
+            const sentryLoggerLoaded = typeof SentryLogger !== 'undefined';
+            html += `<div class="status-box ${sentryLoggerLoaded ? 'success' : 'error'}">
+                <div class="status-item">
+                    <span class="icon">${sentryLoggerLoaded ? '✅' : '❌'}</span>
+                    <strong>SentryLogger Loaded:</strong> ${sentryLoggerLoaded ? 'YES' : 'NO'}
+                </div>
+            </div>`;
+            
+            if (!sentryLoggerLoaded) {
+                hasIssues = true;
+                instructionsDiv.innerHTML += `
+                    <div class="status-box error">
+                        <h3 style="color: #dc2626; margin-bottom: 0.5rem;">❌ SentryLogger Not Available</h3>
+                        <p><strong>Problem:</strong> The sentry-init.js file didn't load or initialize properly.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Solution:</strong> Check that <code>public/js/sentry-init.js</code> exists and is accessible.</p>
+                    </div>
+                `;
+                instructionsDiv.style.display = 'block';
+            }
+            
+            // Check 3: Current URL
+            html += `<div class="status-box">
+                <div class="status-item">
+                    <span class="icon">🌐</span>
+                    <strong>Current URL:</strong> <code>${window.location.href}</code>
+                </div>
+                <div class="status-item">
+                    <span class="icon">🏠</span>
+                    <strong>Hostname:</strong> <code>${window.location.hostname}</code>
+                </div>
+                <div class="status-item">
+                    <span class="icon">🔧</span>
+                    <strong>Environment:</strong> <code>${window.location.hostname === 'localhost' ? 'development' : 'production'}</code>
+                </div>
+            </div>`;
+            
+            // Check 4: DSN Configuration
+            if (sentryLoaded) {
+                html += `<div class="status-box success">
+                    <h3 style="color: #16a34a; margin-bottom: 0.5rem;">✅ Sentry is Ready</h3>
+                    <p>The Sentry SDK is loaded and ready to capture errors.</p>
+                    <p style="margin-top: 0.5rem;"><strong>Next step:</strong> Click "Send Test Error" below to verify it's working.</p>
+                </div>`;
+            }
+            
+            diagnosticsDiv.innerHTML = html;
+            
+            // Show instructions if there are issues
+            if (hasIssues) {
+                instructionsDiv.style.display = 'block';
+            } else {
+                instructionsDiv.innerHTML = `
+                    <div class="info-box">
+                        <strong>✅ All checks passed!</strong> Sentry should be working. If errors still don't appear in your dashboard:
+                        <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><strong>Verify the DSN matches your project</strong> - Click "Show DSN Info" below</li>
+                            <li><strong>Check your Sentry project settings</strong> - Make sure the project is active</li>
+                            <li><strong>Wait a minute</strong> - Sometimes there's a delay in the dashboard</li>
+                            <li><strong>Check filters</strong> - Make sure you're viewing the right time range (24H) and environment</li>
+                        </ol>
+                    </div>
+                `;
+                instructionsDiv.style.display = 'block';
+            }
+        }
+
+        function testSentryConnection() {
+            const resultsDiv = document.getElementById('test-results');
+            
+            if (typeof Sentry === 'undefined') {
+                resultsDiv.innerHTML = `<div class="status-box error">
+                    <p><strong>❌ Cannot test:</strong> Sentry SDK is not loaded</p>
+                </div>`;
+                return;
+            }
+            
+            resultsDiv.innerHTML = `<div class="status-box success">
+                <p><strong>✅ Connection test passed!</strong></p>
+                <p style="margin-top: 0.5rem;">Sentry SDK is loaded and configured. You can capture errors.</p>
+            </div>`;
+            
+            console.log('Sentry object:', Sentry);
+            console.log('Hub:', Sentry.getCurrentHub());
+            console.log('Client:', Sentry.getCurrentHub().getClient());
+        }
+
+        function sendTestError() {
+            const resultsDiv = document.getElementById('test-results');
+            
+            if (typeof Sentry === 'undefined') {
+                resultsDiv.innerHTML = `<div class="status-box error">
+                    <p><strong>❌ Cannot send test:</strong> Sentry SDK is not loaded</p>
+                </div>`;
+                return;
+            }
+            
+            try {
+                // Capture exception
+                const error = new Error('🧪 TEST ERROR from Diagnostic Tool');
+                Sentry.captureException(error, {
+                    tags: {
+                        test: true,
+                        source: 'diagnostic-tool'
+                    },
+                    contexts: {
+                        test_info: {
+                            timestamp: new Date().toISOString(),
+                            page: 'sentry-diagnostic.html',
+                            browser: navigator.userAgent
+                        }
+                    }
+                });
+                
+                resultsDiv.innerHTML = `<div class="status-box success">
+                    <p><strong>✅ Test error sent successfully!</strong></p>
+                    <p style="margin-top: 0.5rem;">Check your Sentry dashboard in 10-30 seconds:</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://sentry.io" target="_blank" style="color: #667eea; text-decoration: underline;">Open Sentry Dashboard →</a></p>
+                    <p style="margin-top: 0.5rem; color: #64748b; font-size: 0.9rem;">
+                        Look for an error titled: "🧪 TEST ERROR from Diagnostic Tool"
+                    </p>
+                </div>`;
+                
+                console.log('✅ Test error sent to Sentry');
+            } catch (e) {
+                resultsDiv.innerHTML = `<div class="status-box error">
+                    <p><strong>❌ Failed to send test error:</strong> ${e.message}</p>
+                </div>`;
+                console.error('Failed to send test error:', e);
+            }
+        }
+
+        function showDSNInfo() {
+            const resultsDiv = document.getElementById('test-results');
+            
+            // Extract DSN from script tag
+            const sentryScript = document.querySelector('script[src*="sentry-cdn.com"]');
+            let dsnFromScript = 'Not found';
+            
+            if (sentryScript) {
+                const match = sentryScript.src.match(/sentry-cdn\.com\/([a-f0-9]+)\.min\.js/);
+                if (match) {
+                    dsnFromScript = match[1];
+                }
+            }
+            
+            resultsDiv.innerHTML = `<div class="status-box warning">
+                <h3 style="color: #ea580c; margin-bottom: 1rem;">⚠️ Verify Your DSN</h3>
+                
+                <p><strong>Current DSN in your HTML:</strong></p>
+                <pre>${dsnFromScript}</pre>
+                
+                <p style="margin-top: 1rem;"><strong>How to get your correct DSN:</strong></p>
+                <ol style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+                    <li>Go to <a href="https://sentry.io" target="_blank" style="color: #667eea;">sentry.io</a></li>
+                    <li>Click <strong>Settings</strong> (gear icon) → <strong>Projects</strong></li>
+                    <li>Select your <strong>javascript</strong> project</li>
+                    <li>Go to <strong>Client Keys (DSN)</strong></li>
+                    <li>Find the <strong>Loader Script</strong> section</li>
+                    <li>Copy the script tag that looks like this:</li>
+                </ol>
+                
+                <pre style="margin-top: 0.5rem;">&lt;script
+  src="https://js.sentry-cdn.com/YOUR_DSN.min.js"
+  crossorigin="anonymous"
+&gt;&lt;/script&gt;</pre>
+                
+                <p style="margin-top: 1rem;"><strong>Then replace the script in these files:</strong></p>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li><code>index.html</code></li>
+                    <li><code>app.php</code></li>
+                    <li><code>preview.html</code></li>
+                    <li><code>auth-wall.html</code></li>
+                    <li><code>test-sentry.html</code></li>
+                    <li><code>sentry-diagnostic.html</code></li>
+                </ul>
+            </div>`;
+        }
+    </script>
+</body>
+</html>
+

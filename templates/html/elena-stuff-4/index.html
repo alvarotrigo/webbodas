@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <title>Serene Support Theme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/output.css">
+    <link rel="stylesheet" href="public/css/sections.css">
+    <style>
+        :root {
+            --primary-bg: #f5f5f0;
+        --secondary-bg: #e8e8e0;
+        --accent-bg: #e0f0f0;
+        --primary-text: #333333;
+        --secondary-text: #666666;
+        --accent-text: #111111;
+        --primary-accent: #a0b89c;
+        --primary-accent-soft: rgba(160, 184, 156, 0.1);
+        --secondary-accent: #6da39d;
+        --border-color: rgba(0, 0, 0, 0.1);
+        --shadow-color: rgba(0, 0, 0, 0.05);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        --card-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.12);
+        --gradient-1: linear-gradient(135deg, #e8e8e0 0%, #e0f0f0 100%);
+        --gradient-2: linear-gradient(135deg, #a0b89c 0%, #6da39d 100%);
+        --features2-bg: linear-gradient(135deg, #a0b89c 0%, #6da39d 100%);
+        --button-on-gradient: #ffffff;
+        --button-on-gradient-border: rgba(255, 255, 255, 0.8);
+        --font-family: 'Playfair Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        --heading-font: 'Playfair Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        --border-radius: 8px;
+        --button-radius: 8px;
+        --card-radius: 12px;
+        --spacing-unit: 1.6rem;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+    </style>
+</head>
+<body data-new-gr-c-s-check-loaded="14.1272.0" data-gr-ext-installed="">
+    <section id="fp-theme-hero2" class="min-h-screen flex items-center bg-themed-primary has-bg-image" data-section="2">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1754294437684-7898b3701ac7?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8Y2FsbSUyMHRoZXJhcHklMjByb29tfGVufDB8MHx8fDE3NzA4Mjg5NzV8MA&amp;ixlib=rb-4.1.0&amp;w=1920&amp;h=1080&amp;fit=crop&amp;auto=format');"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <p class="text-sm font-semibold text-themed-accent uppercase tracking-wider mb-6">Your journey towards emotional well-being starts here.</p>
+              <h1 class="text-5xl md:text-7xl font-bold heading-themed mb-8">Find Your Peace with Dr. Elena Rivera<span class="block text-themed-accent">Inspiration</span></h1>
+              <p class="text-xl text-themed-secondary mb-10 leading-relaxed">At Dr. Elena Rivera's practice, we provide a warm and inviting space where you can explore your thoughts and feelings. Together, we’ll navigate through anxiety, stress, and life's transitions with understanding and support.</p>
+              <a href="#" class="inline-flex btn-themed-outline text-lg px-8 py-4">Book Your Consultation</a>
+              <div class="flex items-center mt-8 text-themed-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trending-up" aria-hidden="true" class="lucide lucide-trending-up w-5 h-5 mr-3 text-themed-accent"><path d="M16 7h6v6"></path><path d="m22 7-8.5 8.5-5-5L2 17"></path></svg>
+                <p class="text-sm">Join countless others who have found comfort and clarity.</p>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="w-full h-96 bg-gradient-to-br from-orange-400 via-purple-500 to-blue-500 rounded-3xl opacity-90 transform rotate-12 animate-pulse"></div>
+              <div class="absolute inset-0 w-full h-96 bg-gradient-to-tr from-pink-400 via-red-500 to-yellow-500 rounded-3xl opacity-80 transform -rotate-6"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+<section id="fp-theme-bio" class="min-h-screen flex items-center bg-themed-primary" data-section="33">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold heading-themed mb-12">
+              I am building a product that<br>
+              can solve developer's pain
+            </h1>
+          </div>
+          <div class="grid lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+            <div class="order-2 lg:order-1">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1707190980827-501a3348051a?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8cHN5Y2hvbG9naXN0JTIwcG9ydHJhaXQlMjBjYWxtJTIwcHJvZmVzc2lvbmFsJTIwd2FybSUyMHNtaWxlJTIwZW1wYXRoZXRpYyUyMGV4cHJlc3Npb258ZW58MHwwfHx8MTc3MDgzODYxMXww&amp;ixlib=rb-4.1.0&amp;w=800&amp;h=600&amp;fit=crop&amp;auto=format" alt="John Smith - Founder" class="w-full max-w-md mx-auto shadow-2xl" style="border-radius: var(--card-radius);">
+            </div>
+            <div class="order-1 lg:order-2 space-y-8">
+              <div>
+                <h3 class="text-2xl font-bold heading-themed mb-4">Hey! I am John, founder of ModernCo.</h3>
+                <p class="text-lg text-themed-secondary leading-relaxed">
+                  After years of experiencing the frustrations that developers face daily, I decided to build something that could make a real difference. Our platform addresses the core challenges that slow teams down and prevent them from focusing on what they do best.
+                </p>
+              </div>
+              <div>
+                <p class="text-lg text-themed-secondary leading-relaxed mb-8">
+                  From managing complex workflows to collaborating across distributed teams, every feature we build is designed with the developer experience in mind. We believe that great tools should feel invisible, empowering you to create without getting in your way.
+                </p>
+                <h4 class="text-xl font-bold heading-themed mb-4">How do I do this without any investment?</h4>
+                <p class="text-lg text-themed-secondary leading-relaxed">
+                  By staying lean, focusing on what matters most, and building with the community. Every line of code is written with purpose, every feature is validated with real users, and every decision is made with long-term sustainability in mind.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<section id="fp-theme-card-section" class="min-h-screen flex items-center" style="background: var(--primary-bg);" data-section="45">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div class="grid lg:grid-cols-2 gap-16 items-start">
+            <div>
+              <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-8" style="color: var(--primary-text); font-family: var(--heading-font);">Empowering Services Tailored to You<br></h2>
+              <p class="text-xl md:text-2xl mb-16" style="color: var(--secondary-text);">Discover a nurturing space where you can explore your thoughts and feelings, helping you navigate life's challenges with grace.</p>
+              <div class="mt-auto">
+                <div class="text-7xl md:text-8xl lg:text-9xl font-bold mb-4" style="color: var(--primary-accent); font-family: var(--heading-font);">3 Key Areas</div>
+                <p class="text-xl md:text-2xl font-bold" style="color: var(--primary-text);">Focused support for your journey.</p>
+              </div>
+            </div>
+            <div data-fp-anim-children="true" class="space-y-8">
+              <div class="fp-keep-color p-8 rounded-2xl" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-md);">
+                <div class="flex items-start space-x-4 mb-6">
+                  <div class="w-8 h-8 rounded-full" style="background: var(--primary-accent);"></div>
+                  <h3 class="text-2xl font-bold text-themed-accent">Anxiety Relief</h3>
+                </div>
+                <p class="text-lg text-themed-secondary">Personalized strategies to help you manage anxiety and reclaim your peace of mind.</p>
+              </div>
+              <div class="fp-keep-color p-8 rounded-2xl" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-md);">
+                <div class="flex items-start space-x-4 mb-6">
+                  <div class="w-8 h-8 rounded-full" style="background: var(--primary-accent);"></div>
+                  <h3 class="text-2xl font-bold text-themed-accent">Stress Management</h3>
+                </div>
+                <p class="text-lg text-themed-secondary">Coping techniques designed to reduce stress and enhance your overall well-being.</p>
+              </div>
+              <div class="fp-keep-color p-8 rounded-2xl" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-md);">
+                <div class="flex items-start space-x-4 mb-6">
+                  <div class="w-8 h-8 rounded-full" style="background: var(--primary-accent);"></div>
+                  <h3 class="text-2xl font-bold text-themed-accent">Personal Growth</h3>
+                </div>
+                <p class="text-lg text-themed-secondary">Empowering insights to facilitate your personal development and transition into new phases of life.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<section id="fp-theme-how-it-works" class="min-h-screen flex items-center bg-themed-accent" data-section="7">
+        <div class="fp-bg"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div class="text-center mb-20">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold heading-themed mb-8">Understanding the Therapy Journey</h2>
+            <p class="text-xl md:text-2xl text-themed-secondary max-w-3xl mx-auto leading-relaxed">Navigating the path to emotional wellness can feel overwhelming, but you're not alone. Here, we clarify the steps you'll take to ensure a supportive and understanding environment throughout your sessions.</p>
+          </div>
+          <div data-fp-dynamic-items="true" data-fp-anim-children="true" class="space-y-8 fp-keep-color">
+            <div class="flex items-start gap-6 card-themed p-8">
+              <div class="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl text-on-primary" style="background: var(--primary-accent); border-radius: var(--button-radius);">1</div>
+              <div>
+                <h3 class="text-xl md:text-2xl font-bold heading-themed mb-3">Begin with a warm welcome and an initial conversation about your experiences.</h3>
+              </div>
+            </div>
+            <div class="flex items-start gap-6 card-themed p-8">
+              <div class="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl text-on-primary" style="background: var(--primary-accent); border-radius: var(--button-radius);">2</div>
+              <div>
+                <h3 class="text-xl md:text-2xl font-bold heading-themed mb-3">Together, we'll explore your thoughts and feelings, establishing a safe space for openness.</h3>
+              </div>
+            </div>
+            <div class="flex items-start gap-6 card-themed p-8">
+              <div class="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl text-on-primary" style="background: var(--primary-accent); border-radius: var(--button-radius);">3</div>
+              <div>
+                <h3 class="text-xl md:text-2xl font-bold heading-themed mb-3">Regular sessions will help you reflect on your journey and make sense of your emotions.</h3>
+              </div>
+            </div>
+            <div class="flex items-start gap-6 card-themed p-8">
+              <div class="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl text-on-primary" style="background: var(--primary-accent); border-radius: var(--button-radius);">4</div>
+              <div>
+                <h3 class="text-xl md:text-2xl font-bold heading-themed mb-3">Throughout our time together, you'll find guidance and support as you navigate life's changes.</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<section id="fp-theme-testimonials-cards" class="min-h-screen flex items-center py-20 has-bg-image" style="background: var(--primary-bg);" data-section="169">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1619441207978-3d326c46e2c9?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8cGVhY2VmdWwlMjBuYXR1cmV8ZW58MHwwfHx8MTc3MDgzODYxMnww&amp;ixlib=rb-4.1.0&amp;w=1920&amp;h=1080&amp;fit=crop&amp;auto=format');"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <!-- Header -->
+          <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 heading-themed" style="font-family: var(--heading-font);">Hear from Those Who Found Hope</h2>
+            <p class="text-xl text-themed-secondary max-w-3xl mx-auto">Real experiences shared by those who sought comfort and support.</p>
+          </div>
+
+          <!-- Testimonials Grid -->
+          <div data-fp-dynamic-items="true" data-fp-anim-children="true" class="flex flex-wrap justify-center gap-8">
+            
+            <!-- Testimonial 1 -->
+            <div class="card-themed max-w-sm p-8 transition-all duration-300 hover:-translate-y-2 cursor-pointer" style="border-radius: var(--card-radius); box-shadow: var(--shadow-lg);">
+              <!-- Star Rating -->
+              <div class="flex items-center gap-1 mb-5">
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+              </div>
+
+              <!-- Testimonial Text -->
+              <p class="text-themed-secondary text-lg leading-relaxed mb-5">"Dr. Elena provided a safe space where I felt truly heard. Her empathy and insight have been life-changing for me."</p>
+
+              <!-- Divider -->
+              <hr class="mb-5" style="border-color: var(--border-color);">
+
+              <!-- User Info -->
+              <div class="flex items-center gap-4">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1767175473698-859bc73e8e64?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBjb25maWRlbnQlMjBzbWlsZSUyMGZyaWVuZGx5JTIwZGVtZWFub3J8ZW58MHwwfHx8MTc3MDgzODYxMnww&amp;ixlib=rb-4.1.0&amp;w=800&amp;h=600&amp;fit=crop&amp;auto=format" alt="Michael Rodriguez" class="w-16 h-16 rounded-full object-cover">
+                <div>
+                  <h3 class="font-semibold heading-themed text-lg" style="font-family: var(--heading-font);">Jessica Miller</h3>
+                  <p class="text-base text-themed-secondary">Marketing Specialist</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="card-themed max-w-sm p-8 transition-all duration-300 hover:-translate-y-2 cursor-pointer" style="border-radius: var(--card-radius); box-shadow: var(--shadow-lg);">
+              <!-- Star Rating -->
+              <div class="flex items-center gap-1 mb-5">
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+              </div>
+
+              <!-- Testimonial Text -->
+              <p class="text-themed-secondary text-lg leading-relaxed mb-5">"I was struggling with anxiety for years. Thanks to Dr. Elena's guidance, I now feel more in control and hopeful about my future."</p>
+
+              <!-- Divider -->
+              <hr class="mb-5" style="border-color: var(--border-color);">
+
+              <!-- User Info -->
+              <div class="flex items-center gap-4">
+                <img loading="lazy" src="public/images/person-2.jpg" alt="Sarah Chen" class="w-16 h-16 rounded-full object-cover">
+                <div>
+                  <h3 class="font-semibold heading-themed text-lg" style="font-family: var(--heading-font);">Tom Anderson</h3>
+                  <p class="text-base text-themed-secondary">Financial Advisor</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="card-themed max-w-sm p-8 transition-all duration-300 hover:-translate-y-2 cursor-pointer" style="border-radius: var(--card-radius); box-shadow: var(--shadow-lg);">
+              <!-- Star Rating -->
+              <div class="flex items-center gap-1 mb-5">
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+                <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.04894 0.92705C7.3483 0.00573921 8.6517 0.00573969 8.95106 0.92705L10.0206 4.21885C10.1545 4.63087 10.5385 4.90983 10.9717 4.90983H14.4329C15.4016 4.90983 15.8044 6.14945 15.0207 6.71885L12.2205 8.75329C11.87 9.00793 11.7234 9.4593 11.8572 9.87132L12.9268 13.1631C13.2261 14.0844 12.1717 14.8506 11.388 14.2812L8.58778 12.2467C8.2373 11.9921 7.7627 11.9921 7.41221 12.2467L4.61204 14.2812C3.82833 14.8506 2.77385 14.0844 3.0732 13.1631L4.14277 9.87132C4.27665 9.4593 4.12999 9.00793 3.7795 8.75329L0.979333 6.71885C0.195619 6.14945 0.598395 4.90983 1.56712 4.90983H5.02832C5.46154 4.90983 5.8455 4.63087 5.97937 4.21885L7.04894 0.92705Z" style="fill: var(--primary-accent);"></path>
+                </svg>
+              </div>
+
+              <!-- Testimonial Text -->
+              <p class="text-themed-secondary text-lg leading-relaxed mb-5">"Navigating life's transitions was overwhelming. Dr. Elena helped me find clarity and peace. I can't thank her enough!"</p>
+
+              <!-- Divider -->
+              <hr class="mb-5" style="border-color: var(--border-color);">
+
+              <!-- User Info -->
+              <div class="flex items-center gap-4">
+                <img loading="lazy" src="public/images/person-3.jpg" alt="David Thompson" class="w-16 h-16 rounded-full object-cover">
+                <div>
+                  <h3 class="font-semibold heading-themed text-lg" style="font-family: var(--heading-font);">Linda Nguyen</h3>
+                  <p class="text-base text-themed-secondary">Educator</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+<section id="fp-theme-inline-faq" class="min-h-screen items-center justify-center flex" style="background: var(--primary-bg);" data-section="108">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 py-24">
+          <!-- Header -->
+          <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style="color: var(--primary-accent); font-family: var(--heading-font);">Your Questions Answered with Care</h2>
+            <p class="text-lg md:text-xl max-w-4xl mx-auto leading-relaxed" style="color: var(--secondary-text);">This section addresses common inquiries to provide clarity and reassurance about the therapeutic process and what to expect during your journey.</p>
+          </div>
+          
+          <!-- FAQ Grid -->
+          <div data-fp-dynamic-items="true" data-fp-anim-children="true" class="fp-keep-color grid md:grid-cols-2 gap-8">
+            <!-- FAQ Item 1 -->
+            <div class="w-full p-6 rounded-2xl" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+              <div class="mb-4">
+                <h3 class="text-xl font-bold" style="color: var(--primary-text); font-family: var(--heading-font);"><span style="color: var(--primary-accent);">Q.</span>Q. How can I reach Dr. Elena Rivera?</h3>
+              </div>
+              <div>
+                <p class="text-sm leading-relaxed" style="color: var(--secondary-text);"><span style="color: var(--primary-accent); font-weight: 600;">A.</span>A. You can easily get in touch with Dr. Rivera by filling out the contact form on this website, or by calling her office directly.</p>
+              </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="w-full p-6 rounded-2xl" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+              <div class="mb-4">
+                <h3 class="text-xl font-bold" style="color: var(--primary-text); font-family: var(--heading-font);"><span style="color: var(--primary-accent);">Q.</span>Q. What should I expect during my first session?</h3>
+              </div>
+              <div>
+                <p class="text-sm leading-relaxed" style="color: var(--secondary-text);"><span style="color: var(--primary-accent); font-weight: 600;">A.</span>A. The first session is an opportunity for you to share your concerns and for Dr. Rivera to understand your needs and goals in a supportive environment.</p>
+              </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="w-full p-6 rounded-2xl" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+              <div class="mb-4">
+                <h3 class="text-xl font-bold" style="color: var(--primary-text); font-family: var(--heading-font);"><span style="color: var(--primary-accent);">Q.</span>Q. How long are therapy sessions?</h3>
+              </div>
+              <div>
+                <p class="text-sm leading-relaxed" style="color: var(--secondary-text);"><span style="color: var(--primary-accent); font-weight: 600;">A.</span>A. Each session typically lasts 50 minutes, allowing ample time for discussion and reflection.</p>
+              </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="w-full p-6 rounded-2xl" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+              <div class="mb-4">
+                <h3 class="text-xl font-bold" style="color: var(--primary-text); font-family: var(--heading-font);"><span style="color: var(--primary-accent);">Q.</span>Q. How often should I attend sessions?</h3>
+              </div>
+              <div>
+                <p class="text-sm leading-relaxed" style="color: var(--secondary-text);"><span style="color: var(--primary-accent); font-weight: 600;">A.</span>A. Frequency can vary based on individual needs, but many clients find weekly sessions beneficial in the beginning.</p>
+              </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="w-full p-6 rounded-2xl" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+              <div class="mb-4">
+                <h3 class="text-xl font-bold" style="color: var(--primary-text); font-family: var(--heading-font);"><span style="color: var(--primary-accent);">Q.</span>Q. Can therapy help with life transitions?</h3>
+              </div>
+              <div>
+                <p class="text-sm leading-relaxed" style="color: var(--secondary-text);"><span style="color: var(--primary-accent); font-weight: 600;">A.</span>A. Absolutely. Therapy offers a safe space to navigate changes and challenges, providing support as you adjust to new circumstances.</p>
+              </div>
+            </div>
+
+            <!-- FAQ Item 6 -->
+            <div class="w-full p-6 rounded-2xl" style="background: var(--secondary-bg); border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+              <div class="mb-4">
+                <h3 class="text-xl font-bold" style="color: var(--primary-text); font-family: var(--heading-font);"><span style="color: var(--primary-accent);">Q.</span>Q. How do I schedule my first appointment?</h3>
+              </div>
+              <div>
+                <p class="text-sm leading-relaxed" style="color: var(--secondary-text);"><span style="color: var(--primary-accent); font-weight: 600;">A.</span>A. You can schedule your initial consultation by using the booking form on our website or contacting the office directly.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<section id="fp-theme-contact-form" class="min-h-screen flex items-center bg-themed-primary" data-section="131">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
+          <div data-fp-anim-children="true" class="grid lg:grid-cols-2 grid-cols-1 gap-x-16 gap-y-10 items-stretch">
+            <!-- Left Side - Contact Form -->
+            <div class="flex items-center">
+              <div class="w-full">
+                <h4 class="text-base font-medium leading-6 mb-4" style="color: var(--primary-accent);">Reach Out for Support</h4>
+                <h2 class="text-4xl md:text-5xl font-bold heading-themed leading-tight mb-10">Let's Connect for Your First Step</h2>
+                <form onsubmit="handleContactForm(event)">
+                  <input type="text" name="name" class="w-full h-14 shadow-sm text-themed-primary placeholder:text-themed-secondary text-lg font-normal leading-7 rounded-full border border-themed focus:outline-none focus:ring-2 py-2 px-6 mb-6 bg-themed-secondary transition-all duration-300" placeholder="Name" required="" maxlength="100">
+                  <input type="email" name="email" class="w-full h-14 shadow-sm text-themed-primary placeholder:text-themed-secondary text-lg font-normal leading-7 rounded-full border border-themed focus:outline-none focus:ring-2 py-2 px-6 mb-6 bg-themed-secondary transition-all duration-300" placeholder="Email" required="" maxlength="255">
+                  <textarea name="message" class="w-full h-48 shadow-sm resize-none text-themed-primary placeholder:text-themed-secondary text-lg font-normal leading-7 rounded-2xl border border-themed focus:outline-none focus:ring-2 px-6 py-4 mb-8 bg-themed-secondary transition-all duration-300" placeholder="Your Message" required="" maxlength="1000"></textarea>
+                  <button type="submit" class="w-full h-14 text-center text-on-primary text-lg font-semibold leading-6 rounded-full shadow-lg transition-all duration-500 hover:shadow-xl transform hover:-translate-y-0.5" style="background: var(--primary-accent);">Book Now</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Right Side - Contact Info with Background -->
+            <div class="lg:min-h-[600px] min-h-[500px] flex items-center justify-center bg-cover bg-center rounded-3xl relative overflow-hidden" data-bg="true" style="background-image: url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&amp;h=400&amp;fit=crop');">
+              <!-- Optional: Add a subtle overlay for better text readability if needed -->
+              <div class="absolute inset-0" style="background: rgba(0, 0, 0, 0.3);"></div>
+              
+              <!-- Contact Info Card -->
+              <div class="relative z-10 w-auto max-w-md mx-4">
+                <div class="fp-keep-color bg-white shadow-2xl rounded-2xl p-8 md:p-10">
+                  <!-- Logo/Company Name -->
+                  <div class="mb-8 text-center">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full mb-3" style="background: var(--primary-accent);">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                      </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-themed-primary">Dr. Elena Rivera</h3>
+                  </div>
+
+                  <!-- Contact Details -->
+                  <div class="space-y-6 mb-8">
+                    <!-- Phone -->
+                    <div class="flex items-center gap-4">
+                      <div class="flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary-accent);">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                      </div>
+                      <h5 class="text-base font-normal leading-6 text-themed-secondary">+1 (555) 987-6543</h5>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="flex items-center gap-4">
+                      <div class="flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary-accent);">
+                          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                        </svg>
+                      </div>
+                      <h5 class="text-base font-normal leading-6 text-themed-secondary">support@serenesupport.com</h5>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="flex items-start gap-4">
+                      <div class="flex-shrink-0 mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary-accent);">
+                          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                          <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                      </div>
+                      <h5 class="text-base font-normal leading-6 text-themed-secondary">456 Tranquil Lane, Harmony City, CA 94025</h5>
+                    </div>
+                  </div>
+
+                  <!-- Social Media Icons -->
+                  <div class="flex items-center justify-center gap-4 pt-6 border-t" style="border-color: rgba(0, 0, 0, 0.1);">
+                    <a href="#" class="flex items-center justify-center w-10 h-10 rounded-full transition-transform duration-300 hover:scale-110" style="background: #1877F2;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+                      </svg>
+                    </a>
+                    <a href="#" class="flex items-center justify-center w-10 h-10 rounded-full transition-transform duration-300 hover:scale-110" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+                      </svg>
+                    </a>
+                    <a href="#" class="flex items-center justify-center w-10 h-10 rounded-full transition-transform duration-300 hover:scale-110" style="background: #000000;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<section id="fp-theme-hero" class="min-h-screen flex justify-center items-center relative gradient-themed-1 has-bg-image" data-section="1">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1693376289222-061f46b68b83?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8Z2VudGxlJTIwbGlnaHQlMjB0aHJvdWdoJTIwbGVhdmVzfGVufDB8MHx8fDE3NzA4Mzg2MTN8MA&amp;ixlib=rb-4.1.0&amp;w=1920&amp;h=1080&amp;fit=crop&amp;auto=format');"></div>
+        <div class="relative z-10 text-center px-4 w-full">
+          <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 animate-fade-in-up heading-themed">Embrace Your Journey to Wellness<span class="block text-themed-accent">Wellness</span></h1>
+          <p class="text-xl md:text-2xl lg:text-3xl mb-12 text-themed-secondary max-w-4xl mx-auto leading-relaxed">Discover a nurturing space where transformation begins, offering emotional support tailored to your unique path.</p>
+          <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <a href="#" class="btn-themed text-lg px-8 py-4">Book Consultation</a>
+            <a href="#" class="btn-themed-outline text-lg px-8 py-4">Explore Therapy</a>
+          </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" aria-hidden="true" class="lucide lucide-chevron-down text-themed-accent w-8 h-8"><path d="m6 9 6 6 6-6"></path></svg>
+        </div>
+      </section>
+<section id="fp-theme-footer" class="min-h-screen flex bg-themed-secondary fp-auto-height" data-section="159">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div class="grid md:grid-cols-4 gap-12 mb-16">
+            <div>
+              <h3 class="text-3xl font-bold heading-themed mb-6">Trust in Your Healing Path</h3>
+              <p class="text-themed-secondary text-lg leading-relaxed">Connecting with Dr. Elena Rivera means entering a compassionate space where emotional support thrives. Reach out today to begin your process of healing.</p>
+            </div>
+            <div>
+              <h4 class="text-themed-primary font-semibold mb-6 text-xl">Explore More</h4>
+              <ul class="space-y-3">
+                <li><span class="text-themed-secondary text-lg">About Dr. Elena</span></li>
+                <li><span class="text-themed-secondary text-lg">Therapy Services</span></li>
+                <li><span class="text-themed-secondary text-lg">First Consultation</span></li>
+                <li><span class="text-themed-secondary text-lg">Get in Touch</span></li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-themed-primary font-semibold mb-6 text-xl">Therapeutic Areas</h4>
+              <ul class="space-y-3 text-themed-secondary text-lg">
+                <li>Managing Anxiety</li>
+                <li>Stress Relief</li>
+                <li>Navigating Transitions</li>
+                <li>Personal Growth</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-themed-primary font-semibold mb-6 text-xl">Stay Connected</h4>
+              <div class="flex space-x-6">
+                <a href="#" class="text-themed-secondary hover:text-themed-primary transition-colors text-lg">Instagram</a>
+                <a href="#" class="text-themed-secondary hover:text-themed-primary transition-colors text-lg">Facebook</a>
+                <a href="#" class="text-themed-secondary hover:text-themed-primary transition-colors text-lg">LinkedIn</a>
+              </div>
+            </div>
+          </div>
+          <hr class="border-themed mb-8">
+          <div class="text-center text-themed-secondary text-lg">
+            <p>© 2024 Dr. Elena Rivera. All rights reserved.</p>
+          </div>
+        </div>
+      </section>
+    
+                <script>
+                    (function() {
+                        const textUpdates = {"1":{"h1[0]":"Embrace Your Journey to Wellness","span[0]":"Wellness","p[0]":"Discover a nurturing space where transformation begins, offering emotional support tailored to your unique path.","a[0]":"Book Consultation","a[1]":"Explore Therapy"},"2":{"h1[0]":"Find Your Peace with Dr. Elena Rivera","p[0]":"Your journey towards emotional well-being starts here.","p[1]":"At Dr. Elena Rivera's practice, we provide a warm and inviting space where you can explore your thoughts and feelings. Together, we’ll navigate through anxiety, stress, and life's transitions with understanding and support.","a[0]":"Book Your Consultation","p[2]":"Join countless others who have found comfort and clarity.","span[0]":"Inspiration"},"7":{"h2[0]":"Understanding the Therapy Journey","p[0]":"Navigating the path to emotional wellness can feel overwhelming, but you're not alone. Here, we clarify the steps you'll take to ensure a supportive and understanding environment throughout your sessions.","div[5]":"1","h3[0]":"Begin with a warm welcome and an initial conversation about your experiences.","div[8]":"2","h3[1]":"Together, we'll explore your thoughts and feelings, establishing a safe space for openness.","div[11]":"3","h3[2]":"Regular sessions will help you reflect on your journey and make sense of your emotions.","div[14]":"4","h3[3]":"Throughout our time together, you'll find guidance and support as you navigate life's changes."},"45":{"h2[0]":"Empowering Services Tailored to You","p[0]":"Discover a nurturing space where you can explore your thoughts and feelings, helping you navigate life's challenges with grace.","div[5]":"3 Key Areas","p[1]":"Focused support for your journey.","h3[0]":"Anxiety Relief","p[2]":"Personalized strategies to help you manage anxiety and reclaim your peace of mind.","h3[1]":"Stress Management","p[3]":"Coping techniques designed to reduce stress and enhance your overall well-being.","h3[2]":"Personal Growth","p[4]":"Empowering insights to facilitate your personal development and transition into new phases of life."},"108":{"h2[0]":"Your Questions Answered with Care","p[0]":"This section addresses common inquiries to provide clarity and reassurance about the therapeutic process and what to expect during your journey.","h3[0]":"Q. How can I reach Dr. Elena Rivera?","span[0]":"Q.","p[1]":"A. You can easily get in touch with Dr. Rivera by filling out the contact form on this website, or by calling her office directly.","span[1]":"A.","h3[1]":"Q. What should I expect during my first session?","span[2]":"Q.","p[2]":"A. The first session is an opportunity for you to share your concerns and for Dr. Rivera to understand your needs and goals in a supportive environment.","span[3]":"A.","h3[2]":"Q. How long are therapy sessions?","span[4]":"Q.","p[3]":"A. Each session typically lasts 50 minutes, allowing ample time for discussion and reflection.","span[5]":"A.","h3[3]":"Q. How often should I attend sessions?","span[6]":"Q.","p[4]":"A. Frequency can vary based on individual needs, but many clients find weekly sessions beneficial in the beginning.","span[7]":"A.","h3[4]":"Q. Can therapy help with life transitions?","span[8]":"Q.","p[5]":"A. Absolutely. Therapy offers a safe space to navigate changes and challenges, providing support as you adjust to new circumstances.","span[9]":"A.","h3[5]":"Q. How do I schedule my first appointment?","span[10]":"Q.","p[6]":"A. You can schedule your initial consultation by using the booking form on our website or contacting the office directly.","span[11]":"A."},"131":{"h2[0]":"Let's Connect for Your First Step","h4[0]":"Reach Out for Support","button[0]":"Book Now","h3[0]":"Dr. Elena Rivera","h5[0]":"+1 (555) 987-6543","h5[1]":"support@serenesupport.com","h5[2]":"456 Tranquil Lane, Harmony City, CA 94025"},"159":{"h3[0]":"Trust in Your Healing Path","p[0]":"Connecting with Dr. Elena Rivera means entering a compassionate space where emotional support thrives. Reach out today to begin your process of healing.","h4[0]":"Explore More","li[0]":"About Dr. Elena","span[0]":"About Dr. Elena","li[1]":"Therapy Services","span[1]":"Therapy Services","li[2]":"First Consultation","span[2]":"First Consultation","li[3]":"Get in Touch","span[3]":"Get in Touch","h4[1]":"Therapeutic Areas","li[4]":"Managing Anxiety","li[5]":"Stress Relief","li[6]":"Navigating Transitions","li[7]":"Personal Growth","h4[2]":"Stay Connected","a[0]":"Instagram","a[1]":"Facebook","a[2]":"LinkedIn","p[1]":"© 2024 Dr. Elena Rivera. All rights reserved."},"169":{"h2[0]":"Hear from Those Who Found Hope","p[0]":"Real experiences shared by those who sought comfort and support.","p[1]":"\"Dr. Elena provided a safe space where I felt truly heard. Her empathy and insight have been life-changing for me.\"","h3[0]":"Jessica Miller","p[2]":"Marketing Specialist","p[3]":"\"I was struggling with anxiety for years. Thanks to Dr. Elena's guidance, I now feel more in control and hopeful about my future.\"","h3[1]":"Tom Anderson","p[4]":"Financial Advisor","p[5]":"\"Navigating life's transitions was overwhelming. Dr. Elena helped me find clarity and peace. I can't thank her enough!\"","h3[2]":"Linda Nguyen","p[6]":"Educator"}};
+                        
+                        function applyTextUpdates() {
+                            const allSections = document.querySelectorAll('section[data-section]');
+                            
+                            allSections.forEach(function(section) {
+                                const sectionNumber = parseInt(section.getAttribute('data-section'));
+                                const updates = textUpdates[sectionNumber];
+
+                                if (!updates) return;
+
+                                // Debug: log all spans in section 28 BEFORE replacement
+                                if (sectionNumber === 28) {
+                                    const allSpans = section.querySelectorAll('span');
+                                    console.log('=== Section 28: ALL SPANS BEFORE REPLACEMENT ===');
+                                    console.log('Section element ID:', section.id, 'Total spans:', allSpans.length);
+                                    allSpans.forEach(function(span, idx) {
+                                        console.log('span[' + idx + ']: "' + span.textContent.trim() + '"');
+                                    });
+                                    console.log('=== END ===');
+
+                                    // Log iteration order
+                                    console.log('=== ITERATION ORDER ===');
+                                    for (const key in updates) {
+                                        if (updates.hasOwnProperty(key)) {
+                                            console.log('Key: ' + key);
+                                        }
+                                    }
+                                    console.log('=== END ITERATION ORDER ===');
+                                }
+
+                                for (const selector in updates) {
+                                    if (!updates.hasOwnProperty(selector)) continue;
+
+                                    let textValue = updates[selector];
+                                    let text = textValue;
+                                    if (typeof textValue === 'object' && textValue !== null && textValue.text) {
+                                        text = textValue.text;
+                                    }
+
+                                    if (typeof text !== 'string' || text === '') continue;
+
+                                    if (sectionNumber === 28 && selector.startsWith('span')) {
+                                        console.log('Processing: ' + selector + ' with new text: "' + text + '"');
+                                    }
+
+                                    const indexMatch = selector.match(/^([a-z0-9]+)\[([0-9]+)\]$/i);
+                                    let tag, elemIndex;
+
+                                    if (indexMatch) {
+                                        tag = indexMatch[1];
+                                        elemIndex = parseInt(indexMatch[2]);
+                                    } else {
+                                        tag = selector;
+                                        elemIndex = 0;
+                                    }
+
+                                    if (sectionNumber === 28 && tag === 'span') {
+                                        console.log('  → tag: ' + tag + ', elemIndex: ' + elemIndex);
+                                    }
+
+                                    const elements = section.querySelectorAll(tag);
+
+                                    if (sectionNumber === 28 && tag === 'span') {
+                                        console.log('  → Found ' + elements.length + ' ' + tag + ' elements');
+                                    }
+
+                                    if (elements[elemIndex]) {
+                                        const element = elements[elemIndex];
+                                        const oldText = element.textContent;
+
+                                        // Check if element has child elements (not just text nodes)
+                                        const hasChildElements = element.children.length > 0;
+
+                                        if (hasChildElements) {
+                                            // Replace first meaningful text node, clear others, preserve child elements
+                                            const childNodes = Array.from(element.childNodes);
+                                            let replacedFirst = false;
+                                            childNodes.forEach(function(node) {
+                                                if (node.nodeType === 3) { // Text node
+                                                    if (!replacedFirst && node.textContent.trim().length > 0) {
+                                                        // First meaningful text node - replace it
+                                                        node.textContent = text;
+                                                        replacedFirst = true;
+                                                    } else {
+                                                        // Clear other text nodes
+                                                        node.textContent = '';
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            // No child elements, safe to replace textContent
+                                            element.textContent = text;
+                                        }
+
+                                        if (sectionNumber === 28 && tag === 'span') {
+                                            console.log('Section ' + sectionNumber + ': ' + selector + ' - "' + oldText + '" → "' + text + '"' + (hasChildElements ? ' (preserved children)' : ''));
+                                        }
+                                    } else {
+                                        if (sectionNumber === 28) {
+                                            console.warn('Section ' + sectionNumber + ': ' + selector + ' - element not found (only ' + elements.length + ' ' + tag + ' elements)');
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        
+                        if (document.readyState === 'loading') {
+                            document.addEventListener('DOMContentLoaded', applyTextUpdates);
+                        } else {
+                            applyTextUpdates();
+                        }
+                    })();
+                </script>
+                
+    
+                <script>
+                    (function() {
+                        const inlineImages = {"33":["https://images.unsplash.com/photo-1707190980827-501a3348051a?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8cHN5Y2hvbG9naXN0JTIwcG9ydHJhaXQlMjBjYWxtJTIwcHJvZmVzc2lvbmFsJTIwd2FybSUyMHNtaWxlJTIwZW1wYXRoZXRpYyUyMGV4cHJlc3Npb258ZW58MHwwfHx8MTc3MDgzODYxMXww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"],"169":["https://images.unsplash.com/photo-1767175473698-859bc73e8e64?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBjb25maWRlbnQlMjBzbWlsZSUyMGZyaWVuZGx5JTIwZGVtZWFub3J8ZW58MHwwfHx8MTc3MDgzODYxMnww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"]};
+                        
+                        function applyInlineImages() {
+                            if (Object.keys(inlineImages).length === 0) return;
+                            
+                            const allSections = document.querySelectorAll('section[data-section]');
+                            
+                            allSections.forEach(function(section) {
+                                const sectionNumber = parseInt(section.getAttribute('data-section'));
+                                const imageUrls = inlineImages[sectionNumber];
+                                
+                                if (!imageUrls || imageUrls.length === 0) return;
+                                
+                                const images = section.querySelectorAll('img');
+                                const filteredImages = Array.from(images).filter(function(img) {
+                                    const src = img.getAttribute('src') || '';
+                                    const alt = img.getAttribute('alt') || '';
+                                    const combined = (src + ' ' + alt).toLowerCase();
+                                    return !combined.match(/badge|logo|icon|svg|store|wikipedia|wikimedia/);
+                                });
+                                
+                                filteredImages.forEach(function(img, index) {
+                                    if (index < imageUrls.length && imageUrls[index]) {
+                                        img.setAttribute('src', imageUrls[index]);
+                                    }
+                                });
+                            });
+                        }
+                        
+                        if (document.readyState === 'loading') {
+                            document.addEventListener('DOMContentLoaded', applyInlineImages);
+                        } else {
+                            setTimeout(applyInlineImages, 100);
+                        }
+                    })();
+                </script>
+                
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

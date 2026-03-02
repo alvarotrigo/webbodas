@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview</title>
+    
+    <!-- Sentry Error Tracking - Full Browser Bundle -->
+    <script
+      src="https://browser.sentry-cdn.com/8.38.0/bundle.tracing.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./public/js/sentry-init.js"></script>
+    
+    <link rel="stylesheet" href="./dist/output.css">
+    <link rel="stylesheet" href="./public/css/viewport-animations.css">
+    <link rel="stylesheet" href="./public/css/sections.css">
+    <link rel="stylesheet" href="./public/css/header-nav.css">
+    <link rel="stylesheet" href="./public/css/simple-editor.css">
+    <link rel="stylesheet" href="./public/css/data-attributes-editor.css">
+    <link rel="stylesheet" href="./public/css/inline-svg-editor.css">
+    
+    <!-- TinyMCE Library (loaded statically as it's always used) -->
+    <link rel="stylesheet" href="./public/js/tinymce/skins/ui/oxide/skin.min.css">
+    <link rel="stylesheet" href="./public/js/tinymce/skins/content/default/content.min.css">
+    <script id="tinymce-lib" defer src="./public/js/tinymce/tinymce.min.js"></script>
+    
+    <script defer src="https://unpkg.com/@popperjs/core@2"></script>
+    <script defer src="https://unpkg.com/tippy.js@6"></script>
+    <script defer src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="./public/js/tinymce-editor.js"></script>
+    <script defer src="./public/js/cloudinary-image-editor.js"></script>
+    <script defer src="./public/js/data-attributes-editor.js"></script>
+    <script defer src="./public/js/removable-elements-manager.js"></script>
+    <script defer src="./public/js/custom-theme-manager.js"></script>
+    <script defer src="./public/js/section-background-picker.js"></script>
+    <script defer src="./public/js/inline-video-editor.js"></script>
+    <script defer src="./public/js/inline-svg-editor.js"></script>
+    <script defer src="./public/js/viewport-animations.js"></script>
+    <script defer src="./public/js/lazy-background-loader.js"></script>
+    
+    <!-- Load all section scripts -->
+    <!-- Gallery scripts -->
+    <script defer src="./public/js/sections/fp-theme-gallery-thumbs.js"></script>
+    <script defer src="./public/js/sections/fp-theme-gallery-thumbs-fade.js"></script>
+    <script defer src="./public/js/sections/fp-theme-gallery-slider.js"></script>
+    <script defer src="./public/js/sections/fp-theme-gallery-slider-arrows.js"></script>
+    <script defer src="./public/js/sections/fp-theme-gallery-scroll.js"></script>
+    
+    <!-- Team scripts -->
+    <script defer src="./public/js/sections/fp-theme-team-slider.js"></script>
+    <script defer src="./public/js/sections/fp-theme-team-carousel.js"></script>
+    
+    <!-- Testimonial scripts -->
+    <script defer src="./public/js/sections/fp-theme-testimonial-carousel.js"></script>
+    <script defer src="./public/js/sections/fp-theme-testimonials-interactive.js"></script>
+    
+    <!-- Product/slider scripts -->
+    <script defer src="./public/js/sections/fp-theme-product-slider.js"></script>
+    <script defer src="./public/js/sections/fp-theme-steps-slider.js"></script>
+    
+    <!-- Pricing -->
+    <script defer src="./public/js/sections/fp-theme-pricing-toggle.js"></script>
+    
+    <!-- Interactive Features -->
+    <script defer src="./public/js/sections/fp-theme-interactive-features.js"></script>
+    
+    <!-- Generic Accordion script (used by multiple FAQ sections) -->
+    <script defer src="./public/js/sections/fp-theme-accordion.js"></script>
+    
+    <!-- Specialized accordion scripts -->
+    <script defer src="./public/js/sections/fp-theme-process-accordion.js"></script>
+    <script defer src="./public/js/sections/fp-theme-popular-questions.js"></script>
+    
+    <!-- Section script initializer - handles all interactive sections -->
+    <script defer src="./public/js/section-initializer.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        #preview-content {
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            background: white;
+        }
+        
+        .section {
+            position: relative;
+            min-height: 100vh;
+            content-visibility: auto;
+            contain-intrinsic-size: 1000px 800px; /* approximate */
+        }
+        footer.section{
+            content-visibility: visible;
+            overflow: visible !important;
+        }
+        
+        /* Siempre por encima del contenido del preview (navbar, headers fijos, etc.) */
+        .section-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 8px;
+            display: flex;
+            gap: 4px;
+            z-index: 10002;
+        }
+        
+        .menu-button {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #222222;
+        }
+        
+        .menu-button:hover {
+            background: #f3f4f6;
+        }
+        
+        .remove-section-button {
+            margin-left: auto;
+        }
+        
+        /* Background picker styles */
+        .bg-picker-wrapper {
+            position: relative;
+        }
+        
+        .bg-picker-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            padding: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            z-index: 1001;
+            pointer-events: none;
+        }
+        
+        .bg-picker-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        
+        .bg-picker-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-size: 14px;
+            color: #222222;
+            border: 2px solid transparent;
+        }
+        
+        .bg-picker-option:hover {
+            background: #f3f4f6;
+            border-color: #4285f4;
+        }
+        
+        .bg-picker-option.active {
+            background: #e5e7eb;
+            font-weight: 500;
+            border-color: #4285f4;
+        }
+        
+        .bg-picker-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+        
+        .bg-picker-button-circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: block;
+            box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
+            flex-shrink: 0;
+        }
+        
+        /* Background image picker button */
+        .bg-picker-img-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #374151;
+            width: auto;
+            height: 2rem;
+            padding: 0 0.5rem;
+        }
+        
+        .bg-picker-img-button svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            pointer-events: none;
+        }
+        
+        .bg-picker-img-button span {
+            pointer-events: none;
+        }
+        
+        /* Hide color button when section has data-bg="true" or has-bg-image class */
+        .section[data-bg="true"] .section-menu .bg-picker-wrapper .bg-picker-button,
+        .section.has-bg-image .section-menu .bg-picker-wrapper .bg-picker-button {
+            display: none;
+        }
+        
+        /* Hide image button by default */
+        .section .section-menu .bg-picker-wrapper .bg-picker-img-button {
+            display: none;
+        }
+        
+        /* Show image button when section has data-bg="true" or has-bg-image class or has-bg-video class */
+        .section[data-bg="true"] .section-menu .bg-picker-wrapper .bg-picker-img-button,
+        .section.has-bg-image .section-menu .bg-picker-wrapper .bg-picker-img-button,
+        .section.has-bg-video .section-menu .bg-picker-wrapper .bg-picker-img-button {
+            display: flex;
+        }
+        
+        /* Image picker dropdown (similar to bg-picker-dropdown) */
+        .bg-picker-img-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            padding: 4px;
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            z-index: 1001;
+            pointer-events: none;
+        }
+        
+        .bg-picker-img-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        
+        .bg-picker-img-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-size: 14px;
+            color: #222222;
+            border: 2px solid transparent;
+        }
+        
+        .bg-picker-img-option span {
+            border: none;
+            outline: none;
+        }
+        
+        .bg-picker-img-option:hover {
+            background: #f3f4f6;
+            border-color: #4285f4;
+        }
+        
+        .bg-picker-img-option:hover span {
+            border: none !important;
+            outline: none !important;
+        }
+        
+        .bg-picker-img-option.danger:hover {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #dc2626;
+        }
+        
+        .bg-picker-img-option.danger:hover span {
+            border: none !important;
+            outline: none !important;
+        }
+        
+        .bg-picker-label {
+            flex: 1;
+            border: none;
+            outline: none;
+        }
+        
+        .bg-picker-value {
+            font-size: 11px;
+            color: #6b7280;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            margin-left: auto;
+            border: none;
+            outline: none;
+        }
+        
+        .bg-picker-option:hover .bg-picker-label,
+        .bg-picker-option:hover .bg-picker-value,
+        .bg-picker-option.active .bg-picker-label,
+        .bg-picker-option.active .bg-picker-value {
+            border: none !important;
+            outline: none !important;
+        }
+        
+        /* Wrapper for opacity button and dropdown */
+        .overlay-opacity-wrapper {
+            position: relative;
+            display: flex;
+        }
+        
+        /* Overlay opacity control button */
+        .overlay-opacity-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 13px;
+            color: #374151;
+            width: 2rem;
+            height: 2rem;
+        }
+        
+        .overlay-opacity-button svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        
+        /* Hide opacity wrapper by default */
+        section .section-menu .overlay-opacity-wrapper {
+            display: none;
+        }
+        
+        /* Show opacity wrapper when section has background image */
+        section[data-bg="true"] .section-menu .overlay-opacity-wrapper,
+        section.has-bg-image .section-menu .overlay-opacity-wrapper,
+        section.has-bg-video .section-menu .overlay-opacity-wrapper {
+            display: flex;
+        }
+        
+        /* Disabled state for opacity button */
+        .overlay-opacity-button.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        /* Overlay opacity dropdown */
+        .overlay-opacity-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            padding: 12px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            z-index: 1001;
+            pointer-events: none;
+        }
+        
+        .overlay-opacity-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        
+        .opacity-control-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f2937;
+        }
+        
+        .opacity-value-input {
+            width: 60px;
+            font-size: 14px;
+            color: #1f2937;
+            text-align: center;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        
+        .opacity-value-input:focus {
+            border-color: #4285f4;
+        }
+        
+        .opacity-slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .opacity-range-input {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: #e5e7eb;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .opacity-range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #9ca3af;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        
+        .opacity-range-input::-webkit-slider-thumb:hover {
+            background: #6b7280;
+        }
+        
+        .opacity-range-input::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #9ca3af;
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s ease;
+        }
+        
+        .opacity-range-input::-moz-range-thumb:hover {
+            background: #6b7280;
+        }
+        
+        /* Hide section-menu when in fullscreen mode */
+        .fullscreen-mode .section-menu {
+            display: none !important;
+        }
+        
+        /* Custom Tippy.js theme */
+        .tippy-box[data-theme~='custom'] {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tippy-box[data-theme~='custom'] .tippy-arrow {
+            color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .tippy-box[data-theme~='custom'] .tippy-content {
+            padding: 6px 10px;
+        }
+
+        /* Overwriting tinymce styles to avoid issues 
+         * with grid layout shifts when clicking on grid items with links,
+         * like gallery items */
+         .tox{
+            position: absolute !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="preview-content" class="@container">
+        <!-- Sections will be dynamically added here -->
+    </div>
+
+    <!-- Data Attributes Editor Modal -->
+    <div id="data-attributes-modal" class="data-attributes-modal modal-overlay">
+        <div class="data-attributes-modal-content">
+            <div class="data-attributes-modal-header">
+                <h3 class="data-attributes-modal-title">Edit Content Attributes</h3>
+                <button id="data-attributes-modal-close" class="data-attributes-modal-close">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="data-attributes-tabs" id="data-attributes-tabs">
+                <!-- Tabs will be dynamically generated here -->
+            </div>
+            <div class="data-attributes-modal-body" id="data-attributes-modal-body">
+                <!-- Tab content will be dynamically generated here -->
+            </div>
+            <div class="data-attributes-modal-footer">
+                <button class="data-attributes-btn" id="data-attributes-cancel">Cancel</button>
+                <button class="data-attributes-btn data-attributes-btn-primary" id="data-attributes-save">
+                    <i data-lucide="save"></i>
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+    </script>
+</body>
+</html> 

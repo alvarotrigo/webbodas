@@ -1,0 +1,390 @@
+{
+    "id": "restaurant-2",
+    "name": "Urban Burger Bash",
+    "description": "Create a bold website for a trendy burger restaurant called “Smash District”.\n\nConcept:\nUrban burger joint known for smash burgers and loaded fries.\n\nAudience:\nYoung adults and casual diners.\n\nTone:\nFun, bold, energetic.\n\nMain colors:\n- Bright red\n- Mustard yellow\n- Dark charcoal\n- White text accents\n\nGoals:\nDrive visits and online orders.\n\nStructure:\n- Hero with big food visuals\n- Menu highlights\n- Combos and specials\n- Social media/review snippets\n- Location map\n- Order online CTA\n\nDesign guidance:\n- High-contrast sections\n- Big typography\n- Playful layout\n- Urban/industrial vibe\n- Dynamic food photos\n\nCopy guidance:\n- Short, punchy text\n- Fun phrases and personality\n- Avoid formal language\n\nMake it feel lively and modern.",
+    "category": "custom",
+    "tags": [
+        "bold",
+        "energetic",
+        "urban"
+    ],
+    "sections": [
+        1,
+        82,
+        105,
+        19,
+        134,
+        39,
+        159
+    ],
+    "theme": {
+        "name": "Urban Burger Bash",
+        "variables": {
+            "primary-bg": "#2a2a2a",
+            "secondary-bg": "#1f1f1f",
+            "accent-bg": "#ffffff",
+            "primary-text": "#ffffff",
+            "secondary-text": "#cccccc",
+            "accent-text": "#ffcc00",
+            "primary-accent": "#ff0000",
+            "primary-accent-soft": "rgba(255, 0, 0, 0.1)",
+            "secondary-accent": "#ffcc00",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 2px 4px rgba(0, 0, 0, 0.08)",
+            "shadow-md": "0 6px 12px rgba(0, 0, 0, 0.12)",
+            "shadow-lg": "0 15px 25px rgba(0, 0, 0, 0.15)",
+            "card-shadow": "0 4px 12px rgba(0, 0, 0, 0.1)",
+            "card-shadow-hover": "0 12px 30px rgba(0, 0, 0, 0.15)",
+            "gradient-1": "linear-gradient(135deg, #1f1f1f 0%, #ffffff 100%)",
+            "gradient-2": "linear-gradient(135deg, #ff0000 0%, #ffcc00 100%)",
+            "features2-bg": "linear-gradient(135deg, #ff0000 0%, #ffcc00 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Bebas Neue', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Bebas Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "8px",
+            "button-radius": "50px",
+            "card-radius": "16px",
+            "spacing-unit": "1.4rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Bebas Neue",
+            "weights": [
+                400
+            ]
+        },
+        "body": {
+            "family": "Montserrat",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&family=Montserrat:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "1": {
+            "headline": "Get Ready to Smash!",
+            "subheadline": "Dive into the boldest burgers and loaded fries in town at Smash District.",
+            "cta_primary": "Order Now & Indulge!",
+            "cta_secondary": "Explore Our Menu"
+        },
+        "19": {
+            "headline": "What Our Smash Fans Say",
+            "testimonials": [
+                "Best burgers in the city! Can't get enough! - Jamie",
+                "The loaded fries are a game changer! - Alex",
+                "Love the vibe and the food! Always a good time! - Sam"
+            ]
+        },
+        "39": {
+            "cta_primary": "Smash Your Hunger – Order Online Now!",
+            "cta_secondary": "Join the Smash District Experience!"
+        },
+        "82": {
+            "captions": [
+                "Juicy smash burgers cooked to perfection!",
+                "Loaded fries topped with all your favorite fixings!",
+                "Vibrant urban vibes that make every bite unforgettable!",
+                "Join the Smash District family and taste the excitement!"
+            ]
+        },
+        "105": {
+            "features": [
+                "Smash Burgers: Flavors that pack a punch!",
+                "Loaded Fries: Customize your crispy creations!",
+                "Urban Vibe: Eat, chill, and enjoy the scene!",
+                "Fast Service: Deliciousness on the double!"
+            ]
+        },
+        "134": {
+            "headline": "Let's Connect!",
+            "subheadline": "Questions? Book a table or just want to chat? We’re here for you!",
+            "cta_primary": "Drop Us a Line!"
+        },
+        "159": {
+            "navigation": [
+                "Home",
+                "Menu",
+                "Location",
+                "Contact"
+            ],
+            "contact_info": "info@smashdistrict.com | (123) 456-7890",
+            "trust_statement": "Your go-to spot for bold flavors and good vibes!"
+        }
+    },
+    "section_backgrounds": {
+        "1": {
+            "type": "image",
+            "keyword": "smash burger close-up"
+        },
+        "19": {
+            "type": "image",
+            "keyword": "urban restaurant vibe"
+        },
+        "39": {
+            "type": "color"
+        },
+        "82": {
+            "type": "color"
+        },
+        "105": {
+            "type": "color"
+        },
+        "134": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "19": [
+            [
+                "young adult",
+                "playful portrait",
+                "casual dining",
+                "smiling face"
+            ],
+            [
+                "creative workspace",
+                "design professional",
+                "urban aesthetic"
+            ],
+            [
+                "financial planning",
+                "product manager",
+                "confident gesture",
+                "business casual"
+            ]
+        ],
+        "82": [
+            [
+                "urban burger",
+                "smash burger",
+                "loaded fries"
+            ],
+            [
+                "playful food photography",
+                "vibrant burger joint",
+                "casual dining atmosphere"
+            ],
+            [
+                "colorful food presentation",
+                "gourmet burgers",
+                "energetic dining experience"
+            ],
+            [
+                "artsy food shots",
+                "burger close-up",
+                "fun dining vibe"
+            ],
+            [
+                "dynamic food images",
+                "foodie lifestyle",
+                "trendy restaurant"
+            ],
+            [
+                "urban dining scene",
+                "street food style",
+                "casual eatery"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "dark",
+            "primary_bg": "#2a2a2a",
+            "secondary_bg": "#1f1f1f",
+            "accent_bg": "#ffffff",
+            "primary_text": "#ffffff",
+            "secondary_text": "#cccccc",
+            "accent_text": "#ffcc00",
+            "primary_accent": "#ff0000",
+            "secondary_accent": "#ffcc00"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Bebas Neue",
+                "weights": [
+                    400
+                ]
+            },
+            "body_font": {
+                "family": "Montserrat",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "pill",
+            "button_radius_value": "50px",
+            "card_radius": "rounded",
+            "card_radius_value": "16px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "moderate",
+            "card_shadow": "moderate",
+            "style": "elevated"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.4rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "full-media"
+        },
+        "mood": [
+            "bold",
+            "energetic",
+            "urban"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "menu highlights",
+            "combos and specials",
+            "social media snippets",
+            "location map",
+            "order online CTA"
+        ]
+    },
+    "site_plan": {
+        "audience": "young adults and casual diners",
+        "primary_goal": "drive visits and online orders",
+        "brand_vibe": [
+            "bold",
+            "energetic",
+            "urban",
+            "fun"
+        ],
+        "content_tone": "playful and energetic",
+        "key_differentiators": [
+            "smash burgers",
+            "loaded fries",
+            "trendy urban atmosphere"
+        ],
+        "business_type": "restaurant"
+    },
+    "created_at": "2026-02-11T20:43:37+00:00",
+    "text_updates": {
+        "1": {
+            "h1[0]": "Savor the Smash at Smash District!",
+            "span[0]": "Future",
+            "p[0]": "Dive into our mouthwatering smash burgers and loaded fries, all served in a trendy, energetic atmosphere that’s perfect for your next outing.",
+            "a[0]": "Order Now",
+            "a[1]": "See Menu"
+        },
+        "19": {
+            "h2[0]": "What Our Fans Are Raving About",
+            "p[0]": "Testimonial",
+            "h3[0]": "Emily Johnson",
+            "span[0]": "5.0",
+            "p[1]": "Marketing Specialist",
+            "p[2]": "The loaded fries are a game changer! I can't get enough of that cheesy goodness. Highly recommend!",
+            "h3[1]": "Alex Rivera",
+            "span[1]": "5.0",
+            "p[3]": "Food Blogger",
+            "p[4]": "Every visit feels like a party! The vibe, the flavors, and the friendly staff keep me coming back!",
+            "h3[2]": "Jordan Lee",
+            "span[2]": "5.0",
+            "p[5]": "Graphic Designer",
+            "p[6]": "Smash District is where cravings meet creativity. I love grabbing a bite with friends in such a lively atmosphere!"
+        },
+        "39": {
+            "h2[0]": "Order Now and Join the Bash!",
+            "p[0]": "Craving something delicious? Dive into our smash burgers and loaded fries for a quick, satisfying meal that hits the spot.",
+            "a[0]": "Get Your Burger",
+            "p[1]": "Fast, flavorful, and fun—your next meal is just a click away!"
+        },
+        "82": {
+            "p[0]": "GALLERY",
+            "h2[0]": "Visual Feast: Dive Into Deliciousness",
+            "p[1]": "Feast your eyes on our stunning plates, bursting with color and creativity, showcasing the art of culinary delight."
+        },
+        "105": {
+            "h2[0]": "Why You'll Crave Us",
+            "p[0]": "Indulge in our unique flavors, loaded fries, and an unforgettable dining experience.",
+            "a[0]": "Order Now",
+            "h3[0]": "Smash Burgers",
+            "p[1]": "Savor our smash burgers, crafted with juicy, flavorful patties that pack a punch.",
+            "h3[1]": "Loaded Fries",
+            "p[2]": "Try our loaded fries, piled high with toppings that elevate your snack game.",
+            "h3[2]": "Trendy Vibe",
+            "p[3]": "Enjoy a trendy urban atmosphere that makes every meal a celebration.",
+            "h3[3]": "Join the Bash",
+            "p[4]": "Connect with fellow burger lovers and share your Smash District experience."
+        },
+        "134": {
+            "h2[0]": "Get In Touch",
+            "p[0]": "Drop us a line! We’re here to chat about burgers, reservations, or anything else you need.",
+            "span[0]": "+1 (555) 987-6543",
+            "span[1]": "info@smashdistrict.com",
+            "span[2]": "456 Burger Ave, Suite 200, New York, NY 10002",
+            "h3[0]": "Shoot Us Your Thoughts",
+            "button[0]": "Reach Out"
+        },
+        "159": {
+            "h3[0]": "Smash District",
+            "p[0]": "Serving up the boldest smash burgers and loaded fries in town. Experience the taste explosion!",
+            "h4[0]": "Navigation",
+            "li[0]": "Home",
+            "span[0]": "Home",
+            "li[1]": "Menu",
+            "span[1]": "Menu",
+            "li[2]": "Specials",
+            "span[2]": "Specials",
+            "li[3]": "Contact Us",
+            "span[3]": "Contact Us",
+            "h4[1]": "Our Eats",
+            "li[4]": "Smash Burgers",
+            "li[5]": "Loaded Fries",
+            "li[6]": "Drinks",
+            "li[7]": "Desserts",
+            "h4[2]": "Stay Social",
+            "a[0]": "Instagram",
+            "a[1]": "Facebook",
+            "a[2]": "TikTok",
+            "p[1]": "© 2024 Smash District. All rights reserved."
+        }
+    },
+    "inline_images": {
+        "19": [
+            "https://images.unsplash.com/photo-1723853806997-cd14174b1c89?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8eW91bmclMjBhZHVsdCUyMHBsYXlmdWwlMjBwb3J0cmFpdCUyMGNhc3VhbCUyMGRpbmluZyUyMHNtaWxpbmclMjBmYWNlfGVufDB8MHx8fDE3NzA4NDI2MzZ8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1747445666225-708a33d8b674?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8Y3JlYXRpdmUlMjB3b3Jrc3BhY2UlMjBkZXNpZ24lMjBwcm9mZXNzaW9uYWwlMjB1cmJhbiUyMGFlc3RoZXRpY3xlbnwwfDB8fHwxNzcwODQyNjM2fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758599543114-248f7211fddd?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8ZmluYW5jaWFsJTIwcGxhbm5pbmclMjBwcm9kdWN0JTIwbWFuYWdlciUyMGNvbmZpZGVudCUyMGdlc3R1cmUlMjBidXNpbmVzcyUyMGNhc3VhbHxlbnwwfDB8fHwxNzcwODQyNjM2fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "82": [
+            "https://images.unsplash.com/photo-1768204039265-1dbeafb747f8?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8dXJiYW4lMjBidXJnZXIlMjBzbWFzaCUyMGJ1cmdlciUyMGxvYWRlZCUyMGZyaWVzfGVufDB8MHx8fDE3NzA4NDI2Mzd8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1583836632464-7c5bb0084320?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8cGxheWZ1bCUyMGZvb2QlMjBwaG90b2dyYXBoeSUyMHZpYnJhbnQlMjBidXJnZXIlMjBqb2ludCUyMGNhc3VhbCUyMGRpbmluZyUyMGF0bW9zcGhlcmV8ZW58MHwwfHx8MTc3MDg0MjYzN3ww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1632499418751-da38463c07ae?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8Y29sb3JmdWwlMjBmb29kJTIwcHJlc2VudGF0aW9uJTIwZ291cm1ldCUyMGJ1cmdlcnMlMjBlbmVyZ2V0aWMlMjBkaW5pbmclMjBleHBlcmllbmNlfGVufDB8MHx8fDE3NzA4NDI2Mzd8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1515669097368-22e68427d265?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8ZHluYW1pYyUyMGZvb2QlMjBpbWFnZXMlMjBmb29kaWUlMjBsaWZlc3R5bGUlMjB0cmVuZHklMjByZXN0YXVyYW50fGVufDB8MHx8fDE3NzA4NDI2Mzd8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1765605898632-7e12ccf85b34?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8dXJiYW4lMjBkaW5pbmclMjBzY2VuZSUyMHN0cmVldCUyMGZvb2QlMjBzdHlsZSUyMGNhc3VhbCUyMGVhdGVyeXxlbnwwfDB8fHwxNzcwODQyNjM3fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "1": "https://images.unsplash.com/photo-1619708976768-50451a0b3c86?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8c21hc2glMjBidXJnZXIlMjBjbG9zZS11cHxlbnwwfDB8fHwxNzcwODQyNjM4fDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "19": "https://images.unsplash.com/photo-1759092483454-02f768686161?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8dXJiYW4lMjByZXN0YXVyYW50JTIwdmliZXxlbnwwfDB8fHwxNzcwODQyNjM4fDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

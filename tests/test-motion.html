@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Staggered Animations with Motion Library</title>
+	<meta name="author" content="Alvaro Trigo Lopez" />
+	<meta name="description" content="Staggered animations with fullPage.js using Motion library" />
+	<meta name="keywords"  content="fullpage,animations,motion,framer,staggered,overflow" />
+	<meta name="Resource-type" content="Document" />
+
+	<link rel="stylesheet" type="text/css" href="https://unpkg.com/fullpage.js@latest/dist/fullpage.min.css" />
+	<style>
+@CHARSET "ISO-8859-1";
+/* Reset CSS
+ * --------------------------------------- */
+p{
+    padding: 0;
+    margin: 0;
+}
+*{
+    -webkit-box-sizing: border-box; /* Safari<=5 Android<=3 */
+    -moz-box-sizing: border-box; /* <=28 */
+    box-sizing: border-box;
+}
+
+	/* Style for our header texts
+	* --------------------------------------- */
+	h1{
+		font-size: 5em;
+		font-family: arial,helvetica;
+		color: #fff;
+		margin:0;
+		padding:40px 0 0 0;
+	}
+	.intro p{
+		color: #fff;
+		padding:40px 0 0 0;
+		font-size: 1.5em;
+		font-family: arial,helvetica;
+	}
+    .box{
+        display: block;
+        padding:20px 0;
+        background: lightgray;
+        margin: 20px 0;
+    }
+
+	/* Centered texts in each section
+	* --------------------------------------- */
+	.section{
+		text-align:center;
+	}
+
+    button{
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+    }
+
+	/* Bottom menu
+	* --------------------------------------- */
+	#infoMenu li a {
+		color: #fff;
+	}
+
+    #section-new{
+        background-color: red;
+    }
+
+	/* Form styles */
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		max-width: 400px;
+		margin: 40px auto;
+		padding: 20px;
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 10px;
+		backdrop-filter: blur(10px);
+	}
+
+	label {
+		color: #fff;
+		font-size: 1.2em;
+		font-family: arial,helvetica;
+		text-align: left;
+	}
+
+	input, textarea {
+		padding: 15px;
+		border: none;
+		border-radius: 5px;
+		font-size: 1em;
+		background: rgba(255, 255, 255, 0.9);
+	}
+
+	textarea {
+		min-height: 100px;
+		resize: vertical;
+	}
+
+	button[type="submit"] {
+		position: static;
+		padding: 15px 30px;
+		background: #4A6FB1;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		font-size: 1.1em;
+		cursor: pointer;
+		transition: background 0.3s ease;
+	}
+
+	button[type="submit"]:hover {
+		background: #3a5f9a;
+	}
+
+	/* Image styles */
+	img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 10px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+		margin: 20px 0;
+	}
+
+	/* Initial state for elements to be animated */
+	.a,
+	h1, h2, h3, h4, h5, h6, p, img, form, label, input, textarea, button {
+		opacity: 0;
+		transform: translateY(50px);
+	}
+	</style>
+</head>
+<body>
+
+<button>Click here</button>
+
+<div id="fullpage">
+	<div class="section" id="section0">
+		<div class="intro">
+			<h1 class="a">Scrolling inside sections</h1>
+            <h1 class="a">With Motion library</h1>
+            <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?w=800&h=600&fit=crop" alt="Business Team" class="a">
+		</div>
+	</div>
+	<div class="section" id="section1">
+	    <div class="slide" id="slide1">
+			<div class="intro">
+				<h1 class="a">Also in sections</h1>
+                <h1 class="a">Form elements animate too</h1>
+             
+            </div>
+		</div>
+
+	    <div class="slide" id="slide2">
+			<h1 class="a">Even inside slides</h1>
+			<p class="a">Each element animates with a delay</p>
+		</div>
+		<div class="slide" id="slide3">
+			<div class="intro">
+				<h1 class="a">Scrolling slide</h1>
+				<p class="a">Watch the magic happen!</p>
+			</div>
+		</div>
+	</div>
+	<div class="section" id="section2">
+		<div class="intro">
+			<h1 class="a">No limitations!</h1>
+            <p class="a">Content is a priority. Even if it is so large :)</p>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="https://unpkg.com/fullpage.js@latest/dist/fullpage.min.js"></script>
+<script type="module">
+    // Import Motion library
+    import { animate, stagger, inView } from "https://cdn.skypack.dev/motion";
+
+    // Staggered animation system using Motion library
+    class MotionStaggeredAnimations {
+        constructor() {
+            this.animationDelay = 0.9; // Increased delay between each element in seconds
+            this.init();
+        }
+
+        init() {
+            // Use Motion's inView function for automatically detected elements
+            // This ensures each element is animated when it enters viewport and reset when it leaves
+            inView(this.getAnimatableElements(), (element) => {
+                // Calculate delay based on element position in its section
+                const delay = this.calculateStaggerDelay(element);
+                
+                // Animate element when it enters viewport with staggered delay
+                this.animateElement(element, delay);
+                
+                // Return function that fires when element leaves viewport
+                return () => {
+                    // Reset element to initial state when leaving viewport
+                    this.resetElementToInitialState(element);
+                };
+            }, {
+                margin: '0px 0px -10% 0px', // Trigger slightly before element is fully visible
+                amount: 'some' // Trigger when some of the element is visible
+            });
+        }
+
+        getAnimatableElements() {
+            // Automatically select common elements that should be animated
+            return 'h1, h2, h3, h4, h5, h6, p, img, form, label, input, textarea, button, .a';
+        }
+
+        calculateStaggerDelay(element) {
+            // Find the section containing this element
+            const section = element.closest('.section');
+            if (!section) return 0;
+            
+            // Get all animatable elements in this section
+            const elements = section.querySelectorAll(this.getAnimatableElements());
+            
+            // Find the index of this element
+            const elementIndex = Array.from(elements).indexOf(element);
+            
+            // Calculate delay based on index
+            return elementIndex * this.animationDelay;
+        }
+
+        animateElement(element, delay = 0) {
+            // Animate individual element with delay
+            animate(
+                element,
+                { 
+                    opacity: 1, 
+                    y: 0 
+                },
+                { 
+                    delay: delay,
+                    duration: 0.6,
+                    easing: "ease-out"
+                }
+            );
+        }
+
+        animateSection(section) {
+            const elements = section.querySelectorAll('.a');
+            
+            if (elements.length > 0) {
+                // Use Motion's stagger function for staggered animations
+                return animate(
+                    elements,
+                    { 
+                        opacity: 1, 
+                        y: 0 
+                    },
+                    { 
+                        delay: stagger(this.animationDelay),
+                        duration: 0.6,
+                        easing: "ease-out"
+                    }
+                );
+            }
+        }
+
+        // Method to reset section to initial state when leaving viewport
+        resetSectionToInitialState(section) {
+            const elements = section.querySelectorAll('.a');
+            
+            if (elements.length > 0) {
+                // Use animate with duration 0 for instant reset
+                animate(
+                    elements,
+                    { 
+                        opacity: 0, 
+                        y: 50 
+                    },
+                    { 
+                        duration: 0 // Instant reset, no animation
+                    }
+                );
+            }
+        }
+
+        // Method to reset individual element to initial state
+        resetElementToInitialState(element) {
+            animate(
+                element,
+                { 
+                    opacity: 0, 
+                    y: 50 
+                },
+                { 
+                    duration: 0 // Instant reset, no animation
+                }
+            );
+        }
+
+        // Method to animate dynamically added sections
+        observeNewSection(section) {
+            const elements = section.querySelectorAll('.a');
+            
+            if (elements.length > 0) {
+                animate(
+                    elements,
+                    { 
+                        opacity: 1, 
+                        y: 0 
+                    },
+                    { 
+                        delay: stagger(this.animationDelay),
+                        duration: 0.6,
+                        easing: "ease-out"
+                    }
+                );
+            }
+        }
+    }
+
+    // Initialize Motion staggered animations
+    const motionAnimations = new MotionStaggeredAnimations();
+
+    // Button click handler
+    document.querySelector('button').addEventListener('click', onClick);
+
+    function onClick(){
+        console.log("Adding new section with Motion animations");
+
+        var newSection = document.createElement('div');
+        newSection.className = 'section';
+        newSection.id = 'section-new';
+        newSection.innerHTML = `
+            <div class="intro">
+                <h1 class="a">New section</h1>
+                <p class="a">This section was added dynamically</p>
+                <h1 class="a">With Motion library</h1>
+                <p class="a">Each element animates in sequence</p>
+                <h1 class="a">Using stagger() function</h1>
+                <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?w=800&h=600&fit=crop" alt="Business Team" class="a">
+            </div>
+        `;
+        document.querySelector('#fullpage').appendChild(newSection);
+
+        myFullpage.addSection(newSection);
+        
+        // Animate the new section
+        motionAnimations.observeNewSection(newSection);
+    }
+
+    var myFullpage = new fullpage('#fullpage', {
+        anchors: ['firstPage', 'secondPage', '3rdPage', '4thPage'],
+        sectionsColor: ['#4A6FB1', '#939FAA', '#323539'],
+        onLeave: function(origin, destination, direction) {
+            // Optional: Reset animations when leaving a section
+        },
+        afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex) {
+            // Reset elements when a new slide loads so they can be re-animated by inView
+            const currentSlide = document.querySelector(`#${slideAnchor}`);
+            if (currentSlide) {
+                const elements = currentSlide.querySelectorAll(motionAnimations.getAnimatableElements());
+                elements.forEach(element => {
+                    motionAnimations.resetElementToInitialState(element);
+                });
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

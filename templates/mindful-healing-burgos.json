@@ -1,0 +1,377 @@
+{
+    "id": "mindful-healing-burgos",
+    "name": "Mindful Healing Burgos",
+    "description": "A website for a psicologiest in Burgos.\nIt should contain the pricing plans at 80€ for the first session and 90€ for other sessions.\n\nIt should also contain what specialities she treats:\n- Food di",
+    "category": "custom",
+    "tags": [
+        "modern",
+        "minimal",
+        "calm"
+    ],
+    "sections": [
+        2,
+        14,
+        28,
+        6,
+        46,
+        39,
+        171
+    ],
+    "theme": {
+        "name": "Mindful Healing Burgos",
+        "variables": {
+            "primary-bg": "#f4f9f9",
+            "secondary-bg": "#ffffff",
+            "accent-bg": "#fafafa",
+            "primary-text": "#2c3e50",
+            "secondary-text": "#7f8c8d",
+            "accent-text": "#e74c3c",
+            "primary-accent": "#16a085",
+            "primary-accent-soft": "rgba(22, 160, 133, 0.1)",
+            "secondary-accent": "#1abc9c",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "section-shadow": "none",
+            "gradient-1": "linear-gradient(135deg, #ffffff 0%, #fafafa 100%)",
+            "gradient-2": "linear-gradient(135deg, #16a085 0%, #1abc9c 100%)",
+            "features2-bg": "linear-gradient(135deg, #16a085 0%, #1abc9c 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "16px",
+            "button-radius": "8px",
+            "card-radius": "16px",
+            "spacing-unit": "1.2rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Poppins",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "2": {
+            "headline": "Transform Your Mind, Transform Your Life",
+            "subheadline": "Expert Psychological Support in Burgos for a Healthier You",
+            "cta_primary": "Book Your First Session Now",
+            "cta_secondary": "Discover Our Specialties"
+        },
+        "6": {
+            "headline": "What Our Patients Are Saying",
+            "testimonials": [
+                "\"I felt understood and supported. My anxiety has significantly decreased!\" - Ana",
+                "\"Our relationship has improved so much thanks to her guidance. Highly recommend!\" - Carlos",
+                "\"The sessions helped me confront my food issues in a safe environment.\" - Lucia",
+                "\"I never knew I could feel this way again. Thank you!\" - Javier"
+            ]
+        },
+        "14": {
+            "headline": "Personalized Therapy Tailored Just for You",
+            "features": [
+                "Expert guidance on food distortions to help you build a healthier relationship with food.",
+                "Support for couples navigating challenges, fostering communication and connection.",
+                "Effective strategies to manage anxiety and reclaim your peace of mind.",
+                "Compassionate care for compulsive disorders, empowering you to regain control."
+            ]
+        },
+        "28": {
+            "headline": "Affordable and Accessible Therapy Plans",
+            "pricing_options": [
+                {
+                    "plan": "First Session",
+                    "price": "80€",
+                    "description": "Experience the initial consultation to understand your needs."
+                },
+                {
+                    "plan": "Follow-Up Sessions",
+                    "price": "90€",
+                    "description": "Continue your journey with personalized sessions designed for your growth."
+                }
+            ],
+            "cta": "Choose Your Plan and Start Healing Today"
+        },
+        "39": {
+            "headline": "Take the First Step Towards Healing Today!",
+            "cta": "Book Your Session Now"
+        },
+        "46": {
+            "headline": "Ready to Start Your Journey?",
+            "subheadline": "We're here to help you every step of the way.",
+            "cta_primary": "Get in Touch",
+            "cta_secondary": "Schedule a Consultation Today"
+        },
+        "171": {
+            "contact_info": "Contact Us: info@psychologistburgos.com | Phone: 123-456-789",
+            "navigation": [
+                "Home",
+                "About",
+                "Services",
+                "Testimonials",
+                "Contact"
+            ],
+            "trust_reassurance": "Your mental health is our top priority. Trust us to guide you."
+        }
+    },
+    "section_backgrounds": {
+        "2": {
+            "type": "image",
+            "keyword": "psychology therapy"
+        },
+        "6": {
+            "type": "image",
+            "keyword": "happy patients therapy"
+        },
+        "14": {
+            "type": "color"
+        },
+        "28": {
+            "type": "color"
+        },
+        "39": {
+            "type": "color"
+        },
+        "46": {
+            "type": "color"
+        },
+        "171": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "6": [
+            [
+                "customer testimonial",
+                "happy patient",
+                "psychology session"
+            ],
+            [
+                "professional therapy",
+                "mental health support",
+                "wellness journey"
+            ],
+            [
+                "satisfied client",
+                "psychological help",
+                "emotional relief"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#f4f9f9",
+            "secondary_bg": "#ffffff",
+            "accent_bg": "#fafafa",
+            "primary_text": "#2c3e50",
+            "secondary_text": "#7f8c8d",
+            "accent_text": "#e74c3c",
+            "primary_accent": "#16a085",
+            "secondary_accent": "#1abc9c"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Poppins",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "card_radius": "rounded",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.2rem"
+        },
+        "layout": {
+            "alignment": "left",
+            "hero_style": "split"
+        },
+        "mood": [
+            "modern",
+            "minimal",
+            "calm"
+        ],
+        "detected_sections": [
+            "hero split",
+            "features grid 3-col",
+            "testimonials cards"
+        ]
+    },
+    "site_plan": {
+        "audience": "individuals seeking psychological help",
+        "primary_goal": "book consultation",
+        "brand_vibe": [
+            "modern",
+            "calm",
+            "trustworthy",
+            "supportive"
+        ],
+        "content_tone": "professional and trustworthy",
+        "key_differentiators": [
+            "affordable pricing",
+            "specialized in various disorders",
+            "personalized approach",
+            "local expert in Burgos"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-01-29T19:02:03+00:00",
+    "text_updates": {
+        "2": {
+            "h1[0]": "Embrace Your Path to Wellness",
+            "p[0]": "Your journey towards mindfulness and healing starts here.",
+            "span[0]": "Support",
+            "p[1]": "At Mindful Healing Burgos, we offer professional psychological support tailored to your unique needs. Our expert psychologist specializes in various disorders, ensuring a personalized approach to your mental well-being.",
+            "a[0]": "Book Your Session",
+            "p[2]": "Transform your life with our compassionate care."
+        },
+        "6": {
+            "h2[0]": "Hear from Those We've Helped",
+            "p[0]": "\"The support I received at Mindful Healing Burgos has been life-changing. The personalized approach made me feel understood and empowered to tackle my challenges.\"",
+            "h4[0]": "Laura Martinez",
+            "p[1]": "Client, Mindful Healing"
+        },
+        "14": {
+            "h2[0]": "Explore Our Key Benefits",
+            "p[0]": "At Mindful Healing Burgos, we prioritize a personalized approach to psychological care that caters to your unique needs.",
+            "h3[0]": "Affordable Pricing",
+            "p[1]": "Experience exceptional therapy services starting at just 80€ for your first session, ensuring access to quality mental health support.",
+            "h3[1]": "Specialized Expertise",
+            "p[2]": "Our psychologist specializes in treating various disorders, offering tailored strategies to help you navigate your challenges effectively.",
+            "h3[2]": "Local Knowledge",
+            "p[3]": "As a trusted expert in Burgos, we understand the local context and community, providing relevant and impactful psychological services."
+        },
+        "28": {
+            "h2[0]": "Transparent Pricing for Every Session",
+            "p[0]": "At Mindful Healing Burgos, we believe in clear and affordable pricing for our psychological services. Our goal is to provide you with accessible mental health support.",
+            "a[0]": "First Session €80",
+            "a[1]": "Subsequent Sessions €90",
+            "span[0]": "Affordable Rates",
+            "h3[0]": "Individual Consultation",
+            "p[1]": "Our individual consultations are designed to address your unique needs and challenges, ensuring you receive tailored support.",
+            "span[1]": "€80",
+            "span[2]": "/session",
+            "p[2]": "Initial session is priced at €80, with follow-up sessions at €90 each.",
+            "li[0]": "Personalized Therapy Plans",
+            "li[1]": "Expert Guidance on Various Disorders",
+            "li[2]": "Flexible Scheduling Options",
+            "a[2]": "Book Your Session",
+            "div[10]": "Best Value",
+            "h3[1]": "Family Therapy",
+            "p[3]": "Our family therapy sessions focus on improving communication and resolving conflicts within family dynamics.",
+            "span[3]": "€90",
+            "span[4]": "/session",
+            "p[4]": "Each family therapy session is offered at €90, tailored to your family's needs.",
+            "li[3]": "Support for All Family Members",
+            "li[4]": "Safe and Confidential Environment",
+            "li[5]": "Ongoing Support and Follow-Up",
+            "a[3]": "Schedule a Consultation",
+            "h3[2]": "Group Therapy",
+            "p[5]": "Join our group therapy sessions to connect with others facing similar challenges in a supportive environment.",
+            "span[5]": "€90",
+            "span[6]": "/session",
+            "p[6]": "Group therapy sessions are available at €90, promoting shared experiences and growth.",
+            "li[6]": "Facilitated by a Local Expert",
+            "li[7]": "Opportunities for Connection",
+            "li[8]": "Enhanced Coping Strategies",
+            "a[4]": "Join a Group"
+        },
+        "39": {
+            "h2[0]": "Take the First Step Towards Healing",
+            "p[0]": "Embarking on your journey to mental wellness is a significant decision. At Mindful Healing Burgos, we provide a compassionate environment where you can explore your thoughts and emotions.",
+            "a[0]": "Book Your Session",
+            "p[1]": "First session only 80€, subsequent sessions at 90€."
+        },
+        "46": {
+            "h2[0]": "Connect with Us Today",
+            "p[0]": "Looking for support and guidance? We're here to help you take the next step.",
+            "h3[0]": "Email",
+            "p[1]": "info@mindfulhealingburgos.com",
+            "h3[1]": "Phone",
+            "p[2]": "+34 123 456 789",
+            "h3[2]": "Address",
+            "p[3]": "Calle de la Psicología, 45, Burgos, Spain",
+            "a[0]": "Book Now"
+        },
+        "171": {
+            "h2[0]": "Stay In Touch with Mindful Healing",
+            "span[0]": "Mindful Healing Burgos",
+            "li[0]": "Pricing Plans",
+            "a[0]": "80€ for First Session",
+            "li[1]": "Ongoing Sessions",
+            "a[1]": "90€ per Session",
+            "h2[1]": "Connect with Us",
+            "li[2]": "Phone",
+            "a[2]": "+34 123 456 789",
+            "li[3]": "Email",
+            "a[3]": "info@mindfulhealingburgos.com",
+            "h2[2]": "Trust and Confidentiality",
+            "li[4]": "Your Privacy Matters",
+            "a[4]": "Privacy Policy",
+            "li[5]": "Terms of Service",
+            "a[5]": "Terms & Conditions",
+            "span[1]": "© 2024 Mindful Healing Burgos. All Rights Reserved.",
+            "a[6]": "Mindful Healing Burgos",
+            "a[7]": "Velocity™"
+        }
+    },
+    "inline_images": {
+        "6": [
+            "https://images.unsplash.com/photo-1625416360482-1f219bf855ae?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8Y3VzdG9tZXIlMjB0ZXN0aW1vbmlhbCUyMGhhcHB5JTIwcGF0aWVudCUyMHBzeWNob2xvZ3klMjBzZXNzaW9ufGVufDB8MHx8fDE3Njk3MTMzNTB8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1620389701363-b1d7a601e0c9?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8cHJvZmVzc2lvbmFsJTIwdGhlcmFweSUyMG1lbnRhbCUyMGhlYWx0aCUyMHN1cHBvcnQlMjB3ZWxsbmVzcyUyMGpvdXJuZXl8ZW58MHwwfHx8MTc2OTcxMzM1MHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1579600161224-cac5a2971069?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8c2F0aXNmaWVkJTIwY2xpZW50JTIwcHN5Y2hvbG9naWNhbCUyMGhlbHAlMjBlbW90aW9uYWwlMjByZWxpZWZ8ZW58MHwwfHx8MTc2OTcxMzM1MHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "2": "https://images.unsplash.com/photo-1564121211835-e88c852648ab?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8cHN5Y2hvbG9neSUyMHRoZXJhcHl8ZW58MHwwfHx8MTc2OTcxMzM1MXww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

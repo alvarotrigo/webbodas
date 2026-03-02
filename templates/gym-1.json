@@ -1,0 +1,515 @@
+{
+    "id": "gym-1",
+    "name": "Elevate Wellness Experience",
+    "description": "Create a premium website for a boutique fitness studio called “Elevate Studio”.\n\nConcept:\nHigh-end small-group fitness classes with personal coaching.\n\nAudience:\nProfessionals aged 30–50 who value quality and personalized training.\n\nTone:\nPremium, motivational, polished.\n\nMain colors:\n- Deep navy blue\n- Matte black accents\n- Soft gold highlights\n- White backgrounds\n\nGoals:\nDrive class bookings and memberships.\n\nStructure:\n- Hero with aspirational headline\n- Studio philosophy section\n- Class types (strength, mobility, HIIT)\n- Trainer profiles\n- Testimonials\n- Membership options\n- Booking CTA\n- Location & schedule\n\nDesign guidance:\n- Clean and spacious layout\n- Elegant typography\n- High-quality lifestyle imagery\n- Alternate dark and light sections\n- Minimal clutter\n\nCopy guidance:\n- Focus on transformation and personal attention\n- Avoid aggressive “no pain no gain” language\n- Make it feel exclusive but welcoming\n\nMake it look like a premium wellness brand.\nKeep it conversion-focused and realistic.",
+    "category": "custom",
+    "tags": [
+        "modern",
+        "minimal",
+        "bold"
+    ],
+    "sections": [
+        158,
+        13,
+        95,
+        124,
+        26,
+        29,
+        151,
+        46,
+        159
+    ],
+    "theme": {
+        "name": "Elevate Wellness Experience",
+        "variables": {
+            "primary-bg": "#ffffff",
+            "secondary-bg": "#f4f4f7",
+            "accent-bg": "#fafafa",
+            "primary-text": "#222222",
+            "secondary-text": "#555555",
+            "accent-text": "#111111",
+            "primary-accent": "#1a237e",
+            "primary-accent-soft": "rgba(26, 35, 126, 0.1)",
+            "secondary-accent": "#bfae7b",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #f4f4f7 0%, #fafafa 100%)",
+            "gradient-2": "linear-gradient(135deg, #1a237e 0%, #bfae7b 100%)",
+            "features2-bg": "linear-gradient(135deg, #1a237e 0%, #bfae7b 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "8px",
+            "button-radius": "30px",
+            "card-radius": "12px",
+            "spacing-unit": "1.6rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Poppins",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "13": {
+            "headline": "Our Philosophy",
+            "subheadline": "At Elevate Studio, we believe in the power of personalized coaching and community support to unlock your full potential."
+        },
+        "26": {
+            "headline": "What Our Members Are Saying",
+            "testimonials": [
+                "Elevate Studio transformed my approach to fitness—it's not just a workout; it's a lifestyle change.",
+                "The personal attention I receive here has made all the difference in my progress."
+            ]
+        },
+        "29": {
+            "headline": "Membership Options",
+            "plans": [
+                {
+                    "name": "Basic Membership",
+                    "description": "Access to all group classes.",
+                    "price": "$150/month"
+                },
+                {
+                    "name": "Premium Membership",
+                    "description": "Includes personal coaching sessions.",
+                    "price": "$250/month"
+                }
+            ]
+        },
+        "46": {
+            "headline": "Get in Touch",
+            "subheadline": "Have questions? We're here to help you elevate your fitness journey.",
+            "cta_primary": "Contact Us",
+            "cta_secondary": "Book a Consultation"
+        },
+        "95": {
+            "headline": "Why Choose Elevate Studio?",
+            "features": [
+                "Expert coaching tailored to your unique goals",
+                "Exclusive small-group classes for focused attention",
+                "A holistic approach that nurtures body and mind"
+            ]
+        },
+        "124": {
+            "headline": "Meet Our Trainers",
+            "team_members": [
+                {
+                    "name": "Sophia Lee",
+                    "bio": "With over a decade of experience in fitness coaching, Sophia specializes in strength training and holistic wellness."
+                },
+                {
+                    "name": "Marcus Grant",
+                    "bio": "A former professional athlete, Marcus brings his passion for fitness and personalized coaching to every session."
+                }
+            ]
+        },
+        "151": {
+            "headline": "Ready to Elevate Your Fitness?",
+            "cta_primary": "Join Us Today",
+            "cta_secondary": "Explore Our Class Schedule"
+        },
+        "158": {
+            "headline": "Elevate Your Fitness Journey",
+            "subheadline": "Experience personalized training in an intimate setting designed for transformation.",
+            "cta_primary": "Book Your First Class",
+            "cta_secondary": "Discover Our Philosophy"
+        },
+        "159": {
+            "headline": "Stay Connected",
+            "footer_links": [
+                "Privacy Policy",
+                "Terms of Service",
+                "Follow Us on Social Media"
+            ],
+            "contact_info": "info@elevatestudio.com | (555) 123-4567",
+            "trust_statement": "Your journey with us is backed by our commitment to excellence and community."
+        }
+    },
+    "section_backgrounds": {
+        "13": {
+            "type": "color"
+        },
+        "26": {
+            "type": "image",
+            "keyword": "motivational fitness"
+        },
+        "29": {
+            "type": "color"
+        },
+        "46": {
+            "type": "color"
+        },
+        "95": {
+            "type": "color"
+        },
+        "124": {
+            "type": "color"
+        },
+        "151": {
+            "type": "color"
+        },
+        "158": {
+            "type": "image",
+            "keyword": "luxury fitness studio"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "13": [
+            [
+                "business professional",
+                "confident executive",
+                "motivated individual",
+                "fitness lifestyle"
+            ],
+            [
+                "personal trainer",
+                "fitness coaching",
+                "group class",
+                "motivational workout"
+            ]
+        ],
+        "26": [
+            [
+                "businessman working",
+                "professional office",
+                "confident entrepreneur"
+            ],
+            [
+                "satisfied client",
+                "testimonial portrait",
+                "happy customer"
+            ]
+        ],
+        "124": [
+            [
+                "professional portrait",
+                "business headshot",
+                "confident leader"
+            ],
+            [
+                "creative director",
+                "design professional",
+                "stylish office"
+            ],
+            [
+                "tech lead",
+                "modern workspace",
+                "innovative technology"
+            ],
+            [
+                "strategic thinker",
+                "business strategy",
+                "executive professional"
+            ],
+            [
+                "product manager",
+                "team collaboration",
+                "product development"
+            ],
+            [
+                "marketing professional",
+                "engaging speaker",
+                "brand strategist"
+            ]
+        ],
+        "158": [
+            [
+                "fitness class",
+                "group training",
+                "motivated individuals"
+            ],
+            [
+                "personal coaching",
+                "fitness instructor",
+                "small group exercise"
+            ],
+            [
+                "wellness journey",
+                "personal trainer",
+                "engaged workout"
+            ],
+            [
+                "high-end fitness",
+                "luxury gym",
+                "professional atmosphere"
+            ],
+            [
+                "active lifestyle",
+                "fitness community",
+                "supportive environment"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#ffffff",
+            "secondary_bg": "#f4f4f7",
+            "accent_bg": "#fafafa",
+            "primary_text": "#222222",
+            "secondary_text": "#555555",
+            "accent_text": "#111111",
+            "primary_accent": "#1a237e",
+            "secondary_accent": "#bfae7b"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Poppins",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "button_radius_value": "30px",
+            "card_radius": "rounded",
+            "card_radius_value": "12px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "spacious",
+            "spacing_unit_hint": "1.6rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "modern",
+            "minimal",
+            "bold"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "studio philosophy",
+            "class types grid",
+            "trainer profiles",
+            "testimonials cards",
+            "membership options"
+        ]
+    },
+    "site_plan": {
+        "audience": "professionals aged 30-50",
+        "primary_goal": "drive class bookings",
+        "brand_vibe": [
+            "premium",
+            "motivational",
+            "polished",
+            "exclusive",
+            "welcoming"
+        ],
+        "content_tone": "motivational and polished",
+        "key_differentiators": [
+            "small-group classes",
+            "personal coaching",
+            "high-end experience"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-02-11T20:46:54+00:00",
+    "text_updates": {
+        "13": {
+            "h1[0]": "Discover Our Philosophy of Fitness",
+            "p[0]": "At Elevate Studio, we believe in fostering a vibrant community where empowerment and holistic well-being are at the core of our approach. Our commitment extends beyond fitness; it's about nurturing a supportive environment that inspires personal growth and connection."
+        },
+        "26": {
+            "h2[0]": "Hear from Our Satisfied Members",
+            "p[0]": "3940+ Happy Landingfolio Users",
+            "p[1]": "\"Joining Elevate Studio has been a game-changer for me. The personalized attention and the supportive community have truly transformed my fitness journey, making every session something I look forward to.\"",
+            "h3[0]": "Sophia Richards",
+            "p[2]": "\"The small-group classes at Elevate offer the perfect blend of challenge and encouragement. I’ve never felt more motivated to push my limits and achieve my fitness goals.\"",
+            "h3[1]": "Michael Thompson"
+        },
+        "29": {
+            "h2[0]": "Transparent Membership Options for Everyone",
+            "p[0]": "Explore our flexible membership plans designed to fit your lifestyle and fitness goals with ease.",
+            "a[0]": "Annual Plan",
+            "a[1]": "Monthly Plan",
+            "h3[0]": "BASIC",
+            "p[1]": "Ideal for individuals seeking a personalized fitness journey.",
+            "span[0]": "$0",
+            "span[1]": "per month",
+            "li[0]": "Access to all group classes",
+            "li[1]": "Personal coaching sessions",
+            "li[2]": "Up to 5 participants per session",
+            "li[3]": "Flexible scheduling options",
+            "li[4]": "Community support and resources",
+            "h3[1]": "PREMIUM",
+            "p[2]": "Perfect for dedicated fitness enthusiasts.",
+            "span[2]": "$30",
+            "span[3]": "per month",
+            "li[5]": "200+ integrations",
+            "li[6]": "Priority booking for classes",
+            "li[7]": "Up to 10 participants per session",
+            "li[8]": "Specialized workshops and events",
+            "li[9]": "Enhanced community engagement",
+            "h3[2]": "ELITE",
+            "p[3]": "Tailored for those who demand the best.",
+            "span[4]": "$50",
+            "span[5]": "per month",
+            "li[10]": "Advanced custom fields",
+            "li[11]": "Unlimited personal coaching",
+            "li[12]": "Unlimited individual users",
+            "li[13]": "Unlimited participant engagement",
+            "li[14]": "Personalized fitness plans",
+            "a[2]": "Start for free",
+            "a[3]": "Get started",
+            "a[4]": "Get started"
+        },
+        "46": {
+            "h2[0]": "Contact Us",
+            "p[0]": "We're here to support your fitness journey and ensure accessibility in every step. Reach out to us for inquiries or bookings.",
+            "h3[0]": "Email",
+            "p[1]": "info@elevatestudio.com",
+            "h3[1]": "Phone",
+            "p[2]": "+1 (555) 987-6543",
+            "h3[2]": "Address",
+            "p[3]": "456 Wellness Ave, Fit City, FC 67890",
+            "a[0]": "Get in Touch"
+        },
+        "95": {
+            "h2[0]": "Unmatched Benefits for Your Body and Mind",
+            "p[0]": "Experience unparalleled advantages through our intimate small-group classes, where personal coaching elevates your fitness journey to new heights.",
+            "a[0]": "Join Us Now",
+            "h4[0]": "Personalized Coaching",
+            "p[1]": "Our dedicated trainers offer tailored guidance to help you achieve your personal fitness goals with precision and care.",
+            "h4[1]": "Exclusive Community",
+            "p[2]": "Become part of a supportive and inspiring community, where every member is valued and encouraged to thrive together.",
+            "h4[2]": "Transformative Experience",
+            "p[3]": "Immerse yourself in a high-end fitness environment that prioritizes your well-being and personal growth at every session.",
+            "h4[3]": "Focused Sessions",
+            "p[4]": "Enjoy concentrated workouts that maximize your results, ensuring every minute spent with us leads to meaningful progress."
+        },
+        "124": {
+            "h2[0]": "Our Exceptional Team",
+            "p[0]": "Discover the dedicated professionals who will guide you on your journey to wellness, blending passion with expertise to elevate your fitness experience.",
+            "h3[0]": "William Foster",
+            "p[1]": "Co-Founder & Head Coach",
+            "h3[1]": "Emily Jackson",
+            "p[2]": "Wellness Director",
+            "h3[2]": "Marcus Patel",
+            "p[3]": "Lead Fitness Coach",
+            "h3[3]": "Eleanor Morales",
+            "p[4]": "Nutrition Specialist",
+            "h3[4]": "Sophia Muniz",
+            "p[5]": "Client Success Manager",
+            "h3[5]": "James Miller",
+            "p[6]": "Community Engagement Lead"
+        },
+        "151": {
+            "h1[0]": "Join Us and Transform Your Life",
+            "p[0]": "Embrace a journey of commitment and personal growth at Elevate Studio. Our small-group classes and dedicated coaching are designed to help you unlock your true potential and elevate your wellness.",
+            "button[0]": "Start Today"
+        },
+        "158": {
+            "h1[0]": "Elevate Your Wellness Journey",
+            "p[0]": "Experience personalized fitness.",
+            "span[0]": "Elevate Studio",
+            "p[1]": "Discover high-end small-group classes designed to transform your wellness journey.",
+            "a[0]": "Join Now",
+            "a[1]": "Book a Class",
+            "p[2]": "Trusted by professionals seeking excellence."
+        },
+        "159": {
+            "h3[0]": "Elevate Studio",
+            "p[0]": "Transforming your fitness journey with a premium, personalized approach to wellness.",
+            "h4[0]": "Essential Links",
+            "li[0]": "Our Story",
+            "span[0]": "Our Story",
+            "li[1]": "Class Offerings",
+            "span[1]": "Class Offerings",
+            "li[2]": "Membership Plans",
+            "span[2]": "Membership Plans",
+            "li[3]": "Get in Touch",
+            "span[3]": "Get in Touch",
+            "h4[1]": "Our Services",
+            "li[4]": "Strength Training",
+            "li[5]": "Mobility Classes",
+            "li[6]": "HIIT Sessions",
+            "li[7]": "Personal Coaching",
+            "h4[2]": "Stay Inspired",
+            "a[0]": "Instagram",
+            "a[1]": "Facebook",
+            "a[2]": "YouTube",
+            "p[1]": "© 2024 Elevate Studio. All rights reserved."
+        }
+    },
+    "inline_images": {
+        "13": [
+            "https://images.unsplash.com/photo-1540111970170-b1c4d4fbadaa?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8YnVzaW5lc3MlMjBwcm9mZXNzaW9uYWwlMjBjb25maWRlbnQlMjBleGVjdXRpdmUlMjBtb3RpdmF0ZWQlMjBpbmRpdmlkdWFsJTIwZml0bmVzcyUyMGxpZmVzdHlsZXxlbnwwfDB8fHwxNzcwODQyODM4fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1699464676210-48cd0449df42?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8cGVyc29uYWwlMjB0cmFpbmVyJTIwZml0bmVzcyUyMGNvYWNoaW5nJTIwZ3JvdXAlMjBjbGFzcyUyMG1vdGl2YXRpb25hbCUyMHdvcmtvdXR8ZW58MHwwfHx8MTc3MDg0MjgzOHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "26": [
+            "https://images.unsplash.com/photo-1625486792898-a903f4770410?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8YnVzaW5lc3NtYW4lMjB3b3JraW5nJTIwcHJvZmVzc2lvbmFsJTIwb2ZmaWNlJTIwY29uZmlkZW50JTIwZW50cmVwcmVuZXVyfGVufDB8MHx8fDE3NzA4NDI4Mzl8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1592620839827-aa8310a33e81?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8c2F0aXNmaWVkJTIwY2xpZW50JTIwdGVzdGltb25pYWwlMjBwb3J0cmFpdCUyMGhhcHB5JTIwY3VzdG9tZXJ8ZW58MHwwfHx8MTc3MDg0MjgzOXww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "124": [
+            "https://images.unsplash.com/photo-1675277714353-376f525d935a?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBidXNpbmVzcyUyMGhlYWRzaG90JTIwY29uZmlkZW50JTIwbGVhZGVyfGVufDB8MHx8fDE3NzA4NDI4NDB8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1666718622024-dc6bdc808bda?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8Y3JlYXRpdmUlMjBkaXJlY3RvciUyMGRlc2lnbiUyMHByb2Zlc3Npb25hbCUyMHN0eWxpc2glMjBvZmZpY2V8ZW58MHwwfHx8MTc3MDg0MjgzOXww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8dGVjaCUyMGxlYWQlMjBtb2Rlcm4lMjB3b3Jrc3BhY2UlMjBpbm5vdmF0aXZlJTIwdGVjaG5vbG9neXxlbnwwfDB8fHwxNzcwODQyODQwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/flagged/photo-1570551502611-c590dc45f644?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8c3RyYXRlZ2ljJTIwdGhpbmtlciUyMGJ1c2luZXNzJTIwc3RyYXRlZ3klMjBleGVjdXRpdmUlMjBwcm9mZXNzaW9uYWx8ZW58MHwwfHx8MTc3MDg0Mjg0MHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1677506048377-1099738d294d?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8cHJvZHVjdCUyMG1hbmFnZXIlMjB0ZWFtJTIwY29sbGFib3JhdGlvbiUyMHByb2R1Y3QlMjBkZXZlbG9wbWVudHxlbnwwfDB8fHwxNzcwODQyODQwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "158": [
+            "https://images.unsplash.com/photo-1602827114685-efbb2717da9f?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8Zml0bmVzcyUyMGNsYXNzJTIwZ3JvdXAlMjB0cmFpbmluZyUyMG1vdGl2YXRlZCUyMGluZGl2aWR1YWxzfGVufDB8MHx8fDE3NzA4NDI4NDF8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1540539335-f9b8b823a108?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8cGVyc29uYWwlMjBjb2FjaGluZyUyMGZpdG5lc3MlMjBpbnN0cnVjdG9yJTIwc21hbGwlMjBncm91cCUyMGV4ZXJjaXNlfGVufDB8MHx8fDE3NzA4NDI4NDF8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1765873205154-a80487d51bd7?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8d2VsbG5lc3MlMjBqb3VybmV5JTIwcGVyc29uYWwlMjB0cmFpbmVyJTIwZW5nYWdlZCUyMHdvcmtvdXR8ZW58MHwwfHx8MTc3MDg0Mjg0MXww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758448756350-3d0eec02ba37?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8aGlnaC1lbmQlMjBmaXRuZXNzJTIwbHV4dXJ5JTIwZ3ltJTIwcHJvZmVzc2lvbmFsJTIwYXRtb3NwaGVyZXxlbnwwfDB8fHwxNzcwODQyODQwfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "26": "https://images.unsplash.com/photo-1630065612874-b0c19e95d30c?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8bW90aXZhdGlvbmFsJTIwZml0bmVzc3xlbnwwfDB8fHwxNzcwODQyODQyfDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "158": "https://images.unsplash.com/photo-1580628330485-5ff21de29e23?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8bHV4dXJ5JTIwZml0bmVzcyUyMHN0dWRpb3xlbnwwfDB8fHwxNzcwODQyODQxfDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

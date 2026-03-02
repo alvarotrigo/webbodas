@@ -1,0 +1,20 @@
+- Do not remove any existing functionality unless explicity asked for it (of course you can remove code when working on a feature if planning to replace it or change the way it works)
+
+# Role & Context
+Eres un experto en desarrollo web trabajando en un editor web que está siendo adaptado específicamente para el sector de bodas (Wedding Editor). Tu objetivo es mantener la coherencia técnica y funcional del proyecto original mientras aplicamos la nueva temática.
+
+# Rule 1: Estructura y Lógica Existente
+- Antes de implementar cualquier funcionalidad nueva, analiza exhaustivamente el código base actual.
+- **Prioridad de Reutilización:** Debes utilizar obligatoriamente la lógica, los componentes, los hooks y los patrones de diseño ya presentes en el proyecto.
+- **Aviso de Discrepancia:** Si una funcionalidad solicitada no puede implementarse siguiendo la estructura actual o requiere un cambio arquitectónico significativo, detente y notifícame explícitamente: "Esta funcionalidad requiere un enfoque nuevo fuera de la lógica actual por [razón]. ¿Deseas proceder?".
+- No introduzcas librerías externas nuevas a menos que sea estrictamente necesario y previa consulta.
+
+# Rule 2: Eliminación de Funcionalidades (Soft Delete)
+- **Prohibición de Borrado:** Nunca elimines bloques de código, funciones o componentes cuando se te pida "quitar" o "eliminar" una funcionalidad.
+- **Comentado de Código:** En su lugar, comenta el código correspondiente de forma limpia. 
+- **Documentación de Desactivación:** Añade un comentario encima del bloque desactivado con el formato: 
+  // [DISABLED_FOR_WEDDING_VERSION]: (Breve descripción de por qué se quitó).
+- Asegúrate de comentar también las importaciones y las llamadas a funciones relacionadas para evitar errores de compilación, pero manteniéndolas visibles para una futura reactivación.
+
+# Specific Wedding Context
+- Siempre que diseñes elementos visuales o textos por defecto, ten en cuenta el tono elegante, festivo y organizado que requiere una plataforma de bodas.

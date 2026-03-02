@@ -1,0 +1,430 @@
+{
+    "id": "real-state-1",
+    "name": "Sophisticated Realty Elegance",
+    "description": "Create a premium website for a real estate agent called “Sophia Keller Realty”.\n\nConcept:\nLuxury homes and high-end apartments.\n\nAudience:\nAffluent buyers and investors.\n\nTone:\nElegant, trustworthy, premium.\n\nMain colors:\n- Deep navy\n- Gold accents\n- White backgrounds\n- Light gray sections\n\nGoals:\nGenerate property inquiries.\n\nStructure:\n- Hero with luxury property image\n- Agent introduction\n- Featured listings\n- Market expertise section\n- Testimonials\n- Contact CTA\n\nDesign guidance:\n- Clean, spacious design\n- Large imagery\n- Minimal but refined layout\n\nCopy guidance:\n- Professional and credible\n- Focus on trust and expertise",
+    "category": "custom",
+    "tags": [
+        "elegant",
+        "trustworthy",
+        "premium"
+    ],
+    "sections": [
+        57,
+        163,
+        82,
+        95,
+        144,
+        46,
+        158,
+        170
+    ],
+    "theme": {
+        "name": "Sophisticated Realty Elegance",
+        "variables": {
+            "primary-bg": "#ffffff",
+            "secondary-bg": "#f4f4f7",
+            "accent-bg": "#fafafa",
+            "primary-text": "#222222",
+            "secondary-text": "#555555",
+            "accent-text": "#111111",
+            "primary-accent": "#0a1f44",
+            "primary-accent-soft": "rgba(10, 31, 68, 0.1)",
+            "secondary-accent": "#d4af37",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #f4f4f7 0%, #fafafa 100%)",
+            "gradient-2": "linear-gradient(135deg, #0a1f44 0%, #d4af37 100%)",
+            "features2-bg": "linear-gradient(135deg, #0a1f44 0%, #d4af37 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Playfair Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Playfair Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "8px",
+            "button-radius": "8px",
+            "card-radius": "12px",
+            "spacing-unit": "1.6rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Playfair Display",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "46": {
+            "headline": "Connect with Us",
+            "subheadline": "Ready to find your luxury home? We're here to help!",
+            "cta_primary": "Book Your Consultation",
+            "cta_secondary": "Contact Us Directly"
+        },
+        "57": {
+            "headline": "Discover Your Dream Home",
+            "subheadline": "Explore the world of luxury real estate with Sophia Keller Realty.",
+            "cta_primary": "Watch Our Exclusive Listings",
+            "cta_secondary": "Learn More About Our Approach"
+        },
+        "82": {
+            "caption_1": "Elegant interiors designed for sophisticated living.",
+            "caption_2": "Stunning outdoor spaces perfect for entertaining.",
+            "caption_3": "High-end finishes that elevate your lifestyle.",
+            "caption_4": "Breathtaking views that inspire tranquility."
+        },
+        "95": {
+            "feature_1": "Personalized property tours tailored to your preferences.",
+            "feature_2": "Expert market analysis to guide your investment decisions.",
+            "feature_3": "Access to exclusive listings before they hit the market.",
+            "feature_4": "Dedicated support from a trusted real estate professional."
+        },
+        "144": {
+            "headline": "What Our Clients Are Saying",
+            "testimonial_1": "\"Sophia made the home buying process effortless and enjoyable!\" - Jane D.",
+            "testimonial_2": "\"Her expertise in luxury real estate is unparalleled!\" - Mark T."
+        },
+        "158": {
+            "headline": "Welcome to Sophia Keller Realty",
+            "subheadline": "Your gateway to the finest luxury homes and high-end apartments.",
+            "cta_primary": "Explore Our Listings",
+            "cta_secondary": "Schedule a Private Tour"
+        },
+        "163": {
+            "headline": "How It Works",
+            "subheadline": "A Seamless Experience in Luxury Real Estate",
+            "cta_primary": "Get Started Today",
+            "cta_secondary": "See Our Process"
+        },
+        "170": {
+            "navigation": "Home | Featured Listings | Market Expertise | Testimonials | Contact",
+            "contact_info": "Phone: (123) 456-7890 | Email: info@sophiakellerrealty.com",
+            "trust_statement": "Trusted by affluent buyers and investors for over a decade."
+        }
+    },
+    "section_backgrounds": {
+        "46": {
+            "type": "color"
+        },
+        "57": {
+            "type": "color"
+        },
+        "82": {
+            "type": "image",
+            "keyword": "elegant real estate properties"
+        },
+        "95": {
+            "type": "color"
+        },
+        "144": {
+            "type": "image",
+            "keyword": "affluent buyers lifestyle"
+        },
+        "158": {
+            "type": "image",
+            "keyword": "luxury home interior"
+        },
+        "163": {
+            "type": "color"
+        },
+        "170": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "82": [
+            [
+                "luxury real estate",
+                "high-end property",
+                "elegant interiors"
+            ],
+            [
+                "opulent living room",
+                "modern kitchen design",
+                "luxurious home decor"
+            ],
+            [
+                "stunning architecture",
+                "contemporary villa",
+                "premium residence"
+            ],
+            [
+                "expansive outdoor space",
+                "luxury garden",
+                "private pool area"
+            ],
+            [
+                "exclusive penthouse",
+                "city skyline view",
+                "affluent lifestyle"
+            ],
+            [
+                "refined elegance",
+                "tasteful furnishings",
+                "premium realty showcase"
+            ]
+        ],
+        "144": [
+            [
+                "luxury real estate agent",
+                "professional portrait",
+                "elegant business headshot"
+            ],
+            [
+                "high-end design professional",
+                "creative workspace",
+                "stylish product designer"
+            ],
+            [
+                "CEO portrait",
+                "confident executive",
+                "luxury lifestyle"
+            ]
+        ],
+        "158": [
+            [
+                "luxury real estate",
+                "affluent lifestyle",
+                "elegant home interior"
+            ],
+            [
+                "high-end apartment",
+                "luxurious living space",
+                "modern architecture"
+            ],
+            [
+                "exclusive property",
+                "gorgeous home exterior",
+                "stunning view"
+            ],
+            [
+                "real estate market expert",
+                "professional agent",
+                "trustworthy advisor"
+            ],
+            [
+                "client testimonial",
+                "satisfied buyer",
+                "happy family in luxury home"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#ffffff",
+            "secondary_bg": "#f4f4f7",
+            "accent_bg": "#fafafa",
+            "primary_text": "#222222",
+            "secondary_text": "#555555",
+            "accent_text": "#111111",
+            "primary_accent": "#0a1f44",
+            "secondary_accent": "#d4af37"
+        },
+        "typography": {
+            "heading_style": "serif",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Playfair Display",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "button_radius_value": "8px",
+            "card_radius": "rounded",
+            "card_radius_value": "12px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "spacious",
+            "spacing_unit_hint": "1.6rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "full-media"
+        },
+        "mood": [
+            "elegant",
+            "trustworthy",
+            "premium"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "agent introduction",
+            "featured listings",
+            "market expertise",
+            "testimonials",
+            "contact CTA"
+        ]
+    },
+    "site_plan": {
+        "audience": "affluent buyers and investors",
+        "primary_goal": "generate property inquiries",
+        "brand_vibe": [
+            "elegant",
+            "trustworthy",
+            "premium"
+        ],
+        "content_tone": "professional and credible",
+        "key_differentiators": [
+            "luxury property focus",
+            "market expertise",
+            "refined design"
+        ],
+        "business_type": "agency"
+    },
+    "created_at": "2026-02-11T20:51:42+00:00",
+    "text_updates": {
+        "46": {
+            "h2[0]": "Contact Us",
+            "p[0]": "Embark on your property journey with confidence. Reach out for inquiries and personalized support.",
+            "h3[0]": "Email",
+            "p[1]": "hello@modernco.com",
+            "h3[1]": "Phone",
+            "p[2]": "+1 (555) 987-6543",
+            "h3[2]": "Address",
+            "p[3]": "456 Luxury Lane, Elite City, EC 54321",
+            "a[0]": "Get in Touch"
+        },
+        "57": {
+            "h2[0]": "Nature's Beauty",
+            "p[0]": "Immerse yourself in a stunning visual journey that highlights the sophistication and allure of our exclusive high-end properties. Discover the art of luxurious living through captivating cinematography that brings each exquisite detail to life."
+        },
+        "82": {
+            "h2[0]": "Visual Stories of Elegance",
+            "p[0]": "GALLERY",
+            "p[1]": "Explore our exquisite collection of stunning properties that embody luxury and sophisticated living."
+        },
+        "95": {
+            "h2[0]": "Exceptional Features for Discerning Buyers",
+            "p[0]": "Discover the unique advantages our properties offer, designed for those who appreciate the finer things in life.",
+            "a[0]": "Inquire Now",
+            "h4[0]": "Luxury Amenities",
+            "p[1]": "Experience unparalleled comfort with state-of-the-art facilities tailored to elevate your living experience.",
+            "h4[1]": "Secure Investment",
+            "p[2]": "Our properties come with a proven track record, ensuring your investment is both safe and rewarding.",
+            "h4[2]": "Personalized Service",
+            "p[3]": "Receive dedicated assistance from our expert team, available around the clock to address your needs.",
+            "h4[3]": "Timely Transactions",
+            "p[4]": "Enjoy swift processing times, making your property acquisition seamless and efficient."
+        },
+        "144": {
+            "h2[0]": "Success Stories",
+            "p[0]": "Discover the heartfelt experiences of our clients who have found their dream homes with us.",
+            "p[1]": "\"Sophia Keller Realty made the process of buying our luxury apartment seamless and enjoyable!\"",
+            "p[2]": "— John Doe",
+            "p[3]": "Homeowners",
+            "p[4]": "\"Sophia’s expertise in the luxury market helped us secure an incredible investment property.\"",
+            "p[5]": "— James L.",
+            "p[6]": "Investor",
+            "p[7]": "\"The dedication and professionalism of Sophia Keller Realty exceeded our expectations!\"",
+            "p[8]": "— Sarah T.",
+            "p[9]": "First-time Buyer"
+        },
+        "158": {
+            "h1[0]": "Welcome to Sophisticated Realty Elegance",
+            "p[0]": "Used by 10,000+ users",
+            "span[0]": "Sophia Keller Realty",
+            "p[1]": "Discover a curated selection of exquisite homes and luxurious apartments tailored for the elite.",
+            "a[0]": "Inquire Now",
+            "a[1]": "View Listings",
+            "p[2]": "Preferred by esteemed clients, including"
+        },
+        "163": {
+            "h2[0]": "Navigating Your Real Estate Journey",
+            "p[0]": "Experience a straightforward approach with our streamlined process designed to guide you through every stage of your property acquisition.",
+            "span[0]": "1",
+            "h3[0]": "Identify Your Aspirations",
+            "p[1]": "Begin by outlining your unique requirements and preferences, ensuring that we align with your vision for property investment.",
+            "span[1]": "2",
+            "h3[1]": "Explore Tailored Options",
+            "p[2]": "Our curated selections allow you to discover properties that meet your criteria and aspirations, all within a refined framework of excellence.",
+            "span[2]": "3",
+            "h3[2]": "Engage in Negotiation",
+            "p[3]": "We facilitate the negotiation process, employing our market expertise to secure the best terms and ensure your interests are prioritized.",
+            "span[3]": "4",
+            "h3[3]": "Achieve Your Goals",
+            "p[4]": "Realize your investment objectives with confidence, as we celebrate your success and provide ongoing support for future endeavors."
+        },
+        "170": {
+            "li[0]": "Our Story",
+            "a[0]": "Our Story",
+            "li[1]": "Privacy Notice",
+            "a[1]": "Privacy Notice",
+            "li[2]": "Licensing Details",
+            "a[2]": "Licensing Details",
+            "li[3]": "Get in Touch",
+            "a[3]": "Get in Touch",
+            "a[4]": "Client Testimonials",
+            "span[0]": "Elevate Your Expectations",
+            "span[1]": "© 2024 Sophia Keller Realty. All Rights Reserved.",
+            "a[5]": "Sophia Keller Realty™"
+        }
+    },
+    "inline_images": {
+        "82": [
+            "https://images.unsplash.com/photo-1758448511533-e1502259fff6?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8bHV4dXJ5JTIwcmVhbCUyMGVzdGF0ZSUyMGhpZ2gtZW5kJTIwcHJvcGVydHklMjBlbGVnYW50JTIwaW50ZXJpb3JzfGVufDB8MHx8fDE3NzA4NDMxMjN8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1720415353460-957325a7267d?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8b3B1bGVudCUyMGxpdmluZyUyMHJvb20lMjBtb2Rlcm4lMjBraXRjaGVuJTIwZGVzaWduJTIwbHV4dXJpb3VzJTIwaG9tZSUyMGRlY29yfGVufDB8MHx8fDE3NzA4NDMxMjN8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1706164971309-fb4785fe6ceb?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8c3R1bm5pbmclMjBhcmNoaXRlY3R1cmUlMjBjb250ZW1wb3JhcnklMjB2aWxsYSUyMHByZW1pdW0lMjByZXNpZGVuY2V8ZW58MHwwfHx8MTc3MDg0MzEyM3ww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1669348139292-6f1c353eac97?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8ZXhjbHVzaXZlJTIwcGVudGhvdXNlJTIwY2l0eSUyMHNreWxpbmUlMjB2aWV3JTIwYWZmbHVlbnQlMjBsaWZlc3R5bGV8ZW58MHwwfHx8MTc3MDg0MzEyM3ww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1641420874452-835828873a15?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8cmVmaW5lZCUyMGVsZWdhbmNlJTIwdGFzdGVmdWwlMjBmdXJuaXNoaW5ncyUyMHByZW1pdW0lMjByZWFsdHklMjBzaG93Y2FzZXxlbnwwfDB8fHwxNzcwODQzMTIzfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "144": [
+            "https://images.unsplash.com/photo-1746549835375-c86dcb92c8da?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8bHV4dXJ5JTIwcmVhbCUyMGVzdGF0ZSUyMGFnZW50JTIwcHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjBlbGVnYW50JTIwYnVzaW5lc3MlMjBoZWFkc2hvdHxlbnwwfDB8fHwxNzcwODQzMTIzfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1628608569130-3513012588ec?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8Q0VPJTIwcG9ydHJhaXQlMjBjb25maWRlbnQlMjBleGVjdXRpdmUlMjBsdXh1cnklMjBsaWZlc3R5bGV8ZW58MHwwfHx8MTc3MDg0MzEyM3ww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "158": [
+            "https://images.unsplash.com/photo-1758448755778-90ebf4d0f1e7?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8bHV4dXJ5JTIwcmVhbCUyMGVzdGF0ZSUyMGFmZmx1ZW50JTIwbGlmZXN0eWxlJTIwZWxlZ2FudCUyMGhvbWUlMjBpbnRlcmlvcnxlbnwwfDB8fHwxNzcwODQzMTI0fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758548157747-285c7012db5b?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8aGlnaC1lbmQlMjBhcGFydG1lbnQlMjBsdXh1cmlvdXMlMjBsaXZpbmclMjBzcGFjZSUyMG1vZGVybiUyMGFyY2hpdGVjdHVyZXxlbnwwfDB8fHwxNzcwODQzMTI0fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1678889284769-b7dcbec1f082?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NHx8ZXhjbHVzaXZlJTIwcHJvcGVydHklMjBnb3JnZW91cyUyMGhvbWUlMjBleHRlcmlvciUyMHN0dW5uaW5nJTIwdmlld3xlbnwwfDB8fHwxNzcwODQzMTI0fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758448511322-8bfc73daf606?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8Y2xpZW50JTIwdGVzdGltb25pYWwlMjBzYXRpc2ZpZWQlMjBidXllciUyMGhhcHB5JTIwZmFtaWx5JTIwaW4lMjBsdXh1cnklMjBob21lfGVufDB8MHx8fDE3NzA4NDMxMjR8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "82": "https://images.unsplash.com/photo-1760972543716-eb03ada2adb4?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8ZWxlZ2FudCUyMHJlYWwlMjBlc3RhdGUlMjBwcm9wZXJ0aWVzfGVufDB8MHx8fDE3NzA4NDMxMjV8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "144": "https://images.unsplash.com/photo-1601681928802-86c9b63ffccb?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8YWZmbHVlbnQlMjBidXllcnMlMjBsaWZlc3R5bGV8ZW58MHwwfHx8MTc3MDg0MzEyNXww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "158": "https://images.unsplash.com/photo-1562438668-bcf0ca6578f0?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8bHV4dXJ5JTIwaG9tZSUyMGludGVyaW9yfGVufDB8MHx8fDE3NzA4NDMxMjV8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

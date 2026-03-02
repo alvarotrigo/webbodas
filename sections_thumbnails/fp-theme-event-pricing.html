@@ -1,0 +1,78 @@
+<section id="fp-theme-event-pricing" class="min-h-screen flex items-center" style="background: var(--primary-bg);">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 py-24">
+          <div data-fp-anim-children="true" class="grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Left Side - Title and Toggle -->
+            <div>
+              <h2 class="text-4xl md:text-5xl font-bold mb-12" style="color: var(--primary-text); font-family: var(--heading-font);">
+                Event Registration Software Packages &amp; Pricing
+              </h2>
+
+              <!-- Toggle Buttons -->
+              <div class="flex gap-4 fp-keep-color">
+                <button id="event-monthly-btn" class="px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300" style="background: var(--accent-bg); color: var(--primary-accent);" onclick="toggleEventPricing('monthly')">
+                  Monthly
+                </button>
+                <button id="event-yearly-btn" class="px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 text-on-primary" style="background: var(--primary-accent);" onclick="toggleEventPricing('yearly')">
+                  Yearly
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Side - Pricing Card -->
+            <div class="rounded-3xl p-12 fp-keep-color" style="background: var(--primary-accent);">
+              <!-- Price -->
+              <div class="text-center mb-8">
+                <div class="flex items-baseline justify-center gap-3 mb-2">
+                  <span class="text-6xl font-bold text-on-primary">
+                    $<p id="event-price" data-monthly="5000" data-yearly="48000">5,000</p>
+                  </span>
+                  <span class="text-2xl text-on-primary opacity-80">
+                    | <span id="event-period">Month</span>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Features Grid -->
+              <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-10">
+                <!-- Column 1 -->
+                <div class="space-y-4">
+                  <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" aria-hidden="true" class="lucide lucide-check-circle w-5 h-5 flex-shrink-0 text-on-primary"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                    <span class="text-base text-on-primary">AI Advisor</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" aria-hidden="true" class="lucide lucide-check-circle w-5 h-5 flex-shrink-0 text-on-primary"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                    <span class="text-base text-on-primary">Unlimited auto tracking</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" aria-hidden="true" class="lucide lucide-check-circle w-5 h-5 flex-shrink-0 text-on-primary"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                    <span class="text-base text-on-primary">1 Day transaction clearing</span>
+                  </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="space-y-4">
+                  <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" aria-hidden="true" class="lucide lucide-check-circle w-5 h-5 flex-shrink-0 text-on-primary"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                    <span class="text-base text-on-primary">Priority customer support</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" aria-hidden="true" class="lucide lucide-check-circle w-5 h-5 flex-shrink-0 text-on-primary"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                    <span class="text-base text-on-primary">All Widget Access</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" aria-hidden="true" class="lucide lucide-check-circle w-5 h-5 flex-shrink-0 text-on-primary"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                    <span class="text-base text-on-primary">Everything in team plan</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Purchase Button -->
+              <button class="w-full py-4 px-6 rounded-full font-semibold text-xl transition-all duration-300 hover:scale-105" style="background: var(--accent-bg); color: var(--primary-accent);">
+                Purchase
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>

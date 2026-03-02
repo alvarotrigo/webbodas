@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Template Browser</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f9;
+            color: #1a1a1a;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .layout {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .sidebar {
+            width: 320px;
+            background: #fff;
+            border-right: 1px solid #e2e2e8;
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s ease, transform 0.3s ease;
+            position: relative;
+            z-index: 10;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        
+        .sidebar.collapsed {
+            width: 0;
+            transform: translateX(-100%);
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e2e8;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-header h1 {
+            margin: 0 0 8px 0;
+            font-size: 1.5rem;
+        }
+        
+        .sidebar-header p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 16px;
+        }
+        
+        .sidebar-toggle {
+            position: fixed;
+            left: 320px;
+            top: 20px;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: 1px solid #e2e2e8;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: left 0.3s ease, background 0.2s;
+            z-index: 11;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .sidebar-toggle:hover {
+            background: #f8f9fa;
+        }
+        
+        .sidebar.collapsed ~ .sidebar-toggle {
+            left: 0;
+        }
+        
+        .sidebar-toggle-icon {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.collapsed ~ .sidebar-toggle .sidebar-toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .preview-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f7f7f9;
+            overflow: hidden;
+        }
+        
+        .preview-header {
+            background: #fff;
+            border-bottom: 1px solid #e2e2e8;
+            padding: 2px 64px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        
+        .preview-title {
+            font-size: 1.125rem;
+            color: #1a1a1a;
+            display: inline-flex;
+        }
+        
+        .preview-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .preview-toolbar-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #666;
+            margin-right: 8px;
+        }
+        
+        .device-button {
+            padding: 6px 12px;
+            border: 1px solid #d0d0d5;
+            background: #fff;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .device-button:hover {
+            background: #f0f0f5;
+            border-color: #1f5eff;
+        }
+        
+        .device-button.active {
+            background: #1f5eff;
+            color: #fff;
+            border-color: #1f5eff;
+        }
+        
+        .export-button {
+            padding: 8px 16px;
+            border: 1px solid #28a745;
+            background: #28a745;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #fff;
+            font-weight: 500;
+            margin-left: 12px;
+        }
+        
+        .export-button:hover {
+            background: #218838;
+            border-color: #1e7e34;
+        }
+        
+        .export-button:disabled {
+            background: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .preview-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px;
+            overflow: auto;
+            background: #e5e5e5;
+        }
+        
+        .preview-iframe {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+        
+        .preview-iframe.mobile {
+            width: 375px;
+            height: 667px;
+        }
+        
+        .preview-iframe.tablet {
+            width: 768px;
+            height: 1024px;
+        }
+        
+        .preview-iframe.desktop {
+            width: 100%;
+            height: 100%;
+            max-width: 1440px;
+        }
+
+        .sidebar.collapsed ~ .preview-area .preview-iframe.desktop {
+            max-width: 100%;
+        }
+
+        /* Fullscreen mode */
+        .fullscreen-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+            background: #fff;
+        }
+
+        .fullscreen-overlay.active {
+            display: block;
+        }
+
+        .fullscreen-overlay iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .fullscreen-close {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 10000;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            line-height: 1;
+        }
+
+        .fullscreen-close:hover {
+            background: rgba(0, 0, 0, 0.85);
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            text-align: center;
+            color: #999;
+        }
+        
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .empty-state-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: #666;
+        }
+        
+        .empty-state-text {
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .template-card {
+            background: #f8f9fa;
+            border: 2px solid #e2e2e8;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 12px;
+        }
+        
+        .template-card:hover {
+            border-color: #1f5eff;
+            background: #f0f5ff;
+            transform: translateX(4px);
+        }
+        
+        .template-card.selected {
+            border-color: #1f5eff;
+            background: #e6f0ff;
+        }
+        
+        .template-card-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+        
+        .template-card-desc {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .template-card-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        .template-card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .spinner-large {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1f5eff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .back-button {
+            background: #6c757d;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+        
+        .back-button:hover {
+            background: #5a6268;
+        }
+        
+        .template-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .template-card-actions {
+            display: flex;
+            gap: 4px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .template-card:hover .template-card-actions {
+            opacity: 1;
+        }
+        
+        .action-btn {
+            background: #fff;
+            border: 1px solid #d0d0d5;
+            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .action-btn:hover {
+            border-color: #1f5eff;
+            background: #f0f5ff;
+        }
+        
+        .action-btn.delete:hover {
+            border-color: #dc3545;
+            background: #fff5f5;
+            color: #dc3545;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            padding: 24px;
+            animation: modalSlideIn 0.2s ease;
+        }
+
+        .modal.large {
+            max-width: 700px;
+            max-height: 95vh;
+            overflow: auto;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            margin-bottom: 16px;
+        }
+        
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: #1a1a1a;
+        }
+        
+        .modal-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+        
+        .modal-body {
+            margin-bottom: 24px;
+        }
+        
+        .modal-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d0d0d5;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        
+        .modal-input:focus {
+            outline: none;
+            border-color: #1f5eff;
+            box-shadow: 0 0 0 3px rgba(31, 94, 255, 0.1);
+        }
+        
+        .modal-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn-cancel {
+            background: #f0f0f5;
+            color: #333;
+        }
+        
+        .modal-btn-cancel:hover {
+            background: #e0e0e8;
+        }
+        
+        .modal-btn-confirm {
+            background: #1f5eff;
+            color: #fff;
+        }
+        
+        .modal-btn-confirm:hover {
+            background: #1850e0;
+        }
+        
+        .modal-btn-delete {
+            background: #dc3545;
+            color: #fff;
+        }
+        
+        .modal-btn-delete:hover {
+            background: #c82333;
+        }
+        
+        .modal-error {
+            background: #fff5f5;
+            border: 1px solid #ffcdd2;
+            border-radius: 6px;
+            padding: 10px 12px;
+            color: #c82333;
+            font-size: 0.875rem;
+            margin-top: 12px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-value {
+            background: #f8f9fa;
+            border: 1px solid #e2e2e8;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            user-select: text;
+        }
+
+        .info-list {
+            background: #f8f9fa;
+            border: 1px solid #e2e2e8;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 0.875rem;
+            color: #333;
+            line-height: 1.6;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .info-list ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .info-list li {
+            margin-bottom: 4px;
+        }
+
+        .collapsible-section {
+            border: 1px solid #e2e2e8;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .collapsible-header {
+            background: #f0f0f5;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #333;
+            transition: background 0.2s;
+            user-select: none;
+        }
+
+        .collapsible-header:hover {
+            background: #e5e5ea;
+        }
+
+        .collapsible-icon {
+            transition: transform 0.2s;
+            font-size: 0.75rem;
+        }
+
+        .collapsible-section.expanded .collapsible-icon {
+            transform: rotate(90deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .collapsible-section.expanded .collapsible-content {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .json-view {
+            background: #f8f9fa;
+            padding: 12px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #333;
+            white-space: pre;
+            user-select: text;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="back-button">← Back to Generator</a>
+                <h1>Templates</h1>
+                <p>Browse and preview saved templates</p>
+            </div>
+            <div class="sidebar-content" id="templatesList">
+                <div class="loading-state">
+                    <div class="spinner-large"></div>
+                    <p>Loading templates...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Toggle Button -->
+        <div class="sidebar-toggle" id="sidebarToggle">
+            <span class="sidebar-toggle-icon">◀</span>
+        </div>
+        
+        <!-- Preview Area -->
+        <div class="preview-area">
+            <div class="preview-header">
+                <h2 class="preview-title" id="previewTitle">Select a template to preview</h2>
+                <div class="preview-toolbar">
+                    <span class="preview-toolbar-label">Viewport:</span>
+                    <button class="device-button active" data-device="desktop" id="desktopBtn">Desktop</button>
+                    <button class="device-button" data-device="tablet" id="tabletBtn">Tablet</button>
+                    <button class="device-button" data-device="mobile" id="mobileBtn">Mobile</button>
+                    <button class="device-button" id="fullscreenBtn" title="Fullscreen preview">⛶</button>
+                    <button class="export-button" id="exportHtmlBtn" disabled>💾 Save as HTML</button>
+                </div>
+            </div>
+            <div class="preview-container">
+                <iframe id="previewIframe" class="preview-iframe desktop"></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Rename Modal -->
+    <div class="modal-overlay" id="renameModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Rename Template</h3>
+                <p class="modal-description">Update the template ID and display name</p>
+            </div>
+            <div class="modal-body">
+                <label class="modal-label" for="newTemplateId">Template ID (filename)</label>
+                <input type="text" id="newTemplateId" class="modal-input" placeholder="e.g., my-awesome-template" style="margin-bottom: 16px;">
+                <small style="display: block; color: #666; font-size: 0.8rem; margin-top: -12px; margin-bottom: 16px;">Alphanumeric characters, hyphens, and underscores only</small>
+                
+                <label class="modal-label" for="newTemplateName">Display Name</label>
+                <input type="text" id="newTemplateName" class="modal-input" placeholder="e.g., My Awesome Template">
+                <div id="renameError" class="modal-error" style="display: none;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" onclick="closeRenameModal()">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" onclick="confirmRename()">Rename</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete Template</h3>
+                <p class="modal-description">Are you sure you want to delete this template? This action cannot be undone.</p>
+            </div>
+            <div class="modal-body">
+                <p id="deleteTemplateName" style="font-weight: 600; margin: 0;"></p>
+                <div id="deleteError" class="modal-error" style="display: none;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button class="modal-btn modal-btn-delete" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Info Modal -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal large">
+            <div class="modal-header">
+                <h3 class="modal-title" id="infoModalTitle">Template Info</h3>
+            </div>
+            <div class="modal-body">
+                <div class="info-section">
+                    <label class="modal-label">Prompt used to generate this page</label>
+                    <div id="infoPromptText" class="info-value"></div>
+                </div>
+
+                <div class="info-section">
+                    <label class="modal-label">Sections (<span id="infoSectionsCount">0</span>)</label>
+                    <div id="infoSectionsList" class="info-list"></div>
+                </div>
+
+                <div class="info-section">
+                    <label class="modal-label">Fonts</label>
+                    <div id="infoFonts" class="info-list"></div>
+                </div>
+
+                <div class="info-section">
+                    <div class="collapsible-section" id="jsonCollapsible">
+                        <div class="collapsible-header" onclick="toggleJsonView()">
+                            <span>Full JSON Data</span>
+                            <span class="collapsible-icon">▶</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div id="infoJsonView" class="json-view"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" onclick="closeInfoModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Overlay -->
+    <div class="fullscreen-overlay" id="fullscreenOverlay">
+        <button class="fullscreen-close" id="fullscreenClose" title="Exit fullscreen">✕</button>
+        <iframe id="fullscreenIframe"></iframe>
+    </div>
+
+    <script>
+        // State
+        let savedTemplates = [];
+        let selectedTemplateFilename = null;
+        let currentDevice = 'desktop';
+        let SECTION_MAPPING = null;
+        
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const templatesList = document.getElementById('templatesList');
+        const previewTitle = document.getElementById('previewTitle');
+        const previewIframe = document.getElementById('previewIframe');
+        const desktopBtn = document.getElementById('desktopBtn');
+        const tabletBtn = document.getElementById('tabletBtn');
+        const mobileBtn = document.getElementById('mobileBtn');
+        const exportHtmlBtn = document.getElementById('exportHtmlBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+        const fullscreenClose = document.getElementById('fullscreenClose');
+        const fullscreenIframe = document.getElementById('fullscreenIframe');
+
+        // Fullscreen
+        fullscreenBtn.addEventListener('click', () => {
+            if (!selectedTemplateFilename) return;
+            fullscreenIframe.srcdoc = previewIframe.srcdoc;
+            fullscreenOverlay.classList.add('active');
+        });
+
+        fullscreenClose.addEventListener('click', () => {
+            fullscreenOverlay.classList.remove('active');
+            fullscreenIframe.srcdoc = '';
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'Escape' && fullscreenOverlay.classList.contains('active')) {
+                fullscreenClose.click();
+            } else if (e.key === 'f' && !fullscreenOverlay.classList.contains('active') && selectedTemplateFilename) {
+                fullscreenBtn.click();
+            }
+        });
+
+        // Sidebar Toggle
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+        
+        // Device Switching
+        function switchDevice(device) {
+            currentDevice = device;
+            
+            // Update button states
+            [desktopBtn, tabletBtn, mobileBtn].forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (device === 'desktop') {
+                desktopBtn.classList.add('active');
+            } else if (device === 'tablet') {
+                tabletBtn.classList.add('active');
+            } else if (device === 'mobile') {
+                mobileBtn.classList.add('active');
+            }
+            
+            // Update iframe classes
+            previewIframe.className = `preview-iframe ${device}`;
+            
+            // Reload preview if we have a selected template
+            if (selectedTemplateFilename) {
+                const template = savedTemplates.find(t => t.filename === selectedTemplateFilename);
+                if (template) {
+                    updatePreview(template.data);
+                }
+            }
+        }
+        
+        desktopBtn.addEventListener('click', () => switchDevice('desktop'));
+        tabletBtn.addEventListener('click', () => switchDevice('tablet'));
+        mobileBtn.addEventListener('click', () => switchDevice('mobile'));
+        
+        // Export as HTML functionality
+        exportHtmlBtn.addEventListener('click', async () => {
+            if (!selectedTemplateFilename) {
+                alert('Please select a template first');
+                return;
+            }
+            
+            const template = savedTemplates.find(t => t.filename === selectedTemplateFilename);
+            if (!template) {
+                alert('Template not found');
+                return;
+            }
+            
+            // Disable button during export
+            exportHtmlBtn.disabled = true;
+            exportHtmlBtn.textContent = '⏳ Exporting...';
+            
+            try {
+                // Get the HTML content from the iframe
+                const iframeDoc = previewIframe.contentDocument || previewIframe.contentWindow.document;
+                const htmlContent = '<!DOCTYPE html>\n' + iframeDoc.documentElement.outerHTML;
+                
+                // Prepare filename (use template ID without .json extension)
+                const templateId = template.data?.id || selectedTemplateFilename.replace('.json', '');
+                
+                // Send to server
+                const response = await fetch('../api/save-template-html.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        html: htmlContent,
+                        filename: templateId
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Failed to save HTML file');
+                }
+                
+                const themeNote = result.theme_files && result.theme_files.length
+                    ? `\nIncludes: index.html${result.theme_files.includes('theme.css') ? ', theme.css' : ''}${result.theme_files.includes('theme.js') ? ', theme.js' : ''}`
+                    : '';
+                alert(`✅ Template saved as HTML!\n\nFile: ${result.filename}\nLocation: templates/html/\nSize: ${(result.size_bytes / 1024).toFixed(2)} KB${themeNote}`);
+                
+            } catch (error) {
+                console.error('Error exporting HTML:', error);
+                alert(`❌ Error: ${error.message}`);
+            } finally {
+                // Re-enable button
+                exportHtmlBtn.disabled = false;
+                exportHtmlBtn.textContent = '💾 Save as HTML';
+            }
+        });
+        
+        // Load section mapping
+        async function loadSectionMapping() {
+            if (SECTION_MAPPING) return SECTION_MAPPING;
+            
+            try {
+                const response = await fetch('../config/sections-map.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load section mapping');
+                }
+                SECTION_MAPPING = await response.json();
+                return SECTION_MAPPING;
+            } catch (error) {
+                console.error('Error loading section mapping:', error);
+                return {};
+            }
+        }
+        
+        // Load saved templates
+        async function loadSavedTemplates() {
+            try {
+                const response = await fetch('../api/get.php?type=templates');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load templates list');
+                }
+                
+                const data = await response.json();
+                
+                if (!data.success || !data.templates || data.templates.length === 0) {
+                    templatesList.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📄</div>
+                            <div class="empty-state-title">No templates yet</div>
+                            <p class="empty-state-text">Generate your first template!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                savedTemplates = data.templates;
+                renderTemplatesList();
+                
+            } catch (error) {
+                console.error('Error loading templates:', error);
+                templatesList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <div class="empty-state-title">Error loading templates</div>
+                        <p class="empty-state-text">Please try again</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function renderTemplatesList() {
+            if (savedTemplates.length === 0) {
+                templatesList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📄</div>
+                        <div class="empty-state-title">No templates found</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            savedTemplates.forEach((template, index) => {
+                const isSelected = selectedTemplateFilename === template.filename;
+                const isLatest = index === 0;
+                const name = template.data?.name || 'Unnamed Template';
+                const description = template.data?.description || 'No description';
+                const sectionCount = template.data?.sections?.length || 0;
+                const tags = template.data?.tags?.slice(0, 2).join(', ') || 'No tags';
+                
+                html += `
+                    <div class="template-card ${isSelected ? 'selected' : ''}" onclick="selectTemplate('${template.filename}')">
+                        <div class="template-card-header">
+                            <div class="template-card-name">${name}${isLatest ? ' <span style="color: #1f5eff; font-size: 0.75rem; font-weight: 500; vertical-align: middle;">NEW</span>' : ''}</div>
+                            <div class="template-card-actions" onclick="event.stopPropagation()">
+                                <button class="action-btn" onclick="openInfoModal('${template.filename}')" title="View prompt">ℹ️</button>
+                                <button class="action-btn rename" onclick="openRenameModal('${template.filename}')" title="Rename">✏️</button>
+                                <button class="action-btn delete" onclick="openDeleteModal('${template.filename}')" title="Delete">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="template-card-desc">${description}</div>
+                        <div class="template-card-meta">
+                            <span>📄 ${sectionCount} sections</span>
+                            <span>🏷️ ${tags}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            templatesList.innerHTML = html;
+        }
+        
+        function selectTemplate(filename) {
+            selectedTemplateFilename = filename;
+            const template = savedTemplates.find(t => t.filename === filename);
+            
+            if (!template) {
+                console.error('Template not found:', filename);
+                return;
+            }
+            
+            // Update selection in list
+            renderTemplatesList();
+            
+            // Update title
+            previewTitle.textContent = template.data.name || filename;
+            
+            // Enable export button
+            exportHtmlBtn.disabled = false;
+            
+            // Update preview
+            updatePreview(template.data);
+        }
+        
+        async function updatePreview(template) {
+            const sections = template.sections || [];
+            const theme = template.theme || {};
+            const textUpdates = template.text_updates || {};
+            
+            // Build CSS variables from theme
+            let cssVars = '';
+            if (theme.variables) {
+                cssVars = Object.entries(theme.variables)
+                    .map(([key, value]) => `--${key}: ${value};`)
+                    .join('\n        ');
+            }
+            
+            // Determine viewport based on current device
+            let viewportContent = 'width=device-width, initial-scale=1.0';
+            if (currentDevice === 'mobile') {
+                viewportContent = 'width=375, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+            } else if (currentDevice === 'tablet') {
+                viewportContent = 'width=768, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+            }
+            
+            // Build Google Fonts link if available
+            const googleFontsLink = template.fonts?.google_fonts_url 
+                ? `<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="${template.fonts.google_fonts_url}" rel="stylesheet">`
+                : '';
+            
+            // Show loading state first
+            const loadingHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="${viewportContent}">
+    <base href="../">
+    <title>${template.name || 'Template Preview'}</title>
+    ${googleFontsLink}
+    <link rel="stylesheet" href="dist/output.css">
+    <link rel="stylesheet" href="public/css/sections.css">
+    <style>
+        :root {
+            ${cssVars}
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        ${template.custom_css?.global || ''}
+    </style>
+</head>
+<body>
+    <div class="loading-state">
+        <div class="spinner-large"></div>
+        <p style="color: #777; margin: 0;">Loading preview...</p>
+    </div>
+</body>
+</html>`;
+            
+            previewIframe.srcdoc = loadingHtml;
+            
+            // Fetch all section HTML files
+            try {
+                const mapping = await loadSectionMapping();
+                
+                // Use stored background images
+                const sectionBackgrounds = template.section_backgrounds || {};
+                const storedImages = template.section_background_images || {};
+                
+                const sectionHtmlPromises = sections.map(async (sectionId) => {
+                    const filename = mapping[sectionId];
+                    if (!filename) {
+                        console.warn(`No mapping found for section ID ${sectionId}`);
+                        return '';
+                    }
+                    
+                    const response = await fetch(`../sections/${filename}`);
+                    if (!response.ok) {
+                        console.warn(`Failed to load section ${filename}`);
+                        return '';
+                    }
+                    
+                    let html = await response.text();
+                    
+                    // Add data-section attribute
+                    html = html.replace(/<section([^>]*)>/, `<section$1 data-section="${sectionId}">`);
+                    
+                    // Check if this section should have a background image
+                    const bgConfig = sectionBackgrounds[sectionId];
+                    const imageUrl = storedImages[sectionId];
+                    
+                    if (bgConfig && bgConfig.type === 'image' && imageUrl) {
+                        // Add has-bg-image class to section
+                        html = html.replace(
+                            /<section([^>]*class=")([^"]*)/,
+                            '<section$1$2 has-bg-image'
+                        );
+                        // Add inline style to .fp-bg element
+                        html = html.replace(
+                            /<div class="fp-bg"><\/div>/,
+                            `<div class="fp-bg" style="background-image: url('${imageUrl}');"></div>`
+                        );
+                    }
+                    
+                    return html;
+                });
+                
+                const sectionsHtml = await Promise.all(sectionHtmlPromises);
+                const combinedSectionsHtml = sectionsHtml.filter(html => html).join('\n');
+                
+                // Build text updates script
+                const textUpdatesJson = JSON.stringify(textUpdates).replace(/</g, '\\u003c');
+                const textUpdatesScript = `
+                <script>
+                    (function() {
+                        const textUpdates = ${textUpdatesJson};
+                        
+                        function applyTextUpdates() {
+                            const allSections = document.querySelectorAll('section[data-section]');
+                            
+                            allSections.forEach(function(section) {
+                                const sectionNumber = parseInt(section.getAttribute('data-section'));
+                                const updates = textUpdates[sectionNumber];
+
+                                if (!updates) return;
+
+                                // Debug: log all spans in section 28 BEFORE replacement
+                                if (sectionNumber === 28) {
+                                    const allSpans = section.querySelectorAll('span');
+                                    console.log('=== Section 28: ALL SPANS BEFORE REPLACEMENT ===');
+                                    console.log('Section element ID:', section.id, 'Total spans:', allSpans.length);
+                                    allSpans.forEach(function(span, idx) {
+                                        console.log('span[' + idx + ']: "' + span.textContent.trim() + '"');
+                                    });
+                                    console.log('=== END ===');
+
+                                    // Log iteration order
+                                    console.log('=== ITERATION ORDER ===');
+                                    for (const key in updates) {
+                                        if (updates.hasOwnProperty(key)) {
+                                            console.log('Key: ' + key);
+                                        }
+                                    }
+                                    console.log('=== END ITERATION ORDER ===');
+                                }
+
+                                for (const selector in updates) {
+                                    if (!updates.hasOwnProperty(selector)) continue;
+
+                                    let textValue = updates[selector];
+                                    let text = textValue;
+                                    if (typeof textValue === 'object' && textValue !== null && textValue.text) {
+                                        text = textValue.text;
+                                    }
+
+                                    if (typeof text !== 'string' || text === '') continue;
+
+                                    if (sectionNumber === 28 && selector.startsWith('span')) {
+                                        console.log('Processing: ' + selector + ' with new text: "' + text + '"');
+                                    }
+
+                                    const indexMatch = selector.match(/^([a-z0-9]+)\\[([0-9]+)\\]$/i);
+                                    let tag, elemIndex;
+
+                                    if (indexMatch) {
+                                        tag = indexMatch[1];
+                                        elemIndex = parseInt(indexMatch[2]);
+                                    } else {
+                                        tag = selector;
+                                        elemIndex = 0;
+                                    }
+
+                                    if (sectionNumber === 28 && tag === 'span') {
+                                        console.log('  → tag: ' + tag + ', elemIndex: ' + elemIndex);
+                                    }
+
+                                    const elements = section.querySelectorAll(tag);
+
+                                    if (sectionNumber === 28 && tag === 'span') {
+                                        console.log('  → Found ' + elements.length + ' ' + tag + ' elements');
+                                    }
+
+                                    if (elements[elemIndex]) {
+                                        const element = elements[elemIndex];
+                                        const oldText = element.textContent;
+
+                                        // Check if element has child elements (not just text nodes)
+                                        const hasChildElements = element.children.length > 0;
+
+                                        if (hasChildElements) {
+                                            // Replace first meaningful text node, clear others, preserve child elements
+                                            const childNodes = Array.from(element.childNodes);
+                                            let replacedFirst = false;
+                                            childNodes.forEach(function(node) {
+                                                if (node.nodeType === 3) { // Text node
+                                                    if (!replacedFirst && node.textContent.trim().length > 0) {
+                                                        // First meaningful text node - replace it
+                                                        node.textContent = text;
+                                                        replacedFirst = true;
+                                                    } else {
+                                                        // Clear other text nodes
+                                                        node.textContent = '';
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            // No child elements, safe to replace textContent
+                                            element.textContent = text;
+                                        }
+
+                                        if (sectionNumber === 28 && tag === 'span') {
+                                            console.log('Section ' + sectionNumber + ': ' + selector + ' - "' + oldText + '" → "' + text + '"' + (hasChildElements ? ' (preserved children)' : ''));
+                                        }
+                                    } else {
+                                        if (sectionNumber === 28) {
+                                            console.warn('Section ' + sectionNumber + ': ' + selector + ' - element not found (only ' + elements.length + ' ' + tag + ' elements)');
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        
+                        if (document.readyState === 'loading') {
+                            document.addEventListener('DOMContentLoaded', applyTextUpdates);
+                        } else {
+                            applyTextUpdates();
+                        }
+                    })();
+                <\/script>
+                `;
+                
+                // Build inline images script
+                const inlineImages = template.inline_images || {};
+                const inlineImagesJson = JSON.stringify(inlineImages).replace(/</g, '\\u003c');
+                const inlineImagesScript = `
+                <script>
+                    (function() {
+                        const inlineImages = ${inlineImagesJson};
+                        
+                        function applyInlineImages() {
+                            if (Object.keys(inlineImages).length === 0) return;
+                            
+                            const allSections = document.querySelectorAll('section[data-section]');
+                            
+                            allSections.forEach(function(section) {
+                                const sectionNumber = parseInt(section.getAttribute('data-section'));
+                                const imageUrls = inlineImages[sectionNumber];
+                                
+                                if (!imageUrls || imageUrls.length === 0) return;
+                                
+                                const images = section.querySelectorAll('img');
+                                const filteredImages = Array.from(images).filter(function(img) {
+                                    const src = img.getAttribute('src') || '';
+                                    const alt = img.getAttribute('alt') || '';
+                                    const combined = (src + ' ' + alt).toLowerCase();
+                                    return !combined.match(/badge|logo|icon|svg|store|wikipedia|wikimedia/);
+                                });
+                                
+                                filteredImages.forEach(function(img, index) {
+                                    if (index < imageUrls.length && imageUrls[index]) {
+                                        img.setAttribute('src', imageUrls[index]);
+                                    }
+                                });
+                            });
+                        }
+                        
+                        if (document.readyState === 'loading') {
+                            document.addEventListener('DOMContentLoaded', applyInlineImages);
+                        } else {
+                            setTimeout(applyInlineImages, 100);
+                        }
+                    })();
+                <\/script>
+                `;
+                
+                // Build final preview HTML
+                const previewHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="${viewportContent}">
+    <base href="../">
+    <title>${template.name || 'Template Preview'}</title>
+    ${googleFontsLink}
+    <link rel="stylesheet" href="dist/output.css">
+    <link rel="stylesheet" href="public/css/sections.css">
+    <style>
+        :root {
+            ${cssVars}
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        ${template.custom_css?.global || ''}
+    </style>
+</head>
+<body>
+    ${combinedSectionsHtml}
+    ${textUpdatesScript}
+    ${inlineImagesScript}
+</body>
+</html>`;
+                
+                previewIframe.srcdoc = previewHtml;
+                
+            } catch (error) {
+                console.error('Error loading sections:', error);
+            }
+        }
+        
+        // Modal state
+        let templateToRename = null;
+        let templateToDelete = null;
+        
+        // Rename Modal Functions
+        function openRenameModal(filename) {
+            const template = savedTemplates.find(t => t.filename === filename);
+            if (!template) {
+                console.error('Template not found:', filename);
+                return;
+            }
+            
+            templateToRename = filename;
+            const currentId = template.data?.id || filename.replace('.json', '');
+            const currentName = template.data?.name || '';
+            
+            document.getElementById('newTemplateId').value = currentId;
+            document.getElementById('newTemplateName').value = currentName;
+            document.getElementById('renameError').style.display = 'none';
+            document.getElementById('renameModal').classList.add('active');
+        }
+        
+        function closeRenameModal() {
+            document.getElementById('renameModal').classList.remove('active');
+            templateToRename = null;
+        }
+        
+        async function confirmRename() {
+            const newId = document.getElementById('newTemplateId').value.trim();
+            const newName = document.getElementById('newTemplateName').value.trim();
+            const errorDiv = document.getElementById('renameError');
+            
+            if (!newId) {
+                errorDiv.textContent = 'Please enter a template ID';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            if (!newName) {
+                errorDiv.textContent = 'Please enter a display name';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            // Validate ID format
+            if (!/^[a-z0-9\-_]+$/i.test(newId)) {
+                errorDiv.textContent = 'ID can only contain letters, numbers, hyphens, and underscores';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const response = await fetch('../api/rename-template.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        old_filename: templateToRename,
+                        new_id: newId,
+                        new_name: newName
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok || !result.success) {
+                    errorDiv.textContent = result.error || 'Failed to rename template';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+                
+                // Close modal
+                closeRenameModal();
+                
+                // Reload templates list
+                const wasSelected = selectedTemplateFilename === templateToRename;
+                await loadSavedTemplates();
+                
+                // Re-select the renamed template if it was selected
+                if (wasSelected && result.new_filename) {
+                    selectTemplate(result.new_filename);
+                }
+                
+            } catch (error) {
+                console.error('Error renaming template:', error);
+                errorDiv.textContent = 'Network error. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        }
+        
+        // Delete Modal Functions
+        function openDeleteModal(filename) {
+            const template = savedTemplates.find(t => t.filename === filename);
+            if (!template) {
+                console.error('Template not found:', filename);
+                return;
+            }
+            
+            templateToDelete = filename;
+            const name = template.data?.name || filename;
+            
+            document.getElementById('deleteTemplateName').textContent = name;
+            document.getElementById('deleteError').style.display = 'none';
+            document.getElementById('deleteModal').classList.add('active');
+        }
+        
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+            templateToDelete = null;
+        }
+        
+        async function confirmDelete() {
+            const errorDiv = document.getElementById('deleteError');
+            
+            try {
+                const response = await fetch('../api/delete-template.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        filename: templateToDelete
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok || !result.success) {
+                    errorDiv.textContent = result.error || 'Failed to delete template';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+                
+                // Close modal
+                closeDeleteModal();
+                
+                // Clear preview if this template was selected
+                if (selectedTemplateFilename === templateToDelete) {
+                    selectedTemplateFilename = null;
+                    previewTitle.textContent = 'Select a template to preview';
+                    previewIframe.srcdoc = '';
+                    exportHtmlBtn.disabled = true;
+                }
+                
+                // Reload templates list
+                await loadSavedTemplates();
+                
+            } catch (error) {
+                console.error('Error deleting template:', error);
+                errorDiv.textContent = 'Network error. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        }
+        
+        // Info Modal Functions
+        function openInfoModal(filename) {
+            const template = savedTemplates.find(t => t.filename === filename);
+            if (!template) return;
+
+            const data = template.data || {};
+            const name = data.name || filename;
+            const description = data.description || 'No prompt available';
+            const sections = data.sections || [];
+            const fonts = data.fonts || {};
+
+            // Set title and prompt
+            document.getElementById('infoModalTitle').textContent = name;
+            document.getElementById('infoPromptText').textContent = description;
+
+            // Set sections count and list
+            document.getElementById('infoSectionsCount').textContent = sections.length;
+            if (sections.length > 0) {
+                const sectionsList = '<ul>' + sections.map(s => '<li>Section ID: ' + s + '</li>').join('') + '</ul>';
+                document.getElementById('infoSectionsList').innerHTML = sectionsList;
+            } else {
+                document.getElementById('infoSectionsList').innerHTML = '<p style="margin: 0; color: #999;">No sections</p>';
+            }
+
+            // Set fonts information
+            let fontsHtml = '<ul>';
+            if (fonts.heading_font) {
+                fontsHtml += '<li><strong>Heading:</strong> ' + fonts.heading_font + '</li>';
+            }
+            if (fonts.body_font) {
+                fontsHtml += '<li><strong>Body:</strong> ' + fonts.body_font + '</li>';
+            }
+            if (fonts.google_fonts_url) {
+                fontsHtml += '<li><strong>Google Fonts URL:</strong><br><span style="font-size: 0.8rem; word-break: break-all;">' + fonts.google_fonts_url + '</span></li>';
+            }
+            fontsHtml += '</ul>';
+
+            if (!fonts.heading_font && !fonts.body_font && !fonts.google_fonts_url) {
+                fontsHtml = '<p style="margin: 0; color: #999;">No font information</p>';
+            }
+            document.getElementById('infoFonts').innerHTML = fontsHtml;
+
+            // Set full JSON (beautified)
+            document.getElementById('infoJsonView').textContent = JSON.stringify(data, null, 2);
+
+            // Reset collapsible state
+            document.getElementById('jsonCollapsible').classList.remove('expanded');
+
+            document.getElementById('infoModal').classList.add('active');
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.remove('active');
+        }
+
+        function toggleJsonView() {
+            document.getElementById('jsonCollapsible').classList.toggle('expanded');
+        }
+
+        // Close modals on overlay click
+        document.getElementById('renameModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRenameModal();
+            }
+        });
+        
+        document.getElementById('deleteModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDeleteModal();
+            }
+        });
+
+        document.getElementById('infoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeInfoModal();
+            }
+        });
+        
+        // Close modals on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeRenameModal();
+                closeDeleteModal();
+                closeInfoModal();
+            }
+        });
+        
+        // Allow Enter key to confirm rename
+        document.getElementById('newTemplateId').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                confirmRename();
+            }
+        });
+        
+        document.getElementById('newTemplateName').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                confirmRename();
+            }
+        });
+        
+        // Make functions available globally
+        window.selectTemplate = selectTemplate;
+        window.openRenameModal = openRenameModal;
+        window.closeRenameModal = closeRenameModal;
+        window.confirmRename = confirmRename;
+        window.openDeleteModal = openDeleteModal;
+        window.closeDeleteModal = closeDeleteModal;
+        window.confirmDelete = confirmDelete;
+        window.openInfoModal = openInfoModal;
+        window.closeInfoModal = closeInfoModal;
+        window.toggleJsonView = toggleJsonView;
+        
+        // Initialize
+        loadSavedTemplates();
+    </script>
+</body>
+</html>

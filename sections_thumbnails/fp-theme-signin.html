@@ -1,0 +1,57 @@
+<section id="fp-theme-signin" class="min-h-screen max-h-dvh flex items-center justify-center relative overflow-hidden">
+        <div class="fp-bg"></div>
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=150&amp;h=84&amp;fit=crop" alt="Modern Interior" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/40"></div>
+        </div>
+
+        <!-- Content Container -->
+        <div class="relative z-10 w-full max-w-md mx-auto px-4">
+          <!-- Sign In Heading -->
+          <h1 class="text-5xl md:text-6xl font-bold text-center mb-8 text-white" style="font-family: var(--heading-font);">
+            Sign In
+          </h1>
+
+          <!-- Sign In Card -->
+          <div class="p-8 md:p-12 shadow-2xl" style="background-color: var(--primary-bg); border-radius: var(--card-radius);">
+            <form class="space-y-6">
+              <!-- Email Input -->
+              <div>
+                <label class="block text-sm font-medium mb-2 text-themed-secondary">
+                  Email address
+                </label>
+                <input type="email" placeholder="Email address" class="w-full px-4 py-3 outline-none transition-all duration-300 text-themed-primary" style="background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: var(--button-radius);" required="">
+              </div>
+
+              <!-- Password Input -->
+              <div>
+                <label class="block text-sm font-medium mb-2 text-themed-secondary">
+                  Password
+                </label>
+                <input type="password" placeholder="Password" class="w-full px-4 py-3 outline-none transition-all duration-300 text-themed-primary" style="background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: var(--button-radius);" required="">
+              </div>
+
+              <!-- Forgot Password Link -->
+              <div class="text-right">
+                <a href="#" class="text-sm hover:opacity-80 transition-opacity" style="color: var(--primary-accent);">
+                  Forgot your password?
+                </a>
+              </div>
+
+              <!-- Sign In Button -->
+              <button type="submit" class="w-full py-3 font-semibold transition-all duration-300 hover:opacity-90 text-on-primary" style="background: var(--primary-accent); border-radius: var(--button-radius);">
+                Sign in
+              </button>
+            </form>
+          </div>
+
+          <!-- Create Account Link -->
+          <p class="text-center mt-6 text-white text-sm md:text-base">
+            Don't have an account? 
+            <a href="#" class="font-semibold hover:opacity-80 transition-opacity" style="color: var(--primary-accent);">
+              Create Account
+            </a>
+          </p>
+        </div>
+      </section>

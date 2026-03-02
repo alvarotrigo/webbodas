@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Fix Verification</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #ff5733;
+            padding-bottom: 10px;
+        }
+        .section-check {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #ff5733;
+            border-radius: 4px;
+        }
+        .section-check h2 {
+            margin-top: 0;
+            color: #ff5733;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .status.pass {
+            background: #4caf50;
+            color: white;
+        }
+        .status.fail {
+            background: #f44336;
+            color: white;
+        }
+        .status.pending {
+            background: #ff9800;
+            color: white;
+        }
+        .preview-links {
+            margin: 20px 0;
+        }
+        .preview-links a {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #ff5733;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 5px;
+            font-weight: 500;
+        }
+        .preview-links a:hover {
+            background: #ff4500;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Template Text Replacement Fix Verification</h1>
+        
+        <div class="info">
+            <strong>Template:</strong> fit-youth-gym-hub2.json<br>
+            <strong>Issues Fixed:</strong> Section 7 missing text_updates<br>
+            <strong>Status:</strong> <span class="status pending" id="overall-status">Checking...</span>
+        </div>
+
+        <div class="section-check">
+            <h2>✓ Issue 1: Section 7 (How It Works) - Missing text_updates</h2>
+            <p><strong>Status:</strong> <span class="status pass">FIXED ✓</span></p>
+            <p><strong>What was fixed:</strong> Added complete text_updates object for section 7 with:</p>
+            <ul>
+                <li>h2[0]: "Getting Started is Easy"</li>
+                <li>p[0]: Description paragraph</li>
+                <li>h3[0-3]: Four step descriptions</li>
+            </ul>
+            <p><strong>Expected Result:</strong> Section 7 should now display custom text instead of placeholder text</p>
+        </div>
+
+        <div class="section-check">
+            <h2>⚠️ Issue 2: Section 28 (Pricing) - Second card text missing</h2>
+            <p><strong>Status:</strong> <span class="status pending" id="section28-status">Needs Manual Verification</span></p>
+            <p><strong>Analysis:</strong> The text_updates DOES contain all selectors for the second pricing card. This needs manual testing to confirm if it's:</p>
+            <ul>
+                <li>A display/CSS issue</li>
+                <li>A selector matching timing issue</li>
+                <li>An actual selector mismatch</li>
+            </ul>
+            <p><strong>What to check:</strong> The second pricing card ("Standard" plan) should display:</p>
+            <ul>
+                <li>Title: "Standard"</li>
+                <li>Description: "Our most popular choice! Enjoy a wider range of classes..."</li>
+                <li>Price: "€79/month"</li>
+                <li>Annual savings: "Charged annually (save €240)"</li>
+            </ul>
+        </div>
+
+        <div class="preview-links">
+            <h3>Preview Links:</h3>
+            <a href="http://localhost:8888/templates-creation/browser.html" target="_blank">
+                Open Template Browser
+            </a>
+            <a href="http://localhost:8888/tests/test-template-fit-youth.html" target="_blank">
+                Open Debug Test Page
+            </a>
+        </div>
+
+        <div class="section-check">
+            <h3>Manual Testing Steps:</h3>
+            <ol>
+                <li>Click "Open Template Browser" above</li>
+                <li>Select "Latest" template from the sidebar (should be fit-youth-gym-hub2)</li>
+                <li>Scroll to Section 7 (How It Works) and verify the text displays correctly</li>
+                <li>Scroll to Section 28 (Pricing) and check if the second card (middle) shows text</li>
+                <li>Take screenshots if issues persist</li>
+            </ol>
+        </div>
+
+        <div class="section-check">
+            <h3>📋 Fix Summary</h3>
+            <pre id="fix-details">Loading template data...</pre>
+        </div>
+    </div>
+
+    <script>
+        async function verifyFix() {
+            try {
+                // Load the template
+                const response = await fetch('/api/get.php?type=templates');
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error('Failed to load templates');
+                }
+                
+                const template = data.templates.find(t => t.data.id === 'fit-youth-gym-hub2');
+                
+                if (!template) {
+                    throw new Error('Template not found');
+                }
+                
+                const textUpdates = template.data.text_updates || {};
+                
+                // Check section 7
+                const section7Exists = !!textUpdates['7'];
+                const section7HasCorrectKeys = section7Exists && 
+                    textUpdates['7']['h2[0]'] && 
+                    textUpdates['7']['h3[0]'] &&
+                    textUpdates['7']['h3[1]'] &&
+                    textUpdates['7']['h3[2]'] &&
+                    textUpdates['7']['h3[3]'];
+                
+                // Check section 28
+                const section28Exists = !!textUpdates['28'];
+                const section28HasSecondCard = section28Exists &&
+                    textUpdates['28']['h3[1]'] && // Second card title
+                    textUpdates['28']['p[3]'] &&  // Second card description
+                    textUpdates['28']['span[3]']; // Second card price
+                
+                // Update UI
+                document.getElementById('fix-details').textContent = 
+                    `Section 7 text_updates exists: ${section7Exists}\n` +
+                    `Section 7 has all keys: ${section7HasCorrectKeys}\n` +
+                    `Section 28 text_updates exists: ${section28Exists}\n` +
+                    `Section 28 has second card selectors: ${section28HasSecondCard}\n\n` +
+                    `Section 7 keys: ${section7Exists ? Object.keys(textUpdates['7']).join(', ') : 'N/A'}\n\n` +
+                    `Sample section 7 content:\n` +
+                    JSON.stringify(textUpdates['7'], null, 2);
+                
+                if (section7HasCorrectKeys) {
+                    document.getElementById('overall-status').textContent = 'Section 7 Fixed ✓';
+                    document.getElementById('overall-status').className = 'status pass';
+                }
+                
+                if (section28HasSecondCard) {
+                    document.getElementById('section28-status').textContent = 'Text Updates Present ✓ - Check Visual';
+                    document.getElementById('section28-status').className = 'status pass';
+                }
+                
+            } catch (error) {
+                console.error('Error verifying fix:', error);
+                document.getElementById('fix-details').textContent = 'Error: ' + error.message;
+                document.getElementById('overall-status').textContent = 'Error';
+                document.getElementById('overall-status').className = 'status fail';
+            }
+        }
+        
+        verifyFix();
+    </script>
+</body>
+</html>

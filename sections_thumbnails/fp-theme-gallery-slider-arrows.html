@@ -1,0 +1,39 @@
+<section id="fp-theme-gallery-slider-arrows" class="min-h-screen flex items-center justify-center bg-themed-primary">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <!-- Header Content -->
+          <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style="color: var(--primary-text); font-family: var(--heading-font);">
+              Featured Gallery
+            </h2>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto" style="color: var(--secondary-text);">
+              Explore our curated collection of stunning visuals that showcase our creative excellence.
+            </p>
+          </div>
+
+          <!-- Slider with Arrow Navigation -->
+          <div class="flex items-center justify-center gap-4">
+            <button class="gallery-arrows-prev md:p-3 p-2 rounded-full transition-colors duration-300" style="background: var(--primary-accent); opacity: 0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-on-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            
+            <div class="w-full max-w-4xl overflow-hidden relative" style="border-radius: var(--card-radius);">
+              <div class="gallery-arrows-slider flex transition-transform duration-500 ease-in-out">
+                <img loading="lazy" src="./public/images/workspace.jpg" class="w-full flex-shrink-0 h-[500px] object-cover" alt="Workspace showcase">
+                <img loading="lazy" src="./public/images/business-team.jpg" class="w-full flex-shrink-0 h-[500px] object-cover" alt="Team collaboration">
+                <img loading="lazy" src="./public/images/nature-1.jpg" class="w-full flex-shrink-0 h-[500px] object-cover" alt="Nature inspiration">
+                <img loading="lazy" src="./public/images/dark-tech-bg.jpg" class="w-full flex-shrink-0 h-[500px] object-cover" alt="Technology design">
+                <img loading="lazy" src="./public/images/phone-screen.jpg" class="w-full flex-shrink-0 h-[500px] object-cover" alt="Mobile interface">
+              </div>
+            </div>
+
+            <button class="gallery-arrows-next md:p-3 p-2 rounded-full transition-colors duration-300" style="background: var(--primary-accent); opacity: 0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-on-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>

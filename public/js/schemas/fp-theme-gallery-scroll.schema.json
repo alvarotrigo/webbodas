@@ -1,0 +1,280 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-gallery-scroll",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 2,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      }
+    ],
+    "paragraphs": [
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": ""
+      }
+    ],
+    "items": [
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      },
+      {
+        "title": "",
+        "description": "",
+        "image_url": "",
+        "video_url": ""
+      }
+    ]
+  }
+}

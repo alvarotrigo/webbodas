@@ -1,0 +1,450 @@
+{
+    "id": "restaurant-1",
+    "name": "Veloura Elegance Experience",
+    "description": "Create a sophisticated website for a fine dining restaurant called “Veloura”.\n\nConcept:\nUpscale Mediterranean cuisine, romantic atmosphere, premium experience.\n\nAudience:\nCouples and professionals looking for a special dining experience.\n\nTone:\nElegant, refined, premium.\n\nMain colors:\n- Deep burgundy\n- Black accents\n- Warm gold highlights\n- Cream backgrounds\n\nGoals:\nEncourage table reservations.\n\nStructure:\n- Hero with strong visual and short tagline\n- Story/About the restaurant\n- Signature dishes section\n- Chef introduction\n- Gallery of food and interior\n- Testimonials/reviews\n- Reservation CTA\n- Location & hours\n\nDesign guidance:\n- Dark/light contrast sections\n- Large high-quality food imagery\n- Minimal text, premium feel\n- Elegant typography style\n- No playful elements\n\nCopy guidance:\n- Sensory language (flavors, aromas, experience)\n- Focus on atmosphere and quality\n- Keep it classy and subtle\n\nMake it feel like a luxury dining brand.",
+    "category": "custom",
+    "tags": [
+        "elegant",
+        "sophisticated",
+        "luxury"
+    ],
+    "sections": [
+        47,
+        14,
+        43,
+        35,
+        86,
+        144,
+        153,
+        134,
+        159
+    ],
+    "theme": {
+        "name": "Veloura Elegance Experience",
+        "variables": {
+            "primary-bg": "#f5f5f5",
+            "secondary-bg": "#ffffff",
+            "accent-bg": "#f5f5f5",
+            "primary-text": "#222222",
+            "secondary-text": "#555555",
+            "accent-text": "#111111",
+            "primary-accent": "#800020",
+            "primary-accent-soft": "rgba(128, 0, 32, 0.1)",
+            "secondary-accent": "#b8860b",
+            "border-color": "rgba(0, 0, 0, 0.1)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 1px 2px rgba(0, 0, 0, 0.05)",
+            "shadow-md": "0 4px 6px rgba(0, 0, 0, 0.07)",
+            "shadow-lg": "0 10px 15px rgba(0, 0, 0, 0.1)",
+            "card-shadow": "0 2px 8px rgba(0, 0, 0, 0.06)",
+            "card-shadow-hover": "0 8px 25px rgba(0, 0, 0, 0.12)",
+            "gradient-1": "linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%)",
+            "gradient-2": "linear-gradient(135deg, #800020 0%, #b8860b 100%)",
+            "features2-bg": "linear-gradient(135deg, #800020 0%, #b8860b 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Playfair Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Playfair Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "8px",
+            "button-radius": "8px",
+            "card-radius": "12px",
+            "spacing-unit": "1.4rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Playfair Display",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "14": {
+            "headline": "Welcome to Veloura",
+            "subheadline": "A Culinary Journey Through Upscale Mediterranean Delights.",
+            "content": "At Veloura, we pride ourselves on delivering an unforgettable dining experience. Our mission is to create a romantic atmosphere where every meal is a celebration of exquisite flavors and impeccable service. Nestled in the heart of the city, we offer a unique blend of traditional Mediterranean cuisine with a modern twist, making each visit a special occasion."
+        },
+        "35": {
+            "headline": "Meet Our Culinary Artist",
+            "team_members": [
+                {
+                    "name": "Chef Marco Bellini",
+                    "bio": "With over 15 years of experience in fine dining, Chef Marco brings a passion for Mediterranean flavors and a commitment to excellence. His culinary artistry turns every dish into a masterpiece."
+                }
+            ]
+        },
+        "43": {
+            "headline": "The Veloura Experience",
+            "features": [
+                "Artfully Crafted Mediterranean Dishes",
+                "Intimate and Romantic Ambiance",
+                "Exceptional Service Tailored to You",
+                "Curated Wine Selection to Complement Your Meal",
+                "Seasonal Ingredients for Maximum Freshness"
+            ]
+        },
+        "47": {
+            "headline": "Indulge in the Art of Mediterranean Dining",
+            "subheadline": "Experience Elegance and Flavors at Veloura, Your Destination for Exquisite Cuisine.",
+            "cta_primary": "Reserve Your Table",
+            "cta_secondary": "Discover Our Menu"
+        },
+        "86": {
+            "headline": "A Visual Feast",
+            "captions": [
+                "Savor the intricate flavors of our signature dishes, each a harmonious blend of spices and freshness.",
+                "Immerse yourself in the romantic ambiance of Veloura, designed for unforgettable moments.",
+                "Delight in the artistry of our culinary presentations, where every plate tells a story."
+            ]
+        },
+        "134": {
+            "headline": "Connect with Us",
+            "content": "Have questions or special requests? Our team is here to assist you in planning your perfect dining experience.",
+            "cta": "Reach Out Today"
+        },
+        "144": {
+            "headline": "What Our Guests Are Saying",
+            "testimonials": [
+                "The most romantic dining experience we’ve ever had. Every detail was perfect.",
+                "A culinary journey that left us in awe. Each dish was a revelation!"
+            ]
+        },
+        "153": {
+            "headline": "Book Your Exclusive Experience",
+            "cta_primary": "Reserve Now and Elevate Your Evening",
+            "cta_secondary": "Explore Our Special Offers"
+        },
+        "159": {
+            "content": "© 2023 Veloura. All Rights Reserved. | Your Premier Fine Dining Destination.",
+            "nav_links": [
+                "Home",
+                "Menu",
+                "About Us",
+                "Contact"
+            ],
+            "trust_reassurance": "Committed to Excellence in Every Experience."
+        }
+    },
+    "section_backgrounds": {
+        "14": {
+            "type": "color"
+        },
+        "35": {
+            "type": "image",
+            "keyword": "fine dining chef"
+        },
+        "43": {
+            "type": "color"
+        },
+        "47": {
+            "type": "image",
+            "keyword": "luxury dining restaurant"
+        },
+        "86": {
+            "type": "image",
+            "keyword": "elegant food presentation"
+        },
+        "134": {
+            "type": "color"
+        },
+        "144": {
+            "type": "color"
+        },
+        "153": {
+            "type": "color"
+        },
+        "159": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "35": [
+            [
+                "elegant portrait",
+                "fine dining professional",
+                "luxury restaurant team"
+            ],
+            [
+                "sophisticated headshot",
+                "restaurant co-founder",
+                "premium dining experience"
+            ],
+            [
+                "executive director portrait",
+                "refined professional image",
+                "Mediterranean cuisine expert"
+            ],
+            [
+                "leadership team photo",
+                "classy business portrait",
+                "culinary director profile"
+            ]
+        ],
+        "86": [
+            [
+                "creative collaboration",
+                "team brainstorming",
+                "diverse talents"
+            ],
+            [
+                "modern workspace",
+                "elegant office design",
+                "sophisticated interior"
+            ],
+            [
+                "technology solutions",
+                "cutting-edge tech",
+                "digital innovation"
+            ]
+        ],
+        "144": [
+            [
+                "elegant portrait",
+                "professional headshot",
+                "refined business attire"
+            ],
+            [
+                "stylish designer",
+                "creative professional",
+                "modern workspace"
+            ],
+            [
+                "executive portrait",
+                "CEO headshot",
+                "sophisticated businesswoman"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "light",
+            "primary_bg": "#f5f5f5",
+            "secondary_bg": "#ffffff",
+            "accent_bg": "#f5f5f5",
+            "primary_text": "#222222",
+            "secondary_text": "#555555",
+            "accent_text": "#111111",
+            "primary_accent": "#800020",
+            "secondary_accent": "#b8860b"
+        },
+        "typography": {
+            "heading_style": "serif",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Playfair Display",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "rounded",
+            "border_radius_value": "8px",
+            "button_radius": "rounded",
+            "button_radius_value": "8px",
+            "card_radius": "rounded",
+            "card_radius_value": "12px",
+            "border_usage": "minimal",
+            "border_color_hint": "subtle"
+        },
+        "shadows": {
+            "intensity": "subtle",
+            "card_shadow": "subtle",
+            "style": "soft"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "135deg"
+        },
+        "spacing": {
+            "density": "regular",
+            "spacing_unit_hint": "1.4rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "centered"
+        },
+        "mood": [
+            "elegant",
+            "sophisticated",
+            "luxury"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "about section",
+            "signature dishes",
+            "chef introduction",
+            "gallery",
+            "testimonials"
+        ]
+    },
+    "site_plan": {
+        "audience": "couples and professionals",
+        "primary_goal": "encourage table reservations",
+        "brand_vibe": [
+            "elegant",
+            "sophisticated",
+            "luxury"
+        ],
+        "content_tone": "refined and premium",
+        "key_differentiators": [
+            "upscale Mediterranean cuisine",
+            "romantic atmosphere",
+            "premium dining experience"
+        ],
+        "business_type": "restaurant"
+    },
+    "created_at": "2026-02-11T20:40:40+00:00",
+    "text_updates": {
+        "14": {
+            "h2[0]": "About Us",
+            "p[0]": "At Veloura, we blend rich heritage with a passion for upscale Mediterranean flavors, creating an enchanting atmosphere that transports every guest to a world of indulgence.",
+            "h3[0]": "Our Mission",
+            "p[1]": "We aspire to craft unforgettable moments through exquisite dishes, attentive service, and a romantic setting, ensuring each visit is a cherished experience.",
+            "h3[1]": "Unique Offerings",
+            "p[2]": "Our menu showcases a harmonious fusion of traditional recipes and contemporary flair, featuring locally sourced ingredients that enhance every flavor and aroma.",
+            "h3[2]": "Passionate Team",
+            "p[3]": "Led by culinary artisans, our dedicated staff is committed to delivering an exceptional experience, where every detail is meticulously curated to delight our guests."
+        },
+        "35": {
+            "h2[0]": "Meet Our Culinary Visionaries",
+            "p[0]": "Discover the passionate individuals who bring Veloura's exquisite Mediterranean flavors to life.",
+            "h3[0]": "Sophia Albright",
+            "p[1]": "Co-Founder, Culinary Director,",
+            "p[2]": "Executive Director",
+            "h3[1]": "Marco Bellini",
+            "p[3]": "Executive Chef, Partner,",
+            "p[4]": "Executive Director",
+            "h3[2]": "Elena Rossi",
+            "p[5]": "Sommelier, Beverage Curator,",
+            "p[6]": "Executive Director",
+            "h3[3]": "Julian Hart",
+            "p[7]": "Operations Manager, Partner,",
+            "p[8]": "Elevating Dining Experiences"
+        },
+        "43": {
+            "h2[0]": "Experience Distinctive Delights",
+            "p[0]": "WHAT'S INSIDE",
+            "p[1]": "At Veloura, we elevate your dining experience with our upscale Mediterranean dishes, served in an intimate setting that ignites romance. Each meal is crafted to tantalize the palate and create unforgettable memories.",
+            "h3[0]": "Artfully Crafted Plates",
+            "h3[1]": "Elegant Ambiance",
+            "h3[2]": "Impeccable Service",
+            "h3[3]": "Exclusive Menu Selection",
+            "h3[4]": "Personalized Dining Experience"
+        },
+        "47": {
+            "h2[0]": "Indulge in Culinary Sophistication",
+            "p[0]": "Welcome to Veloura, where exquisite Mediterranean flavors meet a romantic ambiance, crafting unforgettable moments for couples and discerning professionals alike. Immerse yourself in a premium dining experience that delights the senses and elevates every occasion.",
+            "a[0]": "Reserve Your Table"
+        },
+        "86": {
+            "h2[0]": "Our Latest Creations",
+            "p[0]": "Explore our stunning presentations and captivating interiors, each dish a testament to culinary artistry and elegance.",
+            "h3[0]": "Artful Masterpieces",
+            "p[1]": "Each creation is a harmonious blend of flavors and visuals, designed to enchant the senses and elevate your dining journey.",
+            "h3[1]": "Ambiance Refined",
+            "p[2]": "Step into a world where exquisite design meets intimate comfort, perfect for memorable moments shared over fine cuisine.",
+            "h3[2]": "Exquisite Craftsmanship",
+            "p[3]": "Our commitment to quality shines through in every detail, making each visit a luxurious indulgence for the palate."
+        },
+        "134": {
+            "h2[0]": "Get In Touch",
+            "p[0]": "We invite you to reach out for any inquiries or to arrange your exquisite dining experience. Our team is dedicated to providing seamless communication and exceptional service.",
+            "span[0]": "+1 (555) 123-4567",
+            "span[1]": "hello@veloura.com",
+            "span[2]": "123 Business Street, Suite 100, New York, NY 10001",
+            "h3[0]": "Send Us a Message",
+            "button[0]": "Inquire Now"
+        },
+        "144": {
+            "h2[0]": "Success Stories",
+            "p[0]": "Discover the heartfelt experiences of our diners who have found a sanctuary in every meal.",
+            "p[1]": "\"An enchanting evening that ignited our senses; the flavors and ambiance were simply exquisite.\"",
+            "p[2]": "— Emily & Marcus",
+            "p[3]": "First-Time Diners",
+            "p[4]": "\"We celebrated our anniversary here, and it was nothing short of magical. Every detail was perfect!\"",
+            "p[5]": "— Sarah & Tom",
+            "p[6]": "Celebrating Love",
+            "p[7]": "\"From the service to the culinary artistry, every moment felt like a cherished memory in the making.\"",
+            "p[8]": "— Jessica & Liam",
+            "p[9]": "Memorable Celebrations"
+        },
+        "153": {
+            "h2[0]": "Reserve Your Table Today",
+            "span[0]": "Indulge in Luxury",
+            "span[1]": "Exclusive Dining Experience",
+            "p[0]": "Immerse yourself in the rich flavors of upscale Mediterranean cuisine, where each dish is a masterpiece crafted with precision and passion. Our dedicated team ensures prompt service, creating an unforgettable atmosphere for romantic evenings and professional gatherings alike.",
+            "a[0]": "Book Now"
+        },
+        "159": {
+            "h3[0]": "ModernCo",
+            "p[0]": "Discover the art of fine dining at Veloura, where exquisite Mediterranean flavors meet an enchanting atmosphere.",
+            "h4[0]": "Essential Links",
+            "li[0]": "About Veloura",
+            "span[0]": "About Veloura",
+            "li[1]": "Signature Dishes",
+            "span[1]": "Signature Dishes",
+            "li[2]": "Reservations",
+            "span[2]": "Reservations",
+            "li[3]": "Contact Information",
+            "span[3]": "Contact Information",
+            "h4[1]": "Our Offerings",
+            "li[4]": "Mediterranean Cuisine",
+            "li[5]": "Wine Selection",
+            "li[6]": "Private Events",
+            "li[7]": "Culinary Experiences",
+            "h4[2]": "Stay Connected",
+            "a[0]": "Instagram",
+            "a[1]": "Facebook",
+            "a[2]": "Pinterest",
+            "p[1]": "© 2024 Veloura. All rights reserved."
+        }
+    },
+    "inline_images": {
+        "35": [
+            "https://images.unsplash.com/photo-1664997432996-010bbf13efbc?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8ZWxlZ2FudCUyMHBvcnRyYWl0JTIwZmluZSUyMGRpbmluZyUyMHByb2Zlc3Npb25hbCUyMGx1eHVyeSUyMHJlc3RhdXJhbnQlMjB0ZWFtfGVufDB8MHx8fDE3NzA4NDI0NjN8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1695606452735-a161ad7217d1?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8c29waGlzdGljYXRlZCUyMGhlYWRzaG90JTIwcmVzdGF1cmFudCUyMGNvLWZvdW5kZXIlMjBwcmVtaXVtJTIwZGluaW5nJTIwZXhwZXJpZW5jZXxlbnwwfDB8fHwxNzcwODQyNDYzfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1565144317118-0655428f4cb6?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8ZXhlY3V0aXZlJTIwZGlyZWN0b3IlMjBwb3J0cmFpdCUyMHJlZmluZWQlMjBwcm9mZXNzaW9uYWwlMjBpbWFnZSUyME1lZGl0ZXJyYW5lYW4lMjBjdWlzaW5lJTIwZXhwZXJ0fGVufDB8MHx8fDE3NzA4NDI0NjN8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1496811425508-6d7ebb7ff32c?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8bGVhZGVyc2hpcCUyMHRlYW0lMjBwaG90byUyMGNsYXNzeSUyMGJ1c2luZXNzJTIwcG9ydHJhaXQlMjBjdWxpbmFyeSUyMGRpcmVjdG9yJTIwcHJvZmlsZXxlbnwwfDB8fHwxNzcwODQyNDYzfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "86": [
+            "https://images.unsplash.com/photo-1676276374324-db790020bdbd?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8Y3JlYXRpdmUlMjBjb2xsYWJvcmF0aW9uJTIwdGVhbSUyMGJyYWluc3Rvcm1pbmclMjBkaXZlcnNlJTIwdGFsZW50c3xlbnwwfDB8fHwxNzcwODQyNDY0fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758448500688-3ababa93fd67?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8bW9kZXJuJTIwd29ya3NwYWNlJTIwZWxlZ2FudCUyMG9mZmljZSUyMGRlc2lnbiUyMHNvcGhpc3RpY2F0ZWQlMjBpbnRlcmlvcnxlbnwwfDB8fHwxNzcwODQyNDY0fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758626044744-463ce33546a2?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8dGVjaG5vbG9neSUyMHNvbHV0aW9ucyUyMGN1dHRpbmctZWRnZSUyMHRlY2glMjBkaWdpdGFsJTIwaW5ub3ZhdGlvbnxlbnwwfDB8fHwxNzcwODQyNDY0fDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "144": [
+            "https://images.unsplash.com/photo-1706087467451-5b8650301c17?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8ZWxlZ2FudCUyMHBvcnRyYWl0JTIwcHJvZmVzc2lvbmFsJTIwaGVhZHNob3QlMjByZWZpbmVkJTIwYnVzaW5lc3MlMjBhdHRpcmV8ZW58MHwwfHx8MTc3MDg0MjQ2NXww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1758630737361-ca7532fb5e7f?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8c3R5bGlzaCUyMGRlc2lnbmVyJTIwY3JlYXRpdmUlMjBwcm9mZXNzaW9uYWwlMjBtb2Rlcm4lMjB3b3Jrc3BhY2V8ZW58MHwwfHx8MTc3MDg0MjQ2NHww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1706087467451-5b8650301c17?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8ZXhlY3V0aXZlJTIwcG9ydHJhaXQlMjBDRU8lMjBoZWFkc2hvdCUyMHNvcGhpc3RpY2F0ZWQlMjBidXNpbmVzc3dvbWFufGVufDB8MHx8fDE3NzA4NDI0NjV8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "35": "https://images.unsplash.com/photo-1616671276441-2f2c277b8bf9?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8ZmluZSUyMGRpbmluZyUyMGNoZWZ8ZW58MHwwfHx8MTc3MDg0MjQ2Nnww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "47": "https://images.unsplash.com/photo-1768697358705-c1b60333da35?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8bHV4dXJ5JTIwZGluaW5nJTIwcmVzdGF1cmFudHxlbnwwfDB8fHwxNzcwODQyNDY2fDA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "86": "https://images.unsplash.com/photo-1759335514530-43ac3c515a72?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8ZWxlZ2FudCUyMGZvb2QlMjBwcmVzZW50YXRpb258ZW58MHwwfHx8MTc3MDg0MjQ2Nnww&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

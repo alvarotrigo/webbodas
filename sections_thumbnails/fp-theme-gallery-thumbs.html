@@ -1,0 +1,36 @@
+<section id="fp-theme-gallery-thumbs" class="min-h-screen flex items-center justify-center bg-themed-secondary">
+        <div class="fp-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <!-- Header Content -->
+          <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style="color: var(--primary-text); font-family: var(--heading-font);">
+              Product Showcase
+            </h2>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto" style="color: var(--secondary-text);">
+              Click any thumbnail below to view it in detail above.
+            </p>
+          </div>
+
+          <!-- Thumbnail Gallery -->
+          <div data-fp-anim-children="true" class="flex flex-col items-center space-y-6">
+            <div class="w-full max-w-4xl overflow-hidden" style="border-radius: var(--card-radius);">
+              <img loading="lazy" class="gallery-main-image w-full h-[500px] object-cover" src="./public/images/workspace.jpg" alt="Main gallery image">
+            </div>
+
+            <div data-fp-anim-children="true" class="gallery-thumbnail-container grid grid-cols-4 max-w-4xl gap-4 w-full">
+              <div class="overflow-hidden cursor-pointer hover:opacity-80 transition-opacity duration-200" style="border-radius: var(--card-radius);">
+                <img loading="lazy" src="./public/images/workspace.jpg" class="gallery-thumb w-full md:h-32 h-20 object-cover" alt="Workspace view">
+              </div>
+              <div class="overflow-hidden cursor-pointer hover:opacity-80 transition-opacity duration-200" style="border-radius: var(--card-radius);">
+                <img loading="lazy" src="./public/images/business-team.jpg" class="gallery-thumb w-full md:h-32 h-20 object-cover" alt="Team collaboration">
+              </div>
+              <div class="overflow-hidden cursor-pointer hover:opacity-80 transition-opacity duration-200" style="border-radius: var(--card-radius);">
+                <img loading="lazy" src="./public/images/nature-1.jpg" class="gallery-thumb w-full md:h-32 h-20 object-cover" alt="Nature scene">
+              </div>
+              <div class="overflow-hidden cursor-pointer hover:opacity-80 transition-opacity duration-200" style="border-radius: var(--card-radius);">
+                <img loading="lazy" src="./public/images/dark-tech-bg.jpg" class="gallery-thumb w-full md:h-32 h-20 object-cover" alt="Tech background">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>

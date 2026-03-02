@@ -1,0 +1,400 @@
+{
+    "id": "gym-2",
+    "name": "Iron Forge Strength Theme",
+    "description": "Create a bold website for a strength gym called “Iron Forge Gym”.\n\nConcept:\nSerious strength training, powerlifting, and bodybuilding.\n\nAudience:\nDedicated lifters and athletes.\n\nTone:\nDirect, intense, motivating.\n\nMain colors:\n- Black\n- Dark red\n- Steel gray\n- White text\n\nGoals:\nDrive membership signups.\n\nStructure:\n- Hero with strong statement headline\n- Gym philosophy\n- Equipment & facilities\n- Coaching programs\n- Member success stories\n- Pricing/membership plans\n- CTA to join\n\nDesign guidance:\n- Dark theme\n- High contrast\n- Strong typography\n- Industrial style visuals\n- Gritty gym imagery\n\nCopy guidance:\n- Short, punchy language\n- Motivational but not cliché\n- Focus on strength and discipline\n\nMake it feel raw and authentic.\nLike a real powerlifting gym website.",
+    "category": "custom",
+    "tags": [
+        "bold",
+        "intense",
+        "modern"
+    ],
+    "sections": [
+        47,
+        161,
+        97,
+        17,
+        28,
+        151,
+        170
+    ],
+    "theme": {
+        "name": "Iron Forge Strength Theme",
+        "variables": {
+            "primary-bg": "#000000",
+            "secondary-bg": "#2b2b2b",
+            "accent-bg": "#4d4d4d",
+            "primary-text": "#ffffff",
+            "secondary-text": "#cccccc",
+            "accent-text": "#eeeeee",
+            "primary-accent": "#b22222",
+            "primary-accent-soft": "rgba(178, 34, 34, 0.1)",
+            "secondary-accent": "#8b0000",
+            "border-color": "rgba(0, 0, 0, 0.15)",
+            "shadow-color": "rgba(0, 0, 0, 0.05)",
+            "shadow-sm": "0 2px 4px rgba(0, 0, 0, 0.08)",
+            "shadow-md": "0 6px 12px rgba(0, 0, 0, 0.12)",
+            "shadow-lg": "0 15px 25px rgba(0, 0, 0, 0.15)",
+            "card-shadow": "0 4px 12px rgba(0, 0, 0, 0.1)",
+            "card-shadow-hover": "0 12px 30px rgba(0, 0, 0, 0.15)",
+            "gradient-1": "linear-gradient(180deg, #2b2b2b 0%, #4d4d4d 100%)",
+            "gradient-2": "linear-gradient(180deg, #b22222 0%, #8b0000 100%)",
+            "features2-bg": "linear-gradient(180deg, #b22222 0%, #8b0000 100%)",
+            "button-on-gradient": "#ffffff",
+            "button-on-gradient-border": "rgba(255, 255, 255, 0.8)",
+            "font-family": "'Oswald', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "heading-font": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            "border-radius": "0px",
+            "button-radius": "0px",
+            "card-radius": "0px",
+            "spacing-unit": "1rem"
+        }
+    },
+    "fonts": {
+        "heading": {
+            "family": "Oswald",
+            "weights": [
+                600,
+                700
+            ]
+        },
+        "body": {
+            "family": "Inter",
+            "weights": [
+                400,
+                500
+            ]
+        },
+        "google_fonts_url": "https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500&display=swap"
+    },
+    "custom_css": {
+        "global": "",
+        "per_section": []
+    },
+    "content_hints": {
+        "17": {
+            "headline": "Real Results, Real People",
+            "testimonials": [
+                {
+                    "name": "Jake R.",
+                    "quote": "Iron Forge transformed my strength and my mindset. I’ve never felt more powerful."
+                },
+                {
+                    "name": "Maria S.",
+                    "quote": "The coaching here is next level. They push you to be your best."
+                }
+            ]
+        },
+        "28": {
+            "headline": "Membership Plans Designed for Serious Lifters",
+            "pricing_options": [
+                {
+                    "plan": "Monthly Membership",
+                    "price": "$49/month",
+                    "details": "Access to all gym facilities and group classes."
+                },
+                {
+                    "plan": "Annual Membership",
+                    "price": "$499/year",
+                    "details": "Best value with unlimited access and exclusive member perks."
+                }
+            ],
+            "cta_primary": "Choose Your Plan and Start Lifting"
+        },
+        "47": {
+            "headline": "Forge Your Strength at Iron Forge Gym",
+            "subheadline": "Where Powerlifting Meets Precision. Transform Your Body, Unleash Your Potential.",
+            "cta_primary": "Join the Forge Now",
+            "cta_secondary": "Start Your Strength Journey"
+        },
+        "97": {
+            "headline": "Why Train at Iron Forge Gym?",
+            "features": [
+                "State-of-the-art Powerlifting Equipment",
+                "Expert Coaching Tailored to Your Goals",
+                "A Community of Like-Minded Athletes",
+                "Intense Training Atmosphere",
+                "Results-Driven Programs for All Levels"
+            ]
+        },
+        "151": {
+            "headline": "Ready to Forge Your Strength?",
+            "cta_primary": "Join Iron Forge Gym Today",
+            "cta_secondary": "Start Your Transformation"
+        },
+        "161": {
+            "headline": "Our Mission: Strength Through Discipline",
+            "subheadline": "At Iron Forge Gym, we believe in the relentless pursuit of strength. We are dedicated to serious athletes ready to push their limits and build an unbreakable physique.",
+            "cta_primary": "Discover Our Philosophy"
+        },
+        "170": {
+            "contact_info": "Contact Us: info@ironforgegym.com | Phone: (555) 123-4567",
+            "trust_message": "Join a community built on grit, determination, and results."
+        }
+    },
+    "section_backgrounds": {
+        "17": {
+            "type": "image",
+            "keyword": "fitness success stories"
+        },
+        "28": {
+            "type": "color"
+        },
+        "47": {
+            "type": "image",
+            "keyword": "powerlifting gym"
+        },
+        "97": {
+            "type": "color"
+        },
+        "151": {
+            "type": "color"
+        },
+        "161": {
+            "type": "color"
+        },
+        "170": {
+            "type": "color"
+        }
+    },
+    "inline_image_keywords": {
+        "17": [
+            [
+                "powerlifter woman",
+                "strength training",
+                "gym portrait"
+            ],
+            [
+                "athlete portrait",
+                "intense focus",
+                "powerlifting"
+            ],
+            [
+                "fitness professional",
+                "gym leadership",
+                "motivational pose"
+            ]
+        ],
+        "161": [
+            [
+                "teamwork",
+                "strength training",
+                "athlete collaboration"
+            ],
+            [
+                "powerlifting",
+                "bodybuilding",
+                "gym community"
+            ]
+        ]
+    },
+    "style_brief_source": {
+        "colors": {
+            "background_style": "dark",
+            "primary_bg": "#000000",
+            "secondary_bg": "#2b2b2b",
+            "accent_bg": "#4d4d4d",
+            "primary_text": "#ffffff",
+            "secondary_text": "#cccccc",
+            "accent_text": "#eeeeee",
+            "primary_accent": "#b22222",
+            "secondary_accent": "#8b0000"
+        },
+        "typography": {
+            "heading_style": "bold-sans",
+            "body_style": "sans",
+            "letter_spacing": "normal",
+            "heading_font": {
+                "family": "Oswald",
+                "weights": [
+                    600,
+                    700
+                ]
+            },
+            "body_font": {
+                "family": "Inter",
+                "weights": [
+                    400,
+                    500
+                ]
+            }
+        },
+        "shapes": {
+            "border_radius": "sharp",
+            "border_radius_value": "0px",
+            "button_radius": "sharp",
+            "button_radius_value": "0px",
+            "card_radius": "sharp",
+            "card_radius_value": "0px",
+            "border_usage": "minimal",
+            "border_color_hint": "visible"
+        },
+        "shadows": {
+            "intensity": "moderate",
+            "card_shadow": "moderate",
+            "style": "elevated"
+        },
+        "gradients": {
+            "usage": "none",
+            "style": "none",
+            "direction": "180deg"
+        },
+        "spacing": {
+            "density": "compact",
+            "spacing_unit_hint": "1rem"
+        },
+        "layout": {
+            "alignment": "center",
+            "hero_style": "full-media"
+        },
+        "mood": [
+            "bold",
+            "intense",
+            "modern"
+        ],
+        "detected_sections": [
+            "hero centered",
+            "gym philosophy",
+            "equipment & facilities",
+            "coaching programs",
+            "member success stories",
+            "pricing/membership plans"
+        ]
+    },
+    "site_plan": {
+        "audience": "dedicated lifters and athletes",
+        "primary_goal": "drive membership signups",
+        "brand_vibe": [
+            "bold",
+            "intense",
+            "motivating",
+            "authentic"
+        ],
+        "content_tone": "direct and intense",
+        "key_differentiators": [
+            "serious strength training focus",
+            "powerlifting and bodybuilding specialization",
+            "gritty gym imagery",
+            "motivational coaching programs"
+        ],
+        "business_type": "local_business"
+    },
+    "created_at": "2026-02-11T20:48:20+00:00",
+    "text_updates": {
+        "17": {
+            "h2[0]": "Real Stories, Real Gains",
+            "p[0]": "Inspiring testimonials from our members who have transformed their strength and fitness at Iron Forge Gym.",
+            "h4[0]": "Jake Thompson",
+            "p[1]": "Dedicated Lifter",
+            "p[2]": "\"Iron Forge Gym pushed me beyond my limits. The community and coaching helped me achieve my first deadlift of 500 lbs.\"",
+            "h4[1]": "Laura Kim",
+            "p[3]": "Powerlifter",
+            "p[4]": "\"I came here for the equipment, but I stayed for the support. My squat has improved by 50 lbs in just three months!\"",
+            "h4[2]": "Mark Davis",
+            "p[5]": "Bodybuilder",
+            "p[6]": "\"The environment is relentless and motivating. I've transformed my physique and mindset since joining Iron Forge Gym.\""
+        },
+        "28": {
+            "h2[0]": "Join the Iron Forge Family",
+            "p[0]": "Select your plan and kickstart your journey with a no-risk trial. Experience the intensity of Iron Forge Gym firsthand.",
+            "a[0]": "Monthly",
+            "a[1]": "Yearly\n                Save 20%",
+            "span[0]": "Save 20%",
+            "h3[0]": "Basic",
+            "p[1]": "Perfect for newcomers ready to dive into serious training and build a solid foundation.",
+            "span[1]": "€63",
+            "span[2]": "/month",
+            "p[2]": "Billed annually (save €192)",
+            "li[0]": "50+ premium features",
+            "li[1]": "Personal training session",
+            "li[2]": "Weekly progress tracking",
+            "a[2]": "Try it free",
+            "div[10]": "Recommended",
+            "h3[1]": "Standard",
+            "p[3]": "Designed for committed athletes looking to elevate their performance with enhanced resources.",
+            "span[3]": "€119",
+            "span[4]": "/month",
+            "p[4]": "Billed annually (save €360)",
+            "li[3]": "50+ premium features",
+            "li[4]": "Group training sessions",
+            "li[5]": "Nutrition guidance",
+            "a[3]": "Try it free",
+            "h3[2]": "Elite",
+            "p[5]": "Tailored for serious lifters focused on maximizing their potential and reaching new heights.",
+            "span[5]": "€239",
+            "span[6]": "/month",
+            "p[6]": "Billed annually (save €720)",
+            "li[6]": "50+ premium features",
+            "li[7]": "Unlimited training sessions",
+            "li[8]": "Personalized coaching",
+            "a[4]": "Try it free"
+        },
+        "47": {
+            "h2[0]": "Unleash Your Inner Strength",
+            "p[0]": "At Iron Forge Gym, we cultivate power, determination, and a community of dedicated lifters. Join us to transform your strength training journey with an unwavering commitment to serious powerlifting and bodybuilding.",
+            "a[0]": "Join Now"
+        },
+        "97": {
+            "h2[0]": "Features That Fuel Your Passion",
+            "p[0]": "Explore cutting-edge facilities and top-tier equipment tailored specifically for serious athletes and dedicated lifters. Our gym is the ultimate space for those who want to push their limits and achieve their peak performance.",
+            "h3[0]": "Unmatched Equipment",
+            "p[1]": "Train with state-of-the-art machines and free weights designed for maximum effectiveness and durability.",
+            "h3[1]": "Tailored Training Zones",
+            "p[2]": "Experience training environments engineered for powerlifting and bodybuilding, allowing you to focus solely on your goals.",
+            "h3[2]": "Expert Coaching",
+            "p[3]": "Receive guidance from experienced coaches who understand the demands of serious training and are committed to helping you excel.",
+            "h3[3]": "Community Support",
+            "p[4]": "Join a network of like-minded individuals who share your passion for strength and discipline, pushing each other to succeed.",
+            "h3[4]": "Flexible Hours",
+            "p[5]": "Access the gym at hours that fit your schedule, ensuring you can train when it suits you best.",
+            "h3[5]": "Membership Options",
+            "p[6]": "Choose from a variety of plans that cater to your needs, from casual lifters to serious competitors."
+        },
+        "151": {
+            "h1[0]": "Take the First Step to Greatness",
+            "p[0]": "Transform your potential into power. Join a community where dedication meets results, and every lift counts. Experience unwavering support as you push your limits.",
+            "button[0]": "Start Now"
+        },
+        "161": {
+            "h2[0]": "Our Mission: Forge Champions",
+            "p[0]": "About Us",
+            "h3[0]": "Powerlifting Focused",
+            "p[1]": "We specialize in powerlifting and bodybuilding, offering a gritty atmosphere that reflects our commitment to serious training. Here, excellence is not just a goal; it's a way of life.",
+            "h3[1]": "Unmatched Facilities",
+            "p[2]": "Our gym is equipped with top-tier equipment tailored for serious lifters. Each piece is chosen to support your journey toward greatness, providing everything you need to push your limits.",
+            "h3[2]": "Expert Coaching",
+            "p[3]": "Our coaching programs are designed to empower you with knowledge and motivation. With experienced trainers by your side, you’ll gain the discipline to excel and the skills to conquer your goals.",
+            "h3[3]": "Join Our Community",
+            "p[4]": "Become part of a community that thrives on hard work and determination. Experience the camaraderie of fellow athletes who share your passion for lifting and personal growth.",
+            "a[0]": "Join Us Now",
+            "p[5]": "Mirrors our Focus on Client Satisfaction"
+        },
+        "170": {
+            "span[0]": "Community & Trust",
+            "li[0]": "About Us",
+            "a[1]": "About Us",
+            "li[1]": "Privacy Notice",
+            "a[2]": "Privacy Notice",
+            "li[2]": "Licensing Info",
+            "a[3]": "Licensing Info",
+            "li[3]": "Reach Out",
+            "a[4]": "Reach Out",
+            "span[1]": "© 2024 Iron Forge Gym. All Rights Reserved.",
+            "a[5]": "Iron Forge Gym™",
+            "a[0]": "Innovate"
+        }
+    },
+    "inline_images": {
+        "17": [
+            "https://images.unsplash.com/photo-1552848031-326ec03fe2ec?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8cG93ZXJsaWZ0ZXIlMjB3b21hbiUyMHN0cmVuZ3RoJTIwdHJhaW5pbmclMjBneW0lMjBwb3J0cmFpdHxlbnwwfDB8fHwxNzcwODQyOTIxfDA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1697019921955-51a39f0fc354?ixid=M3wyMjM3fDB8MXxzZWFyY2h8Mnx8YXRobGV0ZSUyMHBvcnRyYWl0JTIwaW50ZW5zZSUyMGZvY3VzJTIwcG93ZXJsaWZ0aW5nfGVufDB8MHx8fDE3NzA4NDI5MjF8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format",
+            "https://images.unsplash.com/photo-1666183701139-2dd760d462df?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8Zml0bmVzcyUyMHByb2Zlc3Npb25hbCUyMGd5bSUyMGxlYWRlcnNoaXAlMjBtb3RpdmF0aW9uYWwlMjBwb3NlfGVufDB8MHx8fDE3NzA4NDI5MjF8MA&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ],
+        "161": [
+            "https://images.unsplash.com/photo-1699464676210-48cd0449df42?ixid=M3wyMjM3fDB8MXxzZWFyY2h8M3x8dGVhbXdvcmslMjBzdHJlbmd0aCUyMHRyYWluaW5nJTIwYXRobGV0ZSUyMGNvbGxhYm9yYXRpb258ZW58MHwwfHx8MTc3MDg0MjkyMnww&ixlib=rb-4.1.0&w=800&h=600&fit=crop&auto=format"
+        ]
+    },
+    "section_background_images": {
+        "17": "https://images.unsplash.com/photo-1674834726923-3ba828d37846?ixid=M3wyMjM3fDB8MXxzZWFyY2h8NXx8Zml0bmVzcyUyMHN1Y2Nlc3MlMjBzdG9yaWVzfGVufDB8MHx8fDE3NzA4NDI5MjN8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format",
+        "47": "https://images.unsplash.com/photo-1562535717-c8f6e9eae128?ixid=M3wyMjM3fDB8MXxzZWFyY2h8MXx8cG93ZXJsaWZ0aW5nJTIwZ3ltfGVufDB8MHx8fDE3NzA4NDI5MjN8MA&ixlib=rb-4.1.0&w=1920&h=1080&fit=crop&auto=format"
+    }
+}

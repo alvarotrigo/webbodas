@@ -1,0 +1,2495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Template Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f9;
+            color: #1a1a1a;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 2rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 32px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .panel {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #e2e2e8;
+        }
+        
+        .panel h2 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d0d0d5;
+            font-size: 15px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #d0d0d5;
+            font-size: 15px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #d0d0d5;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fafafa;
+        }
+        
+        .upload-area:hover {
+            border-color: #1f5eff;
+            background: #f0f5ff;
+        }
+        
+        .upload-area.dragover {
+            border-color: #1f5eff;
+            background: #e6f0ff;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            color: #999;
+        }
+        
+        .upload-text {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .upload-hint {
+            font-size: 13px;
+            color: #999;
+        }
+        
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .image-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e2e8;
+        }
+        
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .remove-image {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            padding: 0;
+        }
+        
+        .remove-image:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        button {
+            background: #1f5eff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        button:hover:not(:disabled) {
+            background: #1a4fcc;
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        button.secondary {
+            background: #6c757d;
+        }
+        
+        button.secondary:hover:not(:disabled) {
+            background: #5a6268;
+        }
+        
+        button.success {
+            background: #28a745;
+        }
+        
+        button.success:hover:not(:disabled) {
+            background: #218838;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .style-brief {
+            display: none;
+        }
+        
+        .style-brief.visible {
+            display: block;
+        }
+        
+        .brief-section {
+            margin-bottom: 20px;
+        }
+        
+        .brief-section h3 {
+            font-size: 1rem;
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+        
+        .color-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .color-name {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 2px;
+        }
+        
+        .color-value {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #333;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tag {
+            padding: 4px 12px;
+            background: #e6f0ff;
+            color: #1f5eff;
+            border-radius: 16px;
+            font-size: 0.85rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            gap: 8px;
+        }
+        
+        .info-item {
+            display: flex;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .info-label {
+            font-weight: 500;
+            min-width: 140px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .info-value {
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        .output {
+            display: none;
+        }
+        
+        .output.visible {
+            display: block;
+        }
+        
+        .preview-container {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #e2e2e8;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .preview-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e2e2e8;
+        }
+        
+        .preview-toolbar-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #666;
+            margin-right: 8px;
+        }
+        
+        .device-button {
+            padding: 6px 12px;
+            border: 1px solid #d0d0d5;
+            background: #fff;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .device-button:hover {
+            background: #f0f0f5;
+            border-color: #1f5eff;
+        }
+        
+        .device-button.active {
+            background: #1f5eff;
+            color: #fff;
+            border-color: #1f5eff;
+        }
+        
+        .preview-iframe-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            background: #e5e5e5;
+            transition: all 0.3s ease;
+            overflow: auto;
+        }
+        
+        .preview-iframe {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+        
+        .preview-iframe.mobile {
+            width: 375px;
+            height: 667px;
+        }
+        
+        .preview-iframe.tablet {
+            width: 768px;
+            height: 1024px;
+        }
+        
+        .preview-iframe.desktop {
+            width: 100%;
+            height: 600px;
+            max-width: 100%;
+        }
+        
+        .json-output {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e2e8;
+            max-height: 400px;
+            overflow: auto;
+        }
+        
+        .json-output pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 13px;
+            line-height: 1.5;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .collapsible-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            padding: 8px;
+            margin: -8px -8px 12px -8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        
+        .collapsible-header:hover {
+            background: #f8f9fa;
+        }
+        
+        .collapsible-header h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .collapsible-content.expanded {
+            max-height: 500px;
+        }
+        
+        .status {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #1f5eff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        .spinner-large {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1f5eff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .preview-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            padding: 60px 20px;
+            text-align: center;
+            background: var(--secondary-bg, #f4f4f7);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #fileInput {
+            display: none;
+        }
+
+        /* ── Theme Picker & Preview ── */
+        .theme-preview-panel {
+            margin-bottom: 24px;
+        }
+
+        .theme-preview-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 24px;
+            min-height: 500px;
+        }
+
+        .theme-picker {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .theme-picker-header {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .theme-picker-header label {
+            margin-bottom: 0;
+            font-weight: 600;
+        }
+
+        .theme-picker-hint {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .theme-picker-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 460px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .theme-picker-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .theme-picker-grid::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .theme-picker-grid::-webkit-scrollbar-thumb {
+            background: #d0d0d5;
+            border-radius: 3px;
+        }
+
+        .tp-card {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 10px;
+            border: 2px solid #e2e2e8;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: #fff;
+            position: relative;
+        }
+
+        .tp-card:hover {
+            border-color: #b0b0b8;
+        }
+
+        .tp-card.selected {
+            border-color: #1f5eff;
+            box-shadow: 0 0 0 3px rgba(31, 94, 255, 0.15);
+        }
+
+        .tp-card-colors {
+            display: flex;
+            gap: 0;
+            border-radius: 6px;
+            overflow: hidden;
+            height: 36px;
+        }
+
+        .tp-card-colors span {
+            flex: 1;
+            display: block;
+        }
+
+        .tp-card-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .tp-card-check {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 22px;
+            height: 22px;
+            background: #1f5eff;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tp-card.selected .tp-card-check {
+            display: flex;
+        }
+
+        .tp-card-check svg {
+            width: 14px;
+            height: 14px;
+            stroke: #fff;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .theme-preview-area {
+            border: 1px solid #e2e2e8;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #e5e5e5;
+            position: relative;
+        }
+
+        .theme-preview-area-label {
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #666;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e2e2e8;
+        }
+
+        .theme-preview-iframe {
+            width: 100%;
+            height: 460px;
+            border: none;
+            display: block;
+        }
+
+        .tp-none-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 2px dashed #d0d0d5;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: #fafafa;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .tp-none-card:hover {
+            border-color: #b0b0b8;
+            color: #666;
+        }
+
+        .tp-none-card.selected {
+            border-color: #1f5eff;
+            border-style: solid;
+            color: #1f5eff;
+            background: #f0f5ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Template Generator</h1>
+        <p class="subtitle">Generate complete landing page templates from reference images and descriptions</p>
+        
+        <div style="margin-bottom: 24px;">
+            <a href="browser.html" class="secondary" style="display: inline-block; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: 500;">View Saved Templates →</a>
+        </div>
+        
+        <!-- Main Generator View -->
+        <div id="generatorView">
+        <div class="grid">
+            <!-- Input Panel -->
+            <div class="panel">
+                <h2>1. Input</h2>
+                
+                <div class="form-group">
+                    <label for="description">Template Description</label>
+                    <textarea
+                        id="description"
+                        placeholder="E.g., Landing page for a fitness app with bold colors and modern design"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;">
+                        <input type="checkbox" id="includeHiddenSections" style="width: auto; cursor: pointer;">
+                        <span style="font-weight: 400;">Include hidden sections (advanced)</span>
+                    </label>
+                    <div style="font-size: 0.85rem; color: #666; margin-top: 6px; margin-left: 28px;">
+                        By default, sections marked as hidden won't be available for AI generation. Enable this to include them.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Reference Images (optional, up to 4)</label>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📸</div>
+                        <div class="upload-text">Drop images here, click to upload, or paste</div>
+                        <div class="upload-hint">Upload screenshots of websites you want to match the style</div>
+                    </div>
+                    <input type="file" id="fileInput" multiple accept="image/*" max="4">
+                    <div class="image-preview-grid" id="imagePreviewGrid"></div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="generateBtn">Generate Template</button>
+                </div>
+            </div>
+            
+            <!-- Style Brief Panel -->
+            <div class="panel style-brief" id="styleBriefPanel">
+                <h2>Style Brief</h2>
+                <div id="styleBriefContent"></div>
+            </div>
+        </div>
+        
+        <!-- Theme & Preview Panel -->
+        <div class="panel full-width theme-preview-panel" id="themePreviewPanel">
+            <h2>2. Color Theme</h2>
+            <div class="theme-preview-layout">
+                <div class="theme-picker">
+                    <div class="theme-picker-header">
+                        <label>Select a theme</label>
+                        <span class="theme-picker-hint">or let AI choose</span>
+                    </div>
+                    <div class="tp-none-card selected" id="themeNoneCard">
+                        <span>🤖</span>
+                        <span>Auto (AI-generated theme)</span>
+                    </div>
+                    <div class="theme-picker-grid" id="themePickerGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <div class="theme-preview-area">
+                    <div class="theme-preview-area-label">Preview sections</div>
+                    <iframe id="themePreviewIframe" class="theme-preview-iframe"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Panel -->
+        <div class="panel output full-width" id="outputPanel">
+            <h2>3. Generated Template</h2>
+
+            
+            <div id="statusMessage"></div>
+            
+            <div class="form-group">
+                <label for="templateName">Template Name/Filename</label>
+                <input 
+                    type="text" 
+                    id="templateName" 
+                    placeholder="e.g., fitness-app-landing"
+                    style="font-family: 'Courier New', monospace;"
+                >
+                <div style="font-size: 0.85rem; color: #666; margin-top: 6px;">
+                    This will be used as the filename (with .json extension). Use lowercase letters, numbers, and hyphens only.
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="feedbackText">Feedback for Retry (optional)</label>
+                <textarea 
+                    id="feedbackText" 
+                    placeholder="E.g., Make it more minimal, use fewer sections, add a pricing section"
+                    style="min-height: 80px;"
+                ></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button id="retryBtn" class="secondary">Retry with Feedback</button>
+                <button id="saveBtn" class="success">Save Template</button>
+            </div>
+            
+            <div style="margin-top: 24px;">
+                <h3>Live Preview</h3>
+                <div class="preview-container">
+                    <div class="preview-toolbar">
+                        <span class="preview-toolbar-label">Viewport:</span>
+                        <button class="device-button active" data-device="desktop" id="desktopBtn">Desktop</button>
+                        <button class="device-button" data-device="tablet" id="tabletBtn">Tablet</button>
+                        <button class="device-button" data-device="mobile" id="mobileBtn">Mobile</button>
+                    </div>
+                    <div class="preview-iframe-wrapper">
+                        <iframe id="previewIframe" class="preview-iframe desktop"></iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="collapsible-header" onclick="toggleCollapsible('jsonCollapsible')">
+                    <h3>Template JSON</h3>
+                    <span id="jsonToggle">▼</span>
+                </div>
+                <div class="collapsible-content" id="jsonCollapsible">
+                    <div class="json-output">
+                        <pre id="jsonOutput"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- End Generator View -->
+    </div>
+    
+    <script>
+        // State
+        let uploadedImages = [];
+        let currentStyleBrief = null;
+        let currentTemplate = null;
+        let selectedThemeId = null; // null = AI auto
+
+        // Available themes (same as editor)
+        const themes = [
+            { id: 'theme-light-minimal', name: 'Light Minimal', colors: ['#ffffff', '#fafafa', '#5fd9c2', '#34bfa1', '#e5e5e5'] },
+            { id: 'theme-dark-modern', name: 'Dark Modern', colors: ['#0a0a0f', '#1a1f2e', '#8b5cf6', '#7c3aed', '#242b3d'] },
+            { id: 'theme-corporate-clean', name: 'Corporate Clean', colors: ['#ffffff', '#f3f6fa', '#2563eb', '#1e4bb8', '#c5d1df'] },
+            { id: 'theme-playful-colorful', name: 'Playful Colorful', colors: ['#fef7f0', '#fff4e6', '#f97316', '#ea580c', '#fed7aa'] },
+            { id: 'theme-elegant-serif', name: 'Elegant Serif', colors: ['#fdfcf8', '#f8f6f0', '#8b4513', '#a0522d', '#e5ddd1'] },
+            { id: 'theme-wellness-calm', name: 'Wellness Calm', colors: ['#f8fafc', '#f0fdf4', '#34d399', '#059669', '#bbf7d0'] },
+            { id: 'theme-floral-bliss', name: 'Floral Bliss', colors: ['#fff7fb', '#fdf2f8', '#ec4899', '#db2777', '#fbcfe8'] },
+            { id: 'theme-ocean-breeze', name: 'Ocean Breeze', colors: ['#f0f9ff', '#ecfeff', '#06b6d4', '#0284c7', '#bae6fd'] },
+            { id: 'theme-health-trust', name: 'Health Trust', colors: ['#ffffff', '#f1f5f9', '#0ea5e9', '#0284c7', '#cbd5e1'] },
+            { id: 'theme-luxury-gold', name: 'Luxury Gold', colors: ['#0f1115', '#1a1d24', '#d4af37', '#b88a1e', '#2a2e36'] },
+            { id: 'theme-retro-pop', name: 'Retro Pop', colors: ['#fffbea', '#e0f2fe', '#ef4444', '#f59e0b', '#fbcfe8'] },
+            { id: 'theme-earthy-organic', name: 'Earthy Organic', colors: ['#faf7f2', '#f1ede6', '#6b8e23', '#3f7a3b', '#e4dccf'] },
+            { id: 'theme-tech-neon', name: 'Tech Neon', colors: ['#0b0b0e', '#0f172a', '#22d3ee', '#f472b6', '#0a1020'] },
+            { id: 'theme-desert-sand', name: 'Desert Sand', colors: ['#faf7f2', '#f4efe8', '#c49a6c', '#a67c52', '#e0d6c8'] },
+            { id: 'theme-bold-monochrome', name: 'Bold Monochrome', colors: ['#ffffff', '#f5f5f5', '#000000', '#555555', '#cccccc'] },
+            { id: 'theme-sunset-gradient', name: 'Sunset Gradient', colors: ['#fff7f5', '#ffeaea', '#ff7f50', '#ff1493', '#ffd1d1'] },
+            { id: 'theme-cyber-grid', name: 'Cyber Grid', colors: ['#0a0d12', '#0f141a', '#22d3ee', '#06b6d4', '#131a21'] },
+            { id: 'theme-candy-shop', name: 'Candy Shop', colors: ['#fff9f9', '#fff0f6', '#ff66b3', '#66ccff', '#ffe0eb'] },
+            { id: 'theme-soft-pastel-saas', name: 'Warm Modern Learning', colors: ['#fdf8f3', '#fff5eb', '#ff6b5a', '#e8513f', '#ede4db'] },
+            { id: 'theme-dreamy-blush', name: 'Dreamy Blush', colors: ['#fff9fd', '#ffe8f5', '#d946ef', '#c026d3', '#f8d7f0'] },
+            { id: 'theme-dark-crimson', name: 'Dark Crimson', colors: ['#0a0a0a', '#1a1414', '#df2531', '#ff4444', '#2a1f1f'] },
+            { id: 'theme-tropical-jade', name: 'Tropical Jade', colors: ['#ffffff', '#f0fafa', '#23ced9', '#097c87', '#fca47c'] },
+            { id: 'theme-neon-pink-midnight', name: 'Neon Pink Midnight', colors: ['#0d0d0d', '#1a0f1a', '#ff2b9f', '#ff66b8', '#2a1a2a'] },
+            { id: 'theme-matrix-code', name: 'Matrix Code', colors: ['#0a0a0a', '#0f1f0f', '#00ff88', '#00e676', '#1a2a1a'] },
+            { id: 'theme-peach-mint-delight', name: 'Peach Mint Delight', colors: ['#fefdfb', '#fff8f0', '#ffa366', '#66d9b3', '#ffe8d6'] }
+        ];
+
+        // Sections to show in theme preview (diverse mix)
+        const previewSections = [
+            { id: 1, file: 'fp-theme-hero.html' },
+            { id: 15, file: 'fp-theme-features.html' },
+            { id: 6, file: 'fp-theme-customer-testimonial.html' },
+            { id: 7, file: 'fp-theme-how-it-works.html' },
+            { id: 30, file: 'fp-theme-pricing-4.html' },
+            { id: 37, file: 'fp-theme-numbers.html' },
+            { id: 34, file: 'fp-theme-team.html' },
+            { id: 36, file: 'fp-theme-faqs.html' },
+            { id: 149, file: 'fp-theme-cta-1.html' },
+            { id: 159, file: 'fp-theme-footer.html' }
+        ];
+        
+        // DOM Elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const imagePreviewGrid = document.getElementById('imagePreviewGrid');
+        const generateBtn = document.getElementById('generateBtn');
+        const retryBtn = document.getElementById('retryBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const descriptionInput = document.getElementById('description');
+        const feedbackText = document.getElementById('feedbackText');
+        const templateNameInput = document.getElementById('templateName');
+        const includeHiddenSectionsCheckbox = document.getElementById('includeHiddenSections');
+        const styleBriefPanel = document.getElementById('styleBriefPanel');
+        const styleBriefContent = document.getElementById('styleBriefContent');
+        const outputPanel = document.getElementById('outputPanel');
+        const statusMessage = document.getElementById('statusMessage');
+        const jsonOutput = document.getElementById('jsonOutput');
+        const previewIframe = document.getElementById('previewIframe');
+        const desktopBtn = document.getElementById('desktopBtn');
+        const tabletBtn = document.getElementById('tabletBtn');
+        const mobileBtn = document.getElementById('mobileBtn');
+        
+        // ── Theme Picker ──
+        const themePickerGrid = document.getElementById('themePickerGrid');
+        const themeNoneCard = document.getElementById('themeNoneCard');
+        const themePreviewIframe = document.getElementById('themePreviewIframe');
+
+        function renderThemePicker() {
+            themePickerGrid.innerHTML = '';
+            themes.forEach(theme => {
+                const card = document.createElement('div');
+                card.className = 'tp-card';
+                card.dataset.themeId = theme.id;
+
+                const colorsDiv = document.createElement('div');
+                colorsDiv.className = 'tp-card-colors';
+                theme.colors.forEach(c => {
+                    const swatch = document.createElement('span');
+                    swatch.style.backgroundColor = c;
+                    colorsDiv.appendChild(swatch);
+                });
+
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'tp-card-name';
+                nameDiv.textContent = theme.name;
+
+                const check = document.createElement('div');
+                check.className = 'tp-card-check';
+                check.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+
+                card.appendChild(colorsDiv);
+                card.appendChild(nameDiv);
+                card.appendChild(check);
+
+                card.addEventListener('click', () => selectTheme(theme.id));
+                themePickerGrid.appendChild(card);
+            });
+        }
+
+        function selectTheme(themeId) {
+            selectedThemeId = themeId;
+
+            // Update UI - deselect all, select clicked
+            themeNoneCard.classList.remove('selected');
+            themePickerGrid.querySelectorAll('.tp-card').forEach(c => c.classList.remove('selected'));
+
+            if (themeId) {
+                const card = themePickerGrid.querySelector(`[data-theme-id="${themeId}"]`);
+                if (card) card.classList.add('selected');
+            } else {
+                themeNoneCard.classList.add('selected');
+            }
+
+            // Update preview iframe theme class
+            applyThemeToPreview(themeId);
+        }
+
+        themeNoneCard.addEventListener('click', () => selectTheme(null));
+
+        function applyThemeToPreview(themeId) {
+            try {
+                const iframeDoc = themePreviewIframe.contentDocument || themePreviewIframe.contentWindow.document;
+                if (iframeDoc && iframeDoc.body) {
+                    // Remove all theme-* classes
+                    const classes = Array.from(iframeDoc.body.classList);
+                    classes.forEach(cls => {
+                        if (cls.startsWith('theme-')) iframeDoc.body.classList.remove(cls);
+                    });
+                    // Add selected theme class (or default)
+                    iframeDoc.body.classList.add(themeId || 'theme-light-minimal');
+                }
+            } catch (e) {
+                // Iframe not ready yet, ignore
+            }
+        }
+
+        async function loadThemePreview() {
+            // Fetch all section HTML files in parallel
+            const htmlParts = await Promise.all(
+                previewSections.map(async (s) => {
+                    try {
+                        const res = await fetch(`../sections_thumbnails/${s.file}`);
+                        if (!res.ok) return '';
+                        return await res.text();
+                    } catch {
+                        return '';
+                    }
+                })
+            );
+
+            const combinedHtml = htmlParts.filter(Boolean).join('\n');
+            const defaultTheme = selectedThemeId || 'theme-light-minimal';
+
+            const doc = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="../public/css/sections.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; }
+    </style>
+</head>
+<body class="${defaultTheme}">
+    ${combinedHtml}
+</body>
+</html>`;
+
+            themePreviewIframe.srcdoc = doc;
+        }
+
+        // Init theme picker
+        renderThemePicker();
+        loadThemePreview();
+
+        // Device Preview Switching
+        let currentDevice = 'desktop';
+        
+        function switchDevice(device) {
+            currentDevice = device;
+            
+            // Update button states
+            [desktopBtn, tabletBtn, mobileBtn].forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (device === 'desktop') {
+                desktopBtn.classList.add('active');
+            } else if (device === 'tablet') {
+                tabletBtn.classList.add('active');
+            } else if (device === 'mobile') {
+                mobileBtn.classList.add('active');
+            }
+            
+            // Update iframe classes
+            previewIframe.className = `preview-iframe ${device}`;
+            
+            // If we have a template loaded, reload it with the new viewport
+            if (currentTemplate) {
+                updatePreview(currentTemplate);
+            } else {
+                // Try to update viewport in existing iframe content
+                try {
+                    const iframeDoc = previewIframe.contentDocument || previewIframe.contentWindow.document;
+                    if (iframeDoc && iframeDoc.readyState === 'complete') {
+                        let viewport = iframeDoc.querySelector('meta[name="viewport"]');
+                        if (!viewport) {
+                            viewport = iframeDoc.createElement('meta');
+                            viewport.name = 'viewport';
+                            iframeDoc.head.appendChild(viewport);
+                        }
+                        
+                        if (device === 'mobile') {
+                            viewport.content = 'width=375, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+                        } else if (device === 'tablet') {
+                            viewport.content = 'width=768, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+                        } else {
+                            viewport.content = 'width=device-width, initial-scale=1.0';
+                        }
+                    }
+                } catch (e) {
+                    // Cross-origin or not loaded yet, ignore
+                }
+            }
+        }
+        
+        desktopBtn.addEventListener('click', () => switchDevice('desktop'));
+        tabletBtn.addEventListener('click', () => switchDevice('tablet'));
+        mobileBtn.addEventListener('click', () => switchDevice('mobile'));
+        
+        // Upload Area Events
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+        
+        // Paste Event Listener
+        document.addEventListener('paste', (e) => {
+            const items = e.clipboardData?.items;
+            if (!items) return;
+            
+            const imageFiles = [];
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.startsWith('image/')) {
+                    const file = items[i].getAsFile();
+                    if (file) {
+                        imageFiles.push(file);
+                    }
+                }
+            }
+            
+            if (imageFiles.length > 0) {
+                e.preventDefault();
+                handleFiles(imageFiles);
+                
+                // Visual feedback
+                uploadArea.style.background = '#e6f0ff';
+                uploadArea.style.borderColor = '#1f5eff';
+                setTimeout(() => {
+                    uploadArea.style.background = '';
+                    uploadArea.style.borderColor = '';
+                }, 300);
+            }
+        });
+        
+        function handleFiles(files) {
+            const fileArray = Array.from(files).slice(0, 4 - uploadedImages.length);
+            
+            fileArray.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        uploadedImages.push({
+                            dataUrl: e.target.result,
+                            base64: e.target.result.split(',')[1]
+                        });
+                        renderImagePreviews();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        function renderImagePreviews() {
+            imagePreviewGrid.innerHTML = '';
+            uploadedImages.forEach((img, index) => {
+                const div = document.createElement('div');
+                div.className = 'image-preview-item';
+                div.innerHTML = `
+                    <img src="${img.dataUrl}" alt="Preview ${index + 1}">
+                    <button class="remove-image" onclick="removeImage(${index})">×</button>
+                `;
+                imagePreviewGrid.appendChild(div);
+            });
+        }
+        
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            renderImagePreviews();
+        }
+        
+        function toggleCollapsible(id) {
+            const content = document.getElementById(id);
+            const toggle = document.getElementById(id.replace('Collapsible', 'Toggle'));
+            content.classList.toggle('expanded');
+            toggle.textContent = content.classList.contains('expanded') ? '▲' : '▼';
+        }
+        
+        function showStatus(message, type = 'info') {
+            statusMessage.className = `status ${type}`;
+            statusMessage.innerHTML = message;
+            statusMessage.style.display = 'block';
+        }
+        
+        function hideStatus() {
+            statusMessage.style.display = 'none';
+        }
+        
+        function renderStyleBrief(brief) {
+            const colors = brief.colors || {};
+            const typography = brief.typography || {};
+            const shapes = brief.shapes || {};
+            const shadows = brief.shadows || {};
+            const mood = brief.mood || [];
+            const detectedSections = brief.detected_sections || [];
+            
+            let html = '';
+            
+            // Colors
+            html += '<div class="brief-section"><h3>Colors</h3>';
+
+            // Add background style if present
+            if (colors.background_style) {
+                html += `<div style="margin-bottom: 12px; padding: 8px; background: #f8f9fa; border-radius: 6px;"><span style="font-weight: 500;">Background Style:</span> ${colors.background_style}</div>`;
+            }
+
+            html += '<div class="color-grid">';
+            const colorKeys = ['primary_bg', 'secondary_bg', 'accent_bg', 'primary_text', 'secondary_text', 'accent_text', 'primary_accent', 'secondary_accent'];
+            colorKeys.forEach(key => {
+                if (colors[key]) {
+                    const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    html += `
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: ${colors[key]}"></div>
+                            <div class="color-info">
+                                <div class="color-name">${label}</div>
+                                <div class="color-value">${colors[key]}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            // Border color - map hint to actual CSS value used
+            if (shapes.border_color_hint) {
+                const borderColorMap = { transparent: 'transparent', subtle: 'rgba(0,0,0,0.1)', visible: 'rgba(0,0,0,0.15)' };
+                const cssValue = borderColorMap[shapes.border_color_hint] || shapes.border_color_hint;
+                const isTransparent = shapes.border_color_hint === 'transparent';
+                const swatchStyle = isTransparent
+                    ? 'background: repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 50%/16px 16px'
+                    : `background: ${cssValue}`;
+                html += `
+                    <div class="color-item">
+                        <div class="color-swatch" style="${swatchStyle}"></div>
+                        <div class="color-info">
+                            <div class="color-name">Border Color</div>
+                            <div class="color-value">${cssValue}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += '</div></div>';
+            
+            // Typography
+            html += '<div class="brief-section"><h3>Typography</h3><div class="info-grid">';
+            if (typography.heading_style) {
+                html += `<div class="info-item"><span class="info-label">Heading Style:</span><span class="info-value">${typography.heading_style}</span></div>`;
+            }
+            if (typography.body_style) {
+                html += `<div class="info-item"><span class="info-label">Body Style:</span><span class="info-value">${typography.body_style}</span></div>`;
+            }
+            if (typography.heading_font) {
+                const headingWeights = typography.heading_font.weights ? ` (${typography.heading_font.weights.join(', ')})` : '';
+                html += `<div class="info-item"><span class="info-label">Heading Font:</span><span class="info-value">${typography.heading_font.family}${headingWeights}</span></div>`;
+            }
+            if (typography.body_font) {
+                const bodyWeights = typography.body_font.weights ? ` (${typography.body_font.weights.join(', ')})` : '';
+                html += `<div class="info-item"><span class="info-label">Body Font:</span><span class="info-value">${typography.body_font.family}${bodyWeights}</span></div>`;
+            }
+            // Backward compatibility: still show suggested_fonts if present (for old style briefs)
+            if (typography.suggested_fonts && typography.suggested_fonts.length && !typography.heading_font) {
+                html += `<div class="info-item"><span class="info-label">Suggested Fonts:</span><span class="info-value">${typography.suggested_fonts.join(', ')}</span></div>`;
+            }
+            html += '</div></div>';
+            
+            // Shapes & Shadows
+            html += '<div class="brief-section"><h3>Shapes & Shadows</h3><div class="info-grid">';
+            if (shapes.border_radius) {
+                const brValue = shapes.border_radius_value ? ` (${shapes.border_radius_value})` : '';
+                html += `<div class="info-item"><span class="info-label">Border Radius:</span><span class="info-value">${shapes.border_radius}${brValue}</span></div>`;
+            }
+            if (shapes.card_radius) {
+                const crValue = shapes.card_radius_value ? ` (${shapes.card_radius_value})` : '';
+                html += `<div class="info-item"><span class="info-label">Card Radius:</span><span class="info-value">${shapes.card_radius}${crValue}</span></div>`;
+            }
+            if (shapes.button_radius) {
+                const btnValue = shapes.button_radius_value ? ` (${shapes.button_radius_value})` : '';
+                html += `<div class="info-item"><span class="info-label">Button Radius:</span><span class="info-value">${shapes.button_radius}${btnValue}</span></div>`;
+            }
+            if (shapes.border_usage) {
+                html += `<div class="info-item"><span class="info-label">Border Usage:</span><span class="info-value">${shapes.border_usage}</span></div>`;
+            }
+            if (shadows.intensity) {
+                html += `<div class="info-item"><span class="info-label">Shadow Intensity:</span><span class="info-value">${shadows.intensity}</span></div>`;
+            }
+            if (shadows.card_shadow) {
+                html += `<div class="info-item"><span class="info-label">Card Shadow:</span><span class="info-value">${shadows.card_shadow}</span></div>`;
+            }
+            if (shadows.style) {
+                html += `<div class="info-item"><span class="info-label">Shadow Style:</span><span class="info-value">${shadows.style}</span></div>`;
+            }
+            html += '</div></div>';
+
+            // Gradients
+            const gradients = brief.gradients || {};
+            if (gradients.usage || gradients.style || gradients.direction) {
+                html += '<div class="brief-section"><h3>Gradients</h3><div class="info-grid">';
+                if (gradients.usage) {
+                    html += `<div class="info-item"><span class="info-label">Usage:</span><span class="info-value">${gradients.usage}</span></div>`;
+                }
+                if (gradients.style) {
+                    html += `<div class="info-item"><span class="info-label">Style:</span><span class="info-value">${gradients.style}</span></div>`;
+                }
+                if (gradients.direction) {
+                    html += `<div class="info-item"><span class="info-label">Direction:</span><span class="info-value">${gradients.direction}</span></div>`;
+                }
+                html += '</div></div>';
+            }
+
+            // Spacing & Layout
+            const spacing = brief.spacing || {};
+            const layout = brief.layout || {};
+            if (spacing.density || spacing.spacing_unit_hint || layout.alignment || layout.hero_style) {
+                html += '<div class="brief-section"><h3>Spacing & Layout</h3><div class="info-grid">';
+                if (spacing.density) {
+                    html += `<div class="info-item"><span class="info-label">Density:</span><span class="info-value">${spacing.density}</span></div>`;
+                }
+                if (spacing.spacing_unit_hint) {
+                    html += `<div class="info-item"><span class="info-label">Spacing Unit:</span><span class="info-value">${spacing.spacing_unit_hint}</span></div>`;
+                }
+                if (layout.alignment) {
+                    html += `<div class="info-item"><span class="info-label">Alignment:</span><span class="info-value">${layout.alignment}</span></div>`;
+                }
+                if (layout.hero_style) {
+                    html += `<div class="info-item"><span class="info-label">Hero Style:</span><span class="info-value">${layout.hero_style}</span></div>`;
+                }
+                html += '</div></div>';
+            }
+
+            // Mood
+            if (mood.length) {
+                html += '<div class="brief-section"><h3>Mood</h3><div class="tag-list">';
+                mood.forEach(tag => {
+                    html += `<span class="tag">${tag}</span>`;
+                });
+                html += '</div></div>';
+            }
+            
+            // Detected Sections
+            if (detectedSections.length) {
+                html += '<div class="brief-section"><h3>Detected Sections</h3><div class="tag-list">';
+                detectedSections.forEach(section => {
+                    html += `<span class="tag">${section}</span>`;
+                });
+                html += '</div></div>';
+            }
+            
+            styleBriefContent.innerHTML = html;
+        }
+        
+        async function analyzeStyle() {
+            const hasImages = uploadedImages.length > 0;
+            const description = descriptionInput.value.trim();
+
+            if (!hasImages && !description) {
+                throw new Error('Please provide either a description or reference images');
+            }
+
+            if (hasImages) {
+                showStatus('<span class="spinner"></span>Analyzing reference images...', 'info');
+            } else {
+                showStatus('<span class="spinner"></span>Analyzing description to infer style...', 'info');
+            }
+
+            try {
+                const payload = {};
+
+                if (hasImages) {
+                    payload.images = uploadedImages.map(img => img.base64);
+                }
+
+                if (description) {
+                    payload.description = description;
+                }
+
+                const response = await fetch('../api/analyze-style-reference.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                // Debug: check raw response before parsing as JSON
+                const rawText = await response.text();
+                console.debug('Raw analyze-style-reference response:', rawText);
+                let data;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (e) {
+                    console.error('Failed to parse JSON:', e, rawText);
+                    throw new Error(`Failed to parse server response: ${e.message}`);
+                }
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || 'Failed to analyze style');
+                }
+
+                return data.style_brief;
+            } catch (error) {
+                console.error('Style analysis error:', error);
+                throw error;
+            }
+        }
+        
+        async function generateTemplate(styleBrief, feedback = null, includeHiddenSections = false) {
+            showStatus('<span class="spinner"></span>Generating template...', 'info');
+
+            try {
+                const payload = {
+                    description: descriptionInput.value.trim(),
+                    style_brief: styleBrief,
+                    include_hidden_sections: includeHiddenSections
+                };
+
+                if (feedback) {
+                    payload.feedback = feedback;
+                }
+                
+                const response = await fetch('../api/generate-template.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                // Debug: check raw response before parsing as JSON
+                const rawText = await response.text();
+                console.debug('Raw generate-template response:', rawText);
+                let data;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (e) {
+                    console.error('Failed to parse JSON:', e, rawText);
+                    throw new Error(`Failed to parse server response: ${e.message}`);
+                }
+                
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || 'Failed to generate template');
+                }
+                
+                return data.template;
+            } catch (error) {
+                console.error('Template generation error:', error);
+                throw error;
+            }
+        }
+        
+        async function generateContentOutline(creativeBrief, sections, sectionsMetadata) {
+            try {
+                // Build sections array with id and category
+                const sectionsForOutline = sections.map(sectionId => {
+                    const sectionMeta = sectionsMetadata.find(s => s.id === sectionId);
+                    // Use first tag as primary category
+                    const tags = sectionMeta?.tags ?? [];
+                    const category = tags.length > 0 ? tags[0] : 'content';
+                    return {
+                        id: sectionId,
+                        category: category
+                    };
+                });
+                
+                const response = await fetch('../api/generate-content-outline.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        creative_brief: creativeBrief,
+                        sections: sectionsForOutline
+                    })
+                });
+                
+                // Debug: check raw response before parsing as JSON
+                const rawText = await response.text();
+                console.debug('Raw generate-content-outline response:', rawText);
+                let data;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (e) {
+                    console.error('Failed to parse JSON:', e, rawText);
+                    return null;
+                }
+                
+                if (!response.ok || !data.success) {
+                    console.error('Error generating content outline:', data.error);
+                    return null;
+                }
+                
+                return data.outline;
+            } catch (error) {
+                console.error('Error generating content outline:', error);
+                return null;
+            }
+        }
+        
+        async function generateSectionText(sectionId, sectionFile, creativeBrief, category, outline = null) {
+            try {
+                const allowedSelectorsMap = await loadAllowedSelectorsMap();
+                const allowedSelectors = resolveAllowedSelectors(allowedSelectorsMap, sectionFile);
+                
+                if (Object.keys(allowedSelectors).length === 0) {
+                    const errorMsg = `No allowed selectors found for section ${sectionId} (${sectionFile}). This section will not have text replaced.`;
+                    console.error(errorMsg);
+                    showStatus(`⚠️ Warning: ${errorMsg}`, 'warning');
+                    // Return empty object instead of null to indicate the section was attempted
+                    return {};
+                }
+                
+                const blueprint = getSectionBlueprint(category);
+                if (!blueprint) {
+                    console.warn(`No blueprint found for category: ${category}`);
+                    return null;
+                }
+                
+                // Convert allowed selectors to target_selectors format
+                const targetSelectors = {};
+                for (const [selector, value] of Object.entries(allowedSelectors)) {
+                    if (typeof value === 'object' && value !== null && 'text' in value) {
+                        // New format with role
+                        targetSelectors[selector] = {
+                            text: value.text || '',
+                            role: value.role || null
+                        };
+                    } else {
+                        // Old format or simple text
+                        targetSelectors[selector] = {
+                            text: value || '',
+                            role: null
+                        };
+                    }
+                }
+                
+                const requestBody = {
+                    creative_brief: creativeBrief,
+                    blueprint: blueprint,
+                    section_id: sectionId,
+                    target_selectors: targetSelectors
+                };
+                
+                // Add outline if provided
+                if (outline) {
+                    requestBody.outline = outline;
+                }
+                
+                const response = await fetch('../api/generate-section-text.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                // Debug: check raw response before parsing as JSON
+                const rawText = await response.text();
+                console.debug('Raw fetch response:', rawText);
+                let data;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (e) {
+                    console.error('Failed to parse JSON:', e, rawText);
+                    showStatus(`⚠️ Error parsing server response: ${e.message}`, 'warning');
+                    return null;
+                }
+                
+                if (!response.ok || !data.success) {
+                    console.error(`Error generating text for section ${sectionId}:`, data.error);
+                    showStatus(`⚠️ Error generating text for section ${sectionId}: ${data.error || 'Unknown error'}`, 'warning');
+                    return null;
+                }
+                
+                return data.text_updates;
+            } catch (error) {
+                console.error(`Error generating text for section ${sectionId}:`, error);
+                showStatus(`⚠️ Error generating text for section ${sectionId}: ${error.message}`, 'warning');
+                return null;
+            }
+        }
+        
+        async function fetchUnsplashImage(keyword, width = 1920, height = 1080) {
+            try {
+                // Add timeout to prevent hanging indefinitely
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+                
+                const response = await fetch('../api/get-unsplash-image.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        query: keyword,
+                        width: width,
+                        height: height,
+                        aspectRatio: width / height
+                    }),
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                const rawText = await response.text();
+                console.debug('Raw Unsplash response:', rawText);
+                const data = JSON.parse(rawText);
+                if (!response.ok || !data.success) {
+                    console.warn('Unsplash fetch failed:', data.error);
+                    return null;
+                }
+                return data.imageUrl;
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    console.warn('Unsplash fetch timeout for keyword:', keyword);
+                } else {
+                    console.warn('Unsplash fetch error:', error);
+                }
+                return null;
+            }
+        }
+        
+        async function generateAllSectionTexts(template) {
+            showStatus('<span class="spinner"></span>Generating text for sections...', 'info');
+            
+            try {
+                const sectionMapping = await loadSectionMapping();
+                const sectionsMetadata = await loadSectionsMetadata();
+                const allowedSelectorsMap = await loadAllowedSelectorsMap();
+                
+                // Build creative brief from template
+                const creativeBrief = {
+                    product_name: template.name,
+                    product_type: template.site_plan?.business_type || 'website',
+                    description: template.description,
+                    primary_goal: template.site_plan?.primary_goal || 'conversion',
+                    audience: template.site_plan?.audience || 'general',
+                    tone: template.site_plan?.content_tone || template.tags?.join(', ') || 'modern, clean',
+                    key_differentiators: template.site_plan?.key_differentiators || [],
+                    style_preferences: template.style_brief_source || {}
+                };
+                
+                // Phase 1: Generate content outline for all sections
+                showStatus('<span class="spinner"></span>Planning unique content for each section...', 'info');
+                const contentOutline = await generateContentOutline(creativeBrief, template.sections, sectionsMetadata);
+                
+                if (!contentOutline) {
+                    console.warn('Failed to generate content outline, proceeding without it');
+                }
+                
+                // Phase 2: Process each section with its outline
+                showStatus('<span class="spinner"></span>Generating detailed text for sections...', 'info');
+                const sectionTextPromises = template.sections.map(async (sectionId) => {
+                    const sectionFile = sectionMapping[sectionId];
+                    if (!sectionFile) {
+                        console.warn(`No mapping found for section ID ${sectionId}`);
+                        return { sectionId, textUpdates: null };
+                    }
+                    
+                    // Find section metadata to get category
+                    const sectionMeta = sectionsMetadata.find(s => s.id === sectionId);
+                    // Use first tag as primary category
+                    const tags = sectionMeta?.tags ?? [];
+                    const category = tags.length > 0 ? tags[0] : 'content';
+
+                    // Get outline for this section
+                    const sectionOutline = contentOutline ? contentOutline[sectionId.toString()] : null;
+                    
+                    const textUpdates = await generateSectionText(sectionId, sectionFile, creativeBrief, category, sectionOutline);
+                    return { sectionId, textUpdates };
+                });
+                
+                const results = await Promise.all(sectionTextPromises);
+                
+                // Store text updates in template
+                template.text_updates = {};
+                const failedSections = [];
+                const emptySections = [];
+                
+                for (const { sectionId, textUpdates } of results) {
+                    if (textUpdates) {
+                        if (Object.keys(textUpdates).length === 0) {
+                            emptySections.push(sectionId);
+                        }
+                        template.text_updates[sectionId] = textUpdates;
+                    } else {
+                        failedSections.push(sectionId);
+                    }
+                }
+                
+                // Log warnings for failed sections
+                if (failedSections.length > 0) {
+                    const warningMsg = `⚠️ Warning: ${failedSections.length} section(s) failed text generation: ${failedSections.join(', ')}. These sections will use placeholder text.`;
+                    console.warn(warningMsg);
+                    showStatus(warningMsg, 'warning');
+                }
+                
+                if (emptySections.length > 0) {
+                    const warningMsg = `⚠️ Warning: ${emptySections.length} section(s) have no selectors defined: ${emptySections.join(', ')}. Run 'node build/build-allowed-selectors.mjs' to generate selectors.`;
+                    console.warn(warningMsg);
+                    showStatus(warningMsg, 'warning');
+                }
+                
+                // Validate that all selectors in text_updates are valid
+                await validateTextUpdatesSelectors(template, allowedSelectorsMap, sectionMapping);
+                
+                return template;
+            } catch (error) {
+                console.error('Error generating section texts:', error);
+                throw error;
+            }
+        }
+        
+        /**
+         * Validate that all selectors in text_updates match current allowed selectors
+         * This catches cases where GPT returns wrong selectors or allowed-selectors.json is stale
+         */
+        async function validateTextUpdatesSelectors(template, allowedSelectorsMap, sectionMapping) {
+            const invalidSelectors = [];
+            
+            for (const [sectionId, textUpdates] of Object.entries(template.text_updates || {})) {
+                const sectionFile = sectionMapping[sectionId];
+                if (!sectionFile) continue;
+                
+                const allowedSelectors = resolveAllowedSelectors(allowedSelectorsMap, sectionFile);
+                const allowedKeys = Object.keys(allowedSelectors);
+                
+                for (const selector of Object.keys(textUpdates)) {
+                    if (!allowedKeys.includes(selector)) {
+                        invalidSelectors.push({
+                            section: sectionId,
+                            selector: selector,
+                            file: sectionFile
+                        });
+                    }
+                }
+            }
+            
+            if (invalidSelectors.length > 0) {
+                console.error('Invalid selectors detected:', invalidSelectors);
+                const details = invalidSelectors.map(item => `Section ${item.section}: ${item.selector}`).join(', ');
+                showStatus(`⚠️ Warning: ${invalidSelectors.length} invalid selector(s) detected: ${details}. These may cause text replacement issues.`, 'warning');
+                
+                // Show detailed breakdown
+                const breakdown = invalidSelectors.reduce((acc, item) => {
+                    acc[item.section] = acc[item.section] || [];
+                    acc[item.section].push(item.selector);
+                    return acc;
+                }, {});
+                
+                console.warn('Invalid selectors by section:', breakdown);
+            }
+            
+            return invalidSelectors;
+        }
+        
+        async function generateInlineImages(template) {
+            const inlineKeywords = template.inline_image_keywords || {};
+            
+            if (Object.keys(inlineKeywords).length === 0) {
+                console.log('[Inline Images] No inline image keywords found');
+                return template;
+            }
+            
+            console.log('[Inline Images] Processing', Object.keys(inlineKeywords).length, 'sections with inline images');
+            showStatus('<span class="spinner"></span>Loading inline images...', 'info');
+            
+            // Initialize storage for fetched URLs
+            if (!template.inline_images) {
+                template.inline_images = {};
+            }
+            
+            // Process each section with inline images
+            for (const sectionId of Object.keys(inlineKeywords)) {
+                const keywords = inlineKeywords[sectionId];
+                
+                // Skip if already have stored images for this section
+                if (template.inline_images[sectionId] && template.inline_images[sectionId].length === keywords.length) {
+                    console.log('[Inline Images] Using cached images for section', sectionId);
+                    continue;
+                }
+                
+                console.log('[Inline Images] Fetching', keywords.length, 'images for section', sectionId);
+                
+                // Fetch images for each keyword set in parallel
+                const imagePromises = keywords.map(async (keywordArray) => {
+                    const searchQuery = Array.isArray(keywordArray) ? keywordArray.join(' ') : keywordArray;
+                    const imageUrl = await fetchUnsplashImage(searchQuery, 800, 600);
+                    return imageUrl;
+                });
+                
+                const urls = await Promise.all(imagePromises);
+                
+                // Store only successful fetches
+                const validUrls = urls.filter(url => url !== null);
+                
+                if (validUrls.length > 0) {
+                    template.inline_images[sectionId] = validUrls;
+                    console.log('[Inline Images] Successfully fetched', validUrls.length, 'images for section', sectionId);
+                } else {
+                    console.warn('[Inline Images] No images fetched for section', sectionId);
+                }
+            }
+            
+            console.log('[Inline Images] Completed. Total sections with images:', Object.keys(template.inline_images).length);
+            
+            return template;
+        }
+        
+        function displayTemplate(template) {
+            currentTemplate = template;
+            
+            // Show output panel
+            outputPanel.classList.add('visible');
+            
+            // Populate template name input
+            if (template.id) {
+                templateNameInput.value = template.id;
+            } else if (template.name) {
+                // Convert name to filename-friendly format
+                const filename = template.name
+                    .toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim();
+                templateNameInput.value = filename;
+            }
+            
+            // Display JSON
+            jsonOutput.textContent = JSON.stringify(template, null, 2);
+            
+            // Update preview iframe
+            updatePreview(template);
+            
+            showStatus('✓ Template generated successfully!', 'success');
+            
+            // Scroll to output
+            outputPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        // Load section mapping from config
+        let SECTION_MAPPING = null;
+        let ALLOWED_SELECTORS_MAP = null;
+        let SECTIONS_METADATA = null;
+        
+        async function loadSectionMapping() {
+            if (SECTION_MAPPING) return SECTION_MAPPING;
+            
+            try {
+                const response = await fetch('../config/sections-map.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load section mapping');
+                }
+                // Debug: check raw response before parsing as JSON
+                const rawText = await response.text();
+                console.debug('Raw sections-map.json response:', rawText);
+                try {
+                    SECTION_MAPPING = JSON.parse(rawText);
+                } catch (e) {
+                    console.error('Failed to parse sections-map.json:', e, rawText);
+                    return {};
+                }
+                return SECTION_MAPPING;
+            } catch (error) {
+                console.error('Error loading section mapping:', error);
+                return {};
+            }
+        }
+        
+        async function loadAllowedSelectorsMap() {
+            if (ALLOWED_SELECTORS_MAP) return ALLOWED_SELECTORS_MAP;
+            
+            try {
+                const response = await fetch('../public/js/section-allowed-selectors.json');
+                if (!response.ok) {
+                    console.warn('Failed to load allowed selectors JSON, status:', response.status);
+                    return {};
+                }
+                // Debug: check raw response before parsing as JSON
+                const rawText = await response.text();
+                console.debug('Raw section-allowed-selectors.json response:', rawText);
+                try {
+                    ALLOWED_SELECTORS_MAP = JSON.parse(rawText);
+                } catch (e) {
+                    console.error('Failed to parse section-allowed-selectors.json:', e, rawText);
+                    return {};
+                }
+                return ALLOWED_SELECTORS_MAP;
+            } catch (error) {
+                console.error('Error loading allowed selectors JSON:', error);
+                return {};
+            }
+        }
+        
+        async function loadSectionsMetadata() {
+            if (SECTIONS_METADATA) return SECTIONS_METADATA;
+            
+            try {
+                const response = await fetch('../public/js/metadata-described.min.js');
+                if (!response.ok) {
+                    throw new Error('Failed to load sections metadata');
+                }
+                const text = await response.text();
+                SECTIONS_METADATA = JSON.parse(text.trim());
+                return SECTIONS_METADATA;
+            } catch (error) {
+                console.error('Error loading sections metadata:', error);
+                return [];
+            }
+        }
+        
+        function resolveAllowedSelectors(map, sectionFile) {
+            if (!sectionFile) return {};
+            const key = sectionFile.replace(/\.html$/i, '');
+            const selectors = map[key];
+            
+            // New format: object mapping selectors to text content or {text, role}
+            // Old format: array of selectors (for backward compatibility)
+            if (typeof selectors === 'object' && selectors !== null) {
+                if (Array.isArray(selectors)) {
+                    // Convert old array format to new object format (empty text)
+                    const obj = {};
+                    selectors.forEach(sel => {
+                        obj[sel] = '';
+                    });
+                    return obj;
+                }
+                return selectors;
+            }
+            return {};
+        }
+        
+        function getSectionBlueprint(category) {
+            const blueprints = {
+                'hero': 'Hero section — introduce the brand or product with a clear value proposition and an action-driven headline.',
+                'features': 'Features section — list the main benefits or features clearly, emphasizing user value and simplicity.',
+                'testimonial': 'Testimonials section — add authentic-sounding quotes or stories that build trust and credibility.',
+                'pricing': 'Pricing section — explain available plans or options transparently and motivate conversion.',
+                'team': 'Team section — present key people with short bios that highlight expertise and human connection.',
+                'gallery': 'Gallery section — describe or caption images in a way that supports storytelling or visual appeal.',
+                'portfolio': 'Portfolio section — showcase selected work or projects, focusing on outcomes and quality.',
+                'contact': 'Contact section — invite users to reach out, book, or connect in a friendly, encouraging tone.',
+                'form': 'Form section — introduce a form briefly, explaining what users get by submitting it.',
+                'content': 'Content section — deliver informational or narrative text that supports brand storytelling.',
+                'about': 'About section — explain who the brand or person is, their mission, and what makes them unique.',
+                'bio': 'Bio section — introduce the founder, team member, or key person with their story and background.',
+                'faqs': 'FAQ section — answer frequent questions clearly and concisely to remove friction or hesitation.',
+                'how_it_works': 'How-it-works section — explain the process in simple, step-by-step terms.',
+                'stats': 'Stats section — present metrics or achievements that demonstrate credibility or success.',
+                'numbers': 'Numbers section — highlight key metrics, statistics, or quantifiable achievements.',
+                'media': 'Media section — provide media coverage, press quotes, or content embeds showing authority.',
+                'video': 'Video section — introduce the video context and encourage viewers to watch or learn more.',
+                'cta': 'CTA section — end with a strong, motivational call-to-action tied to the main goal.',
+                'footer': 'Footer section — include closing navigation, contact info, and reassurance about trust or brand identity.',
+                'blog': 'Blog section — preview recent articles or insights, written in a conversational and engaging tone.',
+                'logos': 'Logo cloud section — list partner or client logos to build trust and social proof.',
+                'newsletter': 'Newsletter section — invite users to subscribe with a clear benefit statement.',
+                'integrations': 'Integrations section — describe key tools or services that connect with the product seamlessly.',
+                'comparison': 'Comparison section — contrast plans or features to guide users toward the best choice.',
+                'events': 'Events section — highlight upcoming or past events, dates, and participation details.'
+            };
+
+            const key = category ? category.toLowerCase().trim() : '';
+            return blueprints[key] || null;
+        }
+        
+        async function updatePreview(template) {
+            // Build preview HTML with template sections
+            const sections = template.sections || [];
+            const theme = template.theme || {};
+            const textUpdates = template.text_updates || {};
+            const themeClass = template.theme_class || '';
+
+            // Build CSS variables from theme (skip if using a predefined theme class)
+            let cssVars = '';
+            if (!themeClass && theme.variables) {
+                cssVars = Object.entries(theme.variables)
+                    .map(([key, value]) => `--${key}: ${value};`)
+                    .join('\n        ');
+            }
+            
+            // Determine viewport based on current device
+            let viewportContent = 'width=device-width, initial-scale=1.0';
+            if (currentDevice === 'mobile') {
+                viewportContent = 'width=375, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+            } else if (currentDevice === 'tablet') {
+                viewportContent = 'width=768, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+            }
+            
+            // Build Google Fonts link
+            // When using a predefined theme class, load all theme fonts
+            const allThemeFontsUrl = 'https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap';
+            const fontsUrl = themeClass ? allThemeFontsUrl : (template.fonts?.google_fonts_url || '');
+            const googleFontsLink = fontsUrl
+                ? `<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="${fontsUrl}" rel="stylesheet">`
+                : '';
+            
+            // Show loading state first
+            const loadingHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="${viewportContent}">
+    <title>${template.name || 'Template Preview'}</title>
+    ${googleFontsLink}
+    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="../public/css/sections.css">
+    <style>
+        :root {
+            ${cssVars}
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        ${template.custom_css?.global || ''}
+    </style>
+</head>
+<body class="${themeClass}">
+    <div class="preview-loading">
+        <div class="spinner-large"></div>
+        <div>
+            <p style="color: var(--secondary-text, #777); margin: 0 0 8px 0; font-size: 1rem;">Loading sections...</p>
+            <p style="color: var(--secondary-text, #777); margin: 0; font-size: 0.9rem;">Sections: ${sections.join(', ')}</p>
+        </div>
+    </div>
+</body>
+</html>`;
+            
+            previewIframe.srcdoc = loadingHtml;
+            
+            // Fetch all section HTML files
+            try {
+                // Load section mapping first
+                const mapping = await loadSectionMapping();
+                
+                // Use stored background images if available, otherwise fetch new ones
+                const sectionBackgrounds = template.section_backgrounds || {};
+                const storedImages = template.section_background_images || {};
+                
+                let imageMap = {};
+                
+                // First, use stored images if they exist
+                sections.forEach(sectionId => {
+                    if (storedImages[sectionId]) {
+                        imageMap[sectionId] = storedImages[sectionId];
+                    }
+                });
+                
+                // Then, fetch images for sections that don't have stored images
+                const imageSections = sections.filter(sectionId => {
+                    // Only fetch if we don't have a stored image and the section has a keyword
+                    if (imageMap[sectionId]) return false;
+                    const bgConfig = sectionBackgrounds[sectionId];
+                    return bgConfig && bgConfig.type === 'image' && bgConfig.keyword;
+                });
+                
+                if (imageSections.length > 0) {
+                    showStatus('<span class="spinner"></span>Loading background images (' + imageSections.length + ' images)...', 'info');
+                    console.log('[Preview] Fetching background images for sections:', imageSections);
+                    
+                    const imagePromises = imageSections.map(async (sectionId) => {
+                        const bgConfig = sectionBackgrounds[sectionId];
+                        console.log('[Preview] Fetching image for section', sectionId, 'with keyword:', bgConfig.keyword);
+                        const imageUrl = await fetchUnsplashImage(bgConfig.keyword);
+                        console.log('[Preview] Result for section', sectionId, ':', imageUrl ? 'success' : 'failed');
+                        return { sectionId, imageUrl };
+                    });
+                    
+                    const imageResults = await Promise.all(imagePromises);
+                    console.log('[Preview] All images fetched, processing results...');
+                    
+                    // Add newly fetched images to the map
+                    let successCount = 0;
+                    for (const { sectionId, imageUrl } of imageResults) {
+                        if (imageUrl) {
+                            imageMap[sectionId] = imageUrl;
+                            successCount++;
+                        }
+                    }
+                    
+                    console.log('[Preview] Successfully loaded', successCount, 'out of', imageSections.length, 'images');
+                    
+                    // Store fetched image URLs in template for persistence
+                    if (!template.section_background_images) {
+                        template.section_background_images = {};
+                    }
+                    for (const { sectionId, imageUrl } of imageResults) {
+                        if (imageUrl) {
+                            template.section_background_images[sectionId] = imageUrl;
+                        }
+                    }
+                    
+                    // Clear the loading status after images are fetched
+                    hideStatus();
+                } else if (Object.keys(imageMap).length > 0) {
+                    // We're using stored images, no need to show loading message
+                    console.log('[Preview] Using', Object.keys(imageMap).length, 'stored background images');
+                    hideStatus();
+                }
+                
+                const sectionHtmlPromises = sections.map(async (sectionId) => {
+                    const filename = mapping[sectionId];
+                    if (!filename) {
+                        console.warn(`No mapping found for section ID ${sectionId}`);
+                        return '';
+                    }
+                    
+                    const response = await fetch(`../sections/${filename}`);
+                    if (!response.ok) {
+                        console.warn(`Failed to load section ${filename}`);
+                        return '';
+                    }
+                    
+                    let html = await response.text();
+                    
+                    // Add data-section attribute to the section element
+                    html = html.replace(/<section([^>]*)>/, `<section$1 data-section="${sectionId}">`);
+                    
+                    // Check if this section should have a background image
+                    const bgConfig = sectionBackgrounds[sectionId];
+                    // Check both imageMap (for newly fetched) and storedImages (for persisted)
+                    const imageUrl = imageMap[sectionId] || storedImages[sectionId];
+                    
+                    if (bgConfig && bgConfig.type === 'image' && imageUrl) {
+                        // Add has-bg-image class to section
+                        html = html.replace(
+                            /<section([^>]*class=")([^"]*)/,
+                            '<section$1$2 has-bg-image'
+                        );
+                        // Add inline style to .fp-bg element
+                        html = html.replace(
+                            /<div class="fp-bg"><\/div>/,
+                            `<div class="fp-bg" style="background-image: url('${imageUrl}');"></div>`
+                        );
+                    }
+                    
+                    return html;
+                });
+                
+                const sectionsHtml = await Promise.all(sectionHtmlPromises);
+                const combinedSectionsHtml = sectionsHtml.filter(html => html).join('\n');
+                
+                // Build text updates script
+                const textUpdatesJson = JSON.stringify(textUpdates).replace(/</g, '\\u003c');
+                const textUpdatesScript = `
+                <script>
+                    (function() {
+                        // Apply text updates to sections
+                        const textUpdates = ${textUpdatesJson};
+                        
+                        function applyTextUpdates() {
+                            console.log('[Text Updates] Starting application...', textUpdates);
+                            const allSections = document.querySelectorAll('section[data-section]');
+                            console.log('[Text Updates] Found sections:', allSections.length);
+                            
+                            allSections.forEach(function(section) {
+                                const sectionNumber = parseInt(section.getAttribute('data-section'));
+                                const updates = textUpdates[sectionNumber];
+                                
+                                if (!updates) {
+                                    console.log('[Text Updates] No updates for section', sectionNumber);
+                                    return;
+                                }
+                                
+                                console.log('[Text Updates] Processing section', sectionNumber, 'with', Object.keys(updates).length, 'updates');
+                                
+                                // Apply each text update
+                                for (const selector in updates) {
+                                    if (!updates.hasOwnProperty(selector)) continue;
+                                    
+                                    let textValue = updates[selector];
+                                    
+                                    // Handle object format {text: "...", role: "..."} or plain string
+                                    let text = textValue;
+                                    if (typeof textValue === 'object' && textValue !== null && textValue.text) {
+                                        text = textValue.text;
+                                        console.log('[Text Updates]', selector, 'is object format, extracted text:', text);
+                                    }
+                                    
+                                    // Skip if text is empty or not a string
+                                    if (typeof text !== 'string' || text === '') {
+                                        console.warn('[Text Updates] Skipping empty/invalid text for selector:', selector, 'value:', textValue);
+                                        continue;
+                                    }
+                                    
+                                    // Parse selector to get tag and index
+                                    const indexMatch = selector.match(/^([a-z0-9]+)\\[([0-9]+)\\]$/i);
+                                    let tag, elemIndex;
+                                    
+                                    if (indexMatch) {
+                                        tag = indexMatch[1];
+                                        elemIndex = parseInt(indexMatch[2]);
+                                    } else {
+                                        tag = selector;
+                                        elemIndex = 0;
+                                    }
+                                    
+                                    // Find elements within this section
+                                    const elements = section.querySelectorAll(tag);
+                                    console.log('[Text Updates]', selector, '-> found', elements.length, tag, 'elements, targeting index', elemIndex);
+                                    
+                                    if (elements[elemIndex]) {
+                                        const oldText = elements[elemIndex].textContent;
+                                        elements[elemIndex].textContent = text;
+                                        console.log('[Text Updates] ✓ Updated', selector, 'from "' + oldText.substring(0, 30) + '..." to "' + text.substring(0, 30) + '..."');
+                                    } else {
+                                        console.warn('[Text Updates] ✗ Element not found for selector:', selector, '(found', elements.length, tag, 'elements)');
+                                    }
+                                }
+                            });
+                            
+                            console.log('[Text Updates] Completed!');
+                        }
+                        
+                        // Apply updates when DOM is ready
+                        if (document.readyState === 'loading') {
+                            document.addEventListener('DOMContentLoaded', applyTextUpdates);
+                        } else {
+                            applyTextUpdates();
+                        }
+                    })();
+                <\/script>
+                `;
+                
+                // Build inline images script
+                const inlineImages = template.inline_images || {};
+                const inlineImagesJson = JSON.stringify(inlineImages).replace(/</g, '\\u003c');
+                const inlineImagesScript = `
+                <script>
+                    (function() {
+                        // Apply inline image replacements
+                        const inlineImages = ${inlineImagesJson};
+                        
+                        function applyInlineImages() {
+                            if (Object.keys(inlineImages).length === 0) {
+                                console.log('[Inline Images] No inline images to apply');
+                                return;
+                            }
+                            
+                            console.log('[Inline Images] Starting application...', inlineImages);
+                            const allSections = document.querySelectorAll('section[data-section]');
+                            
+                            allSections.forEach(function(section) {
+                                const sectionNumber = parseInt(section.getAttribute('data-section'));
+                                const imageUrls = inlineImages[sectionNumber];
+                                
+                                if (!imageUrls || imageUrls.length === 0) {
+                                    return;
+                                }
+                                
+                                // Find all img tags in this section (excluding badges, logos, icons)
+                                const images = section.querySelectorAll('img');
+                                const filteredImages = Array.from(images).filter(function(img) {
+                                    const src = img.getAttribute('src') || '';
+                                    const alt = img.getAttribute('alt') || '';
+                                    const combined = (src + ' ' + alt).toLowerCase();
+                                    return !combined.match(/badge|logo|icon|svg|store|wikipedia|wikimedia/);
+                                });
+                                
+                                console.log('[Inline Images] Section', sectionNumber, '- found', filteredImages.length, 'images, have', imageUrls.length, 'URLs');
+                                
+                                // Replace each image src with the corresponding URL
+                                filteredImages.forEach(function(img, index) {
+                                    if (index < imageUrls.length && imageUrls[index]) {
+                                        const oldSrc = img.getAttribute('src');
+                                        img.setAttribute('src', imageUrls[index]);
+                                        console.log('[Inline Images] ✓ Replaced image', index, 'in section', sectionNumber, 'from', oldSrc, 'to', imageUrls[index].substring(0, 50) + '...');
+                                    }
+                                });
+                            });
+                            
+                            console.log('[Inline Images] Completed!');
+                        }
+                        
+                        // Apply inline images after text updates
+                        if (document.readyState === 'loading') {
+                            document.addEventListener('DOMContentLoaded', applyInlineImages);
+                        } else {
+                            // Small delay to ensure text updates have been applied first
+                            setTimeout(applyInlineImages, 100);
+                        }
+                    })();
+                <\/script>
+                `;
+                
+                // Determine viewport based on current device
+                let viewportContent = 'width=device-width, initial-scale=1.0';
+                if (currentDevice === 'mobile') {
+                    viewportContent = 'width=375, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+                } else if (currentDevice === 'tablet') {
+                    viewportContent = 'width=768, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+                }
+                
+                // Build final preview HTML with actual sections
+                const previewHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="${viewportContent}">
+    <title>${template.name || 'Template Preview'}</title>
+    ${googleFontsLink}
+    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="../public/css/sections.css">
+    <style>
+        :root {
+            ${cssVars}
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        ${template.custom_css?.global || ''}
+    </style>
+</head>
+<body class="${themeClass}">
+    ${combinedSectionsHtml}
+    ${textUpdatesScript}
+    ${inlineImagesScript}
+</body>
+</html>`;
+                
+                previewIframe.srcdoc = previewHtml;
+                
+            } catch (error) {
+                console.error('Error loading sections:', error);
+                showStatus('Error loading section previews', 'error');
+            }
+        }
+        
+        async function saveTemplate() {
+            if (!currentTemplate) {
+                showStatus('No template to save', 'error');
+                return;
+            }
+            
+            // Get the template name from the input
+            const templateName = templateNameInput.value.trim();
+            
+            if (!templateName) {
+                showStatus('Please enter a template name/filename', 'error');
+                return;
+            }
+            
+            // Validate template name (only lowercase, numbers, hyphens)
+            const validNamePattern = /^[a-z0-9-]+$/;
+            if (!validNamePattern.test(templateName)) {
+                showStatus('Template name can only contain lowercase letters, numbers, and hyphens', 'error');
+                return;
+            }
+            
+            // Update the template's id with the new name
+            currentTemplate.id = templateName;
+            
+            showStatus('<span class="spinner"></span>Saving template...', 'info');
+            saveBtn.disabled = true;
+            
+            try {
+                const response = await fetch('../api/save-template.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        template: currentTemplate
+                    })
+                });
+                
+                // Debug: check raw response before parsing as JSON
+                const rawText = await response.text();
+                console.debug('Raw save-template response:', rawText);
+                let data;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (e) {
+                    console.error('Failed to parse JSON:', e, rawText);
+                    throw new Error(`Failed to parse server response: ${e.message}`);
+                }
+                
+                if (!response.ok || !data.success) {
+                    if (response.status === 409) {
+                        throw new Error('Template already exists. Please change the template name or ID.');
+                    }
+                    throw new Error(data.error || 'Failed to save template');
+                }
+                
+                showStatus(`✓ Template saved successfully! File: ${data.filename}`, 'success');
+
+                // Update JSON output to reflect the changed ID
+                jsonOutput.textContent = JSON.stringify(currentTemplate, null, 2);
+
+                // Redirect to browser page after a short delay
+                setTimeout(() => {
+                    window.location.href = 'browser.html';
+                }, 1500);
+            } catch (error) {
+                console.error('Save error:', error);
+                showStatus(`Error: ${error.message}`, 'error');
+            } finally {
+                saveBtn.disabled = false;
+            }
+        }
+        
+        // Event Handlers
+        generateBtn.addEventListener('click', async () => {
+            if (!descriptionInput.value.trim()) {
+                showStatus('Please enter a template description', 'error');
+                return;
+            }
+            
+            generateBtn.disabled = true;
+            const originalButtonText = generateBtn.textContent;
+            generateBtn.innerHTML = '<span class="spinner"></span>Generating...';
+            hideStatus();
+            
+            try {
+                // Step 1: Analyze style (from images and/or description)
+                let styleBrief = currentStyleBrief;
+
+                if (!currentStyleBrief) {
+                    styleBrief = await analyzeStyle();
+                    currentStyleBrief = styleBrief;
+
+                    // Display style brief
+                    renderStyleBrief(styleBrief);
+                    styleBriefPanel.classList.add('visible');
+                }
+                
+                // Step 2: Generate template
+                const includeHidden = includeHiddenSectionsCheckbox.checked;
+                const template = await generateTemplate(styleBrief, null, includeHidden);
+                
+                // Step 3: Generate text for each section
+                await generateAllSectionTexts(template);
+                
+                // Step 4: Generate inline images
+                await generateInlineImages(template);
+
+                // Step 5: Apply selected theme override
+                if (selectedThemeId) {
+                    template.theme_class = selectedThemeId;
+                }
+
+                // Step 6: Display results
+                displayTemplate(template);
+
+            } catch (error) {
+                console.error('Generation error:', error);
+                showStatus(`Error: ${error.message}`, 'error');
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.textContent = originalButtonText;
+            }
+        });
+
+        retryBtn.addEventListener('click', async () => {
+            if (!currentStyleBrief) {
+                showStatus('Please generate a template first', 'error');
+                return;
+            }
+
+            const feedback = feedbackText.value.trim();
+            if (!feedback) {
+                showStatus('Please enter feedback for the retry', 'error');
+                return;
+            }
+            
+            retryBtn.disabled = true;
+            hideStatus();
+            
+            try {
+                // Regenerate template with feedback (reuse cached style brief)
+                const includeHidden = includeHiddenSectionsCheckbox.checked;
+                const template = await generateTemplate(currentStyleBrief, feedback, includeHidden);
+                
+                // Generate text for each section
+                await generateAllSectionTexts(template);
+                
+                // Generate inline images
+                await generateInlineImages(template);
+
+                // Apply selected theme override
+                if (selectedThemeId) {
+                    template.theme_class = selectedThemeId;
+                }
+
+                displayTemplate(template);
+            } catch (error) {
+                console.error('Retry error:', error);
+                showStatus(`Error: ${error.message}`, 'error');
+            } finally {
+                retryBtn.disabled = false;
+            }
+        });
+        
+        saveBtn.addEventListener('click', saveTemplate);
+    </script>
+</body>
+</html>

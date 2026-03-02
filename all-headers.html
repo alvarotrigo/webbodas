@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation Bar Collection</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="dist/css/sections.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    :root {
+      --primary-bg: #ffffff;
+      --secondary-bg: #f4f4f7;
+      --accent-bg: #fafafa;
+      --primary-text: #222222;
+      --secondary-text: #777777;
+      --accent-text: #111111;
+      --primary-accent: #5046e6;
+      --primary-accent-soft: rgba(80, 70, 230, 0.1);
+      --secondary-accent: #3d31d9;
+      --border-color: transparent;
+      --shadow-color: rgba(0, 0, 0, 0.05);
+      --shadow-sm: none;
+      --shadow-md: none;
+      --shadow-lg: none;
+      --card-shadow: none;
+      --card-shadow-hover: none;
+      --section-shadow: none;
+      --gradient-1: linear-gradient(135deg, #f4f4f7 0%, #fafafa 100%);
+      --gradient-2: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+      --features2-bg: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+      --button-on-gradient: #ffffff;
+      --button-on-gradient-border: rgba(255, 255, 255, 0.8);
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --heading-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --border-radius: 16px;
+      --button-radius: 50px;
+      --card-radius: 20px;
+      --spacing-unit: 1.4rem;
+      --header-max-width: 100%;
+      --nav-element-max-width: none;
+      --nav-border-color: rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--primary-bg);
+    }
+
+    .nav-container {
+      margin-bottom: 3rem;
+    }
+
+    /* Apply max-width to nav element itself */
+    nav {
+      max-width: var(--nav-element-max-width);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Navigation link styles - prevent text wrapping */
+    nav a, nav span, nav button {
+      white-space: nowrap;
+    }
+
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    .mobile-menu.open {
+      max-height: 500px;
+    }
+
+    /* Light mode class */
+    .nav-light {
+      --primary-bg: #ffffff;
+      --secondary-bg: #f4f4f7;
+      --accent-bg: #fafafa;
+      --primary-text: #222222;
+      --secondary-text: #777777;
+      --accent-text: #111111;
+      --primary-accent: #5046e6;
+      --primary-accent-soft: rgba(80, 70, 230, 0.1);
+      --secondary-accent: #3d31d9;
+      --nav-border-color: rgba(0, 0, 0, 0.08);
+      --gradient-1: linear-gradient(135deg, #f4f4f7 0%, #fafafa 100%);
+      --gradient-2: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+      --button-on-gradient: #ffffff;
+      --button-on-gradient-border: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Dark mode class */
+    .nav-dark {
+      --primary-bg: #000000;
+      --secondary-bg: #222222;
+      --accent-bg: #1a1a1a;
+      --primary-text: #ffffff;
+      --secondary-text: #aaaaaa;
+      --accent-text: #ffffff;
+      --primary-accent: #8b5cf6;
+      --primary-accent-soft: rgba(139, 92, 246, 0.1);
+      --secondary-accent: #7c3aed;
+      --nav-border-color: rgba(255, 255, 255, 0.1);
+      --gradient-1: linear-gradient(135deg, #1a1a1a 0%, #222222 100%);
+      --gradient-2: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+      --button-on-gradient: #ffffff;
+      --button-on-gradient-border: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Theme classes - Renamed for consistency */
+    .nav-theme-light {
+      --primary-bg: #ffffff;
+      --primary-accent: #ffffff;
+      --secondary-bg: #f4f4f7;
+      --accent-bg: #fafafa;
+      --primary-text: #222222;
+      --secondary-text: #777777;
+      --accent-text: #111111;
+      --primary-accent-soft: rgba(80, 70, 230, 0.1);
+      --nav-border-color: rgba(0, 0, 0, 0.08);
+      --button-on-gradient-border: rgba(255, 255, 255, 0.8);
+    }
+
+    .nav-theme-dark {
+      --primary-bg: #000000;
+      --primary-accent: #000000;
+      --secondary-bg: #222222;
+      --accent-bg: #1a1a1a;
+      --primary-text: #ffffff;
+      --secondary-text: #aaaaaa;
+      --accent-text: #ffffff;
+      --primary-accent-soft: rgba(139, 92, 246, 0.1);
+      --nav-border-color: rgba(255, 255, 255, 0.1);
+      --button-on-gradient: #ffffff;
+      --button-on-gradient-border: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Accent theme - uses primary accent as background */
+    .nav-theme-accent {
+      --secondary-bg: var(--secondary-accent);
+      --primary-text: #ffffff;
+      --secondary-text: rgba(255, 255, 255, 0.8);
+      --accent-text: #ffffff;
+      --nav-border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Background Classes */
+    /* Solid background - opaque, uses theme colors */
+    .nav-bg-solid {
+      background-color: var(--primary-accent);
+    }
+
+    /* Transparent background - no background */
+    .nav-bg-transparent {
+      background-color: transparent;
+    }
+
+    /* Glass background - semi-transparent with blur */
+    .nav-bg-glass {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px); /* Safari support */
+    }
+
+    /* Glass background colors based on theme */
+    .nav-theme-light.nav-bg-glass {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .nav-theme-dark.nav-bg-glass {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    /* Accent theme glass - uses accent color with transparency */
+    .nav-theme-accent.nav-bg-glass {
+      background-color: color-mix(in srgb, var(--primary-accent) 70%, transparent);
+    }
+
+    /* Corner Classes */
+    /* Sharp corners - no radius, full width */
+    .nav-corners-sharp {
+      border-radius: 0 !important;
+    }
+
+    /* Rounded corners - uses card radius, full width */
+    .nav-corners-rounded {
+      border-radius: var(--card-radius) !important;
+    }
+
+    /* Pill corners - high radius, constrained width */
+    .nav-corners-pill {
+      border-radius: 50px !important;
+      max-width: 1200px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    /* Responsive pill style */
+    @media (max-width: 768px) {
+      .nav-corners-pill {
+        max-width: calc(100% - 2rem) !important;
+        margin-left: 1rem !important;
+        margin-right: 1rem !important;
+      }
+    }
+
+    /* Shadow styles */
+    .nav-shadow-none {
+      box-shadow: none !important;
+    }
+
+    .nav-shadow-subtle {
+      box-shadow: 0 4px 6px -1px var(--shadow-color),
+                  0 2px 4px -2px var(--shadow-color) !important;
+    }
+
+    /* Content wrapper - always enforce max-width */
+    .nav-content-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Max width container helper - keep for backwards compatibility */
+    .nav-max-width-container {
+      max-width: var(--header-max-width);
+      margin: 0 auto;
+    }
+
+    /* Control panel styles */
+    .control-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      max-width: 320px;
+      max-height: 90vh;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .control-panel.collapsed {
+      max-height: 60px;
+      padding: 12px;
+    }
+
+    .control-panel-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin: 0 0 12px 0;
+    }
+
+    .control-panel.collapsed .control-panel-toggle {
+      margin-bottom: 0;
+    }
+
+    .control-panel-toggle h2 {
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--primary-text);
+    }
+
+    .control-panel-chevron {
+      transition: transform 0.3s ease;
+      color: var(--primary-text);
+    }
+
+    .control-panel.collapsed .control-panel-chevron {
+      transform: rotate(-90deg);
+    }
+
+    .control-panel-content {
+      max-height: calc(90vh - 60px);
+      overflow-y: auto;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+
+    .control-panel.collapsed .control-panel-content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+
+    .control-panel-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .control-panel-content::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .control-panel-content::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+
+    .control-panel-content::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .control-group {
+      margin-bottom: 0;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .control-group:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .control-label {
+      font-weight: 600;
+      font-size: 0.8125rem;
+      color: #374151;
+      margin-bottom: 0.625rem;
+      display: block;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .radio-option input[type="radio"] {
+      cursor: pointer;
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .radio-option label {
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: #4b5563;
+    }
+
+    .theme-dropdown {
+      display: none;
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      background: #f9fafb;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+    }
+
+    .theme-dropdown.active {
+      display: block;
+    }
+
+    .theme-dropdown select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      background: white;
+      cursor: pointer;
+    }
+
+    .theme-dropdown select:focus {
+      outline: none;
+      border-color: #5046e6;
+      box-shadow: 0 0 0 3px rgba(80, 70, 230, 0.1);
+    }
+
+    /* Responsive adjustments for mobile */
+    @media (max-width: 768px) {
+      .control-panel {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        padding: 1rem;
+      }
+    }
+
+    /* CTA Style Classes */
+    /* Text link style: no background, no border, accent color */
+    .nav-cta-text {
+      background: transparent !important;
+      border: none !important;
+    }
+
+    /* Outline style: transparent background, accent border */
+    .nav-cta-outline {
+      background: transparent !important;
+      border: 1px solid var(--accent-text) !important;
+      color: var(--primary-text) !important;
+      border-radius: var(--button-radius) !important;
+    }
+
+    /* Solid style: accent background, white text */
+    .nav-cta-solid {
+      background: var(--secondary-accent) !important;
+      border: 1px solid transparent !important;
+      color: #fff !important;
+    }
+  </style>
+</head>
+<body class="p-0">
+  <!-- Control Panel -->
+  <div class="control-panel" id="control-panel">
+    <button class="control-panel-toggle" id="control-panel-toggle">
+      <h2>Navigation Controls</h2>
+      <i data-lucide="chevron-down" class="control-panel-chevron" style="width: 20px; height: 20px;"></i>
+    </button>
+
+    <div class="control-panel-content" id="control-panel-content">
+      <div class="space-y-4">
+      <!-- Background Option -->
+      <div class="control-group">
+        <span class="control-label">Background</span>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="bg-solid" name="background" value="solid" checked>
+            <label for="bg-solid">Solid</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="bg-transparent" name="background" value="transparent">
+            <label for="bg-transparent">Transparent</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="bg-glass" name="background" value="glass">
+            <label for="bg-glass">Glass</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Corners Option -->
+      <div class="control-group">
+        <span class="control-label">Corners</span>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="corners-sharp" name="corners" value="sharp">
+            <label for="corners-sharp">Sharp</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="corners-rounded" name="corners" value="rounded" checked>
+            <label for="corners-rounded">Rounded</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="corners-pill" name="corners" value="pill">
+            <label for="corners-pill">Pill</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Theme Option -->
+      <div class="control-group">
+        <span class="control-label">Theme</span>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="theme-dark" name="theme" value="dark">
+            <label for="theme-dark">Dark</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="theme-light" name="theme" value="light" checked>
+            <label for="theme-light">Light</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="theme-accent" name="theme" value="accent">
+            <label for="theme-accent">Accent</label>
+          </div>
+        </div>
+
+        <!-- Theme Color Selector Dropdown (always visible) -->
+        <div id="theme-dropdown" class="theme-dropdown active">
+          <label for="theme-select" class="control-label">Theme Colors</label>
+          <select id="theme-select">
+            <option value="theme-light-grey-minimal" selected>Light Grey Minimal (Default)</option>
+            <option value="theme-light-minimal">Light Minimal</option>
+            <option value="theme-dark-modern">Dark Modern</option>
+            <option value="theme-corporate-clean">Corporate Clean</option>
+            <option value="theme-playful-colorful">Playful Colorful</option>
+            <option value="theme-elegant-serif">Elegant Serif</option>
+            <option value="theme-wellness-calm">Wellness Calm</option>
+            <option value="theme-professional-navy">Professional Navy</option>
+            <option value="theme-sunset-warm">Sunset Warm</option>
+            <option value="theme-ocean-breeze">Ocean Breeze</option>
+            <option value="theme-forest-natural">Forest Natural</option>
+            <option value="theme-luxury-gold">Luxury Gold</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Shadow Option -->
+      <div class="control-group">
+        <span class="control-label">Shadow</span>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="shadow-none" name="shadow" value="none" checked>
+            <label for="shadow-none">None</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="shadow-subtle" name="shadow" value="subtle">
+            <label for="shadow-subtle">Subtle</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Type Option -->
+      <div class="control-group">
+        <span class="control-label">Actions</span>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="cta-type-2-buttons" name="cta-type" value="2-buttons" checked>
+            <label for="cta-type-2-buttons">2 Buttons</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="cta-type-button" name="cta-type" value="button">
+            <label for="cta-type-button">1 Button</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="cta-type-icons" name="cta-type" value="icons">
+            <label for="cta-type-icons">Icons</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="cta-type-none" name="cta-type" value="none">
+            <label for="cta-type-none">None</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Style Option -->
+      <div class="control-group" id="cta-style-group">
+        <span class="control-label">CTA Style</span>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="cta-auto" name="cta-style" value="auto" checked>
+            <label for="cta-auto">Auto (Recommended)</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="cta-text" name="cta-style" value="text">
+            <label for="cta-text">Text Link</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="cta-outline" name="cta-style" value="outline">
+            <label for="cta-outline">Outline</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="cta-solid" name="cta-style" value="solid">
+            <label for="cta-solid">Solid</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Background Image Control -->
+      <div class="control-group">
+        <span class="control-label">Background Type</span>
+        <div class="radio-option">
+          <input type="checkbox" id="use-background-image" name="use-background-image">
+          <label for="use-background-image">Use Background Image</label>
+        </div>
+        <div id="background-image-input" style="margin-top: 0.75rem; display: none;">
+          <input
+            type="text"
+            id="background-image-url"
+            placeholder="Enter image URL"
+            value="https://images.unsplash.com/photo-1512598483799-b7f979b5f2b3?q=80&w=3442&auto=format&fit=crop"
+            style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;"
+          />
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-8">
+    <h1 class="text-3xl font-bold mb-8 text-center" style="color: var(--primary-text);">Navigation Bar Collection</h1>
+
+  <!-- Layout 1: Logo Left + Nav + Actions Right (Default) -->
+  <div class="nav-container">
+    <p class="text-sm mb-2 font-medium" style="color: var(--primary-text);">⭐ Layout 1: Logo Left + Nav + Actions Right (Default)</p>
+    <nav class="nav-bg-solid nav-corners-rounded nav-theme-light px-6 py-4">
+      <div class="nav-content-wrapper">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" class="w-10 h-10">
+              <rect width="40" height="40" rx="8" fill="var(--secondary-accent)"/>
+              <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" fill="var(--primary-bg)" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600">B</text>
+            </svg>
+            <span class="font-bold text-xl" style="color: var(--accent-text);">fullPage.js</span>
+          </div>
+          <div class="hidden md:flex items-center gap-8">
+            <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">Home</a>
+            <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">About</a>
+            <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">Team</a>
+            <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">Blog</a>
+          </div>
+          <div class="hidden md:flex items-center gap-3" data-nav-buttons>
+            <a href="#" class="px-4 py-2 font-medium border transition-all hover:opacity-80" style="border-radius: var(--button-radius); color: var(--primary-text); border-color: var(--secondary-text);" data-cta="true" data-cta-1>
+              Sign in
+            </a>
+            <a href="#" class="px-5 py-2 font-medium transition-all hover:opacity-90" style="background: var(--secondary-accent); border-radius: var(--button-radius); color: var(--primary-text);" data-cta="true" data-cta-2>
+              Get Started →
+            </a>
+          </div>
+          <div class="hidden md:flex items-center gap-4" data-nav-icons style="display: none;">
+            <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+            <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          </div>
+          <button class="md:hidden p-2" onclick="toggleMenu('menu1')" style="color: var(--primary-text);">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+        <div id="menu1" class="mobile-menu md:hidden">
+          <div class="pt-4 pb-2 flex flex-col gap-3">
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">Home</a>
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">About</a>
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">Team</a>
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">Blog</a>
+            <a href="#" class="mt-2 px-4 py-2 font-medium border transition-all hover:opacity-80" style="border-radius: var(--button-radius); color: var(--primary-text); border-color: var(--secondary-text);">Sign in</a>
+            <a href="#" class="px-5 py-2 font-medium transition-all hover:opacity-90" style="border-radius: var(--button-radius); background: var(--secondary-accent); color: var(--primary-text);">Get Started →</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Layout 2: Centered Logo -->
+  <div class="nav-container">
+    <p class="text-sm mb-2 font-medium" style="color: var(--primary-text);">⭐ Layout 2: Centered Logo</p>
+    <nav class="nav-bg-solid nav-corners-rounded nav-theme-light px-6 py-4">
+      <div class="nav-content-wrapper">
+        <div class="flex items-center justify-between">
+          <div class="hidden md:flex items-center gap-8">
+            <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">Home</a>
+            <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">About</a>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" class="w-10 h-10">
+              <rect width="40" height="40" rx="8" fill="var(--secondary-accent)"/>
+              <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" fill="var(--primary-bg)" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600">B</text>
+            </svg>
+            <span class="font-bold text-xl" style="color: var(--accent-text);">fullPage.js</span>
+          </div>
+          <div class="hidden md:flex items-center gap-3">
+            <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">Team</a>
+            <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">Blog</a>
+            <div class="flex items-center gap-3" data-nav-buttons>
+              <a href="#" class="px-4 py-2 font-medium border transition-all hover:opacity-80" style="border-radius: var(--button-radius); color: var(--primary-text); border-color: var(--secondary-text);" data-cta="true" data-cta-1>
+                Sign in
+              </a>
+              <a href="#" class="px-5 py-2 font-medium transition-all hover:opacity-90" style="border-radius: var(--button-radius); background: var(--secondary-accent); color: var(--primary-text);" data-cta="true" data-cta-2>
+                Get Started →
+              </a>
+            </div>
+            <div class="flex items-center gap-4" data-nav-icons style="display: none;">
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            </div>
+          </div>
+          <button class="md:hidden p-2" onclick="toggleMenu('menu2')" style="color: var(--primary-text);">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+        <div id="menu2" class="mobile-menu md:hidden">
+          <div class="pt-4 pb-2 flex flex-col gap-3">
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">Home</a>
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">About</a>
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">Team</a>
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">Blog</a>
+            <a href="#" class="mt-2 px-4 py-2 font-medium border transition-all hover:opacity-80" style="border-radius: var(--button-radius); color: var(--primary-text); border-color: var(--secondary-text);">Sign in</a>
+            <a href="#" class="px-5 py-2 font-medium transition-all hover:opacity-90" style="border-radius: var(--button-radius); background: var(--secondary-accent); color: var(--primary-text);">Get Started →</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Layout 4: Logo + Actions Only -->
+  <div class="nav-container">
+    <p class="text-sm mb-2 font-medium" style="color: var(--primary-text);">⭐ Layout 4: Logo + Actions Only</p>
+    <nav class="nav-bg-solid nav-corners-rounded nav-theme-light px-6 py-4">
+      <div class="nav-content-wrapper">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" class="w-10 h-10">
+              <rect width="40" height="40" rx="8" fill="var(--secondary-accent)"/>
+              <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" fill="var(--primary-bg)" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600">B</text>
+            </svg>
+            <span class="font-bold text-xl" style="color: var(--accent-text);">fullPage.js</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3" data-nav-buttons>
+              <a href="#" class="px-4 py-2 font-medium border transition-all hover:opacity-80" style="border-radius: var(--button-radius); color: var(--primary-text); border-color: var(--secondary-text);" data-cta="true" data-cta-1>
+                Sign in
+              </a>
+              <a href="#" class="px-5 py-2 font-medium transition-all hover:opacity-90" style="background: var(--secondary-accent); border-radius: var(--button-radius); color: var(--primary-text);" data-cta="true" data-cta-2>
+                Get Started →
+              </a>
+            </div>
+            <div class="flex items-center gap-4" data-nav-icons style="display: none;">
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Layout 5: Split Navigation -->
+  <div class="nav-container">
+    <p class="text-sm mb-2 font-medium" style="color: var(--primary-text);">⭐ Layout 5: Split Navigation</p>
+    <nav class="nav-bg-solid nav-corners-rounded nav-theme-light px-6 py-4">
+      <div class="nav-content-wrapper">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" class="w-10 h-10">
+                <rect width="40" height="40" rx="8" fill="var(--secondary-accent)"/>
+                <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" fill="var(--primary-bg)" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600">B</text>
+              </svg>
+              <span class="font-bold text-xl" style="color: var(--accent-text);">fullPage.js</span>
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+              <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">Home</a>
+              <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">About</a>
+              <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">Team</a>
+              <a href="#" class="font-medium hover:opacity-70 transition-opacity" style="color: var(--primary-text);">Blog</a>
+            </div>
+          </div>
+          <div class="hidden md:flex items-center gap-3">
+            <div class="flex items-center gap-3" data-nav-buttons>
+              <a href="#" class="px-4 py-2 font-medium border transition-all hover:opacity-80" style="border-radius: var(--button-radius); color: var(--primary-text); border-color: var(--secondary-text);" data-cta="true" data-cta-1>
+                Sign in
+              </a>
+              <a href="#" class="px-5 py-2 font-medium transition-all hover:opacity-90" style="background: var(--secondary-accent); border-radius: var(--button-radius); color: var(--primary-text);" data-cta="true" data-cta-2>
+                Get Started →
+              </a>
+            </div>
+            <div class="flex items-center gap-4" data-nav-icons style="display: none;">
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+              <svg class="w-6 h-6 cursor-pointer hover:opacity-70" style="color: var(--primary-text);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            </div>
+          </div>
+          <button class="md:hidden p-2" onclick="toggleMenu('menu5')" style="color: var(--primary-text);">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+        <div id="menu5" class="mobile-menu md:hidden">
+          <div class="pt-4 pb-2 flex flex-col gap-3">
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">Home</a>
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">About</a>
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">Team</a>
+            <a href="#" class="py-2 font-medium" style="color: var(--primary-text);">Blog</a>
+            <a href="#" class="mt-2 px-4 py-2 font-medium border transition-all hover:opacity-80" style="border-radius: var(--button-radius); color: var(--primary-text); border-color: var(--secondary-text);">Sign in</a>
+            <a href="#" class="px-5 py-2 font-medium transition-all hover:opacity-90" style="border-radius: var(--button-radius); background: var(--secondary-accent); color: var(--primary-text);">Get Started →</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  </div> <!-- Close p-8 div -->
+
+  <script>
+    // Keep existing toggleMenu function for mobile menus
+    function toggleMenu(menuId) {
+      const menu = document.getElementById(menuId);
+      menu.classList.toggle('open');
+    }
+
+    // Configuration
+    const CLASS_PREFIXES = {
+      background: 'nav-bg-',
+      corners: 'nav-corners-',
+      theme: 'nav-theme-',
+      shadow: 'nav-shadow-',
+      ctaStyle: 'nav-cta-'
+    };
+
+    let currentConfig = {
+      background: 'solid',
+      corners: 'rounded',
+      theme: 'light',
+      shadow: 'none',
+      ctaType: '2-buttons',
+      ctaStyle: 'auto',
+      selectedTheme: 'theme-light-grey-minimal',
+      useBackgroundImage: false,
+      backgroundImageUrl: 'https://images.unsplash.com/photo-1512598483799-b7f979b5f2b3?q=80&w=3442&auto=format&fit=crop'
+    };
+
+    // DOM references
+    const backgroundRadios = document.querySelectorAll('input[name="background"]');
+    const cornersRadios = document.querySelectorAll('input[name="corners"]');
+    const themeRadios = document.querySelectorAll('input[name="theme"]');
+    const shadowRadios = document.querySelectorAll('input[name="shadow"]');
+    const ctaTypeRadios = document.querySelectorAll('input[name="cta-type"]');
+    const ctaStyleRadios = document.querySelectorAll('input[name="cta-style"]');
+    const ctaStyleGroup = document.getElementById('cta-style-group');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeSelect = document.getElementById('theme-select');
+    const useBackgroundImageCheckbox = document.getElementById('use-background-image');
+    const backgroundImageInput = document.getElementById('background-image-input');
+    const backgroundImageUrl = document.getElementById('background-image-url');
+    const allNavs = document.querySelectorAll('nav');
+    const body = document.body;
+
+    // Remove all classes with a specific prefix
+    function removeClassesWithPrefix(element, prefix) {
+      const classesToRemove = Array.from(element.classList)
+        .filter(cls => cls.startsWith(prefix));
+      classesToRemove.forEach(cls => element.classList.remove(cls));
+    }
+
+    /**
+     * Apply body background color or image based on theme and settings
+     */
+    function applyBodyBackground() {
+      const theme = currentConfig.theme;
+
+      // Check if background image should be used
+      if (currentConfig.useBackgroundImage) {
+        const imageUrl = currentConfig.backgroundImageUrl.trim();
+        if (imageUrl) {
+          body.style.backgroundImage = `url('${imageUrl}')`;
+          body.style.backgroundSize = 'cover';
+          body.style.backgroundPosition = 'center';
+          body.style.backgroundRepeat = 'no-repeat';
+          body.style.backgroundAttachment = 'fixed';
+          // Remove background color to let image show
+          body.style.backgroundColor = '';
+          return;
+        }
+      }
+
+      // Remove background image styles if not using image
+      body.style.backgroundImage = '';
+      body.style.backgroundSize = '';
+      body.style.backgroundPosition = '';
+      body.style.backgroundRepeat = '';
+      body.style.backgroundAttachment = '';
+
+      // Apply background color based on theme
+      if (theme === 'light') {
+        body.style.backgroundColor = '#e5e5e5';
+      } else if (theme === 'dark') {
+        body.style.backgroundColor = '#160f33';
+      } else if (theme === 'accent') {
+        // Use --primary-bg which is set to var(--primary-accent) in nav-theme-accent
+        body.style.backgroundColor = 'var(--primary-bg)';
+      }
+    }
+
+
+    /**
+     * Apply body theme class
+     */
+    function applyBodyTheme() {
+      // Remove all theme classes from body
+      body.className = body.className.replace(/theme-[\w-]+/g, '').trim();
+
+      // Always add selected theme class (for all themes, not just accent)
+      // This ensures --primary-accent and other theme colors are available for buttons, logos, etc.
+      body.classList.add(currentConfig.selectedTheme);
+
+      // Ensure p-0 class remains
+      if (!body.classList.contains('p-0')) {
+        body.classList.add('p-0');
+      }
+    }
+
+    /**
+     * Apply CTA type (none, button, 2-buttons, icons)
+     */
+    function applyCtaType() {
+      const ctaType = currentConfig.ctaType;
+
+      allNavs.forEach(nav => {
+        const buttonContainers = nav.querySelectorAll('[data-nav-buttons]');
+        const iconContainers = nav.querySelectorAll('[data-nav-icons]');
+        const cta1Elements = nav.querySelectorAll('[data-cta-1]');
+        const cta2Elements = nav.querySelectorAll('[data-cta-2]');
+
+        // Reset display for all elements
+        buttonContainers.forEach(container => {
+          container.style.display = '';
+        });
+        iconContainers.forEach(container => {
+          container.style.display = 'none';
+        });
+        cta1Elements.forEach(el => {
+          el.style.display = '';
+        });
+        cta2Elements.forEach(el => {
+          el.style.display = '';
+        });
+
+        // Apply based on type
+        if (ctaType === 'none') {
+          // Hide all CTAs and icons
+          buttonContainers.forEach(container => {
+            container.style.display = 'none';
+          });
+        } else if (ctaType === 'button') {
+          // Show only the second button (primary CTA)
+          cta1Elements.forEach(el => {
+            el.style.display = 'none';
+          });
+        } else if (ctaType === '2-buttons') {
+          // Show both buttons (default - already reset above)
+        } else if (ctaType === 'icons') {
+          // Hide buttons, show icons
+          buttonContainers.forEach(container => {
+            container.style.display = 'none';
+          });
+          iconContainers.forEach(container => {
+            container.style.display = 'flex';
+          });
+        }
+      });
+
+      // Show/hide CTA Style control group
+      // Only show it when ctaType is 'button' or '2-buttons'
+      if (ctaType === 'none' || ctaType === 'icons') {
+        ctaStyleGroup.style.display = 'none';
+      } else {
+        ctaStyleGroup.style.display = '';
+      }
+    }
+
+    /**
+     * Apply CTA styles based on the selected mode
+     */
+    function applyCtaStyles() {
+      const ctaStyle = currentConfig.ctaStyle;
+
+      allNavs.forEach(nav => {
+        // Find all elements with data-cta="true" attribute
+        const ctas = Array.from(nav.querySelectorAll('[data-cta="true"]'));
+        const ctaCount = ctas.length;
+
+        // Remove any existing CTA style classes
+        ctas.forEach(cta => {
+          cta.classList.remove('nav-cta-text', 'nav-cta-outline', 'nav-cta-solid');
+        });
+
+        // Apply styles based on mode
+        if (ctaStyle === 'text') {
+          // All CTAs become text links
+          ctas.forEach(cta => cta.classList.add('nav-cta-text'));
+        } else if (ctaStyle === 'outline') {
+          // All CTAs become outline buttons
+          ctas.forEach(cta => cta.classList.add('nav-cta-outline'));
+        } else if (ctaStyle === 'solid') {
+          // All CTAs become solid buttons
+          ctas.forEach(cta => cta.classList.add('nav-cta-solid'));
+        } else if (ctaStyle === 'auto') {
+          // Auto mode: apply progressive emphasis
+          if (ctaCount === 1) {
+            // 1 CTA: Solid
+            ctas[0].classList.add('nav-cta-solid');
+          } else if (ctaCount === 2) {
+            // 2 CTAs: Outline + Solid
+            ctas[0].classList.add('nav-cta-outline');
+            ctas[1].classList.add('nav-cta-solid');
+          } else if (ctaCount >= 3) {
+            // 3+ CTAs: Text + Outline + Solid
+            ctas[0].classList.add('nav-cta-text');
+            ctas[1].classList.add('nav-cta-outline');
+            ctas[2].classList.add('nav-cta-solid');
+          }
+        }
+      });
+    }
+
+    // Apply a specific option to all navs
+    function applyOption(optionType, value) {
+      // CTA type is handled differently - it controls visibility of elements
+      if (optionType === 'ctaType') {
+        currentConfig[optionType] = value;
+        applyCtaType();
+        saveConfigToStorage();
+        return;
+      }
+
+      // CTA style is handled differently - it applies to individual buttons, not the nav element
+      if (optionType === 'ctaStyle') {
+        currentConfig[optionType] = value;
+        applyCtaStyles();
+        saveConfigToStorage();
+        return;
+      }
+
+      const prefix = CLASS_PREFIXES[optionType];
+      const className = prefix + value;
+
+      allNavs.forEach(nav => {
+        removeClassesWithPrefix(nav, prefix);
+        nav.classList.add(className);
+      });
+
+      currentConfig[optionType] = value;
+
+      // Handle theme-specific updates
+      if (optionType === 'theme') {
+        applyBodyTheme();
+        applyBodyBackground();
+      }
+
+      saveConfigToStorage();
+    }
+
+    // Apply all configurations
+    function applyAllConfigurations() {
+      allNavs.forEach(nav => {
+        Object.values(CLASS_PREFIXES).forEach(prefix => {
+          // Don't remove CTA style classes from nav - they're applied to individual buttons
+          if (prefix === CLASS_PREFIXES.ctaStyle) return;
+          removeClassesWithPrefix(nav, prefix);
+        });
+
+        nav.classList.add(CLASS_PREFIXES.background + currentConfig.background);
+        nav.classList.add(CLASS_PREFIXES.corners + currentConfig.corners);
+        nav.classList.add(CLASS_PREFIXES.theme + currentConfig.theme);
+        nav.classList.add(CLASS_PREFIXES.shadow + currentConfig.shadow);
+        // Don't add ctaStyle class to nav - it's applied to individual buttons
+      });
+
+      applyBodyTheme();
+      applyBodyBackground();
+      applyCtaType();
+      applyCtaStyles();
+    }
+
+    // localStorage persistence
+    function saveConfigToStorage() {
+      localStorage.setItem('navConfig', JSON.stringify(currentConfig));
+    }
+
+    function loadConfigFromStorage() {
+      const saved = localStorage.getItem('navConfig');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          currentConfig = { ...currentConfig, ...parsed };
+
+          // Sync theme selector if we have a saved theme
+          if (currentConfig.selectedTheme && themeSelect) {
+            themeSelect.value = currentConfig.selectedTheme;
+          }
+
+          return true;
+        } catch (e) {
+          console.error('Failed to parse saved config:', e);
+        }
+      }
+      return false;
+    }
+
+    function syncRadiosToConfig() {
+      const bgRadio = document.getElementById(`bg-${currentConfig.background}`);
+      const cornersRadio = document.getElementById(`corners-${currentConfig.corners}`);
+      const themeRadio = document.getElementById(`theme-${currentConfig.theme}`);
+      const shadowRadio = document.getElementById(`shadow-${currentConfig.shadow}`);
+      const ctaTypeRadio = document.getElementById(`cta-type-${currentConfig.ctaType}`);
+      const ctaRadio = document.getElementById(`cta-${currentConfig.ctaStyle}`);
+
+      if (bgRadio) bgRadio.checked = true;
+      if (cornersRadio) cornersRadio.checked = true;
+      if (themeRadio) themeRadio.checked = true;
+      if (shadowRadio) shadowRadio.checked = true;
+      if (ctaTypeRadio) ctaTypeRadio.checked = true;
+      if (ctaRadio) ctaRadio.checked = true;
+    }
+
+    // Event listeners
+    backgroundRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) applyOption('background', radio.value);
+      });
+    });
+
+    cornersRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) applyOption('corners', radio.value);
+      });
+    });
+
+    themeRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) applyOption('theme', radio.value);
+      });
+    });
+
+    shadowRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) applyOption('shadow', radio.value);
+      });
+    });
+
+    ctaTypeRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) applyOption('ctaType', radio.value);
+      });
+    });
+
+    ctaStyleRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) applyOption('ctaStyle', radio.value);
+      });
+    });
+
+    // Theme selector dropdown
+    themeSelect.addEventListener('change', () => {
+      currentConfig.selectedTheme = themeSelect.value;
+      applyBodyTheme();
+      applyBodyBackground();
+      saveConfigToStorage();
+    });
+
+    // Background image checkbox
+    useBackgroundImageCheckbox.addEventListener('change', () => {
+      currentConfig.useBackgroundImage = useBackgroundImageCheckbox.checked;
+
+      if (useBackgroundImageCheckbox.checked) {
+        backgroundImageInput.style.display = 'block';
+      } else {
+        backgroundImageInput.style.display = 'none';
+      }
+
+      applyBodyBackground();
+      saveConfigToStorage();
+    });
+
+    // Background image URL input
+    backgroundImageUrl.addEventListener('input', () => {
+      currentConfig.backgroundImageUrl = backgroundImageUrl.value;
+
+      if (currentConfig.useBackgroundImage) {
+        applyBodyBackground();
+        saveConfigToStorage();
+      }
+    });
+
+    // Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      loadConfigFromStorage();
+      syncRadiosToConfig();
+
+      // Sync background image controls
+      if (currentConfig.useBackgroundImage) {
+        useBackgroundImageCheckbox.checked = true;
+        backgroundImageInput.style.display = 'block';
+      }
+      if (currentConfig.backgroundImageUrl) {
+        backgroundImageUrl.value = currentConfig.backgroundImageUrl;
+      }
+
+      applyAllConfigurations();
+
+      // Initialize lucide icons
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+
+      // Control panel toggle functionality
+      const controlPanelToggle = document.getElementById('control-panel-toggle');
+      const controlPanel = document.getElementById('control-panel');
+
+      if (controlPanelToggle && controlPanel) {
+        controlPanelToggle.addEventListener('click', () => {
+          controlPanel.classList.toggle('collapsed');
+          // Reinitialize icons after toggle
+          setTimeout(() => {
+            if (typeof lucide !== 'undefined') {
+              lucide.createIcons();
+            }
+          }, 100);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

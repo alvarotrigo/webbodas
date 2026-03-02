@@ -1,0 +1,61 @@
+{
+  "version": "1",
+  "section_id": "fp-theme-bento-gallery",
+  "category": "content",
+  "slots": {
+    "headings": [
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      },
+      {
+        "level": 3,
+        "text": ""
+      }
+    ],
+    "ctas": [
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 1
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 2
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 3
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 4
+      },
+      {
+        "label": "",
+        "url": "",
+        "kind": "link",
+        "priority": 5
+      }
+    ]
+  }
+}
