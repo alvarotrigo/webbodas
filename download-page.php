@@ -3,40 +3,38 @@
 require_once __DIR__ . '/config/env.php';
 
 // Get POST data
-$sections = json_decode($_POST['sections'] ?? '[]', true);
+$fullHtml = $_POST['fullHtml'] ?? '';
 $theme = $_POST['theme'] ?? '';
 $fullpageEnabled = $_POST['fullpageEnabled'] ?? 'false';
 $fullpageSettings = json_decode($_POST['fullpageSettings'] ?? '{}', true);
 $animationsEnabled = $_POST['animationsEnabled'] ?? 'false';
 $animateBackgroundsEnabled = $_POST['animateBackgroundsEnabled'] ?? 'false';
 $isPaid = filter_var($_POST['isPaid'] ?? false, FILTER_VALIDATE_BOOLEAN);
-// Full-page template only: when canvas was loaded from a template, include its theme; section-block leaves this empty and is unchanged
 $templateId = isset($_POST['templateId']) && $_POST['templateId'] !== '' ? preg_replace('/[^a-z0-9\-_]/i', '', (string) $_POST['templateId']) : '';
 
 // Determine fullPage.js license key based on user's paid status
 $fullpageLicenseKey = getenv('FULLPAGE_LICENSE_KEY') ?: 'YOUR_LICENSE_KEY';
 if (!$isPaid) {
-    // For non-paid users, use placeholder with comment
     $fullpageLicenseKey = 'YOUR_LICENSE_KEY';
 }
 
 // Include section script mapping
 require_once __DIR__ . '/includes/section-script-map.php';
 
-// Get required scripts from sections
-$sectionIds = extractSectionIds($sections);
+// Extraer IDs de sección del fullHtml para determinar scripts necesarios
+$sectionIds = extractSectionIdsFromFullHtml($fullHtml);
 $requiredScripts = getRequiredScripts($sectionIds);
 
 // Log for debugging
 error_log("=== SECTION SCRIPTS ===");
-error_log("Sections found: " . count($sections));
+error_log("fullHtml length: " . strlen($fullHtml));
 error_log("Section IDs: " . (empty($sectionIds) ? '(none extracted)' : implode(', ', $sectionIds)));
 error_log("Required scripts: " . (empty($requiredScripts) ? '(none required)' : implode(', ', $requiredScripts)));
 if (!empty($sectionIds)) {
-    $scriptMap = getSectionScriptMap(); // Get the map for debugging
+    $scriptMap = getSectionScriptMap();
     foreach ($sectionIds as $sectionId) {
-        $scriptFile = isset($scriptMap[$sectionId]) ? 
-            (is_array($scriptMap[$sectionId]) ? implode(', ', $scriptMap[$sectionId]) : $scriptMap[$sectionId]) : 
+        $scriptFile = isset($scriptMap[$sectionId]) ?
+            (is_array($scriptMap[$sectionId]) ? implode(', ', $scriptMap[$sectionId]) : $scriptMap[$sectionId]) :
             '(no script needed)';
         error_log("  - $sectionId => $scriptFile");
     }
@@ -242,11 +240,7 @@ $html .= '
         ($animationsEnabled === 'true' && $fullpageEnabled === 'true' ? ' animations-enabled' : '') . 
         ($animateBackgroundsEnabled === 'true' ? ' animate-backgrounds' : '') . '">';
 
-// Add fullPage.js container if enabled
-if ($fullpageEnabled === 'true') {
-    $html .= '
-    <div id="fullpage">';
-}
+// El contenedor <div id="fullpage"> se añade dentro del bloque de inserción de fullHtml cuando corresponde.
 
 // Function to clean TinyMCE attributes and classes
 function cleanTinyMCEContent($html) {
@@ -273,51 +267,49 @@ function cleanTinyMCEContent($html) {
     return $html;
 }
 
-// Add sections
-foreach ($sections as $section) {
-    // Use DOMDocument to properly remove section-menu elements (including nested children)
-    $cleanHtml = $section['html'];
-    
-    // Only process if section-menu exists in the HTML
-    if (strpos($cleanHtml, 'section-menu') !== false) {
-        // Create a new DOMDocument instance
-        $dom = new DOMDocument();
-        
-        // Suppress errors for HTML5 tags and load the HTML
-        libxml_use_internal_errors(true);
-        $dom->loadHTML('<?xml encoding="UTF-8">' . $cleanHtml, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        libxml_clear_errors();
-        
-        // Find all elements with class containing "section-menu"
-        $xpath = new DOMXPath($dom);
-        $menuElements = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), ' section-menu ')]");
-        
-        // Remove each menu element (this removes all nested children too)
-        foreach ($menuElements as $menuElement) {
-            if ($menuElement->parentNode) {
-                $menuElement->parentNode->removeChild($menuElement);
+// Insertar el HTML completo del template.
+// La limpieza de section-menus y TinyMCE ya fue realizada por sendTemplateData() en el cliente.
+// Hacemos un segundo pase de limpieza TinyMCE como salvaguarda.
+$cleanedFullHtml = cleanTinyMCEContent($fullHtml);
+
+if ($fullpageEnabled === 'true' && !empty($cleanedFullHtml)) {
+    // Con fullPage.js: separar nav/elementos no-sección de secciones+footer.
+    // Nav se coloca fuera del wrapper; secciones se envuelven en <div id="fullpage">.
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true);
+    $dom->loadHTML('<?xml encoding="UTF-8"><div id="_fp_wrap_">' . $cleanedFullHtml . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    libxml_clear_errors();
+
+    $xpath = new DOMXPath($dom);
+    $wrapper = $xpath->query('//*[@id="_fp_wrap_"]')->item(0);
+
+    $navHtml = '';
+    $sectionsHtml = '';
+
+    if ($wrapper) {
+        foreach ($wrapper->childNodes as $node) {
+            if ($node->nodeType !== XML_ELEMENT_NODE) continue;
+            $tag = strtolower($node->nodeName);
+            $nodeHtml = $dom->saveHTML($node);
+            if ($tag === 'section' || $tag === 'footer') {
+                $sectionsHtml .= $nodeHtml;
+            } else {
+                $navHtml .= $nodeHtml;
             }
         }
-        
-        // Save the cleaned HTML
-        $cleanHtml = $dom->saveHTML();
-        
-        // Remove the XML encoding declaration that we added
-        $cleanHtml = str_replace('<?xml encoding="UTF-8">', '', $cleanHtml);
     }
-    
-    // Clean TinyMCE attributes and classes
-    $cleanHtml = cleanTinyMCEContent($cleanHtml);
-    
-    // Add the cleaned HTML directly
-    $html .= $cleanHtml;
+
+    $html .= $navHtml;
+    $html .= '<div id="fullpage">';
+    $html .= $sectionsHtml;
+    $html .= '</div>';
+} else {
+    // Sin fullPage.js: insertar el HTML completo directamente
+    $html .= $cleanedFullHtml;
 }
 
-// Close fullPage.js container if enabled
-if ($fullpageEnabled === 'true') {
-    $html .= '
-    </div>';
-}
+// [DISABLED_FOR_WEDDING_VERSION]: Cierre del contenedor fullpage ya manejado en el bloque de inserción de fullHtml.
+// if ($fullpageEnabled === 'true') { $html .= '</div>'; }
 
 // Remove editor-only attributes and classes from exported HTML
 $html = preg_replace('/\s*\bin-viewport\b/', '', $html); // Remove viewport animation classes

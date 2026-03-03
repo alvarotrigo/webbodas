@@ -133,10 +133,9 @@ function getRequiredScripts($sectionIds) {
 }
 
 /**
- * Extract section IDs from sections data
- * Parses HTML to find section IDs since they're embedded in the HTML, not separate fields
- * @param array $sections Array of section objects/arrays (each containing 'html' key)
- * @return array Array of section IDs
+ * Extract section IDs from sections data (formato antiguo de array de secciones)
+ * @param array $sections Array de objetos/arrays con clave 'html'
+ * @return array Array de section IDs
  */
 function extractSectionIds($sections) {
     $sectionIds = [];
@@ -144,13 +143,11 @@ function extractSectionIds($sections) {
     foreach ($sections as $section) {
         $html = '';
         
-        // Get HTML content from section data
         if (is_array($section) && isset($section['html'])) {
             $html = $section['html'];
         } elseif (is_object($section) && isset($section->html)) {
             $html = $section->html;
         } elseif (is_string($section)) {
-            // In case sections are passed as HTML strings directly
             $html = $section;
         }
         
@@ -158,11 +155,29 @@ function extractSectionIds($sections) {
             continue;
         }
         
-        // Parse HTML to extract section ID using regex
-        // Look for <section id="..." or <section ... id="..."
         if (preg_match('/<section[^>]*\sid=["\']([^"\']+)["\']/', $html, $matches)) {
             $sectionIds[] = $matches[1];
         }
+    }
+    
+    return $sectionIds;
+}
+
+/**
+ * Extract section IDs from a full HTML string (nuevo formato fullHtml)
+ * Finds all <section id="..."> within the full template HTML
+ * @param string $fullHtml HTML completo del #preview-content
+ * @return array Array de section IDs
+ */
+function extractSectionIdsFromFullHtml($fullHtml) {
+    if (empty($fullHtml)) {
+        return [];
+    }
+    
+    $sectionIds = [];
+    preg_match_all('/<section[^>]*\sid=["\']([^"\']+)["\']/', $fullHtml, $matches);
+    if (!empty($matches[1])) {
+        $sectionIds = $matches[1];
     }
     
     return $sectionIds;

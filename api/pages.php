@@ -439,26 +439,36 @@ function sharePageToken($pageId, $userId, $supabase) {
  * @return mixed - The cleaned data in the same format as input
  */
 function cleanSectionInitializationAttributes($data) {
-    // If data is a string, decode it first
+    // Si es string, decodificar primero
     $isString = is_string($data);
     if ($isString) {
         $data = json_decode($data, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            // If it's not JSON, return as-is
             return $data;
         }
     }
-    
-    // Validate and normalize data structure
-    // Ensure sections is always an array
-    if (!isset($data['sections']) || !is_array($data['sections'])) {
-        $data['sections'] = [];
+
+    // Validar y normalizar fullHtml (nuevo formato: HTML completo del template)
+    if (!isset($data['fullHtml']) || !is_string($data['fullHtml'])) {
+        $data['fullHtml'] = '';
     }
-    
-    // Ensure theme is always a string (not an array)
+
+    // Limpiar atributos de inicialización de runtime del fullHtml
+    if (!empty($data['fullHtml'])) {
+        $data['fullHtml'] = preg_replace('/\s+data-accordion-initialized="[^"]*"/', '', $data['fullHtml']);
+        $data['fullHtml'] = preg_replace('/\s+data-process-accordion-initialized="[^"]*"/', '', $data['fullHtml']);
+        $data['fullHtml'] = preg_replace('/\s+data-popular-questions-initialized="[^"]*"/', '', $data['fullHtml']);
+        $data['fullHtml'] = preg_replace('/\s+data-pricing-initialized="[^"]*"/', '', $data['fullHtml']);
+        $data['fullHtml'] = preg_replace('/\s+data-gallery-initialized="[^"]*"/', '', $data['fullHtml']);
+        $data['fullHtml'] = preg_replace('/\s+data-removable-initialized="[^"]*"/', '', $data['fullHtml']);
+        $data['fullHtml'] = preg_replace('/\s+data-cloudinary-initialized="[^"]*"/', '', $data['fullHtml']);
+        $data['fullHtml'] = preg_replace('/\s+data-video-editor-initialized="[^"]*"/', '', $data['fullHtml']);
+        $data['fullHtml'] = preg_replace('/\s+data-interactive-features-initialized="[^"]*"/', '', $data['fullHtml']);
+    }
+
+    // Asegurar que el tema sea siempre un string válido
     if (isset($data['theme'])) {
         if (is_array($data['theme'])) {
-            // If theme is an array, extract first valid string value
             $validThemes = array_filter($data['theme'], function($t) {
                 return is_string($t) && trim($t) !== '';
             });
@@ -469,23 +479,7 @@ function cleanSectionInitializationAttributes($data) {
     } else {
         $data['theme'] = 'theme-light-minimal';
     }
-    
-    // Clean sections
-    foreach ($data['sections'] as &$section) {
-        if (isset($section['html']) && is_string($section['html'])) {
-            // Remove all initialization data attributes
-            $section['html'] = preg_replace('/\s+data-accordion-initialized="[^"]*"/', '', $section['html']);
-            $section['html'] = preg_replace('/\s+data-process-accordion-initialized="[^"]*"/', '', $section['html']);
-            $section['html'] = preg_replace('/\s+data-popular-questions-initialized="[^"]*"/', '', $section['html']);
-            $section['html'] = preg_replace('/\s+data-pricing-initialized="[^"]*"/', '', $section['html']);
-            $section['html'] = preg_replace('/\s+data-gallery-initialized="[^"]*"/', '', $section['html']);
-            $section['html'] = preg_replace('/\s+data-removable-initialized="[^"]*"/', '', $section['html']);
-            $section['html'] = preg_replace('/\s+data-cloudinary-initialized="[^"]*"/', '', $section['html']);
-        }
-    }
-    unset($section); // Break reference
-    
-    // Return in original format
+
     return $isString ? json_encode($data) : $data;
 }
 

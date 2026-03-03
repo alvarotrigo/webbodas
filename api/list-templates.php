@@ -1,13 +1,35 @@
 <?php
 /**
- * List template HTML files under templates/html/ with metadata from meta tags.
- * Returns JSON: { "templates": [ { "id", "name", "url", "styles": [] } ] }
- * Used by the app to build the style filter panels; no auth required (read-only, public templates).
+ * List template HTML files under templates/html/ with metadata extracted from filenames.
+ *
+ * Filename convention:  CATEGORY__NAME__TAG1-TAG2-TAG3.html  (lowercase)
+ *   - Separator between fields: __ (double underscore)
+ *   - Words within a field: - (hyphen)
+ *   - Tags are single words separated by -
+ *
+ * Returns JSON: { "categories": [ { "id", "name", "icon" } ], "templates": [ { "id", "name", "url", "category", "tags": [], "styles": [] } ] }
+ * Categories are read from templates/categorias.json (id used as valid style for filename convention).
+ * Falls back to HTML meta-tag parsing for files that don't follow the convention.
  */
 
 header('Content-Type: application/json; charset=utf-8');
 
-$VALID_STYLES = ['minimal', 'classic', 'rustic', 'luxe'];
+$categoriasPath = dirname(__DIR__) . '/templates/categorias.json';
+$categories = [];
+$VALID_STYLES = ['minimal', 'classic', 'rustic', 'luxe']; // fallback si no existe categorias.json
+if (is_file($categoriasPath)) {
+    $raw = @file_get_contents($categoriasPath);
+    if ($raw !== false) {
+        $decoded = json_decode($raw, true);
+        if (is_array($decoded)) {
+            $categories = $decoded;
+            $VALID_STYLES = array_values(array_filter(array_map(function ($c) {
+                return isset($c['id']) ? $c['id'] : null;
+            }, $categories)));
+        }
+    }
+}
+
 $htmlDir = dirname(__DIR__) . '/templates/html';
 
 if (!is_dir($htmlDir)) {
@@ -21,7 +43,7 @@ $templates = [];
 foreach (glob($htmlDir . '/*.html') ?: [] as $absPath) {
     $base = basename($absPath, '.html');
     $relPath = 'templates/html/' . basename($absPath);
-    $templates[] = parseTemplateMeta($absPath, $base, $relPath, $VALID_STYLES);
+    $templates[] = buildTemplateEntry($absPath, $base, $relPath, $VALID_STYLES);
 }
 
 // Subdirs: */index.html
@@ -32,19 +54,60 @@ foreach (glob($htmlDir . '/*', GLOB_ONLYDIR) ?: [] as $subDir) {
     }
     $base = basename($subDir);
     $relPath = 'templates/html/' . $base . '/index.html';
-    $templates[] = parseTemplateMeta($indexPath, $base, $relPath, $VALID_STYLES);
+    $templates[] = buildTemplateEntry($indexPath, $base, $relPath, $VALID_STYLES);
 }
 
-echo json_encode(['templates' => $templates]);
+echo json_encode(['categories' => $categories, 'templates' => $templates]);
 
 /**
- * @param string $absPath
- * @param string $id
- * @param string $url
- * @param string[] $validStyles
- * @return array{id: string, name: string, url: string, styles: string[]}
+ * Build a template entry trying the filename convention first, then falling back to meta tags.
  */
-function parseTemplateMeta($absPath, $id, $url, array $validStyles) {
+function buildTemplateEntry(string $absPath, string $id, string $url, array $validStyles): array {
+    $conv = parseFilenameConvention($id, $validStyles);
+    if ($conv !== null) {
+        return [
+            'id'       => $id,
+            'name'     => $conv['name'],
+            'url'      => $url,
+            'category' => $conv['category'],
+            'tags'     => $conv['tags'],
+            'styles'   => $conv['styles'],
+        ];
+    }
+    return parseTemplateMeta($absPath, $id, $url, $validStyles);
+}
+
+/**
+ * Extract category, display name, tags and styles from a filename that follows
+ * the convention CATEGORY__NAME__TAG1-TAG2-TAG3 (without extension).
+ *
+ * @return array{category: string, name: string, tags: string[], styles: string[]}|null
+ */
+function parseFilenameConvention(string $filename, array $validStyles): ?array {
+    $parts = explode('__', $filename);
+    if (count($parts) !== 3) {
+        return null;
+    }
+
+    $category = $parts[0];
+    $rawName  = $parts[1];
+    $rawTags  = $parts[2];
+
+    $name = ucwords(str_replace('-', ' ', $rawName));
+    $tags = array_values(array_filter(explode('-', $rawTags)));
+
+    $allCandidates = array_merge([$category], $tags);
+    $styles = array_values(array_unique(array_intersect($allCandidates, $validStyles)));
+
+    return compact('category', 'name', 'tags', 'styles');
+}
+
+/**
+ * Fallback: read meta tags from the HTML file for templates that don't follow the naming convention.
+ *
+ * @return array{id: string, name: string, url: string, category: string, tags: string[], styles: string[]}
+ */
+function parseTemplateMeta(string $absPath, string $id, string $url, array $validStyles): array {
     $name = $id;
     $styles = [];
 
@@ -60,9 +123,11 @@ function parseTemplateMeta($absPath, $id, $url, array $validStyles) {
     }
 
     return [
-        'id' => $id,
-        'name' => $name,
-        'url' => $url,
-        'styles' => $styles
+        'id'       => $id,
+        'name'     => $name,
+        'url'      => $url,
+        'category' => '',
+        'tags'     => [],
+        'styles'   => $styles,
     ];
 }

@@ -25,7 +25,7 @@ define('LEMONSQUEEZY_TEST_VARIANT_ID', lemonsqueezy_env('LEMONSQUEEZY_TEST_VARIA
 
 // Webhook secret - Read from .env file
 define('LEMONSQUEEZY_WEBHOOK_SECRET', lemonsqueezy_env('LEMONSQUEEZY_WEBHOOK_SECRET', ''));
-define('LEMONSQUEEZY_SUPABASE_SERVICE_ROLE_KEY', lemonsqueezy_env('LEMONSQUEEZY_SUPABASE_SERVICE_ROLE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJrdnVtaXlzZHZqeXV1dmhxdm5jIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTkyMDU3MCwiZXhwIjoyMDc3NDk2NTcwfQ.U0uHsgnkNEIje5THcaI1iaCVwNGtyOhZqgjc87JcTvs'));
+define('LEMONSQUEEZY_SUPABASE_SERVICE_ROLE_KEY', lemonsqueezy_env('LEMONSQUEEZY_SUPABASE_SERVICE_ROLE_KEY', ''));
 
 
 // Test Mode Configuration

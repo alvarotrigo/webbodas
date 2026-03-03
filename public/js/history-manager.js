@@ -98,28 +98,27 @@ class HistoryManager {
         const requestId = 'history_' + Date.now() + '_' + Math.random();
         
         const handleResponse = (event) => {
-            if (event.data.type === 'SECTIONS_DATA' && event.data.requestId === requestId) {
-                const { sections, theme, fullpageEnabled, animationsEnabled } = event.data.data;
+            if (event.data.type === 'TEMPLATE_DATA' && event.data.requestId === requestId) {
+                const { fullHtml, templateHeadHtml, theme, fullpageEnabled, animationsEnabled } = event.data.data;
                 
-                // Create history snapshot
+                // Crear snapshot de historial con fullHtml y templateHeadHtml
                 const snapshot = {
-                    sections: sections ? JSON.parse(JSON.stringify(sections)) : [],
+                    fullHtml: fullHtml || '',
+                    templateHeadHtml: templateHeadHtml || '',
                     theme: theme || this.context.currentTheme,
                     fullpageEnabled: fullpageEnabled || false,
                     animationsEnabled: animationsEnabled || false,
                     fullpageSettings: this.context.fullpageSettings ? JSON.parse(JSON.stringify(this.context.fullpageSettings)) : null,
-                    selectedSections: Array.from(this.context.selectedSections),
                     timestamp: Date.now()
                 };
                 
-                // Create a hash of the current state to check for duplicates
+                // Hash del estado actual para detectar duplicados
                 const stateHash = JSON.stringify({
-                    sections: snapshot.sections,
+                    fullHtml: snapshot.fullHtml,
                     theme: snapshot.theme,
                     fullpageEnabled: snapshot.fullpageEnabled,
                     animationsEnabled: snapshot.animationsEnabled,
-                    fullpageSettings: snapshot.fullpageSettings,
-                    selectedSections: snapshot.selectedSections.sort((a, b) => a - b) // Sort for consistent comparison
+                    fullpageSettings: snapshot.fullpageSettings
                 });
                 
                 // Skip if this is the same state as the last saved one
@@ -187,9 +186,9 @@ class HistoryManager {
         // Listen for response
         window.addEventListener('message', handleResponse);
         
-        // Request data from iframe (pass toggle states from app.php context)
+        // Solicitar datos completos del template al iframe para snapshot de historial
         iframe.contentWindow.postMessage({
-            type: 'GET_SECTIONS_DATA',
+            type: 'GET_TEMPLATE_DATA',
             data: {
                 requestId: requestId,
                 forHistory: true,
@@ -261,7 +260,7 @@ class HistoryManager {
                 canUndo: this.historyIndex > 0,
                 stackEntries: this.historyStack.map((s, i) => ({
                     index: i,
-                    sections: s.sections?.length || 0,
+                    fullHtmlLength: s.fullHtml?.length || 0,
                     theme: s.theme
                 }))
             });
@@ -302,16 +301,13 @@ class HistoryManager {
             });
         }
         
-        // Update last saved state hash to match the snapshot IMMEDIATELY (before restore)
-        // This prevents any saves during restore from creating duplicate entries
-        // The hash will be compared during save() and will match, causing save to be skipped
+        // Actualizar hash del estado guardado para coincidir con el snapshot ANTES de restaurar
         const snapshotStateHash = JSON.stringify({
-            sections: snapshot.sections || [],
+            fullHtml: snapshot.fullHtml || '',
             theme: snapshot.theme || this.context.currentTheme,
             fullpageEnabled: snapshot.fullpageEnabled || false,
             animationsEnabled: snapshot.animationsEnabled || false,
-            fullpageSettings: snapshot.fullpageSettings || null,
-            selectedSections: (snapshot.selectedSections || []).sort((a, b) => a - b)
+            fullpageSettings: snapshot.fullpageSettings || null
         });
         this.lastSavedStateHash = snapshotStateHash;
         
@@ -319,7 +315,6 @@ class HistoryManager {
         this.restoreSnapshot(snapshot);
         
         // Keep isUndoing true until restore completes to prevent any saves during restore
-        // The restoreSnapshot function will handle setting isRestoring flag
         // Very short delay - we're doing instant HTML replacement now
         const estimatedRestoreTime = 150; // Just enough for TinyMCE init
         setTimeout(() => {
@@ -389,16 +384,13 @@ class HistoryManager {
             });
         }
         
-        // Update last saved state hash to match the snapshot IMMEDIATELY (before restore)
-        // This prevents any saves during restore from creating duplicate entries
-        // The hash will be compared during save() and will match, causing save to be skipped
+        // Actualizar hash del estado guardado para coincidir con el snapshot ANTES de restaurar
         const snapshotStateHash = JSON.stringify({
-            sections: snapshot.sections || [],
+            fullHtml: snapshot.fullHtml || '',
             theme: snapshot.theme || this.context.currentTheme,
             fullpageEnabled: snapshot.fullpageEnabled || false,
             animationsEnabled: snapshot.animationsEnabled || false,
-            fullpageSettings: snapshot.fullpageSettings || null,
-            selectedSections: (snapshot.selectedSections || []).sort((a, b) => a - b)
+            fullpageSettings: snapshot.fullpageSettings || null
         });
         this.lastSavedStateHash = snapshotStateHash;
         
@@ -406,7 +398,6 @@ class HistoryManager {
         this.restoreSnapshot(snapshot);
         
         // Keep isUndoing true until restore completes to prevent any saves during restore
-        // The restoreSnapshot function will handle setting isRestoring flag
         // Very short delay - we're doing instant HTML replacement now
         const estimatedRestoreTime = 150; // Just enough for TinyMCE init
         setTimeout(() => {
@@ -494,56 +485,33 @@ class HistoryManager {
             }
         }
         
-        // Clear current sections
-        this.context.selectedSections.clear();
-        document.querySelectorAll('.section-item, .category-section-item').forEach(item => {
-            item.classList.remove('selected');
-        });
-        
         const iframe = document.getElementById('preview-iframe');
         if (iframe && iframe.contentWindow) {
-            // Restore sections via direct HTML replacement (much faster than addSection loop)
+            // Restaurar el HTML completo del template directamente (incluyendo assets del head)
             iframe.contentWindow.postMessage({
-                type: 'RESTORE_HISTORY',
+                type: 'RESTORE_TEMPLATE',
                 data: {
-                    sections: snapshot.sections || [],
+                    fullHtml: snapshot.fullHtml || '',
+                    templateHeadHtml: snapshot.templateHeadHtml || '',
                     animationsEnabled: this.context.animationsEnabled
                 }
             }, '*');
-            
-            // Update selected sections in parent
-            if (snapshot.sections && snapshot.sections.length > 0) {
-                snapshot.sections.forEach((sectionData) => {
-                    const sectionNumber = sectionData.number || sectionData.sectionNumber || sectionData.id;
-                    if (sectionNumber) {
-                        this.context.selectedSections.add(sectionNumber);
-                        const sectionItem = document.querySelector(`[data-section="${sectionNumber}"]`);
-                        if (sectionItem) {
-                            sectionItem.classList.add('selected');
-                        }
-                    }
-                });
-            } else if (snapshot.selectedSections) {
-                snapshot.selectedSections.forEach(num => {
-                    this.context.selectedSections.add(num);
-                });
-            }
-            
+
             this.context.updateSectionCounter();
-            
-            // Update AI chat visibility based on whether sections exist
+
+            // Actualizar visibilidad del AI chat
             if (typeof window.AIChat !== 'undefined') {
                 window.AIChat.updateVisibility();
             }
-            
-            // Update outline to reflect restored sections
+
+            // Actualizar el outline para reflejar el contenido restaurado
             if (typeof window.sectionOutline !== 'undefined') {
                 setTimeout(() => {
                     window.sectionOutline.refresh();
                 }, 150);
             }
-            
-            // Much shorter wait since we're doing direct HTML replacement
+
+            // Espera corta: reemplazo instantáneo de HTML
             setTimeout(() => {
                 this.context.isRestoring = false;
                 this.isRestoring = false;
@@ -615,12 +583,11 @@ class HistoryManager {
                     if (this.historyStack.length > 0 && this.historyIndex >= 0) {
                         const currentSnapshot = this.historyStack[this.historyIndex];
                         this.lastSavedStateHash = JSON.stringify({
-                            sections: currentSnapshot.sections || [],
+                            fullHtml: currentSnapshot.fullHtml || '',
                             theme: currentSnapshot.theme || this.context.currentTheme,
                             fullpageEnabled: currentSnapshot.fullpageEnabled || false,
                             animationsEnabled: currentSnapshot.animationsEnabled || false,
-                            fullpageSettings: currentSnapshot.fullpageSettings || null,
-                            selectedSections: (currentSnapshot.selectedSections || []).sort((a, b) => a - b)
+                            fullpageSettings: currentSnapshot.fullpageSettings || null
                         });
                     }
                     

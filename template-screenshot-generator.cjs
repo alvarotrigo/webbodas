@@ -18,6 +18,7 @@ const path = require('path');
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost/nine-screen-canvas-flow/';
 const PREVIEWS_DIR = path.join(__dirname, 'templates', 'previews');
+const HERO_PREVIEWS_DIR = path.join(__dirname, 'templates', 'previews', 'hero_previews');
 const TEMP_DIR = path.join(PREVIEWS_DIR, '.temp');
 const HTML_DIR = path.join(__dirname, 'templates', 'html');
 
@@ -48,13 +49,35 @@ function discoverTemplates() {
   return list;
 }
 
-function readMeta(absPath, defaultName) {
+/**
+ * Parse filename convention: CATEGORY__NAME__TAG1-TAG2-TAG3
+ * Returns { name, category, tags } or null if the filename doesn't match.
+ */
+function parseFilenameConvention(filename) {
+  const parts = filename.split('__');
+  if (parts.length !== 3) return null;
+
+  const category = parts[0];
+  const name = parts[1].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  const tags = parts[2].split('-').filter(Boolean);
+
+  return { name, category, tags };
+}
+
+/**
+ * Extract display name from a template file. Tries the filename convention first,
+ * then falls back to the <meta name="template-name"> tag inside the HTML.
+ */
+function readMeta(absPath, id) {
+  const conv = parseFilenameConvention(id);
+  if (conv) return conv;
+
   try {
     const html = fs.readFileSync(absPath, 'utf8');
     const m = html.match(/<meta\s+name=["']template-name["']\s+content=["']([^"']*)["']/i);
-    return { name: m ? m[1].trim() : defaultName };
+    return { name: m ? m[1].trim() : id };
   } catch (e) {
-    return { name: defaultName };
+    return { name: id };
   }
 }
 
@@ -101,9 +124,13 @@ async function captureTemplateScreenshot(template) {
   const tempPrefix = path.join(TEMP_DIR, `${id}_`);
   const stitchedPng = path.join(TEMP_DIR, `${id}_full.png`);
   const outputJpg = path.join(PREVIEWS_DIR, `${id}.jpg`);
+  const heroOutputJpg = path.join(HERO_PREVIEWS_DIR, `${id}.jpg`);
 
   if (!fs.existsSync(PREVIEWS_DIR)) {
     fs.mkdirSync(PREVIEWS_DIR, { recursive: true });
+  }
+  if (!fs.existsSync(HERO_PREVIEWS_DIR)) {
+    fs.mkdirSync(HERO_PREVIEWS_DIR, { recursive: true });
   }
   if (!fs.existsSync(TEMP_DIR)) {
     fs.mkdirSync(TEMP_DIR, { recursive: true });
@@ -142,6 +169,13 @@ async function captureTemplateScreenshot(template) {
 
   await page.evaluate(() => window.scrollTo(0, 0));
   await sleep(1000);
+
+  // Hero preview: solo el viewport (primera sección) para pages.php
+  const heroTempPng = path.join(TEMP_DIR, `${id}_hero.png`);
+  await page.screenshot({ path: heroTempPng, omitBackground: false });
+  await compressImage(heroTempPng, heroOutputJpg, 700);
+  try { fs.unlinkSync(heroTempPng); } catch (e) {}
+  console.log(`  ✓ hero_previews/${id}.jpg (viewport)`);
 
   const { viewportHeight, totalHeight } = await page.evaluate(() => ({
     viewportHeight: window.innerHeight,

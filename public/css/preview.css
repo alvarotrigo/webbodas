@@ -95,6 +95,16 @@ body {
     min-height: 100vh;
 }
 
+/* En templates completos, desactivar content-visibility: auto para evitar que secciones
+   fuera del viewport de #preview-content no se rendericen (causaba pérdida de scroll y
+   texto invisible). El contain-intrinsic-size aproximado tampoco aplica en templates
+   que definen sus propias alturas. */
+#preview-content.has-full-template .section:not(footer) {
+    content-visibility: visible;
+    contain-intrinsic-size: unset;
+    min-height: auto;
+}
+
 
 footer.section{
     overflow: visible !important;

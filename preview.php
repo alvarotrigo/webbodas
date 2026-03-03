@@ -87,8 +87,78 @@ function editor_asset(string $path): string
 }
 
 /**
+ * Extract CSS class names that have background-image (or background with url()) from style content.
+ * @return string[] Class names without the leading dot
+ */
+function template_css_classes_with_background_image(string $css): array {
+    $classes = [];
+    if (preg_match_all('/\.([a-zA-Z0-9_-]+)\s*\{[^}]*url\s*\(/s', $css, $m)) {
+        $classes = array_unique($m[1]);
+    }
+    return $classes;
+}
+
+/**
+ * Normalize a section/footer element to .fp-bg/data-bg so the editor detects background images.
+ * - If the section has inline background image -> set data-bg="true".
+ * - If a direct child has inline bg image or a class that has bg image in CSS -> add class "fp-bg" to that child and "has-bg-image" to the section.
+ */
+function normalize_section_background_structure(DOMElement $section, array $cssClassesWithBg): void {
+    $sectionTag = strtolower($section->nodeName);
+    if ($sectionTag !== 'section' && $sectionTag !== 'footer') {
+        return;
+    }
+    if ($section->getAttribute('data-bg') === 'true') {
+        return;
+    }
+    $sectionClass = $section->getAttribute('class') ?: '';
+    foreach ($section->getElementsByTagName('*') as $desc) {
+        $c = $desc->getAttribute('class') ?: '';
+        if (preg_match('/\bfp-bg\b/', $c)) {
+            return;
+        }
+    }
+
+    $style = $section->getAttribute('style') ?: '';
+    if (preg_match('/url\s*\(/i', $style)) {
+        $section->setAttribute('data-bg', 'true');
+        return;
+    }
+
+    foreach ($section->childNodes as $child) {
+        if ($child->nodeType !== XML_ELEMENT_NODE) {
+            continue;
+        }
+        $childStyle = $child->getAttribute('style') ?: '';
+        if (preg_match('/url\s*\(/i', $childStyle)) {
+            $childClassAttr = $child->getAttribute('class') ?: '';
+            if (!preg_match('/\bfp-bg\b/', $childClassAttr)) {
+                $child->setAttribute('class', trim($childClassAttr . ' fp-bg'));
+            }
+            if (!preg_match('/\bhas-bg-image\b/', $sectionClass)) {
+                $section->setAttribute('class', trim($sectionClass . ' has-bg-image'));
+            }
+            return;
+        }
+        $childClassAttr = $child->getAttribute('class') ?: '';
+        foreach (array_filter(explode(' ', $childClassAttr)) as $c) {
+            if (in_array($c, $cssClassesWithBg, true)) {
+                if (!preg_match('/\bfp-bg\b/', $childClassAttr)) {
+                    $child->setAttribute('class', trim($childClassAttr . ' fp-bg'));
+                }
+                if (!preg_match('/\bhas-bg-image\b/', $sectionClass)) {
+                    $section->setAttribute('class', trim($sectionClass . ' has-bg-image'));
+                }
+                return;
+            }
+        }
+    }
+}
+
+/**
  * Load template HTML and extract head elements + body inner HTML for injection.
  * Template path must be under templates/html/ (e.g. templates/html/template1.html).
+ * Normalizes section/footer structure to .fp-bg and data-bg so the editor detects background images.
  * Returns [ 'headHtml' => string, 'bodyInnerHtml' => string ] or null if invalid.
  */
 function load_template_for_preview(string $templatePath): ?array {
@@ -183,22 +253,38 @@ function load_template_for_preview(string $templatePath): ?array {
             $headHtml .= $dom->saveHTML($node) . "\n";
         }
     }
-    // Extract body inner HTML from raw file to preserve comments and Unicode (e.g. ═ in section comments)
+
+    // Collect CSS class names that have background-image (from <style> in head)
+    $cssClassesWithBg = [];
+    foreach ($head->childNodes as $node) {
+        if ($node->nodeType === XML_ELEMENT_NODE && strtolower($node->nodeName) === 'style') {
+            $cssClassesWithBg = array_merge(
+                $cssClassesWithBg,
+                template_css_classes_with_background_image($node->textContent)
+            );
+        }
+    }
+    $cssClassesWithBg = array_values(array_unique($cssClassesWithBg));
+
+    // Normalize section/footer to .fp-bg and data-bg so the editor detects background images
+    $elementsToNormalize = [];
+    foreach ($dom->getElementsByTagName('section') as $el) {
+        $elementsToNormalize[] = $el;
+    }
+    foreach ($dom->getElementsByTagName('footer') as $el) {
+        $elementsToNormalize[] = $el;
+    }
+    foreach ($elementsToNormalize as $el) {
+        normalize_section_background_structure($el, $cssClassesWithBg);
+    }
+
+    // Build body inner HTML from normalized DOM
     $bodyInnerHtml = '';
-    $bodyStart = stripos($html, '<body');
-    if ($bodyStart !== false) {
-        $bodyStart = strpos($html, '>', $bodyStart) + 1;
-        $bodyEnd = stripos($html, '</body>', $bodyStart);
-        if ($bodyEnd !== false) {
-            $bodyInnerHtml = substr($html, $bodyStart, $bodyEnd - $bodyStart);
-            $bodyInnerHtml = trim($bodyInnerHtml);
-        }
+    foreach ($body->childNodes as $node) {
+        $bodyInnerHtml .= $dom->saveHTML($node);
     }
-    if ($bodyInnerHtml === '' && $body->childNodes->length > 0) {
-        foreach ($body->childNodes as $node) {
-            $bodyInnerHtml .= $dom->saveHTML($node);
-        }
-    }
+    $bodyInnerHtml = trim($bodyInnerHtml);
+
     return [
         'headHtml' => $headHtml,
         'bodyInnerHtml' => $bodyInnerHtml,
@@ -303,20 +389,29 @@ if (!empty($_GET['template'])) {
         <!-- Sections will be dynamically added here -->
         <?php endif; ?>
     </div>
-    <?php if ($templatePreview): ?>
-    <!-- Nav bar: en preview el scroll es #preview-content, no window; sincronizar .scrolled con scrollTop -->
+    <!-- Nav bar: en preview/editor el scroll es #preview-content (no window). Siempre inyectado para que funcione también cuando el contenido se restaura por RESTORE_HISTORY (p. ej. al volver desde pages.php). -->
     <script>
     (function() {
-      var el = document.getElementById('preview-content');
-      var nav = el && el.querySelector('nav');
-      if (!el || !nav) return;
-      var threshold = 80;
-      function update() { nav.classList.toggle('scrolled', el.scrollTop > threshold); }
-      el.addEventListener('scroll', update);
-      update();
+      function initNavScroll() {
+        var el = document.getElementById('preview-content');
+        if (!el) return;
+        var threshold = 80;
+        function update() {
+          var nav = el.querySelector('#nav, nav');
+          if (nav) nav.classList.toggle('scrolled', el.scrollTop > threshold);
+        }
+        el.addEventListener('scroll', update, { passive: true });
+        update();
+        requestAnimationFrame(update);
+        window.__previewNavScrollUpdate = update;
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNavScroll);
+      } else {
+        initNavScroll();
+      }
     })();
     </script>
-    <?php endif; ?>
     <!-- Enviar CSS del template al parent para estilizar las miniaturas del outline (con template = CSS; sin template = null para limpiar) -->
     <script>
     (function() {
@@ -356,6 +451,7 @@ if (!empty($_GET['template'])) {
         </div>
     </div>
 
+    <script defer src="<?= editor_asset('./public/js/navbar-section-sync.js') ?>"></script>
     <script src="<?= editor_asset('./public/js/preview.js') ?>"></script>
 </body>
 </html> 

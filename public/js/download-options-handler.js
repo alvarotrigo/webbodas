@@ -425,9 +425,9 @@ class DownloadOptionsHandler {
             animationsEnabled: animationsEnabledValue
         });
         
-        // Request sections data from iframe with toggle states
+        // Solicitar datos completos del template al iframe para export a React
         iframe.contentWindow.postMessage({
-            type: 'GET_SECTIONS_DATA',
+            type: 'GET_TEMPLATE_DATA',
             data: {
                 requestId: 'react_export_' + Date.now(),
                 forReactExport: true,
@@ -588,9 +588,9 @@ class DownloadOptionsHandler {
             const animateBackgroundsEnabledValue = typeof animateBackgroundsEnabled !== 'undefined' ? animateBackgroundsEnabled : false;
             const fullpageSettingsValue = typeof fullpageSettings !== 'undefined' ? fullpageSettings : {};
 
-            // Request sections data from iframe
+            // Solicitar datos completos del template al iframe para export a GitHub
             iframe.contentWindow.postMessage({
-                type: 'GET_SECTIONS_DATA',
+                type: 'GET_TEMPLATE_DATA',
                 data: {
                     requestId: 'github_export_' + Date.now(),
                     forGitHubExport: true,
@@ -630,7 +630,7 @@ class DownloadOptionsHandler {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        sections: data.sections,
+                        fullHtml: data.fullHtml || '',
                         theme: data.theme,
                         templateId: data.templateId || null,
                         fullpageEnabled: data.fullpageEnabled || 'false',
@@ -654,9 +654,8 @@ class DownloadOptionsHandler {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        sections: data.sections,
+                        fullHtml: data.fullHtml || '',
                         theme: data.theme,
-                        // Ensure string values for PHP comparison
                         fullpageEnabled: data.fullpageEnabled === 'true' || data.fullpageEnabled === true ? 'true' : 'false',
                         fullpageSettings: data.fullpageSettings || {},
                         animationsEnabled: data.animationsEnabled === 'true' || data.animationsEnabled === true ? 'true' : 'false',
@@ -783,22 +782,20 @@ class DownloadOptionsHandler {
      */
     generateReactProject(data) {
         try {
-            const { sections, theme } = data;
+            const { fullHtml, theme } = data;
             
             // Use toggle states from app.php context (same as HTML export does)
-            // Access global variables defined in app.php
             const fullpageEnabledValue = typeof fullpageEnabled !== 'undefined' ? fullpageEnabled : false;
             const animationsEnabledValue = typeof animationsEnabled !== 'undefined' ? animationsEnabled : false;
             
             console.log('=== REACT EXPORT DATA ===');
             console.log('fullpageEnabled (from app.php):', fullpageEnabledValue);
             console.log('animationsEnabled (from app.php):', animationsEnabledValue);
-            console.log('sections count:', sections?.length);
+            console.log('fullHtml length:', fullHtml?.length);
             
             const requestPayload = {
-                sections: sections,
+                fullHtml: fullHtml || '',
                 theme: theme,
-                // Pass boolean values directly (PHP will handle them)
                 fullpageEnabled: fullpageEnabledValue,
                 animationsEnabled: animationsEnabledValue,
                 projectName: 'fpstudio-react-app'

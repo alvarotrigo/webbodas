@@ -257,8 +257,22 @@ function renderPagePreview($pageData) {
         return '<span class="page-preview-placeholder">No sections</span>';
     }
 
-    // Template-first: page has template but sections not yet synced — show visible placeholder
+    // Template-first: page has template but sections not yet synced — show template preview image or placeholder
     if (!empty($pageData['templateUrl']) && (empty($pageData['sections']) || !is_array($pageData['sections']))) {
+        $templateUrl = $pageData['templateUrl'];
+        $templateId = (strpos($templateUrl, '/index.html') !== false)
+            ? basename(dirname($templateUrl))
+            : basename($templateUrl, '.html');
+        $previewPath = __DIR__ . '/templates/previews/hero_previews/' . $templateId . '.jpg';
+        $previewSrc = 'templates/previews/hero_previews/' . $templateId . '.jpg';
+        if ($templateId !== '' && file_exists($previewPath)) {
+            $previewSrcEsc = htmlspecialchars($previewSrc, ENT_QUOTES, 'UTF-8');
+            return '<div class="page-preview-placeholder page-preview-placeholder--template">'
+                . '<img src="' . $previewSrcEsc . '" alt="Preview plantilla" class="page-preview-template-img" loading="lazy" '
+                . 'onerror="this.style.display=\'none\'; var s=this.nextElementSibling; if(s) s.classList.add(\'visible\');">'
+                . '<span class="page-preview-placeholder-text page-preview-placeholder-text--fallback">Página con plantilla</span>'
+                . '</div>';
+        }
         return '<div class="page-preview-placeholder page-preview-placeholder--template"><span class="page-preview-placeholder-text">Página con plantilla</span></div>';
     }
     
@@ -462,7 +476,7 @@ $userDataJson = json_encode($serverUserData);
     <!-- Main Container -->
     <div class="container">
         <div class="page-header">
-            <h1 class="page-title">Websites</h1>
+            <h1 class="page-title">Your Wedding Websites</h1>
             <p class="page-subtitle">Create and manage your websites</p>
         </div>
 

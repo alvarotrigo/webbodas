@@ -974,32 +974,37 @@
      },
  };
 
- // Filtros de estilo para templates (estética del evento). El menú lateral muestra estos 4.
- // templates[] se rellena desde api/list-templates.php (auto-descubrimiento + meta tags en cada HTML).
- const templateStyles = {
-     minimal: { name: 'Minimalist & Modern', icon: '🌿', templates: [] },
-     classic:  { name: 'Classic & Romantic', icon: '🌸', templates: [] },
-     rustic:   { name: 'Rustic Boho & Chic', icon: '🪵', templates: [] },
-     luxe:     { name: 'Luxe & Glamour', icon: '✨', templates: [] }
- };
+// Filtros de estilo para templates (estética del evento). Definidos en templates/categorias.json
+// y cargados por loadTemplatesFromApi() desde api/list-templates.php.
+const templateStyles = {};
 
- // Carga la lista de templates desde la API y rellena templateStyles[*].templates por estilo.
- async function loadTemplatesFromApi() {
-     try {
-         const response = await fetch('api/list-templates.php');
-         if (!response.ok) throw new Error(response.statusText);
-         const data = await response.json();
-         const list = data.templates || [];
-         const styleKeys = Object.keys(templateStyles);
-         styleKeys.forEach(styleKey => {
-             templateStyles[styleKey].templates = list.filter(t =>
-                 Array.isArray(t.styles) && t.styles.includes(styleKey)
-             );
-         });
-     } catch (err) {
-         console.warn('No se pudo cargar la lista de templates:', err);
-     }
- }
+// Carga categorías desde templates/categorias.json (vía API) y la lista de templates; rellena templateStyles.
+async function loadTemplatesFromApi() {
+    try {
+        const response = await fetch('api/list-templates.php');
+        if (!response.ok) throw new Error(response.statusText);
+        const data = await response.json();
+        const categories = data.categories || [];
+        const list = data.templates || [];
+        // Construir templateStyles desde categorías (origen: templates/categorias.json)
+        categories.forEach(cat => {
+            if (cat && cat.id) {
+                templateStyles[cat.id] = {
+                    name: cat.name || cat.id,
+                    icon: cat.icon != null ? cat.icon : '📁',
+                    templates: []
+                };
+            }
+        });
+        Object.keys(templateStyles).forEach(styleKey => {
+            templateStyles[styleKey].templates = list.filter(t =>
+                Array.isArray(t.styles) && t.styles.includes(styleKey)
+            );
+        });
+    } catch (err) {
+        console.warn('No se pudo cargar la lista de templates:', err);
+    }
+}
 
  /**
   * Parse full template HTML (document) into body content + head styles/scripts.
@@ -1937,7 +1942,25 @@ window.showCategoryPanel = showCategoryPanel;
      }
  }
  
- // Update section count (called from iframe)
+ /**
+ * Sincroniza selectedSections con las secciones que hay en el iframe (#preview-content section, footer).
+ * Necesario para templates completos: las secciones están en el DOM del iframe pero no en selectedSections,
+ * por eso el botón del layout quedaba deshabilitado. Tras esta sync, updateSectionCounter() habilita el botón.
+ */
+function syncSelectedSectionsFromIframe() {
+    const iframe = document.getElementById('preview-iframe');
+    if (!iframe || !iframe.contentDocument) return;
+    const doc = iframe.contentDocument;
+    const sections = doc.querySelectorAll('#preview-content section, #preview-content footer');
+    selectedSections.clear();
+    sections.forEach((el, index) => {
+        const num = el.getAttribute('data-section') || String(index + 1);
+        const n = parseInt(num, 10);
+        if (!isNaN(n)) selectedSections.add(n);
+    });
+}
+
+// Update section count (called from iframe)
  function updateSectionCount() {
      updateSectionCounter();
  }
@@ -2283,13 +2306,13 @@ window.showCategoryPanel = showCategoryPanel;
      window.location.href = 'auth-wall.html';
  }
 
- // Download generated page
- function downloadPage() {
+// Download generated page
+function downloadPage() {
      const iframe = document.getElementById('preview-iframe');
      
-     // Request sections data from iframe
+     // Solicitar el HTML completo del template al iframe para descarga
      iframe.contentWindow.postMessage({
-         type: 'GET_SECTIONS_DATA',
+         type: 'GET_TEMPLATE_DATA',
          data: {
              fullpageEnabled: fullpageEnabled,
              fullpageSettings: fullpageSettings,
@@ -2301,11 +2324,11 @@ window.showCategoryPanel = showCategoryPanel;
 
  // Generate and download the complete page
  function generateAndDownloadPage(data) {
-     const { sections, theme } = data;
+     const { fullHtml, theme } = data;
      
      // Create form data to send to PHP backend (use toggle states from app.php context)
      const formData = new FormData();
-     formData.append('sections', JSON.stringify(sections));
+     formData.append('fullHtml', fullHtml || '');
      formData.append('theme', theme);
      formData.append('fullpageEnabled', fullpageEnabled);
      formData.append('fullpageSettings', JSON.stringify(fullpageSettings));
@@ -2410,25 +2433,22 @@ window.showCategoryPanel = showCategoryPanel;
      const requestId = 'autosave_' + Date.now() + '_' + Math.random();
      autosaveRequestId = requestId;
      
-     // Request sections data from iframe
+     // Request full template HTML from iframe
      const handleResponse = async (event) => {
-         // Only handle if this is the response to our autosave request
-         if (event.data.type === 'SECTIONS_DATA' && event.data.requestId === requestId) {
-             const { sections, theme, headerHtml, fullpageEnabled, animationsEnabled, animateBackgroundsEnabled: responseAnimateBackgroundsEnabled } = event.data.data;
+        // Only handle if this is the response to our autosave request
+        if (event.data.type === 'TEMPLATE_DATA' && event.data.requestId === requestId) {
+            const { fullHtml, templateHeadHtml, theme, fullpageEnabled, animationsEnabled, animateBackgroundsEnabled: responseAnimateBackgroundsEnabled } = event.data.data;
 
-             // Don't save if there's nothing meaningful (no sections, default settings)
-             const hasSections = sections && sections.length > 0;
-             const hasHeader = window.HeaderModal && window.HeaderModal.isHeaderInserted();
-             const hasChangedSettings = (fullpageEnabled === true) || (animationsEnabled === true) || (theme && theme !== 'theme-light-minimal') || hasHeader;
+             // Don't save if there's nothing meaningful (empty content, default settings)
+             const hasContent = fullHtml && fullHtml.trim().length > 0;
+             const hasChangedSettings = (fullpageEnabled === true) || (animationsEnabled === true) || (theme && theme !== 'theme-light-minimal');
              
-             if (!hasSections && !hasChangedSettings) {
-                 // Empty draft - remove existing draft if any
+             if (!hasContent && !hasChangedSettings) {
                  localStorage.removeItem('fp_editor_draft');
                  draftData = null;
                  window.removeEventListener('message', handleResponse);
                  saveInProgress = false;
                  autosaveRequestId = null;
-                 // Hide save indicator for empty drafts
                  const indicator = document.getElementById('save-indicator');
                  if (indicator) {
                      indicator.classList.remove('saving', 'saved', 'failed', 'visible');
@@ -2437,30 +2457,21 @@ window.showCategoryPanel = showCategoryPanel;
                  return;
              }
              
-             // Store draft data
-             // Basic validation - ensure sections is an array
-             let validatedSections = sections;
-             if (!Array.isArray(validatedSections)) {
-                 console.warn('Sections is not an array, converting:', validatedSections);
-                 validatedSections = [];
-             }
-             
-             // Basic theme validation (server will do full normalization)
+             // Validación básica del tema (el servidor hará la normalización completa)
              let sanitizedTheme = theme || currentTheme;
              if (!sanitizedTheme || typeof sanitizedTheme !== 'string') {
                  sanitizedTheme = currentTheme || 'theme-light-minimal';
              }
              
              const draft = {
-                 sections: validatedSections,
+                 fullHtml: fullHtml || '',
+                 templateHeadHtml: templateHeadHtml || '',
                  theme: sanitizedTheme,
                  fullpageEnabled: fullpageEnabled === true,
                  fullpageSettings: fullpageSettings,
                  animationsEnabled: animationsEnabled === true,
                  animateBackgroundsEnabled: animateBackgroundsEnabled === true,
-                 selectedSections: Array.from(selectedSections),
                  headerConfig: window.HeaderModal ? window.HeaderModal.getConfig() : null,
-                 headerHtml: headerHtml || null,
                  templateUrl: currentTemplateUrl || undefined,
                  timestamp: Date.now()
              };
@@ -2506,9 +2517,9 @@ window.showCategoryPanel = showCategoryPanel;
      // Listen for response from iframe
      window.addEventListener('message', handleResponse);
      
-     // Request data from iframe with request ID
+     // Solicitar datos completos del template al iframe
          iframe.contentWindow.postMessage({
-             type: 'GET_SECTIONS_DATA',
+             type: 'GET_TEMPLATE_DATA',
              data: {
                  requestId: requestId,
                  forAutosave: true,
@@ -2550,11 +2561,11 @@ window.showCategoryPanel = showCategoryPanel;
              return false;
          }
          
-         // Validate and normalize draft data structure
-         // Ensure sections is always an array
-         if (!draft.sections || !Array.isArray(draft.sections)) {
-             console.warn('Invalid sections in draft, normalizing:', draft.sections);
-             draft.sections = [];
+         // Validar y normalizar estructura del draft
+         // Asegurar que fullHtml sea siempre un string
+         if (typeof draft.fullHtml !== 'string') {
+             console.warn('fullHtml ausente o inválido en el draft, usando vacío.');
+             draft.fullHtml = '';
          }
          
          // Ensure theme is always a string (not an array)
@@ -2673,66 +2684,36 @@ window.showCategoryPanel = showCategoryPanel;
                  // No need to send to iframe - only affects full-screen preview
              }
              
-             // Restore sections (template-first: when draft has templateUrl, do NOT re-inject sections — leave server-rendered template as-is to avoid losing text/styling)
-             if (draft.templateUrl) {
-                 // Iframe already loaded with ?template=...; only sync outline from DOM
-                 const loadingOverlay = document.getElementById('loading-overlay');
-                 if (loadingOverlay && loadingOverlay.classList.contains('show')) {
-                     loadingOverlay.classList.remove('show');
-                 }
-                 setTimeout(syncOutlineFromTemplateContent, 400);
-             } else if (draft.sections && draft.sections.length > 0) {
-                 const loadingOverlay = document.getElementById('loading-overlay');
-                 if (loadingOverlay && loadingOverlay.classList.contains('show')) {
-                     loadingOverlay.classList.remove('show');
-                 }
-                 selectedSections.clear();
-                 document.querySelectorAll('.section-item, .category-section-item').forEach(item => {
-                     item.classList.remove('selected');
-                 });
-                 iframe.contentWindow.postMessage({ type: 'CLEAR_ALL', data: {} }, '*');
-                 updateSectionCounter();
-                 draft.sections.forEach(sectionData => {
-                     const sectionNumber = parseInt(sectionData.number);
-                     selectedSections.add(sectionNumber);
-                     const sectionItem = document.querySelector(`.section-item[data-section="${sectionNumber}"], .category-section-item[data-section="${sectionNumber}"]`);
-                     if (sectionItem) sectionItem.classList.add('selected');
-                     iframe.contentWindow.postMessage({
-                         type: 'ADD_SECTION',
-                         data: {
-                             sectionNumber: sectionNumber,
-                             html: sectionData.html,
-                             animationsEnabled: animationsEnabled,
-                             skipScroll: true
-                         }
-                     }, '*');
-                 });
-                 updateSectionCounter();
+             // Restaurar el contenido completo del template
+             const loadingOverlay = document.getElementById('loading-overlay');
+             if (loadingOverlay && loadingOverlay.classList.contains('show')) {
+                 loadingOverlay.classList.remove('show');
+             }
+
+             if (draft.fullHtml && draft.fullHtml.trim().length > 0) {
+                 // Restaurar el HTML completo directamente (nav, sections, footer, todo incluido)
+                 iframe.contentWindow.postMessage({
+                     type: 'RESTORE_TEMPLATE',
+                     data: {
+                         fullHtml: draft.fullHtml,
+                         templateHeadHtml: draft.templateHeadHtml || '',
+                         animationsEnabled: animationsEnabled
+                     }
+                 }, '*');
                  setTimeout(() => {
                      iframe.contentWindow.postMessage({ type: 'INIT_CLOUDINARY', data: {} }, '*');
                  }, 200);
                  if (typeof window.sectionOutline !== 'undefined') {
                      setTimeout(() => window.sectionOutline.refresh(), 300);
                  }
+             } else if (draft.templateUrl) {
+                 // Template cargado pero sin fullHtml guardado (primera vez) — sincronizar outline desde DOM
+                 setTimeout(syncOutlineFromTemplateContent, 400);
              }
 
-             // Restore header if saved
-             if (draft.headerConfig && draft.headerHtml && window.HeaderModal) {
+             // Restaurar config del header modal si fue guardada (el HTML ya está en fullHtml)
+             if (draft.headerConfig && window.HeaderModal) {
                  window.HeaderModal.restore(draft.headerConfig);
-                 iframe.contentWindow.postMessage({
-                     type: 'SET_HEADER',
-                     data: { html: draft.headerHtml }
-                 }, '*');
-                 // Re-apply CTA settings after header is set
-                 setTimeout(() => {
-                     iframe.contentWindow.postMessage({
-                         type: 'UPDATE_HEADER_CTA',
-                         data: {
-                             ctaType: draft.headerConfig.config?.ctaType || '2-buttons',
-                             ctaStyle: draft.headerConfig.config?.ctaStyle || 'auto'
-                         }
-                     }, '*');
-                 }, 100);
              }
 
              // Reset restoration flag
@@ -2749,11 +2730,11 @@ window.showCategoryPanel = showCategoryPanel;
                  window.Onboarding.checkVisibility();
              }
              
-             // Show recovery toast only if there were actually sections or settings restored
-             const hasSections = draft.sections && draft.sections.length > 0;
+             // Show recovery toast only if there was actually content or settings restored
+             const hasContent = draft.fullHtml && draft.fullHtml.trim().length > 0;
              const hasSettings = (draft.fullpageEnabled !== undefined) || (draft.animationsEnabled !== undefined) || (draft.theme && draft.theme !== 'theme-light-minimal');
              
-             if (draft.timestamp && (hasSections || hasSettings)) {
+             if (draft.timestamp && (hasContent || hasSettings)) {
                  const timeAgo = getTimeAgo(draft.timestamp);
                  // showToast('Session Restored', `Your last session from ${timeAgo} was restored.`, {
                  //     duration: 1400
@@ -4139,6 +4120,16 @@ window.showCategoryPanel = showCategoryPanel;
          case 'EXIT_FULLSCREEN':
              toggleFullscreenPreview();
              break;
+         case 'RESTORE_TEMPLATE_DONE':
+         case 'OUTLINE_READY':
+             // Iframe tiene el DOM de secciones listo (restore o insert con ?template=).
+             // Sincronizar selectedSections desde el iframe para que el botón del layout se habilite.
+             syncSelectedSectionsFromIframe();
+             updateSectionCounter();
+             if (typeof window.sectionOutline !== 'undefined' && window.sectionOutline.refresh) {
+                 window.sectionOutline.refresh();
+             }
+             break;
          case 'IFRAME_CLICK':
              // Close user menu if open
              if (userMenuVisible) {
@@ -4158,52 +4149,47 @@ window.showCategoryPanel = showCategoryPanel;
                  document.dispatchEvent(escapeEvent);
              }
              break;
-        case 'SECTIONS_DATA':
-            // Handle sections data for download, share, autosave, or history
-            // requestId is at the top level of event.data, not in data
-            
-            // Outline sync (template-first): handled by syncOutlineFromTemplateContent's listener
-            if (requestId && String(requestId).startsWith('outline_sync_')) {
-                break;
-            }
-            
-            // If this is an autosave request, ignore it (autosave handler will process it)
+        case 'TEMPLATE_DATA':
+            // Maneja datos del template completo para descarga, autosave o historial.
+            // requestId está en el nivel superior de event.data, no en data.
+
+            // Si es un request de autosave, ignorar (el handler de autosave lo procesa)
             if (requestId && requestId === autosaveRequestId) {
                 break;
             }
-             
-             // If this is a React export request, handle it
-             if (requestId && typeof requestId === 'string' && requestId.startsWith('react_export_')) {
-                 if (window.downloadOptionsHandler) {
-                     window.downloadOptionsHandler.generateReactProject(data);
-                 }
-                 break;
-             }
-             
-             // If this is a GitHub export request, handle it
-             if (requestId && typeof requestId === 'string' && requestId.startsWith('github_export_')) {
-                 if (window.downloadOptionsHandler) {
-                     // Data already includes toggle states from the GET_SECTIONS_DATA response
-                     window.downloadOptionsHandler.pushProjectToGitHub(data);
-                 }
-                 break;
-             }
-             
-             // If this is a history request, ignore it (history handler will process it)
-             if (requestId && typeof requestId === 'string' && requestId.startsWith('history_')) {
-                 break;
-             }
-             
-             // Don't trigger download if we're restoring or if this looks like an autosave response
-             if (isRestoring || (requestId && typeof requestId === 'string' && requestId.startsWith('autosave_'))) {
-                 // Ignore during restoration or if it's an autosave response
-                 break;
-             }
-             
-             // This is a download request (only triggered by user clicking download button)
-             // User-initiated downloads will have no requestId (null/undefined)
-             generateAndDownloadPage(data);
-             break;
+
+            // Si es un request de export a GitHub, manejarlo
+            if (requestId && typeof requestId === 'string' && requestId.startsWith('github_export_')) {
+                if (window.downloadOptionsHandler) {
+                    window.downloadOptionsHandler.pushProjectToGitHub(data);
+                }
+                break;
+            }
+
+            // Si es un request de export a React, manejarlo
+            if (requestId && typeof requestId === 'string' && requestId.startsWith('react_export_')) {
+                if (window.downloadOptionsHandler) {
+                    window.downloadOptionsHandler.generateReactProject(data);
+                }
+                break;
+            }
+
+            // Si es un request de historial, ignorar (el handler de history lo procesa)
+            if (requestId && typeof requestId === 'string' && requestId.startsWith('history_')) {
+                break;
+            }
+
+            // No procesar durante restauración o respuestas de autosave
+            if (isRestoring || (requestId && typeof requestId === 'string' && requestId.startsWith('autosave_'))) {
+                break;
+            }
+
+            // Descarga iniciada por el usuario (sin requestId)
+            generateAndDownloadPage(data);
+            break;
+
+        // [DISABLED_FOR_WEDDING_VERSION]: SECTIONS_DATA reemplazado por TEMPLATE_DATA que usa fullHtml.
+        // case 'SECTIONS_DATA': ...
          case 'TEXT_EDITED':
              // Create and execute text edit command
              if (historyManager && window.TextEditCommand) {
@@ -4345,34 +4331,17 @@ function updateDarkModeDropdownState() {
 loadDarkModePreference();
 updateDarkModeDropdownState();
 
-// Template-first: sync outline and selectedSections after template load (GET_SECTIONS_DATA)
+// Sincronizar outline desde el DOM del iframe (el outline lee las secciones directamente del DOM).
+// Ya no necesita solicitar TEMPLATE_DATA al iframe ya que section-outline.js hace querySelectorAll en el iframe.
 function syncOutlineFromTemplateContent() {
-    const iframe = document.getElementById('preview-iframe');
-    if (!iframe || !iframe.contentWindow) return;
-    const requestId = 'outline_sync_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-    const handler = function(event) {
-        if (event.data.type !== 'SECTIONS_DATA' || event.data.requestId !== requestId) return;
-        window.removeEventListener('message', handler);
-        const sections = (event.data.data && event.data.data.sections) || [];
-        selectedSections.clear();
-        sections.forEach(function(s) {
-            var num = parseInt(s.number, 10);
-            if (!isNaN(num)) selectedSections.add(num);
-        });
-        updateSectionCounter();
-        if (typeof window.sectionOutline !== 'undefined' && window.sectionOutline.refresh) {
-            window.sectionOutline.refresh();
-        }
-        if (typeof window.Onboarding !== 'undefined' && window.Onboarding.checkVisibility) {
-            window.Onboarding.checkVisibility();
-        }
-    };
-    window.addEventListener('message', handler);
-    setTimeout(function() { window.removeEventListener('message', handler); }, 3000);
-    iframe.contentWindow.postMessage({
-        type: 'GET_SECTIONS_DATA',
-        data: { requestId: requestId, forAutosave: false, fullpageEnabled: fullpageEnabled, fullpageSettings: fullpageSettings, animationsEnabled: animationsEnabled }
-    }, '*');
+    syncSelectedSectionsFromIframe();
+    updateSectionCounter();
+    if (typeof window.sectionOutline !== 'undefined' && window.sectionOutline.refresh) {
+        window.sectionOutline.refresh();
+    }
+    if (typeof window.Onboarding !== 'undefined' && window.Onboarding.checkVisibility) {
+        window.Onboarding.checkVisibility();
+    }
 }
 
 // Initialize event listeners
@@ -4451,11 +4420,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         iframe.src = './preview.php';
     };
      
-     // Load draft first so we can open preview with ?template= when the draft was created from a template
+     // Load draft first so we can restore template assets client-side.
+     // Fallback: if the draft lacks templateHeadHtml (saved before this update), load ?template= so PHP re-inyecta los assets del head.
      preloadedDraft = await pageManager.loadDraftFromDatabase();
-     if (preloadedDraft && preloadedDraft.templateUrl) {
+     if (preloadedDraft && preloadedDraft.templateUrl && !preloadedDraft.templateHeadHtml) {
+         // Draft antiguo sin templateHeadHtml: cargar el template desde el servidor para recuperar CSS/fuentes
          iframe.src = previewPath + '?template=' + encodeURIComponent(preloadedDraft.templateUrl);
      } else {
+         // Nuevo flujo: todo se restaura client-side desde draft.templateHeadHtml via RESTORE_TEMPLATE
          iframe.src = previewPath;
      }
      

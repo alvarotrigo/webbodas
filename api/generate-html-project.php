@@ -13,16 +13,16 @@ require_once __DIR__ . '/../config/env.php';
 // Get POST data
 $input = json_decode(file_get_contents('php://input'), true);
 
-if (!$input || !isset($input['sections'])) {
+if (!$input || !isset($input['fullHtml'])) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
-        'error' => 'Invalid input data. Sections required.'
+        'error' => 'Invalid input data. fullHtml required.'
     ]);
     exit;
 }
 
-$sections = $input['sections'];
+$fullHtml = $input['fullHtml'] ?? '';
 $theme = $input['theme'] ?? 'theme-light-minimal';
 $fullpageEnabled = $input['fullpageEnabled'] ?? 'false';
 $fullpageSettings = $input['fullpageSettings'] ?? [];
@@ -44,13 +44,13 @@ if (!$isPaid) {
 // Include section script mapping
 require_once __DIR__ . '/../includes/section-script-map.php';
 
-// Get required scripts from sections
-$sectionIds = extractSectionIds($sections);
+// Extraer IDs de sección del fullHtml para determinar scripts necesarios
+$sectionIds = extractSectionIdsFromFullHtml($fullHtml);
 $requiredScripts = getRequiredScripts($sectionIds);
 
 // Log for debugging
 error_log("=== HTML PROJECT SECTION SCRIPTS ===");
-error_log("Sections found: " . count($sections));
+error_log("fullHtml length: " . strlen($fullHtml));
 error_log("Section IDs: " . implode(', ', $sectionIds));
 error_log("Required scripts: " . implode(', ', $requiredScripts));
 
@@ -191,32 +191,41 @@ try {
         ($animationsEnabled === 'true' && $fullpageEnabled === 'true' ? ' animations-enabled' : '') . 
         ($animateBackgroundsEnabled === 'true' ? ' animate-backgrounds' : '') . '">';
 
-    // Add fullPage.js container if enabled
-    if ($fullpageEnabled === 'true') {
-        $html .= '
-    <div id="fullpage">';
-    }
+    // Insertar el HTML completo del template
+    $cleanedFullHtml = cleanTinyMCEContent($fullHtml);
 
-    // Add sections
-    foreach ($sections as $section) {
-        $sectionHtml = $section['html'];
-        
-        // Clean TinyMCE attributes
-        $sectionHtml = cleanTinyMCEContent($sectionHtml);
-        
-        // Wrap in fullPage.js section if enabled
-        if ($fullpageEnabled === 'true') {
-            $html .= '
-        <div class="section">' . $sectionHtml . '</div>';
-        } else {
-            $html .= $sectionHtml;
+    if ($fullpageEnabled === 'true' && !empty($cleanedFullHtml)) {
+        // Separar nav de secciones+footer para el wrapper de fullPage.js
+        $dom = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadHTML('<?xml encoding="UTF-8"><div id="_fp_wrap_">' . $cleanedFullHtml . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
+
+        $xpath = new DOMXPath($dom);
+        $wrapper = $xpath->query('//*[@id="_fp_wrap_"]')->item(0);
+
+        $navHtml = '';
+        $sectionsHtml = '';
+
+        if ($wrapper) {
+            foreach ($wrapper->childNodes as $node) {
+                if ($node->nodeType !== XML_ELEMENT_NODE) continue;
+                $tag = strtolower($node->nodeName);
+                $nodeHtml = $dom->saveHTML($node);
+                if ($tag === 'section' || $tag === 'footer') {
+                    $sectionsHtml .= $nodeHtml;
+                } else {
+                    $navHtml .= $nodeHtml;
+                }
+            }
         }
-    }
 
-    // Close fullPage.js container if enabled
-    if ($fullpageEnabled === 'true') {
-        $html .= '
-    </div>';
+        $html .= $navHtml;
+        $html .= '<div id="fullpage">';
+        $html .= $sectionsHtml;
+        $html .= '</div>';
+    } else {
+        $html .= $cleanedFullHtml;
     }
 
     // Remove editor-only attributes and classes from exported HTML

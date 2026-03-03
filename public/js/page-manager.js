@@ -413,7 +413,7 @@ class PageManager {
     normalizeDraftData(draft) {
         if (!draft || typeof draft !== 'object') {
             return {
-                sections: [],
+                fullHtml: '',
                 theme: 'theme-light-minimal',
                 fullpageEnabled: false,
                 animationsEnabled: false,
@@ -421,10 +421,19 @@ class PageManager {
             };
         }
         
-        // Ensure sections is always an array
-        if (!Array.isArray(draft.sections)) {
-            console.warn('Invalid sections in draft, normalizing:', draft.sections);
-            draft.sections = [];
+        // Asegurar que fullHtml sea siempre un string
+        if (typeof draft.fullHtml !== 'string') {
+            // Retrocompatibilidad: si el draft tiene formato antiguo (sections array), reconstruir fullHtml
+            if (Array.isArray(draft.sections) && draft.sections.length > 0) {
+                console.warn('[Compat] Migrando draft de formato sections[] a fullHtml string');
+                draft.fullHtml = draft.sections
+                    .filter(s => s && typeof s.html === 'string')
+                    .map(s => s.html)
+                    .join('');
+            } else {
+                console.warn('fullHtml ausente o inválido en el draft, usando vacío:', draft.fullHtml);
+                draft.fullHtml = '';
+            }
         }
         
         // Ensure theme is always a string (not an array)

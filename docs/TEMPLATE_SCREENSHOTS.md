@@ -1,6 +1,8 @@
 # Template screenshot generator
 
-Misma lógica que el generador de secciones (`screenshot-generator.cjs`), pero para **templates HTML completos**. Genera **una imagen en scroll** del template entero (viewport a viewport, unida en una sola imagen vertical) y la guarda en `templates/previews/<id>.jpg`.
+Misma lógica que el generador de secciones (`screenshot-generator.cjs`), pero para **templates HTML completos**. Genera:
+- **Una imagen en scroll** del template entero (viewport a viewport, unida en una sola imagen vertical) en `templates/previews/<id>.jpg`.
+- **Una imagen hero** (solo el viewport, primera sección) en `templates/previews/hero_previews/<id>.jpg`, usada en el listado de páginas (`pages.php`).
 
 ## Uso
 
@@ -40,5 +42,5 @@ Misma lógica que el generador de secciones (`screenshot-generator.cjs`), pero p
 - **Viewport**: 1920×1080 (desktop), igual que el generador de secciones.
 - **Tiempos de espera**: 2000 ms tras cargar, 1000 ms tras cada scroll (animaciones).
 - **Menú fijo/sticky**: para que el menú no se repita en cada tramo de la tira, el generador inyecta CSS que convierte temporalmente todos los elementos `position: fixed` y `position: sticky` en `position: static` durante la captura. El menú sale solo una vez en su posición en el flujo del documento.
-- **Salida**: una sola imagen JPG por template (max width 700 px, calidad 85 %), lista para mostrar en la tarjeta 2:3 con scroll al hover.
+- **Salida**: (1) Imagen completa en scroll en `templates/previews/<id>.jpg` (max width 700 px, calidad 85 %), para la tarjeta 2:3 con scroll al hover en el selector de templates. (2) Imagen hero en `templates/previews/hero_previews/<id>.jpg` (misma compresión), para la miniatura de la página en `pages.php`.
 - **Lazy load**: en la app las imágenes usan `loading="lazy"`.

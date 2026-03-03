@@ -47,7 +47,61 @@ class TemplateLoader {
     }
 
     /**
-     * Parse HTML string and extract section/footer elements
+     * Get CSS class names (without leading dot) that have background-image or background with url() in the given CSS text.
+     * @param {string} css - CSS content
+     * @returns {string[]}
+     */
+    getCssClassesWithBackgroundImage(css) {
+        const classes = [];
+        const re = /\.([a-zA-Z0-9_-]+)\s*\{[^}]*url\s*\(/gs;
+        let m;
+        while ((m = re.exec(css)) !== null) {
+            classes.push(m[1]);
+        }
+        return [...new Set(classes)];
+    }
+
+    /**
+     * Normalize a section/footer to .fp-bg and data-bg so the editor detects background images.
+     * - If section has inline background image -> set data-bg="true".
+     * - If a direct child has inline bg image or a class that has bg image in CSS -> add class "fp-bg" to that child and "has-bg-image" to the section.
+     * @param {Element} section - section or footer element
+     * @param {Set<string>|string[]} cssClassesWithBg - class names that have background image in CSS
+     */
+    normalizeSectionBackground(section, cssClassesWithBg) {
+        const tag = section.tagName.toLowerCase();
+        if (tag !== 'section' && tag !== 'footer') return;
+        if (section.getAttribute('data-bg') === 'true') return;
+        const hasFpBg = section.querySelector('.fp-bg');
+        if (hasFpBg) return;
+
+        const sectionStyle = (section.getAttribute('style') || '').trim();
+        if (sectionStyle && /url\s*\(/i.test(sectionStyle)) {
+            section.setAttribute('data-bg', 'true');
+            return;
+        }
+
+        const set = cssClassesWithBg instanceof Set ? cssClassesWithBg : new Set(cssClassesWithBg);
+
+        for (const child of section.children) {
+            const childStyle = (child.getAttribute('style') || '').trim();
+            if (childStyle && /url\s*\(/i.test(childStyle)) {
+                child.classList.add('fp-bg');
+                section.classList.add('has-bg-image');
+                return;
+            }
+            const childClasses = (child.getAttribute('class') || '').split(/\s+/).filter(Boolean);
+            if (childClasses.some(c => set.has(c))) {
+                child.classList.add('fp-bg');
+                section.classList.add('has-bg-image');
+                return;
+            }
+        }
+    }
+
+    /**
+     * Parse HTML string and extract section/footer elements.
+     * Normalizes each section/footer to .fp-bg and data-bg so the editor detects background images.
      * @param {string} htmlString - The HTML content to parse
      * @returns {Array} Array of section objects with html and metadata
      */
@@ -55,8 +109,13 @@ class TemplateLoader {
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString, 'text/html');
 
-        // Extract all section and footer elements (skip nav)
+        const cssClassesWithBg = new Set();
+        doc.querySelectorAll('style').forEach(styleEl => {
+            this.getCssClassesWithBackgroundImage(styleEl.textContent || '').forEach(c => cssClassesWithBg.add(c));
+        });
+
         const elements = doc.querySelectorAll('section, footer');
+        elements.forEach(el => this.normalizeSectionBackground(el, cssClassesWithBg));
 
         return Array.from(elements).map((el, index) => ({
             html: el.outerHTML,

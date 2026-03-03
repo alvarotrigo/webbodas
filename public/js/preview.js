@@ -22,6 +22,26 @@ document.addEventListener('click', () => {
     }, '*');
 });
 
+// Smooth scroll para enlaces con hash (navbar, footer, etc.) dentro del preview.
+// Funciona para cualquier template (classic, rustic, luxe, etc.) sin depender del script inline de cada uno.
+(function initAnchorSmoothScroll() {
+    const previewContent = document.getElementById('preview-content');
+    if (!previewContent) return;
+    previewContent.addEventListener('click', function(e) {
+        const a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        const href = (a.getAttribute('href') || '').trim();
+        if (href === '#' || href === '') return;
+        const id = href.slice(1);
+        if (!id) return;
+        const target = previewContent.querySelector('#' + CSS.escape(id));
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+})();
+
 // Global keyboard shortcuts for undo/redo (when not in TinyMCE)
 document.addEventListener('keydown', (e) => {
     // Only handle if NOT in a TinyMCE editor (TinyMCE has its own handlers)
@@ -394,9 +414,13 @@ window.addEventListener('message', function(event) {
         case 'SET_TEMPLATE_SCRIPTS':
             setTemplateScripts(data || {});
             break;
-        case 'RESTORE_HISTORY':
-            restoreHistorySnapshot(data.sections, data.animationsEnabled);
+        case 'RESTORE_TEMPLATE':
+            restoreHistorySnapshot(data.fullHtml, data.animationsEnabled, data.templateHeadHtml);
             break;
+        // [DISABLED_FOR_WEDDING_VERSION]: RESTORE_HISTORY reemplazado por RESTORE_TEMPLATE que usa fullHtml en vez de array de secciones.
+        // case 'RESTORE_HISTORY':
+        //     restoreHistorySnapshot(data.sections, data.animationsEnabled);
+        //     break;
         case 'INSERT_FULL_TEMPLATE_HTML':
             insertFullTemplateHtml(data || {});
             break;
@@ -415,9 +439,13 @@ window.addEventListener('message', function(event) {
         case 'REMOVE_HEADER':
             removeHeader();
             break;
-        case 'GET_SECTIONS_DATA':
-            sendSectionsData(data);
+        case 'GET_TEMPLATE_DATA':
+            sendTemplateData(data);
             break;
+        // [DISABLED_FOR_WEDDING_VERSION]: GET_SECTIONS_DATA reemplazado por GET_TEMPLATE_DATA que devuelve fullHtml del contenido completo.
+        // case 'GET_SECTIONS_DATA':
+        //     sendSectionsData(data);
+        //     break;
         case 'INIT_CLOUDINARY':
             // Initialize Cloudinary for all existing sections (called after localStorage restore)
             if (window.cloudinaryImageEditor) {
@@ -578,13 +606,14 @@ function addSection(sectionNumber, html, animationsEnabled, skipScroll = false, 
     
     // Add to preview content
     const previewContent = document.getElementById('preview-content');
-    let targetIndex = null;
+    let referenceNode = null;
     if (typeof insertIndex === 'number' && !Number.isNaN(insertIndex)) {
-        targetIndex = Math.max(0, Math.min(insertIndex, previewContent.children.length));
+        // insertIndex es el índice entre secciones (sin contar nav); usar la lista de secciones para la posición correcta
+        const sectionsInOrder = Array.from(previewContent.querySelectorAll(':scope > section, :scope > footer'));
+        const targetAt = Math.max(0, Math.min(insertIndex, sectionsInOrder.length));
+        referenceNode = sectionsInOrder[targetAt] || null;
     }
-    
-    if (targetIndex !== null) {
-        const referenceNode = previewContent.children[targetIndex] || null;
+    if (referenceNode) {
         previewContent.insertBefore(sectionElement, referenceNode);
     } else {
         previewContent.appendChild(sectionElement);
@@ -651,6 +680,9 @@ function addSection(sectionNumber, html, animationsEnabled, skipScroll = false, 
     
     // Initialize overlay opacity for the new section
     initOverlayOpacity(sectionElement);
+
+    // Sincronizar navbar: restaurar enlace si la sección fue re-añadida (undo) — antes del return por skipScroll
+    if (window.navbarSectionSync) window.navbarSectionSync.sync();
     
     // Skip scrolling if this is a history restoration (undo/redo)
     if (skipScroll) {
@@ -768,6 +800,9 @@ function addParsedSection(html, index, skipTinyMCE = false) {
             sectionNumber: sectionNumber
         }, '*');
     }
+
+    // Sincronizar navbar: restaurar enlace si la sección fue re-añadida
+    if (window.navbarSectionSync) window.navbarSectionSync.sync();
 }
 
 function createSectionMenu(sectionNumber) {
@@ -959,6 +994,8 @@ function removeSection(target, options = {}) {
     } else {
         // Command-driven removal, just remove it
         section.remove();
+        // Sincronizar navbar: ocultar enlace que apuntaba a esta sección
+        if (window.navbarSectionSync) window.navbarSectionSync.sync();
     }
     
     // Clean up TinyMCE for removed section
@@ -1172,6 +1209,9 @@ function addClonedSection(data) {
             sectionNumber: newSectionNumber
         }, '*');
     }
+
+    // Sincronizar navbar: restaurar enlace si la sección clonada coincide con un id existente
+    if (window.navbarSectionSync) window.navbarSectionSync.sync();
 }
 
 function moveSection(buttonOrData, direction) {
@@ -1509,8 +1549,9 @@ function rewriteTemplateCssForPreview(cssText) {
         .replace(/(^|\})\s*body\s*\{/gm, '$1#preview-content {')
         .replace(/(^|\})\s*body\s*,\s*html\s*\{/gm, '$1#preview-content {')
         .replace(/(^|\})\s*html\s*,\s*body\s*\{/gm, '$1#preview-content {');
-    // So editor .section doesn't override template .hero height, give template sections normal flow when template defines its own
-    out = '#preview-content.has-full-template .section { min-height: auto; }\n' + out;
+    // min-height: auto y content-visibility: visible para templates ya se gestionan
+    // desde preview.css con la regla #preview-content.has-full-template .section:not(footer).
+    // No es necesario inyectarlo aquí; se deja el comentario para referencia futura.
     return out;
 }
 
@@ -1644,6 +1685,9 @@ function insertFullTemplateHtml(data) {
         script.textContent = content;
         document.body.appendChild(script);
     });
+
+    // Sincronizar navbar con el estado inicial del template
+    if (window.navbarSectionSync) window.navbarSectionSync.sync();
 }
 
 /**
@@ -1694,6 +1738,16 @@ function initServerRenderedTemplateContent() {
         }
         document.querySelectorAll('.section').forEach(el => initOverlayOpacity(el));
         if (window.lazyBackgroundLoader && window.lazyBackgroundLoader.refresh) window.lazyBackgroundLoader.refresh();
+
+        // Avisar al padre para que actualice el outline de secciones (insert de template con ?template=).
+        try {
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'OUTLINE_READY' }, '*');
+            }
+        } catch (e) {}
+
+        // Sincronizar navbar con las secciones del template renderizado en servidor
+        if (window.navbarSectionSync) window.navbarSectionSync.sync();
     }, 100);
 }
 
@@ -1753,9 +1807,21 @@ function setTemplateScripts(data) {
 }
 
 function setViewport(viewport) {
-    // Keep the @container class for responsive behavior
+    // Preserve critical classes (has-full-template, theme-*) while resetting viewport-specific ones.
+    // Previously this overwrote ALL classes, destroying has-full-template and causing template
+    // CSS variables (--blush, --forest, etc.) to stop resolving → colors broke on viewport switch.
     const container = document.getElementById('preview-content');
-    container.className = '@container preview-container';
+    const keepClasses = ['@container', 'preview-container'];
+    container.classList.forEach(cls => {
+        if (
+            cls === 'has-full-template' ||
+            cls.startsWith('theme-') ||
+            cls.startsWith('custom-theme-')
+        ) {
+            keepClasses.push(cls);
+        }
+    });
+    container.className = keepClasses.join(' ');
 
     // Track the active viewport on the body element
     document.body.setAttribute('data-view', viewport);
@@ -1819,13 +1885,19 @@ function clearSectionsOnly() {
         window.removableElementsManager.destroy();
         window.removableElementsManager = new RemovableElementsManager();
     }
-    previewContent.innerHTML = '';
+    // En templates completos, eliminar solo <section> y <footer> para preservar
+    // elementos de estructura como <nav> que no son secciones editables.
+    if (previewContent.classList.contains('has-full-template')) {
+        previewContent.querySelectorAll('section, footer').forEach(el => el.remove());
+    } else {
+        previewContent.innerHTML = '';
+    }
 }
 
-function restoreHistorySnapshot(sections, animationsEnabled) {
+function restoreHistorySnapshot(fullHtml, animationsEnabled, templateHeadHtml) {
     const previewContent = document.getElementById('preview-content');
-    
-    // Remove all TinyMCE instances before replacing HTML
+
+    // Eliminar todas las instancias de TinyMCE antes de reemplazar el HTML
     if (typeof tinymce !== 'undefined' && tinymce) {
         try {
             tinymce.remove();
@@ -1833,35 +1905,49 @@ function restoreHistorySnapshot(sections, animationsEnabled) {
             console.log('Error removing TinyMCE instances:', error);
         }
     }
-    
-    // Clear the initialized elements tracking
+
+    // Limpiar tracking de elementos inicializados
     if (window.tinyMCEEditor && window.tinyMCEEditor.initializedElements) {
         window.tinyMCEEditor.initializedElements.clear();
     }
-    
-    // Clear active sections tracking
+
     if (window.tinyMCEEditor && window.tinyMCEEditor.activeSections) {
         window.tinyMCEEditor.activeSections.clear();
     }
-    
-    // Clean up removable elements manager
+
+    // Limpiar gestor de elementos removibles
     if (window.removableElementsManager && window.removableElementsManager.destroy) {
         window.removableElementsManager.destroy();
-        // Recreate the instance after destroying
         window.removableElementsManager = new RemovableElementsManager();
     }
-    
-    // Build HTML string for all sections
-    let htmlContent = '';
-    sections.forEach((sectionData) => {
-        if (sectionData.html) {
-            htmlContent += sectionData.html;
+
+    // Inyectar assets del head del template (CSS, fuentes) si estan disponibles en el snapshot.
+    // Esto permite restaurar la apariencia correcta del template sin depender de ?template= en la URL.
+    if (templateHeadHtml) {
+        injectTemplateHeadHtml(templateHeadHtml);
+    }
+
+    // Restaurar el HTML completo directamente (nav, sections, footer: todo incluido)
+    previewContent.innerHTML = fullHtml || '';
+
+    // Re-ejecutar scripts inline del body (innerHTML no los ejecuta automaticamente).
+    // Esto restaura funcionalidades como scroll del nav, reveal-on-scroll y smooth scroll.
+    reactivateBodyScripts(previewContent);
+
+    // Notificar al outline del layout de secciones con los estilos actuales del template
+    sendTemplateCssForOutline();
+
+    // Re-sincronizar estado .scrolled del navbar: el scroll en el editor es #preview-content, no window.
+    // Llamar varias veces (rAF + timeout) para asegurar que el layout ya se aplicó y el nav existe.
+    function syncNavScrollState() {
+        if (typeof window.__previewNavScrollUpdate === 'function') {
+            window.__previewNavScrollUpdate();
         }
-    });
-    
-    // Replace all content at once (no animations, instant)
-    previewContent.innerHTML = htmlContent;
-    
+    }
+    requestAnimationFrame(syncNavScrollState);
+    requestAnimationFrame(function() { requestAnimationFrame(syncNavScrollState); });
+    setTimeout(syncNavScrollState, 50);
+
     // Now add section menus and re-initialize TinyMCE for all sections
     const sectionElements = previewContent.querySelectorAll('.section');
     sectionElements.forEach((sectionElement) => {
@@ -1951,6 +2037,13 @@ function restoreHistorySnapshot(sections, animationsEnabled) {
             window.lazyBackgroundLoader.refresh();
         }
     }, 50);
+
+    // Avisar al padre cuando el DOM ya tiene secciones y menus para que refresque el outline de secciones.
+    try {
+        if (window.parent !== window) {
+            window.parent.postMessage({ type: 'RESTORE_TEMPLATE_DONE' }, '*');
+        }
+    } catch (e) {}
 }
 
 function scrollToTop() {
@@ -2687,253 +2780,282 @@ function toggleHeaderMenu(menuId) {
 // Expose toggleHeaderMenu to global scope for inline onclick handlers
 window.toggleHeaderMenu = toggleHeaderMenu;
 
-function sendSectionsData(requestData = {}) {
-    const sections = [];
-    const sectionElements = document.querySelectorAll('.section');
-    
-    sectionElements.forEach(section => {
-        const sectionNumber = section.getAttribute('data-section');
-        
-        // Clone the section element to avoid modifying the original
-        const sectionClone = section.cloneNode(true);
-        
-        // Remove the section-menu from the clone
-        const menuElement = sectionClone.querySelector('.section-menu');
-        if (menuElement) {
-            menuElement.remove();
+// [DISABLED_FOR_WEDDING_VERSION]: Reemplazada por sendTemplateData() que guarda el HTML completo del preview-content en vez de un array de secciones.
+// function sendSectionsData(requestData = {}) { ... }
+
+/**
+ * Inyecta el HTML del head del template (guardado en el draft como templateHeadHtml)
+ * en el <head> del iframe. Limpia los assets anteriores antes de inyectar.
+ * Tambien activa la clase has-full-template en #preview-content.
+ */
+function injectTemplateHeadHtml(headHtml) {
+    if (!headHtml || typeof headHtml !== 'string' || headHtml.trim() === '') return;
+
+    // Limpiar assets de template anteriores (styles, links, scripts marcados como template)
+    clearTemplateAssets();
+
+    // Parsear el headHtml usando un contenedor temporal
+    const tempContainer = document.createElement('div');
+    tempContainer.innerHTML = headHtml;
+
+    Array.from(tempContainer.children).forEach(node => {
+        const tag = node.tagName.toLowerCase();
+        if (tag === 'style') {
+            const style = document.createElement('style');
+            Array.from(node.attributes).forEach(attr => style.setAttribute(attr.name, attr.value));
+            style.textContent = node.textContent;
+            document.head.appendChild(style);
+        } else if (tag === 'link') {
+            const link = document.createElement('link');
+            Array.from(node.attributes).forEach(attr => link.setAttribute(attr.name, attr.value));
+            document.head.appendChild(link);
         }
-        
-        // Remove all TinyMCE UI elements (toolbars, sinks, popups)
-        const tinyMCEUIElements = sectionClone.querySelectorAll(
-            '.tox-tinymce, .tox-tinymce-aux, .tox-popup, .tox-silver-sink, ' +
-            '[class*="tox-"], [id*="mce_"], [class*="mce-"]'
-        );
-        tinyMCEUIElements.forEach(el => {
-            // If it's a vendor UI element, remove it
-            if (el.classList.toString().includes('tox-') || 
-                el.id && el.id.startsWith('mce_')) {
-                el.remove();
-            }
+    });
+
+    // Marcar el contenedor como template completo para que los CSS funcionen correctamente
+    const previewContent = document.getElementById('preview-content');
+    if (previewContent) {
+        previewContent.classList.add('has-full-template');
+    }
+}
+
+/**
+ * Re-ejecuta los <script> inline del contenedor dado reemplazandolos por clones.
+ * Necesario porque innerHTML no ejecuta scripts al restaurar el HTML.
+ * Usa un guard para evitar acumulacion de listeners en undo/redo.
+ */
+function reactivateBodyScripts(container) {
+    container.querySelectorAll('script').forEach(oldScript => {
+        const newScript = document.createElement('script');
+        Array.from(oldScript.attributes).forEach(attr => {
+            newScript.setAttribute(attr.name, attr.value);
         });
-        
-        // Get clean content from TinyMCE API for all editable elements
-        // This is the key: use TinyMCE's API instead of raw HTML to avoid vendor elements
-        if (typeof tinymce !== 'undefined' && tinymce) {
-            const tinyMCEInstances = tinymce.get();
-            
-            // For each TinyMCE editor instance, replace its content in the clone with clean API content
-            tinyMCEInstances.forEach(editor => {
-                const originalElement = editor.getElement();
-                
-                if (!originalElement) return;
-                
-                // Find the corresponding element in the cloned section
-                let matchingElement = null;
-                
-                // First try to match by ID (most reliable)
-                if (originalElement.id) {
-                    matchingElement = sectionClone.querySelector(`[id="${originalElement.id}"]`);
-                }
-                
-                // If no match by ID, try to find by comparing position/tag name in the section
-                if (!matchingElement && section.contains(originalElement)) {
-                    // Find the same element position in the clone
-                    const originalIndex = Array.from(section.children).indexOf(
-                        originalElement.closest('.section') ? 
-                        Array.from(section.children).find(el => el.contains(originalElement) || el === originalElement) : 
-                        originalElement
-                    );
-                    if (originalIndex >= 0 && originalIndex < sectionClone.children.length) {
-                        // This is a rough match - try to find by tag name and position
-                        const tagName = originalElement.tagName.toLowerCase();
-                        const elementsWithSameTag = Array.from(sectionClone.querySelectorAll(tagName));
-                        matchingElement = elementsWithSameTag.find(el => {
-                            // Match by checking if they're in similar positions
-                            return el.getAttribute('contenteditable') === 'true' ||
-                                    (originalElement.id && el.id === originalElement.id);
-                        });
+        newScript.textContent = oldScript.textContent;
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+}
+
+/**
+ * Recolecta los assets del <head> que pertenecen al template (estilos inline, links externos, fuentes).
+ * Devuelve un string HTML para que pueda ser guardado en el draft y restaurado client-side.
+ */
+function collectTemplateHeadHtml() {
+    const parts = [];
+    // Estilos inline inyectados por preview.php desde el template
+    document.querySelectorAll('style[data-template-style="1"]').forEach(el => {
+        parts.push(el.outerHTML);
+    });
+    // Links externos inyectados por insertFullTemplateHtml o setTemplateStyles
+    document.querySelectorAll('link[data-template-asset="styles"]').forEach(el => {
+        parts.push(el.outerHTML);
+    });
+    // Fuentes de Google Fonts (preconnect + stylesheet) inyectadas por el template
+    document.querySelectorAll('link[rel="preconnect"][href*="fonts.google"], link[rel="preconnect"][href*="fonts.gstatic"], link[href*="fonts.googleapis.com"]').forEach(el => {
+        // Evitar duplicar si ya esta incluida como data-template-asset
+        if (!el.hasAttribute('data-template-asset')) {
+            parts.push(el.outerHTML);
+        }
+    });
+    return parts.join('\n');
+}
+
+/**
+ * Envia el CSS del template al frame padre para que el outline de secciones pueda estilizar sus miniaturas.
+ * Replica el comportamiento del script inline de preview.php (linea ~339) pero ejecutable en cualquier momento.
+ */
+function sendTemplateCssForOutline() {
+    if (window.parent === window) return;
+    const wrap = document.getElementById('preview-content');
+    let css = null;
+    if (wrap && wrap.classList.contains('has-full-template')) {
+        const styles = document.querySelectorAll('style[data-template-style="1"]');
+        if (styles.length) {
+            css = Array.from(styles).map(s => s.textContent).join('\n');
+        }
+    }
+    try { window.parent.postMessage({ type: 'TEMPLATE_CSS_FOR_OUTLINE', css: css }, '*'); } catch (e) {}
+}
+
+function sendTemplateData(requestData = {}) {
+    const previewContent = document.getElementById('preview-content');
+
+    // Clonar todo el contenido del preview de una sola vez
+    const contentClone = previewContent.cloneNode(true);
+
+    // Eliminar todos los menús de sección del clon
+    const menuElements = contentClone.querySelectorAll('.section-menu');
+    menuElements.forEach(menu => menu.remove());
+
+    // Eliminar elementos de UI de TinyMCE (toolbars, sinks, popups)
+    const tinyMCEUIElements = contentClone.querySelectorAll(
+        '.tox-tinymce, .tox-tinymce-aux, .tox-popup, .tox-silver-sink, ' +
+        '[class*="tox-"], [id*="mce_"], [class*="mce-"]'
+    );
+    tinyMCEUIElements.forEach(el => {
+        if (el.classList.toString().includes('tox-') ||
+            (el.id && el.id.startsWith('mce_'))) {
+            el.remove();
+        }
+    });
+
+    // Obtener contenido limpio de TinyMCE API para todos los elementos editables
+    if (typeof tinymce !== 'undefined' && tinymce) {
+        const tinyMCEInstances = tinymce.get();
+
+        tinyMCEInstances.forEach(editor => {
+            const originalElement = editor.getElement();
+            if (!originalElement) return;
+
+            // Coincidir por ID (el método más confiable)
+            let matchingElement = null;
+            if (originalElement.id) {
+                matchingElement = contentClone.querySelector(`[id="${originalElement.id}"]`);
+            }
+
+            if (matchingElement) {
+                const cleanContent = editor.getContent({ format: 'html' });
+                matchingElement.innerHTML = cleanContent;
+                matchingElement.removeAttribute('contenteditable');
+                matchingElement.removeAttribute('spellcheck');
+                matchingElement.removeAttribute('data-mce-selected');
+                matchingElement.removeAttribute('data-mce-bogus');
+                matchingElement.removeAttribute('data-mce-type');
+
+                const mceWrappers = matchingElement.querySelectorAll('.mce-content-body');
+                mceWrappers.forEach(wrapper => {
+                    while (wrapper.firstChild) {
+                        wrapper.parentNode.insertBefore(wrapper.firstChild, wrapper);
                     }
-                }
-                
-                if (matchingElement) {
-                    // Get clean content from TinyMCE API (this excludes all vendor UI)
-                    const cleanContent = editor.getContent({ format: 'html' });
-                    
-                    // Replace the content in the clone with clean HTML from TinyMCE API
-                    matchingElement.innerHTML = cleanContent;
-                    
-                    // Remove TinyMCE-specific attributes
-                    matchingElement.removeAttribute('contenteditable');
-                    matchingElement.removeAttribute('spellcheck');
-                    matchingElement.removeAttribute('data-mce-selected');
-                    matchingElement.removeAttribute('data-mce-bogus');
-                    matchingElement.removeAttribute('data-mce-type');
-                    
-                    // Remove any TinyMCE wrapper divs that might exist
-                    const mceWrappers = matchingElement.querySelectorAll('.mce-content-body');
-                    mceWrappers.forEach(wrapper => {
-                        // Move children up one level
-                        while (wrapper.firstChild) {
-                            wrapper.parentNode.insertBefore(wrapper.firstChild, wrapper);
-                        }
-                        wrapper.remove();
-                    });
-                }
-            });
+                    wrapper.remove();
+                });
+            }
+        });
+    }
+
+    // Limpiar atributos y clases de TinyMCE de todos los elementos
+    const allElements = contentClone.querySelectorAll('*');
+    allElements.forEach(el => {
+        Array.from(el.attributes).forEach(attr => {
+            if (attr.name.startsWith('data-mce-')) {
+                el.removeAttribute(attr.name);
+            }
+        });
+
+        if (el.id && (el.id.startsWith('mce_') || el.id.startsWith('tinymce-'))) {
+            el.removeAttribute('id');
         }
-        
-        // Remove any remaining TinyMCE vendor attributes from all elements
-        const allElements = sectionClone.querySelectorAll('*');
-        allElements.forEach(el => {
-            // Remove data-mce-* attributes
-            Array.from(el.attributes).forEach(attr => {
-                if (attr.name.startsWith('data-mce-')) {
-                    el.removeAttribute(attr.name);
-                }
-            });
-            
-            // Remove TinyMCE-specific IDs (both mce_ and tinymce- prefixes)
-            if (el.id && (el.id.startsWith('mce_') || el.id.startsWith('tinymce-'))) {
-                el.removeAttribute('id');
+
+        if (el.className) {
+            if (typeof el.className === 'string') {
+                const classes = el.className.split(' ').filter(cls =>
+                    !cls.includes('tox-') &&
+                    !cls.includes('mce-content-body') &&
+                    !cls.startsWith('mce-')
+                );
+                el.className = classes.join(' ').trim();
+            } else if (el.className.baseVal !== undefined) {
+                const classes = el.className.baseVal.split(' ').filter(cls =>
+                    !cls.includes('tox-') &&
+                    !cls.includes('mce-content-body') &&
+                    !cls.startsWith('mce-')
+                );
+                el.className.baseVal = classes.join(' ').trim();
             }
-            
-            // Clean TinyMCE classes
-            // Handle both regular elements (className is string) and SVG elements (className is object)
-            if (el.className) {
-                if (typeof el.className === 'string') {
-                    const classes = el.className.split(' ').filter(cls => 
-                        !cls.includes('tox-') && 
-                        !cls.includes('mce-content-body') &&
-                        !cls.startsWith('mce-')
-                    );
-                    el.className = classes.join(' ').trim();
-                } else if (el.className.baseVal !== undefined) {
-                    // SVG element - className is an SVGAnimatedString
-                    const classes = el.className.baseVal.split(' ').filter(cls => 
-                        !cls.includes('tox-') && 
-                        !cls.includes('mce-content-body') &&
-                        !cls.startsWith('mce-')
-                    );
-                    el.className.baseVal = classes.join(' ').trim();
-                }
+        }
+
+        const classValue = typeof el.className === 'string' ? el.className : el.className?.baseVal;
+        if (el.hasAttribute('class') && (!classValue || classValue.trim() === '')) {
+            el.removeAttribute('class');
+        }
+    });
+
+    // Desenvuelve <p> que son hijos directos de elementos inline como <a> o <button>
+    const inlineElements = contentClone.querySelectorAll('a, button');
+    inlineElements.forEach(inline => {
+        const directParagraphs = Array.from(inline.children).filter(child => child.tagName === 'P');
+        directParagraphs.forEach(p => {
+            while (p.firstChild) {
+                inline.insertBefore(p.firstChild, p);
             }
-            
-            // Clean up empty class attributes
-            const classValue = typeof el.className === 'string' ? el.className : el.className?.baseVal;
-            if (el.hasAttribute('class') && (!classValue || classValue.trim() === '')) {
-                el.removeAttribute('class');
-            }
+            p.remove();
         });
-        
-        // Unwrap <p> tags that are direct children of inline elements like <a> or <button>
-        // This fixes TinyMCE's invalid HTML structure where it wraps content in <p> inside inline elements
-        const inlineElements = sectionClone.querySelectorAll('a, button');
-        inlineElements.forEach(inline => {
-            const directParagraphs = Array.from(inline.children).filter(child => child.tagName === 'P');
-            directParagraphs.forEach(p => {
-                // Move paragraph's content directly into the inline element
-                while (p.firstChild) {
-                    inline.insertBefore(p.firstChild, p);
-                }
-                // Remove the now-empty paragraph
-                p.remove();
-            });
-        });
-        
-        // Remove Grammarly injected elements
-        const grammarlyElements = sectionClone.querySelectorAll('grammarly-extension, grammarly-extension-vbars, [data-grammarly-shadow-root]');
-        grammarlyElements.forEach(el => el.remove());
-        
-        // Remove Grammarly attributes from all elements
-        allElements.forEach(el => {
-            // Remove all data-grammarly-* attributes
-            Array.from(el.attributes).forEach(attr => {
-                if (attr.name.startsWith('data-grammarly-') || attr.name.startsWith('data-gr-')) {
-                    el.removeAttribute(attr.name);
-                }
-            });
-        });
-        
-        // Clean removable elements manager internal classes and attributes
-        // Remove any runtime-only classes added by the removable elements manager
-        const removableActiveElements = sectionClone.querySelectorAll('.removable-element-active');
-        removableActiveElements.forEach(el => {
-            el.classList.remove('removable-element-active');
-        });
-        
-        // Remove initialization markers (runtime-only attributes)
-        sectionClone.removeAttribute('data-removable-initialized');
-        
-        // Remove any outline/outline-offset styles added by removable elements manager
-        const removableElements = sectionClone.querySelectorAll('[data-fp-dynamic]');
-        removableElements.forEach(el => {
-            if (el.style.outline) el.style.removeProperty('outline');
-            if (el.style.outlineOffset) el.style.removeProperty('outline-offset');
-            if (el.style.transition && el.style.transition === 'none') {
-                el.style.removeProperty('transition');
+    });
+
+    // Eliminar elementos inyectados por Grammarly
+    const grammarlyElements = contentClone.querySelectorAll('grammarly-extension, grammarly-extension-vbars, [data-grammarly-shadow-root]');
+    grammarlyElements.forEach(el => el.remove());
+
+    allElements.forEach(el => {
+        Array.from(el.attributes).forEach(attr => {
+            if (attr.name.startsWith('data-grammarly-') || attr.name.startsWith('data-gr-')) {
+                el.removeAttribute(attr.name);
             }
         });
-        
-        // Clean Cloudinary editor attributes (keep image metadata like data-cloudinary-public-id)
-        // Note: With the portal pattern, indicators are in a separate overlay and won't be in the clone
-        // But we still need to clean loaders and runtime attributes
-        
-        // Remove Cloudinary loaders if any are present
-        const cloudinaryLoaders = sectionClone.querySelectorAll('.cloudinary-image-loader');
-        cloudinaryLoaders.forEach(loader => loader.remove());
-        
-        // Clean Cloudinary runtime attributes from images
-        const images = sectionClone.querySelectorAll('img');
-        images.forEach(img => {
-            // Remove cursor pointer added for clickability
-            if (img.style.cursor === 'pointer') {
-                img.style.cursor = '';
-            }
-        });
-        
-        // Clean section-level Cloudinary initialization marker
-        sectionClone.removeAttribute('data-cloudinary-initialized');
-        
-        // Clean section-level video editor initialization marker
-        sectionClone.removeAttribute('data-video-editor-initialized');
-        
-        // Clean section-level interactive features initialization marker
-        sectionClone.removeAttribute('data-interactive-features-initialized');
-        
-        // Clean up inline height styles that might be set by fullPage.js or other scripts
-        // We want sections to use their natural/CSS heights, not inline styles
-        if (sectionClone.style.height) {
-            sectionClone.style.removeProperty('height');
-            
-            // After removing height, rebuild the style attribute to ensure it's reflected in outerHTML
+    });
+
+    // Limpiar clases y atributos de runtime del gestor de elementos removibles
+    const removableActiveElements = contentClone.querySelectorAll('.removable-element-active');
+    removableActiveElements.forEach(el => {
+        el.classList.remove('removable-element-active');
+    });
+
+    const removableElements = contentClone.querySelectorAll('[data-fp-dynamic]');
+    removableElements.forEach(el => {
+        if (el.style.outline) el.style.removeProperty('outline');
+        if (el.style.outlineOffset) el.style.removeProperty('outline-offset');
+        if (el.style.transition && el.style.transition === 'none') {
+            el.style.removeProperty('transition');
+        }
+    });
+
+    // Eliminar loaders de Cloudinary
+    const cloudinaryLoaders = contentClone.querySelectorAll('.cloudinary-image-loader');
+    cloudinaryLoaders.forEach(loader => loader.remove());
+
+    // Limpiar atributos de runtime de imágenes (Cloudinary)
+    const images = contentClone.querySelectorAll('img');
+    images.forEach(img => {
+        if (img.style.cursor === 'pointer') {
+            img.style.cursor = '';
+        }
+    });
+
+    // Limpiar atributos de inicialización de runtime en cada sección
+    const sectionElements = contentClone.querySelectorAll('.section');
+    sectionElements.forEach(sectionEl => {
+        sectionEl.removeAttribute('data-removable-initialized');
+        sectionEl.removeAttribute('data-cloudinary-initialized');
+        sectionEl.removeAttribute('data-video-editor-initialized');
+        sectionEl.removeAttribute('data-interactive-features-initialized');
+
+        if (sectionEl.style.height) {
+            sectionEl.style.removeProperty('height');
+
             const styleProperties = [];
-            for (let i = 0; i < sectionClone.style.length; i++) {
-                const prop = sectionClone.style[i];
-                const value = sectionClone.style.getPropertyValue(prop);
+            for (let i = 0; i < sectionEl.style.length; i++) {
+                const prop = sectionEl.style[i];
+                const value = sectionEl.style.getPropertyValue(prop);
                 if (value) {
                     styleProperties.push(`${prop}: ${value}`);
                 }
             }
-            
-            // Rebuild style attribute without height, or remove it entirely if empty
+
             if (styleProperties.length > 0) {
-                sectionClone.setAttribute('style', styleProperties.join('; ') + ';');
+                sectionEl.setAttribute('style', styleProperties.join('; ') + ';');
             } else {
-                sectionClone.removeAttribute('style');
+                sectionEl.removeAttribute('style');
             }
         }
-        
-        sections.push({
-            number: sectionNumber,
-            html: sectionClone.outerHTML
-        });
     });
-    
-    // Extract only the theme class (starts with 'theme-')
+
+    // Obtener el HTML completo del contenido del preview limpio
+    const fullHtml = contentClone.innerHTML;
+
+    // Extraer clase de tema (empieza con 'theme-')
     const bodyClasses = document.body.className.split(' ');
     const themeClass = bodyClasses.find(cls => cls.startsWith('theme-')) || 'theme-light-minimal';
-    
-    // Echo back toggle states from parent (or use local state as fallback for backwards compatibility)
+
+    // Retransmitir estados de toggle desde el padre
     const animateBackgroundsEnabled = document.body.classList.contains('animate-backgrounds');
     const toggleStates = {
         fullpageEnabled: requestData.fullpageEnabled !== undefined ? requestData.fullpageEnabled : false,
@@ -2941,22 +3063,16 @@ function sendSectionsData(requestData = {}) {
         animationsEnabled: requestData.animationsEnabled !== undefined ? requestData.animationsEnabled : animationsEnabled,
         animateBackgroundsEnabled: requestData.animateBackgroundsEnabled !== undefined ? requestData.animateBackgroundsEnabled : animateBackgroundsEnabled
     };
-    
-    console.log('[preview.html] sendSectionsData - Request data:', requestData);
-    console.log('[preview.html] sendSectionsData - Toggle states:', toggleStates);
 
-    // Get header nav HTML if present
-    const headerNav = document.querySelector('#preview-content > nav');
-    const headerHtml = headerNav ? headerNav.outerHTML : null;
+    console.log('[preview.html] sendTemplateData - Request data:', requestData);
 
-    // Send data to parent
     window.parent.postMessage({
-        type: 'SECTIONS_DATA',
+        type: 'TEMPLATE_DATA',
         requestId: requestData.requestId || null,
         data: {
-            sections: sections,
+            fullHtml: fullHtml,
+            templateHeadHtml: collectTemplateHeadHtml(),
             theme: themeClass,
-            headerHtml: headerHtml,
             fullpageEnabled: toggleStates.fullpageEnabled,
             fullpageSettings: toggleStates.fullpageSettings,
             animationsEnabled: toggleStates.animationsEnabled,

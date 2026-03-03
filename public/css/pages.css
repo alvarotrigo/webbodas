@@ -263,6 +263,7 @@ body {
 }
 
 .page-preview-placeholder--template {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -275,6 +276,25 @@ body {
 .page-preview-placeholder--template .page-preview-placeholder-text {
     font-size: 14px;
     font-weight: 500;
+}
+
+.page-preview-placeholder--template .page-preview-template-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.page-preview-placeholder--template .page-preview-placeholder-text--fallback {
+    display: none;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-preview-placeholder--template .page-preview-placeholder-text--fallback.visible {
+    display: flex;
 }
 
 /* Live preview styles - similar to section-outline */
