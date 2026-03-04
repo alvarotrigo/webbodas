@@ -1,0 +1,333 @@
+/**
+ * Inline Map Editor Styles
+ * Hover edit button and popup modal for .map-container elements
+ * Follows the same visual language as inline-svg-editor.css
+ */
+
+/* ── Map container base ──────────────────────────────────────────────────────── */
+
+section .map-container {
+    position: relative;
+    overflow: hidden; /* clip pointer overlay */
+}
+
+/* ── Transparent overlay (captures hover/clicks over the iframe) ─────────────── */
+
+section .map-container .map-pointer-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: transparent;
+    cursor: pointer;
+    pointer-events: none; /* off by default, enabled on container hover */
+    transition: background 0.2s ease;
+}
+
+section .map-container:hover .map-pointer-overlay {
+    pointer-events: auto;
+    background: rgba(0, 0, 0, 0.04);
+}
+
+/* ── Edit button (same style as section menu buttons: black, gray on hover, no border) ─── */
+
+section .map-container .map-edit-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s ease;
+    pointer-events: none;
+    backdrop-filter: blur(6px);
+    white-space: nowrap;
+    box-shadow: none;
+    outline: none;
+    outline-offset: 0;
+}
+
+section .map-container .map-edit-btn:hover,
+section .map-container .map-edit-btn:focus,
+section .map-container .map-edit-btn:focus-visible {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+section .map-container:hover .map-edit-btn {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+section .map-container .map-edit-btn:hover {
+    background: #3a3a3a;
+}
+
+/* Quitar reborde azul del SVG (inline-svg-editor aplica outline a section svg:hover) */
+section .map-container .map-edit-btn svg,
+section .map-container .map-edit-btn:hover svg,
+section .map-container .map-edit-btn:focus svg {
+    flex-shrink: 0;
+    outline: none !important;
+    outline-offset: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* ── Hide in fullscreen / export modes ───────────────────────────────────────── */
+
+body.fullscreen-mode section .map-container .map-edit-btn,
+body.fullscreen-mode section .map-container .map-pointer-overlay,
+body.generating section .map-container .map-edit-btn,
+body.generating section .map-container .map-pointer-overlay {
+    display: none !important;
+}
+
+/* ── Modal overlay ───────────────────────────────────────────────────────────── */
+
+.map-edit-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(4px);
+}
+
+/* ── Modal container ─────────────────────────────────────────────────────────── */
+
+.map-edit-modal {
+    background: var(--primary-bg);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 640px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    animation: mapModalSlideIn 0.2s ease-out;
+}
+
+@keyframes mapModalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Modal header ────────────────────────────────────────────────────────────── */
+
+.map-edit-modal h2 {
+    margin: 0 0 24px 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--primary-text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.map-edit-modal .close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.map-edit-modal .close-btn:hover {
+    background: #f3f4f6;
+    color: #555;
+}
+
+/* ── Modal body ──────────────────────────────────────────────────────────────── */
+
+.map-modal-body {
+    margin-bottom: 24px;
+}
+
+.map-modal-body label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-text, #111827);
+    margin-bottom: 10px;
+}
+
+/* ── Search row ──────────────────────────────────────────────────────────────── */
+
+.map-search-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.map-address-input {
+    flex: 1;
+    padding: 11px 14px;
+    border: 2px solid #2d2d2d;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #1e1e1e;
+    color: #e5e7eb;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.map-address-input::placeholder {
+    color: #6b7280;
+}
+
+.map-address-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.map-search-btn {
+    padding: 11px 20px;
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, transform 0.15s;
+    font-family: inherit;
+}
+
+.map-search-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+/* ── Map preview area ────────────────────────────────────────────────────────── */
+
+.map-preview-wrapper {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #2d2d2d;
+    background: #131313;
+    height: 260px;
+}
+
+.map-preview-iframe {
+    width: 100%;
+    height: 100%;
+    display: none;
+    border: none;
+}
+
+.map-preview-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text, #6b7280);
+    font-size: 14px;
+    text-align: center;
+    padding: 24px;
+    pointer-events: none;
+}
+
+.map-preview-placeholder p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ── Modal action buttons ────────────────────────────────────────────────────── */
+
+.map-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.map-modal-btn {
+    padding: 11px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+}
+
+.map-modal-btn.cancel {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.map-modal-btn.cancel:hover {
+    background: #e5e7eb;
+}
+
+.map-modal-btn.apply {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.map-modal-btn.apply:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.map-modal-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.map-modal-btn:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+    .map-edit-modal {
+        padding: 22px 18px;
+    }
+
+    .map-search-row {
+        flex-direction: column;
+    }
+
+    .map-preview-wrapper {
+        height: 200px;
+    }
+}

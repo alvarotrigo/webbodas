@@ -49,9 +49,14 @@ class TinyMCEEditor {
         }
         
         // Get all editable elements that haven't been initialized yet
-        const selector = 'section h1, section h2, section h3, section h4, section h5, section h6, section p, section a, section span, label, section li, section button:not(.section-menu button)';
+        // blockquote/cite sin prefijo "section" para los que están fuera de section (ej. div.parallax-quote entre secciones)
+        // nav a / #nav a / #navMenu a: enlaces del menú de navegación (solo el <a>, en templates con ul#navMenu no se hace editable el <li>)
+        const selector = 'section h1, section h2, section h3, section h4, section h5, section h6, section p, section a, section span, section blockquote, section cite, blockquote, cite, label, section li, section button:not(.section-menu button), nav a, #nav a, #navMenu a';
         const allElements = document.querySelectorAll(selector);
-        const newElements = Array.from(allElements).filter(el => {
+        // Divs que solo contienen texto (sin hijos elemento): candidatos a contenteditable
+        const textOnlyDivs = this.#getTextOnlyDivCandidates(document.body);
+        const allCandidates = [...Array.from(allElements), ...textOnlyDivs];
+        const newElements = allCandidates.filter(el => {
             // Exclude elements that are already initialized
             if (this.initializedElements.has(el)) return false;
             
@@ -92,41 +97,37 @@ class TinyMCEEditor {
             return;
         }
         
-        console.log(`Initializing TinyMCE for ${finalElements.length} new elements`);
+        // Divs solo-texto: solo permitir texto e inline (no insertar div, p, etc.)
+        const finalTextOnlyDivs = finalElements.filter(el => el.getAttribute('data-fp-text-only-div') === '1');
+        const finalNormalElements = finalElements.filter(el => el.getAttribute('data-fp-text-only-div') !== '1');
         
-        // Create a unique selector for only the final elements
-        const newElementSelectors = finalElements.map(el => {
-            // Create a unique identifier for each element
-            if (!el.id) {
-                el.id = 'tinymce-' + Math.random().toString(36).substr(2, 9);
-            }
-            return '#' + el.id;
-        }).join(', ');
-        
-        // Initialize TinyMCE only for new elements
-        tinymce.init({
-            selector: newElementSelectors,
+        const baseTinyConfig = {
             inline: true,
             menubar: false,
             toolbar: 'bold italic underline | forecolor | link | removeformat',
             toolbar_location: 'auto',
-            plugins: 'link',  // Don't include 'undo' plugin - we use our own global undo/redo
+            plugins: 'link',
             license_key: 'gpl',
             ui_mode: 'split',
             toolbar_sticky_offset: 20,
             readonly: isFullscreen,
-            // Preserve icons, SVGs, and images inside elements
             extended_valid_elements: 'i[*],svg[*],path[*],img[*]',
-            // Prevent TinyMCE from wrapping content in paragraphs
             forced_root_block: false,
-            // Disable TinyMCE's built-in undo manager - we use global history
             custom_undo_redo_levels: 0,
             content_style: `
                 body { margin: 0; padding: 0; }
                 [data-mce-selected] { outline: 2px solid #3b82f6 !important; }
+                nav [data-mce-selected], #nav [data-mce-selected], #navMenu [data-mce-selected] {
+                    outline: 2px solid #3b82f6 !important;
+                    position: relative !important;
+                    z-index: 9998 !important;
+                }
                 .tox-tinymce { 
                     z-index: 9999 !important;
                     transform: translateY(-25px) !important;
+                }
+                .tox-tinymce.fp-tinymce-nav {
+                    transform: translateY(28px) !important;
                 }
                 .tox-toolbar { 
                     z-index: 10000 !important;
@@ -212,6 +213,11 @@ class TinyMCEEditor {
                             editor.container.style.visibility = 'visible';
                         }
                     }
+                    // Nav: poner la barra debajo del enlace para no tapar el texto
+                    const el = editor.getElement();
+                    if (el && (el.closest('nav') || el.closest('#nav') || el.closest('#navMenu'))) {
+                        editor.container.classList.add('fp-tinymce-nav');
+                    }
                 });
                 
                 // Track outerHTML to detect actual changes (including classes, styles, attributes)
@@ -276,10 +282,11 @@ class TinyMCEEditor {
                 
                 // Save history only when editor loses focus (blur event)
                 editor.on('blur', () => {
-                    // Get section number from the element
+                    // Get section number from the element (null si está en nav)
                     const element = editor.getElement();
                     const section = element ? element.closest('section') : null;
-                    const sectionNumber = section ? section.getAttribute('data-section') : null;
+                    const inNav = element && (element.closest('nav') || element.closest('#nav') || element.closest('#navMenu'));
+                    const sectionNumber = section ? section.getAttribute('data-section') : (inNav ? 'nav' : null);
                     const elementId = element ? element.id : null;
                     
                     // Get current HTML and normalize it for comparison
@@ -288,8 +295,8 @@ class TinyMCEEditor {
                     
                     // Only create history entry if normalized content actually changed
                     if (normalizedHTMLBeforeEdit !== normalizedHTMLAfterEdit) {
-                        // Emit text edit command to parent with the actual outerHTML (not normalized)
-                        if (window.parent && window.parent !== window && sectionNumber && elementId) {
+                        // Emit text edit command to parent (section o nav; nav usa sectionNumber 'nav')
+                        if (window.parent && window.parent !== window && elementId && sectionNumber) {
                             window.parent.postMessage({
                                 type: 'TEXT_EDITED',
                                 data: {
@@ -303,7 +310,29 @@ class TinyMCEEditor {
                     }
                 });
             }
-        });
+        };
+        
+        const assignId = (el) => {
+            if (!el.id) el.id = 'tinymce-' + Math.random().toString(36).substr(2, 9);
+        };
+        finalNormalElements.forEach(assignId);
+        finalTextOnlyDivs.forEach(assignId);
+        
+        const normalSelectors = finalNormalElements.map(el => '#' + el.id).join(', ');
+        const textOnlySelectors = finalTextOnlyDivs.map(el => '#' + el.id).join(', ');
+        
+        if (finalNormalElements.length > 0) {
+            console.log(`Initializing TinyMCE for ${finalNormalElements.length} normal elements`);
+            tinymce.init({ ...baseTinyConfig, selector: normalSelectors });
+        }
+        if (finalTextOnlyDivs.length > 0) {
+            console.log(`Initializing TinyMCE for ${finalTextOnlyDivs.length} text-only div(s) (solo texto, sin insertar div)`);
+            tinymce.init({
+                ...baseTinyConfig,
+                selector: textOnlySelectors,
+                invalid_elements: 'div,p,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote,section,article,header,footer,nav'
+            });
+        }
         
         // Single message listener to prevent multiple listeners
         if (!this.messageListener) {
@@ -406,9 +435,11 @@ class TinyMCEEditor {
         console.log('Initializing TinyMCE for specific section:', sectionElement);
         
         // Get editable elements only from this section that haven't been initialized
-        const selector = 'h1, h2, h3, h4, h5, h6, p, a, span, li p, li, label, button:not(.section-menu button)';
+        const selector = 'h1, h2, h3, h4, h5, h6, p, a, span, blockquote, cite, li p, li, label, button:not(.section-menu button)';
         const sectionElements = sectionElement.querySelectorAll(selector);
-        const newElements = Array.from(sectionElements).filter(el => {
+        const textOnlyDivsSection = this.#getTextOnlyDivCandidates(sectionElement);
+        const allCandidatesSection = [...Array.from(sectionElements), ...textOnlyDivsSection];
+        const newElements = allCandidatesSection.filter(el => {
             // Exclude elements that are already initialized
             if (this.initializedElements.has(el)) return false;
             
@@ -444,28 +475,30 @@ class TinyMCEEditor {
             return true;
         });
         
+        const finalTextOnlyDivsSection = finalElements.filter(el => el.getAttribute('data-fp-text-only-div') === '1');
+        const finalNormalElementsSection = finalElements.filter(el => el.getAttribute('data-fp-text-only-div') !== '1');
+        
         if (finalElements.length === 0) {
             console.log('No new elements in section to initialize TinyMCE for');
             return;
         }
         
+        const assignIdSection = (el) => {
+            if (!el.id) el.id = 'tinymce-' + Math.random().toString(36).substr(2, 9);
+        };
+        finalNormalElementsSection.forEach(assignIdSection);
+        finalTextOnlyDivsSection.forEach(assignIdSection);
+        const normalSelectorsSection = finalNormalElementsSection.map(el => '#' + el.id).join(', ');
+        const textOnlySelectorsSection = finalTextOnlyDivsSection.map(el => '#' + el.id).join(', ');
+        
         console.log(`Initializing TinyMCE for ${finalElements.length} elements in new section (optimized approach)`);
         
         const startTime = performance.now();
         
-        // Create a unique selector for only the final elements in this section
-        const newElementSelectors = finalElements.map(el => {
-            // Create a unique identifier for each element
-            if (!el.id) {
-                el.id = 'tinymce-' + Math.random().toString(36).substr(2, 9);
-            }
-            return '#' + el.id;
-        }).join(', ');
-        
-        // Initialize TinyMCE only for new elements in this section
-        tinymce.init({
-            selector: newElementSelectors,
+        const initSectionConfig = (selector, extraOptions = {}) => ({
+            selector,
             inline: true,
+            ...extraOptions,
             menubar: false,
             toolbar: 'bold italic underline | forecolor | link | removeformat',
             toolbar_location: 'auto',
@@ -483,9 +516,17 @@ class TinyMCEEditor {
             content_style: `
                 body { margin: 0; padding: 0; }
                 [data-mce-selected] { outline: 2px solid #3b82f6 !important; }
+                nav [data-mce-selected], #nav [data-mce-selected], #navMenu [data-mce-selected] {
+                    outline: 2px solid #3b82f6 !important;
+                    position: relative !important;
+                    z-index: 9998 !important;
+                }
                 .tox-tinymce { 
                     z-index: 9999 !important;
                     transform: translateY(-25px) !important;
+                }
+                .tox-tinymce.fp-tinymce-nav {
+                    transform: translateY(28px) !important;
                 }
                 .tox-toolbar { 
                     z-index: 10000 !important;
@@ -571,6 +612,11 @@ class TinyMCEEditor {
                             editor.container.style.visibility = 'visible';
                         }
                     }
+                    // Nav: poner la barra debajo del enlace para no tapar el texto
+                    const elNav = editor.getElement();
+                    if (elNav && (elNav.closest('nav') || elNav.closest('#nav') || elNav.closest('#navMenu'))) {
+                        editor.container.classList.add('fp-tinymce-nav');
+                    }
                     
                     // Log performance when editor is initialized
                     const endTime = performance.now();
@@ -639,10 +685,11 @@ class TinyMCEEditor {
                 
                 // Save history only when editor loses focus (blur event)
                 editor.on('blur', () => {
-                    // Get section number from the element
+                    // Get section number from the element (null si está en nav)
                     const element = editor.getElement();
                     const section = element ? element.closest('section') : null;
-                    const sectionNumber = section ? section.getAttribute('data-section') : null;
+                    const inNav = element && (element.closest('nav') || element.closest('#nav') || element.closest('#navMenu'));
+                    const sectionNumber = section ? section.getAttribute('data-section') : (inNav ? 'nav' : null);
                     const elementId = element ? element.id : null;
                     
                     // Get current HTML and normalize it for comparison
@@ -651,8 +698,8 @@ class TinyMCEEditor {
                     
                     // Only create history entry if normalized content actually changed
                     if (normalizedHTMLBeforeEdit !== normalizedHTMLAfterEdit) {
-                        // Emit text edit command to parent with the actual outerHTML (not normalized)
-                        if (window.parent && window.parent !== window && sectionNumber && elementId) {
+                        // Emit text edit command to parent (section o nav; nav usa sectionNumber 'nav')
+                        if (window.parent && window.parent !== window && elementId && sectionNumber) {
                             window.parent.postMessage({
                                 type: 'TEXT_EDITED',
                                 data: {
@@ -667,6 +714,15 @@ class TinyMCEEditor {
                 });
             }
         });
+        
+        if (finalNormalElementsSection.length > 0) {
+            tinymce.init(initSectionConfig(normalSelectorsSection));
+        }
+        if (finalTextOnlyDivsSection.length > 0) {
+            tinymce.init(initSectionConfig(textOnlySelectorsSection, {
+                invalid_elements: 'div,p,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote,section,article,header,footer,nav'
+            }));
+        }
     }
 
     #hasMeaningfulText(element) {
@@ -674,6 +730,24 @@ class TinyMCEEditor {
         // Remove zero-width spaces and trim
         const text = (element.textContent || '').replace(/\u200B/g, '').trim();
         return text.length > 0;
+    }
+
+    /**
+     * Divs que no tienen hijos elemento (solo texto): candidatos a contenteditable.
+     * El usuario en estos solo debe poder editar texto, no insertar otro div.
+     * @param {Element} root - Contenedor (document.body o un section)
+     * @returns {Element[]}
+     */
+    #getTextOnlyDivCandidates(root) {
+        if (!root) return [];
+        const selector = root.tagName === 'BODY' ? 'section div' : 'div';
+        const divs = root.querySelectorAll(selector);
+        return Array.from(divs).filter(div => {
+            if (div.children.length !== 0) return false;
+            if ((div.textContent || '').trim() === '') return false;
+            div.setAttribute('data-fp-text-only-div', '1');
+            return true;
+        });
     }
 
     /**
@@ -690,8 +764,8 @@ class TinyMCEEditor {
             return;
         }
 
-        // Find all editable elements in this section that have TinyMCE initialized
-        const selector = 'h1, h2, h3, h4, h5, h6, p, a, span, li p, li, label, button:not(.section-menu button)';
+        // Find all editable elements in this section that have TinyMCE initialized (incl. divs solo-texto)
+        const selector = 'h1, h2, h3, h4, h5, h6, p, a, span, blockquote, cite, li p, li, label, button:not(.section-menu button), div';
         const sectionElements = sectionElement.querySelectorAll(selector);
         
         let destroyedCount = 0;

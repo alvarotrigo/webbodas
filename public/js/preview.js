@@ -1666,6 +1666,18 @@ function insertFullTemplateHtml(data) {
         if (window.inlineVideoEditor && window.inlineVideoEditor.initForSection) {
             sectionElements.forEach(el => window.inlineVideoEditor.initForSection(el));
         }
+        if (window.inlineMapEditor && typeof window.inlineMapEditor.initAllMapContainers === 'function') {
+            previewContent.querySelectorAll('.map-container').forEach(c => {
+                c.removeAttribute('data-map-editor-initialized');
+            });
+            window.inlineMapEditor.initAllMapContainers();
+        }
+        if (window.inlineCountdownEditor && typeof window.inlineCountdownEditor.initAllCountdowns === 'function') {
+            previewContent.querySelectorAll('section.countdown-section').forEach(s => {
+                s.removeAttribute('data-countdown-editor-initialized');
+            });
+            window.inlineCountdownEditor.initAllCountdowns();
+        }
         if (window.removableElementsManager && window.removableElementsManager.initializeExistingSections) {
             window.removableElementsManager.initializeExistingSections();
         }
@@ -1732,6 +1744,16 @@ function initServerRenderedTemplateContent() {
         }
         if (window.inlineVideoEditor && window.inlineVideoEditor.initForSection) {
             sectionElements.forEach(el => window.inlineVideoEditor.initForSection(el));
+        }
+        if (window.inlineMapEditor && typeof window.inlineMapEditor.initAllMapContainers === 'function') {
+            const pc = document.getElementById('preview-content');
+            if (pc) pc.querySelectorAll('.map-container').forEach(c => c.removeAttribute('data-map-editor-initialized'));
+            window.inlineMapEditor.initAllMapContainers();
+        }
+        if (window.inlineCountdownEditor && typeof window.inlineCountdownEditor.initAllCountdowns === 'function') {
+            const pc = document.getElementById('preview-content');
+            if (pc) pc.querySelectorAll('section.countdown-section').forEach(s => s.removeAttribute('data-countdown-editor-initialized'));
+            window.inlineCountdownEditor.initAllCountdowns();
         }
         if (window.removableElementsManager && window.removableElementsManager.initializeExistingSections) {
             window.removableElementsManager.initializeExistingSections();
@@ -1996,7 +2018,11 @@ function restoreHistorySnapshot(fullHtml, animationsEnabled, templateHeadHtml) {
     
     // Re-initialize TinyMCE and Cloudinary for all editable content once DOM is ready
     setTimeout(() => {
-        // Use viewport-based management instead of initializing all sections
+        if (window.tinyMCEEditor) {
+            // Full init (incl. nav) tras restore: el nav está fuera de .section y no se cubre con initForSection/manageEditorsByViewport
+            window.tinyMCEEditor.initEditor();
+        }
+        // Use viewport-based management for sections (nav ya inicializado arriba)
         if (window.tinyMCEEditor) {
             // First, ensure IntersectionObserver is observing all restored sections
             if (window.tinyMCEEditor.observeExistingSections) {
@@ -2024,6 +2050,20 @@ function restoreHistorySnapshot(fullHtml, animationsEnabled, templateHeadHtml) {
             sectionElements.forEach((sectionElement) => {
                 window.inlineVideoEditor.initForSection(sectionElement);
             });
+        }
+
+        if (window.inlineMapEditor && typeof window.inlineMapEditor.initAllMapContainers === 'function') {
+            // Strip the stale attribute (saved into the HTML) so containers are re-initialized
+            previewContent.querySelectorAll('.map-container').forEach(c => {
+                c.removeAttribute('data-map-editor-initialized');
+            });
+            window.inlineMapEditor.initAllMapContainers();
+        }
+        if (window.inlineCountdownEditor && typeof window.inlineCountdownEditor.initAllCountdowns === 'function') {
+            previewContent.querySelectorAll('section.countdown-section').forEach(s => {
+                s.removeAttribute('data-countdown-editor-initialized');
+            });
+            window.inlineCountdownEditor.initAllCountdowns();
         }
         
         if (window.removableElementsManager && window.removableElementsManager.initForSection) {
@@ -2885,6 +2925,11 @@ function sendTemplateData(requestData = {}) {
     // Eliminar todos los menús de sección del clon
     const menuElements = contentClone.querySelectorAll('.section-menu');
     menuElements.forEach(menu => menu.remove());
+
+    // Eliminar overlays y botones de edición de mapa (inyectados por inline-map-editor.js)
+    contentClone.querySelectorAll('.map-pointer-overlay, .map-edit-btn').forEach(el => el.remove());
+    // Eliminar el atributo de inicialización para que se re-inicialice correctamente al restaurar
+    contentClone.querySelectorAll('.map-container').forEach(el => el.removeAttribute('data-map-editor-initialized'));
 
     // Eliminar elementos de UI de TinyMCE (toolbars, sinks, popups)
     const tinyMCEUIElements = contentClone.querySelectorAll(

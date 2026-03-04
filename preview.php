@@ -317,6 +317,8 @@ if (!empty($_GET['template'])) {
     <link rel="stylesheet" href="<?= editor_asset('./public/css/simple-editor.css') ?>">
     <link rel="stylesheet" href="<?= editor_asset('./public/css/data-attributes-editor.css') ?>">
     <link rel="stylesheet" href="<?= editor_asset('./public/css/inline-svg-editor.css') ?>">
+    <link rel="stylesheet" href="<?= editor_asset('./public/css/inline-map-editor.css') ?>">
+    <link rel="stylesheet" href="<?= editor_asset('./public/css/inline-countdown-editor.css') ?>">
     
     <!-- TinyMCE Library (loaded statically as it's always used) -->
     <link rel="stylesheet" href="./public/js/tinymce/skins/ui/oxide/skin.min.css">
@@ -337,6 +339,8 @@ if (!empty($_GET['template'])) {
     <script defer src="<?= editor_asset('./public/js/section-background-picker.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/inline-video-editor.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/inline-svg-editor.js') ?>"></script>
+    <script defer src="<?= editor_asset('./public/js/inline-map-editor.js') ?>"></script>
+    <script defer src="<?= editor_asset('./public/js/inline-countdown-editor.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/viewport-animations.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/lazy-background-loader.js') ?>"></script>
     

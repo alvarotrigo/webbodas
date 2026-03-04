@@ -264,6 +264,7 @@
             position: absolute; inset: 0;
             background: linear-gradient(to top, rgba(61,46,30,0.4), transparent 50%);
             opacity: 0; transition: opacity 0.4s ease;
+            pointer-events: none; /* permite que hover/click lleguen al img para Cloudinary editable */
         }
         .gallery-item:hover::after { opacity: 1; }
         .gallery-item span {
@@ -272,6 +273,7 @@
             font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
             color: var(--warm-white); z-index: 2;
             opacity: 0; transform: translateY(10px);
+            pointer-events: none; /* permite que click llegue al img para Cloudinary editable */
             transition: all 0.4s ease 0.1s;
         }
         .gallery-item:hover span { opacity: 1; transform: translateY(0); }
@@ -618,27 +620,27 @@
         <p class="section-tag reveal">The Day</p>
         <h2 class="section-title reveal">Wedding Schedule</h2>
         <div class="timeline">
-            <div class="timeline-item reveal-left" style="transition-delay: 0.1s;">
+            <div class="timeline-item reveal-left" style="transition-delay: 0.1s;" data-fp-dynamic>
                 <span class="time">3:30 PM</span>
                 <h4>Guest Arrival</h4>
                 <p>Welcome drinks and lawn games on the meadow</p>
             </div>
-            <div class="timeline-item reveal-left" style="transition-delay: 0.2s;">
+            <div class="timeline-item reveal-left" style="transition-delay: 0.2s;" data-fp-dynamic>
                 <span class="time">4:30 PM</span>
                 <h4>The Ceremony</h4>
-                <p>Exchange of vows beneath the old oak tree</p>
+                <p >Exchange of vows beneath the old oak tree</p>
             </div>
-            <div class="timeline-item reveal-left" style="transition-delay: 0.3s;">
+            <div class="timeline-item reveal-left" style="transition-delay: 0.3s;" data-fp-dynamic>
                 <span class="time">5:30 PM</span>
                 <h4>Cocktail Hour</h4>
                 <p>Craft cocktails, charcuterie & golden hour photos</p>
             </div>
-            <div class="timeline-item reveal-left" style="transition-delay: 0.4s;">
+            <div class="timeline-item reveal-left" style="transition-delay: 0.4s;" data-fp-dynamic>
                 <span class="time">7:00 PM</span>
                 <h4>Dinner & Toasts</h4>
                 <p>Farm-to-table feast under the barn rafters</p>
             </div>
-            <div class="timeline-item reveal-left" style="transition-delay: 0.5s;">
+            <div class="timeline-item reveal-left" style="transition-delay: 0.5s;" data-fp-dynamic>
                 <span class="time">9:00 PM</span>
                 <h4>Dancing & Celebration</h4>
                 <p>Live band, s'mores bar & sparkler send-off</p>
@@ -647,7 +649,7 @@
     </section>
 
     <!-- Countdown -->
-    <section class="countdown-section">
+    <section class="countdown-section" data-wedding-date="2026-09-21T16:30:00">
         <p class="section-tag reveal">Mark Your Calendar</p>
         <h2 class="section-title reveal">Counting Down</h2>
         <div class="countdown reveal">
@@ -720,13 +722,12 @@
             });
         });
 
-        // Scroll Reveal
+        // Scroll Reveal (no unobserve: si la clase .visible se pierde al scroll/destroy TinyMCE, al volver a entrar en viewport se restaura)
         const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
@@ -734,7 +735,11 @@
 
         // Countdown
         function updateCountdown() {
-            const wedding = new Date('2026-09-21T16:30:00');
+            const section = document.querySelector('.countdown-section');
+            const dateStr = (section && section.getAttribute('data-wedding-date'))
+                ? section.getAttribute('data-wedding-date')
+                : '2026-09-21T16:30:00';
+            const wedding = new Date(dateStr);
             const now = new Date();
             const diff = wedding - now;
             if (diff <= 0) return;

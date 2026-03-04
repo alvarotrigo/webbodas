@@ -302,6 +302,8 @@ function editor_asset(string $path): string
     <script src="<?= editor_asset('public/js/history/commands/image-change-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/inline-video-change-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/inline-svg-change-command.js') ?>"></script>
+    <script src="<?= editor_asset('public/js/history/commands/map-change-command.js') ?>"></script>
+    <script src="<?= editor_asset('public/js/history/commands/countdown-change-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/theme-change-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/text-edit-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/opacity-change-command.js') ?>"></script>

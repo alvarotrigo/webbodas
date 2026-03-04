@@ -4268,20 +4268,44 @@ function downloadPage() {
                  historyManager.executeCommand(videoCommand);
              }
              break;
-         case 'COMMAND_INLINE_SVG_CHANGE':
-             if (historyManager && typeof InlineSVGChangeCommand !== 'undefined') {
-                 const svgCommand = new InlineSVGChangeCommand({
-                     sectionNumber: data.sectionNumber,
-                     svgUid: data.svgUid,
-                     beforeState: data.beforeState,
-                     afterState: data.afterState,
-                     label: data.label
-                 });
-                 historyManager.executeCommand(svgCommand);
-             }
-             break;
-     }
- });
+        case 'COMMAND_INLINE_SVG_CHANGE':
+            if (historyManager && typeof InlineSVGChangeCommand !== 'undefined') {
+                const svgCommand = new InlineSVGChangeCommand({
+                    sectionNumber: data.sectionNumber,
+                    svgUid: data.svgUid,
+                    beforeState: data.beforeState,
+                    afterState: data.afterState,
+                    label: data.label
+                });
+                historyManager.executeCommand(svgCommand);
+            }
+            break;
+        case 'COMMAND_MAP_CHANGE':
+            if (historyManager && typeof MapChangeCommand !== 'undefined') {
+                const mapCommand = new MapChangeCommand({
+                    sectionNumber: data.sectionNumber,
+                    mapUid: data.mapUid,
+                    beforeState: data.beforeState,
+                    afterState: data.afterState,
+                    label: data.label
+                });
+                historyManager.executeCommand(mapCommand);
+            }
+            break;
+        case 'COMMAND_COUNTDOWN_CHANGE':
+            if (historyManager && typeof CountdownChangeCommand !== 'undefined') {
+                const cdCommand = new CountdownChangeCommand({
+                    sectionNumber: data.sectionNumber,
+                    countdownUid: data.countdownUid,
+                    beforeState: data.beforeState,
+                    afterState: data.afterState,
+                    label: data.label
+                });
+                historyManager.executeCommand(cdCommand);
+            }
+            break;
+    }
+});
 
 // Dark mode functions
 function loadDarkModePreference() {
