@@ -997,12 +997,29 @@ async function loadTemplatesFromApi() {
             }
         });
         Object.keys(templateStyles).forEach(styleKey => {
-            templateStyles[styleKey].templates = list.filter(t =>
-                Array.isArray(t.styles) && t.styles.includes(styleKey)
-            );
+            if (styleKey === 'all') {
+                // 'all' muestra todos los templates sin filtrar por estilo
+                templateStyles[styleKey].templates = list;
+            } else {
+                templateStyles[styleKey].templates = list.filter(t =>
+                    Array.isArray(t.styles) && t.styles.includes(styleKey)
+                );
+            }
         });
+        // Inicializar filtro de color si el módulo está disponible
+        if (window.ColorFilter && Array.isArray(data.colors) && data.colors.length > 0) {
+            window.ColorFilter.init('color-filter-container', data.colors, applyColorFilter);
+        }
     } catch (err) {
         console.warn('No se pudo cargar la lista de templates:', err);
+    }
+}
+
+// Re-renderiza el panel actualmente abierto con el filtro de color activo.
+// El filtro es local a la categoría abierta; templateStyles nunca se modifica.
+function applyColorFilter(selectedColors) {
+    if (currentCategoryKey) {
+        showStylePanel(currentCategoryKey);
     }
 }
 
@@ -1399,6 +1416,10 @@ currentTemplateUrl = template.url;
      const isSameCategory = currentCategoryKey === styleKey;
      if (currentCategoryKey && !isSameCategory) {
          categoryScrollPositions = {};
+         // Reset del filtro de color al cambiar de categoría (silencioso, sin disparar callback)
+         if (window.ColorFilter) {
+             window.ColorFilter.clearFilterSilent();
+         }
      }
      
      panel.dataset.searchMode = 'false';
@@ -1414,15 +1435,19 @@ currentTemplateUrl = template.url;
      sectionsGrid.classList.add('template-cards-grid');
      sectionsGrid.classList.remove('category-sections-grid');
      
-     const templates = styleData.templates || [];
-     if (templates.length === 0) {
-         sectionsGrid.innerHTML = `
-             <div class="template-cards-empty">
-                 <p>Próximamente templates en este estilo.</p>
-                 <p class="template-cards-empty-hint">Cuando añadas un template completo, aparecerá aquí.</p>
-             </div>
-         `;
-     } else {
+     // Filtro de color local: solo afecta a los templates de esta categoría
+     const baseTemplates = styleData.templates || [];
+     const activeColors = window.ColorFilter ? window.ColorFilter.getSelectedColors() : [];
+     const templates = activeColors.length === 0
+         ? baseTemplates
+         : baseTemplates.filter(t => activeColors.includes(t.colorCategory));
+
+         if (templates.length === 0) {
+            const emptyMsg = activeColors.length > 0
+                ? '<p>No templates found with that color in this style.</p><p class="template-cards-empty-hint">Try selecting another color or clear the filter.</p>'
+                : '<p>Templates in this style coming soon.</p><p class="template-cards-empty-hint">When you add a complete template, it will appear here.</p>';
+            sectionsGrid.innerHTML = `<div class="template-cards-empty">${emptyMsg}</div>`;
+        } else {
          templates.forEach(template => {
              const cardHtml = createTemplateCard(template, styleKey);
              sectionsGrid.insertAdjacentHTML('beforeend', cardHtml);
@@ -2251,13 +2276,14 @@ function syncSelectedSectionsFromIframe() {
          
          await waitForIframeReady();
          
-         // Send fullscreen message to iframe with toggle states
+         // Send fullscreen message to iframe with toggle states.
+         // [WEDDING_VERSION]: En vista previa (Preview) no se aplica fullpage.js; la previsualización es siempre scroll normal.
          iframe.contentWindow.postMessage({
              type: 'SET_FULLSCREEN',
              data: {
                  enabled: true,
                  scrollToTop: true,
-                 fullpageEnabled: window.fullpageEnabled,
+                 fullpageEnabled: false,
                  fullpageSettings: fullpageSettings,
                  animationsEnabled: window.animationsEnabled,
                  animateBackgroundsEnabled: window.animateBackgroundsEnabled

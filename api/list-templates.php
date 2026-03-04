@@ -7,12 +7,16 @@
  *   - Words within a field: - (hyphen)
  *   - Tags are single words separated by -
  *
- * Returns JSON: { "categories": [ { "id", "name", "icon" } ], "templates": [ { "id", "name", "url", "category", "tags": [], "styles": [] } ] }
+ * Returns JSON: { "categories": [ { "id", "name", "icon" } ], "colors": [...], "templates": [ { "id", "name", "url", "category", "tags": [], "styles": [], "colorCategory": "..." } ] }
  * Categories are read from templates/categorias.json (id used as valid style for filename convention).
  * Falls back to HTML meta-tag parsing for files that don't follow the convention.
+ * Color detection uses api/color-detector.php and templates/colores.json.
  */
 
 header('Content-Type: application/json; charset=utf-8');
+
+require_once __DIR__ . '/color-detector.php';
+$colorAnchors = loadColorAnchors(dirname(__DIR__) . '/templates/colores.json');
 
 $categoriasPath = dirname(__DIR__) . '/templates/categorias.json';
 $categories = [];
@@ -57,24 +61,30 @@ foreach (glob($htmlDir . '/*', GLOB_ONLYDIR) ?: [] as $subDir) {
     $templates[] = buildTemplateEntry($indexPath, $base, $relPath, $VALID_STYLES);
 }
 
-echo json_encode(['categories' => $categories, 'templates' => $templates]);
+echo json_encode(['categories' => $categories, 'colors' => $colorAnchors, 'templates' => $templates]);
 
 /**
  * Build a template entry trying the filename convention first, then falling back to meta tags.
  */
 function buildTemplateEntry(string $absPath, string $id, string $url, array $validStyles): array {
+    global $colorAnchors;
+    $colorCategory = detectTemplateColorCategory($absPath, $colorAnchors);
+
     $conv = parseFilenameConvention($id, $validStyles);
     if ($conv !== null) {
         return [
-            'id'       => $id,
-            'name'     => $conv['name'],
-            'url'      => $url,
-            'category' => $conv['category'],
-            'tags'     => $conv['tags'],
-            'styles'   => $conv['styles'],
+            'id'            => $id,
+            'name'          => $conv['name'],
+            'url'           => $url,
+            'category'      => $conv['category'],
+            'tags'          => $conv['tags'],
+            'styles'        => $conv['styles'],
+            'colorCategory' => $colorCategory,
         ];
     }
-    return parseTemplateMeta($absPath, $id, $url, $validStyles);
+    $entry = parseTemplateMeta($absPath, $id, $url, $validStyles);
+    $entry['colorCategory'] = $colorCategory;
+    return $entry;
 }
 
 /**

@@ -603,6 +603,7 @@ function addSection(sectionNumber, html, animationsEnabled, skipScroll = false, 
     // Add section menu inside the section element
     const menu = createSectionMenu(sectionNumber);
     sectionElement.appendChild(menu);
+    adjustFirstSectionMenu();
     
     // Add to preview content
     const previewContent = document.getElementById('preview-content');
@@ -743,6 +744,7 @@ function addParsedSection(html, index, skipTinyMCE = false) {
     // Add section menu
     const menu = createSectionMenu(sectionNumber);
     sectionElement.appendChild(menu);
+    adjustFirstSectionMenu();
 
     // Add to preview content
     previewContent.appendChild(sectionElement);
@@ -951,6 +953,25 @@ function createSectionMenu(sectionNumber) {
     // }
 
     return menu;
+}
+
+/**
+ * Mueve el menú de la primera sección (primera .section en el DOM) por debajo del navbar fijo
+ * si existe uno en el template. Si no hay navbar, mantiene el top por defecto (20px).
+ * Debe llamarse tras añadir o reorganizar secciones.
+ * Nota: la primera sección suele tener data-section="1" al cargar template; solo es "0" tras reordenar.
+ */
+function adjustFirstSectionMenu() {
+    const previewContent = document.getElementById('preview-content');
+    if (!previewContent) return;
+
+    const firstSection = previewContent.querySelector(':scope > .section');
+    const menu = firstSection && firstSection.querySelector('.section-menu');
+    if (!menu) return;
+
+    const nav = previewContent.querySelector('nav');
+    const navHeight = nav ? nav.offsetHeight : 0;
+    menu.style.top = (20 + navHeight) + 'px';
 }
 
 function removeSection(target, options = {}) {
@@ -1309,6 +1330,7 @@ function reorderSection({ fromIndex, toIndex, skipNotify = false }) {
     updatedSections.forEach((section, index) => {
         section.setAttribute('data-section', index);
     });
+    adjustFirstSectionMenu();
     
     // Notify parent window about section reordering (for outline sidebar)
     if (!skipNotify && window.parent && window.parent !== window) {
@@ -1578,6 +1600,58 @@ function clearTemplateAssets() {
     }
 }
 
+/** Class names of loose divs that should be promoted to <section> (must match TemplateLoader.LOOSE_BLOCK_CLASSES). */
+const LOOSE_BLOCK_CLASSES = ['parallax-quote'];
+
+/**
+ * Converts loose <div> elements that are direct children of a container and appear
+ * AFTER the first <section>/<footer> sibling into proper <section> elements.
+ * Only divs with an allowlisted class are converted. If the div has a CSS class with
+ * a background-image URL, moves the URL to an inline style so the editor's background
+ * picker (data-bg="true") can detect and modify it.
+ * @param {Element} container - The element whose direct-children divs will be promoted
+ */
+function normalizeLooseBlocksInContainer(container) {
+    let cssText = '';
+    document.querySelectorAll('style').forEach(s => { cssText += (s.textContent || ''); });
+
+    const bgUrlMap = new Map();
+    const ruleRe = /\.([a-zA-Z0-9_-]+)\s*\{([^}]*)\}/gs;
+    let rm;
+    while ((rm = ruleRe.exec(cssText)) !== null) {
+        const cls = rm[1];
+        const urlMatch = /url\s*\(\s*(['"]?)([^'")\s]+)\1\s*\)/i.exec(rm[2]);
+        if (urlMatch) bgUrlMap.set(cls, `url('${urlMatch[2]}')`);
+    }
+
+    let foundFirstSection = false;
+    Array.from(container.children).forEach(el => {
+        if (el.tagName === 'SECTION' || el.tagName === 'FOOTER') {
+            foundFirstSection = true;
+            return;
+        }
+        const hasAllowedClass = el.tagName === 'DIV' && LOOSE_BLOCK_CLASSES.some(c => el.classList.contains(c));
+        if (!hasAllowedClass || !foundFirstSection) return;
+
+        const section = document.createElement('section');
+        Array.from(el.attributes).forEach(attr => section.setAttribute(attr.name, attr.value));
+        while (el.firstChild) section.appendChild(el.firstChild);
+
+        const classes = (el.getAttribute('class') || '').split(/\s+/).filter(Boolean);
+        for (const cls of classes) {
+            if (bgUrlMap.has(cls)) {
+                const existing = (section.getAttribute('style') || '').trim();
+                const sep = existing && !existing.endsWith(';') ? '; ' : '';
+                section.setAttribute('style', `${existing}${sep}background-image: ${bgUrlMap.get(cls)};`);
+                break;
+            }
+        }
+
+        container.replaceChild(section, el);
+        console.log(`[preview] Loose <div.${el.className}> promoted to <section>`);
+    });
+}
+
 /**
  * Insert full template HTML into preview (body content + styles + scripts).
  * Supports templates with external style.css and script.js; CSS is rewritten so body/html → #preview-content.
@@ -1630,6 +1704,9 @@ function insertFullTemplateHtml(data) {
 
     previewContent.innerHTML = data.contentHtml || '';
 
+    // Promote loose <div> blocks between sections to <section> elements
+    normalizeLooseBlocksInContainer(previewContent);
+
     const sectionElements = previewContent.querySelectorAll('section, footer');
     sectionElements.forEach((sectionElement, index) => {
         const sectionNumber = (index + 1).toString();
@@ -1650,6 +1727,7 @@ function insertFullTemplateHtml(data) {
         if (window.SectionInitializer) window.SectionInitializer.initSection(sectionElement);
         if (window.sectionBackgroundPicker) window.sectionBackgroundPicker.initForSection(sectionNumber);
     });
+    adjustFirstSectionMenu();
 
     setTimeout(() => {
         if (window.tinyMCEEditor) {
@@ -1709,6 +1787,10 @@ function insertFullTemplateHtml(data) {
 function initServerRenderedTemplateContent() {
     const previewContent = document.getElementById('preview-content');
     if (!previewContent || previewContent.getAttribute('data-initial-template') !== '1') return;
+
+    // Promote loose <div> blocks between sections to <section> elements
+    normalizeLooseBlocksInContainer(previewContent);
+
     const sectionElements = previewContent.querySelectorAll('section, footer');
     if (!sectionElements.length) return;
     sectionElements.forEach((sectionElement, index) => {
@@ -1730,6 +1812,7 @@ function initServerRenderedTemplateContent() {
         if (window.SectionInitializer) window.SectionInitializer.initSection(sectionElement);
         if (window.sectionBackgroundPicker) window.sectionBackgroundPicker.initForSection(sectionNumber);
     });
+    adjustFirstSectionMenu();
     setTimeout(() => {
         if (window.tinyMCEEditor) {
             if (window.tinyMCEEditor.observeExistingSections) window.tinyMCEEditor.observeExistingSections();
@@ -2003,6 +2086,7 @@ function restoreHistorySnapshot(fullHtml, animationsEnabled, templateHeadHtml) {
         if (sectionNumber && !sectionElement.querySelector('.section-menu')) {
             const menu = createSectionMenu(sectionNumber);
             sectionElement.appendChild(menu);
+            adjustFirstSectionMenu();
         }
         
         // Initialize section-specific scripts

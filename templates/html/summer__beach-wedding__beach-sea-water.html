@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boda en la Playa — María & Carlos</title>
+<meta name="description" content="Invitación de boda en la playa de María y Carlos. Verano 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ocean-deep: #1B4965;
+  --ocean-mid: #3D7EA6;
+  --ocean-light: #62B6CB;
+  --sand: #F5E6CA;
+  --sand-light: #FDF8F0;
+  --coral: #E07A5F;
+  --coral-dark: #C4603F;
+  --seafoam: #BEE9E8;
+  --white: #FFFFFF;
+  --text-dark: #1A2E3B;
+  --text-mid: #3A5A6E;
+  --text-light: #6A8FA3;
+  --gold-sand: #D4A574;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Raleway', sans-serif;
+  color: var(--text-dark);
+  background: var(--sand-light);
+  overflow-x: hidden;
+  line-height: 1.7;
+}
+
+/* ===== PRELOADER ===== */
+.preloader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(135deg, var(--ocean-deep), var(--ocean-mid));
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader-wave {
+  width: 120px; height: 40px; position: relative;
+}
+.preloader-wave span {
+  display: inline-block; width: 8px; height: 8px; margin: 0 4px;
+  background: var(--sand); border-radius: 50%;
+  animation: wave-bounce 1.4s ease-in-out infinite;
+}
+.preloader-wave span:nth-child(2) { animation-delay: 0.2s; }
+.preloader-wave span:nth-child(3) { animation-delay: 0.4s; }
+.preloader-wave span:nth-child(4) { animation-delay: 0.6s; }
+.preloader-wave span:nth-child(5) { animation-delay: 0.8s; }
+.preloader-text {
+  font-family: 'Great Vibes', cursive; font-size: 1.8rem;
+  color: var(--sand); margin-top: 1.5rem; opacity: 0.9;
+}
+@keyframes wave-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  padding: 1rem 2rem;
+  display: flex; justify-content: center; gap: 2rem;
+  background: rgba(27, 73, 101, 0.15);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  transition: background 0.4s ease, padding 0.4s ease;
+}
+nav.scrolled {
+  background: rgba(27, 73, 101, 0.85);
+  padding: 0.7rem 2rem;
+}
+nav a {
+  font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--white); text-decoration: none;
+  position: relative; padding: 0.3rem 0;
+  transition: color 0.3s ease;
+}
+nav a::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 1px; background: var(--coral);
+  transition: width 0.4s ease;
+}
+nav a:hover::after { width: 100%; }
+nav a:hover { color: var(--seafoam); }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative; height: 100vh; min-height: 600px;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80') center/cover no-repeat;
+}
+.hero-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(27,73,101,0.3) 0%,
+    rgba(27,73,101,0.15) 40%,
+    rgba(245,230,202,0.2) 100%
+  );
+}
+.hero-content {
+  position: relative; z-index: 2; color: var(--white);
+  max-width: 700px; padding: 0 2rem;
+}
+.hero-pre {
+  font-family: 'Raleway', sans-serif; font-weight: 300;
+  font-size: 0.9rem; letter-spacing: 6px; text-transform: uppercase;
+  opacity: 0; animation: fadeUp 1s 0.5s ease forwards;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.hero-names {
+  font-family: 'Great Vibes', cursive; font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 400; line-height: 1.2; margin: 0.5rem 0 1rem;
+  opacity: 0; animation: fadeUp 1s 0.8s ease forwards;
+  text-shadow: 0 3px 15px rgba(0,0,0,0.35);
+}
+.hero-ampersand {
+  display: inline-block; font-size: 0.6em;
+  margin: 0 0.3em; opacity: 0.8;
+  color: var(--coral);
+}
+.hero-date {
+  font-size: 1.1rem; letter-spacing: 4px; font-weight: 300;
+  opacity: 0; animation: fadeUp 1s 1.1s ease forwards;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.hero-scroll {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  z-index: 2; display: flex; flex-direction: column; align-items: center;
+  color: var(--white); opacity: 0; animation: fadeUp 1s 1.5s ease forwards;
+}
+.hero-scroll span {
+  font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.scroll-line {
+  width: 1px; height: 40px; background: var(--white);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* Wave divider */
+.wave-divider {
+  position: relative; margin-top: -80px; z-index: 3;
+}
+.wave-divider svg { display: block; width: 100%; height: auto; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(0.6); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ===== SECTIONS ===== */
+section {
+  padding: 6rem 2rem;
+  position: relative;
+}
+.section-inner {
+  max-width: 900px; margin: 0 auto;
+}
+.section-label {
+  font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--ocean-light); text-align: center;
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem);
+  text-align: center; color: var(--ocean-deep); margin-bottom: 1rem;
+  font-weight: 400;
+}
+.section-line {
+  width: 60px; height: 2px; margin: 0 auto 3rem;
+  background: linear-gradient(90deg, var(--coral), var(--gold-sand));
+  border-radius: 2px;
+}
+
+/* ===== COUNTDOWN ===== */
+.countdown-section {
+  background: linear-gradient(135deg, var(--ocean-deep), var(--ocean-mid));
+  color: var(--white); text-align: center;
+}
+.countdown-section .section-label { color: var(--seafoam); }
+.countdown-section .section-title { color: var(--white); }
+.countdown-section .section-line { background: linear-gradient(90deg, var(--coral), var(--seafoam)); }
+.countdown-grid {
+  display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+  margin-top: 2rem;
+}
+.countdown-item {
+  text-align: center; min-width: 100px;
+  background: rgba(255,255,255,0.08); border-radius: 16px;
+  padding: 1.5rem 1rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+}
+.countdown-number {
+  font-family: 'Playfair Display', serif; font-size: 3rem;
+  font-weight: 600; line-height: 1; color: var(--seafoam);
+}
+.countdown-label {
+  font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+  margin-top: 0.5rem; opacity: 0.7;
+}
+
+/* ===== STORY ===== */
+.story-section { background: var(--sand-light); }
+.story-content {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+  align-items: center;
+}
+.story-image {
+  border-radius: 200px 200px 20px 20px;
+  overflow: hidden; aspect-ratio: 3/4;
+  box-shadow: 0 20px 60px rgba(27,73,101,0.15);
+}
+.story-image img { width: 100%; height: 100%; object-fit: cover; }
+.story-text p {
+  font-size: 1.05rem; color: var(--text-mid); margin-bottom: 1.5rem;
+  line-height: 1.9;
+}
+.story-text .signature {
+  font-family: 'Great Vibes', cursive; font-size: 2rem;
+  color: var(--ocean-mid); margin-top: 1rem;
+}
+
+/* ===== DETAILS ===== */
+.details-section { background: var(--white); }
+.details-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem; margin-top: 1rem;
+}
+.detail-card {
+  text-align: center; padding: 2.5rem 2rem;
+  background: var(--sand-light); border-radius: 20px;
+  border: 1px solid rgba(27,73,101,0.06);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.detail-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(27,73,101,0.1);
+}
+.detail-icon {
+  font-size: 2.2rem; margin-bottom: 1rem;
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+.detail-card:nth-child(2) .detail-icon { animation-delay: 0.5s; }
+.detail-card:nth-child(3) .detail-icon { animation-delay: 1s; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.detail-card h3 {
+  font-family: 'Playfair Display', serif; font-size: 1.3rem;
+  color: var(--ocean-deep); margin-bottom: 0.8rem;
+}
+.detail-card p {
+  font-size: 0.95rem; color: var(--text-mid); line-height: 1.7;
+}
+
+/* ===== TIMELINE ===== */
+.timeline-section {
+  background: var(--sand-light);
+}
+.timeline {
+  position: relative; max-width: 600px; margin: 0 auto;
+  padding-left: 3rem;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 10px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--ocean-light), var(--coral), var(--gold-sand));
+}
+.timeline-item {
+  position: relative; margin-bottom: 2.5rem;
+  padding-left: 1.5rem;
+}
+.timeline-item::before {
+  content: ''; position: absolute; left: -2.45rem; top: 0.4rem;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--white); border: 3px solid var(--ocean-light);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.timeline-item:hover::before {
+  background: var(--coral); border-color: var(--coral);
+}
+.timeline-time {
+  font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--ocean-light); margin-bottom: 0.3rem; font-weight: 600;
+}
+.timeline-item h3 {
+  font-family: 'Playfair Display', serif; font-size: 1.2rem;
+  color: var(--ocean-deep); margin-bottom: 0.3rem;
+}
+.timeline-item p {
+  font-size: 0.9rem; color: var(--text-light);
+}
+
+/* ===== GALLERY ===== */
+.gallery-section { background: var(--white); overflow: hidden; }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 1rem; margin-top: 1rem;
+}
+.gallery-item {
+  position: relative; overflow: hidden; border-radius: 12px;
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+.gallery-item:first-child {
+  grid-row: span 2; aspect-ratio: auto;
+}
+.gallery-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.gallery-item:hover img { transform: scale(1.08); }
+.gallery-item::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(27,73,101,0.4));
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.gallery-item:hover::after { opacity: 1; }
+
+/* ===== QUOTE / PARALLAX ===== */
+.quote-section {
+  position: relative; padding: 8rem 2rem;
+  background: url('https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=1920&q=80') center/cover no-repeat fixed;
+  text-align: center; color: var(--white);
+}
+.quote-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(27,73,101,0.55);
+}
+.quote-content {
+  position: relative; z-index: 2; max-width: 700px; margin: 0 auto;
+}
+.quote-text {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1.6;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+.quote-author {
+  margin-top: 1.5rem; font-size: 0.8rem; letter-spacing: 4px;
+  text-transform: uppercase; opacity: 0.8;
+}
+
+/* ===== RSVP ===== */
+.rsvp-section {
+  background: linear-gradient(180deg, var(--sand-light), var(--white));
+}
+.rsvp-form {
+  max-width: 500px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 1.2rem;
+}
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group label {
+  font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-mid); font-weight: 500;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.9rem 1.2rem;
+  border: 1.5px solid rgba(27,73,101,0.12);
+  border-radius: 12px;
+  font-family: 'Raleway', sans-serif; font-size: 0.95rem;
+  background: var(--white);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none; color: var(--text-dark);
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--ocean-light);
+  box-shadow: 0 0 0 4px rgba(98,182,203,0.15);
+}
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-block; padding: 1rem 2.5rem;
+  font-family: 'Raleway', sans-serif; font-size: 0.78rem;
+  font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  border: none; border-radius: 50px; cursor: pointer;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.btn:hover::before { opacity: 1; }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--coral), var(--coral-dark));
+  color: var(--white);
+  box-shadow: 0 6px 20px rgba(224,122,95,0.35);
+}
+.btn-primary:hover {
+  box-shadow: 0 10px 30px rgba(224,122,95,0.45);
+}
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--ocean-mid);
+  color: var(--ocean-mid);
+}
+.btn-outline:hover {
+  background: var(--ocean-mid); color: var(--white);
+  box-shadow: 0 8px 24px rgba(61,126,166,0.3);
+}
+
+/* Ripple */
+.btn .ripple {
+  position: absolute; border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  transform: scale(0); animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+@keyframes ripple {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--ocean-deep); color: var(--white);
+  text-align: center; padding: 4rem 2rem 2rem;
+}
+.footer-names {
+  font-family: 'Great Vibes', cursive; font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.footer-date {
+  font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase;
+  opacity: 0.6; margin-bottom: 2rem;
+}
+.footer-divider {
+  width: 40px; height: 1px; margin: 2rem auto;
+  background: rgba(255,255,255,0.2);
+}
+footer small {
+  font-size: 0.7rem; opacity: 0.4; letter-spacing: 2px;
+}
+
+/* ===== REVEAL ANIMATIONS ===== */
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1; transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0; transform: translateX(-50px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right {
+  opacity: 0; transform: translateX(50px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-scale {
+  opacity: 0; transform: scale(0.9);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+  padding: 1.2rem 2rem; border-radius: 16px;
+  background: var(--ocean-deep); color: var(--white);
+  font-size: 0.9rem; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  transform: translateY(120%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast.show { transform: translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  nav { gap: 1rem; padding: 0.8rem 1rem; flex-wrap: wrap; justify-content: center; }
+  nav a { font-size: 0.65rem; letter-spacing: 2px; }
+  .story-content { grid-template-columns: 1fr; }
+  .story-image { max-width: 320px; margin: 0 auto; }
+  .gallery-grid { grid-template-columns: 1fr 1fr; }
+  .gallery-item:first-child { grid-row: auto; }
+  .countdown-grid { gap: 1rem; }
+  .countdown-item { min-width: 70px; padding: 1rem 0.7rem; }
+  .countdown-number { font-size: 2rem; }
+  section { padding: 4rem 1.5rem; }
+  .quote-section { padding: 5rem 1.5rem; background-attachment: scroll; }
+}
+@media (max-width: 480px) {
+  nav { gap: 0.5rem; }
+  nav a { font-size: 0.6rem; letter-spacing: 1.5px; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .details-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div class="preloader" id="preloader">
+  <div class="preloader-wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <p class="preloader-text">María & Carlos</p>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#inicio">Inicio</a>
+  <a href="#historia">Historia</a>
+  <a href="#detalles">Detalles</a>
+  <a href="#galeria">Galería</a>
+  <a href="#confirmar">RSVP</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-pre">Estáis invitados a la boda de</p>
+    <h1 class="hero-names">María <span class="hero-ampersand">&</span> Carlos</h1>
+    <p class="hero-date">18 · Julio · 2026 — Playa de Zahara, Cádiz</p>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- WAVE DIVIDER -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,64 C360,120 720,0 1080,64 C1260,96 1380,80 1440,64 L1440,120 L0,120 Z" fill="#FDF8F0"/>
+  </svg>
+</div>
+
+<!-- COUNTDOWN -->
+<section class="countdown-section" id="cuenta">
+  <div class="section-inner">
+    <p class="section-label reveal">Faltan</p>
+    <h2 class="section-title reveal" style="color:var(--white)">Cuenta Atrás</h2>
+    <div class="section-line reveal"></div>
+    <div class="countdown-grid reveal">
+      <div class="countdown-item">
+        <div class="countdown-number" id="days">--</div>
+        <div class="countdown-label">Días</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="hours">--</div>
+        <div class="countdown-label">Horas</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="minutes">--</div>
+        <div class="countdown-label">Minutos</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="seconds">--</div>
+        <div class="countdown-label">Segundos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story-section" id="historia">
+  <div class="section-inner">
+    <p class="section-label reveal">Nuestra</p>
+    <h2 class="section-title reveal">Historia de Amor</h2>
+    <div class="section-line reveal"></div>
+    <div class="story-content">
+      <div class="story-image reveal-left">
+        <img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?w=600&q=80" alt="María y Carlos en la playa" loading="lazy">
+      </div>
+      <div class="story-text reveal-right">
+        <p>Nos conocimos una tarde de verano en la misma playa donde pronto nos diremos «sí, quiero». El sol se estaba poniendo y la brisa del mar llevó nuestras risas al mismo lugar.</p>
+        <p>Desde aquel atardecer, hemos compartido incontables paseos por la orilla, viajes y sueños que ahora culminan en este día tan especial. Queremos celebrarlo con las personas que más queremos: vosotros.</p>
+        <p>Os esperamos con los pies en la arena y el corazón lleno de ilusión.</p>
+        <span class="signature">María & Carlos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DETAILS -->
+<section class="details-section" id="detalles">
+  <div class="section-inner">
+    <p class="section-label reveal">Los</p>
+    <h2 class="section-title reveal">Detalles</h2>
+    <div class="section-line reveal"></div>
+    <div class="details-grid">
+      <div class="detail-card reveal">
+        <span class="detail-icon">🏖️</span>
+        <h3>Ceremonia</h3>
+        <p>18:00 h<br>Playa de Zahara de los Atunes<br>Cádiz, España</p>
+      </div>
+      <div class="detail-card reveal">
+        <span class="detail-icon">🍽️</span>
+        <h3>Cena & Fiesta</h3>
+        <p>20:30 h<br>Chiringuito El Faro<br>Junto a la playa</p>
+      </div>
+      <div class="detail-card reveal">
+        <span class="detail-icon">👗</span>
+        <h3>Dress Code</h3>
+        <p>Elegante informal<br>Colores claros y frescos<br>¡No olvidéis calzado cómodo!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="programa">
+  <div class="section-inner">
+    <p class="section-label reveal">Programa</p>
+    <h2 class="section-title reveal">El Gran Día</h2>
+    <div class="section-line reveal"></div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-time">17:00</div>
+        <h3>Recepción de invitados</h3>
+        <p>Bienvenida con cócteles y aperitivos en la orilla</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-time">18:00</div>
+        <h3>Ceremonia en la playa</h3>
+        <p>Nos casamos con los pies en la arena al atardecer</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-time">19:00</div>
+        <h3>Cóctel & fotos</h3>
+        <p>Brindemos juntos mientras el sol se despide</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-time">20:30</div>
+        <h3>Cena</h3>
+        <p>Gastronomía mediterránea junto al mar</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-time">23:00</div>
+        <h3>Fiesta & baile</h3>
+        <p>¡A bailar descalzos bajo las estrellas!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="galeria">
+  <div class="section-inner">
+    <p class="section-label reveal">Momentos</p>
+    <h2 class="section-title reveal">Galería</h2>
+    <div class="section-line reveal"></div>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal-scale">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80" alt="Pareja en la playa" loading="lazy">
+      </div>
+      <div class="gallery-item reveal-scale">
+        <img src="https://images.unsplash.com/photo-1544078751-58fee2d8a03b?w=600&q=80" alt="Atardecer en la playa" loading="lazy">
+      </div>
+      <div class="gallery-item reveal-scale">
+        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600&q=80" alt="Decoración de boda" loading="lazy">
+      </div>
+      <div class="gallery-item reveal-scale">
+        <img src="https://images.unsplash.com/photo-1478146059778-26028b07395a?w=600&q=80" alt="Mar y arena" loading="lazy">
+      </div>
+      <div class="gallery-item reveal-scale">
+        <img src="https://images.unsplash.com/photo-1510076857177-7470076d4098?w=600&q=80" alt="Celebración en la playa" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+  <div class="quote-content reveal-scale">
+    <p class="quote-text">«El amor no necesita ser perfecto, solo necesita ser verdadero.»</p>
+    <p class="quote-author">— Anónimo</p>
+  </div>
+</section>
+
+<!-- RSVP -->
+<section class="rsvp-section" id="confirmar">
+  <div class="section-inner">
+    <p class="section-label reveal">Confirma tu</p>
+    <h2 class="section-title reveal">Asistencia</h2>
+    <div class="section-line reveal"></div>
+    <form class="rsvp-form reveal" id="rsvpForm">
+      <div class="form-group">
+        <label for="name">Nombre completo</label>
+        <input type="text" id="name" required placeholder="Tu nombre">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required placeholder="tu@email.com">
+      </div>
+      <div class="form-group">
+        <label for="guests">Número de acompañantes</label>
+        <select id="guests">
+          <option value="0">Solo yo</option>
+          <option value="1">+1</option>
+          <option value="2">+2</option>
+          <option value="3">+3</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="dietary">Restricciones alimentarias</label>
+        <input type="text" id="dietary" placeholder="Alergias, vegetariano, etc.">
+      </div>
+      <div class="form-group">
+        <label for="message">Mensaje para los novios</label>
+        <textarea id="message" placeholder="¡Dejadnos unas palabras bonitas!"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="align-self:center; margin-top:1rem;">
+        Confirmar Asistencia
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-names">María & Carlos</p>
+  <p class="footer-date">18 de Julio de 2026</p>
+  <div class="footer-divider"></div>
+  <small>Hecho con amor para nuestro día más especial</small>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">¡Gracias por confirmar! Os esperamos en la playa 🏖️</div>
+
+<script>
+// PRELOADER
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 800);
+});
+
+// NAV SCROLL
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// SMOOTH SCROLL
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// COUNTDOWN
+function updateCountdown() {
+  const wedding = new Date('2026-07-18T18:00:00').getTime();
+  const now = Date.now();
+  const diff = wedding - now;
+  if (diff <= 0) return;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('days').textContent = d;
+  document.getElementById('hours').textContent = String(h).padStart(2, '0');
+  document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+  document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+// BUTTON RIPPLE
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+
+// RSVP FORM
+document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+  this.reset();
+});
+</script>
+</body>
+</html>

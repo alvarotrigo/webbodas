@@ -1,0 +1,74 @@
+[
+  {
+    "id": "white",
+    "name": "Pure White",
+    "hex": "#FFFFFF",
+    "description": "Blanco puro, marfil claro, fondos luminosos y minimalistas"
+  },
+  {
+    "id": "cream",
+    "name": "Cream & Ivory",
+    "hex": "#FFFDF0",
+    "description": "Crema, hueso, beige suave, champán claro, tonos cálidos off-white"
+  },
+  {
+    "id": "grey",
+    "name": "Grey & Silver",
+    "hex": "#A9ACB6",
+    "description": "Gris claro, gris medio, plateado, pizarra, tonos neutros fríos"
+  },
+  {
+    "id": "black",
+    "name": "Black & Charcoal",
+    "hex": "#1A1A1B",
+    "description": "Negro, carbón, gris muy oscuro, antracita, fondos oscuros elegantes"
+  },
+  {
+    "id": "blue",
+    "name": "Blue & Navy",
+    "hex": "#2C3E50",
+    "description": "Azul marino, azul medianoche, azul real, celeste, índigo"
+  },
+  {
+    "id": "green",
+    "name": "Green & Botanical",
+    "hex": "#6B8E23",
+    "description": "Verde botánico, oliva, sage, esmeralda, verde bosque, verde musgo"
+  },
+  {
+    "id": "yellow",
+    "name": "Yellow & Mustard",
+    "hex": "#E3B448",
+    "description": "Amarillo mostaza, amarillo mantequilla, limón, ocre claro"
+  },
+  {
+    "id": "gold",
+    "name": "Gold & Champagne",
+    "hex": "#D4AF37",
+    "description": "Dorado, champán dorado, bronce, oro viejo, metálicos cálidos"
+  },
+  {
+    "id": "earth",
+    "name": "Earth & Terracotta",
+    "hex": "#B3674B",
+    "description": "Terracota, tierra, cobre, siena, marrón cálido, tostado"
+  },
+  {
+    "id": "red",
+    "name": "Red & Burgundy",
+    "hex": "#800020",
+    "description": "Burdeos, vino tinto, rojo oscuro, granate, carmesí profundo"
+  },
+  {
+    "id": "pink",
+    "name": "Pink & Blush",
+    "hex": "#E6B3B3",
+    "description": "Rosa blush, rosa palo, rosa empolvado, salmón suave, durazno"
+  },
+  {
+    "id": "lavender",
+    "name": "Lavender & Purples",
+    "hex": "#9B7EBD",
+    "description": "Lavanda, lila, malva, violeta suave, púrpura romántico"
+  }
+]

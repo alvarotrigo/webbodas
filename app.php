@@ -293,6 +293,9 @@ function editor_asset(string $path): string
     <!-- Template Browser CSS -->
     <link rel="stylesheet" href="<?= editor_asset('public/css/template-browser.css') ?>">
 
+    <!-- Color Filter CSS -->
+    <link rel="stylesheet" href="<?= editor_asset('public/css/color-filter.css') ?>">
+
     <!-- Progressive Image Loader - Prevents connection limit issues -->
     <script src="<?= editor_asset('public/js/progressive-image-loader.js') ?>"></script>
     
@@ -1019,6 +1022,8 @@ function editor_asset(string $path): string
                 </div>
             </div>
         </div>
+        <!-- Filtro de templates por color (solo visible en template-mode) -->
+        <div id="color-filter-container" class="panel-color-filter"></div>
         <div class="category-sections-grid theme-light-minimal" id="category-sections-grid">
             <!-- Sections will be lazy loaded here -->
         </div>
@@ -1204,6 +1209,9 @@ function editor_asset(string $path): string
 
     <!-- Template Loader (load before app.js) -->
     <script src="<?= editor_asset('public/js/template-loader.js') ?>"></script>
+
+    <!-- Color Filter (must load before app.js) -->
+    <script src="<?= editor_asset('public/js/color-filter.js') ?>"></script>
 
     <script src="<?= editor_asset('public/js/app.js') ?>"></script>
 

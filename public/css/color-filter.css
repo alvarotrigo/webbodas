@@ -1,0 +1,138 @@
+/* ============================================================
+   color-filter.css
+   Filtro de templates por color — fila única de 12 círculos
+   Ubicado dentro del category-hover-panel, encima del grid de templates
+   ============================================================ */
+
+/* Contenedor del filtro dentro del panel */
+.panel-color-filter {
+    flex-shrink: 0;
+    padding: 10px 1rem 8px;
+    background: var(--primary-bg, #fff);
+    /* Oculto por defecto; visible solo en template-mode */
+    display: none;
+}
+
+/* Visible únicamente cuando el panel está en modo templates */
+.category-hover-panel.template-mode .panel-color-filter {
+    display: block;
+}
+
+/* Cabecera: título + botón limpiar */
+.color-filter-container {
+    /* reset — cuando está dentro de .panel-color-filter el margen lo gestiona el padre */
+}
+
+.color-filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+}
+
+.color-filter-clear {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--secondary-text, #6c757d);
+    background: transparent;
+    border: 1px solid var(--border-color, #e9ecef);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.color-filter-clear:hover {
+    color: var(--primary-text, #2c3e50);
+    border-color: var(--secondary-text, #6c757d);
+    background: var(--accent-bg, #f1f3f4);
+}
+
+.color-filter-clear svg {
+    flex-shrink: 0;
+}
+
+/* Grid: 1 fila × 12 columnas */
+.color-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 5px;
+}
+
+/* Círculo individual */
+.color-filter-circle {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+    transition: transform 0.13s ease, box-shadow 0.13s ease, border-color 0.13s ease;
+    outline: none;
+}
+
+.color-filter-circle:hover {
+    transform: scale(1.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Estado activo: anillo de selección */
+.color-filter-circle.active {
+    border-color: var(--primary-accent, #4285f4);
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.35), 0 1px 3px rgba(0, 0, 0, 0.15);
+    transform: scale(1.12);
+}
+
+/* El blanco necesita borde visible para distinguirse del fondo */
+.color-filter-circle[data-color-id="white"] {
+    border-color: var(--border-color, #e9ecef);
+}
+
+.color-filter-circle[data-color-id="white"].active {
+    border-color: var(--primary-accent, #4285f4);
+}
+
+/* Tooltip */
+.color-filter-circle::after {
+    content: attr(title);
+    position: absolute;
+    bottom: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 100;
+}
+
+.color-filter-circle:hover::after {
+    opacity: 1;
+}
+
+/* Adaptación modo oscuro (wedding: fondos claros cálidos) */
+.dark-mode .panel-color-filter {
+    background: var(--primary-bg, #faf9f7);
+}
+
+.dark-mode .color-filter-clear {
+    border-color: var(--border-color, #e0dcd6);
+    color: var(--secondary-text, #6b6560);
+}
+
+.dark-mode .color-filter-clear:hover {
+    background: var(--accent-bg, #ebe8e4);
+    border-color: var(--secondary-text, #6b6560);
+}

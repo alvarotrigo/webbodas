@@ -66,6 +66,17 @@
     outline: 2px solid #1d4ed8 !important;
 }
 
+/*
+ * Nav links dentro de ul > li (p. ej. luxe): el <a> es un elemento inline dentro de un bloque,
+ * por lo que su caja de outline sigue el modelo inline y puede quedar invisible.
+ * Con inline-block tiene un box model correcto y el recuadro azul se renderiza igual que
+ * en los navs con <a> como hijo directo del flex container (classic, rustic).
+ */
+nav li a[contenteditable="true"],
+#navMenu a[contenteditable="true"] {
+    display: inline-block;
+}
+
 /* Hide outlines and disable editing in fullscreen mode */
 .fullscreen-mode [contenteditable="true"] {
     outline: none !important;

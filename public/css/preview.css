@@ -105,6 +105,14 @@ body {
     min-height: auto;
 }
 
+/* Anular efectos reveal en la vista editor; solo se muestran al hacer clic en Preview (ojo) o en publicación. */
+body:not(.fullscreen-mode) #preview-content .reveal,
+body:not(.fullscreen-mode) #preview-content .reveal-left,
+body:not(.fullscreen-mode) #preview-content .reveal-right,
+body:not(.fullscreen-mode) #preview-content .reveal-scale {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+}
 
 footer.section{
     overflow: visible !important;
@@ -114,7 +122,9 @@ footer.section{
     position: absolute;
     top: 20px;
     right: 20px;
-    background: var(--primary-bg);
+    /* Neutral background so the menu does not inherit template theme (e.g. cream/yellow) and appear as a yellow rectangle */
+    background: var(--section-menu-bg, #374151);
+    color: var(--section-menu-text, #f3f4f6);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     padding: 8px;
@@ -145,6 +155,15 @@ footer.section{
     background: var(--accent-bg);
 }
 
+/* Section menu uses neutral colors so it does not inherit template theme (e.g. cream/yellow) */
+.section-menu .menu-button {
+    color: var(--section-menu-text, #f3f4f6);
+}
+
+.section-menu .menu-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
 .remove-section-button {
     margin-left: auto;
 }
@@ -154,11 +173,13 @@ footer.section{
     position: relative;
 }
 
-.bg-picker-dropdown {
+.bg-picker-dropdown,
+.section-menu .bg-picker-img-dropdown {
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
-    background: var(--primary-bg);
+    background: var(--section-menu-bg, #374151);
+    color: var(--section-menu-text, #f3f4f6);
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     padding: 4px;
@@ -267,12 +288,25 @@ footer.section{
     display: flex;
 }
 
-/* Image picker dropdown (similar to bg-picker-dropdown) */
+.section-menu .bg-picker-img-button {
+    color: var(--section-menu-text, #f3f4f6);
+}
+
+.section-menu .bg-picker-img-dropdown .bg-picker-img-option {
+    color: var(--section-menu-text, #f3f4f6);
+}
+
+.section-menu .bg-picker-img-dropdown .bg-picker-img-option:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Image picker dropdown (similar to bg-picker-dropdown); uses neutral theme like .section-menu */
 .bg-picker-img-dropdown {
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
-    background: var(--primary-bg);
+    background: var(--section-menu-bg, #374151);
+    color: var(--section-menu-text, #f3f4f6);
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     padding: 4px;
