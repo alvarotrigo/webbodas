@@ -79,11 +79,14 @@ class SectionBackgroundPicker {
                 const sectionNumber = section.getAttribute('data-section');
                 
                 if (action === 'change-image') {
-                    // Check if section has background image on section itself
-                    if (section.hasAttribute('data-bg') && section.getAttribute('data-bg') === 'true' && window.cloudinaryImageEditor) {
+                    // Section itself has background (data-bg="true" or computed from CSS class e.g. .parallax-quote)
+                    const sectionHasBg = section.hasAttribute('data-bg') && section.getAttribute('data-bg') === 'true';
+                    const sectionHasComputedBg = this.hasSectionComputedBackgroundImage(section);
+                    if ((sectionHasBg || sectionHasComputedBg) && window.cloudinaryImageEditor) {
+                        if (sectionHasComputedBg && !sectionHasBg) section.setAttribute('data-bg', 'true');
                         window.cloudinaryImageEditor.handleBackgroundElementClick(section);
-                    } 
-                    // Check if section has background image on .fp-bg element (either via has-bg-image class or inline/CSS styles)
+                    }
+                    // Section has background on .fp-bg element
                     else if ((section.classList.contains('has-bg-image') || this.hasFpBgImage(section)) && window.cloudinaryImageEditor) {
                         const fpBg = section.querySelector('.fp-bg');
                         if (fpBg) {
@@ -91,12 +94,14 @@ class SectionBackgroundPicker {
                         }
                     }
                 } else if (action === 'remove-image') {
-                    // Check if section has background image on section itself
                     if (section.hasAttribute('data-bg') && section.getAttribute('data-bg') === 'true') {
                         this.removeSectionBackgroundImage(section, sectionNumber);
-                    } 
-                    // Check if section has background image on .fp-bg element
-                    else if (this.hasFpBgImage(section)) {
+                    } else if (this.hasSectionComputedBackgroundImage(section)) {
+                        // Background from CSS class (e.g. .parallax-quote): clear by setting inline none
+                        section.style.setProperty('background-image', 'none');
+                        section.setAttribute('data-bg', 'default');
+                        this.updateSectionImageState(section);
+                    } else if (this.hasFpBgImage(section)) {
                         this.removeFpBgImage(section, sectionNumber);
                     }
                 } else if (action === 'change-video') {
@@ -296,7 +301,15 @@ class SectionBackgroundPicker {
         const dropdown = document.querySelector(`.bg-picker-img-dropdown[data-section="${sectionNumber}"]`);
         if (!dropdown) return;
         
-        const bgType = this.getFpBgType(section);
+        let bgType = this.getFpBgType(section);
+
+        // Fallback: sections where the background lives on the section element itself
+        // (e.g. .parallax-quote promoted to <section data-bg="true">), no .fp-bg child.
+        if (!bgType) {
+            const sectionHasBg = section.getAttribute('data-bg') === 'true';
+            const sectionHasComputedBg = this.hasSectionComputedBackgroundImage(section);
+            if (sectionHasBg || sectionHasComputedBg) bgType = 'image';
+        }
         
         // Clear existing options
         dropdown.innerHTML = '';
@@ -829,6 +842,17 @@ class SectionBackgroundPicker {
     }
 
     /**
+     * Check if the section element itself has a background image (inline or from CSS class).
+     * Used for sections like .parallax-quote where the background is on the section, not on .fp-bg.
+     */
+    hasSectionComputedBackgroundImage(section) {
+        if (!section) return false;
+        const style = getComputedStyle(section);
+        const bg = style.backgroundImage || style.background || '';
+        return typeof bg === 'string' && bg !== 'none' && bg.includes('url(');
+    }
+
+    /**
      * Check if section has a background image on .fp-bg element
      */
     hasFpBgImage(section) {
@@ -886,31 +910,28 @@ class SectionBackgroundPicker {
         if (!section) return;
         
         const hasSectionBg = section.hasAttribute('data-bg') && section.getAttribute('data-bg') === 'true';
+        const hasSectionComputedBg = this.hasSectionComputedBackgroundImage(section);
         const hasFpBgImage = this.hasFpBgImage(section);
         const hasFpBgVideo = this.hasFpBgVideo(section);
         const hasFpBg = section.querySelector('.fp-bg') !== null;
         const alreadyHasBgImageClass = section.classList.contains('has-bg-image');
         
-        // Only manage has-bg-image class for .fp-bg elements with images
-        // (sections with data-bg="true" don't need this class)
+        // Section itself has background (data-bg or CSS class like .parallax-quote): ensure editable
+        if (hasSectionBg || hasSectionComputedBg) {
+            section.classList.add('has-bg-image');
+            section.classList.remove('has-bg-video');
+            return;
+        }
         if (hasFpBgImage) {
             section.classList.add('has-bg-image');
             section.classList.remove('has-bg-video');
         } else if (hasFpBgVideo) {
             section.classList.add('has-bg-video');
-            // Also add has-bg-image class for video backgrounds (for button visibility and styling)
             section.classList.add('has-bg-image');
         } else {
-            // Only remove has-bg-image class if:
-            // 1. There's no .fp-bg element (definitely no background), OR
-            // 2. The section doesn't already have the class (wasn't saved with it)
-            // This preserves the class if it was saved in the HTML, even if the background
-            // image isn't detected yet (e.g., CSS-based backgrounds, lazy loading, etc.)
             if (!hasFpBg || !alreadyHasBgImageClass) {
                 section.classList.remove('has-bg-image', 'has-bg-video');
             }
-            // If hasFpBg exists and alreadyHasBgImageClass is true, preserve the class
-            // The class is needed for CSS to apply the background image
         }
     }
 

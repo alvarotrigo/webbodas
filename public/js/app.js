@@ -1006,6 +1006,9 @@ async function loadTemplatesFromApi() {
                 );
             }
         });
+        // Exponer datos globalmente para template-search.js
+        window.allTemplates = list;
+        window.templateColors = data.colors || [];
         // Inicializar filtro de color si el módulo está disponible
         if (window.ColorFilter && Array.isArray(data.colors) && data.colors.length > 0) {
             window.ColorFilter.init('color-filter-container', data.colors, applyColorFilter);
@@ -1605,6 +1608,7 @@ currentTemplateUrl = template.url;
  }
 
  // Añade la lógica de scroll suave al hover (imagen generada o placeholder): transform del inner.
+ window.createTemplateCard = createTemplateCard;
  function attachTemplateCardHoverScroll(container) {
      if (!container) return;
      const cards = container.querySelectorAll('.template-card');
@@ -1642,6 +1646,7 @@ currentTemplateUrl = template.url;
          card.addEventListener('mouseleave', stopScroll);
      });
  }
+ window.attachTemplateCardHoverScroll = attachTemplateCardHoverScroll;
 
  function showTemplatePreviewFull(sectionsGrid, styleKey, template) {
      const panel = document.getElementById('category-hover-panel');

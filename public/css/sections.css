@@ -1695,6 +1695,24 @@ section.has-bg-image .fp-bg {
   transition: background-color 0.3s ease;
 }
 
+/* Overlay for sections where the background image sits on the section element itself
+   (data-bg="true"), as opposed to being on a .fp-bg child element.
+   This includes sections promoted from full-template divs (e.g. .parallax-quote)
+   AND normal sections whose background was set via Cloudinary directly on the section.
+   The !important overrides any hardcoded rgba() in template CSS ::before rules.
+   The high specificity (section.section[attr]) ensures it beats class-only template rules. */
+section.section[data-bg="true"] {
+  position: relative;
+}
+section.section[data-bg="true"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, var(--overlay-opacity, 0.6)) !important;
+  pointer-events: none;
+  transition: background-color 0.3s ease;
+}
+
 @keyframes fpBgFadeIn {
   from {
     opacity: 0;

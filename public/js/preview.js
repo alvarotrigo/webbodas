@@ -2,6 +2,9 @@ let animationsEnabled = false;
 let scrollAnimations = null;
 const pendingTextUpdates = new Map();
 
+// Si true, enlaces #id y formularios funcionan (vista fullscreen "ojo"). Si false, deshabilitados para edición.
+let linksAndFormsEnabled = false;
+
 // Load custom themes on page load
 if (typeof loadCustomThemes !== 'undefined') {
     loadCustomThemes();
@@ -22,9 +25,10 @@ document.addEventListener('click', () => {
     }, '*');
 });
 
-// Smooth scroll para enlaces con hash (navbar, footer, etc.) dentro del preview.
-// Funciona para cualquier template (classic, rustic, luxe, etc.) sin depender del script inline de cada uno.
-(function initAnchorSmoothScroll() {
+// Enlaces #id: en modo edición no hacen nada (para poder editar el texto). En vista preview (ojo) hacen scroll suave al destino.
+// Usa fase capture para interceptar ANTES que los handlers inline del template (p. ej. smooth-scroll propio del template),
+// que se registran directamente en el <a> y se ejecutarían primero en fase bubbling.
+(function handleAnchorLinksInPreview() {
     const previewContent = document.getElementById('preview-content');
     if (!previewContent) return;
     previewContent.addEventListener('click', function(e) {
@@ -34,12 +38,43 @@ document.addEventListener('click', () => {
         if (href === '#' || href === '') return;
         const id = href.slice(1);
         if (!id) return;
+        e.preventDefault();
+        // stopPropagation evita que el handler inline del template llegue a ejecutarse
+        e.stopPropagation();
+        if (!linksAndFormsEnabled) return; // Modo edición: no hacer scroll.
         const target = previewContent.querySelector('#' + CSS.escape(id));
         if (target) {
-            e.preventDefault();
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    });
+    }, true); // true = fase capture: se ejecuta antes que los listeners del propio elemento
+})();
+
+// Evitar que el clic en un <label for="..."> enfoque el input asociado en el preview,
+// para que el usuario pueda hacer clic en el label y editar su texto sin que el foco salte al placeholder del input.
+(function preventLabelFocusInPreview() {
+    const previewContent = document.getElementById('preview-content');
+    if (!previewContent) return;
+    previewContent.addEventListener('click', function(e) {
+        const label = e.target.closest('label[for]');
+        if (!label) return;
+        e.preventDefault();
+    }, true);
+})();
+
+// [PREVIEW_EDIT_MODE]: Deshabilitar envío y validación de formularios en el preview (solo cuando no es vista page=).
+(function disableFormSubmitInPreview() {
+    const previewContent = document.getElementById('preview-content');
+    if (!previewContent) return;
+    previewContent.addEventListener('click', function(e) {
+        if (linksAndFormsEnabled) return;
+        const submitControl = e.target.closest('button[type="submit"], input[type="submit"]');
+        if (!submitControl) return;
+        e.preventDefault();
+    }, true);
+    previewContent.addEventListener('submit', function(e) {
+        if (linksAndFormsEnabled) return;
+        e.preventDefault();
+    }, true);
 })();
 
 // Global keyboard shortcuts for undo/redo (when not in TinyMCE)
@@ -1643,6 +1678,20 @@ function normalizeLooseBlocksInContainer(container) {
                 const existing = (section.getAttribute('style') || '').trim();
                 const sep = existing && !existing.endsWith(';') ? '; ' : '';
                 section.setAttribute('style', `${existing}${sep}background-image: ${bgUrlMap.get(cls)};`);
+                section.setAttribute('data-bg', 'true');
+                section.setAttribute('data-overlay-by-var', 'true');
+
+                // Inject a style AFTER the template styles so cascade order makes it win.
+                // This overrides the template's hardcoded rgba() in ::before with the
+                // --overlay-opacity variable, enabling the opacity slider to work.
+                const overrideId = `overlay-override-${cls}`;
+                if (!document.getElementById(overrideId)) {
+                    const overrideStyle = document.createElement('style');
+                    overrideStyle.id = overrideId;
+                    overrideStyle.setAttribute('data-template-asset', 'styles');
+                    overrideStyle.textContent = `.${cls}::before { background: rgba(0, 0, 0, var(--overlay-opacity, 0.6)); }`;
+                    document.head.appendChild(overrideStyle);
+                }
                 break;
             }
         }
@@ -2189,6 +2238,9 @@ let fullscreenFullpageApi = null;
  * @param {boolean} animationsEnabled - Whether animations should be active
  */
 function setFullscreenMode(enabled, scrollToTop = false, fullpageEnabled = false, fullpageSettings = null, animationsEnabled = false, animateBackgroundsEnabled = false) {
+    // En preview (ojo) los enlaces #id y formularios funcionan; en el editor están desactivados.
+    linksAndFormsEnabled = enabled;
+
     if (enabled) {
         document.body.classList.add('fullscreen-mode');
         
@@ -2594,10 +2646,15 @@ function enableTinyMCE() {
                     window.tinyMCEEditor.setViewportManagement(true);
                 }
                 
-                // Initialize editors only for visible sections (and adjacent ones) using viewport management
-                // This is the same code used normally - don't initialize for all sections
                 setTimeout(() => {
-                    if (window.tinyMCEEditor && window.tinyMCEEditor.manageEditorsByViewport) {
+                    if (!window.tinyMCEEditor) return;
+                    // El navbar está fuera de .section y no se cubre con manageEditorsByViewport.
+                    // initEditor() es necesario para restaurar la edición del navbar al cerrar fullscreen.
+                    if (window.tinyMCEEditor.initEditor) {
+                        window.tinyMCEEditor.initEditor();
+                    }
+                    // Viewport management inicializa las secciones visibles.
+                    if (window.tinyMCEEditor.manageEditorsByViewport) {
                         window.tinyMCEEditor.manageEditorsByViewport();
                     }
                 }, 100);

@@ -671,20 +671,20 @@
             Kindly respond by August 1, 2026
         </p>
         <form class="rsvp-form reveal" id="rsvpForm">
-            <input type="text" placeholder="Your Full Name" required>
-            <input type="email" placeholder="Email Address" required>
-            <select required>
+            <input type="text" placeholder="Your Full Name" required data-fp-dynamic>
+            <input type="email" placeholder="Email Address" required data-fp-dynamic>
+            <select required data-fp-dynamic>
                 <option value="" disabled selected>Will you attend?</option>
                 <option value="yes">Joyfully Accepts</option>
                 <option value="no">Regretfully Declines</option>
             </select>
-            <select>
+            <select data-fp-dynamic>
                 <option value="" disabled selected>Number of Guests</option>
                 <option value="1">1 Guest</option>
                 <option value="2">2 Guests</option>
                 <option value="3">3 Guests</option>
             </select>
-            <textarea placeholder="Dietary restrictions or a message for the couple..."></textarea>
+            <textarea placeholder="Dietary restrictions or a message for the couple..." data-fp-dynamic></textarea>
             <button type="submit" class="btn btn-solid">Send RSVP</button>
         </form>
     </section>

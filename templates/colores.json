@@ -3,72 +3,84 @@
     "id": "white",
     "name": "Pure White",
     "hex": "#FFFFFF",
-    "description": "Blanco puro, marfil claro, fondos luminosos y minimalistas"
+    "description": "Pure white, light ivory, bright and minimalist backgrounds",
+    "searchTerms": ["white", "blanco", "ivory", "marfil", "luminoso", "bright", "minimal", "minimalista", "puro", "claro"]
   },
   {
     "id": "cream",
     "name": "Cream & Ivory",
     "hex": "#FFFDF0",
-    "description": "Crema, hueso, beige suave, champán claro, tonos cálidos off-white"
+    "description": "Cream, bone, soft beige, light champagne, warm off-white tones",
+    "searchTerms": ["cream", "crema", "ivory", "marfil", "beige", "champagne", "champán", "hueso", "bone", "warm", "cálido", "off-white", "suave"]
   },
   {
     "id": "grey",
     "name": "Grey & Silver",
     "hex": "#A9ACB6",
-    "description": "Gris claro, gris medio, plateado, pizarra, tonos neutros fríos"
+    "description": "Light grey, medium grey, silver, slate, cool neutral tones",
+    "searchTerms": ["grey", "gray", "gris", "silver", "plateado", "plata", "slate", "pizarra", "neutral", "cool", "frío"]
   },
   {
     "id": "black",
     "name": "Black & Charcoal",
     "hex": "#1A1A1B",
-    "description": "Negro, carbón, gris muy oscuro, antracita, fondos oscuros elegantes"
+    "description": "Black, charcoal, very dark grey, anthracite, elegant dark backgrounds",
+    "searchTerms": ["black", "negro", "charcoal", "carbón", "dark", "oscuro", "anthracite", "antracita", "elegant", "elegante", "oscuro"]
   },
   {
     "id": "blue",
     "name": "Blue & Navy",
     "hex": "#2C3E50",
-    "description": "Azul marino, azul medianoche, azul real, celeste, índigo"
+    "description": "Navy blue, midnight blue, royal blue, sky blue, indigo",
+    "searchTerms": ["blue", "azul", "navy", "marino", "naval", "midnight", "royal", "sky", "celeste", "indigo", "añil", "cobalt", "cobalto", "aqua"]
   },
   {
     "id": "green",
     "name": "Green & Botanical",
     "hex": "#6B8E23",
-    "description": "Verde botánico, oliva, sage, esmeralda, verde bosque, verde musgo"
+    "description": "Botanical green, olive, sage, emerald, forest green, moss green",
+    "searchTerms": ["green", "verde", "botanical", "botánico", "olive", "oliva", "sage", "salvia", "emerald", "esmeralda", "forest", "bosque", "moss", "musgo"]
   },
   {
     "id": "yellow",
     "name": "Yellow & Mustard",
     "hex": "#E3B448",
-    "description": "Amarillo mostaza, amarillo mantequilla, limón, ocre claro"
+    "description": "Mustard yellow, butter yellow, lemon, light ochre",
+    "searchTerms": ["yellow", "amarillo", "mustard", "mostaza", "butter", "mantequilla", "lemon", "limón", "ochre", "ocre", "sunny", "soleado"]
   },
   {
     "id": "gold",
     "name": "Gold & Champagne",
     "hex": "#D4AF37",
-    "description": "Dorado, champán dorado, bronce, oro viejo, metálicos cálidos"
+    "description": "Gold, champagne gold, bronze, old gold, warm metallics",
+    "searchTerms": ["gold", "oro", "dorado", "champagne", "champán", "bronze", "bronce", "metallic", "metálico", "luxury", "lujo", "glamour"]
   },
   {
     "id": "earth",
     "name": "Earth & Terracotta",
     "hex": "#B3674B",
-    "description": "Terracota, tierra, cobre, siena, marrón cálido, tostado"
+    "description": "Terracota, tierra, cobre, siena, marrón cálido, tostado",
+    "searchTerms": ["earth", "tierra", "terracotta", "terracota", "copper", "cobre", "sienna", "siena", "brown", "marrón", "tostado", "rustic", "rústico", "warm", "cálido"]
   },
   {
     "id": "red",
     "name": "Red & Burgundy",
     "hex": "#800020",
-    "description": "Burdeos, vino tinto, rojo oscuro, granate, carmesí profundo"
+    "description": "Burdeos, vino tinto, rojo oscuro, granate, carmesí profundo",
+    "searchTerms": ["red", "rojo", "burgundy", "burdeos", "wine", "vino", "garnet", "granate", "crimson", "carmesí", "dark red", "rojo oscuro"]
   },
   {
     "id": "pink",
     "name": "Pink & Blush",
     "hex": "#E6B3B3",
-    "description": "Rosa blush, rosa palo, rosa empolvado, salmón suave, durazno"
+    "description": "Rosa blush, rosa palo, rosa empolvado, salmón suave, durazno",
+    "searchTerms": ["pink", "rosa", "blush", "palo", "empolvado", "dusty", "salmon", "salmón", "peach", "durazno", "melocotón", "soft", "suave", "romantic", "romántico"]
   },
   {
     "id": "lavender",
     "name": "Lavender & Purples",
     "hex": "#9B7EBD",
-    "description": "Lavanda, lila, malva, violeta suave, púrpura romántico"
+    "description": "Lavanda, lila, malva, violeta suave, púrpura romántico",
+    "searchTerms": ["lavender", "lavanda", "purple", "púrpura", "lila", "lilac", "mauve", "malva", "violet", "violeta", "romantic", "romántico"]
   }
 ]

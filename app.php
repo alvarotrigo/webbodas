@@ -700,11 +700,11 @@ function editor_asset(string $path): string
 
             <div class="mb-4 category-list-wrapper">
                 
-                <h3 class="text-sm font-semibold text-accent-text mb-4">Estilo</h3>
                 <div class="search-bar-wrapper">
-                    <input type="text" class="search-bar" placeholder="Buscar templates" id="section-search-input">
+                    <input type="text" class="search-bar" placeholder="Search templates" id="section-search-input">
                     <div class="search-loader" id="search-loader"></div>
                 </div>
+                <!-- <h3 class="text-sm font-semibold text-accent-text mb-4">Categories</h3>  -->
                 <div class="category-list" id="category-list">
                     <!-- Categories will be loaded here -->
                 </div>
@@ -1224,8 +1224,11 @@ function editor_asset(string $path): string
     <!-- Upgrade Modal Component (loaded on demand) -->
     <script src="<?= editor_asset('public/js/upgrade-modal.js') ?>"></script>
 
-    <!-- Section Search Functionality (loaded asynchronously) -->
-    <script src="<?= editor_asset('public/js/section-search.js') ?>" async></script>
+    <!-- [DISABLED_FOR_WEDDING_VERSION]: Búsqueda de secciones reemplazada por búsqueda de templates -->
+    <!-- <script src="<?= editor_asset('public/js/section-search.js') ?>" async></script> -->
+
+    <!-- Template Search Functionality (Wedding Version) -->
+    <script src="<?= editor_asset('public/js/template-search.js') ?>" async></script>
 
     <!-- html5sortable Library for drag-and-drop -->
     <script src="https://cdn.jsdelivr.net/npm/html5sortable@0.13.3/dist/html5sortable.min.js"></script>
