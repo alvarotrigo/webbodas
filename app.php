@@ -293,8 +293,9 @@ function editor_asset(string $path): string
     <!-- Template Browser CSS -->
     <link rel="stylesheet" href="<?= editor_asset('public/css/template-browser.css') ?>">
 
-    <!-- Color Filter CSS -->
+    <!-- [DISABLED_FOR_WEDDING_VERSION]: Color filter functionality removed.
     <link rel="stylesheet" href="<?= editor_asset('public/css/color-filter.css') ?>">
+    -->
 
     <!-- Progressive Image Loader - Prevents connection limit issues -->
     <script src="<?= editor_asset('public/js/progressive-image-loader.js') ?>"></script>
@@ -525,7 +526,6 @@ function editor_asset(string $path): string
     <!-- Left Sidebar -->
     <div class="sidebar">
         <div class="sidebar-content">
-            <?php /* Temas deshabilitados de momento - no ofrecemos selector de temas
             <div class="theme-selector-section">
                 <h3 class="text-sm font-semibold text-accent-text mb-2">Theme</h3>
                 <button class="theme-selector-button" id="theme-selector-button">
@@ -537,7 +537,6 @@ function editor_asset(string $path): string
                     </div>
                 </button>
             </div>
-            */ ?>
 
             <?php if (isset($_GET['developer']) && $_GET['developer'] === '1'): ?>
             <div class="header-selector-section">
@@ -1022,8 +1021,9 @@ function editor_asset(string $path): string
                 </div>
             </div>
         </div>
-        <!-- Filtro de templates por color (solo visible en template-mode) -->
+        <!-- [DISABLED_FOR_WEDDING_VERSION]: Color filter container removed.
         <div id="color-filter-container" class="panel-color-filter"></div>
+        -->
         <div class="category-sections-grid theme-light-minimal" id="category-sections-grid">
             <!-- Sections will be lazy loaded here -->
         </div>
@@ -1074,20 +1074,73 @@ function editor_asset(string $path): string
 
             <!-- Onboarding Overlay (template-first: shown when no template is loaded) -->
             <div id="onboarding-overlay" class="onboarding-overlay">
-                <div class="onboarding-container">
-                    <h2 class="onboarding-title">¡Elige tu plantilla!</h2>
-                    <p class="onboarding-subtitle">Elige una plantilla para empezar tu web de bodas</p>
+                <div class="onboarding-container onboarding-container--gallery">
+                    <h2 class="onboarding-title">¡Choose your template!</h2>
+                    <p class="onboarding-subtitle">Choose a template to start your wedding website</p>
 
-                    <div class="onboarding-steps">
-                        <!-- Single step: Choose template (Wedding / template-first paradigm) -->
-                        <div class="onboarding-step" data-step="1">
-                            <div class="onboarding-step-icon">📄</div>
-                            <h3 class="onboarding-step-title">Elegir plantilla</h3>
-                            <p class="onboarding-step-desc">Selecciona el diseño que más te guste</p>
-                            <div class="onboarding-step-checkmark">
-                                <i data-lucide="check"></i>
+                    <!-- Template gallery grid (populated by onboarding.js) -->
+                    <div class="onboarding-template-gallery" id="onboarding-template-gallery">
+                        <!-- Cards will be injected here by onboarding.js -->
+                        <div class="onboarding-gallery-loading">
+                            <svg class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+                                <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+                            </svg>
+                            <p>Loading templates...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onboarding Preview Popup (iframe + theme sidebar) -->
+            <div id="onboarding-preview-popup" class="onboarding-preview-popup">
+                <div class="onboarding-preview-popup-backdrop"></div>
+
+                <div class="onboarding-preview-popup-card">
+                    <!-- Close button -->
+                    <button class="onboarding-preview-popup-close" id="onboarding-preview-popup-close" aria-label="Close">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+
+                    <!-- Navigation arrows (attached to card left/right edges) -->
+                    <button class="onboarding-preview-nav onboarding-preview-nav--prev" id="onboarding-preview-nav-prev" aria-label="Previous template">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="onboarding-preview-nav onboarding-preview-nav--next" id="onboarding-preview-nav-next" aria-label="Next template">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+
+                    <!-- Two-column body -->
+                    <div class="onboarding-preview-popup-body">
+                        <!-- Left: full template iframe (read-only, no editor) -->
+                        <div class="onboarding-preview-popup-iframe-col">
+                            <iframe id="onboarding-preview-iframe" class="onboarding-preview-iframe" src="about:blank" title="Template preview"></iframe>
+                        </div>
+
+                        <!-- Right: theme sidebar (collapsible) -->
+                        <div class="onboarding-preview-popup-themes-col" id="onboarding-preview-themes-col">
+                            <!-- Re-open button (visible only when collapsed) -->
+                            <button class="onboarding-preview-themes-reopen" id="onboarding-preview-themes-reopen" aria-label="Show themes" title="Show themes">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                            </button>
+                            <div class="onboarding-preview-themes-inner">
+                                <div class="onboarding-preview-themes-header">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                                    <span>Themes</span>
+                                    <button class="onboarding-preview-themes-toggle" id="onboarding-preview-themes-toggle" aria-label="Toggle themes panel" title="Hide themes">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                                    </button>
+                                </div>
+                                <div class="onboarding-preview-themes-list" id="onboarding-preview-themes-list">
+                                    <!-- Theme cards injected by JS -->
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Choose button (straddles bottom edge) -->
+                    <div class="onboarding-preview-popup-footer">
+                        <button class="onboarding-preview-choose-btn" id="onboarding-preview-choose-btn">Choose</button>
                     </div>
                 </div>
             </div>
@@ -1210,8 +1263,9 @@ function editor_asset(string $path): string
     <!-- Template Loader (load before app.js) -->
     <script src="<?= editor_asset('public/js/template-loader.js') ?>"></script>
 
-    <!-- Color Filter (must load before app.js) -->
+    <!-- [DISABLED_FOR_WEDDING_VERSION]: Color filter script removed.
     <script src="<?= editor_asset('public/js/color-filter.js') ?>"></script>
+    -->
 
     <script src="<?= editor_asset('public/js/app.js') ?>"></script>
 

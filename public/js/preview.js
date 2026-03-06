@@ -870,12 +870,9 @@ function createSectionMenu(sectionNumber) {
             </svg>
         </button>
         <div class="bg-picker-wrapper">
-            <!-- [DISABLED_FOR_WEDDING_VERSION]: Selector de estilo (Default/Primary/Secondary/Accent/Gradient) desactivado; no se usa por ahora. -->
-            <!--
             <button class="menu-button bg-picker-button" data-section="${sectionNumber}" data-tippy-content="Change background">
                 <span class="bg-picker-button-circle"></span>
             </button>
-            -->
             <button class="menu-button bg-picker-img-button" data-section="${sectionNumber}" data-tippy-content="Edit background image">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
                 <span>Edit</span>
@@ -888,8 +885,6 @@ function createSectionMenu(sectionNumber) {
                     <span>Remove image</span>
                 </div>
             </div>
-            <!-- [DISABLED_FOR_WEDDING_VERSION]: Dropdown de estilo (Default/Primary/Secondary/Accent/Gradient/None) no se usa por ahora. -->
-            <!--
             <div class="bg-picker-dropdown" data-section="${sectionNumber}">
                 <div class="bg-picker-option" data-bg="default" data-section="${sectionNumber}">
                     <span class="bg-picker-color"></span>
@@ -930,7 +925,6 @@ function createSectionMenu(sectionNumber) {
                     <span class="bg-picker-label">None</span>
                 </div>
             </div>
-            -->
         </div>
         <div class="overlay-opacity-wrapper">
             <button class="menu-button overlay-opacity-button" data-section="${sectionNumber}" data-tippy-content="Adjust overlay opacity">
@@ -976,16 +970,16 @@ function createSectionMenu(sectionNumber) {
         }, 10);
     }
     
-    // [DISABLED_FOR_WEDDING_VERSION]: Aplicación de tema a .bg-picker-color (selector de estilo desactivado).
-    // const currentTheme = Array.from(document.body.classList).find(cls =>
-    //     cls.startsWith('theme-') || cls.startsWith('custom-theme-')
-    // );
-    // if (currentTheme) {
-    //     const colorElements = menu.querySelectorAll('.bg-picker-color');
-    //     colorElements.forEach(colorElement => {
-    //         colorElement.classList.add(currentTheme);
-    //     });
-    // }
+    // Apply current theme class to .bg-picker-color elements
+    const currentTheme = Array.from(document.body.classList).find(cls =>
+        cls.startsWith('theme-') || cls.startsWith('custom-theme-')
+    );
+    if (currentTheme) {
+        const colorElements = menu.querySelectorAll('.bg-picker-color');
+        colorElements.forEach(colorElement => {
+            colorElement.classList.add(currentTheme);
+        });
+    }
 
     return menu;
 }
@@ -1541,38 +1535,32 @@ function fallbackCopyTextToClipboard(text, sectionNumber) {
 
 function setTheme(theme) {
     const previewContent = document.getElementById('preview-content');
-    const isFullTemplate = previewContent && previewContent.classList.contains('has-full-template');
 
-    // Remove all existing theme classes from body
+    // Remove all existing theme classes from body and re-apply
     document.body.className = document.body.className
         .split(' ')
         .filter(cls => !cls.startsWith('theme-') && !cls.startsWith('custom-theme-'))
         .join(' ');
-    // When showing a full template, do not apply theme to body so template's own colors (e.g. hero dark bg + light text) are not overridden
-    if (!isFullTemplate) {
-        document.body.classList.add(theme);
-    }
+    document.body.classList.add(theme);
 
-    // Apply theme to preview-content only when not in full-template mode (template defines its own look)
+    // Apply theme to preview-content (works for both section-based and full-template mode)
     if (previewContent) {
         previewContent.className = previewContent.className
             .split(' ')
             .filter(cls => !cls.startsWith('theme-') && !cls.startsWith('custom-theme-'))
             .join(' ');
-        if (!isFullTemplate) {
-            previewContent.classList.add(theme);
-        }
+        previewContent.classList.add(theme);
     }
     
-    // [DISABLED_FOR_WEDDING_VERSION]: Tema en .bg-picker-color del selector de estilo (desactivado).
-    // document.querySelectorAll('.bg-picker-dropdown .bg-picker-color').forEach(colorElement => {
-    //     Array.from(colorElement.classList).forEach(cls => {
-    //         if (cls.startsWith('theme-') || cls.startsWith('custom-theme-')) {
-    //             colorElement.classList.remove(cls);
-    //         }
-    //     });
-    //     colorElement.classList.add(theme);
-    // });
+    // Apply theme class to .bg-picker-color elements inside .bg-picker-dropdown
+    document.querySelectorAll('.bg-picker-dropdown .bg-picker-color').forEach(colorElement => {
+        Array.from(colorElement.classList).forEach(cls => {
+            if (cls.startsWith('theme-') || cls.startsWith('custom-theme-')) {
+                colorElement.classList.remove(cls);
+            }
+        });
+        colorElement.classList.add(theme);
+    });
 
     // If it's a custom theme that's not in the DOM yet, try to load it
     if (theme.startsWith('custom-theme-') && typeof loadCustomThemes !== 'undefined') {
@@ -1580,12 +1568,12 @@ function setTheme(theme) {
         loadCustomThemes();
     }
     
-    // [DISABLED_FOR_WEDDING_VERSION]: Actualizar colores del selector de estilo tras cambio de tema (desactivado).
-    // if (window.sectionBackgroundPicker) {
-    //     setTimeout(() => {
-    //         window.sectionBackgroundPicker.updateAllColorValues();
-    //     }, 100);
-    // }
+    // Update color values in all background pickers after theme change
+    if (window.sectionBackgroundPicker) {
+        setTimeout(() => {
+            window.sectionBackgroundPicker.updateAllColorValues();
+        }, 100);
+    }
 
     // Notify parent window about theme change (for outline sidebar)
     if (window.parent && window.parent !== window) {

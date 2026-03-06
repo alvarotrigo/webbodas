@@ -189,6 +189,12 @@
                 return;
             }
 
+            // In onboarding mode: show results in the central gallery, not the side panel.
+            if (window.isOnboardingMode) {
+                window.Onboarding?.renderSearchResults(matchedTemplates);
+                return;
+            }
+
             const headerTitle = categoryHoverPanel.querySelector('.category-hover-panel-title');
             if (headerTitle) {
                 headerTitle.innerHTML = `
@@ -235,6 +241,12 @@
         }
 
         function showNoResults() {
+            // In onboarding mode: show empty state in the central gallery.
+            if (window.isOnboardingMode) {
+                window.Onboarding?.renderSearchResults([]);
+                return;
+            }
+
             const headerTitle = categoryHoverPanel.querySelector('.category-hover-panel-title');
             if (headerTitle) {
                 headerTitle.innerHTML = `
@@ -268,6 +280,12 @@
         }
 
         function hideSearchPanel() {
+            // In onboarding mode: restore the gallery to the last active category.
+            if (window.isOnboardingMode) {
+                window.Onboarding?.clearSearch();
+                return;
+            }
+
             categoryHoverPanel.dataset.searchMode = 'false';
             categoryHoverPanel.classList.remove('show');
             categoryHoverPanel.classList.remove('template-mode');
@@ -346,7 +364,7 @@
             } else {
                 clearTimeout(searchTimeout);
                 hideLoader();
-                hideSearchPanel();
+                hideSearchPanel(); // handles both onboarding and normal mode internally
                 isSearchActive = false;
             }
         });

@@ -240,9 +240,9 @@ function load_template_for_preview(string $templatePath): ?array {
             }
             $headHtml .= "\n";
         } elseif ($tag === 'style') {
-            // Scope :root variables to #preview-content.has-full-template so template vars (e.g. --blush) win over editor theme
-            $styleContent = preg_replace('/:root\s*\{/i', '#preview-content.has-full-template {', $node->textContent);
-            // Apply template body styles to the container so var(--blush) etc. resolve (body is outside the container, so body { } would not see those vars)
+            // Keep :root as-is so template variables act as low-specificity defaults that themes can override
+            $styleContent = $node->textContent;
+            // Rewrite body {} to scope template layout/font styles to the preview container
             $styleContent = preg_replace('/\bbody\s*\{/i', '#preview-content.has-full-template {', $styleContent);
             $headHtml .= '<style data-template-style="1"';
             foreach ($node->attributes as $a) {

@@ -96,11 +96,14 @@
                 throw new Error(result.error || 'Failed to generate share link');
             }
 
-            var basePath = window.location.pathname.substring(
-                0,
-                window.location.pathname.lastIndexOf('/') + 1
-            );
-            var shareUrl = window.location.origin + basePath + 'shared.html?token=' + result.share_token;
+            var shareUrl = result.share_url;
+            if (!shareUrl) {
+                var basePath = window.location.pathname.substring(
+                    0,
+                    window.location.pathname.lastIndexOf('/') + 1
+                );
+                shareUrl = window.location.origin + basePath + 'shared.html?token=' + result.share_token;
+            }
 
             copyToClipboard(shareUrl);
             clearLoadingWithMinTime();

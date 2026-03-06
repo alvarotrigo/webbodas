@@ -386,6 +386,7 @@ function sharePageToken($pageId, $userId, $supabase) {
 
         // If already has a share_token, return it
         if (!empty($page['share_token'])) {
+            $token = $page['share_token'];
             // Ensure is_public is set
             if (!$page['is_public']) {
                 $supabase->update(
@@ -394,9 +395,11 @@ function sharePageToken($pageId, $userId, $supabase) {
                     ['id' => $pageId, 'user_id' => $userId]
                 );
             }
+            $shareUrl = buildShareUrlWithToken($token);
             return [
                 'success' => true,
-                'share_token' => $page['share_token']
+                'share_token' => $token,
+                'share_url' => $shareUrl
             ];
         }
 
@@ -422,13 +425,99 @@ function sharePageToken($pageId, $userId, $supabase) {
             ]
         );
 
+        $shareUrl = buildShareUrlWithToken($token);
         return [
             'success' => true,
-            'share_token' => $token
+            'share_token' => $token,
+            'share_url' => $shareUrl
         ];
     } catch (Exception $e) {
         error_log("Error sharing page: " . $e->getMessage());
         throw $e;
+    }
+}
+
+/**
+ * Build share URL with token (for Share button - same origin + shared.html?token=...)
+ * shared.html lives at project root; when this script runs in api/, use parent as base path.
+ */
+function buildShareUrlWithToken($token) {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $scriptDir = dirname($_SERVER['SCRIPT_NAME'] ?? '');
+    $basePath = (basename($scriptDir) === 'api') ? dirname($scriptDir) : $scriptDir;
+    $basePath = ($basePath === '' || $basePath === '.') ? '/' : (rtrim($basePath, '/') . '/');
+    return $protocol . '://' . $host . $basePath . 'shared.html?token=' . $token;
+}
+
+/**
+ * Publish page with custom subdomain (slug.wedsite.online). Used by Publish button.
+ */
+function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
+    try {
+        $pages = $supabase->select(
+            'user_pages',
+            'id, share_token, is_public',
+            [
+                'id' => $pageId,
+                'user_id' => $userId
+            ]
+        );
+
+        if (empty($pages)) {
+            throw new Exception("Page not found or access denied");
+        }
+
+        $page = $pages[0];
+        $shareSlug = trim($shareSlug);
+        $shareSlug = preg_replace('/\s+/', '-', $shareSlug);
+        $shareSlug = strtolower($shareSlug);
+
+        if (strlen($shareSlug) < 1 || strlen($shareSlug) > 64) {
+            throw new Exception("Website name must be between 1 and 64 characters.");
+        }
+        if (!preg_match('/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i', $shareSlug)) {
+            throw new Exception("Only letters, numbers and hyphens are allowed. Cannot start or end with a hyphen.");
+        }
+
+        $existing = $supabase->select('user_pages', 'id', ['share_slug' => $shareSlug]);
+        if (!empty($existing) && ($existing[0]['id'] ?? null) !== $pageId) {
+            throw new Exception("The chosen website name is already in use. Please choose another one.");
+        }
+
+        $updateData = [
+            'share_slug' => $shareSlug,
+            'is_public' => 1
+        ];
+
+        if (empty($page['share_token'])) {
+            $token = sprintf(
+                '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+                mt_rand(0, 0xffff),
+                mt_rand(0, 0x0fff) | 0x4000,
+                mt_rand(0, 0x3fff) | 0x8000,
+                mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+            );
+            $updateData['share_token'] = $token;
+        } else {
+            $token = $page['share_token'];
+        }
+
+        $supabase->update('user_pages', $updateData, ['id' => $pageId, 'user_id' => $userId]);
+
+        $baseDomain = getenv('SHARE_BASE_DOMAIN') ?: 'wedsite.online';
+        $publishedUrl = 'https://' . $shareSlug . '.' . $baseDomain;
+
+        return [
+            'success' => true,
+            'share_token' => $token,
+            'share_slug' => $shareSlug,
+            'share_url' => $publishedUrl
+        ];
+    } catch (Exception $e) {
+        error_log("Error publishing page with subdomain: " . $e->getMessage());
+        return ['success' => false, 'error' => $e->getMessage()];
     }
 }
 
@@ -548,6 +637,18 @@ try {
                     throw new Exception("Page ID required for sharing");
                 }
                 $response = sharePageToken($pageId, $userId, $supabase);
+            } elseif ($action === 'publish-subdomain') {
+                $pageId = $input['id'] ?? null;
+                $shareSlug = isset($input['share_slug']) ? trim((string) $input['share_slug']) : '';
+                if (!$pageId || $shareSlug === '') {
+                    throw new Exception("Page ID and website name are required for publishing.");
+                }
+                $response = publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug);
+                if (isset($response['success']) && !$response['success']) {
+                    http_response_code(400);
+                    echo json_encode($response);
+                    exit();
+                }
             } elseif ($action === 'clone') {
                 $pageId = $input['id'] ?? null;
                 if (!$pageId) {

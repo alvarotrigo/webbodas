@@ -6,8 +6,21 @@
 class DownloadOptionsHandler {
     constructor() {
         // React project generation now handled by PHP backend
-        this.currentTab = 'download'; // Track current tab
+        this.currentTab = 'subdomain'; // Track current tab (subdomain | domain)
         this.successShown = false; // Track if success message was shown
+    }
+
+    /**
+     * Comprueba si el template actual en el iframe contiene al menos un <form>
+     */
+    templateHasForm() {
+        try {
+            const iframe = document.getElementById('preview-iframe');
+            if (!iframe || !iframe.contentDocument) return false;
+            return !!iframe.contentDocument.querySelector('form');
+        } catch (e) {
+            return false;
+        }
     }
 
     /**
@@ -24,187 +37,57 @@ class DownloadOptionsHandler {
     }
 
     /**
-     * Show download options modal with tabs
+     * Show publish modal — simplified design based on user plan.
+     * Non-PRO: subdomain (.wedsite.online) + upgrade prompt.
+     * PRO: custom domain (.com).
      */
     showDownloadOptions() {
-        // Create modal HTML with tabs
+        const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
+        const domainSuffix = isPro ? '.com' : '.wedsite.online';
+
+        const upgradePrompt = !isPro ? `
+            <p class="text-sm text-center mt-4" style="color: var(--secondary-text);">
+                Do you want a custom <strong>.com</strong> domain?
+                <a href="javascript:void(0)" onclick="window.downloadOptionsHandler.closeModal(); window.downloadOptionsHandler.showUpgradeModal();" class="text-blue-600 hover:underline font-semibold">Upgrade to pro</a>
+            </p>
+        ` : '';
+
         const modalHTML = `
             <div id="download-options-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10000]" style="display: flex;">
-                <div class="bg-[var(--primary-bg)] rounded-2xl shadow-2xl max-w-2xl w-full mx-4 github-export-content" onclick="event.stopPropagation()">
-                    <div class="p-8">
-                        <!-- Tabs -->
-                        <div class="flex gap-2 mb-6 bg-[var(--accent-bg)] p-1 rounded-xl">
-                            <button onclick="window.downloadOptionsHandler.switchTab('download')" id="tab-download" class="flex-1 py-3 px-6 rounded-lg font-semibold transition-all bg-[var(--primary-bg)] color-[var(--accent-text)] shadow-sm">
-                                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                                </svg>
-                                Download
-                            </button>
-                            <button onclick="window.downloadOptionsHandler.switchTab('github')" id="tab-github" class="flex-1 py-3 px-6 rounded-lg font-semibold transition-all text-[var(--secondary-text)] hover:text-[var(--primary-text)]">
-                                <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                                </svg>
-                                GitHub Sync
-                            </button>
-                        </div>
+                <div class="download-options-modal-content rounded-2xl shadow-2xl max-w-lg w-full mx-4 github-export-content" style="background-color: var(--primary-bg, #ffffff);" onclick="event.stopPropagation()">
+                    <div class="p-8 relative">
 
-                        <!-- Download Tab Content -->
-                        <div id="content-download" class="tab-content">
-                            <p class="text-[var(--secondary-text)] mb-4 text-center">Download your project files</p>
-                        <div class="grid grid-cols-2 gap-4">
-                            <!-- HTML Export Option -->
-                            <button onclick="window.downloadOptionsHandler.exportHTML()" class="p-6 border-2 border-[var(--border-color)] rounded-xl hover:border-orange-500 hover:shadow-lg transition-all text-center group">
-                                <div class="flex flex-col items-center gap-3">
-                                    <div class="w-20 h-20 bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl flex items-center justify-center group-hover:from-orange-100 group-hover:to-red-100 transition-all transform group-hover:scale-105">
-                                        <svg viewBox="0 0 32 32" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6 28L4 3H28L26 28L16 31L6 28Z" fill="#E44D26"></path>
-                                            <path d="M26 5H16V29.5L24 27L26 5Z" fill="#F16529"></path>
-                                            <path d="M9.5 17.5L8.5 8H24L23.5 11H11.5L12 14.5H23L22 24L16 26L10 24L9.5 19H12.5L13 21.5L16 22.5L19 21.5L19.5 17.5H9.5Z" fill="white"></path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-bold text-[var(--primary-text)] text-lg">HTML + CSS</h3>
-                                        <p class="text-sm text-[var(--secondary-text)] mt-1">Static website</p>
-                                    </div>
-                                </div>
-                            </button>
-
-                            <!-- React Export Option -->
-                            <div class="relative p-6 border-2 border-[var(--border-color)] rounded-xl text-center opacity-50" style="cursor: not-allowed;">
-                                <div class="absolute top-2 right-2 bg-purple-600 text-white text-xs px-2 py-1 rounded-full font-semibold" style="cursor: not-allowed;">
-                                    Coming soon...
-                                </div>
-                                <div class="flex flex-col items-center gap-3" style="cursor: not-allowed;">
-                                    <div class="w-20 h-20 bg-gradient-to-br from-sky-100 to-cyan-50 rounded-2xl flex items-center justify-center" style="cursor: not-allowed;">
-                                        <svg width="40" height="40" viewBox="175.7 78 490.6 436.9" xmlns="http://www.w3.org/2000/svg">
-                                            <g fill="rgb(14, 165, 233)">
-                                                <path d="m666.3 296.5c0-32.5-40.7-63.3-103.1-82.4 14.4-63.6 8-114.2-20.2-130.4-6.5-3.8-14.1-5.6-22.4-5.6v22.3c4.6 0 8.3.9 11.4 2.6 13.6 7.8 19.5 37.5 14.9 75.7-1.1 9.4-2.9 19.3-5.1 29.4-19.6-4.8-41-8.5-63.5-10.9-13.5-18.5-27.5-35.3-41.6-50 32.6-30.3 63.2-46.9 84-46.9v-22.3c-27.5 0-63.5 19.6-99.9 53.6-36.4-33.8-72.4-53.2-99.9-53.2v22.3c20.7 0 51.4 16.5 84 46.6-14 14.7-28 31.4-41.3 49.9-22.6 2.4-44 6.1-63.6 11-2.3-10-4-19.7-5.2-29-4.7-38.2 1.1-67.9 14.6-75.8 3-1.8 6.9-2.6 11.5-2.6v-22.3c-8.4 0-16 1.8-22.6 5.6-28.1 16.2-34.4 66.7-19.9 130.1-62.2 19.2-102.7 49.9-102.7 82.3 0 32.5 40.7 63.3 103.1 82.4-14.4 63.6-8 114.2 20.2 130.4 6.5 3.8 14.1 5.6 22.5 5.6 27.5 0 63.5-19.6 99.9-53.6 36.4 33.8 72.4 53.2 99.9 53.2 8.4 0 16-1.8 22.6-5.6 28.1-16.2 34.4-66.7 19.9-130.1 62-19.1 102.5-49.9 102.5-82.3zm-130.2-66.7c-3.7 12.9-8.3 26.2-13.5 39.5-4.1-8-8.4-16-13.1-24-4.6-8-9.5-15.8-14.4-23.4 14.2 2.1 27.9 4.7 41 7.9zm-45.8 106.5c-7.8 13.5-15.8 26.3-24.1 38.2-14.9 1.3-30 2-45.2 2-15.1 0-30.2-.7-45-1.9-8.3-11.9-16.4-24.6-24.2-38-7.6-13.1-14.5-26.4-20.8-39.8 6.2-13.4 13.2-26.8 20.7-39.9 7.8-13.5 15.8-26.3 24.1-38.2 14.9-1.3 30-2 45.2-2 15.1 0 30.2.7 45 1.9 8.3 11.9 16.4 24.6 24.2 38 7.6 13.1 14.5 26.4 20.8 39.8-6.3 13.4-13.2 26.8-20.7 39.9zm32.3-13c5.4 13.4 10 26.8 13.8 39.8-13.1 3.2-26.9 5.9-41.2 8 4.9-7.7 9.8-15.6 14.4-23.7 4.6-8 8.9-16.1 13-24.1zm-101.4 106.7c-9.3-9.6-18.6-20.3-27.8-32 9 .4 18.2.7 27.5.7 9.4 0 18.7-.2 27.8-.7-9 11.7-18.3 22.4-27.5 32zm-74.4-58.9c-14.2-2.1-27.9-4.7-41-7.9 3.7-12.9 8.3-26.2 13.5-39.5 4.1 8 8.4 16 13.1 24s9.5 15.8 14.4 23.4zm73.9-208.1c9.3 9.6 18.6 20.3 27.8 32-9-.4-18.2-.7-27.5-.7-9.4 0-18.7.2-27.8.7 9-11.7 18.3-22.4 27.5-32zm-74 58.9c-4.9 7.7-9.8 15.6-14.4 23.7-4.6 8-8.9 16-13 24-5.4-13.4-10-26.8-13.8-39.8 13.1-3.1 26.9-5.8 41.2-7.9zm-90.5 125.2c-35.4-15.1-58.3-34.9-58.3-50.6s22.9-35.6 58.3-50.6c8.6-3.7 18-7 27.7-10.1 5.7 19.6 13.2 40 22.5 60.9-9.2 20.8-16.6 41.1-22.2 60.6-9.9-3.1-19.3-6.5-28-10.2zm53.8 142.9c-13.6-7.8-19.5-37.5-14.9-75.7 1.1-9.4 2.9-19.3 5.1-29.4 19.6 4.8 41 8.5 63.5 10.9 13.5 18.5 27.5 35.3 41.6 50-32.6 30.3-63.2 46.9-84 46.9-4.5-.1-8.3-1-11.3-2.7zm237.2-76.2c4.7 38.2-1.1 67.9-14.6 75.8-3 1.8-6.9 2.6-11.5 2.6-20.7 0-51.4-16.5-84-46.6 14-14.7 28-31.4 41.3-49.9 22.6-2.4 44-6.1 63.6-11 2.3 10.1 4.1 19.8 5.2 29.1zm38.5-66.7c-8.6 3.7-18 7-27.7 10.1-5.7-19.6-13.2-40-22.5-60.9 9.2-20.8 16.6-41.1 22.2-60.6 9.9 3.1 19.3 6.5 28.1 10.2 35.4 15.1 58.3 34.9 58.3 50.6-.1 15.7-23 35.6-58.4 50.6z"/>
-                                                <circle cx="420.9" cy="296.5" r="45.7"/>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div style="cursor: not-allowed;">
-                                        <h3 class="font-bold text-[var(--primary-text)] text-lg" style="cursor: not-allowed;">React + Vite</h3>
-                                        <p class="text-sm text-[var(--secondary-text)] mt-1" style="cursor: not-allowed;">Modern framework</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- GitHub Tab Content (hidden by default) -->
-                    <div id="content-github" class="tab-content hidden">
-                        <p class="text-[var(--secondary-text)] mb-4 text-center">Push your project directly to GitHub</p>
-
-                        <!-- Export Format Selection -->
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-[var(--primary-text)] mb-3">Export Format</label>
-                            <div class="grid grid-cols-2 gap-3">
-                                <label class="export-format-option relative flex items-center p-4 border-2 border-[var(--border-color)] rounded-lg cursor-pointer hover:border-blue-500 transition-all">
-                                    <input type="radio" name="github-format" value="html" class="mr-3" checked>
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 bg-gradient-to-br from-orange-50 to-red-50 rounded-lg flex items-center justify-center">
-                                            <svg viewBox="0 0 32 32" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M6 28L4 3H28L26 28L16 31L6 28Z" fill="#E44D26"></path>
-                                                <path d="M26 5H16V29.5L24 27L26 5Z" fill="#F16529"></path>
-                                                <path d="M9.5 17.5L8.5 8H24L23.5 11H11.5L12 14.5H23L22 24L16 26L10 24L9.5 19H12.5L13 21.5L16 22.5L19 21.5L19.5 17.5H9.5Z" fill="white"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <div class="font-semibold text-[var(--primary-text)]">HTML + CSS</div>
-                                            <div class="text-xs text-[var(--secondary-text)]">Static website</div>
-                                        </div>
-                                    </div>
-                                </label>
-                                <div class="export-format-option relative flex items-center p-4 border-2 border-[var(--border-color)] rounded-lg opacity-50" style="cursor: not-allowed;">
-                                    <input type="radio" name="github-format" value="react" class="mr-3" style="cursor: not-allowed;" disabled>
-                                    <div class="flex items-center gap-3" style="cursor: not-allowed;">
-                                        <div class="w-10 h-10 bg-gradient-to-br from-sky-100 to-cyan-50 rounded-lg flex items-center justify-center" style="cursor: not-allowed;">
-                                            <svg width="24" height="24" viewBox="175.7 78 490.6 436.9" xmlns="http://www.w3.org/2000/svg">
-                                                <g fill="rgb(14, 165, 233)">
-                                                    <path d="m666.3 296.5c0-32.5-40.7-63.3-103.1-82.4 14.4-63.6 8-114.2-20.2-130.4-6.5-3.8-14.1-5.6-22.4-5.6v22.3c4.6 0 8.3.9 11.4 2.6 13.6 7.8 19.5 37.5 14.9 75.7-1.1 9.4-2.9 19.3-5.1 29.4-19.6-4.8-41-8.5-63.5-10.9-13.5-18.5-27.5-35.3-41.6-50 32.6-30.3 63.2-46.9 84-46.9v-22.3c-27.5 0-63.5 19.6-99.9 53.6-36.4-33.8-72.4-53.2-99.9-53.2v22.3c20.7 0 51.4 16.5 84 46.6-14 14.7-28 31.4-41.3 49.9-22.6 2.4-44 6.1-63.6 11-2.3-10-4-19.7-5.2-29-4.7-38.2 1.1-67.9 14.6-75.8 3-1.8 6.9-2.6 11.5-2.6v-22.3c-8.4 0-16 1.8-22.6 5.6-28.1 16.2-34.4 66.7-19.9 130.1-62.2 19.2-102.7 49.9-102.7 82.3 0 32.5 40.7 63.3 103.1 82.4-14.4 63.6-8 114.2 20.2 130.4 6.5 3.8 14.1 5.6 22.5 5.6 27.5 0 63.5-19.6 99.9-53.6 36.4 33.8 72.4 53.2 99.9 53.2 8.4 0 16-1.8 22.6-5.6 28.1-16.2 34.4-66.7 19.9-130.1 62-19.1 102.5-49.9 102.5-82.3zm-130.2-66.7c-3.7 12.9-8.3 26.2-13.5 39.5-4.1-8-8.4-16-13.1-24-4.6-8-9.5-15.8-14.4-23.4 14.2 2.1 27.9 4.7 41 7.9zm-45.8 106.5c-7.8 13.5-15.8 26.3-24.1 38.2-14.9 1.3-30 2-45.2 2-15.1 0-30.2-.7-45-1.9-8.3-11.9-16.4-24.6-24.2-38-7.6-13.1-14.5-26.4-20.8-39.8 6.2-13.4 13.2-26.8 20.7-39.9 7.8-13.5 15.8-26.3 24.1-38.2 14.9-1.3 30-2 45.2-2 15.1 0 30.2.7 45 1.9 8.3 11.9 16.4 24.6 24.2 38 7.6 13.1 14.5 26.4 20.8 39.8-6.3 13.4-13.2 26.8-20.7 39.9zm32.3-13c5.4 13.4 10 26.8 13.8 39.8-13.1 3.2-26.9 5.9-41.2 8 4.9-7.7 9.8-15.6 14.4-23.7 4.6-8 8.9-16.1 13-24.1zm-101.4 106.7c-9.3-9.6-18.6-20.3-27.8-32 9 .4 18.2.7 27.5.7 9.4 0 18.7-.2 27.8-.7-9 11.7-18.3 22.4-27.5 32zm-74.4-58.9c-14.2-2.1-27.9-4.7-41-7.9 3.7-12.9 8.3-26.2 13.5-39.5 4.1 8 8.4 16 13.1 24s9.5 15.8 14.4 23.4zm73.9-208.1c9.3 9.6 18.6 20.3 27.8 32-9-.4-18.2-.7-27.5-.7-9.4 0-18.7.2-27.8.7 9-11.7 18.3-22.4 27.5-32zm-74 58.9c-4.9 7.7-9.8 15.6-14.4 23.7-4.6 8-8.9 16-13 24-5.4-13.4-10-26.8-13.8-39.8 13.1-3.1 26.9-5.8 41.2-7.9zm-90.5 125.2c-35.4-15.1-58.3-34.9-58.3-50.6s22.9-35.6 58.3-50.6c8.6-3.7 18-7 27.7-10.1 5.7 19.6 13.2 40 22.5 60.9-9.2 20.8-16.6 41.1-22.2 60.6-9.9-3.1-19.3-6.5-28-10.2zm53.8 142.9c-13.6-7.8-19.5-37.5-14.9-75.7 1.1-9.4 2.9-19.3 5.1-29.4 19.6 4.8 41 8.5 63.5 10.9 13.5 18.5 27.5 35.3 41.6 50-32.6 30.3-63.2 46.9-84 46.9-4.5-.1-8.3-1-11.3-2.7zm237.2-76.2c4.7 38.2-1.1 67.9-14.6 75.8-3 1.8-6.9 2.6-11.5 2.6-20.7 0-51.4-16.5-84-46.6 14-14.7 28-31.4 41.3-49.9 22.6-2.4 44-6.1 63.6-11 2.3 10.1 4.1 19.8 5.2 29.1zm38.5-66.7c-8.6 3.7-18 7-27.7 10.1-5.7-19.6-13.2-40-22.5-60.9 9.2-20.8 16.6-41.1 22.2-60.6 9.9 3.1 19.3 6.5 28.1 10.2 35.4 15.1 58.3 34.9 58.3 50.6-.1 15.7-23 35.6-58.4 50.6z"/>
-                                                    <circle cx="420.9" cy="296.5" r="45.7"/>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                        <div style="cursor: not-allowed;">
-                                            <div class="font-semibold text-[var(--primary-text)]" style="cursor: not-allowed;">React + Vite</div>
-                                            <div class="text-xs text-[var(--secondary-text)]" style="cursor: not-allowed;">Coming soon...</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- GitHub Authentication Status -->
-                        <div id="github-auth-section" class="mb-6">
-                            <div class="flex items-center justify-between p-4 bg-[var(--secondary-bg)] rounded-lg">
-                                <div class="flex items-center gap-3 flex-1">
-                                    <svg class="w-6 h-6 text-[var(--secondary-text)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                                    </svg>
-                                    <span class="text-[var(--primary-text)]" id="github-status-text">Not connected</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <button onclick="window.downloadOptionsHandler.disconnectGitHub()" id="github-disconnect-button" class="hidden px-3 py-1.5 text-sm text-[var(--secondary-text)] hover:text-red-600 hover:bg-red-50 rounded-lg transition-all hover:underline">
-                                        Disconnect
-                                    </button>
-                                    <button onclick="window.downloadOptionsHandler.authenticateGitHub()" id="github-auth-button" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all text-sm font-medium">
-                                        Connect GitHub
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Repository Selection (Hidden until authenticated) -->
-                        <div id="github-repo-section" class="mb-6 hidden">
-                            <label class="block text-sm font-medium text-[var(--primary-text)] mb-2">Repository</label>
-                            <div class="flex gap-3 mb-4">
-                                <div class="flex-1 flex items-center border border-[var(--border-color)] rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 overflow-hidden">
-                                    <span id="github-username-prefix" class="px-4 py-3 bg-[var(--secondary-bg)] text-[var(--secondary-text)] border-r border-[var(--border-color)] whitespace-nowrap">username/</span>
-                                    <input type="text" id="github-repo-name" placeholder="repository-name" class="flex-1 px-4 py-3 border-0 focus:outline-none focus:ring-0 bg-[var(--primary-bg)] text-[var(--primary-text)]">
-                                </div>
-                                <select id="github-branch" class="px-4 py-3 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[var(--primary-bg)] text-[var(--primary-text)]">
-                                    <option value="main">main</option>
-                                    <option value="master">master</option>
-                                    <option value="gh-pages">gh-pages</option>
-                                </select>
-                            </div>
-
-                            <!-- Public/Private Toggle -->
-                            <div class="flex items-center justify-between p-4 bg-[var(--secondary-bg)] rounded-lg mb-2">
-                                <div class="flex items-center gap-3">
-                                    <svg class="w-5 h-5 text-[var(--secondary-text)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                                    </svg>
-                                    <div>
-                                        <div class="font-medium text-[var(--primary-text)]" id="github-privacy-label">Public Repository</div>
-                                        <div class="text-xs text-[var(--secondary-text)]" id="github-privacy-description">Anyone can see this repository</div>
-                                    </div>
-                                </div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" id="github-private-toggle" class="sr-only peer">
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                                </label>
-                            </div>
-                            <p class="text-xs text-[var(--secondary-text)] mt-2">Repository will be created if it doesn't exist</p>
-                        </div>
-
-                        <!-- Action Buttons (only for GitHub tab) -->
-                        <div class="flex gap-3">
-                            <button onclick="window.downloadOptionsHandler.closeModal()" class="flex-1 py-3 px-4 bg-[var(--accent-bg)] hover:bg-gray-700 hover:text-white text-[var(--primary-text)] rounded-xl transition-all font-medium">
-                                Cancel
-                            </button>
-                            <button onclick="window.downloadOptionsHandler.pushToGitHub()" id="github-push-button" disabled class="flex-1 py-3 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white rounded-xl transition-all font-medium" style="cursor: not-allowed; opacity: 0.5;">
-                                Push to GitHub
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Cancel Button (shows in Download tab only) -->
-                    <button onclick="window.downloadOptionsHandler.closeModal()" id="cancel-download-button" class="mt-6 w-full py-3 px-4 bg-[var(--accent-bg)] hover:bg-gray-700 hover:text-white text-[var(--primary-text)] rounded-xl transition-all font-medium">
-                        Cancel
+                        <!-- Close (X) button -->
+                        <button onclick="window.downloadOptionsHandler.closeModal()" aria-label="Close" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full transition-all hover:bg-[var(--accent-bg)] text-[var(--secondary-text)] hover:text-[var(--primary-text)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
                         </button>
+
+                        <!-- Title -->
+                        <h2 class="text-2xl font-bold text-[var(--primary-text)] mb-6 pr-8">Choose your website name</h2>
+
+                        <!-- Name input + domain suffix -->
+                        <div class="flex items-center border border-[var(--border-color)] rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
+                            <input type="text" id="publish-web-name" placeholder="my-wedding"
+                                class="flex-1 px-4 py-3 border-0 focus:outline-none focus:ring-0 bg-[var(--primary-bg)] text-[var(--primary-text)]"
+                                maxlength="64" autocomplete="off">
+                            <span class="px-4 py-3 bg-[var(--secondary-bg)] text-[var(--secondary-text)] border-l border-[var(--border-color)] whitespace-nowrap font-medium">${domainSuffix}</span>
+                        </div>
+
+                        ${upgradePrompt}
+
+                        <!-- [DISABLED_FOR_WEDDING_VERSION]: Tabs (Subdomain / Domain) removed — plan is detected automatically -->
+                        <!-- [DISABLED_FOR_WEDDING_VERSION]: Email fields for form responses removed — not needed in simplified flow -->
+                        <!-- [DISABLED_FOR_WEDDING_VERSION]: Cancel button removed — replaced by X close button -->
+
+                        <!-- Single centered Publish button -->
+                        <div class="mt-6">
+                            <button onclick="window.downloadOptionsHandler.publishPage()" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all font-medium text-base">
+                                Publish
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -216,23 +99,8 @@ class DownloadOptionsHandler {
             existingModal.remove();
         }
 
-        // Add modal to body
         document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-        // Initialize with Download tab active
-        this.currentTab = 'download';
-        
-        // Reset success flag when opening modal fresh
         this.successShown = false;
-
-        // Check if user is already authenticated (for GitHub tab)
-        this.checkGitHubAuth();
-
-        // Setup privacy toggle handler
-        this.setupPrivacyToggle();
-
-        // Setup export format selection styling
-        this.setupFormatSelectionStyling();
 
         // Close on background click
         const modal = document.getElementById('download-options-modal');
@@ -337,40 +205,43 @@ class DownloadOptionsHandler {
     }
 
     /**
-     * Switch between tabs
+     * Switch between tabs (subdomain | domain)
      */
     switchTab(tabName) {
-        // Check if GitHub tab is disabled
-        const tabGithub = document.getElementById('tab-github');
-        if (tabName === 'github' && tabGithub && tabGithub.disabled) {
-            // Show upgrade modal instead
+        const tabDomain = document.getElementById('tab-domain');
+        if (tabName === 'domain' && tabDomain && tabDomain.disabled) {
             this.showUpgradeModal();
             return;
         }
-        
         this.currentTab = tabName;
-        
-        // Update tab buttons
-        const tabDownload = document.getElementById('tab-download');
-        const contentDownload = document.getElementById('content-download');
-        const contentGithub = document.getElementById('content-github');
-        const cancelButton = document.getElementById('cancel-download-button');
-        
-        if (tabName === 'download') {
-            // Activate Download tab
-            tabDownload.className = 'flex-1 py-3 px-6 rounded-lg font-semibold transition-all bg-[var(--primary-bg)] text-[var(--primary-text)] shadow-sm';
-            tabGithub.className = 'flex-1 py-3 px-6 rounded-lg font-semibold transition-all text-[var(--secondary-text)] hover:text-[var(--primary-text)]';
-            contentDownload.classList.remove('hidden');
-            contentGithub.classList.add('hidden');
-            cancelButton.classList.remove('hidden');
+        const tabSubdomain = document.getElementById('tab-subdomain');
+        const contentSubdomain = document.getElementById('content-subdomain');
+        const contentDomain = document.getElementById('content-domain');
+        if (!tabSubdomain || !contentSubdomain || !contentDomain) return;
+        if (tabName === 'subdomain') {
+            tabSubdomain.className = 'flex-1 py-3 px-6 rounded-lg font-semibold transition-all bg-[var(--primary-bg)] text-[var(--primary-text)] shadow-sm';
+            tabDomain.className = 'flex-1 py-3 px-6 rounded-lg font-semibold transition-all text-[var(--secondary-text)] hover:text-[var(--primary-text)] flex items-center justify-center gap-2';
+            contentSubdomain.classList.remove('hidden');
+            contentDomain.classList.add('hidden');
         } else {
-            // Activate GitHub tab
-            tabGithub.className = 'flex-1 py-3 px-6 rounded-lg font-semibold transition-all bg-[var(--primary-bg)] text-[var(--primary-text)] shadow-sm';
-            tabDownload.className = 'flex-1 py-3 px-6 rounded-lg font-semibold transition-all text-[var(--secondary-text)] hover:text-[var(--primary-text)]';
-            contentGithub.classList.remove('hidden');
-            contentDownload.classList.add('hidden');
-            cancelButton.classList.add('hidden');
+            tabDomain.className = 'flex-1 py-3 px-6 rounded-lg font-semibold transition-all bg-[var(--primary-bg)] text-[var(--primary-text)] shadow-sm flex items-center justify-center gap-2';
+            tabSubdomain.className = 'flex-1 py-3 px-6 rounded-lg font-semibold transition-all text-[var(--secondary-text)] hover:text-[var(--primary-text)]';
+            contentDomain.classList.remove('hidden');
+            contentSubdomain.classList.add('hidden');
         }
+    }
+
+    /**
+     * Deshabilita la pestaña Domain (Pro) para usuarios no Pro; switchTab('domain') muestra upgrade modal.
+     */
+    applyDomainProRestriction() {
+        const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
+        const tabDomain = document.getElementById('tab-domain');
+        if (!tabDomain) return;
+        if (isPro) return;
+        tabDomain.disabled = true;
+        tabDomain.style.opacity = '0.6';
+        tabDomain.style.cursor = 'not-allowed';
     }
 
     /**
@@ -381,6 +252,139 @@ class DownloadOptionsHandler {
         if (modal) {
             modal.remove();
         }
+    }
+
+    /**
+     * Publish page.
+     * Non-PRO: subdomain (slug.wedsite.online) via publish-subdomain action.
+     * PRO: custom domain (slug.com) via publish-domain action.
+     */
+    publishPage() {
+        const pageId = window.pageManagerInstance && window.pageManagerInstance.currentPageId;
+        const clerkUserId = window.serverUserData && window.serverUserData.clerk_user_id;
+        const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
+
+        if (!pageId || !clerkUserId) {
+            this.closeModal();
+            if (typeof showToast === 'function') {
+                showToast('Publish Failed', 'Please save your page first.', {});
+            } else {
+                alert('Please save your page first.');
+            }
+            return;
+        }
+
+        const input = document.getElementById('publish-web-name');
+        const webName = (input && input.value.trim()) || '';
+        if (!webName) {
+            alert('Please enter a name for your website.');
+            if (input) input.focus();
+            return;
+        }
+
+        const publishAction = isPro ? 'publish-domain' : 'publish-subdomain';
+
+        this.closeModal();
+        this.showLoadingIndicator('Publishing your page...');
+
+        fetch('api/pages.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: publishAction,
+                id: pageId,
+                clerk_user_id: clerkUserId,
+                share_slug: webName
+            })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (result) {
+                if (!result.success || !result.share_url) {
+                    throw new Error(result.error || 'Failed to publish page');
+                }
+                return result.share_url;
+            })
+            .then(function (shareUrl) {
+                window.downloadOptionsHandler.hideLoadingIndicator();
+                window.downloadOptionsHandler.showSuccessMessage(shareUrl);
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(shareUrl).then(function () {
+                        if (typeof showToast === 'function') {
+                            showToast('Link Copied!', 'Your page link has been copied to the clipboard.', {});
+                        }
+                    });
+                }
+            })
+            .catch(function (error) {
+                window.downloadOptionsHandler.hideLoadingIndicator();
+                console.error('Publish failed:', error);
+                const msg = error.message || 'Unable to publish. Please try again.';
+                if (typeof showToast === 'function') {
+                    showToast('Publish Failed', msg, {});
+                } else {
+                    alert('Publish Failed: ' + msg);
+                }
+            });
+    }
+
+    /**
+     * Show loading overlay while publish request is in progress
+     */
+    showLoadingIndicator(message) {
+        const id = 'publish-loading-indicator';
+        if (document.getElementById(id)) return;
+        const html = '<div id="' + id + '" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10001]">' +
+            '<div class="rounded-2xl shadow-2xl max-w-xs w-full mx-4 p-6 text-center" style="background-color: var(--primary-bg, #ffffff);">' +
+            '<div class="inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>' +
+            '<p class="text-[var(--primary-text)] mt-3">' + (message || 'Loading...') + '</p>' +
+            '</div></div>';
+        document.body.insertAdjacentHTML('beforeend', html);
+    }
+
+    /**
+     * Remove loading overlay
+     */
+    hideLoadingIndicator() {
+        const el = document.getElementById('publish-loading-indicator');
+        if (el) el.remove();
+    }
+
+    /**
+     * Show success modal with published URL and copy button
+     */
+    showSuccessMessage(publishedUrl) {
+        const id = 'publish-success-modal';
+        if (document.getElementById(id)) return;
+        const html = '<div id="' + id + '" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10001]" style="display: flex;">' +
+            '<div class="rounded-2xl shadow-2xl max-w-lg w-full mx-4 p-8 text-center github-export-content" style="background-color: var(--primary-bg, #ffffff);" onclick="event.stopPropagation()">' +
+            '<h2 class="text-2xl font-bold text-[var(--primary-text)] mb-4">Successfully Published!</h2>' +
+            '<p class="text-[var(--secondary-text)] mb-4">Your page is live at:</p>' +
+            '<a href="' + publishedUrl + '" target="_blank" rel="noopener" class="block text-blue-600 hover:underline text-lg font-medium break-all mb-6">' + publishedUrl + '</a>' +
+            '<button type="button" id="copy-published-url-btn" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium mb-4">Copy link</button>' +
+            '<button type="button" onclick="window.downloadOptionsHandler.closeSuccessModal()" class="w-full py-3 px-4 bg-[var(--accent-bg)] hover:bg-gray-700 text-[var(--primary-text)] rounded-xl font-medium">Close</button>' +
+            '</div></div>';
+        document.body.insertAdjacentHTML('beforeend', html);
+
+        document.getElementById('copy-published-url-btn').addEventListener('click', function () {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(publishedUrl).then(function () {
+                    if (typeof showToast === 'function') showToast('Copied!', 'Link copied to clipboard.', {});
+                });
+            }
+        });
+
+        const overlay = document.getElementById(id);
+        overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) window.downloadOptionsHandler.closeSuccessModal();
+        });
+    }
+
+    /**
+     * Close publish success modal
+     */
+    closeSuccessModal() {
+        const el = document.getElementById('publish-success-modal');
+        if (el) el.remove();
     }
 
     /**
@@ -742,7 +746,7 @@ class DownloadOptionsHandler {
         if (!modal) return;
         
         // Find the modal content container
-        const modalContent = modal.querySelector('.bg-white');
+        const modalContent = modal.querySelector('.download-options-modal-content');
         if (!modalContent) return;
         
         // Replace content with success message
@@ -895,7 +899,7 @@ class DownloadOptionsHandler {
                 }
             </style>
             <div id="download-loading" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10000]" style="display: flex;">
-                <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4" onclick="event.stopPropagation()">
+                <div class="rounded-2xl shadow-2xl max-w-md w-full mx-4" style="background-color: var(--primary-bg, #ffffff);" onclick="event.stopPropagation()">
                     <div class="p-8 text-center">
                         <div class="mb-6">
                             <div class="github-spinner"></div>

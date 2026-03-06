@@ -86,23 +86,32 @@ try {
         exit();
     }
     
-    // Support persistent share tokens (user_pages.share_token)
-    $shareToken = isset($_GET['token']) ? $_GET['token'] : '';
+    // Support persistent share tokens (user_pages.share_token) and share_slug (publish subdomain)
+    $mysqlClient = getMySQLClient();
+    $shareToken = isset($_GET['token']) ? trim($_GET['token']) : '';
+    $shareSlug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
+
+    $document = null;
 
     if (!empty($shareToken)) {
-        $mysqlClient = getMySQLClient();
         $result = $mysqlClient->select('user_pages', '*', [
             'share_token' => $shareToken,
             'is_public' => 1
         ]);
-
-        if (empty($result)) {
-            http_response_code(404);
-            echo json_encode(['error' => 'Shared page not found or no longer public']);
-            exit();
+        if (!empty($result)) {
+            $document = $result[0];
         }
+    } elseif (!empty($shareSlug)) {
+        $result = $mysqlClient->select('user_pages', '*', [
+            'share_slug' => $shareSlug,
+            'is_public' => 1
+        ]);
+        if (!empty($result)) {
+            $document = $result[0];
+        }
+    }
 
-        $document = $result[0];
+    if ($document) {
         $data = $document['data'];
         if (is_string($data)) {
             $data = json_decode($data, true);
@@ -114,14 +123,20 @@ try {
         echo json_encode([
             'id' => $document['id'],
             'data' => $data,
-            'created_at' => $document['created_at'] ?? null
+            'created_at' => $document['created_at'] ?? null,
+            'share_slug' => $document['share_slug'] ?? null
         ]);
         exit();
     }
 
-    // No valid parameter provided
-    http_response_code(400);
-    echo json_encode(['error' => 'Missing token parameter']);
+    // No valid parameter provided or not found
+    if (empty($shareToken) && empty($shareSlug)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Missing token or slug parameter']);
+    } else {
+        http_response_code(404);
+        echo json_encode(['error' => 'Shared page not found or no longer public']);
+    }
     exit();
 
 } catch (Exception $e) {

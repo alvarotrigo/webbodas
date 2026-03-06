@@ -100,16 +100,62 @@ async function compressImage(inputPath, outputPath, maxWidth = 700) {
 /**
  * Une varias imágenes PNG en una sola imagen vertical (misma lógica conceptual que
  * tener N capturas de viewport y unirlas en una tira).
+ * @param {string[]} pngPaths - Paths to PNG files
+ * @param {string} outputPath - Output path for stitched PNG
+ * @param {number} [contentHeight] - If set, the last image is cropped so the total stitched height equals contentHeight (avoids duplicate content when scroll went past end).
  */
-async function stitchImagesVertical(pngPaths, outputPath) {
+async function stitchImagesVertical(pngPaths, outputPath, contentHeight) {
   if (pngPaths.length === 0) throw new Error('No images to stitch');
   const metadataList = await Promise.all(pngPaths.map(p => sharp(p).metadata()));
   const width = metadataList[0].width;
-  const totalHeight = metadataList.reduce((sum, m) => sum + m.height, 0);
-  const composites = pngPaths.map((p, i) => {
-    const top = metadataList.slice(0, i).reduce((s, m) => s + m.height, 0);
-    return { input: p, top, left: 0 };
-  });
+  const sliceHeight = metadataList[0].height;
+
+  let totalHeight;
+  const composites = [];
+
+  if (contentHeight != null && pngPaths.length > 1) {
+    const fullSlices = pngPaths.length - 1;
+    const lastSliceContent = contentHeight - fullSlices * sliceHeight;
+    if (lastSliceContent > 0 && lastSliceContent < sliceHeight) {
+      totalHeight = contentHeight;
+      for (let i = 0; i < fullSlices; i++) {
+        composites.push({
+          input: pngPaths[i],
+          top: i * sliceHeight,
+          left: 0
+        });
+      }
+      const lastPath = pngPaths[fullSlices];
+      const cropTop = sliceHeight - lastSliceContent;
+      const croppedLast = await sharp(lastPath)
+        .extract({ left: 0, top: cropTop, width, height: lastSliceContent })
+        .toBuffer();
+      composites.push({
+        input: croppedLast,
+        top: fullSlices * sliceHeight,
+        left: 0
+      });
+    } else {
+      totalHeight = metadataList.reduce((sum, m) => sum + m.height, 0);
+      for (let i = 0; i < pngPaths.length; i++) {
+        composites.push({
+          input: pngPaths[i],
+          top: metadataList.slice(0, i).reduce((s, m) => s + m.height, 0),
+          left: 0
+        });
+      }
+    }
+  } else {
+    totalHeight = metadataList.reduce((sum, m) => sum + m.height, 0);
+    for (let i = 0; i < pngPaths.length; i++) {
+      composites.push({
+        input: pngPaths[i],
+        top: metadataList.slice(0, i).reduce((s, m) => s + m.height, 0),
+        left: 0
+      });
+    }
+  }
+
   await sharp({
     create: { width, height: totalHeight, channels: 3, background: { r: 255, g: 255, b: 255 } }
   })
@@ -177,9 +223,10 @@ async function captureTemplateScreenshot(template) {
   try { fs.unlinkSync(heroTempPng); } catch (e) {}
   console.log(`  ✓ hero_previews/${id}.jpg (viewport)`);
 
+  // Re-measure after overlay; use documentElement.scrollHeight to avoid double height in some layouts
   const { viewportHeight, totalHeight } = await page.evaluate(() => ({
     viewportHeight: window.innerHeight,
-    totalHeight: document.body.scrollHeight
+    totalHeight: Math.min(document.body.scrollHeight, document.documentElement.scrollHeight)
   }));
 
   let scrollPosition = 0;
@@ -187,7 +234,9 @@ async function captureTemplateScreenshot(template) {
   const pngPaths = [];
 
   while (scrollPosition < totalHeight) {
-    await page.evaluate(y => window.scrollTo(0, y), scrollPosition);
+    // Never scroll past the end so the last viewport does not show repeated content
+    const scrollTo = Math.min(scrollPosition, Math.max(0, totalHeight - viewportHeight));
+    await page.evaluate(y => window.scrollTo(0, y), scrollTo);
     await sleep(1000);
 
     const screenshotPath = `${tempPrefix}${screenshotIndex}.png`;
@@ -204,7 +253,7 @@ async function captureTemplateScreenshot(template) {
     return;
   }
 
-  await stitchImagesVertical(pngPaths, stitchedPng);
+  await stitchImagesVertical(pngPaths, stitchedPng, totalHeight);
   await compressImage(stitchedPng, outputJpg, 700);
 
   pngPaths.forEach(p => {

@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS user_pages (
     -- Sharing capabilities
     is_public BOOLEAN DEFAULT FALSE,
     share_token CHAR(36) UNIQUE DEFAULT NULL, -- UUID stored as CHAR(36)
+    share_slug VARCHAR(64) UNIQUE DEFAULT NULL, -- Custom subdomain for publish (slug.wedsite.online)
     
     -- Tracking
     last_accessed TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -99,6 +100,7 @@ CREATE TABLE IF NOT EXISTS user_pages (
     INDEX idx_user_pages_user_id (user_id),
     INDEX idx_user_pages_user_last_accessed (user_id, last_accessed DESC),
     INDEX idx_user_pages_share_token (share_token),
+    INDEX idx_user_pages_share_slug (share_slug),
     INDEX idx_user_pages_favorites (user_id, is_favorite),
     INDEX idx_user_pages_public (is_public, share_token),
     

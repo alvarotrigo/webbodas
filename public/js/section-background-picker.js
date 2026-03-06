@@ -136,37 +136,37 @@ class SectionBackgroundPicker {
                 return;
             }
             
-            // [DISABLED_FOR_WEDDING_VERSION]: Handler del botón que abre el dropdown de estilo (Default/Primary/Secondary/Accent/Gradient). No se usa por ahora.
-            // const button = e.target.closest('.bg-picker-button');
-            // if (button) {
-            //     e.stopPropagation();
-            //     const sectionNumber = button.getAttribute('data-section');
-            //     const wrapper = button.closest('.bg-picker-wrapper');
-            //     if (!wrapper) return;
-            //     const dropdown = wrapper.querySelector('.bg-picker-dropdown');
-            //     if (!dropdown) return;
-            //     document.querySelectorAll('.bg-picker-dropdown').forEach(dd => {
-            //         if (dd !== dropdown) dd.classList.remove('active');
-            //     });
-            //     dropdown.classList.toggle('active');
-            //     return;
-            // }
-            //
-            // [DISABLED_FOR_WEDDING_VERSION]: Handler de opciones de estilo (Default/Primary/Secondary/Accent/Gradient/None). No se usa por ahora.
-            // const option = e.target.closest('.bg-picker-option');
-            // if (option) {
-            //     e.stopPropagation();
-            //     const bgValue = option.getAttribute('data-bg');
-            //     const dropdown = option.closest('.bg-picker-dropdown');
-            //     const sectionMenu = option.closest('.section-menu');
-            //     if (!sectionMenu) return;
-            //     const section = sectionMenu.closest('.section');
-            //     if (!section) return;
-            //     const sectionNumber = section.getAttribute('data-section');
-            //     this.changeSectionBackground(section, sectionNumber, bgValue);
-            //     if (dropdown) dropdown.classList.remove('active');
-            //     return;
-            // }
+            // Handle background picker button clicks
+            const button = e.target.closest('.bg-picker-button');
+            if (button) {
+                e.stopPropagation();
+                const sectionNumber = button.getAttribute('data-section');
+                const wrapper = button.closest('.bg-picker-wrapper');
+                if (!wrapper) return;
+                const dropdown = wrapper.querySelector('.bg-picker-dropdown');
+                if (!dropdown) return;
+                document.querySelectorAll('.bg-picker-dropdown').forEach(dd => {
+                    if (dd !== dropdown) dd.classList.remove('active');
+                });
+                dropdown.classList.toggle('active');
+                return;
+            }
+
+            // Handle background picker option clicks
+            const option = e.target.closest('.bg-picker-option');
+            if (option) {
+                e.stopPropagation();
+                const bgValue = option.getAttribute('data-bg');
+                const dropdown = option.closest('.bg-picker-dropdown');
+                const sectionMenu = option.closest('.section-menu');
+                if (!sectionMenu) return;
+                const section = sectionMenu.closest('.section');
+                if (!section) return;
+                const sectionNumber = section.getAttribute('data-section');
+                this.changeSectionBackground(section, sectionNumber, bgValue);
+                if (dropdown) dropdown.classList.remove('active');
+                return;
+            }
 
             // Close all dropdowns when clicking outside
             const clickedInsidePicker = e.target.closest('.bg-picker-wrapper');
@@ -950,12 +950,11 @@ class SectionBackgroundPicker {
         // Save original background if not already saved
         this.saveOriginalBackground(section);
 
-        // [DISABLED_FOR_WEDDING_VERSION]: Actualización del dropdown de estilo (colores y estado activo) no se usa por ahora.
         const dropdown = document.querySelector(`.bg-picker-dropdown[data-section="${sectionNumber}"]`);
         if (dropdown) {
-            // this.updateColorValues(dropdown, section);
-            // this.updateButtonCircle(sectionNumber);
-            // this.updateBackgroundPickerState(sectionNumber);
+            this.updateColorValues(dropdown, section);
+            this.updateButtonCircle(sectionNumber);
+            this.updateBackgroundPickerState(sectionNumber);
         }
     }
     
@@ -999,10 +998,28 @@ class SectionBackgroundPicker {
         // Check for current background by looking at both data-bg attribute and classes
         let currentBg = section.getAttribute('data-bg');
         
-        // If no data-bg, try to detect from existing classes
+        // If no data-bg, try to detect from existing classes or inline styles
         if (!currentBg || currentBg === 'default') {
-            // Check for gradient classes first
-            if (section.classList.contains('gradient-themed-1')) {
+            const inlineBg = section.style.getPropertyValue('background') || '';
+            const inlineBgColor = section.style.getPropertyValue('background-color') || '';
+
+            // Detect from inline styles first (set by picker)
+            if (inlineBg.includes('--gradient-1')) {
+                currentBg = 'gradient-1';
+            } else if (inlineBg.includes('--gradient-2')) {
+                currentBg = 'gradient-2';
+            } else if (inlineBg.includes('--features2-bg')) {
+                currentBg = 'features2';
+            } else if (inlineBg === 'transparent') {
+                currentBg = 'none';
+            } else if (inlineBgColor.includes('--primary-bg')) {
+                currentBg = 'primary';
+            } else if (inlineBgColor.includes('--secondary-bg')) {
+                currentBg = 'secondary';
+            } else if (inlineBgColor.includes('--accent-bg')) {
+                currentBg = 'accent';
+            // Fallback: detect from legacy CSS classes
+            } else if (section.classList.contains('gradient-themed-1')) {
                 currentBg = 'gradient-1';
             } else if (section.classList.contains('gradient-themed-2')) {
                 currentBg = 'gradient-2';
@@ -1063,11 +1080,12 @@ class SectionBackgroundPicker {
         // This includes solid backgrounds and gradient backgrounds
         section.classList.remove(...this.backgroundUtilityClasses);
         
-        // Remove inline background styles
-        section.style.removeProperty('background-color');
+        // Remove all inline background styles for a clean slate
         section.style.removeProperty('background');
+        section.style.removeProperty('background-color');
+        section.style.removeProperty('background-image');
         
-        // Apply new background based on selection
+        // Apply new background based on selection (always use inline styles to override template CSS)
         if (bgValue === 'primary') {
             section.style.setProperty('background-color', 'var(--primary-bg)');
             section.setAttribute('data-bg', 'primary');
@@ -1078,17 +1096,17 @@ class SectionBackgroundPicker {
             section.style.setProperty('background-color', 'var(--accent-bg)');
             section.setAttribute('data-bg', 'accent');
         } else if (bgValue === 'gradient-1') {
-            section.classList.add('gradient-themed-1');
+            section.style.setProperty('background', 'var(--gradient-1)');
             section.setAttribute('data-bg', 'gradient-1');
         } else if (bgValue === 'gradient-2') {
-            section.classList.add('gradient-themed-2');
+            section.style.setProperty('background', 'var(--gradient-2)');
             section.setAttribute('data-bg', 'gradient-2');
         } else if (bgValue === 'features2') {
-            section.classList.add('bg-features2-themed');
+            section.style.setProperty('background', 'var(--features2-bg)');
             section.setAttribute('data-bg', 'features2');
         } else if (bgValue === 'none') {
+            section.style.setProperty('background', 'transparent');
             section.setAttribute('data-bg', 'none');
-            // No class or style needed for transparent
         } else {
             // Default - restore original background classes
             const originalBg = section.getAttribute('data-original-bg');
@@ -1343,9 +1361,10 @@ class SectionBackgroundPicker {
             'bg-features2-themed'
         );
         
-        // Remove inline background styles
-        sectionElement.style.removeProperty('background-color');
+        // Remove all inline background styles for a clean slate
         sectionElement.style.removeProperty('background');
+        sectionElement.style.removeProperty('background-color');
+        sectionElement.style.removeProperty('background-image');
         
         if (bgValue === 'primary') {
             sectionElement.style.setProperty('background-color', 'var(--primary-bg)');
@@ -1354,11 +1373,13 @@ class SectionBackgroundPicker {
         } else if (bgValue === 'accent') {
             sectionElement.style.setProperty('background-color', 'var(--accent-bg)');
         } else if (bgValue === 'gradient-1') {
-            sectionElement.classList.add('gradient-themed-1');
+            sectionElement.style.setProperty('background', 'var(--gradient-1)');
         } else if (bgValue === 'gradient-2') {
-            sectionElement.classList.add('gradient-themed-2');
+            sectionElement.style.setProperty('background', 'var(--gradient-2)');
         } else if (bgValue === 'features2') {
-            sectionElement.classList.add('bg-features2-themed');
+            sectionElement.style.setProperty('background', 'var(--features2-bg)');
+        } else if (bgValue === 'none') {
+            sectionElement.style.setProperty('background', 'transparent');
         } else if (bgValue === 'default') {
             // Restore original background classes
             const originalBg = sectionElement.getAttribute('data-original-bg');

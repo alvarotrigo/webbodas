@@ -46,7 +46,7 @@
      }, 100);
 
  // More global variables
- let currentTheme = 'theme-light-minimal';
+ let currentTheme = 'theme-wedding-blush-ivory';
  let suppressThemeHistory = false;
  let addedSections = [];
  let selectedSections = new Set();
@@ -518,134 +518,142 @@
      }
  }
 
- // Theme data with color palettes
+ // Wedding theme data with color palettes — 25 palettes for the wedding editor
  const themes = [
-     { 
-         id: 'theme-light-minimal', 
-         name: 'Light Minimal',
-         colors: ['#ffffff', '#fafafa', '#5fd9c2', '#34bfa1', '#e5e5e5']
+     {
+         id: 'theme-wedding-blush-ivory',
+         name: 'Blush & Ivory',
+         colors: ['#fdf8f5', '#faf0eb', '#d4967a', '#b8785e', '#f0d8cc']
      },
-     { 
-         id: 'theme-dark-modern', 
-         name: 'Dark Modern',
-         colors: ['#0a0a0f', '#1a1f2e', '#8b5cf6', '#7c3aed', '#242b3d']
+     {
+         id: 'theme-wedding-rose-gold',
+         name: 'Rose Gold & Cream',
+         colors: ['#fdfaf6', '#faf5ef', '#c9956c', '#b07d58', '#e8d5c4']
      },
-     { 
-         id: 'theme-corporate-clean', 
-         name: 'Corporate Clean',
-         colors: ['#ffffff', '#f3f6fa', '#2563eb', '#1e4bb8', '#c5d1df']
+     {
+         id: 'theme-wedding-dusty-rose',
+         name: 'Dusty Rose & Sage',
+         colors: ['#fdf8f6', '#f7ede8', '#c0847a', '#7a9e7e', '#e8d5d0']
      },
-     { 
-         id: 'theme-playful-colorful', 
-         name: 'Playful Colorful',
-         colors: ['#fef7f0', '#fff4e6', '#f97316', '#ea580c', '#fed7aa']
+     {
+         id: 'theme-wedding-white-pearl',
+         name: 'White & Pearl',
+         colors: ['#ffffff', '#fafaf8', '#b8a898', '#9e8e7e', '#e8e4de']
      },
-     { 
-         id: 'theme-elegant-serif', 
-         name: 'Elegant Serif',
-         colors: ['#fdfcf8', '#f8f6f0', '#8b4513', '#a0522d', '#e5ddd1']
+     {
+         id: 'theme-wedding-sage-white',
+         name: 'Sage & White',
+         colors: ['#f9faf8', '#f2f5f0', '#7a9e7e', '#5e8462', '#d8e4d5']
      },
-     { 
-         id: 'theme-wellness-calm', 
-         name: 'Wellness Calm',
-         colors: ['#f8fafc', '#f0fdf4', '#34d399', '#059669', '#bbf7d0']
+     {
+         id: 'theme-wedding-ash-minimal',
+         name: 'Ash Grey Minimal',
+         colors: ['#f8f8f8', '#f0f0f0', '#888888', '#444444', '#d5d5d5']
      },
-     { 
-         id: 'theme-floral-bliss', 
-         name: 'Floral Bliss',
-         colors: ['#fff7fb', '#fdf2f8', '#ec4899', '#db2777', '#fbcfe8']
+     {
+         id: 'theme-wedding-terracotta',
+         name: 'Terracotta & Sage',
+         colors: ['#faf6f2', '#f4ede4', '#c4714a', '#7a9e7e', '#e4d5c5']
      },
-     { 
-         id: 'theme-ocean-breeze', 
-         name: 'Ocean Breeze',
-         colors: ['#f0f9ff', '#ecfeff', '#06b6d4', '#0284c7', '#bae6fd']
+     {
+         id: 'theme-wedding-champagne-pampas',
+         name: 'Champagne & Pampas',
+         colors: ['#fdf9f4', '#f8f2e8', '#d4b896', '#a89070', '#e8dcc8']
      },
-     { 
-         id: 'theme-health-trust', 
-         name: 'Health Trust',
-         colors: ['#ffffff', '#f1f5f9', '#0ea5e9', '#0284c7', '#cbd5e1']
+     {
+         id: 'theme-wedding-cedar',
+         name: 'Cedar & Wildflower',
+         colors: ['#f9f6f0', '#f2ebe0', '#8b5e3c', '#d4956a', '#dfd0bc']
      },
-     { 
-         id: 'theme-luxury-gold', 
-         name: 'Luxury Gold',
-         colors: ['#0f1115', '#1a1d24', '#d4af37', '#b88a1e', '#2a2e36']
+     {
+         id: 'theme-wedding-black-gold',
+         name: 'Black & Gold',
+         colors: ['#0d0d0d', '#1a1814', '#d4af37', '#b8902e', '#2e2820']
      },
-     { 
-         id: 'theme-retro-pop', 
-         name: 'Retro Pop',
-         colors: ['#fffbea', '#e0f2fe', '#ef4444', '#f59e0b', '#fbcfe8']
+     {
+         id: 'theme-wedding-navy-gold',
+         name: 'Navy & Gold',
+         colors: ['#0c1428', '#14213d', '#d4af37', '#e8c84a', '#1e3050']
      },
-     { 
-         id: 'theme-earthy-organic', 
-         name: 'Earthy Organic',
-         colors: ['#faf7f2', '#f1ede6', '#6b8e23', '#3f7a3b', '#e4dccf']
+     {
+         id: 'theme-wedding-ivory-champagne',
+         name: 'Ivory & Champagne',
+         colors: ['#fefcf7', '#faf6ec', '#c8a96e', '#b08c50', '#ebe0c8']
      },
-     { 
-         id: 'theme-tech-neon', 
-         name: 'Tech Neon',
-         colors: ['#0b0b0e', '#0f172a', '#22d3ee', '#f472b6', '#0a1020']
+     {
+         id: 'theme-wedding-silver-pearl',
+         name: 'Silver & Pearl',
+         colors: ['#fafafa', '#f2f4f6', '#a8b4c0', '#8096a8', '#dce4ec']
      },
-     { 
-         id: 'theme-desert-sand', 
-         name: 'Desert Sand',
-         colors: ['#faf7f2', '#f4efe8', '#c49a6c', '#a67c52', '#e0d6c8']
+     {
+         id: 'theme-wedding-aqua-sand',
+         name: 'Aqua & Sand',
+         colors: ['#fdfcfa', '#f5f0e8', '#5bbcb8', '#e8b48a', '#d8e8e8']
      },
-     { 
-         id: 'theme-bold-monochrome', 
-         name: 'Bold Monochrome',
-         colors: ['#ffffff', '#f5f5f5', '#000000', '#555555', '#cccccc']
+     {
+         id: 'theme-wedding-hibiscus',
+         name: 'Hibiscus & Coral',
+         colors: ['#fff8f5', '#ffeee8', '#e8654a', '#ff9a80', '#ffd0c0']
      },
-     { 
-         id: 'theme-sunset-gradient', 
-         name: 'Sunset Gradient',
-         colors: ['#fff7f5', '#ffeaea', '#ff7f50', '#ff1493', '#ffd1d1']
+     {
+         id: 'theme-wedding-coastal',
+         name: 'Coastal Blue',
+         colors: ['#f5f9fe', '#e8f2fc', '#4a8ec0', '#2e6a9c', '#c8dce8']
      },
-     { 
-         id: 'theme-cyber-grid', 
-         name: 'Cyber Grid',
-         colors: ['#0a0d12', '#0f141a', '#22d3ee', '#06b6d4', '#131a21']
+     {
+         id: 'theme-wedding-frost',
+         name: 'Frost & Ice',
+         colors: ['#f8f9ff', '#f0f4fc', '#90b4d4', '#c8d8e8', '#d8e4f0']
      },
-     { 
-         id: 'theme-candy-shop', 
-         name: 'Candy Shop',
-         colors: ['#fff9f9', '#fff0f6', '#ff66b3', '#66ccff', '#ffe0eb']
+     {
+         id: 'theme-wedding-berry-velvet',
+         name: 'Berry & Velvet',
+         colors: ['#1a0d1a', '#231222', '#9b4dca', '#c86e9c', '#2e1830']
      },
-     { 
-         id: 'theme-soft-pastel-saas', 
-         name: 'Warm Modern Learning',
-         colors: ['#fdf8f3', '#fff5eb', '#ff6b5a', '#e8513f', '#ede4db']
+     {
+         id: 'theme-wedding-midnight-stars',
+         name: 'Midnight & Stars',
+         colors: ['#080c18', '#0f1428', '#8080d4', '#d4c8a8', '#141c38']
      },
-     { 
-         id: 'theme-dreamy-blush', 
-         name: 'Dreamy Blush',
-         colors: ['#fff9fd', '#ffe8f5', '#d946ef', '#c026d3', '#f8d7f0']
+     {
+         id: 'theme-wedding-moody-mauve',
+         name: 'Moody Mauve',
+         colors: ['#f5f0f5', '#ede4f0', '#9060a8', '#c4a0c8', '#d8c8e4']
      },
-     { 
-         id: 'theme-dark-crimson', 
-         name: 'Dark Crimson',
-         colors: ['#0a0a0a', '#1a1414', '#df2531', '#ff4444', '#2a1f1f']
+     {
+         id: 'theme-wedding-lilac-gold',
+         name: 'Lilac & Gold',
+         colors: ['#fdf8ff', '#f5eefa', '#b07cd8', '#d4af37', '#e4d0f4']
      },
-     { 
-         id: 'theme-tropical-jade', 
-         name: 'Tropical Jade',
-         colors: ['#ffffff', '#f0fafa', '#23ced9', '#097c87', '#fca47c']
+     {
+         id: 'theme-wedding-enchanted-forest',
+         name: 'Enchanted Forest',
+         colors: ['#f0f8f0', '#e8f4e8', '#4a8c5c', '#d4af37', '#c8e4cc']
      },
-     { 
-         id: 'theme-neon-pink-midnight', 
-         name: 'Neon Pink Midnight',
-         colors: ['#0d0d0d', '#1a0f1a', '#ff2b9f', '#ff66b8', '#2a1a2a']
+     {
+         id: 'theme-wedding-sepia-lace',
+         name: 'Sepia & Lace',
+         colors: ['#fdf8f0', '#f5ede0', '#8c6840', '#b8906c', '#dcc8a8']
      },
-     { 
-         id: 'theme-matrix-code', 
-         name: 'Matrix Code',
-         colors: ['#0a0a0a', '#0f1f0f', '#00ff88', '#00e676', '#1a2a1a']
+     {
+         id: 'theme-wedding-art-deco',
+         name: 'Art Deco Noir',
+         colors: ['#0a0a08', '#141410', '#d4af37', '#f0d060', '#302c1e']
      },
-     { 
-         id: 'theme-peach-mint-delight', 
-         name: 'Peach Mint Delight',
-         colors: ['#fefdfb', '#fff8f0', '#ffa366', '#66d9b3', '#ffe8d6']
+     {
+         id: 'theme-wedding-garden-party',
+         name: 'Garden Party',
+         colors: ['#f8fdf5', '#f0f9e8', '#6daa4a', '#f0a840', '#d4e8c0']
      }
  ];
+
+ // Expose themes globally so onboarding popup can access them
+ window.themes = themes;
+ Object.defineProperty(window, 'currentTheme', {
+     get() { return currentTheme; },
+     set(v) { currentTheme = v; },
+     configurable: true
+ });
 
  // Section data - mapping to individual files
  const sections = [
@@ -824,6 +832,32 @@
      { id: 173, is_pro: 1, name: 'Footer 4', file: 'fp-theme-footer-4.html', tags: ['footer'] }
  ];
 
+// Template definitions - static registry similar to sections array above
+const templates = [
+    { id: 1, is_pro: 0, name: 'Wedding One',    file: 'template1.html',  category: 'classic', tags: ['classic', 'modern', 'cream'] },
+    { id: 2, is_pro: 0, name: 'Luxury One',     file: 'template2.html',          category: 'luxe',    tags: ['black', 'gold', 'cream'] },
+    { id: 3, is_pro: 0, name: 'Wedding One',    file: 'template3.html',   category: 'minimal', tags: ['minimal', 'modern', 'grey'] },
+    { id: 4, is_pro: 0, name: 'Rustic One',     file: 'template4.html',     category: 'rustic',  tags: ['sage', 'terracota', 'chic'] },
+    { id: 5, is_pro: 0, name: 'Beach Wedding',  file: 'template5.html',      category: 'summer',  tags: ['beach', 'sea', 'water'] },
+    { id: 6, is_pro: 0, name: 'Travellers',  file: 'template6.html',      category: 'alternative',  tags: ['travel', 'adventure', 'road'] },
+];
+
+// Template style categories - replaces templates/categorias.json
+const templateCategories = [
+    { id: 'all',         name: 'All Templates',          icon: '🎨' },
+    { id: 'minimal',     name: 'Minimalist & Modern',    icon: '🌿' },
+    { id: 'classic',     name: 'Classic & Romantic',     icon: '🌸' },
+    { id: 'rustic',      name: 'Rustic Boho & Chic',     icon: '🪵' },
+    { id: 'funny',       name: 'Funny & Light',          icon: '🤣' },
+    { id: 'luxe',        name: 'Luxe & Glamour',         icon: '✨' },
+    { id: 'alternative', name: 'Edgy & Alternative',     icon: '🎸' },
+    { id: 'fairytale',   name: 'Enchanted & Fairytale',  icon: '🏰' },
+    { id: 'summer',      name: 'Summer & Beach',         icon: '🌞' },
+    { id: 'winter',      name: 'Winter & Snow',          icon: '❄️' },
+    { id: 'celestial',   name: 'Celestial & Moody',      icon: '🌙' },
+    { id: 'vintage',     name: 'Retro & Vintage',        icon: '🎞️' },
+];
+
  // Helper function to sort sections - free sections first for non-pro users
  function sortSectionsByUserAccess(sectionsArray) {
      // For pro users, keep natural order
@@ -974,57 +1008,56 @@
      },
  };
 
-// Filtros de estilo para templates (estética del evento). Definidos en templates/categorias.json
-// y cargados por loadTemplatesFromApi() desde api/list-templates.php.
+// Template style filters keyed by category id. Built from templateCategories and templates arrays.
 const templateStyles = {};
 
-// Carga categorías desde templates/categorias.json (vía API) y la lista de templates; rellena templateStyles.
-async function loadTemplatesFromApi() {
-    try {
-        const response = await fetch('api/list-templates.php');
-        if (!response.ok) throw new Error(response.statusText);
-        const data = await response.json();
-        const categories = data.categories || [];
-        const list = data.templates || [];
-        // Construir templateStyles desde categorías (origen: templates/categorias.json)
-        categories.forEach(cat => {
-            if (cat && cat.id) {
-                templateStyles[cat.id] = {
-                    name: cat.name || cat.id,
-                    icon: cat.icon != null ? cat.icon : '📁',
-                    templates: []
-                };
-            }
-        });
-        Object.keys(templateStyles).forEach(styleKey => {
-            if (styleKey === 'all') {
-                // 'all' muestra todos los templates sin filtrar por estilo
-                templateStyles[styleKey].templates = list;
-            } else {
-                templateStyles[styleKey].templates = list.filter(t =>
-                    Array.isArray(t.styles) && t.styles.includes(styleKey)
-                );
-            }
-        });
-        // Exponer datos globalmente para template-search.js
-        window.allTemplates = list;
-        window.templateColors = data.colors || [];
-        // Inicializar filtro de color si el módulo está disponible
-        if (window.ColorFilter && Array.isArray(data.colors) && data.colors.length > 0) {
-            window.ColorFilter.init('color-filter-container', data.colors, applyColorFilter);
+// Builds templateStyles from the static `templates` and `templateCategories` arrays.
+// Replaces the previous async loadTemplatesFromApi() that fetched api/list-templates.php.
+function buildTemplateStyles() {
+    // Map each template entry to the shape expected by the UI
+    const list = templates.map(t => ({
+        id:       String(t.id),
+        name:     t.name,
+        url:      'templates/html/' + t.file,
+        category: t.category,
+        tags:     t.tags || [],
+        styles:   [t.category],
+        is_pro:   t.is_pro || 0,
+    }));
+
+    // Build templateStyles from templateCategories
+    templateCategories.forEach(cat => {
+        if (cat && cat.id) {
+            templateStyles[cat.id] = {
+                name:      cat.name || cat.id,
+                icon:      cat.icon != null ? cat.icon : '📁',
+                templates: [],
+            };
         }
-    } catch (err) {
-        console.warn('No se pudo cargar la lista de templates:', err);
-    }
+    });
+
+    // Assign templates to their matching category entries
+    Object.keys(templateStyles).forEach(styleKey => {
+        if (styleKey === 'all') {
+            templateStyles[styleKey].templates = list;
+        } else {
+            templateStyles[styleKey].templates = list.filter(t => t.category === styleKey);
+        }
+    });
+
+    // Expose globally for template-search.js compatibility
+    window.allTemplates = list;
 }
 
-// Re-renderiza el panel actualmente abierto con el filtro de color activo.
-// El filtro es local a la categoría abierta; templateStyles nunca se modifica.
-function applyColorFilter(selectedColors) {
-    if (currentCategoryKey) {
-        showStylePanel(currentCategoryKey);
-    }
-}
+// [DISABLED_FOR_WEDDING_VERSION]: Dynamic template loading from API replaced by static buildTemplateStyles().
+// async function loadTemplatesFromApi() { ... }
+
+// [DISABLED_FOR_WEDDING_VERSION]: Color filter functionality removed for wedding version.
+// function applyColorFilter(selectedColors) {
+//     if (currentCategoryKey) {
+//         showStylePanel(currentCategoryKey);
+//     }
+// }
 
  /**
   * Parse full template HTML (document) into body content + head styles/scripts.
@@ -1250,6 +1283,78 @@ currentTemplateUrl = template.url;
      }, options);
  }
 
+ // Onboarding sidebar mode: true when no template is loaded yet.
+ window.isOnboardingMode = false;
+
+ // Enters "onboarding" sidebar state: hides theme selector, disables hover panel,
+ // enables click-to-filter on categories.
+ function enterOnboardingMode() {
+     window.isOnboardingMode = true;
+     const sidebar = document.querySelector('.sidebar');
+     if (sidebar) sidebar.classList.add('onboarding-mode');
+     hideCategoryPanel();
+ }
+ window.enterOnboardingMode = enterOnboardingMode;
+
+ // Exits "onboarding" sidebar state: restores theme selector and hover panel behaviour.
+ function exitOnboardingMode() {
+     window.isOnboardingMode = false;
+     const sidebar = document.querySelector('.sidebar');
+     if (sidebar) sidebar.classList.remove('onboarding-mode');
+     document.querySelectorAll('#category-list .category-item').forEach(el => el.classList.remove('onboarding-active'));
+ }
+ window.exitOnboardingMode = exitOnboardingMode;
+
+ // Hide sidebar and its toggle when opening the template preview popup (onboarding).
+ function hideSidebarForPreview() {
+     sidebarCollapsed = true;
+     const editorLayout = document.querySelector('.editor-layout');
+     const sidebar = document.querySelector('.sidebar');
+     const topBar = document.querySelector('.top-bar');
+     const toggleButton = document.getElementById('toggle-sidebar');
+     const categoryPanel = document.querySelector('.category-hover-panel');
+     if (editorLayout) editorLayout.classList.add('collapsed');
+     if (sidebar) sidebar.classList.add('collapsed');
+     if (topBar) topBar.classList.add('sidebar-collapsed');
+     if (toggleButton) {
+         toggleButton.classList.add('collapsed', 'invisible');
+         const icon = toggleButton.querySelector('i');
+         if (icon) icon.setAttribute('data-lucide', 'chevron-right');
+     }
+     if (categoryPanel) categoryPanel.style.left = '0';
+     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+ }
+
+ // Restore sidebar and toggle when closing the preview popup (with or without choosing a template).
+ function showSidebarAfterPreview() {
+     sidebarCollapsed = false;
+     const editorLayout = document.querySelector('.editor-layout');
+     const sidebar = document.querySelector('.sidebar');
+     const topBar = document.querySelector('.top-bar');
+     const toggleButton = document.getElementById('toggle-sidebar');
+     const categoryPanel = document.querySelector('.category-hover-panel');
+     if (editorLayout) editorLayout.classList.remove('collapsed');
+     if (sidebar) sidebar.classList.remove('collapsed');
+     if (topBar) topBar.classList.remove('sidebar-collapsed');
+     if (toggleButton) {
+         toggleButton.classList.remove('collapsed', 'invisible');
+         const icon = toggleButton.querySelector('i');
+         if (icon) icon.setAttribute('data-lucide', 'chevron-left');
+     }
+     if (categoryPanel) categoryPanel.style.left = '300px';
+     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+ }
+ window.hideSidebarForPreview = hideSidebarForPreview;
+ window.showSidebarAfterPreview = showSidebarAfterPreview;
+
+ // Helper: marks a sidebar category item as active (onboarding selection).
+ function setActiveSidebarCategory(styleKey) {
+     document.querySelectorAll('#category-list .category-item').forEach(el => {
+         el.classList.toggle('onboarding-active', el.dataset.category === styleKey);
+     });
+ }
+ window.setActiveSidebarCategory = setActiveSidebarCategory;
+
  // Genera el menú lateral con filtros de estilo (templates). Wedding/template-first: solo templates, no catálogo de secciones.
  function generateCategories() {
      const categoryList = document.getElementById('category-list');
@@ -1267,9 +1372,22 @@ currentTemplateUrl = template.url;
              <span>${styleData.name}</span>
              ${count > 0 ? `<span class="category-count">${count}</span>` : ''}
          `;
+
+         // Click handler: in onboarding mode, filter the central gallery;
+         // in normal mode, open the style panel to the right.
+         categoryItem.addEventListener('click', () => {
+             if (window.isOnboardingMode) {
+                 setActiveSidebarCategory(styleKey);
+                 window.Onboarding?.filterByCategory(styleKey);
+                 return;
+             }
+             showStylePanel(styleKey);
+         });
          
          let itemHoverTimeout = null;
          categoryItem.addEventListener('mouseenter', () => {
+             // In onboarding mode categories respond to click, not hover.
+             if (window.isOnboardingMode) return;
              if (itemHoverTimeout) clearTimeout(itemHoverTimeout);
              itemHoverTimeout = setTimeout(() => {
                  showStylePanel(styleKey);
@@ -1419,10 +1537,10 @@ currentTemplateUrl = template.url;
      const isSameCategory = currentCategoryKey === styleKey;
      if (currentCategoryKey && !isSameCategory) {
          categoryScrollPositions = {};
-         // Reset del filtro de color al cambiar de categoría (silencioso, sin disparar callback)
-         if (window.ColorFilter) {
-             window.ColorFilter.clearFilterSilent();
-         }
+         // [DISABLED_FOR_WEDDING_VERSION]: Color filter reset removed.
+         // if (window.ColorFilter) {
+         //     window.ColorFilter.clearFilterSilent();
+         // }
      }
      
      panel.dataset.searchMode = 'false';
@@ -1433,17 +1551,19 @@ currentTemplateUrl = template.url;
          <span>${styleData.name}</span>
      `;
      
+     cleanupTemplatePreviewIframe();
      sectionsGrid.innerHTML = '';
      sectionsGrid.classList.remove('template-preview-full-wrap');
      sectionsGrid.classList.add('template-cards-grid');
      sectionsGrid.classList.remove('category-sections-grid');
      
-     // Filtro de color local: solo afecta a los templates de esta categoría
-     const baseTemplates = styleData.templates || [];
-     const activeColors = window.ColorFilter ? window.ColorFilter.getSelectedColors() : [];
-     const templates = activeColors.length === 0
-         ? baseTemplates
-         : baseTemplates.filter(t => activeColors.includes(t.colorCategory));
+    // [DISABLED_FOR_WEDDING_VERSION]: Color filter per category removed.
+    // const activeColors = window.ColorFilter ? window.ColorFilter.getSelectedColors() : [];
+    // const filteredByColor = activeColors.length === 0
+    //     ? baseTemplates
+    //     : baseTemplates.filter(t => activeColors.includes(t.colorCategory));
+    const baseTemplates = styleData.templates || [];
+    const templates = baseTemplates;
 
          if (templates.length === 0) {
             const emptyMsg = activeColors.length > 0
@@ -1527,8 +1647,8 @@ currentTemplateUrl = template.url;
      }
  }
 
- // Si no ofrecemos varios temas, el panel de temas no se abre
- const THEMES_SELECTOR_ENABLED = false;
+ // Habilitar panel de temas (selector de skin/theme en sidebar)
+ const THEMES_SELECTOR_ENABLED = true;
 
  // Open theme panel
  function openThemePanel() {
@@ -1564,6 +1684,8 @@ currentTemplateUrl = template.url;
          // Clear search mode flag
          panel.dataset.searchMode = 'false';
          
+         cleanupTemplatePreviewIframe();
+         
          // Hide panel
          panel.classList.remove('show');
          
@@ -1582,9 +1704,9 @@ currentTemplateUrl = template.url;
  function createTemplateCard(template, styleKey) {
      const id = template.id || `t-${styleKey}-${Math.random().toString(36).slice(2, 9)}`;
      const name = template.name || 'Template';
-     const previewSrc = template.id ? `templates/previews/${template.id}.jpg` : '';
+    const previewSrc = template.id ? `templates/previews/template${template.id}.jpg` : '';
      const innerContent = previewSrc
-         ? `<img src="${previewSrc}" loading="lazy" alt="${name}" class="template-card-preview-img" />`
+        ? `<img src="${previewSrc}" loading="lazy" alt="${name}" class="template-card-preview-img" onerror="this.onerror=null;this.src='templates/previews/${template.id}.jpg';" />`
          : `
              <div class="template-card-placeholder">
                  <span class="template-card-placeholder-label">Vista previa</span>
@@ -1648,32 +1770,49 @@ currentTemplateUrl = template.url;
  }
  window.attachTemplateCardHoverScroll = attachTemplateCardHoverScroll;
 
- function showTemplatePreviewFull(sectionsGrid, styleKey, template) {
-     const panel = document.getElementById('category-hover-panel');
-     const headerTitle = panel.querySelector('.category-hover-panel-title');
-     const displayName = template.name || 'Template';
-     headerTitle.innerHTML = '<span class="template-preview-full-back" role="button" tabindex="0">← Volver</span><span class="template-preview-full-title-center"><button type="button" class="template-preview-use-btn">Use ' + displayName + '</button></span><span class="template-preview-full-title-spacer"></span>';
-     sectionsGrid.classList.remove('template-cards-grid');
-     sectionsGrid.classList.add('template-preview-full-wrap');
-     const imgHtml = template.previewSrc
-         ? '<img src="' + template.previewSrc + '" alt="' + (template.name || '') + '" class="template-preview-full-img" />'
-         : '<div class="template-card-placeholder template-preview-full-placeholder"><p>No hay imagen de preview.</p><p>Ejecuta <code>npm run templates:screenshots</code> para generarla.</p></div>';
-     sectionsGrid.innerHTML = '<div class="template-preview-full-inner">' + imgHtml + '</div>';
-     sectionsGrid.scrollTop = 0;
-     const backEl = headerTitle.querySelector('.template-preview-full-back');
-     if (backEl) {
-         const goBack = function () { showStylePanel(styleKey); };
-         backEl.addEventListener('click', goBack);
-         backEl.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); goBack(); } });
-     }
-     const useBtn = headerTitle.querySelector('.template-preview-use-btn');
-     if (useBtn && template.url) {
-         useBtn.addEventListener('click', () => { insertFullTemplateIntoPreview(template); hideCategoryPanel(); });
-         useBtn.addEventListener('keydown', (ev) => {
-             if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); insertFullTemplateIntoPreview(template); hideCategoryPanel(); }
-         });
-     }
- }
+function cleanupTemplatePreviewIframe() {
+    const grid = document.getElementById('category-sections-grid');
+    if (!grid) return;
+    const iframe = grid.querySelector('.template-preview-full-iframe');
+    if (iframe) {
+        iframe.src = 'about:blank';
+        iframe.remove();
+    }
+}
+
+function showTemplatePreviewFull(sectionsGrid, styleKey, template) {
+    cleanupTemplatePreviewIframe();
+    const panel = document.getElementById('category-hover-panel');
+    const headerTitle = panel.querySelector('.category-hover-panel-title');
+    headerTitle.innerHTML = '<span class="template-preview-full-back" role="button" tabindex="0">← Volver</span><span class="template-preview-full-title-center"><button type="button" class="template-preview-use-btn">Apply Template</button></span><span class="template-preview-full-title-spacer"></span>';
+    sectionsGrid.classList.remove('template-cards-grid');
+    sectionsGrid.classList.add('template-preview-full-wrap');
+
+    if (template.url) {
+        sectionsGrid.innerHTML = '<div class="template-preview-full-inner">' +
+            '<iframe src="' + template.url + '" class="template-preview-full-iframe" title="' + (template.name || 'Template') + '"></iframe>' +
+            '</div>';
+    } else {
+        sectionsGrid.innerHTML = '<div class="template-preview-full-inner">' +
+            '<div class="template-card-placeholder template-preview-full-placeholder"><p>No preview available.</p></div>' +
+            '</div>';
+    }
+    sectionsGrid.scrollTop = 0;
+
+    const backEl = headerTitle.querySelector('.template-preview-full-back');
+    if (backEl) {
+        const goBack = function () { showStylePanel(styleKey); };
+        backEl.addEventListener('click', goBack);
+        backEl.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); goBack(); } });
+    }
+    const useBtn = headerTitle.querySelector('.template-preview-use-btn');
+    if (useBtn && template.url) {
+        useBtn.addEventListener('click', () => { insertFullTemplateIntoPreview(template); hideCategoryPanel(); });
+        useBtn.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); insertFullTemplateIntoPreview(template); hideCategoryPanel(); }
+        });
+    }
+}
 
  // Create category section item
  function createCategorySectionItem(section) {
@@ -2491,7 +2630,7 @@ function downloadPage() {
              // Validación básica del tema (el servidor hará la normalización completa)
              let sanitizedTheme = theme || currentTheme;
              if (!sanitizedTheme || typeof sanitizedTheme !== 'string') {
-                 sanitizedTheme = currentTheme || 'theme-light-minimal';
+                 sanitizedTheme = currentTheme || 'theme-wedding-blush-ivory';
              }
              
              const draft = {
@@ -2817,8 +2956,8 @@ function downloadPage() {
      // Clear history as well
      if (historyManager) historyManager.clear();
      
-     // Reset theme to default (but don't trigger autosave)
-     currentTheme = 'theme-light-minimal';
+    // Reset theme to default (but don't trigger autosave)
+    currentTheme = 'theme-wedding-blush-ivory';
      const themeCards = document.querySelectorAll('.theme-card');
      themeCards.forEach(card => {
          card.classList.remove('active');
@@ -3130,7 +3269,8 @@ function downloadPage() {
      }
      
      const toast = document.createElement('div');
-     toast.className = 'toast';
+     const isCompact = !options.action && !options.onAction;
+     toast.className = 'toast' + (isCompact ? ' toast--compact' : '');
      
      // Build action buttons HTML
      let actionButtonsHTML = '';
@@ -3143,8 +3283,10 @@ function downloadPage() {
          `;
      }
      
+     const iconName = isCompact ? 'check-circle' : 'info';
+     
      toast.innerHTML = `
-         <i data-lucide="info" class="toast-icon"></i>
+         <i data-lucide="${iconName}" class="toast-icon"></i>
          <div class="toast-content">
              <div class="toast-title">${title}</div>
              <div class="toast-message">${message}</div>
@@ -3191,7 +3333,7 @@ function downloadPage() {
      
      // Auto-hide after specified duration (unless action buttons present)
      if (!options.action) {
-         const duration = options.duration || 8000;
+         const duration = options.duration || (isCompact ? 3000 : 8000);
          setTimeout(() => {
              hideToast();
          }, duration);
@@ -3479,17 +3621,17 @@ function downloadPage() {
         }
     }
     
-    // [DISABLED_FOR_WEDDING_VERSION]: Tema en .bg-picker-color del selector de estilo (desactivado).
-    // document.querySelectorAll('.bg-picker-dropdown .bg-picker-color').forEach(colorElement => {
-    //     Array.from(colorElement.classList).forEach(cls => {
-    //         if (cls.startsWith('theme-') || cls.startsWith('custom-theme-')) {
-    //             colorElement.classList.remove(cls);
-    //         }
-    //     });
-    //     if (themeId && themeId.trim() !== '') {
-    //         colorElement.classList.add(themeId);
-    //     }
-    // });
+    // Apply theme class to .bg-picker-color elements inside .bg-picker-dropdown
+    document.querySelectorAll('.bg-picker-dropdown .bg-picker-color').forEach(colorElement => {
+        Array.from(colorElement.classList).forEach(cls => {
+            if (cls.startsWith('theme-') || cls.startsWith('custom-theme-')) {
+                colorElement.classList.remove(cls);
+            }
+        });
+        if (themeId && themeId.trim() !== '') {
+            colorElement.classList.add(themeId);
+        }
+    });
 
     // Apply theme class to section outline list
     const sectionOutlineList = document.getElementById('section-outline-list');
@@ -4428,6 +4570,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             }, '*');
         }
         
+        // Re-apply current theme to the freshly loaded iframe content
+        if (currentTheme && iframe.contentWindow) {
+            iframe.contentWindow.postMessage({
+                type: 'SET_THEME',
+                data: { theme: currentTheme }
+            }, '*');
+        }
+
         // Template-first: after template load, sync outline/selectedSections from DOM (user picked template)
         if (currentTemplateUrl && !isRestoring) {
             setTimeout(syncOutlineFromTemplateContent, 400);
@@ -4486,7 +4636,7 @@ document.addEventListener('DOMContentLoaded', async () => {
          iframe.src = previewPath;
      }
      
-     await loadTemplatesFromApi();
+     buildTemplateStyles();
      setupIntersectionObserver();
      generateCategories();
      
@@ -5380,8 +5530,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                      ? templateStyles[styleKey].templates.find(t => t.id === id)
                      : null;
                  const displayTemplate = template
-                     ? { ...template, previewSrc: template.id ? 'templates/previews/' + template.id + '.jpg' : '' }
-                     : { id, name: (card.querySelector('.template-card-name') || {}).textContent || 'Template', previewSrc: id ? 'templates/previews/' + id + '.jpg' : '' };
+                    ? { ...template, previewSrc: template.id ? 'templates/previews/template' + template.id + '.jpg' : '' }
+                    : { id, name: (card.querySelector('.template-card-name') || {}).textContent || 'Template', previewSrc: id ? 'templates/previews/template' + id + '.jpg' : '' };
                  showTemplatePreviewFull(sectionsGrid, styleKey, displayTemplate);
                  return;
              }
@@ -5411,6 +5561,9 @@ document.addEventListener('DOMContentLoaded', async () => {
      
      // Category item hover events. Template-first: all sidebar items are style filters (templates); showCategoryPanel branch kept for possible search/other use.
      categoryList.addEventListener('mouseenter', (e) => {
+         // In onboarding mode, categories respond to click (not hover).
+         if (window.isOnboardingMode) return;
+
          const categoryItem = e.target.closest('.category-item');
          if (categoryItem) {
              if (categoryHoverTimeout) clearTimeout(categoryHoverTimeout);

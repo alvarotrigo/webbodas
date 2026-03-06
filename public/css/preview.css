@@ -118,6 +118,13 @@ footer.section{
     overflow: visible !important;
 }
 
+/* Temporarily allow overflow on sections when a dropdown is active so it doesn't get clipped */
+.section:has(.bg-picker-dropdown.active),
+.section:has(.bg-picker-img-dropdown.active),
+.section:has(.overlay-opacity-dropdown.active) {
+    overflow: visible !important;
+}
+
 .section-menu {
     position: absolute;
     top: 20px;
@@ -208,19 +215,19 @@ footer.section{
     cursor: pointer;
     transition: all 0.15s ease;
     font-size: 14px;
-    color: var(--primary-text);
+    color: var(--section-menu-text, #f3f4f6);
     border: 2px solid transparent;
 }
 
 .bg-picker-option:hover {
-    background: var(--accent-bg);
-    border-color: var(--primary-accent);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .bg-picker-option.active {
-    background: var(--border-color);
+    background: rgba(255, 255, 255, 0.18);
     font-weight: 500;
-    border-color: var(--primary-accent);
+    border-color: rgba(255, 255, 255, 0.35);
 }
 
 .bg-picker-color {
@@ -345,8 +352,8 @@ footer.section{
 }
 
 .bg-picker-img-option:hover {
-    background: var(--accent-bg);
-    border-color: var(--primary-accent);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .bg-picker-img-option:hover span {
@@ -377,7 +384,7 @@ body.dark-mode .bg-picker-img-option.danger:hover {
 
 .bg-picker-value {
     font-size: 11px;
-    color: var(--secondary-text);
+    color: rgba(255, 255, 255, 0.55);
     font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
     margin-left: auto;
     border: none;

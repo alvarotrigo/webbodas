@@ -1,18 +1,15 @@
 <?php
 /**
- * List template HTML files under templates/html/ with metadata extracted from filenames.
+ * [DISABLED_FOR_WEDDING_VERSION]: This endpoint has been replaced by the static `templates` and
+ * `templateCategories` arrays defined in public/js/app.js. Template metadata is no longer
+ * discovered dynamically from the filesystem; it is declared explicitly in JS.
  *
- * Filename convention:  CATEGORY__NAME__TAG1-TAG2-TAG3.html  (lowercase)
- *   - Separator between fields: __ (double underscore)
- *   - Words within a field: - (hyphen)
- *   - Tags are single words separated by -
- *
- * Returns JSON: { "categories": [ { "id", "name", "icon" } ], "colors": [...], "templates": [ { "id", "name", "url", "category", "tags": [], "styles": [], "colorCategory": "..." } ] }
- * Categories are read from templates/categorias.json (id used as valid style for filename convention).
- * Falls back to HTML meta-tag parsing for files that don't follow the convention.
- * Color detection uses api/color-detector.php and templates/colores.json.
+ * The original implementation scanned templates/html/, parsed CATEGORY__NAME__TAGS.html
+ * filenames, read templates/categorias.json for style categories, and detected color
+ * categories via api/color-detector.php. All of that is now handled statically.
  */
 
+/*
 header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/color-detector.php';
@@ -141,3 +138,4 @@ function parseTemplateMeta(string $absPath, string $id, string $url, array $vali
         'styles'   => $styles,
     ];
 }
+*/

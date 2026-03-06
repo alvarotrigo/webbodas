@@ -7,12 +7,10 @@
     <meta name="googlebot" content="noindex, nofollow">
     <title>Shared Page</title>
     
-    <!-- fullPage.js CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.37/fullpage.min.css">
-    
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="./dist/output.css">
-    <link rel="stylesheet" href="./public/css/sections.css">
+    <!-- Base CSS (paths work when shared.html is at project root). Template-specific CSS is injected from templateHeadHtml. -->
+    <link rel="stylesheet" href="dist/output.css">
+    <link rel="stylesheet" href="public/css/sections.css">
+    <link rel="stylesheet" href="public/css/viewport-animations.css">
     
     <style>
         body {
@@ -52,12 +50,27 @@
             margin-bottom: 0.5rem;
         }
         
-        #content-container {
+        /* Same container as preview.php so injected template CSS (#preview-content.has-full-template) applies */
+        #preview-content {
             display: none;
+            width: 100%;
+            min-height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: white;
         }
-        
-        #content-container.loaded {
+        #preview-content.loaded {
             display: block;
+        }
+        /* Match preview: full-height only for non-footer sections so footer stays compact */
+        .section {
+            position: relative;
+        }
+        .section:not(footer) {
+            min-height: 100vh;
+        }
+        footer.section {
+            min-height: auto;
         }
     </style>
 </head>
@@ -72,7 +85,7 @@
         <p style="font-size: 14px; color: #999;">Please check the link and try again.</p>
     </div>
     
-    <div id="content-container"></div>
+    <div id="preview-content" class="has-full-template @container"></div>
     
     <script>
         function showError(message) {
@@ -82,162 +95,229 @@
             document.getElementById('error-message').textContent = message;
         }
         
-        // Get share token or legacy document ID from URL
+        // Get share token, slug (publish subdomain), or legacy document ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const shareToken = urlParams.get('token');
+        const shareSlug = urlParams.get('slug');
         const docId = urlParams.get('doc');
 
-        // Build the appropriate API URL
+        // Build the appropriate API URL (slug for publish URLs, token for share, doc for legacy)
         let apiUrl = null;
-        if (shareToken) {
+        if (shareSlug) {
+            apiUrl = 'api/get.php?slug=' + encodeURIComponent(shareSlug);
+        } else if (shareToken) {
             apiUrl = 'api/get.php?token=' + encodeURIComponent(shareToken);
         } else if (docId) {
             apiUrl = 'api/get.php?id=' + encodeURIComponent(docId);
         }
 
         if (!apiUrl) {
-            showError('Missing document ID');
+            showError('Missing document ID or link');
         } else {
-            // Fetch shared document
-            fetch(apiUrl)
+            // Resolve API and asset URLs relative to current page (shared.html may be at root or in a subpath)
+            const basePath = window.location.pathname.replace(/\/[^/]*$/, '/');
+            const resolveApi = (url) => url.startsWith('http') ? url : (window.location.origin + basePath + url.replace(/^\.\//, ''));
+
+            fetch(resolveApi(apiUrl))
                 .then(response => response.json())
                 .then(result => {
                     if (result.error) {
                         throw new Error(result.error);
                     }
-                    
+
                     const data = result.data;
                     const theme = data.theme || 'theme-light-minimal';
+                    const fullHtml = (data.fullHtml && typeof data.fullHtml === 'string') ? data.fullHtml.trim() : '';
+                    const templateHeadHtml = (data.templateHeadHtml && typeof data.templateHeadHtml === 'string') ? data.templateHeadHtml.trim() : '';
                     const sections = data.sections || [];
-                    const fullpageEnabled = data.fullpageEnabled === true || data.fullpageEnabled === 'true';
                     const animationsEnabled = data.animationsEnabled === true || data.animationsEnabled === 'true';
-                    
-                    // Hide loading
+
                     document.getElementById('loading').style.display = 'none';
-                    
-                    // Build HTML
+
                     const body = document.body;
-                    body.className = theme + (fullpageEnabled ? ' fullpage-enabled fp-viewing-0' : '') + (animationsEnabled ? ' animations-enabled' : '');
-                    
-                    const container = document.getElementById('content-container');
-                    
-                    // Add fullPage.js container if enabled
-                    if (fullpageEnabled) {
-                        const fullpageDiv = document.createElement('div');
-                        fullpageDiv.id = 'fullpage';
-                        container.appendChild(fullpageDiv);
-                        
-                        // Initialize fullPage.js after sections are added
-                        setTimeout(() => {
-                            new fullpage('#fullpage', {
-                                licenseKey: '6PZNK-86USK-31KIJ-W0J6J-HCMLO',
-                                scrollingSpeed: 700,
-                                navigation: true,
-                                showActiveTooltip: false,
-                                anchors: [],
-                                sectionsColor: []
-                            });
-                        }, 100);
-                    }
-                    
-                    // Add sections
-                    const contentParent = fullpageEnabled ? document.getElementById('fullpage') : container;
-                    
-                    sections.forEach((sectionData, index) => {
-                        // Remove section-menu elements
-                        let cleanHtml = sectionData.html.replace(/<div[^>]*class="[^"]*section-menu[^"]*"[^>]*>.*?<\/div>/s, '');
-                        
-                        // Clean TinyMCE attributes more thoroughly
-                        cleanHtml = cleanHtml.replace(/\s+id="mce_\d+"/g, '');
-                        cleanHtml = cleanHtml.replace(/\s+contenteditable="[^"]*"/g, '');
-                        cleanHtml = cleanHtml.replace(/\s+spellcheck="[^"]*"/g, '');
-                        cleanHtml = cleanHtml.replace(/\s+data-mce-style="[^"]*"/g, '');
-                        cleanHtml = cleanHtml.replace(/\s+style="position: relative;"/g, '');
-                        cleanHtml = cleanHtml.replace(/\s+style="position: relative;\s*[^"]*"/g, '');
-                        
-                        // Remove mce-content-body class
-                        cleanHtml = cleanHtml.replace(/\bmce-content-body\b/g, '');
-                        
-                        // Create a temporary div to parse the HTML
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = cleanHtml;
-                        
-                        // Get the section/footer element
-                        let sectionElement = tempDiv.querySelector('section') || tempDiv.querySelector('footer');
-                        
-                        if (sectionElement) {
-                            // Clone the element to avoid issues with the temp div
-                            const clonedElement = sectionElement.cloneNode(true);
-                            contentParent.appendChild(clonedElement);
-                        } else {
-                            // If no section/footer found, create a wrapper
-                            const wrapper = document.createElement('section');
-                            wrapper.innerHTML = cleanHtml;
-                            contentParent.appendChild(wrapper);
-                        }
-                    });
-                    
-                    // Collect unique filenames for dynamic script loading
-                    const uniqueFilenames = new Set();
-                    sections.forEach(sectionData => {
-                        if (sectionData.filename) {
-                            uniqueFilenames.add(sectionData.filename);
-                        }
-                    });
+                    // Shared view does not use fullPage/scroll logic that adds .fp-completely to sections.
+                    // If we add animations-enabled, sections.css hides section content (opacity: 0) until .fp-completely
+                    // is set, which never happens here, so hero-names and other content stay invisible.
+                    // Omit animations-enabled on shared page so all content is visible (editor is full-HTML, not section-based).
+                    body.className = theme;
 
-                    // Show content
-                    container.classList.add('loaded');
+                    const container = document.getElementById('preview-content');
+                    container.classList.add(theme);
 
-                    // Function to load scripts dynamically
-                    function loadScript(src) {
-                        return new Promise((resolve, reject) => {
-                            const script = document.createElement('script');
-                            script.src = src;
-                            script.onload = resolve;
-                            script.onerror = reject;
-                            document.body.appendChild(script);
-                        });
+                    function resolveUrl(href) {
+                        if (!href || href.startsWith('http:') || href.startsWith('https:') || href.startsWith('//') || href.startsWith('data:')) return href;
+                        var base = window.location.origin + basePath.replace(/\/$/, '') + '/';
+                        var path = href.replace(/^\.\//, '');
+                        return base + path;
                     }
 
-                    // Load section-initializer first, then section-specific scripts
-                    loadScript('./public/js/section-initializer.js')
-                        .then(() => {
-                            // Load all section-specific JS files
-                            const scriptPromises = Array.from(uniqueFilenames).map(filename => {
-                                const jsFile = `./public/js/sections/${filename.replace('.html', '.js')}`;
-                                return loadScript(jsFile).catch(err => {
-                                    console.warn(`Failed to load script: ${jsFile}`, err);
+                    function injectTemplateHeadHtml(headHtml) {
+                        if (!headHtml || headHtml.length === 0) return;
+                        var temp = document.createElement('div');
+                        temp.innerHTML = headHtml;
+                        Array.from(temp.children).forEach(function (node) {
+                            var tag = (node.tagName || '').toLowerCase();
+                            if (tag === 'style') {
+                                var style = document.createElement('style');
+                                Array.from(node.attributes).forEach(function (attr) { style.setAttribute(attr.name, attr.value); });
+                                style.textContent = node.textContent;
+                                document.head.appendChild(style);
+                            } else if (tag === 'link') {
+                                var link = document.createElement('link');
+                                Array.from(node.attributes).forEach(function (attr) {
+                                    var val = attr.value;
+                                    if (attr.name === 'href' && val) val = resolveUrl(val);
+                                    link.setAttribute(attr.name, val);
                                 });
-                            });
-
-                            return Promise.all(scriptPromises);
-                        })
-                        .then(() => {
-                            // Initialize section scripts after all scripts are loaded
-                            if (window.SectionInitializer) {
-                                setTimeout(() => {
-                                    const sections = document.querySelectorAll('section[id], footer[id]');
-                                    sections.forEach(section => {
-                                        if (section.id) {
-                                            window.SectionInitializer.initSection(section);
-                                        }
-                                    });
-                                }, 200);
+                                document.head.appendChild(link);
                             }
-                        })
-                        .catch(error => {
-                            console.error('Failed to load scripts:', error);
                         });
+                    }
+
+                    function reactivateBodyScripts(containerEl) {
+                        if (!containerEl) return;
+                        containerEl.querySelectorAll('script').forEach(function (oldScript) {
+                            var newScript = document.createElement('script');
+                            Array.from(oldScript.attributes).forEach(function (attr) { newScript.setAttribute(attr.name, attr.value); });
+                            newScript.textContent = oldScript.textContent;
+                            oldScript.parentNode.replaceChild(newScript, oldScript);
+                        });
+                    }
+
+                    function cleanEditorMarkup(html) {
+                        if (!html) return '';
+                        return html
+                            .replace(/<div[^>]*class="[^"]*section-menu[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
+                            .replace(/\s+id="mce_\d+"/g, '')
+                            .replace(/\s+contenteditable="[^"]*"/g, '')
+                            .replace(/\s+spellcheck="[^"]*"/g, '')
+                            .replace(/\s+data-mce-style="[^"]*"/g, '')
+                            .replace(/\s+data-accordion-initialized="[^"]*"/g, '')
+                            .replace(/\s+data-process-accordion-initialized="[^"]*"/g, '')
+                            .replace(/\s+data-cloudinary-initialized="[^"]*"/g, '')
+                            .replace(/\bmce-content-body\b/g, '')
+                            .replace(/\bin-viewport\b/g, '');
+                    }
+
+                    if (fullHtml.length > 0) {
+                        if (templateHeadHtml.length > 0) injectTemplateHeadHtml(templateHeadHtml);
+
+                        var cleaned = cleanEditorMarkup(fullHtml);
+                        container.innerHTML = cleaned;
+                        reactivateBodyScripts(container);
+                        container.classList.add('loaded');
+                        if (window.initSharedNavScroll) window.initSharedNavScroll();
+
+                        function loadScript(src) {
+                            return new Promise(function (resolve, reject) {
+                                var script = document.createElement('script');
+                                script.src = resolveApi(src);
+                                script.onload = resolve;
+                                script.onerror = reject;
+                                document.body.appendChild(script);
+                            });
+                        }
+
+                        var sectionScripts = [
+                            'public/js/sections/fp-theme-gallery-thumbs.js',
+                            'public/js/sections/fp-theme-gallery-thumbs-fade.js',
+                            'public/js/sections/fp-theme-gallery-slider.js',
+                            'public/js/sections/fp-theme-gallery-slider-arrows.js',
+                            'public/js/sections/fp-theme-gallery-scroll.js',
+                            'public/js/sections/fp-theme-team-slider.js',
+                            'public/js/sections/fp-theme-team-carousel.js',
+                            'public/js/sections/fp-theme-testimonial-carousel.js',
+                            'public/js/sections/fp-theme-testimonials-interactive.js',
+                            'public/js/sections/fp-theme-product-slider.js',
+                            'public/js/sections/fp-theme-steps-slider.js',
+                            'public/js/sections/fp-theme-pricing-toggle.js',
+                            'public/js/sections/fp-theme-interactive-features.js',
+                            'public/js/sections/fp-theme-accordion.js',
+                            'public/js/sections/fp-theme-process-accordion.js',
+                            'public/js/sections/fp-theme-popular-questions.js'
+                        ];
+                        var loadAll = sectionScripts.reduce(function (p, src) {
+                            return p.then(function () { return loadScript(src).catch(function () {}); });
+                        }, Promise.resolve());
+                        loadAll.then(function () { return loadScript('public/js/section-initializer.js'); })
+                            .then(function () {
+                                if (window.SectionInitializer) {
+                                    setTimeout(function () {
+                                        var sectionsEls = container.querySelectorAll('section[id], footer[id]');
+                                        sectionsEls.forEach(function (section) {
+                                            if (section.id) window.SectionInitializer.initSection(section);
+                                        });
+                                    }, 200);
+                                }
+                            })
+                            .catch(function (err) { console.warn('Section initializer load failed', err); });
+                    } else {
+                        sections.forEach(function (sectionData) {
+                            var cleanHtml = cleanEditorMarkup(sectionData.html || '');
+                            var temp = document.createElement('div');
+                            temp.innerHTML = cleanHtml;
+                            var sectionEl = temp.querySelector('section') || temp.querySelector('footer');
+                            if (sectionEl) container.appendChild(sectionEl.cloneNode(true));
+                            else {
+                                var wrap = document.createElement('section');
+                                wrap.innerHTML = cleanHtml;
+                                container.appendChild(wrap);
+                            }
+                        });
+                        container.classList.add('loaded');
+                        if (window.initSharedNavScroll) window.initSharedNavScroll();
+
+                        var uniqueFilenames = new Set();
+                        sections.forEach(function (s) { if (s.filename) uniqueFilenames.add(s.filename); });
+
+                        function loadScript(src) {
+                            return new Promise(function (resolve, reject) {
+                                var script = document.createElement('script');
+                                script.src = resolveApi(src);
+                                script.onload = resolve;
+                                script.onerror = reject;
+                                document.body.appendChild(script);
+                            });
+                        }
+
+                        loadScript('./public/js/section-initializer.js')
+                            .then(function () {
+                                return Promise.all(Array.from(uniqueFilenames).map(function (f) {
+                                    return loadScript('./public/js/sections/' + f.replace('.html', '.js')).catch(function () {});
+                                }));
+                            })
+                            .then(function () {
+                                if (window.SectionInitializer) {
+                                    setTimeout(function () {
+                                        container.querySelectorAll('section[id], footer[id]').forEach(function (section) {
+                                            if (section.id) window.SectionInitializer.initSection(section);
+                                        });
+                                    }, 200);
+                                }
+                            })
+                            .catch(function (err) { console.warn('Script load failed', err); });
+                    }
                 })
-                .catch(error => {
+                .catch(function (error) {
                     console.error('Failed to load shared document:', error);
                     showError(error.message || 'Failed to load the shared page');
                 });
         }
-    </script>
 
-    <!-- fullPage.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.37/fullpage.min.js"></script>
+        // Same as preview.php: nav gets .scrolled when #preview-content is scrolled (read-only, no editor)
+        window.initSharedNavScroll = function () {
+            var el = document.getElementById('preview-content');
+            if (!el) return;
+            var threshold = 80;
+            function update() {
+                var nav = el.querySelector('#nav, nav');
+                if (nav) nav.classList.toggle('scrolled', el.scrollTop > threshold);
+            }
+            el.addEventListener('scroll', update, { passive: true });
+            update();
+            requestAnimationFrame(update);
+        };
+    </script>
 </body>
 </html>
 
