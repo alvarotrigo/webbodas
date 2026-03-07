@@ -18,7 +18,7 @@ if (file_exists($autoloadPath)) {
     // Try multiple .env locations to support different deployment scenarios
     $possiblePaths = [
         // Production: .env one level above project root (outside web root)
-        // e.g., /home/fullpagestudio/.env when project is in /home/fullpagestudio/htdocs/studio.fullpagejs.com/
+        // e.g., /home/yeslovey/.env when project is in /home/yeslovey/htdocs/yeslovey.com/
         __DIR__ . '/../../..',
 
         // Development/Standard: .env in project root

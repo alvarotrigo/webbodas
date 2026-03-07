@@ -5,9 +5,9 @@
 set -euo pipefail
 
 # Configuration
-DEST_HOST="fullpagestudio"
-# Default destination path - adjusts to ./studio.fullpagejs.com on server
-DEST_PATH="${1:-./htdocs/studio.fullpagejs.com}"
+DEST_HOST="yeslovey"
+# Default destination path - adjusts to ./yeslovey.com on server
+DEST_PATH="${1:-./htdocs/yeslovey.com}"
 
 # Source directory (project root)
 SRC_DIR="."
@@ -132,12 +132,12 @@ echo ""
 echo "🔒 Deploying .env file to secure location..."
 
 if [ -f "$SRC_DIR/.env" ]; then
-  # Deploy .env to /home/fullpagestudio/ (parent of htdocs)
+  # Deploy .env to /home/yeslovey/ (parent of htdocs)
   rsync -avz "$SRC_DIR/.env" "$DEST_HOST:~/.env"
   echo "✅ .env deployed to ~/  (outside web root)"
 else
   echo "⚠️  No .env file found locally - skipping .env deployment"
-  echo "   Make sure .env exists on the server at: /home/fullpagestudio/.env"
+  echo "   Make sure .env exists on the server at: /home/yeslovey/.env"
 fi
 
 # Update nginx configuration
@@ -149,13 +149,13 @@ if ssh -t $DEST_HOST bash <<'EOF'
 set -e
 
 # Check if nginx.conf exists in the deployed files
-if [ -f ~/htdocs/studio.fullpagejs.com/nginx.conf ]; then
+if [ -f ~/htdocs/yeslovey.com/nginx.conf ]; then
   echo "📋 Creating backup of current nginx config..."
-  sudo cp /etc/nginx/sites-available/studio.fullpagejs.com \
-      /etc/nginx/sites-available/studio.fullpagejs.com.backup.$(date +%Y%m%d_%H%M%S) 2>/dev/null || true
+  sudo cp /etc/nginx/sites-available/yeslovey.com \
+      /etc/nginx/sites-available/yeslovey.com.backup.$(date +%Y%m%d_%H%M%S) 2>/dev/null || true
   
   echo "📝 Applying new nginx configuration..."
-  sudo cp ~/htdocs/studio.fullpagejs.com/nginx.conf /etc/nginx/sites-available/studio.fullpagejs.com
+  sudo cp ~/htdocs/yeslovey.com/nginx.conf /etc/nginx/sites-available/yeslovey.com
   
   echo "✅ Testing nginx configuration..."
   if sudo nginx -t 2>&1 | grep -q "successful\|test is successful"; then
@@ -166,9 +166,9 @@ if [ -f ~/htdocs/studio.fullpagejs.com/nginx.conf ]; then
   else
     echo "❌ Configuration test failed!"
     echo "🔄 Restoring previous configuration..."
-    LATEST_BACKUP=$(ls -t /etc/nginx/sites-available/studio.fullpagejs.com.backup.* 2>/dev/null | head -1)
+    LATEST_BACKUP=$(ls -t /etc/nginx/sites-available/yeslovey.com.backup.* 2>/dev/null | head -1)
     if [ -n "$LATEST_BACKUP" ]; then
-      sudo cp "$LATEST_BACKUP" /etc/nginx/sites-available/studio.fullpagejs.com
+      sudo cp "$LATEST_BACKUP" /etc/nginx/sites-available/yeslovey.com
       echo "⚠️  Previous configuration restored."
     fi
     exit 1
@@ -184,13 +184,13 @@ then
   echo "✅ Deployment complete!"
   echo ""
   echo "🧪 Test your fixes:"
-  echo "   https://studio.fullpagejs.com/signin/"
-  echo "   https://studio.fullpagejs.com/subscribe/"
+  echo "   https://yeslovey.com/signin/"
+  echo "   https://yeslovey.com/subscribe/"
 else
   echo ""
   echo "⚠️  Deployment completed but nginx configuration update failed!"
   echo ""
   echo "Please run this command manually in your terminal:"
-  echo "   ssh -t fullpagestudio 'sudo cp ~/htdocs/studio.fullpagejs.com/nginx.conf /etc/nginx/sites-available/studio.fullpagejs.com && sudo nginx -t && sudo systemctl reload nginx'"
+  echo "   ssh -t yeslovey 'sudo cp ~/htdocs/yeslovey.com/nginx.conf /etc/nginx/sites-available/yeslovey.com && sudo nginx -t && sudo systemctl reload nginx'"
 fi
 

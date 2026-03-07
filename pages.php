@@ -363,7 +363,7 @@ $userDataJson = json_encode($serverUserData);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Pages - fullPage Studio</title>
+    <title>My Pages - YesLovey</title>
     
     <!-- Tailwind CSS -->
     <link href="./dist/output.css" rel="stylesheet">
@@ -378,7 +378,7 @@ $userDataJson = json_encode($serverUserData);
     <script
         async
         crossorigin="anonymous"
-        data-clerk-publishable-key="pk_test_d2VsY29tZWQtZXNjYXJnb3QtMjIuY2xlcmsuYWNjb3VudHMuZGV2JA"
+        data-clerk-publishable-key="pk_test_am9pbnQtYmxvd2Zpc2gtNjUuY2xlcmsuYWNjb3VudHMuZGV2JAlcmsuYWNjb3VudHMuZGV2JA"
         src="https://welcomed-escargot-22.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
         type="text/javascript">
     </script>
@@ -418,7 +418,7 @@ $userDataJson = json_encode($serverUserData);
     <!-- Header -->
     <div class="header">
         <a href="/" class="logo">
-            fullPage Studio <span class="logo-beta">Beta</span>
+            YesLovey <span class="logo-beta">Beta</span>
         </a>
         <div class="user-menu">
             <!-- User Info -->

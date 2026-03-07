@@ -49,21 +49,21 @@ After deploying code changes, if you modified URL rewriting rules:
 1. **Update the nginx configuration:**
    ```bash
    # Copy the new nginx.conf to the server
-   scp nginx.conf fullpagestudio:/home/fullpagestudio/nginx.conf.new
+   scp nginx.conf yeslovey:/home/yeslovey/nginx.conf.new
    ```
 
 2. **SSH to the server:**
    ```bash
-   ssh fullpagestudio
+   ssh yeslovey
    ```
 
 3. **Apply the configuration:**
    ```bash
    # Backup current config
-   sudo cp /etc/nginx/sites-available/studio.fullpagejs.com /etc/nginx/sites-available/studio.fullpagejs.com.backup
+   sudo cp /etc/nginx/sites-available/yeslovey.com /etc/nginx/sites-available/yeslovey.com.backup
    
    # Copy new config
-   sudo cp ~/nginx.conf.new /etc/nginx/sites-available/studio.fullpagejs.com
+   sudo cp ~/nginx.conf.new /etc/nginx/sites-available/yeslovey.com
    
    # Test configuration
    sudo nginx -t
@@ -88,25 +88,25 @@ After deployment, test that URL rewrites work correctly:
 
 ### Test /signin
 ```bash
-curl -I https://studio.fullpagejs.com/signin
+curl -I https://yeslovey.com/signin
 # Should return 200 OK and serve auth-wall.html
 ```
 
 ### Test /subscribe  
 ```bash
-curl -I https://studio.fullpagejs.com/subscribe
+curl -I https://yeslovey.com/subscribe
 # Should return 200 OK and serve subscribe.php
 ```
 
 ### Test /app
 ```bash
-curl -I https://studio.fullpagejs.com/app
+curl -I https://yeslovey.com/app
 # Should return 200 OK and serve app.php
 ```
 
 ### Test pages.php
 ```bash
-curl -I https://studio.fullpagejs.com/pages.php
+curl -I https://yeslovey.com/pages.php
 # Should return 200 OK
 ```
 
@@ -121,7 +121,7 @@ curl -I https://studio.fullpagejs.com/pages.php
 
 2. Verify the file exists:
    ```bash
-   ls -la /home/fullpagestudio/htdocs/studio.fullpagejs.com/pages.php
+   ls -la /home/yeslovey/htdocs/yeslovey.com/pages.php
    ```
 
 3. Check nginx configuration:
@@ -138,7 +138,7 @@ curl -I https://studio.fullpagejs.com/pages.php
 
 1. Verify nginx config was applied:
    ```bash
-   sudo cat /etc/nginx/sites-available/studio.fullpagejs.com | grep -A 3 "location.*signin"
+   sudo cat /etc/nginx/sites-available/yeslovey.com | grep -A 3 "location.*signin"
    ```
 
 2. Check if nginx was reloaded:

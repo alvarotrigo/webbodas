@@ -1,8 +1,8 @@
 server {
   listen 8080;
   listen [::]:8080;
-  server_name studio.fullpagejs.com;
-  root /home/fullpagestudio/htdocs/studio.fullpagejs.com; 
+  server_name yeslovey.com;
+  root /home/yeslovey/htdocs/yeslovey.com; 
 
   include /etc/nginx/global_settings;
 
@@ -37,7 +37,7 @@ server {
   location ~ \.php$ {
     include fastcgi_params;
     fastcgi_index index.php;
-    fastcgi_param SCRIPT_FILENAME /home/fullpagestudio/htdocs/studio.fullpagejs.com$fastcgi_script_name;
+    fastcgi_param SCRIPT_FILENAME /home/yeslovey/htdocs/yeslovey.com$fastcgi_script_name;
     fastcgi_pass 127.0.0.1:18001;
     fastcgi_read_timeout 3600;
     fastcgi_send_timeout 3600;

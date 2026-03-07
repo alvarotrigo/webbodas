@@ -3,7 +3,7 @@
 
 const CLERK_CONFIG = {
     // Your Clerk Publishable Key (found in Clerk Dashboard > API Keys)
-    publishableKey: 'pk_test_d2VsY29tZWQtZXNjYXJnb3QtMjIuY2x',
+    publishableKey: 'pk_test_am9pbnQtYmxvd2Zpc2gtNjUuY2xlcmsuYWNjb3VudHMuZGV2JA',
     
     // Your Clerk Frontend API URL (found in Clerk Dashboard > API Keys)
     frontendApiUrl: 'https://welcomed-escargot-22.clerk.accounts.dev',

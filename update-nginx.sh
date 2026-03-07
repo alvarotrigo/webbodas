@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-DEST_HOST="fullpagestudio"
+DEST_HOST="yeslovey"
 LOCAL_CONFIG="nginx.conf"
 REMOTE_TEMP="~/nginx.conf.new"
 REMOTE_CONFIG="/etc/nginx/sites-available/studio.fullpagejs.com"

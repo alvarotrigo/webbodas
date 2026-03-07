@@ -204,7 +204,7 @@ $avatarInitial = $userName ? strtoupper(substr($userName, 0, 1)) : 'A';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Admin Panel - fullPage Studio</title>
+    <title>Admin Panel - YesLovey</title>
 
     <!-- Tailwind CSS -->
     <link href="./dist/output.css" rel="stylesheet">
@@ -222,7 +222,7 @@ $avatarInitial = $userName ? strtoupper(substr($userName, 0, 1)) : 'A';
     <script
         async
         crossorigin="anonymous"
-        data-clerk-publishable-key="pk_test_d2VsY29tZWQtZXNjYXJnb3QtMjIuY2xlcmsuYWNjb3VudHMuZGV2JA"
+        data-clerk-publishable-key="pk_test_am9pbnQtYmxvd2Zpc2gtNjUuY2xlcmsuYWNjb3VudHMuZGV2JAlcmsuYWNjb3VudHMuZGV2JA"
         src="https://welcomed-escargot-22.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
         type="text/javascript">
     </script>

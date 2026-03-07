@@ -1,119 +1,201 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Construction</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #2d3436;
-        }
-
-        .container {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 20px;
-            animation: fadeIn 1s ease-in;
-        }
-
-        .icon-container {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            color: #0984e3;
-            animation: bounce 2s infinite;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin: 0 0 1rem 0;
-            color: #2d3436;
-        }
-
-        p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #636e72;
-            margin: 0 0 1.5rem 0;
-        }
-
-        .progress-container {
-            width: 50%;
-            height: 6px;
-            background: #dfe6e9;
-            border-radius: 3px;
-            margin: 2rem auto;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            position: absolute;
-            width: 50%;
-            height: 100%;
-            background: #0984e3;
-            border-radius: 3px;
-            animation: progress 2s ease-in-out infinite;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes progress {
-            0% { left: -50%; }
-            100% { left: 100%; }
-        }
-        
-        @media (max-width: 480px) {
-            h1 { font-size: 2rem; }
-            p { font-size: 1rem; }
-        }
-    </style>
-
-</head>
-<body>
-    <div class="container">
-        <div class="icon-container">
-            <i class="fas fa-tools"></i>
-        </div>
-        <h1>Under Construction</h1>
-        <p>
-            We're working hard to bring you something amazing.<br>
-            Please check back soon!
-        </p>
-        <div class="progress-container">
-            <div class="progress-bar"></div>
-        </div>
-    </div>
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6S4K2HVWYD"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-6S4K2HVWYD');
-    </script>
-</body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>fullPage Studio | Build Landing Pages Visually. Export Clean Code.</title><meta name="description" content="Build landing pages visually with 170+ blocks and 25 themes. Export clean HTML/CSS. Host anywhere. No lock-in."><meta name="keywords" content="fullPage.js, landing page builder, visual editor, tailwind, responsive design, export HTML"><link rel="canonical" href="https://studio.fullpagejs.com/"><link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><meta property="og:title" content="fullPage Studio | Build Landing Pages Visually. Export Clean Code."><meta property="og:description" content="Build landing pages visually with 170+ blocks and 25 themes. Export clean HTML/CSS. Host anywhere. No lock-in."><meta property="og:type" content="website"><meta property="og:url" content="https://studio.fullpagejs.com/"><meta property="og:image" content="https://studio.fullpagejs.com/public/images/share.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="fullPage Studio - Build Landing Pages Visually. Export Clean Code."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="fullPage Studio | Build Landing Pages Visually. Export Clean Code."><meta name="twitter:description" content="Build landing pages visually with 170+ blocks and 25 themes. Export clean HTML/CSS. Host anywhere. No lock-in."><meta name="twitter:image" content="https://studio.fullpagejs.com/public/images/share.png"><meta name="twitter:image:alt" content="fullPage Studio - Build Landing Pages Visually. Export Clean Code."><style>@import url(https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap);
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,sans-serif;background:#0a0a0f;color:#fff;overflow-x:hidden}
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle 3s infinite,float-star 20s infinite ease-in-out;will-change:transform,opacity;transform:translateZ(0)}
+@keyframes twinkle{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes float-star{0%,100%{transform:translate3d(0,0,0)}25%{transform:translate3d(30px,-25px,0)}50%{transform:translate3d(-20px,15px,0)}75%{transform:translate3d(35px,30px,0)}}
+.gradient-text{background:linear-gradient(135deg,#a78bfa 0,#ec4899 50%,#f97316 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.glass-card{background:rgba(255,255,255,.03);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);border-radius:24px;transition:all .3s ease}
+.glass-card:hover{background:rgba(255,255,255,.05);border-color:rgba(167,139,250,.3);transform:translateY(-4px)}
+.gradient-btn{background:linear-gradient(135deg,#a78bfa,#ec4899);color:#fff;padding:14px 32px;border-radius:12px;font-weight:600;border:none;cursor:pointer;transition:all .3s ease;box-shadow:0 10px 30px -10px rgba(167,139,250,.5);text-decoration:none}
+.gradient-btn:hover{transform:translateY(-2px);box-shadow:0 20px 40px -10px rgba(167,139,250,.7)}
+.outline-btn{background:0 0;color:#fff;padding:14px 32px;border-radius:12px;font-weight:600;border:2px solid rgba(255,255,255,.2);cursor:pointer;transition:all .3s ease;text-decoration:none}
+.outline-btn:hover{border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.1)}
+.feature-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(236,72,153,.2));border-radius:12px;margin-bottom:16px}
+html{scroll-behavior:smooth}
+section{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:60px 20px}
+#hero{padding-top:120px}
+.grid-pattern{position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:50px 50px;pointer-events:none}
+.stat-number{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,#a78bfa,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo{width:48px;height:48px;background:linear-gradient(135deg,#a78bfa,#ec4899);border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px}
+.heading-accent{position:relative;display:inline-block}
+.heading-accent::after{content:'';position:absolute;bottom:-8px;left:0;width:100%;height:12px;background:linear-gradient(135deg,#a78bfa,#ec4899);border-radius:6px;opacity:.3}
+.video-placeholder{aspect-ratio:16/9;background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(236,72,153,.08));border-radius:20px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.1);position:relative;overflow:hidden}
+.video-placeholder::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(167,139,250,.15),transparent 70%);opacity:0;transition:opacity .4s ease}
+.video-placeholder:hover::before{opacity:1}
+.video-placeholder video{width:100%;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:top;object-position:top;border-radius:20px}
+.pricing-card{position:relative;background:rgba(255,255,255,.03);border-radius:24px;padding:48px 40px;overflow:hidden;transition:all .4s ease}
+.pricing-card::before{content:'';position:absolute;inset:0;border-radius:24px;padding:2px;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent,rgba(255,255,255,.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.pricing-card:hover{transform:translateY(-8px);background:rgba(255,255,255,.05)}
+.pricing-card.featured{background:rgba(167,139,250,.08);transform:scale(1.05);z-index:2}
+.pricing-card.featured:hover{transform:scale(1.05) translateY(-8px)}
+.pricing-card.featured::before{background:linear-gradient(135deg,#a78bfa,#ec4899,#f97316,#a78bfa);background-size:300% 300%;animation:gradient-rotate 4s linear infinite}
+@keyframes gradient-rotate{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+.pricing-badge{position:absolute;top:-1px;right:24px;background:linear-gradient(135deg,#a78bfa,#ec4899);color:#fff;padding:8px 16px;border-radius:0 0 12px 12px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.pricing-price{font-size:4rem;font-weight:900;background:linear-gradient(135deg,#fff,rgba(255,255,255,.8));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.pricing-price-sm{font-size:2.5rem;font-weight:900;background:linear-gradient(135deg,#fff,rgba(255,255,255,.8));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.pricing-feature{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.pricing-feature:last-child{border-bottom:none}
+.pricing-check{width:20px;height:20px;background:linear-gradient(135deg,rgba(167,139,250,.3),rgba(236,72,153,.3));border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.feature-card-modern{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:28px;padding:56px;display:grid;grid-template-columns:.8fr 1.5fr;gap:56px;align-items:center;transition:all .4s cubic-bezier(.4, 0, .2, 1);position:relative;overflow:hidden}
+.feature-card-modern::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.3),transparent);opacity:0;transition:opacity .4s ease}
+.feature-card-modern:hover{background:rgba(255,255,255,.04);border-color:rgba(167,139,250,.2);transform:translateY(-4px)}
+.feature-card-modern:hover::before{opacity:1}
+.feature-card-modern.reverse{grid-template-columns:1.5fr .8fr}
+@media (max-width:1200px){.feature-card-modern,.feature-card-modern.reverse{grid-template-columns:1fr!important}}
+.feature-tag{display:inline-flex;padding:6px 14px;background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(236,72,153,.15));border:1px solid rgba(167,139,250,.2);border-radius:20px;font-size:12px;font-weight:600;color:#a78bfa;text-transform:uppercase;letter-spacing:.5px;margin-bottom:20px}
+.nav-wrapper{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:50;width:calc(100% - 80px);max-width:1300px}
+.nav-container{background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.15);border-radius:60px;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 20px 60px -15px rgba(0,0,0,.6);position:relative}
+.nav-brand{display:flex;align-items:center;gap:12px}
+.nav-brand-text{font-weight:700;font-size:20px}
+.desktop-nav{display:flex;gap:40px;align-items:center}
+.nav-link{color:rgba(255,255,255,.8);text-decoration:none;transition:color .3s;font-weight:500}
+.nav-link:hover{color:#a78bfa}
+.mobile-nav{display:none;gap:16px;align-items:center}
+.mobile-nav .gradient-btn{padding:10px 20px;font-size:14px}
+.burger-btn{background:0 0;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:4px;z-index:52}
+.burger-line{width:24px;height:2px;background:#fff;transition:all .3s;display:block}
+.mobile-menu{position:absolute;top:calc(100% + 10px);left:0;right:0;background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.15);border-radius:30px;padding:20px;display:none;flex-direction:column;gap:16px;box-shadow:0 20px 60px -15px rgba(0,0,0,.6)}
+.mobile-menu-link{color:rgba(255,255,255,.8);text-decoration:none;transition:all .3s;font-weight:500;padding:12px 16px;border-radius:12px}
+.mobile-menu-link:hover{background:rgba(255,255,255,.1)}
+.container-lg{max-width:1200px;position:relative;z-index:2}
+.container-xl{max-width:1400px;position:relative;z-index:2}
+.container-md{max-width:1000px;position:relative;z-index:2;margin:0 auto}
+.container-sm{max-width:900px;position:relative;z-index:2}
+.text-center{text-align:center}
+.text-left{text-align:left}
+.mx-auto{margin-left:auto;margin-right:auto}
+.flex{display:flex}
+.flex-col{flex-direction:column}
+.flex-wrap{flex-wrap:wrap}
+.items-center{align-items:center}
+.items-baseline{align-items:baseline}
+.justify-center{justify-content:center}
+.justify-between{justify-content:space-between}
+.gap-4{gap:4px}
+.gap-8{gap:8px}
+.gap-12{gap:12px}
+.gap-16{gap:16px}
+.gap-20{gap:20px}
+.gap-24{gap:24px}
+.gap-32{gap:32px}
+.gap-40{gap:40px}
+.gap-56{gap:56px}
+.gap-60{gap:60px}
+.grid{display:grid}
+.grid-auto-fit{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.grid-auto-fit-lg{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.grid-auto-fit-xl{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid-2{grid-template-columns:1fr 1.3fr}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-2-split{grid-template-columns:1fr 1.2fr}
+.inline-block{display:inline-block}
+.mb-8{margin-bottom:8px}
+.mb-12{margin-bottom:12px}
+.mb-16{margin-bottom:16px}
+.mb-20{margin-bottom:20px}
+.mb-24{margin-bottom:24px}
+.mb-32{margin-bottom:32px}
+.mb-48{margin-bottom:48px}
+.mb-60{margin-bottom:60px}
+.mb-80{margin-bottom:80px}
+.mb-100{margin-bottom:100px}
+.mt-8{margin-top:8px}
+.mt-60{margin-top:60px}
+.mt-80{margin-top:80px}
+.p-32{padding:32px}
+.p-40{padding:40px}
+.p-56{padding:56px}
+.px-40{padding-left:40px;padding-right:40px}
+.py-60{padding-top:60px;padding-bottom:60px}
+.py-80{padding-top:80px;padding-bottom:80px}
+.pt-40{padding-top:40px}
+.badge{display:inline-block;padding:8px 20px;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);border-radius:24px;font-size:14px;color:#a78bfa}
+.heading-xl{font-size:clamp(2.5rem, 5vw, 3.75rem);font-weight:800;line-height:1.1}
+.heading-lg{font-size:clamp(2rem, 4vw, 3rem);font-weight:700}
+.heading-md{font-size:clamp(2rem, 4vw, 3rem);font-weight:700}
+.heading-2xl{font-size:clamp(1.4rem, 3vw, 1.8rem);font-weight:700;line-height:1.2}
+.heading-xl-price{font-size:clamp(1.25rem, 3vw, 1.5rem);font-weight:700;color:rgba(255,255,255,.9)}
+.heading-sm{font-size:clamp(1.125rem, 2.5vw, 1.25rem);font-weight:700}
+.text-body-lg{font-size:clamp(1rem, 1.8vw, 1.15rem);color:rgba(255,255,255,.6);line-height:1.6}
+.text-body{font-size:clamp(1rem, 2vw, 1.1rem);color:rgba(255,255,255,.5);line-height:1.7}
+.text-muted{color:rgba(255,255,255,.5)}
+.text-muted-light{color:rgba(255,255,255,.4)}
+.text-small{font-size:.875rem}
+.text-white-90{color:rgba(255,255,255,.9)}
+.text-white-80{color:rgba(255,255,255,.8)}
+.text-white-70{color:rgba(255,255,255,.7)}
+.line-height-relaxed{line-height:1.6}
+.line-height-1{line-height:1}
+.w-full{width:100%}
+.max-w-700{max-width:700px}
+.max-w-600{max-width:600px}
+.max-w-500{max-width:500px}
+.max-w-900{max-width:900px}
+.icon-lg{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px}
+.icon-xl{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.icon-emoji{font-size:3rem}
+.bg-gradient-purple-pink{background:linear-gradient(135deg,#a78bfa,#ec4899)}
+.bg-gradient-pink-orange{background:linear-gradient(135deg,#ec4899,#f97316)}
+.bg-gradient-orange-purple{background:linear-gradient(135deg,#f97316,#a78bfa)}
+.bg-gradient-purple-pink-soft{background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(236,72,153,.2))}
+.bg-gradient-pink-orange-soft{background:linear-gradient(135deg,rgba(236,72,153,.2),rgba(249,115,22,.2))}
+.bg-gradient-orange-purple-soft{background:linear-gradient(135deg,rgba(249,115,22,.2),rgba(167,139,250,.2))}
+.bg-section-alt{background:linear-gradient(180deg,#0a0a0f 0,#0d0a14 50%,#0a0a0f 100%)}
+.bg-section-purple{background:linear-gradient(180deg,#0a0a0f 0,#120a1f 100%)}
+.section-alt{background:linear-gradient(180deg,#0a0a0f 0,#0d0a14 50%,#0a0a0f 100%);min-height:auto;padding:120px 20px}
+.section-purple{background:linear-gradient(180deg,#0a0a0f 0,#120a1f 100%);min-height:auto;padding:120px 20px}
+.cta-card{padding:80px 40px;background:linear-gradient(135deg,rgba(167,139,250,.1),rgba(236,72,153,.1));border-radius:32px;border:1px solid rgba(167,139,250,.2)}
+.btn-lg{font-size:1.125rem;padding:18px 40px}
+.btn-full{width:100%;padding:16px}
+.footer{border-top:1px solid rgba(255,255,255,.1);padding:60px 40px;position:relative;z-index:1}
+.footer-bottom{padding-top:40px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.footer-links{display:flex;flex-direction:column;gap:12px}
+.footer-link{color:rgba(255,255,255,.5);text-decoration:none;transition:color .3s}
+.footer-link:hover{color:#a78bfa}
+.color-purple{color:#a78bfa}
+.color-pink{color:#ec4899}
+.color-orange{color:#f97316}
+.svg-purple{color:#a78bfa}
+.svg-pink{color:#ec4899}
+.svg-orange{color:#f97316}
+.hero-check{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.7);font-size:.95rem}
+.hero-check svg{flex-shrink:0;color:#a78bfa}
+.trust-bar{min-height:auto;padding:60px 20px;background:linear-gradient(180deg,#0a0a0f 0,#0d0a14 50%,#0a0a0f 100%)}
+.trust-item{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.5);font-size:.9rem;font-weight:500}
+.trust-item svg{flex-shrink:0;color:#a78bfa}
+.step-number{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.25rem;margin-bottom:20px}
+.pricing-discount-pill{display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#ec4899,#f97316);border-radius:20px;font-size:.75rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.5px}
+.pricing-urgency{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.25);border-radius:12px;font-size:.8rem;font-weight:600;color:#fb923c;animation:urgency-pulse 2.5s ease-in-out infinite}
+@keyframes urgency-pulse{0%,100%{box-shadow:0 0 0 0 rgba(249,115,22,.15)}50%{box-shadow:0 0 0 8px rgba(249,115,22,0)}}
+.pricing-original-price{font-size:1.5rem;font-weight:700;color:rgba(255,255,255,.35);text-decoration:line-through;text-decoration-color:rgba(239,68,68,.6);text-decoration-thickness:2px;position:relative}
+.pricing-lock-in{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;font-size:.8rem;font-weight:500;color:rgba(167,139,250,.7)}
+.pricing-lock-in svg{flex-shrink:0}
+.pricing-price-warning{font-size:.8rem;color:rgba(249,115,22,.7);font-weight:500}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.comparison-card{border-radius:24px;padding:40px;display:flex;flex-direction:column;gap:0}
+.comparison-card-left{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08)}
+.comparison-card-right{background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.25);box-shadow:0 0 40px -10px rgba(167,139,250,.15)}
+.comparison-card-title{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:32px}
+.comparison-card-left .comparison-card-title{color:rgba(255,255,255,.7)}
+.comparison-card-right .comparison-card-title{color:#a78bfa}
+.comparison-recommended{display:inline-block;padding:4px 14px;border:1px solid rgba(236,72,153,.4);border-radius:20px;font-size:.75rem;font-weight:600;color:#ec4899;text-transform:none;letter-spacing:0;margin-left:12px;vertical-align:middle}
+.comparison-row{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.comparison-row:last-child{border-bottom:none}
+.comparison-icon-x{flex-shrink:0;color:rgba(239,68,68,.7)}
+.comparison-icon-check{flex-shrink:0;color:#34d399}
+.comparison-card-left .comparison-row span{color:rgba(255,255,255,.5);font-size:.95rem}
+.comparison-card-right .comparison-row span{color:rgba(255,255,255,.9);font-weight:600;font-size:.95rem}
+@media (max-width:1200px){.glass-card[style*=grid-template-columns]{grid-template-columns:1fr!important}.grid-2{grid-template-columns:1fr!important}}
+@media (max-width:968px){.grid-4{grid-template-columns:repeat(2,1fr)!important}.grid-3{grid-template-columns:1fr!important}}
+@media (max-width:768px){.stat-number{font-size:2rem}.pricing-price{font-size:2.5rem}.pricing-price-sm{font-size:2rem}.icon-emoji{font-size:2rem}.badge{font-size:12px;padding:6px 16px}.grid-4{grid-template-columns:1fr!important}.grid-2{grid-template-columns:1fr!important}.grid-auto-fit{grid-template-columns:1fr!important}section{padding:40px 16px!important;min-height:auto}#hero{padding-top:100px!important;padding-bottom:60px!important}.section-alt,.section-purple,.trust-bar{padding:60px 16px!important}.mb-100{margin-bottom:60px}.mb-80{margin-bottom:48px}.mb-60{margin-bottom:40px}.mb-48{margin-bottom:32px}.mb-32{margin-bottom:24px}.mb-24{margin-bottom:16px}.mt-60{margin-top:36px}.mt-80{margin-top:48px}.gap-60{gap:32px}.gap-56{gap:28px}.gap-40{gap:24px}.gap-32{gap:20px}.gap-20{gap:12px}.gradient-btn,.outline-btn{padding:12px 24px;font-size:.9375rem}.btn-lg{font-size:1rem;padding:14px 28px}.feature-card-modern{padding:28px 20px!important;border-radius:20px}.pricing-card{padding:32px 24px!important}.glass-card{padding:24px!important}.p-40{padding:24px!important}.p-32{padding:20px!important}.cta-card{padding:48px 24px!important}.footer{padding:40px 20px!important}.container-lg,.container-md,.container-sm,.container-xl{width:100%;padding-left:16px;padding-right:16px}.desktop-nav{display:none!important}.mobile-nav{display:flex!important}.nav-wrapper{width:calc(100% - 32px)!important;top:12px}.nav-container{padding:10px 16px!important;border-radius:50px}.nav-brand-text{font-size:16px}.logo{width:32px!important;height:32px!important;font-size:16px!important}#mobileMenu.active{display:flex!important}#burgerBtn.active span:first-child{transform:rotate(45deg) translate(5px,5px)}#burgerBtn.active span:nth-child(2){opacity:0}#burgerBtn.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-6px)}.comparison-grid{grid-template-columns:1fr!important}.comparison-card{padding:28px 24px!important}}
+@media (max-width:540px){.mobile-nav .gradient-btn{display:none!important}}
+@media (max-width:480px){.heading-xl{font-size:1.75rem}.heading-lg{font-size:1.5rem}.heading-md{font-size:1.5rem}.heading-2xl{font-size:1.375rem}.stat-number{font-size:1.75rem}.pricing-price{font-size:2rem}.pricing-price-sm{font-size:1.75rem}section{padding:32px 12px!important}.section-alt,.section-purple,.trust-bar{padding:48px 12px!important}.mb-100{margin-bottom:48px}.mb-80{margin-bottom:40px}.gap-24{gap:16px}.gap-20{gap:10px}.gradient-btn,.outline-btn{padding:10px 20px;font-size:.875rem}.nav-wrapper{width:calc(100% - 24px)!important}.nav-container{padding:8px 12px!important}.nav-brand-text{font-size:14px}.container-lg,.container-md,.container-sm,.container-xl{padding-left:12px;padding-right:12px}.feature-card-modern{padding:24px 16px!important}.pricing-card{padding:24px 16px!important}.glass-card,.p-32,.p-40{padding:16px!important}.cta-card{padding:40px 20px!important}}
+.fade-in{opacity:0;transform:translateY(30px);transition:all .6s ease-out}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+.fade-in-delay-1{transition-delay:.15s}
+.fade-in-delay-2{transition-delay:.3s}
+.fade-in-delay-3{transition-delay:.45s}
+.fade-in-delay-4{transition-delay:.6s}</style><style>.gradient-orb{position:fixed;border-radius:50%;filter:blur(120px);opacity:.3;pointer-events:none;z-index:99;--accent-purple:#a855f7;--accent-pink:#ec4899}.orb-1{width:500px;height:500px;background:radial-gradient(circle,var(--accent-purple),transparent);top:-200px;right:-100px;animation:float 20s ease-in-out infinite}.orb-2{width:400px;height:400px;background:radial-gradient(circle,var(--accent-pink),transparent);bottom:-100px;left:-100px;animation:float 15s ease-in-out infinite reverse}</style></head><body><div class="stars" id="stars"></div><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><nav id="mainNav" class="nav-wrapper"><div class="nav-container"><div class="nav-brand"><div class="logo">F</div><span class="nav-brand-text">fullPage Studio</span></div><div class="desktop-nav"><a href="#how-it-works" class="nav-link">How It Works</a> <a href="#features" class="nav-link">Features</a> <a href="#pricing" class="nav-link">Pricing</a> <a href="#examples" class="nav-link">Examples</a> <a href="https://studio.fullpagejs.com/signin/" class="gradient-btn">Start Free</a></div><div class="mobile-nav"><a href="https://studio.fullpagejs.com/signin/" class="gradient-btn">Start Free</a> <button id="burgerBtn" class="burger-btn"><span class="burger-line"></span> <span class="burger-line"></span> <span class="burger-line"></span></button></div></div><div id="mobileMenu" class="mobile-menu"><a href="#how-it-works" class="mobile-menu-link">How It Works</a> <a href="#features" class="mobile-menu-link">Features</a> <a href="#pricing" class="mobile-menu-link">Pricing</a> <a href="#examples" class="mobile-menu-link">Examples</a></div></nav><section id="hero"><div class="grid-pattern"></div><div class="container-lg text-center"><div class="badge mb-32 fade-in">Visual Page Builder &mdash; No Code Lock-In</div><h1 class="heading-xl mb-32 fade-in fade-in-delay-1">Build landing pages visually.<br><span class="gradient-text">Export clean code. Own everything.</span></h1><p class="text-body-lg mb-48 max-w-600 mx-auto fade-in fade-in-delay-2">Pick from 170+ blocks, apply a theme, customize visually, and download clean HTML/CSS. Your code, your server.</p><div class="flex gap-20 justify-center flex-wrap mb-48 fade-in fade-in-delay-2"><div class="hero-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Launch today, not next week</div><div class="hero-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Export HTML, host anywhere</div><div class="hero-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Hand off clean code to a developer</div></div><div class="flex gap-20 justify-center flex-wrap fade-in fade-in-delay-3"><a href="https://studio.fullpagejs.com/signin/" class="gradient-btn">Start Free &mdash; Export HTML Anytime</a></div><div class="grid grid-auto-fit gap-40 mt-60 max-w-900 mx-auto"><div class="fade-in fade-in-delay-4"><div class="stat-number">170+</div><div class="text-muted mt-8">Curated Blocks</div></div><div class="fade-in fade-in-delay-4"><div class="stat-number">25</div><div class="text-muted mt-8">Theme Skins</div></div><div class="fade-in fade-in-delay-4"><div class="stat-number">0</div><div class="text-muted mt-8">Vendor Lock-in</div></div></div></div></section><div class="trust-bar"><div class="container-lg mx-auto"><p class="text-center text-muted-light mb-32 fade-in" style="font-size:.9rem;letter-spacing:.5px">Trusted by indie hackers, freelancers, and agencies</p><div class="flex justify-center flex-wrap gap-40 fade-in"><div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> Built on fullPage.js</div><div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg> Powered by TailwindCSS</div><div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Secure checkout via Polar</div><div class="trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg> GitHub sync built-in</div></div></div></div><section id="how-it-works" class="section-alt"><div class="grid-pattern"></div><div class="container-lg mx-auto"><div class="text-center mb-80 fade-in"><div class="badge mb-24">3 Simple Steps</div><h2 class="heading-lg">Ship a page in <span class="gradient-text">three steps</span></h2></div><div class="grid grid-3 gap-32"><div class="glass-card p-40 text-center fade-in"><div class="step-number mx-auto">1</div><h3 class="heading-sm mb-12">Pick your blocks</h3><p class="text-body">Browse 170+ curated sections across 23 categories. Drag them onto your page in any order.</p></div><div class="glass-card p-40 text-center fade-in fade-in-delay-1"><div class="step-number mx-auto">2</div><h3 class="heading-sm mb-12">Make it yours</h3><p class="text-body">Edit text inline, swap images, pick a theme, fine-tune colors. See changes live in the preview.</p></div><div class="glass-card p-40 text-center fade-in fade-in-delay-2"><div class="step-number mx-auto">3</div><h3 class="heading-sm mb-12">Export and own it</h3><p class="text-body">Download clean HTML/CSS or push to GitHub. Host on Vercel, Netlify, or your own server. You own the code.</p></div></div></div></section><section id="features" class="section-alt"><div class="grid-pattern"></div><div class="container-lg mx-auto"><div class="text-center mb-100 fade-in"><div class="badge mb-24">Why fullPage Studio</div><h2 class="heading-lg mb-20">Build fast. <span class="gradient-text">Own the output.</span></h2></div><div class="flex flex-col gap-60"><div class="feature-card-modern fade-in"><div><div class="feature-tag">Blocks</div><h3 class="heading-2xl mb-16">Build in minutes with curated blocks</h3><p class="text-body">170+ sections across 23 categories &mdash; heroes, features, testimonials, pricing, galleries, and more. Drag them onto your page and start editing.</p></div><div class="video-placeholder"><video class="lazy-video" data-src="public/images/videos/num-sections.mp4" autoplay muted playsinline loop></video></div></div><div class="feature-card-modern reverse fade-in"><div class="video-placeholder"><video class="lazy-video" data-src="public/images/videos/drag-and-drop.mp4" autoplay muted playsinline loop></video></div><div><div class="feature-tag">Editor</div><h3 class="heading-2xl mb-16">Edit visually. Ship faster.</h3><p class="text-body">Drag and drop blocks, edit text inline, undo and redo changes, and preview your page on desktop, tablet, and mobile &mdash; all without writing a line of code.</p></div></div><div class="feature-card-modern fade-in"><div><div class="feature-tag">Themes</div><h3 class="heading-2xl mb-16">One-click themes for instant consistency</h3><p class="text-body">25 professionally designed themes. Switch your entire page look in one click, then fine-tune colors, fonts, and spacing to match your brand.</p></div><div class="video-placeholder"><video class="lazy-video" data-src="public/images/videos/themes.mp4" autoplay muted playsinline loop></video></div></div><div class="feature-card-modern reverse fade-in"><div class="video-placeholder"><video class="lazy-video" data-src="public/images/videos/responsive.mp4" autoplay muted playsinline loop></video></div><div><div class="feature-tag">Responsive</div><h3 class="heading-2xl mb-16">Pixel-perfect on every device</h3><p class="text-body">Preview your page on desktop, tablet, and mobile before you export. Every block is fully responsive out of the box.</p></div></div><div class="feature-card-modern fade-in"><div><div class="feature-tag">Export</div><h3 class="heading-2xl mb-16">Own the code. Host anywhere.</h3><p class="text-body">Export production-ready HTML/CSS powered by TailwindCSS. Push to GitHub, deploy to Vercel or Netlify, or upload to your own server. No vendor lock-in, ever.</p></div><div class="video-placeholder"><video class="lazy-video" data-src="public/images/videos/code.mp4" autoplay muted playsinline loop></video></div></div><div class="feature-card-modern reverse fade-in"><div class="video-placeholder"><video class="lazy-video" data-src="public/images/videos/fullpage-integration.mp4" autoplay muted playsinline loop></video></div><div><div class="feature-tag">Scrolling</div><h3 class="heading-2xl mb-16">Scroll storytelling, built-in</h3><p class="text-body">Powered by fullPage.js &mdash; add smooth snap scrolling, horizontal slides, and scroll-triggered transitions. Tell your story with motion.</p></div></div></div></div></section><section id="philosophy" class="section-purple"><div class="grid-pattern"></div><div class="container-lg mx-auto"><div class="text-center mb-80 fade-in"><div class="badge mb-24">Design Without Designing</div><h2 class="heading-lg mb-20">We removed the hard part <span class="gradient-text">on purpose</span></h2><p class="text-body-lg max-w-700 mx-auto">Most builders give you a blank canvas and 500 settings. You spend hours nudging pixels instead of shipping. We took a different approach: every block is already designed, spaced, and responsive. You just pick, customize the content, and publish.</p></div><div class="grid grid-3 gap-32 mb-60"><div class="glass-card p-40 fade-in"><div class="feature-icon bg-gradient-purple-pink-soft"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></div><h3 class="heading-sm mb-12">No margin madness</h3><p class="text-body">Forget about spacing, padding, and alignment. Every block snaps into place with consistent, professional spacing already built in.</p></div><div class="glass-card p-40 fade-in fade-in-delay-1"><div class="feature-icon bg-gradient-pink-orange-soft"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div><h3 class="heading-sm mb-12">Guardrails, not limitations</h3><p class="text-body">Curated choices mean every combination looks great. Change colors, fonts, and content freely &mdash; the structure keeps everything in harmony.</p></div><div class="glass-card p-40 fade-in fade-in-delay-2"><div class="feature-icon bg-gradient-orange-purple-soft"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div><h3 class="heading-sm mb-12">Minutes, not weeks</h3><p class="text-body">No learning curve, no YouTube tutorials needed. If you can click and type, you can ship a beautiful page today. Seriously.</p></div></div><div class="feature-card-modern fade-in"><div><div class="feature-tag">Philosophy</div><h3 class="heading-2xl mb-16">The best design tool is one you don't have to think about</h3><p class="text-body">Page builders give you freedom to make ugly sites. We don't. Every section is hand-crafted by designers so the output always looks professional. You focus on your message &mdash; we handle the pixels.</p></div><div class="flex flex-col gap-24"><div class="glass-card p-32 flex gap-16 items-center"><div class="icon-lg bg-gradient-purple-pink" style="flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div><div><div class="heading-sm mb-4">Pre-designed blocks</div><p class="text-muted text-small">Every section is production-ready out of the box</p></div></div><div class="glass-card p-32 flex gap-16 items-center"><div class="icon-lg bg-gradient-pink-orange" style="flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div><div><div class="heading-sm mb-4">Consistent themes</div><p class="text-muted text-small">One click changes everything &mdash; and it all still matches</p></div></div><div class="glass-card p-32 flex gap-16 items-center"><div class="icon-lg bg-gradient-orange-purple" style="flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div><div><div class="heading-sm mb-4">Zero config responsive</div><p class="text-muted text-small">Looks great on every screen &mdash; you don't touch a single breakpoint</p></div></div></div></div></div></section><section id="blocks"><div class="grid-pattern"></div><div class="container-xl"><div class="text-center mb-80 fade-in"><h2 class="heading-lg mb-16"><span class="gradient-text heading-accent">Everything you need</span> is already built</h2><p class="text-body-lg">170+ blocks across every category. Pick, customize, export.</p></div><div class="grid grid-4 gap-24"><div class="glass-card p-32 text-center fade-in"><div class="icon-emoji mb-16">🎯</div><h4 class="heading-sm mb-8">Hero Sections</h4><p class="text-muted mb-12">18 designs</p></div><div class="glass-card p-32 text-center fade-in"><div class="icon-emoji mb-16">✨</div><h4 class="heading-sm mb-8">Features</h4><p class="text-muted mb-12">34 designs</p></div><div class="glass-card p-32 text-center fade-in"><div class="icon-emoji mb-16">💬</div><h4 class="heading-sm mb-8">Testimonials</h4><p class="text-muted mb-12">16 designs</p></div><div class="glass-card p-32 text-center fade-in"><div class="icon-emoji mb-16">💰</div><h4 class="heading-sm mb-8">Pricing</h4><p class="text-muted mb-12">11 designs</p></div><div class="glass-card p-32 text-center fade-in"><div class="icon-emoji mb-16">🖼️</div><h4 class="heading-sm mb-8">Gallery</h4><p class="text-muted mb-12">18 designs</p></div><div class="glass-card p-32 text-center fade-in"><div class="icon-emoji mb-16">👥</div><h4 class="heading-sm mb-8">Team</h4><p class="text-muted mb-12">16 designs</p></div><div class="glass-card p-32 text-center fade-in"><div class="icon-emoji mb-16">❓</div><h4 class="heading-sm mb-8">FAQ</h4><p class="text-muted mb-12">8 designs</p></div><div class="glass-card p-32 text-center fade-in"><div class="icon-emoji mb-16">📝</div><h4 class="heading-sm mb-8">CTA & Forms</h4><p class="text-muted mb-12">15+ designs</p></div></div></div></section><section id="comparison" class="section-purple"><div class="grid-pattern"></div><div class="container-md mx-auto"><div class="text-center mb-60 fade-in"><div class="badge mb-24">Why Not Webflow?</div><h2 class="heading-lg mb-20">You build it. <span class="gradient-text">You own it.</span></h2></div><div class="comparison-grid fade-in"><div class="comparison-card comparison-card-left"><div class="comparison-card-title">Page Builders</div><div class="comparison-row"><svg class="comparison-icon-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> <span>Locked in the platform</span></div><div class="comparison-row"><svg class="comparison-icon-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> <span>Their servers only</span></div><div class="comparison-row"><svg class="comparison-icon-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> <span>Monthly fee forever</span></div><div class="comparison-row"><svg class="comparison-icon-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> <span>Not really</span></div><div class="comparison-row"><svg class="comparison-icon-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> <span>Weeks to master</span></div></div><div class="comparison-card comparison-card-right"><div class="comparison-card-title">fullPage Studio <span class="comparison-recommended">Recommended</span></div><div class="comparison-row"><svg class="comparison-icon-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>You own every line</span></div><div class="comparison-row"><svg class="comparison-icon-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>Anywhere you want</span></div><div class="comparison-row"><svg class="comparison-icon-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>$0 after export</span></div><div class="comparison-row"><svg class="comparison-icon-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>HTML/CSS + Tailwind</span></div><div class="comparison-row"><svg class="comparison-icon-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>Minutes to ship</span></div></div></div></div></section><section id="pricing" class="section-alt"><div class="grid-pattern"></div><div class="container-lg mx-auto"><div class="text-center mb-80 fade-in"><div class="badge mb-24">Simple Pricing</div><h2 class="heading-lg mb-20">Start free. <span class="gradient-text">Upgrade when you're ready.</span></h2></div><div class="grid grid-3 gap-32 items-center"><div class="pricing-card fade-in"><h3 class="heading-xl-price mb-24">Free</h3><div class="flex items-baseline gap-8 mb-32"><span class="pricing-price">$0</span> <span class="text-muted">/forever</span></div><div class="flex flex-col gap-4 mb-32"><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">16 free sections</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">Visual editor</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">25 theme skins</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">Export HTML/CSS</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">Shareable links</span></div></div><a href="https://studio.fullpagejs.com/signin/" class="outline-btn btn-full text-center">Start Free</a></div><div class="pricing-card fade-in fade-in-delay-1"><div class="pricing-badge">Popular</div><h3 class="heading-xl-price mb-24">Annual</h3><div class="flex items-baseline gap-8 mb-32"><span class="pricing-price">$99</span> <span class="text-muted">/year</span></div><div class="flex flex-col gap-4 mb-32"><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">All 170+ sections</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">Unlimited downloads</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">GitHub integration</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">Priority support</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">All themes & updates</span></div></div><a href="https://studio.fullpagejs.com/signin/?plan=annual" class="gradient-btn btn-full text-center">Get Annual</a></div><div class="pricing-card featured fade-in fade-in-delay-2"><div class="pricing-badge">Best Value</div><h3 class="heading-xl-price mb-16">Lifetime</h3><div class="pricing-urgency mb-20"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Early Access Price &mdash; 42% off</div><div class="flex items-baseline gap-12 mb-8"><span class="pricing-price">$289</span> <span class="pricing-original-price">$499</span> <span class="pricing-discount-pill">Save $210</span></div><p class="pricing-price-warning mb-32">Price increases to $499 after early access</p><div class="flex flex-col gap-4 mb-32"><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">Everything in Annual</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">Lifetime updates</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">AI features (coming soon)</span></div><div class="pricing-feature"><div class="pricing-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="text-white-70">Pay once, build forever</span></div></div><a href="https://studio.fullpagejs.com/signin/?plan=lifetime" class="gradient-btn btn-full text-center">Get Lifetime Access</a><div class="pricing-lock-in"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Lock in this price forever</div></div></div><p class="text-center text-muted-light mt-8 fade-in" style="margin-top:32px;font-size:.85rem">Cancel anytime &middot; 7-day refund policy &middot; Secure checkout via Polar</p></div></section><section id="cta"><div class="grid-pattern"></div><div class="container-sm text-center"><div class="cta-card fade-in"><h2 class="heading-md mb-24">Ready to ship your <span class="gradient-text">next page</span>?</h2><p class="text-body-lg mb-48">Start free. Build visually. Export clean HTML/CSS. No credit card. No lock-in. No kidding.</p><div class="flex gap-20 justify-center flex-wrap"><a href="https://studio.fullpagejs.com/signin/" class="gradient-btn btn-lg">Start Free &mdash; Export HTML Anytime</a> <a href="#pricing" class="outline-btn btn-lg">See Pricing</a></div></div></div></section><footer class="footer"><div class="container-xl mx-auto"><div class="grid grid-auto-fit-lg gap-60 mb-60"><div class="fade-in"><div class="flex items-center gap-12 mb-16"><div class="logo">F</div><span class="nav-brand-text">fullPage Studio</span></div><p class="text-muted line-height-relaxed">Build landing pages visually. Export clean code. Host anywhere.</p></div><div class="fade-in"><h4 class="heading-sm mb-16">Product</h4><div class="footer-links"><a href="#how-it-works" class="footer-link">How It Works</a> <a href="#features" class="footer-link">Features</a> <a href="#pricing" class="footer-link">Pricing</a> <a href="#examples" class="footer-link">Examples</a></div></div><div class="fade-in"><h4 class="heading-sm mb-16">Company</h4><div class="footer-links"><a href="https://x.com/imac2" class="footer-link">Twitter</a></div></div></div><div class="footer-bottom"><p class="text-muted-light">&copy; 2025 fullPage Studio. All rights reserved.</p><div class="flex gap-24"><a href="privacy-policy.html" class="footer-link">Privacy</a> <a href="terms-conditions.html" class="footer-link">Terms</a> <a href="cookie-policy.html" class="footer-link">Cookies</a></div></div></div></footer><script async src="https://www.googletagmanager.com/gtag/js?id=G-NYVYRLBD9B"></script><script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-NYVYRLBD9B")</script><script>function createStars(){const e=document.getElementById("stars");for(let t=0;t<100;t++){const t=document.createElement("div");t.className="star",t.style.left=100*Math.random()+"%",t.style.top=100*Math.random()+"%";const n=3*Math.random(),r=15+15*Math.random(),o=5*Math.random();t.style.animation=`twinkle 3s ${n}s infinite, float-star ${r}s ${o}s infinite ease-in-out`;const s=1+2*Math.random();t.style.width=s+"px",t.style.height=s+"px",e.appendChild(t)}}createStars(),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();const t=document.querySelector(this.getAttribute("href"));t&&t.scrollIntoView({behavior:"smooth",block:"start"})})});const burgerBtn=document.getElementById("burgerBtn"),mobileMenu=document.getElementById("mobileMenu");burgerBtn&&mobileMenu&&(burgerBtn.addEventListener("click",function(){burgerBtn.classList.toggle("active"),mobileMenu.classList.toggle("active")}),mobileMenu.querySelectorAll("a").forEach(e=>{e.addEventListener("click",function(){burgerBtn.classList.remove("active"),mobileMenu.classList.remove("active")})}),document.addEventListener("click",function(e){!(burgerBtn.contains(e.target)||mobileMenu.contains(e.target))&&mobileMenu.classList.contains("active")&&(burgerBtn.classList.remove("active"),mobileMenu.classList.remove("active"))}));const lazyVideos=document.querySelectorAll("video.lazy-video");if("IntersectionObserver"in window){const e=new IntersectionObserver(t=>{t.forEach(t=>{if(t.isIntersecting){const n=t.target,r=n.getAttribute("data-src");r&&!n.src&&(n.src=r,n.load(),n.play().catch(e=>console.log("Video autoplay prevented:",e))),e.unobserve(n)}})},{rootMargin:"700px"});lazyVideos.forEach(t=>{e.observe(t)})}else lazyVideos.forEach(e=>{const t=e.getAttribute("data-src");t&&(e.src=t,e.load())});const fadeInObserverOptions={threshold:.1,rootMargin:"0px 0px -50px 0px"},fadeInObserver=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&e.target.classList.add("visible")})},fadeInObserverOptions);document.querySelectorAll(".fade-in").forEach(e=>fadeInObserver.observe(e))</script><script type="text/javascript">window.$crisp=[],window.CRISP_WEBSITE_ID="89bf80cc-90a6-4d14-acc3-d0a68bddeffc",d=document,s=d.createElement("script"),s.src="https://client.crisp.chat/l.js",s.async=1,d.getElementsByTagName("head")[0].appendChild(s)</script></body></html>

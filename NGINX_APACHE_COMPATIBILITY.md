@@ -101,15 +101,15 @@ After updating, test that the URL rewrites work:
 
 ```bash
 # Test /signin rewrite
-curl -I https://studio.fullpagejs.com/signin
+curl -I https://yeslovey.com/signin
 # Should return 200 OK
 
 # Test /subscribe rewrite
-curl -I https://studio.fullpagejs.com/subscribe
+curl -I https://yeslovey.com/subscribe
 # Should return 200 OK
 
 # Test pages.php direct access
-curl -I https://studio.fullpagejs.com/pages.php
+curl -I https://yeslovey.com/pages.php
 # Should return 200 OK
 ```
 
@@ -164,29 +164,29 @@ curl -I https://studio.fullpagejs.com/pages.php
 
 1. Check if nginx configuration was applied:
    ```bash
-   ssh fullpagestudio "sudo cat /etc/nginx/sites-available/studio.fullpagejs.com | grep -A 3 signin"
+   ssh yeslovey "sudo cat /etc/nginx/sites-available/yeslovey.com | grep -A 3 signin"
    ```
 
 2. Check nginx error log:
    ```bash
-   ssh fullpagestudio "sudo tail -f /var/log/nginx/error.log"
+   ssh yeslovey "sudo tail -f /var/log/nginx/error.log"
    ```
 
 3. Verify file permissions:
    ```bash
-   ssh fullpagestudio "ls -la ~/htdocs/studio.fullpagejs.com/*.php"
+   ssh yeslovey "ls -la ~/htdocs/yeslovey.com/*.php"
    ```
 
 ### URL rewrites not working
 
 1. Verify nginx was reloaded:
    ```bash
-   ssh fullpagestudio "sudo systemctl status nginx"
+   ssh yeslovey "sudo systemctl status nginx"
    ```
 
 2. Test nginx configuration:
    ```bash
-   ssh fullpagestudio "sudo nginx -t"
+   ssh yeslovey "sudo nginx -t"
    ```
 
 ### Different behavior between local and production
