@@ -72,19 +72,46 @@ CREATE TABLE IF NOT EXISTS guest_groups (
 -- ===================================
 -- ALTER: user_pages — add form control columns
 -- ===================================
--- Compatible with MySQL 5.7+. If you re-run this migration and the columns
--- already exist, MySQL will throw "Duplicate column name"; you can ignore it.
+-- Uses a temporary procedure to add columns only if they don't already exist.
 
-ALTER TABLE user_pages
-    ADD COLUMN form_open BOOLEAN DEFAULT TRUE,
-    ADD COLUMN form_closed_message VARCHAR(500) DEFAULT NULL;
+DROP PROCEDURE IF EXISTS _add_missing_columns;
 
--- ===================================
--- ALTER: form_submissions — add table_number and group_id
--- ===================================
--- Only needed when upgrading an existing installation that was set up before
--- these columns existed. Safe to ignore "Duplicate column name" errors.
+DELIMITER $$
+CREATE PROCEDURE _add_missing_columns()
+BEGIN
+    -- user_pages.form_open
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'user_pages' AND COLUMN_NAME = 'form_open'
+    ) THEN
+        ALTER TABLE user_pages ADD COLUMN form_open BOOLEAN DEFAULT TRUE;
+    END IF;
 
-ALTER TABLE form_submissions
-    ADD COLUMN table_number VARCHAR(20) DEFAULT NULL,
-    ADD COLUMN group_id BIGINT UNSIGNED DEFAULT NULL;
+    -- user_pages.form_closed_message
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'user_pages' AND COLUMN_NAME = 'form_closed_message'
+    ) THEN
+        ALTER TABLE user_pages ADD COLUMN form_closed_message VARCHAR(500) DEFAULT NULL;
+    END IF;
+
+    -- form_submissions.table_number
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'form_submissions' AND COLUMN_NAME = 'table_number'
+    ) THEN
+        ALTER TABLE form_submissions ADD COLUMN table_number VARCHAR(20) DEFAULT NULL;
+    END IF;
+
+    -- form_submissions.group_id
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'form_submissions' AND COLUMN_NAME = 'group_id'
+    ) THEN
+        ALTER TABLE form_submissions ADD COLUMN group_id BIGINT UNSIGNED DEFAULT NULL;
+    END IF;
+END$$
+DELIMITER ;
+
+CALL _add_missing_columns();
+DROP PROCEDURE IF EXISTS _add_missing_columns;

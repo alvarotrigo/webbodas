@@ -98,8 +98,20 @@
         // Get share token, slug (publish subdomain), or legacy document ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const shareToken = urlParams.get('token');
-        const shareSlug = urlParams.get('slug');
         const docId = urlParams.get('doc');
+
+        // Slug can come from ?slug= param (internal rewrite) or from the subdomain itself
+        // (browser URL stays as slug.yeslovey.com, so query param may be empty)
+        let shareSlug = urlParams.get('slug');
+        if (!shareSlug) {
+            const hostParts = window.location.hostname.split('.');
+            if (hostParts.length >= 3) {
+                const sub = hostParts[0];
+                if (sub !== 'www' && sub !== 'www1') {
+                    shareSlug = sub;
+                }
+            }
+        }
 
         // Build the appropriate API URL (slug for publish URLs, token for share, doc for legacy)
         let apiUrl = null;
