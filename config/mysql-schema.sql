@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS user_pages (
     -- Sharing capabilities
     is_public BOOLEAN DEFAULT FALSE,
     share_token CHAR(36) UNIQUE DEFAULT NULL, -- UUID stored as CHAR(36)
-    share_slug VARCHAR(64) UNIQUE DEFAULT NULL, -- Custom subdomain for publish (slug.wedsite.online)
+    share_slug VARCHAR(64) UNIQUE DEFAULT NULL, -- Custom subdomain for publish URL (slug.yeslovey.com)
     
     -- Tracking
     last_accessed TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -106,6 +106,57 @@ CREATE TABLE IF NOT EXISTS user_pages (
     
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ===================================
+-- TABLE: form_submissions
+-- ===================================
+-- Purpose: Stores RSVP form submissions from published wedding websites
+
+CREATE TABLE IF NOT EXISTS form_submissions (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    page_id CHAR(36) NOT NULL,
+    form_data JSON NOT NULL,
+    notes TEXT DEFAULT NULL,
+    ip_address VARCHAR(45) DEFAULT NULL,
+    user_agent VARCHAR(500) DEFAULT NULL,
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    INDEX idx_form_submissions_page_id (page_id),
+    INDEX idx_form_submissions_submitted_at (page_id, submitted_at DESC),
+
+    FOREIGN KEY (page_id) REFERENCES user_pages(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ===================================
+-- TABLE: dashboard_access_links
+-- ===================================
+-- Purpose: Private shareable links for dashboard access (e.g. for the couple's partner)
+
+CREATE TABLE IF NOT EXISTS dashboard_access_links (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    page_id CHAR(36) NOT NULL,
+    access_token CHAR(36) UNIQUE NOT NULL,
+    email VARCHAR(255) DEFAULT NULL,
+    created_by BIGINT UNSIGNED NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NULL DEFAULT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+
+    INDEX idx_dashboard_access_page (page_id),
+    INDEX idx_dashboard_access_token (access_token),
+
+    FOREIGN KEY (page_id) REFERENCES user_pages(id) ON DELETE CASCADE,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ===================================
+-- ALTER: user_pages - RSVP form control
+-- ===================================
+-- Run this migration separately if user_pages already exists:
+-- ALTER TABLE user_pages
+--     ADD COLUMN IF NOT EXISTS form_open BOOLEAN DEFAULT TRUE,
+--     ADD COLUMN IF NOT EXISTS form_closed_message VARCHAR(500) DEFAULT NULL;
 
 -- ===================================
 -- HELPER FUNCTIONS

@@ -125,6 +125,9 @@
                         throw new Error(result.error);
                     }
 
+                    const pageId = result.id;
+                    const formOpen = result.form_open !== false;
+                    const formClosedMessage = result.form_closed_message || 'This form is no longer accepting responses.';
                     const data = result.data;
                     const theme = data.theme || 'theme-light-minimal';
                     const fullHtml = (data.fullHtml && typeof data.fullHtml === 'string') ? data.fullHtml.trim() : '';
@@ -199,6 +202,125 @@
                             .replace(/\bin-viewport\b/g, '');
                     }
 
+                    // Remove editor-injected hidden inputs from a form (TinyMCE, MCE, etc.)
+                    function removeEditorHiddenInputs(form) {
+                        // TinyMCE hides original textareas and adds its own hidden inputs/textareas
+                        // with names/IDs starting with "tinymce" or "mce_".
+                        // It also adds inputs with no visible purpose that have auto-generated names.
+                        var junkSelectors = [
+                            'input[type="hidden"][name*="tinymce"]',
+                            'input[type="hidden"][name*="mce_"]',
+                            'textarea[name*="tinymce"]',
+                            'textarea[id*="tinymce"]',
+                            'input[id*="mce_"]',
+                            'input[id*="tinymce"]'
+                        ];
+                        junkSelectors.forEach(function (sel) {
+                            form.querySelectorAll(sel).forEach(function (el) { el.remove(); });
+                        });
+                        // Also remove any hidden textarea that TinyMCE leaves behind
+                        // (it hides the original with display:none and a generated id)
+                        form.querySelectorAll('textarea[style*="display: none"], textarea[style*="display:none"]').forEach(function (el) {
+                            if (/tinymce|mce_/i.test(el.id || '')) el.remove();
+                        });
+                    }
+
+                    // RSVP form interception: intercept all forms in the published page
+                    function interceptRsvpForms(containerEl) {
+                        if (!containerEl || !pageId) return;
+                        var forms = containerEl.querySelectorAll('form');
+                        if (!forms.length) return;
+
+                        forms.forEach(function (form) {
+                            // Strip TinyMCE editor artifacts from the form DOM before doing anything
+                            removeEditorHiddenInputs(form);
+
+                            if (!formOpen) {
+                                // Disable form and show closed message at the beginning of the RSVP (before fields)
+                                Array.from(form.elements).forEach(function (el) { el.disabled = true; });
+                                var msg = document.createElement('div');
+                                msg.className = 'rsvp-form-closed-message';
+                                msg.style.cssText = 'margin-bottom:20px;padding:14px 18px;background:rgba(0,0,0,0.06);border-radius:8px;text-align:center;font-size:15px;line-height:1.5;opacity:0.9;';
+                                msg.textContent = formClosedMessage;
+                                form.insertBefore(msg, form.firstChild);
+                                return;
+                            }
+
+                            // Remove the original inline onsubmit handler
+                            form.removeAttribute('onsubmit');
+
+                            form.addEventListener('submit', function (e) {
+                                e.preventDefault();
+                                e.stopImmediatePropagation();
+
+                                var submitBtn = form.querySelector('[type="submit"], button');
+                                var originalText = submitBtn ? submitBtn.textContent : '';
+                                if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
+
+                                var rawData = new FormData(form);
+                                var formDataObj = {};
+                                // Belt-and-suspenders: also filter by name pattern in case any
+                                // TinyMCE field slipped past the DOM cleanup above.
+                                rawData.forEach(function (val, key) {
+                                    if (!key) return;
+                                    if (/tinymce/i.test(key)) return;
+                                    if (/^mce/i.test(key)) return;
+                                    formDataObj[key] = val;
+                                });
+
+                                fetch(resolveApi('api/form-submit.php'), {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ page_id: pageId, form_data: formDataObj })
+                                })
+                                .then(function (res) { return res.json(); })
+                                .then(function (res) {
+                                    if (res.success) {
+                                        showRsvpToast(form, 'Thank you! Your RSVP has been received.', 'success');
+                                        form.reset();
+                                    } else if (res.error === 'form_closed') {
+                                        showRsvpToast(form, res.message || formClosedMessage, 'info');
+                                        Array.from(form.elements).forEach(function (el) { el.disabled = true; });
+                                    } else {
+                                        showRsvpToast(form, res.error || 'Something went wrong. Please try again.', 'error');
+                                    }
+                                })
+                                .catch(function () {
+                                    showRsvpToast(form, 'Connection error. Please try again.', 'error');
+                                })
+                                .finally(function () {
+                                    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalText; }
+                                });
+                            }, true);
+                        });
+                    }
+
+                    function showRsvpToast(form, message, type) {
+                        // Try to use the template's own toast element if present
+                        var existingToast = document.getElementById('toast') || document.querySelector('.toast');
+                        if (existingToast) {
+                            existingToast.textContent = message;
+                            existingToast.classList.add('show');
+                            setTimeout(function () { existingToast.classList.remove('show'); }, 4000);
+                            return;
+                        }
+                        // Fallback: inject a toast
+                        var toast = document.createElement('div');
+                        toast.textContent = message;
+                        toast.style.cssText = [
+                            'position:fixed;bottom:32px;left:50%;transform:translateX(-50%)',
+                            'background:' + (type === 'error' ? '#e53e3e' : type === 'info' ? '#718096' : '#38a169'),
+                            'color:#fff;padding:12px 24px;border-radius:8px',
+                            'font-size:15px;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.15)',
+                            'transition:opacity 0.3s'
+                        ].join(';');
+                        document.body.appendChild(toast);
+                        setTimeout(function () {
+                            toast.style.opacity = '0';
+                            setTimeout(function () { toast.remove(); }, 400);
+                        }, 4000);
+                    }
+
                     if (fullHtml.length > 0) {
                         if (templateHeadHtml.length > 0) injectTemplateHeadHtml(templateHeadHtml);
 
@@ -207,6 +329,7 @@
                         reactivateBodyScripts(container);
                         container.classList.add('loaded');
                         if (window.initSharedNavScroll) window.initSharedNavScroll();
+                        interceptRsvpForms(container);
 
                         function loadScript(src) {
                             return new Promise(function (resolve, reject) {
@@ -266,6 +389,7 @@
                         });
                         container.classList.add('loaded');
                         if (window.initSharedNavScroll) window.initSharedNavScroll();
+                        interceptRsvpForms(container);
 
                         var uniqueFilenames = new Set();
                         sections.forEach(function (s) { if (s.filename) uniqueFilenames.add(s.filename); });

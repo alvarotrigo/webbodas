@@ -1,5 +1,5 @@
 -- Migration: Add share_slug to user_pages table
--- Description: Custom subdomain for published pages (e.g. nombrepropio.wedsite.online)
+-- Description: Custom subdomain for published pages (e.g. nombrepropio.yeslovey.com)
 -- Applies to: MySQL
 
 ALTER TABLE user_pages

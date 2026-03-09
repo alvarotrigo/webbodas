@@ -517,6 +517,8 @@ $userDataJson = json_encode($serverUserData);
                         $pageData = [];
                     }
                     $previewHtml = renderPagePreview($pageData);
+                    $isPublished = !empty($page['is_public']) && !empty($page['share_slug']);
+                    $hasForm = !empty($pageData['fullHtml']) && strpos($pageData['fullHtml'], '<form') !== false;
                     ?>
                     <div class="page-card" onclick="editPage('<?php echo $pageId; ?>')">
                         <div class="page-preview">
@@ -529,6 +531,12 @@ $userDataJson = json_encode($serverUserData);
                                 </svg>
                             </button>
                             <div class="page-action-dropdown" id="menu-<?php echo $pageId; ?>">
+                                <?php if ($isPublished && $hasForm): ?>
+                                <a class="page-action-dropdown-item" href="rsvp.php?page=<?php echo $pageId; ?>" onclick="event.stopPropagation();" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:inherit;">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="11" y2="16"/></svg>
+                                    RSVP Dashboard
+                                </a>
+                                <?php endif; ?>
                                 <button class="page-action-dropdown-item" onclick="event.stopPropagation(); editPageTitle('<?php echo $pageId; ?>', '<?php echo $pageTitle; ?>')">
                                     Edit Title
                                 </button>

@@ -39,6 +39,11 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^admin/?$ admin.php [L,QSA]
 
+    # Internal rewrite: /rsvp or /rsvp/ to rsvp.php (no redirect)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^rsvp/?$ rsvp.php [L,QSA]
+
     # Optional: Force HTTPS (uncomment if needed)
     # RewriteCond %{HTTPS} off
     # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]

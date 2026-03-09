@@ -438,6 +438,12 @@ function editor_asset(string $path): string
                 <i data-lucide="grid-2x2" class="w-4 h-4"></i>
                 <span class="text-sm">Pages</span>
             </a> -->
+
+            <!-- RSVP Dashboard button (shown by JS when page has form + is published) -->
+            <a href="#" id="rsvp-dashboard-btn" class="top-bar-card flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors" data-tippy-content="View RSVP responses" style="display:none;text-decoration:none;font-size:13px;font-weight:500;color:var(--primary-text);">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="11" y2="16"/></svg>
+                RSVP
+            </a>
             <?php endif; ?>
 
             <!-- User Info -->
@@ -1292,6 +1298,67 @@ function editor_asset(string $path): string
 
     <!-- Crisp Chat -->
     <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="89bf80cc-90a6-4d14-acc3-d0a68bddeffc";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+
+    <!-- RSVP Dashboard button: show when page has a form and is published -->
+    <!-- Also initializes "View Website" button mode if page is already published -->
+    <script>
+    (function () {
+        var preloaded = <?= $preloadedPageDataJson ?>;
+
+        function showRsvpBtn(pageId) {
+            var btn = document.getElementById('rsvp-dashboard-btn');
+            if (!btn || !pageId) return;
+            btn.href = 'rsvp.php?page=' + encodeURIComponent(pageId);
+            btn.style.display = 'flex';
+        }
+
+        // Show button if page is already published on load
+        if (preloaded && preloaded.page && preloaded.page.is_public && preloaded.page.share_slug) {
+            var pageHasForm = preloaded.page.data && preloaded.page.data.fullHtml &&
+                preloaded.page.data.fullHtml.indexOf('<form') !== -1;
+            if (pageHasForm) {
+                showRsvpBtn(preloaded.page.id);
+            }
+        }
+
+        // Switch Publish button to "View Website" if page is already published on load
+        function initViewWebsiteBtn() {
+            if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setViewWebsiteMode === 'function') {
+                if (preloaded && preloaded.page && preloaded.page.is_public && preloaded.page.share_slug) {
+                    window.downloadOptionsHandler.setViewWebsiteMode(preloaded.page.share_slug);
+                }
+            } else {
+                setTimeout(initViewWebsiteBtn, 250);
+            }
+        }
+
+        // Also show button after a successful publish
+        var origShowSuccess = null;
+        function patchPublishSuccess() {
+            if (window.downloadOptionsHandler && window.downloadOptionsHandler.showSuccessMessage && !origShowSuccess) {
+                origShowSuccess = window.downloadOptionsHandler.showSuccessMessage.bind(window.downloadOptionsHandler);
+                window.downloadOptionsHandler.showSuccessMessage = function (shareUrl) {
+                    origShowSuccess(shareUrl);
+                    var pm = window.pageManagerInstance;
+                    if (pm && pm.currentPageId) {
+                        showRsvpBtn(pm.currentPageId);
+                    }
+                };
+            }
+        }
+
+        // Initialize once DOM and handler are ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                setTimeout(initViewWebsiteBtn, 400);
+                setTimeout(patchPublishSuccess, 500);
+            });
+        } else {
+            setTimeout(initViewWebsiteBtn, 400);
+            setTimeout(patchPublishSuccess, 500);
+        }
+    })();
+    </script>
     
 </body>
 </html> 

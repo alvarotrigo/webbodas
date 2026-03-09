@@ -858,6 +858,16 @@ body.dark-mode .dark-mode-icon-wrapper .icon-moon {
     color: #fff !important;
 }
 
+/* View Website button (shown after page is published) */
+.view-website-btn:not(:disabled) {
+    background: #16a34a !important;
+    color: #fff !important;
+}
+.view-website-btn:hover:not(:disabled) {
+    background: #15803d !important;
+    color: #fff !important;
+}
+
 /* Save Indicator */
 .save-indicator {
     display: flex;

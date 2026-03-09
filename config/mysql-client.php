@@ -68,19 +68,28 @@ class MySQLClient {
             }
             $setClause = implode(', ', $setParts);
             
-            // Build WHERE clause
+            // Build WHERE clause (adds where params into $data by reference)
             $whereClause = $this->buildWhereClause($where, $data);
             
             $sql = "UPDATE `{$table}` SET {$setClause} WHERE {$whereClause}";
             
+            error_log("MySQL update query: " . $sql);
+            error_log("MySQL update params: " . json_encode(array_map(function($v) {
+                return is_string($v) && strlen($v) > 200 ? substr($v, 0, 50) . '...[truncated]' : $v;
+            }, $data)));
+            
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($data);
+            
+            $rowCount = $stmt->rowCount();
+            error_log("MySQL update affected rows: " . $rowCount);
             
             // Return updated record(s) (match SupabaseClient behavior)
             return $this->select($table, '*', $where);
             
         } catch (PDOException $e) {
             error_log("MySQL update error: " . $e->getMessage());
+            error_log("MySQL update failed SQL: " . ($sql ?? 'N/A'));
             throw new Exception("Failed to update {$table}: " . $e->getMessage());
         }
     }

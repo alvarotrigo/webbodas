@@ -94,7 +94,7 @@ try {
     $document = null;
 
     if (!empty($shareToken)) {
-        $result = $mysqlClient->select('user_pages', '*', [
+        $result = $mysqlClient->select('user_pages', 'id,data,created_at,share_slug,form_open,form_closed_message', [
             'share_token' => $shareToken,
             'is_public' => 1
         ]);
@@ -102,7 +102,7 @@ try {
             $document = $result[0];
         }
     } elseif (!empty($shareSlug)) {
-        $result = $mysqlClient->select('user_pages', '*', [
+        $result = $mysqlClient->select('user_pages', 'id,data,created_at,share_slug,form_open,form_closed_message', [
             'share_slug' => $shareSlug,
             'is_public' => 1
         ]);
@@ -120,11 +120,17 @@ try {
             }
         }
 
+        // form_open defaults to true if the column doesn't exist yet (migration pending)
+        $formOpen = isset($document['form_open']) ? (bool)$document['form_open'] : true;
+        $formClosedMessage = $document['form_closed_message'] ?? null;
+
         echo json_encode([
             'id' => $document['id'],
             'data' => $data,
             'created_at' => $document['created_at'] ?? null,
-            'share_slug' => $document['share_slug'] ?? null
+            'share_slug' => $document['share_slug'] ?? null,
+            'form_open' => $formOpen,
+            'form_closed_message' => $formClosedMessage,
         ]);
         exit();
     }

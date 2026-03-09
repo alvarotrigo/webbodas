@@ -419,8 +419,9 @@
      enumerable: true
  });
  
- // Use pageManagerInstance as pageManager
- const pageManager = pageManagerInstance;
+// Use pageManagerInstance as pageManager
+const pageManager = pageManagerInstance;
+window.pageManagerInstance = pageManagerInstance;
  
  // Initialize convenience variables
  currentPageId = pageManager.currentPageId;
@@ -5350,9 +5351,14 @@ document.addEventListener('DOMContentLoaded', async () => {
      const closeFullscreenBtn = document.getElementById('close-fullscreen');
      closeFullscreenBtn.addEventListener('click', toggleFullscreenPreview);
      
-     // Download page button - show options modal
+     // Download page button - show options modal or open published site
      const downloadBtn = document.getElementById('download-page');
      downloadBtn.addEventListener('click', () => {
+         // If the page is already published, open shared.html?slug= in a new tab
+         if (downloadBtn.dataset.viewWebsiteSlug) {
+             window.open('shared.html?slug=' + encodeURIComponent(downloadBtn.dataset.viewWebsiteSlug), '_blank');
+             return;
+         }
          if (window.downloadOptionsHandler) {
              window.downloadOptionsHandler.showDownloadOptions();
          } else {

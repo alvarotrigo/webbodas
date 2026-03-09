@@ -892,7 +892,7 @@
     </nav>
 
     <!-- HERO -->
-    <section id="hero" class="has-bg-image">
+    <section id="hero" class="has-bg-image" data-overlay-opacity="0.45">
         <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&q=80');"></div>
         <div class="hero-content reveal">
             <div class="pre-title">The adventure continues...</div>
@@ -953,7 +953,7 @@
     </section>
 
     <!-- QUOTE -->
-    <section id="quote">
+    <section id="quote" data-overlay-opacity="0.55">
         <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80');"></div>
         <div class="quote-content reveal-scale">
             <blockquote>"We travel not to escape life, but for life not to escape us."</blockquote>
@@ -1129,21 +1129,21 @@
 
             <form onsubmit="event.preventDefault(); alert('Thank you! Your RSVP has been received.');">
                 <div class="form-row">
-                    <div class="form-group reveal">
+                    <div class="form-group reveal" data-fp-dynamic-items="true">
                         <label for="firstName">First Name</label>
                         <input type="text" id="firstName" name="firstName" required>
                     </div>
-                    <div class="form-group reveal">
+                    <div class="form-group reveal" data-fp-dynamic-items="true">
                         <label for="lastName">Last Name</label>
                         <input type="text" id="lastName" name="lastName" required>
                     </div>
                 </div>
-                <div class="form-group reveal">
+                <div class="form-group reveal" data-fp-dynamic-items="true">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-row">
-                    <div class="form-group reveal">
+                    <div class="form-group reveal" data-fp-dynamic-items="true">
                         <label for="attending">Will You Attend?</label>
                         <select id="attending" name="attending" required>
                             <option value="">Select...</option>
@@ -1151,7 +1151,7 @@
                             <option value="no">Regretfully Decline</option>
                         </select>
                     </div>
-                    <div class="form-group reveal">
+                    <div class="form-group reveal" data-fp-dynamic-items="true">
                         <label for="guests">Number of Guests</label>
                         <select id="guests" name="guests">
                             <option value="1">1</option>
@@ -1160,11 +1160,11 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group reveal">
+                <div class="form-group reveal" data-fp-dynamic-items="true">
                     <label for="dietary">Dietary Requirements</label>
                     <input type="text" id="dietary" name="dietary" placeholder="Vegetarian, vegan, allergies...">
                 </div>
-                <div class="form-group reveal">
+                <div class="form-group reveal" data-fp-dynamic-items="true">
                     <label for="message">A Note for the Couple</label>
                     <textarea id="message" name="message" placeholder="Share a travel tip or a wish..."></textarea>
                 </div>

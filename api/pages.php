@@ -451,10 +451,21 @@ function buildShareUrlWithToken($token) {
 }
 
 /**
- * Publish page with custom subdomain (slug.wedsite.online). Used by Publish button.
+ * Publish page with custom subdomain (slug.yeslovey.com). Used by Publish button.
  */
 function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
     try {
+        error_log("publishPageWithSubdomain - START: pageId={$pageId}, userId={$userId}, shareSlug={$shareSlug}");
+
+        // Verify the share_slug column exists (catches missing migration early)
+        try {
+            $colCheck = $supabase->select('user_pages', 'id, share_slug', ['id' => $pageId]);
+            error_log("publishPageWithSubdomain - Column check OK. Current share_slug for page: " . json_encode($colCheck[0]['share_slug'] ?? 'NULL'));
+        } catch (Exception $colEx) {
+            error_log("publishPageWithSubdomain - COLUMN CHECK FAILED: " . $colEx->getMessage());
+            throw new Exception("Migration not applied: the share_slug column is missing. Run: migrations/add_share_slug_to_user_pages.sql — SQL error: " . $colEx->getMessage());
+        }
+
         $pages = $supabase->select(
             'user_pages',
             'id, share_token, is_public',
@@ -464,8 +475,10 @@ function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
             ]
         );
 
+        error_log("publishPageWithSubdomain - Page lookup: " . (empty($pages) ? 'NOT FOUND' : 'found id=' . ($pages[0]['id'] ?? 'N/A')));
+
         if (empty($pages)) {
-            throw new Exception("Page not found or access denied");
+            throw new Exception("Page not found or access denied (pageId={$pageId}, userId={$userId})");
         }
 
         $page = $pages[0];
@@ -481,6 +494,7 @@ function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
         }
 
         $existing = $supabase->select('user_pages', 'id', ['share_slug' => $shareSlug]);
+        error_log("publishPageWithSubdomain - Uniqueness check for '{$shareSlug}': " . json_encode($existing));
         if (!empty($existing) && ($existing[0]['id'] ?? null) !== $pageId) {
             throw new Exception("The chosen website name is already in use. Please choose another one.");
         }
@@ -504,10 +518,17 @@ function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
             $token = $page['share_token'];
         }
 
-        $supabase->update('user_pages', $updateData, ['id' => $pageId, 'user_id' => $userId]);
+        error_log("publishPageWithSubdomain - Calling UPDATE with data: " . json_encode($updateData) . " WHERE id={$pageId}, user_id={$userId}");
 
-        $baseDomain = getenv('SHARE_BASE_DOMAIN') ?: 'wedsite.online';
+        $updated = $supabase->update('user_pages', $updateData, ['id' => $pageId, 'user_id' => $userId]);
+
+        $savedSlug = $updated[0]['share_slug'] ?? 'N/A';
+        error_log("publishPageWithSubdomain - UPDATE done. share_slug now in DB: {$savedSlug}");
+
+        $baseDomain = getenv('SHARE_BASE_DOMAIN') ?: 'yeslovey.com';
         $publishedUrl = 'https://' . $shareSlug . '.' . $baseDomain;
+
+        error_log("publishPageWithSubdomain - SUCCESS: url={$publishedUrl}");
 
         return [
             'success' => true,
@@ -516,7 +537,7 @@ function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
             'share_url' => $publishedUrl
         ];
     } catch (Exception $e) {
-        error_log("Error publishing page with subdomain: " . $e->getMessage());
+        error_log("publishPageWithSubdomain - ERROR: " . $e->getMessage());
         return ['success' => false, 'error' => $e->getMessage()];
     }
 }
@@ -630,6 +651,8 @@ try {
         case 'POST':
             // Create new page or clone existing
             $action = $input['action'] ?? 'create';
+
+            error_log("Pages API POST - action='" . $action . "', input_keys=" . implode(',', array_keys($input)) . ", raw_snippet=" . substr($rawInput ?? '', 0, 120));
             
             if ($action === 'share') {
                 $pageId = $input['id'] ?? null;

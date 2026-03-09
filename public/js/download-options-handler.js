@@ -38,12 +38,12 @@ class DownloadOptionsHandler {
 
     /**
      * Show publish modal — simplified design based on user plan.
-     * Non-PRO: subdomain (.wedsite.online) + upgrade prompt.
+     * Non-PRO: subdomain (.yeslovey.com) + upgrade prompt.
      * PRO: custom domain (.com).
      */
     showDownloadOptions() {
         const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
-        const domainSuffix = isPro ? '.com' : '.wedsite.online';
+        const domainSuffix = isPro ? '.com' : '.yeslovey.com';
 
         const upgradePrompt = !isPro ? `
             <p class="text-sm text-center mt-4" style="color: var(--secondary-text);">
@@ -256,10 +256,15 @@ class DownloadOptionsHandler {
 
     /**
      * Publish page.
-     * Non-PRO: subdomain (slug.wedsite.online) via publish-subdomain action.
+     * Non-PRO: subdomain (slug.yeslovey.com) via publish-subdomain action.
      * PRO: custom domain (slug.com) via publish-domain action.
      */
     publishPage() {
+        console.log('publishPage() called');
+        console.log('  pageManagerInstance:', window.pageManagerInstance);
+        console.log('  currentPageId:', window.pageManagerInstance && window.pageManagerInstance.currentPageId);
+        console.log('  serverUserData:', window.serverUserData);
+
         const pageId = window.pageManagerInstance && window.pageManagerInstance.currentPageId;
         const clerkUserId = window.serverUserData && window.serverUserData.clerk_user_id;
         const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
@@ -283,32 +288,36 @@ class DownloadOptionsHandler {
         }
 
         const publishAction = isPro ? 'publish-domain' : 'publish-subdomain';
+        const payload = {
+            action: publishAction,
+            id: pageId,
+            clerk_user_id: clerkUserId,
+            share_slug: webName
+        };
 
         this.closeModal();
         this.showLoadingIndicator('Publishing your page...');
 
-        fetch('api/pages.php', {
+        console.log('Publish: sending POST to api/pages.php', payload);
+
+        fetch('./api/pages.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                action: publishAction,
-                id: pageId,
-                clerk_user_id: clerkUserId,
-                share_slug: webName
-            })
+            body: JSON.stringify(payload)
         })
             .then(function (res) { return res.json(); })
             .then(function (result) {
                 if (!result.success || !result.share_url) {
                     throw new Error(result.error || 'Failed to publish page');
                 }
-                return result.share_url;
+                return { shareUrl: result.share_url, shareSlug: result.share_slug || '' };
             })
-            .then(function (shareUrl) {
+            .then(function (data) {
                 window.downloadOptionsHandler.hideLoadingIndicator();
-                window.downloadOptionsHandler.showSuccessMessage(shareUrl);
+                window.downloadOptionsHandler.showSuccessMessage(data.shareUrl);
+                window.downloadOptionsHandler.setViewWebsiteMode(data.shareSlug);
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(shareUrl).then(function () {
+                    navigator.clipboard.writeText(data.shareUrl).then(function () {
                         if (typeof showToast === 'function') {
                             showToast('Link Copied!', 'Your page link has been copied to the clipboard.', {});
                         }
@@ -385,6 +394,33 @@ class DownloadOptionsHandler {
     closeSuccessModal() {
         const el = document.getElementById('publish-success-modal');
         if (el) el.remove();
+    }
+
+    /**
+     * Switch the top-bar Publish button to "View Website" (green).
+     * Stores the slug so the click handler in app.js can open shared.html?slug=
+     */
+    setViewWebsiteMode(shareSlug) {
+        const btn = document.getElementById('download-page');
+        if (!btn || !shareSlug) return;
+
+        btn.classList.remove('publish-btn');
+        btn.classList.add('view-website-btn');
+        btn.dataset.viewWebsiteSlug = shareSlug;
+        btn.disabled = false;
+        btn.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>' +
+            '<polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>' +
+            '</svg>' +
+            '<span class="text-sm pl-2">View Website</span>';
+
+        // Update tooltip if Tippy is active on this element
+        if (btn._tippy) {
+            btn._tippy.setContent('View your published website');
+        } else {
+            btn.setAttribute('data-tippy-content', 'View your published website');
+        }
     }
 
     /**
