@@ -739,7 +739,11 @@ class SectionBackgroundPicker {
                         const originalClasses = originalBg.split(',');
                         const tempDiv = document.createElement('div');
                         tempDiv.style.cssText = 'position: absolute; visibility: hidden; pointer-events: none;';
-                        document.body.appendChild(tempDiv);
+                        // Append inside #preview-content so CSS variables resolve from
+                        // the template context instead of the editor UI (body.dark-mode)
+                        const previewContent = document.getElementById('preview-content');
+                        const tempParent = previewContent || document.body;
+                        tempParent.appendChild(tempDiv);
                         
                         // Apply original classes to temp element
                         originalClasses.forEach(className => {
@@ -754,7 +758,7 @@ class SectionBackgroundPicker {
                         const bgImage = computedStyle.backgroundImage;
                         
                         // Clean up
-                        document.body.removeChild(tempDiv);
+                        tempParent.removeChild(tempDiv);
                         
                         // Set color swatch
                         if (bgImage && bgImage !== 'none' && bgImage.includes('gradient')) {
@@ -777,9 +781,28 @@ class SectionBackgroundPicker {
                     }
                 }
             } else {
-                // For other options, get the actual computed background color from the color swatch element
-                const computedColor = this.getComputedBackgroundColor(colorSwatch);
-                valueElement.textContent = computedColor || '';
+                // Resolve CSS variable from the section context (not from .fp-ui-theme which
+                // overrides template variables with editor UI colors in dark mode)
+                const cssVar = option.getAttribute('data-css-var');
+                const varSource = sectionElement || document.getElementById('preview-content');
+                if (cssVar && varSource) {
+                    const resolvedValue = getComputedStyle(varSource).getPropertyValue(cssVar).trim();
+                    if (resolvedValue) {
+                        colorSwatch.style.setProperty('background', resolvedValue);
+                        if (resolvedValue.includes('gradient')) {
+                            valueElement.textContent = 'Gradient';
+                        } else {
+                            const hex = this.rgbToHex(resolvedValue);
+                            valueElement.textContent = hex || resolvedValue;
+                        }
+                    } else {
+                        const computedColor = this.getComputedBackgroundColor(colorSwatch);
+                        valueElement.textContent = computedColor || '';
+                    }
+                } else {
+                    const computedColor = this.getComputedBackgroundColor(colorSwatch);
+                    valueElement.textContent = computedColor || '';
+                }
             }
         });
     }

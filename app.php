@@ -233,7 +233,7 @@ function editor_asset(string $path): string
     <script
         async
         crossorigin="anonymous"
-        data-clerk-publishable-key="pk_test_am9pbnQtYmxvd2Zpc2gtNjUuY2xlcmsuYWNjb3VudHMuZGV2JAlcmsuYWNjb3VudHMuZGV2JA"
+        data-clerk-publishable-key="pk_test_am9pbnQtYmxvd2Zpc2gtNjUuY2xlcmsuYWNjb3VudHMuZGV2JA"
         src="https://welcomed-escargot-22.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
         type="text/javascript">
     </script>
@@ -390,16 +390,16 @@ function editor_asset(string $path): string
             <?php endif; ?>
         </div>
 
-        <!-- Center Section: Viewport Buttons -->
+        <!-- Center Section: Viewport Buttons (disabled when no template selected / onboarding) -->
         <div class="top-bar-center">
             <div class="top-bar-card flex items-center gap-1 bg-gray-100 rounded-lg p-1">
-                <button class="viewport-btn" data-viewport="mobile" data-tippy-content="Mobile view">
+                <button class="viewport-btn" data-viewport="mobile" data-tippy-content="Mobile view" disabled>
                     <i data-lucide="smartphone" class="w-4 h-4"></i>
                 </button>
-                <button class="viewport-btn" data-viewport="tablet" data-tippy-content="Tablet view">
+                <button class="viewport-btn" data-viewport="tablet" data-tippy-content="Tablet view" disabled>
                     <i data-lucide="tablet" class="w-4 h-4"></i>
                 </button>
-                <button class="viewport-btn active" data-viewport="desktop" data-tippy-content="Desktop view">
+                <button class="viewport-btn active" data-viewport="desktop" data-tippy-content="Desktop view" disabled>
                     <i data-lucide="monitor" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -1128,7 +1128,7 @@ function editor_asset(string $path): string
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
                                     <span>Themes</span>
                                     <button class="onboarding-preview-themes-toggle" id="onboarding-preview-themes-toggle" aria-label="Toggle themes panel" title="Hide themes">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l10 0"/><path d="M4 12l4 4"/><path d="M4 12l4 -4"/><path d="M20 4l0 16"/></svg>
                                     </button>
                                 </div>
                                 <div class="onboarding-preview-themes-list" id="onboarding-preview-themes-list">

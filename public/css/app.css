@@ -411,8 +411,13 @@ body {
     color: var(--secondary-text);
 }
 
-.viewport-btn:hover {
+.viewport-btn:hover:not(:disabled) {
     background: rgba(0, 0, 0, 0.05);
+}
+
+.viewport-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .viewport-btn.active {
@@ -3614,8 +3619,9 @@ body.dark-mode .category-item.onboarding-active .category-count {
 /* --- Close button --- */
 .onboarding-preview-popup-close {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
     z-index: 10;
     width: 34px;
     height: 34px;
@@ -3693,7 +3699,7 @@ body.dark-mode .category-item.onboarding-active .category-count {
     display: none;
     position: absolute;
     top: 8px;
-    left: -38px;
+    left: -54px;
     z-index: 5;
     width: 30px;
     height: 30px;
@@ -3926,7 +3932,7 @@ body.dark-mode .onboarding-preview-popup-iframe-col {
 }
 
 body.dark-mode .onboarding-preview-popup-close {
-    background: rgba(245, 243, 240, 0.9);
+    background: rgba(245, 243, 240, 1);
 }
 
 body.dark-mode .onboarding-preview-themes-toggle:hover {

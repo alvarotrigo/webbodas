@@ -2100,16 +2100,22 @@ window.showCategoryPanel = showCategoryPanel;
          }
      }
 
-     // Enable/disable section outline toggle button based on section count
-     const outlineToggle = document.querySelector('.section-outline-toggle');
-     if (outlineToggle) {
-         if (selectedSections.size === 0) {
-             outlineToggle.disabled = true;
-         } else {
-             outlineToggle.disabled = false;
-         }
-     }
- }
+    // Enable/disable section outline toggle button based on section count
+    const outlineToggle = document.querySelector('.section-outline-toggle');
+    if (outlineToggle) {
+        if (selectedSections.size === 0) {
+            outlineToggle.disabled = true;
+        } else {
+            outlineToggle.disabled = false;
+        }
+    }
+
+    // Enable/disable viewport buttons (mobile, tablet, desktop) when no template selected (onboarding)
+    const viewportBtns = document.querySelectorAll('.viewport-btn');
+    viewportBtns.forEach(function(btn) {
+        btn.disabled = selectedSections.size === 0;
+    });
+}
  
  /**
  * Sincroniza selectedSections con las secciones que hay en el iframe (#preview-content section, footer).

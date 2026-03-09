@@ -1590,6 +1590,7 @@ function setTheme(theme) {
 function rewriteTemplateCssForPreview(cssText) {
     if (!cssText || typeof cssText !== 'string') return cssText;
     let out = cssText
+        .replace(/(^|\})\s*:root\s*\{/gm, '$1:where(#preview-content) {')
         .replace(/(^|\})\s*html\s*\{/gm, '$1#preview-content {')
         .replace(/(^|\})\s*body\s*\{/gm, '$1#preview-content {')
         .replace(/(^|\})\s*body\s*,\s*html\s*\{/gm, '$1#preview-content {')
