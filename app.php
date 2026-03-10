@@ -135,6 +135,21 @@ if ($preloadedPageData && isset($preloadedPageData['page']['title'])) {
     $initialPageTitle = $preloadedPageData['page']['title'];
 }
 
+// Hide navbar (title + buttons) until a template is present — class on body from first paint to avoid flash
+$hideNavbarUntilTemplate = false;
+if ($isAuthenticated) {
+    if (!$pageIdFromUrl) {
+        $hideNavbarUntilTemplate = true;
+    } elseif ($preloadedPageData && !empty($preloadedPageData['page']['data'])) {
+        $raw = $preloadedPageData['page']['data'];
+        $data = is_string($raw) ? json_decode($raw, true) : $raw;
+        $hasTemplate = is_array($data) && (!empty($data['fullHtml']) || !empty($data['templateUrl'] ?? ''));
+        $hideNavbarUntilTemplate = !$hasTemplate;
+    } else {
+        $hideNavbarUntilTemplate = true;
+    }
+}
+
 function editor_asset(string $path): string
 {
     // Return external URLs as-is
@@ -346,7 +361,7 @@ function editor_asset(string $path): string
     <script src="https://upload-widget.cloudinary.com/global/all.js" async></script>
 
 </head>
-<body>
+<body<?php echo $hideNavbarUntilTemplate ? ' class="onboarding-visible"' : ''; ?>>
     <?php if (isPolarTestMode()): ?>
     <!-- Polar Test Mode Banner -->
     <div id="polar-test-mode-banner">
@@ -367,14 +382,25 @@ function editor_asset(string $path): string
             <?php if ($isAuthenticated): ?>
             <!-- Page Name Display with Back Button -->
             <div class="page-name-container flex items-center gap-2">
+                <!-- [DISABLED_FOR_WEDDING_VERSION]: Back arrow to pages.php removed - pages.php is no longer part of the user flow.
                 <a href="./pages.php" class="back-arrow-btn" data-tippy-content="Back to pages">
                     <i data-lucide="arrow-left" class="w-5 h-5" style="color: #9333ea;"></i>
                 </a>
                 <div class="page-name-separator" style="width: 1px; height: 20px; background: #e5e5e7;"></div>
+                -->
                 <span class="page-name-text" id="page-name-display" contenteditable="false" role="textbox" tabindex="0" title="<?php echo htmlspecialchars($initialPageTitle, ENT_QUOTES, 'UTF-8'); ?>" data-tippy-content="Edit page title">
                     <?php echo htmlspecialchars($initialPageTitle, ENT_QUOTES, 'UTF-8'); ?>
                 </span>
+                <button type="button" id="delete-page-btn" class="delete-page-btn" aria-label="Delete page" data-tippy-content="Delete page" style="display: none;">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
             </div>
+
+            <!-- Change Template Button (hidden until a template is inserted via onboarding) -->
+            <button id="change-template-btn" class="change-template-btn" style="display:none;" data-tippy-content="Choose a new template">
+                <i data-lucide="layout-template" class="w-4 h-4"></i>
+                <span>Change Template</span>
+            </button>
 
             <!-- Save Indicator -->
             <div class="save-indicator" id="save-indicator">
@@ -390,8 +416,15 @@ function editor_asset(string $path): string
             <?php endif; ?>
         </div>
 
-        <!-- Center Section: Viewport Buttons (disabled when no template selected / onboarding) -->
+        <!-- Center Section: Theme Selector + Viewport Buttons -->
         <div class="top-bar-center">
+            <!-- Theme Selector Button (compact, no text) -->
+            <button id="topbar-theme-btn" class="topbar-theme-btn" data-tippy-content="Change theme" disabled>
+                <div class="topbar-theme-preview" id="topbar-theme-preview">
+                    <!-- Color swatches updated by JS -->
+                </div>
+            </button>
+
             <div class="top-bar-card flex items-center gap-1 bg-gray-100 rounded-lg p-1">
                 <button class="viewport-btn" data-viewport="mobile" data-tippy-content="Mobile view" disabled>
                     <i data-lucide="smartphone" class="w-4 h-4"></i>
@@ -529,9 +562,12 @@ function editor_asset(string $path): string
     </div>
 
 
+    <?php // [DISABLED_FOR_WEDDING_VERSION]: Left sidebar with template categories removed. "Change Template" now shows a confirmation popup instead of toggling this sidebar. ?>
+    <?php if (false): ?>
     <!-- Left Sidebar -->
     <div class="sidebar">
         <div class="sidebar-content">
+            <?php /* [DISABLED_FOR_WEDDING_VERSION]: Theme selector moved to top-bar (topbar-theme-btn). The panel now appears inside the sidebar, replacing categories when active.
             <div class="theme-selector-section">
                 <h3 class="text-sm font-semibold text-accent-text mb-2">Theme</h3>
                 <button class="theme-selector-button" id="theme-selector-button">
@@ -543,6 +579,10 @@ function editor_asset(string $path): string
                     </div>
                 </button>
             </div>
+            */ ?>
+            <!-- Hidden elements to keep JS compatibility (updateCurrentThemeButton uses these IDs) -->
+            <div id="current-theme-preview" style="display:none;"></div>
+            <span id="current-theme-name" style="display:none;"></span>
 
             <?php if (isset($_GET['developer']) && $_GET['developer'] === '1'): ?>
             <div class="header-selector-section">
@@ -717,11 +757,18 @@ function editor_asset(string $path): string
 
         </div>
     </div>
+    <?php endif; // [DISABLED_FOR_WEDDING_VERSION] end sidebar ?>
+    <!-- Hidden elements kept for JS compatibility (updateCurrentThemeButton uses these IDs) -->
+    <div id="current-theme-preview" style="display:none;"></div>
+    <span id="current-theme-name" style="display:none;"></span>
 
+    <?php // [DISABLED_FOR_WEDDING_VERSION]: Toggle button for sidebar removed along with sidebar. ?>
+    <?php if (false): ?>
     <!-- Independent Toggle Button -->
     <button class="sidebar-toggle" id="toggle-sidebar">
         <i data-lucide="chevron-left"></i>
     </button>
+    <?php endif; // [DISABLED_FOR_WEDDING_VERSION] end toggle button ?>
 
     <!-- Header Panel (Independent, replaces sidebar) -->
     <div class="header-panel" id="header-panel">
@@ -1081,8 +1128,20 @@ function editor_asset(string $path): string
             <!-- Onboarding Overlay (template-first: shown when no template is loaded) -->
             <div id="onboarding-overlay" class="onboarding-overlay">
                 <div class="onboarding-container onboarding-container--gallery">
-                    <h2 class="onboarding-title">¡Choose your template!</h2>
-                    <p class="onboarding-subtitle">Choose a template to start your wedding website</p>
+                    <h2 class="onboarding-title">Choose your Wedding template</h2>
+                    <p class="onboarding-subtitle">Choose a template to start your wedding website. You will be able to remove sections and change the theme.</p>
+
+                    <!-- Onboarding: category pills (left) + search (right) in one row -->
+                    <div class="onboarding-filters-row">
+                        <div class="onboarding-category-filters" id="onboarding-category-filters"></div>
+                        <div class="onboarding-search-wrap">
+                            <svg class="onboarding-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" id="onboarding-search-input" class="onboarding-search-input" placeholder="Search templates..." autocomplete="off" spellcheck="false">
+                            <button id="onboarding-search-clear" class="onboarding-search-clear" aria-label="Clear search">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </button>
+                        </div>
+                    </div>
 
                     <!-- Template gallery grid (populated by onboarding.js) -->
                     <div class="onboarding-template-gallery" id="onboarding-template-gallery">
@@ -1108,6 +1167,19 @@ function editor_asset(string $path): string
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                     </button>
 
+                    <!-- Device view toggle bar (same style as top-bar viewport buttons) -->
+                    <div class="onboarding-preview-device-bar top-bar-card flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+                        <button class="viewport-btn onboarding-preview-device-btn" id="opd-mobile" data-device="mobile" aria-label="Mobile view" title="Mobile view">
+                            <i data-lucide="smartphone" class="w-4 h-4"></i>
+                        </button>
+                        <button class="viewport-btn onboarding-preview-device-btn" id="opd-tablet" data-device="tablet" aria-label="Tablet view" title="Tablet view">
+                            <i data-lucide="tablet" class="w-4 h-4"></i>
+                        </button>
+                        <button class="viewport-btn onboarding-preview-device-btn active" id="opd-desktop" data-device="desktop" aria-label="Desktop view" title="Desktop view">
+                            <i data-lucide="monitor" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
                     <!-- Navigation arrows (attached to card left/right edges) -->
                     <button class="onboarding-preview-nav onboarding-preview-nav--prev" id="onboarding-preview-nav-prev" aria-label="Previous template">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1119,8 +1191,10 @@ function editor_asset(string $path): string
                     <!-- Two-column body -->
                     <div class="onboarding-preview-popup-body">
                         <!-- Left: full template iframe (read-only, no editor) -->
-                        <div class="onboarding-preview-popup-iframe-col">
-                            <iframe id="onboarding-preview-iframe" class="onboarding-preview-iframe" src="about:blank" title="Template preview"></iframe>
+                        <div class="onboarding-preview-popup-iframe-col" id="onboarding-preview-iframe-col">
+                            <div class="onboarding-preview-iframe-wrapper">
+                                <iframe id="onboarding-preview-iframe" class="onboarding-preview-iframe" src="about:blank" title="Template preview"></iframe>
+                            </div>
                         </div>
 
                         <!-- Right: theme sidebar (collapsible) -->
@@ -1159,6 +1233,7 @@ function editor_asset(string $path): string
                     <div class="theme-panel-title">
                         <i data-lucide="palette"></i>
                         <span>Themes</span>
+                        <button type="button" class="theme-panel-reset-badge" id="theme-panel-reset" aria-label="Reset to default theme" title="Reset to default theme">Reset</button>
                     </div>
                     <button class="theme-panel-close" id="close-theme-panel">
                         <i data-lucide="x"></i>
@@ -1206,6 +1281,18 @@ function editor_asset(string $path): string
             <button class="page-name-save-btn" id="save-page-name">
                 Save
             </button>
+        </div>
+    </div>
+
+    <!-- Delete Page Confirmation Modal -->
+    <div id="delete-page-modal" class="delete-page-modal">
+        <div class="delete-page-modal-content">
+            <h2 class="delete-page-modal-title">Delete page?</h2>
+            <p class="delete-page-modal-message">This page will be permanently deleted. This action cannot be undone.</p>
+            <div class="delete-page-modal-actions">
+                <button type="button" id="delete-page-modal-cancel" class="delete-page-modal-btn delete-page-modal-cancel">Cancel</button>
+                <button type="button" id="delete-page-modal-confirm" class="delete-page-modal-btn delete-page-modal-confirm">Delete</button>
+            </div>
         </div>
     </div>
 

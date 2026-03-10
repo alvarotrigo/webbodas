@@ -90,7 +90,7 @@ function editor_asset(string $path): string
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- App base CSS (design tokens + user menu) -->
     <link rel="stylesheet" href="<?= editor_asset('public/css/app.css') ?>">
@@ -100,57 +100,60 @@ function editor_asset(string $path): string
 
     <!-- Lucide icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+    <!-- Export libraries: SheetJS (Excel) + jsPDF + autotable (PDF) -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.3/dist/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
 
 <!-- ================================================================
-     TOP BAR
+     HEADER
 ================================================================ -->
-<div class="rsvp-top-bar">
-    <!-- Left: back + page title -->
-    <div class="rsvp-top-bar-left">
-        <a href="./pages.php" class="rsvp-back-btn" title="Back to pages">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        </a>
-        <div class="rsvp-top-bar-separator"></div>
-        <span id="rsvp-page-title" class="rsvp-page-title">RSVP Dashboard</span>
-        <span id="form-status-badge" class="rsvp-form-status-badge open" style="margin-left:8px;">
-            <span class="rsvp-form-status-dot"></span>Form open
-        </span>
-        <!-- Lock icon — toggles the form open/closed directly -->
-        <button id="rsvp-toggle-form-btn" class="rsvp-lock-btn" title="Open or close the RSVP form">
-            <!-- Icon swapped by rsvp.js via updateFormStatusBadge() -->
-            <!-- Open lock (default, shown when form is open) -->
-            <svg class="lock-icon-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-            <!-- Closed lock (shown when form is closed) -->
-            <svg class="lock-icon-closed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+<header class="rsvp-header">
+    <div class="rsvp-header-left">
+        <div class="rsvp-header-titles">
+            <h1 class="rsvp-header-title" id="rsvp-page-title">List of Assistants</h1>
+            <a class="rsvp-header-subtitle" id="rsvp-page-subtitle" href="#" aria-hidden="true"></a>
+        </div>
+        <button class="rsvp-form-status open" id="rsvp-toggle-form-btn" title="Open or close the RSVP form">
+            <span class="rsvp-form-status-dot"></span>
+            <span id="form-status-text">Form open</span>
+            <svg class="lock-icon-open" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-left:2px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0"/></svg>
+            <svg class="lock-icon-closed" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;margin-left:2px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         </button>
     </div>
-
-    <!-- Center: actions -->
-    <div class="rsvp-top-bar-center">
-
-        <!-- Share private link -->
-        <button id="rsvp-share-btn" class="rsvp-btn" title="Share dashboard with your partner">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-            <span>Share access</span>
+    <div class="rsvp-header-actions">
+        <button id="rsvp-share-btn" class="rsvp-btn-action" title="Share dashboard with your partner">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            <span>Share</span>
         </button>
-
-        <!-- Export CSV -->
-        <button id="rsvp-export-btn" class="rsvp-btn" title="Download as CSV (Excel / Google Sheets)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span>Export CSV</span>
+        <div class="rsvp-export-dropdown-wrap" id="rsvp-export-wrap">
+            <button id="rsvp-export-btn" class="rsvp-btn-action" title="Export data">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export</span>
+                <svg class="rsvp-export-chevron" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="rsvp-export-menu" id="rsvp-export-menu">
+                <button class="rsvp-export-menu-item" data-export="pdf" type="button">
+                    <svg width="16" height="16" fill="none" stroke="#ef4444" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>PDF</span>
+                </button>
+                <button class="rsvp-export-menu-item" data-export="csv" type="button">
+                    <svg width="16" height="16" fill="none" stroke="#22c55e" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>CSV</span>
+                </button>
+                <button class="rsvp-export-menu-item" data-export="excel" type="button">
+                    <svg width="16" height="16" fill="none" stroke="#22863a" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13l3 3 3-3"/><path d="M8 17l3-3 3 3"/></svg>
+                    <span>Excel</span>
+                </button>
+            </div>
+        </div>
+        <button id="rsvp-print-btn" class="rsvp-btn-action rsvp-btn-print" title="Print">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <span>Print</span>
         </button>
-
-        <!-- Manage guest groups -->
-        <button id="rsvp-groups-btn" class="rsvp-btn" title="Manage guest groups">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            <span>Groups</span>
-        </button>
-    </div>
-
-    <!-- Right: user menu -->
-    <div class="rsvp-top-bar-right">
         <?php if ($isAuthenticated): ?>
         <div class="user-info flex items-center gap-2">
             <div id="clerk-user-button" style="position:relative;">
@@ -205,65 +208,91 @@ function editor_asset(string $path): string
         </div>
         <?php endif; ?>
     </div>
+</header>
+
+<div class="rsvp-share-tooltip" id="shareTooltip">Link copied to clipboard!</div>
+
+<div class="rsvp-print-header" id="rsvp-print-header">
+    <div class="rsvp-print-header-row">
+        <h1>List of Assistants of</h1>
+        <a class="rsvp-print-subtitle" id="rsvp-print-subtitle" href="#" style="display:none;"></a>
+    </div>
+    <p id="printDate"></p>
 </div>
 
 <!-- ================================================================
      MAIN LAYOUT
 ================================================================ -->
-<div class="rsvp-layout">
-    <div class="rsvp-main">
+<main class="rsvp-main">
 
-        <!-- Global error -->
-        <div id="rsvp-global-error" style="display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:16px 20px;color:#c0392b;font-size:14px;margin-bottom:16px;"></div>
+    <!-- Global error -->
+    <div id="rsvp-global-error" style="display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:12px;padding:16px 20px;color:#c0392b;font-size:14px;margin-bottom:24px;"></div>
 
-        <!-- Loading state -->
-        <div id="rsvp-loading" class="rsvp-loading">
-            <div class="rsvp-spinner"></div>
-            <span>Loading responses…</span>
+    <!-- Loading state -->
+    <div id="rsvp-loading" class="rsvp-loading">
+        <div class="rsvp-spinner"></div>
+        <span>Loading responses…</span>
+    </div>
+
+    <!-- Main content (shown after load) -->
+    <div id="rsvp-content" style="display:none;">
+
+        <!-- KPI Cards -->
+        <div class="rsvp-kpi-row">
+            <div class="rsvp-kpi-card">
+                <div class="rsvp-kpi-number" id="stat-total">0</div>
+                <div class="rsvp-kpi-label">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Responses
+                </div>
+            </div>
+            <div class="rsvp-kpi-card accepted">
+                <div class="rsvp-kpi-header">
+                    <div>
+                        <div class="rsvp-kpi-number-wrap">
+                            <span class="rsvp-kpi-number" id="stat-attending">0</span>
+                        </div>
+                        <div class="rsvp-kpi-label">
+                            <span class="rsvp-kpi-label-icon rsvp-kpi-thumb-up"><i data-lucide="thumbs-up"></i></span>
+                            Attending
+                        </div>
+                    </div>
+                    <div class="rsvp-kpi-breakdown" id="attendingBreakdown"></div>
+                </div>
+            </div>
+            <div class="rsvp-kpi-card declined">
+                <div class="rsvp-kpi-number-wrap">
+                    <span class="rsvp-kpi-number" id="stat-declining">0</span>
+                </div>
+                <div class="rsvp-kpi-label">
+                    <span class="rsvp-kpi-label-icon rsvp-kpi-thumb-down"><i data-lucide="thumbs-down"></i></span>
+                    Declining
+                </div>
+            </div>
         </div>
 
-        <!-- Main content (shown after load) -->
-        <div id="rsvp-content" style="display:none;">
-
-            <!-- Stats row -->
-            <div class="rsvp-stats">
-                <div class="rsvp-stat-card">
-                    <span id="stat-total" class="rsvp-stat-value">—</span>
-                    <span class="rsvp-stat-label">Responses</span>
-                </div>
-                <div class="rsvp-stat-card">
-                    <span id="stat-attending" class="rsvp-stat-value">—</span>
-                    <span class="rsvp-stat-label">Attending</span>
-                </div>
-                <div class="rsvp-stat-card">
-                    <span id="stat-declining" class="rsvp-stat-value">—</span>
-                    <span class="rsvp-stat-label">Declining</span>
-                </div>
-                <div class="rsvp-stat-card">
-                    <span id="stat-guests" class="rsvp-stat-value">—</span>
-                    <span class="rsvp-stat-label">Total guests</span>
-                </div>
+        <!-- Controls -->
+        <div class="rsvp-controls">
+            <div class="rsvp-search-box">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" placeholder="Search responses..." id="rsvp-search" autocomplete="off">
             </div>
+            <div class="rsvp-category-filters" id="rsvp-group-filter"></div>
+            <div class="rsvp-response-count" id="rsvp-count-label"></div>
+        </div>
 
-            <!-- Toolbar -->
-            <div class="rsvp-toolbar">
-                <div class="rsvp-search-wrap">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    <input id="rsvp-search" type="text" class="rsvp-search" placeholder="Search responses…" autocomplete="off">
-                </div>
-                <!-- Group filter pills — rendered by rsvp.js -->
-                <div id="rsvp-group-filter" class="rsvp-group-filter-wrap" style="display:none;"></div>
-                <span id="rsvp-count-label" class="rsvp-count-label"></span>
+        <!-- Table -->
+        <div id="rsvp-table-wrap" class="rsvp-table-wrapper">
+            <div class="rsvp-table-scroll">
+                <table class="rsvp-table">
+                    <thead id="rsvp-table-head"></thead>
+                    <tbody id="rsvp-table-body"></tbody>
+                </table>
             </div>
+        </div>
 
-            <!-- Table -->
-            <div id="rsvp-table-wrap" class="rsvp-table-wrap">
-                <!-- Populated by rsvp.js -->
-            </div>
-
-        </div><!-- /#rsvp-content -->
-    </div>
-</div>
+    </div><!-- /#rsvp-content -->
+</main>
 
 <!-- ================================================================
      MODAL: Toggle form open/close

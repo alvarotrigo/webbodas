@@ -9,6 +9,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// [DISABLED_FOR_WEDDING_VERSION]: pages.php is no longer part of the user flow.
+// Users are now directed to app.php directly after login.
+header('Location: ./app.php');
+exit;
+
 require_once __DIR__ . '/includes/clerk-auth.php';
 require_once __DIR__ . '/config/polar.php';
 

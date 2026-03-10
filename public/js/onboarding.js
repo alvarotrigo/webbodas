@@ -18,10 +18,16 @@
     // === STATE ===
     let overlay = null;
     let galleryEl = null;
+    let categoryFiltersEl = null;
+    let searchInputEl = null;
+    let searchClearEl = null;
     let isVisible = false;
     let hasBuiltGallery = false;
     let step1Complete = false;
-    let activeCategoryKey = 'all';
+    // Multi-select: empty Set = show all templates
+    let activeCategories = new Set();
+    // Search state (driven by #onboarding-search-input)
+    let onboardingSearchQuery = '';
 
     // Preview popup state
     let popup = null;
@@ -34,21 +40,29 @@
     let popupNavNext = null;
     let popupThemesToggle = null;
     let popupThemesReopen = null;
+    let popupIframeCol = null;
+    let popupDeviceBtns = null;
     let currentPopupTemplate = null;
     let currentPopupThemeId = null;
     let popupTemplateList = [];
+    let currentDeviceMode = 'desktop';
 
     // === INITIALIZATION ===
     function init() {
         console.log('Onboarding initializing...');
 
-        overlay    = document.getElementById('onboarding-overlay');
-        galleryEl  = document.getElementById('onboarding-template-gallery');
+        overlay           = document.getElementById('onboarding-overlay');
+        galleryEl         = document.getElementById('onboarding-template-gallery');
+        categoryFiltersEl = document.getElementById('onboarding-category-filters');
+        searchInputEl     = document.getElementById('onboarding-search-input');
+        searchClearEl     = document.getElementById('onboarding-search-clear');
 
         if (!overlay) {
             console.warn('Onboarding overlay not found');
             return;
         }
+
+        if (searchInputEl) setupOnboardingSearch();
 
         popup            = document.getElementById('onboarding-preview-popup');
         popupIframe      = document.getElementById('onboarding-preview-iframe');
@@ -60,6 +74,8 @@
         popupNavNext     = document.getElementById('onboarding-preview-nav-next');
         popupThemesToggle = document.getElementById('onboarding-preview-themes-toggle');
         popupThemesReopen = document.getElementById('onboarding-preview-themes-reopen');
+        popupIframeCol   = document.getElementById('onboarding-preview-iframe-col');
+        popupDeviceBtns  = document.querySelectorAll('.onboarding-preview-device-btn');
 
         if (popup) setupPopupListeners();
 
@@ -101,11 +117,101 @@
     function renderGallery(templates) {
         if (!galleryEl) return;
 
-        // Render using the current active category filter
-        filterByCategory(activeCategoryKey);
+        // Build category filter pills now that templates are loaded
+        buildCategoryFilters(templates);
 
-        // Mark the default category as active in the sidebar
-        window.setActiveSidebarCategory?.(activeCategoryKey);
+        // Render gallery with current filters
+        applyFilters();
+    }
+
+    // === CATEGORY FILTER PILLS ===
+
+    /**
+     * Builds the row of category pill buttons above the gallery.
+     * "All" is first (left), then the rest. Each pill shows name and template count.
+     */
+    function buildCategoryFilters(templates) {
+        if (!categoryFiltersEl) return;
+
+        const allTemplates = templates || window.allTemplates || [];
+        const categories   = window.templateCategories || [];
+        const totalCount   = allTemplates.filter(t => t.id && !isNaN(Number(t.id))).length;
+
+        // Count valid templates per category
+        const countMap = {};
+        allTemplates.forEach(t => {
+            if (!t.id || isNaN(Number(t.id))) return;
+            if (!t.category) return;
+            countMap[t.category] = (countMap[t.category] || 0) + 1;
+        });
+
+        categoryFiltersEl.innerHTML = '';
+
+        // Add "All" pill first (left)
+        const allCat = categories.find(c => c.id === 'all');
+        if (allCat && totalCount > 0) {
+            const allBtn = document.createElement('button');
+            allBtn.type = 'button';
+            allBtn.className = 'onboarding-cat-btn';
+            allBtn.dataset.catId = 'all';
+            allBtn.innerHTML = `
+                <span class="onboarding-cat-name">${allCat.name}</span>
+                <span class="onboarding-cat-count">${totalCount}</span>
+            `;
+            allBtn.addEventListener('click', () => toggleCategory('all'));
+            categoryFiltersEl.appendChild(allBtn);
+        }
+
+        // Rest of categories (skip 'all')
+        categories.forEach(cat => {
+            if (cat.id === 'all') return;
+            const count = countMap[cat.id] || 0;
+            if (count === 0) return;
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'onboarding-cat-btn';
+            btn.dataset.catId = cat.id;
+            btn.innerHTML = `
+                <span class="onboarding-cat-name">${cat.name}</span>
+                <span class="onboarding-cat-count">${count}</span>
+            `;
+            btn.addEventListener('click', () => toggleCategory(cat.id));
+            categoryFiltersEl.appendChild(btn);
+        });
+
+        refreshCategoryUI();
+    }
+
+    /**
+     * Toggles a category in/out of activeCategories and re-renders the gallery.
+     * "All" clears the selection (show all templates).
+     */
+    function toggleCategory(key) {
+        if (key === 'all') {
+            activeCategories.clear();
+        } else {
+            if (activeCategories.has(key)) {
+                activeCategories.delete(key);
+            } else {
+                activeCategories.add(key);
+            }
+        }
+        refreshCategoryUI();
+        applyFilters();
+    }
+
+    /**
+     * Updates pill button visual state to match activeCategories.
+     * "All" is active when no categories are selected.
+     */
+    function refreshCategoryUI() {
+        if (!categoryFiltersEl) return;
+        categoryFiltersEl.querySelectorAll('.onboarding-cat-btn').forEach(btn => {
+            const catId = btn.dataset.catId;
+            const isActive = catId === 'all' ? activeCategories.size === 0 : activeCategories.has(catId);
+            btn.classList.toggle('active', isActive);
+        });
     }
 
     function createOnboardingCard(template) {
@@ -143,9 +249,9 @@
         const selectBtn = card.querySelector('.select-btn');
         const previewBtn = card.querySelector('.preview-btn');
 
-        selectBtn.addEventListener('click', (e) => {
+        selectBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
-            selectTemplate(template);
+            await selectTemplate(template);
         });
 
         previewBtn.addEventListener('click', (e) => {
@@ -159,8 +265,15 @@
         return card;
     }
 
-    function selectTemplate(template) {
+    async function selectTemplate(template) {
         if (typeof window.insertFullTemplateIntoPreview === 'function') {
+            // If no page exists yet, prompt for name and create page in DB before inserting template
+            if (window.pageManagerInstance && window.pageManagerInstance.shouldPromptForPageName()) {
+                await window.pageManagerInstance.promptForPageName();
+            }
+            // Signal exitOnboardingMode to keep the sidebar collapsed so no
+            // open→close animation flashes when the template is inserted.
+            window._collapseAfterOnboarding = true;
             hide(true);
             window.insertFullTemplateIntoPreview(template);
             if (!step1Complete) {
@@ -231,9 +344,9 @@
     function getFilteredTemplates() {
         const all = window.allTemplates;
         if (!Array.isArray(all)) return [];
-        return activeCategoryKey === 'all'
-            ? all.filter(t => t.id && !isNaN(Number(t.id)))
-            : all.filter(t => t.id && !isNaN(Number(t.id)) && t.category === activeCategoryKey);
+        const valid = all.filter(t => t.id && !isNaN(Number(t.id)));
+        if (activeCategories.size === 0) return valid;
+        return valid.filter(t => activeCategories.has(t.category));
     }
 
     function cleanupIframe() {
@@ -258,12 +371,22 @@
         cleanupIframe();
         popupIframe.src = template.url;
 
-        currentPopupThemeId = window.currentTheme || null;
+        // No theme pre-selected in onboarding preview; user must choose one explicitly
+        currentPopupThemeId = null;
         buildPopupThemesList();
         updateNavButtons();
 
         popup.classList.add('show');
         document.body.style.overflow = 'hidden';
+
+        // Always reset to desktop view when opening popup
+        setDeviceMode('desktop');
+
+        // Ensure Lucide icons in device bar are rendered (smartphone, tablet, monitor)
+        const deviceBar = popup && popup.querySelector('.onboarding-preview-device-bar');
+        if (deviceBar && typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+            lucide.createIcons({ nodes: [deviceBar] });
+        }
 
         window.hideSidebarForPreview?.();
 
@@ -419,19 +542,38 @@
         popupThemesCol.classList.toggle('collapsed');
     }
 
+    function setDeviceMode(mode) {
+        if (!popupIframeCol) return;
+        currentDeviceMode = mode;
+
+        popupIframeCol.classList.remove('device-mobile', 'device-tablet', 'device-desktop');
+        if (mode !== 'desktop') {
+            popupIframeCol.classList.add('device-' + mode);
+        }
+
+        if (popupDeviceBtns) {
+            popupDeviceBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.device === mode);
+            });
+        }
+    }
+
     function setupPopupListeners() {
         if (popupCloseBtn) popupCloseBtn.addEventListener('click', closePreviewPopup);
 
         if (popupChooseBtn) {
-            popupChooseBtn.addEventListener('click', () => {
+            popupChooseBtn.addEventListener('click', async () => {
                 if (!currentPopupTemplate) return;
                 const chosenTemplate = currentPopupTemplate;
                 const chosenTheme = currentPopupThemeId;
-                closePreviewPopup();
+                // Apply theme before showing name modal
                 if (chosenTheme && typeof window.applyThemeFromCommand === 'function') {
                     window.applyThemeFromCommand(chosenTheme, { keepPanelOpen: true });
                 }
-                selectTemplate(chosenTemplate);
+                // Name modal appears on top of the preview popup (z-index stacking).
+                // Close the popup only after the name is entered and template inserted.
+                await selectTemplate(chosenTemplate);
+                closePreviewPopup();
             });
         }
 
@@ -439,6 +581,12 @@
         if (popupNavNext) popupNavNext.addEventListener('click', () => navigateTemplate(1));
         if (popupThemesToggle) popupThemesToggle.addEventListener('click', toggleThemesPanel);
         if (popupThemesReopen) popupThemesReopen.addEventListener('click', toggleThemesPanel);
+
+        if (popupDeviceBtns) {
+            popupDeviceBtns.forEach(btn => {
+                btn.addEventListener('click', () => setDeviceMode(btn.dataset.device));
+            });
+        }
 
         // Backdrop click
         const backdrop = popup.querySelector('.onboarding-preview-popup-backdrop');
@@ -462,9 +610,7 @@
     function renderSearchResultsInGallery(templates) {
         if (!galleryEl) return;
 
-        // Clear category active state — search has no selected category
-        document.querySelectorAll('#category-list .category-item').forEach(el => el.classList.remove('onboarding-active'));
-
+        onboardingSearchQuery = 'active'; // mark search as active (exact value handled by template-search.js)
         galleryEl.innerHTML = '';
 
         if (!templates || templates.length === 0) {
@@ -490,27 +636,25 @@
     }
 
     /**
-     * Restores the gallery to the last active category.
-     * Called when the search input is cleared in onboarding mode.
+     * Restores the gallery to the current category selection when search is cleared.
+     * Called by template-search.js when the sidebar search input is emptied in onboarding mode.
      */
     function clearSearch() {
-        filterByCategory(activeCategoryKey);
-        window.setActiveSidebarCategory?.(activeCategoryKey);
+        onboardingSearchQuery = '';
+        applyFilters();
     }
 
     /**
-     * Filters the onboarding gallery to show only templates from the given category.
-     * Called by sidebar category click when in onboarding mode.
+     * Core render: applies active category filters and renders the gallery.
+     * Called by toggleCategory(), clearSearch(), and initial renderGallery().
      */
-    function filterByCategory(key) {
-        activeCategoryKey = key;
-
+    function applyFilters() {
         const allTemplates = window.allTemplates;
         if (!Array.isArray(allTemplates)) return;
 
-        const filtered = key === 'all'
+        const filtered = activeCategories.size === 0
             ? allTemplates.filter(t => t.id && !isNaN(Number(t.id)))
-            : allTemplates.filter(t => t.id && !isNaN(Number(t.id)) && t.category === key);
+            : allTemplates.filter(t => t.id && !isNaN(Number(t.id)) && activeCategories.has(t.category));
 
         if (!galleryEl) return;
         galleryEl.innerHTML = '';
@@ -531,8 +675,87 @@
             lucide.createIcons({ nodes: [galleryEl] });
         }
 
-        // Scroll gallery back to top when category changes
         if (overlay) overlay.scrollTop = 0;
+    }
+
+    /**
+     * Legacy single-category filter — kept for backward-compat with sidebar click handler.
+     * Now sets the single category as the only active one and re-renders.
+     */
+    function filterByCategory(key) {
+        activeCategories.clear();
+        if (key && key !== 'all') {
+            activeCategories.add(key);
+        }
+        refreshCategoryUI();
+        applyFilters();
+    }
+
+    // === ONBOARDING SEARCH ===
+
+    /**
+     * Wires the dedicated onboarding search input.
+     * Routes to the shared template-search.js Fuse engine via the sidebar search input,
+     * or falls back to a simple name/tag filter if the shared engine is unavailable.
+     */
+    function setupOnboardingSearch() {
+        if (!searchInputEl) return;
+
+        let searchTimeout = null;
+
+        function syncAndTrigger(value) {
+            // Mirror value into the sidebar search input so template-search.js picks it up
+            const sidebarInput = document.getElementById('section-search-input');
+            if (sidebarInput) {
+                sidebarInput.value = value;
+                sidebarInput.dispatchEvent(new Event('input', { bubbles: true }));
+            } else {
+                // Fallback: simple inline filter
+                if (!value.trim()) {
+                    onboardingSearchQuery = '';
+                    applyFilters();
+                } else {
+                    onboardingSearchQuery = value.trim().toLowerCase();
+                    const all = window.allTemplates || [];
+                    const q   = onboardingSearchQuery;
+                    const results = all.filter(t => {
+                        if (!t.id || isNaN(Number(t.id))) return false;
+                        const inName = (t.name || '').toLowerCase().includes(q);
+                        const inCat  = (t.category || '').toLowerCase().includes(q);
+                        const inTags = (t.tags || []).some(tg => tg.toLowerCase().includes(q));
+                        return inName || inCat || inTags;
+                    });
+                    renderSearchResultsInGallery(results);
+                }
+            }
+        }
+
+        searchInputEl.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (searchClearEl) searchClearEl.style.display = val ? '' : 'none';
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => syncAndTrigger(val), 0);
+        });
+
+        searchInputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchInputEl.value = '';
+                if (searchClearEl) searchClearEl.style.display = 'none';
+                clearTimeout(searchTimeout);
+                syncAndTrigger('');
+            }
+        });
+
+        if (searchClearEl) {
+            searchClearEl.style.display = 'none';
+            searchClearEl.addEventListener('click', () => {
+                searchInputEl.value = '';
+                searchClearEl.style.display = 'none';
+                clearTimeout(searchTimeout);
+                syncAndTrigger('');
+                searchInputEl.focus();
+            });
+        }
     }
 
     // === VISIBILITY MANAGEMENT ===
@@ -544,6 +767,7 @@
 
         overlay.classList.add('show');
         isVisible = true;
+        // Navbar hidden via body.onboarding-visible set by PHP on first paint (no JS add here to avoid flash)
 
         // Activate sidebar onboarding mode (hides theme selector, disables hover panel)
         window.enterOnboardingMode?.();
@@ -559,6 +783,8 @@
 
         // Restore normal sidebar behaviour
         window.exitOnboardingMode?.();
+
+        document.body.classList.remove('onboarding-visible');
 
         if (immediate) {
             overlay.classList.remove('show');
@@ -590,6 +816,17 @@
             show();
         } else if (!isEmpty && isVisible) {
             hide(true);
+        } else if (!isEmpty && !isVisible) {
+            // Existing page reload: template is already loaded but the onboarding
+            // overlay was never shown in this session (show() was never called).
+            // Keep sidebar collapsed by default (same behaviour as new template insert).
+            window._collapseAfterOnboarding = true;
+            window.exitOnboardingMode?.();
+        }
+
+        // Ensure navbar is visible when a template is present (e.g. restored draft)
+        if (!isEmpty) {
+            document.body.classList.remove('onboarding-visible');
         }
     }
 
@@ -638,8 +875,12 @@
         reset: function() {
             step1Complete = false;
             hasBuiltGallery = false;
-            activeCategoryKey = 'all';
+            activeCategories.clear();
+            onboardingSearchQuery = '';
             if (galleryEl) galleryEl.innerHTML = '';
+            if (categoryFiltersEl) categoryFiltersEl.innerHTML = '';
+            if (searchInputEl) { searchInputEl.value = ''; }
+            if (searchClearEl)  { searchClearEl.style.display = 'none'; }
             console.log('Onboarding reset');
         }
     };

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List of Assistants — RSVP Dashboard</title>
+<meta name="description" content="RSVP tracking dashboard for event attendance management.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F8F9FA;
+  --surface: #FFFFFF;
+  --text-primary: #1D232C;
+  --text-secondary: #6C757D;
+  --border: #CED4DA;
+  --border-light: #E9ECEF;
+  --green: #198754;
+  --green-bg: #E8F5E9;
+  --red: #DC3545;
+  --red-bg: #FDEBEB;
+  --blue: #0D6EFD;
+  --blue-bg: #E7F1FF;
+  --yellow: #F59E0B;
+  --yellow-bg: #FEF3C7;
+  --purple: #7C3AED;
+  --purple-bg: #EDE9FE;
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --space: 24px;
+  --space-lg: 48px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 var(--space-lg);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-title {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.form-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: opacity 150ms;
+  user-select: none;
+}
+.form-status:hover { opacity: 0.8; }
+.form-status.open { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.form-status.closed { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.form-status .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: currentColor;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-print {
+  background: #2563EB !important;
+  color: #fff !important;
+  border-color: #2563EB !important;
+  border-radius: 8px;
+}
+.btn-print:hover { background: #1d4ed8 !important; border-color: #1d4ed8 !important; }
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: border-color 150ms, color 150ms;
+}
+.btn-icon:hover { border-color: var(--text-primary); color: var(--text-primary); }
+
+.btn-action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: border-color 150ms;
+}
+.btn-action:hover { border-color: var(--text-primary); }
+
+/* Main */
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+/* KPI Cards */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space);
+  margin-bottom: var(--space-lg);
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.kpi-number {
+  font-family: var(--font-heading);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.kpi-label {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kpi-card.accepted .kpi-number { color: var(--green); }
+.kpi-card.accepted .kpi-label { color: var(--green); font-size: 15px; }
+.kpi-card.declined .kpi-number { color: var(--red); }
+.kpi-card.declined .kpi-label { color: var(--red); font-size: 15px; }
+
+.kpi-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.kpi-label svg { flex-shrink: 0; }
+.kpi-card.accepted .kpi-label svg { color: var(--green); }
+.kpi-card.declined .kpi-label svg { color: var(--red); }
+
+.kpi-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  text-align: right;
+  padding-top: 4px;
+}
+.kpi-breakdown span {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  white-space: nowrap;
+}
+.kpi-breakdown strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: var(--space);
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+  max-width: 420px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 16px 10px 42px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: var(--surface);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 150ms;
+}
+.search-box input:focus { border-color: var(--blue); }
+.search-box input::placeholder { color: var(--border); }
+.search-box svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--border);
+}
+
+.category-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cat-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 150ms;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cat-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
+.cat-btn.active { background: var(--text-primary); color: #fff; border-color: var(--text-primary); }
+.cat-btn .cat-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+
+.response-count {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* Table */
+.table-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+thead th:hover { color: var(--text-primary); }
+.th-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+thead th .sort-icon {
+  opacity: 0.3;
+  transition: opacity 150ms;
+  display: flex;
+  flex-direction: column;
+  line-height: 0;
+  font-size: 10px;
+}
+thead th:hover .sort-icon { opacity: 0.7; }
+thead th.sorted .sort-icon { opacity: 1; color: var(--blue); }
+
+/* Column filter dropdown */
+.th-filter-icon {
+  display: inline-flex;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  opacity: 0.3;
+  transition: opacity 150ms;
+  position: relative;
+}
+thead th:hover .th-filter-icon { opacity: 0.7; }
+.th-filter-icon.active { opacity: 1; color: var(--blue); }
+
+.col-filter-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 180px;
+  z-index: 200;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 13px;
+  color: var(--text-primary);
+  cursor: default;
+}
+.col-filter-dropdown label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.col-filter-dropdown label:hover { background: var(--bg); }
+
+tbody tr {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-light);
+  transition: opacity 150ms;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--bg); }
+
+td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-heading);
+  white-space: nowrap;
+}
+.badge-green { background: var(--green-bg); color: var(--green); }
+.badge-red { background: var(--red-bg); color: var(--red); }
+.badge-blue { background: var(--blue-bg); color: var(--blue); }
+.badge-yellow { background: var(--yellow-bg); color: var(--yellow); }
+.badge-purple { background: var(--purple-bg); color: var(--purple); }
+.badge-gray { background: var(--bg); color: var(--text-secondary); }
+
+/* Filtering animation */
+tbody.filtering { opacity: 0.5; }
+
+/* Print styles */
+@media print {
+  .header, .controls, .no-print { display: none !important; }
+  .main { padding: 0; }
+  .print-header { display: block !important; }
+  .kpi-row { break-inside: avoid; }
+  .table-wrapper { border: none; border-radius: 0; }
+  thead th { position: static; background: var(--bg); }
+  body { background: #fff; }
+  .kpi-card { border: 1px solid #ccc; }
+}
+
+.print-header {
+  display: none;
+  text-align: center;
+  margin-bottom: 32px;
+  padding-top: 16px;
+}
+.print-header h1 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.print-header p {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header { padding: 0 var(--space); }
+  .header-title { font-size: 15px; }
+  .header-actions a { display: none; }
+  .main { padding: var(--space); }
+  .kpi-row { grid-template-columns: 1fr; gap: 16px; }
+  .kpi-number { font-size: 36px; }
+  .kpi-card { padding: 24px; }
+  .controls { flex-direction: column; align-items: stretch; }
+  .search-box { max-width: none; }
+  .response-count { margin-left: 0; text-align: right; }
+}
+
+/* Tooltip for share */
+.share-tooltip {
+  position: fixed;
+  top: 80px;
+  right: 48px;
+  background: var(--text-primary);
+  color: #fff;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms;
+  z-index: 500;
+}
+.share-tooltip.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-left">
+    <h1 class="header-title">List of Assistants</h1>
+    <button class="form-status open" id="formToggle" onclick="toggleForm()">
+      <span class="dot"></span>
+      <span id="formStatusText">Form open</span>
+      <span id="lockIcon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-left:2px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0"/></svg></span>
+    </button>
+  </div>
+  <div class="header-actions">
+    <button class="btn-action" onclick="shareDashboard()" title="Share">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      Share
+    </button>
+    <button class="btn-action" onclick="downloadCSV()" title="Download CSV">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </button>
+    <button class="btn-action btn-print" onclick="printDashboard()" title="Print">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print
+    </button>
+  </div>
+</header>
+
+<div class="share-tooltip" id="shareTooltip">Link copied to clipboard!</div>
+
+<div class="print-header">
+  <h1>List of Assistants</h1>
+  <p id="printDate"></p>
+</div>
+
+<main class="main">
+  <!-- KPI Cards -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-number" id="totalCount">0</div>
+      <div class="kpi-label">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Responses
+      </div>
+    </div>
+    <div class="kpi-card accepted">
+      <div class="kpi-header">
+        <div>
+          <div class="kpi-number" id="acceptedCount">0</div>
+          <div class="kpi-label">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Attending
+          </div>
+        </div>
+        <div class="kpi-breakdown" id="attendingBreakdown"></div>
+      </div>
+    </div>
+    <div class="kpi-card declined">
+      <div class="kpi-number" id="declinedCount">0</div>
+      <div class="kpi-label">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        Declining
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="search-box">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search responses..." id="searchInput" oninput="applyFilters()">
+    </div>
+    <div class="category-filters" id="categoryFilters"></div>
+    <div class="response-count" id="responseCount"></div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <div class="table-scroll">
+      <table>
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script>
+// ── Sample Data ──
+const CATEGORIES = [
+  { name: 'Friends', color: '#F59E0B' },
+  { name: 'Family', color: '#198754' },
+  { name: 'Work', color: '#0D6EFD' },
+  { name: 'Other', color: '#7C3AED' }
+];
+
+const COLUMNS = [
+  { key: 'attendance', label: '', filterable: true },
+  { key: 'fullName', label: 'Full Name', filterable: false },
+  { key: 'mobile', label: 'Mobile', filterable: false },
+  { key: 'email', label: 'Email', filterable: false },
+  { key: 'ageCategory', label: 'Age Category', filterable: true },
+  { key: 'allergies', label: 'Allergies / Diet', filterable: false },
+  { key: 'transport', label: 'Transport', filterable: true },
+  { key: 'song', label: 'Song', filterable: false },
+  { key: 'message', label: 'Message', filterable: false },
+  { key: 'group', label: 'Group', filterable: true },
+  { key: 'table', label: 'Table', filterable: true }
+];
+
+const DATA = [
+  { fullName:'Pablo Trigo', mobile:'+34644397212', email:'ptrigol@gmail.com', ageCategory:'Adult', attendance:'Yes, I will', allergies:'Almejas', transport:'No', song:'Dancing in the rain', message:'I love youuuuu', group:'Friends', table:'1' },
+  { fullName:'María García', mobile:'+34611223344', email:'maria.g@email.com', ageCategory:'Adult', attendance:'Yes, I will', allergies:'None', transport:'Yes', song:'Bohemian Rhapsody', message:'So excited!', group:'Family', table:'2' },
+  { fullName:'Carlos Ruiz', mobile:'+34655667788', email:'cruiz@email.com', ageCategory:'Adult', attendance:'No, I can\'t', allergies:'Gluten-free', transport:'No', song:'', message:'Sorry, will miss it', group:'Work', table:'' },
+  { fullName:'Ana Martínez', mobile:'+34699887766', email:'ana.m@email.com', ageCategory:'Child', attendance:'Yes, I will', allergies:'Nuts', transport:'Yes', song:'Let it Go', message:'Can\'t wait!', group:'Family', table:'2' },
+  { fullName:'Luis Fernández', mobile:'+34622334455', email:'luis.f@email.com', ageCategory:'Adult', attendance:'Yes, I will', allergies:'None', transport:'Yes', song:'Hotel California', message:'', group:'Friends', table:'1' },
+  { fullName:'Elena Torres', mobile:'+34633445566', email:'elena.t@email.com', ageCategory:'Adult', attendance:'No, I can\'t', allergies:'Dairy', transport:'No', song:'', message:'Work trip, sorry!', group:'Work', table:'' },
+  { fullName:'Jorge López', mobile:'+34644556677', email:'jlopez@email.com', ageCategory:'Senior', attendance:'Yes, I will', allergies:'Low sodium', transport:'Yes', song:'My Way', message:'Honored to attend', group:'Family', table:'3' },
+  { fullName:'Sara Navarro', mobile:'+34655668899', email:'sara.n@email.com', ageCategory:'Adult', attendance:'Yes, I will', allergies:'Vegan', transport:'No', song:'Shake it Off', message:'Yay!!', group:'Friends', table:'1' },
+  { fullName:'Raúl Jiménez', mobile:'+34666779900', email:'raul.j@email.com', ageCategory:'Adult', attendance:'Yes, I will', allergies:'None', transport:'Yes', song:'Thunderstruck', message:'Let\'s goooo', group:'Other', table:'4' },
+  { fullName:'Isabel Romero', mobile:'+34677881122', email:'isabel.r@email.com', ageCategory:'Teen', attendance:'Yes, I will', allergies:'Shellfish', transport:'No', song:'Bad Guy', message:'', group:'Family', table:'2' },
+  { fullName:'Andrés Molina', mobile:'+34688992233', email:'amolina@email.com', ageCategory:'Adult', attendance:'No, I can\'t', allergies:'None', transport:'No', song:'', message:'Have a great time!', group:'Other', table:'' },
+  { fullName:'Clara Vega', mobile:'+34699003344', email:'clara.v@email.com', ageCategory:'Adult', attendance:'Yes, I will', allergies:'Lactose', transport:'Yes', song:'Uptown Funk', message:'See you there!', group:'Friends', table:'1' },
+];
+
+// ── State ──
+let formOpen = true;
+let activeCategory = null;
+let sortCol = null;
+let sortDir = 'asc';
+let columnFilters = {}; // { colKey: Set of selected values }
+let openFilterCol = null;
+
+// ── Init ──
+function init() {
+  renderCategoryButtons();
+  renderTableHead();
+  applyFilters();
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.th-filter-icon') && !e.target.closest('.col-filter-dropdown')) {
+      closeAllFilterDropdowns();
+    }
+  });
+}
+
+function renderCategoryButtons() {
+  const container = document.getElementById('categoryFilters');
+  let html = '<button class="cat-btn active" onclick="setCategory(null, this)">All</button>';
+  CATEGORIES.forEach(c => {
+    html += `<button class="cat-btn" onclick="setCategory('${c.name}', this)">
+      <span class="cat-dot" style="background:${c.color}"></span>${c.name}
+    </button>`;
+  });
+  html += '<button class="cat-btn cat-btn-add" style="border-style:dashed;color:var(--text-secondary);cursor:pointer;">+ Group</button>';
+  container.innerHTML = html;
+}
+
+function renderTableHead() {
+  const thead = document.getElementById('tableHead');
+  let html = '<tr>';
+  COLUMNS.forEach(col => {
+    html += `<th class="${sortCol === col.key ? 'sorted' : ''}" onclick="sortBy('${col.key}', event)">
+      <div class="th-content">
+        ${col.label}
+        <span class="sort-icon">${getSortIcon(col.key)}</span>
+        ${col.filterable ? `<span class="th-filter-icon ${hasActiveFilter(col.key) ? 'active' : ''}" onclick="toggleColumnFilter('${col.key}', event)" data-col="${col.key}">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        </span>` : ''}
+      </div>
+    </th>`;
+  });
+  html += '</tr>';
+  thead.innerHTML = html;
+}
+
+function getSortIcon(key) {
+  if (sortCol !== key) return '⇅';
+  return sortDir === 'asc' ? '↑' : '↓';
+}
+
+function hasActiveFilter(key) {
+  return columnFilters[key] && columnFilters[key].size > 0;
+}
+
+// ── Sorting ──
+function sortBy(key, event) {
+  if (event.target.closest('.th-filter-icon')) return;
+  if (sortCol === key) {
+    sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    sortCol = key;
+    sortDir = 'asc';
+  }
+  renderTableHead();
+  applyFilters();
+}
+
+// ── Column Filter ──
+function toggleColumnFilter(colKey, event) {
+  event.stopPropagation();
+  if (openFilterCol === colKey) {
+    closeAllFilterDropdowns();
+    return;
+  }
+  closeAllFilterDropdowns();
+  openFilterCol = colKey;
+
+  const uniqueVals = [...new Set(DATA.map(r => r[colKey]).filter(Boolean))].sort();
+  const selected = columnFilters[colKey] || new Set();
+
+  const icon = event.target.closest('.th-filter-icon');
+  const dropdown = document.createElement('div');
+  dropdown.className = 'col-filter-dropdown';
+  dropdown.innerHTML = uniqueVals.map(v =>
+    `<label><input type="checkbox" value="${v}" ${selected.has(v) ? 'checked' : ''} onchange="onColFilterChange('${colKey}', '${v.replace(/'/g,"\\'")}', this.checked)"> ${v}</label>`
+  ).join('');
+  icon.style.position = 'relative';
+  icon.appendChild(dropdown);
+}
+
+function onColFilterChange(colKey, value, checked) {
+  if (!columnFilters[colKey]) columnFilters[colKey] = new Set();
+  if (checked) {
+    columnFilters[colKey].add(value);
+  } else {
+    columnFilters[colKey].delete(value);
+    if (columnFilters[colKey].size === 0) delete columnFilters[colKey];
+  }
+  renderTableHead();
+  // Re-open the dropdown after re-render
+  const icon = document.querySelector(`.th-filter-icon[data-col="${colKey}"]`);
+  if (icon) {
+    const uniqueVals = [...new Set(DATA.map(r => r[colKey]).filter(Boolean))].sort();
+    const selected = columnFilters[colKey] || new Set();
+    const dropdown = document.createElement('div');
+    dropdown.className = 'col-filter-dropdown';
+    dropdown.innerHTML = uniqueVals.map(v =>
+      `<label><input type="checkbox" value="${v}" ${selected.has(v) ? 'checked' : ''} onchange="onColFilterChange('${colKey}', '${v.replace(/'/g,"\\'")}', this.checked)"> ${v}</label>`
+    ).join('');
+    icon.style.position = 'relative';
+    icon.appendChild(dropdown);
+  }
+  applyFilters();
+}
+
+function closeAllFilterDropdowns() {
+  openFilterCol = null;
+  document.querySelectorAll('.col-filter-dropdown').forEach(d => d.remove());
+}
+
+// ── Category ──
+function setCategory(cat, btn) {
+  activeCategory = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+// ── Filter + Render ──
+function applyFilters() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const tbody = document.getElementById('tableBody');
+  tbody.classList.add('filtering');
+
+  let filtered = DATA.filter(row => {
+    // Search
+    if (query) {
+      const match = Object.values(row).some(v => String(v).toLowerCase().includes(query));
+      if (!match) return false;
+    }
+    // Category
+    if (activeCategory && row.group !== activeCategory) return false;
+    // Column filters
+    for (const [colKey, vals] of Object.entries(columnFilters)) {
+      if (vals.size > 0 && !vals.has(row[colKey])) return false;
+    }
+    return true;
+  });
+
+  // Sort
+  if (sortCol) {
+    filtered.sort((a, b) => {
+      const va = String(a[sortCol] || '').toLowerCase();
+      const vb = String(b[sortCol] || '').toLowerCase();
+      if (va < vb) return sortDir === 'asc' ? -1 : 1;
+      if (va > vb) return sortDir === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
+
+  // Render
+  requestAnimationFrame(() => {
+    tbody.innerHTML = filtered.map(row => `<tr>
+      <td style="text-align:center">${row.attendance === 'Yes, I will' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#dcfce7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#fee2e2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>'}</td>
+      <td style="font-weight:500">${row.fullName}</td>
+      <td>${row.mobile}</td>
+      <td>${row.email}</td>
+      <td>${badgeFor('ageCategory', row.ageCategory)}</td>
+      <td>${row.allergies}</td>
+      <td>${transportBadge(row.transport)}</td>
+      <td>${row.song}</td>
+      <td>${row.message}</td>
+      <td>${groupBadge(row.group)}</td>
+      <td>${row.table ? '<span class="badge badge-gray">' + row.table + '</span>' : ''}</td>
+    </tr>`).join('');
+
+    // Counts
+    const total = DATA.length;
+    const attending = DATA.filter(r => r.attendance === 'Yes, I will');
+    const accepted = attending.length;
+    const declined = DATA.filter(r => r.attendance === "No, I can't").length;
+    const adults = attending.filter(r => r.ageCategory === 'Adult').length;
+    const children = attending.filter(r => r.ageCategory === 'Child').length;
+    const transport = attending.filter(r => r.transport === 'Yes').length;
+    document.getElementById('totalCount').textContent = total;
+    document.getElementById('acceptedCount').textContent = accepted;
+    document.getElementById('declinedCount').textContent = declined;
+    document.getElementById('attendingBreakdown').innerHTML =
+      `<span>Adultos: <strong>${adults}</strong></span><span>Niños: <strong>${children}</strong></span><span>Transporte: <strong>${transport}</strong></span>`;
+    document.getElementById('responseCount').textContent = `${filtered.length} of ${total} responses`;
+
+    setTimeout(() => tbody.classList.remove('filtering'), 50);
+  });
+}
+
+function badgeFor(type, val) {
+  if (!val) return '';
+  const map = { 'Adult': 'badge-blue', 'Child': 'badge-yellow' };
+  return `<span class="badge ${map[val] || 'badge-gray'}">${val}</span>`;
+}
+
+function attendanceBadge(val) {
+  if (val === 'Yes, I will') return '<span class="badge badge-green">Yes, I will</span>';
+  if (val === "No, I can't") return '<span class="badge badge-red">No, I can\'t</span>';
+  return val || '';
+}
+
+function transportBadge(val) {
+  if (val === 'Yes') return '<span class="badge badge-green">Yes</span>';
+  if (val === 'No') return '<span class="badge badge-red">No</span>';
+  return val || '';
+}
+
+function groupBadge(val) {
+  if (!val) return '';
+  const colors = { 'Friends': 'badge-yellow', 'Family': 'badge-green', 'Work': 'badge-blue', 'Other': 'badge-purple' };
+  return `<span class="badge ${colors[val] || 'badge-gray'}">${val}</span>`;
+}
+
+// ── Actions ──
+function toggleForm() {
+  formOpen = !formOpen;
+  const btn = document.getElementById('formToggle');
+  const text = document.getElementById('formStatusText');
+  const lock = document.getElementById('lockIcon');
+  btn.className = 'form-status ' + (formOpen ? 'open' : 'closed');
+  text.textContent = formOpen ? 'Form open' : 'Form closed';
+  lock.innerHTML = formOpen
+    ? '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-left:2px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0"/></svg>'
+    : '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-left:2px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
+}
+
+function shareDashboard() {
+  const url = window.location.href;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url);
+  }
+  const tip = document.getElementById('shareTooltip');
+  tip.classList.add('visible');
+  setTimeout(() => tip.classList.remove('visible'), 2000);
+}
+
+function printDashboard() {
+  const d = new Date();
+  document.getElementById('printDate').textContent = 'Report generated on ' + d.toLocaleDateString('en-US', { day:'numeric', month:'long', year:'numeric' });
+  window.print();
+}
+
+function downloadCSV() {
+  const headers = COLUMNS.map(c => c.label).join(',');
+  const rows = DATA.map(r => COLUMNS.map(c => `"${String(r[c.key] || '').replace(/"/g, '""')}"`).join(','));
+  const csv = [headers, ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'rsvp_responses.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+init();
+</script>
+</body>
+</html>

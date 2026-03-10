@@ -162,6 +162,10 @@
             forceLoadTimeout = setTimeout(() => {
                 forceLoadUnloadedItems();
             }, 500 * forceLoadRetries);
+        } else {
+            // All items loaded (or no retries left): ensure theme is applied
+            // so thumbnails inherit the correct CSS variables from the theme class
+            applyCurrentTheme();
         }
     }
 
@@ -439,6 +443,11 @@
 
         // Reinitialize sortable after loading sections
         setupSortableFunctionality();
+
+        // Ensure theme class is always on the list when sections are loaded,
+        // regardless of which code path triggered the reload (OUTLINE_READY,
+        // syncOutlineFromTemplateContent, toggle click, etc.)
+        applyCurrentTheme();
 
         // Force load visible items after a delay to handle cases where
         // IntersectionObserver doesn't fire reliably (e.g. during sidebar
@@ -830,7 +839,16 @@
             if (el) { el.remove(); }
             return;
         }
-        var scoped = css.replace(/#preview-content\.has-full-template/g, '.section-outline-thumbnail-content');
+
+        // Strip :root { ... } blocks entirely so template color variables don't bleed into
+        // the parent document and override the active theme's CSS custom properties.
+        // Theme variables on #section-outline-list cascade naturally to thumbnail contents;
+        // only the structural CSS (layout, typography, spacing) from the template is needed here.
+        var stripped = css.replace(/:root\s*\{[^}]*\}/g, '');
+
+        // Scope remaining rules to thumbnail containers only
+        var scoped = stripped.replace(/#preview-content\.has-full-template/g, '.section-outline-thumbnail-content');
+
         if (!el) {
             el = document.createElement('style');
             el.id = 'template-styles-outline';

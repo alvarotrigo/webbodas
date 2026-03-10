@@ -1,142 +1,274 @@
 /* ============================================================
-   RSVP Dashboard Styles
-   Based on app.css design tokens and component patterns
+   RSVP Dashboard Styles — Redesign
+   Clean, modern dashboard matching the "List of Assistants" design
    ============================================================ */
+
+/* ---- Dashboard tokens ------------------------------------ */
+:root {
+    --rsvp-font-heading: 'Plus Jakarta Sans', var(--font-family, 'Inter', sans-serif);
+    --rsvp-space: 24px;
+    --rsvp-space-lg: 48px;
+    /* Page and surface: match tests/dashboard.html (--bg, --surface) */
+    --rsvp-bg: #F8F9FA;
+    --rsvp-surface: #FFFFFF;
+    --rsvp-green: #198754;
+    --rsvp-green-bg: #E8F5E9;
+    --rsvp-red: #DC3545;
+    --rsvp-red-bg: #FDEBEB;
+    --rsvp-blue: #0D6EFD;
+    --rsvp-blue-bg: #E7F1FF;
+    --rsvp-yellow: #F59E0B;
+    --rsvp-yellow-bg: #FEF3C7;
+    --rsvp-purple: #7C3AED;
+    --rsvp-purple-bg: #EDE9FE;
+    --rsvp-border-light: #E9ECEF;
+    /* Explicit grey for neutral badges (e.g. transport No) so they never appear red */
+    --rsvp-neutral-bg: #f1f5f9;
+    --rsvp-neutral-text: #64748b;
+}
 
 /* ---- Reset / base ---------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
-    background-color: var(--secondary-bg);
+    background-color: var(--rsvp-bg);
     color: var(--primary-text);
     font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 1.5;
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ---- Top bar --------------------------------------------- */
-.rsvp-top-bar {
-    position: fixed;
+/* ---- Header ---------------------------------------------- */
+.rsvp-header {
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background: var(--primary-bg);
+    z-index: 100;
+    background: var(--rsvp-surface);
     border-bottom: 1px solid var(--border-color);
+    padding: 0 var(--rsvp-space-lg);
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px;
-    z-index: 100;
-    box-shadow: var(--shadow-sm);
-    gap: 12px;
 }
 
-.rsvp-top-bar-left {
+.rsvp-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.rsvp-header-titles {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.rsvp-header-title {
+    font-family: var(--rsvp-font-heading);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-text);
+    margin: 0;
+}
+
+.rsvp-header-subtitle {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--secondary-text);
+    margin: 0;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+.rsvp-header-subtitle:hover {
+    color: var(--rsvp-blue);
+}
+.rsvp-header-subtitle[href="javascript:void(0)"] {
+    cursor: default;
+}
+.rsvp-header-subtitle[href="javascript:void(0)"]:hover {
+    color: var(--secondary-text);
+}
+
+.rsvp-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ---- Form status toggle ---------------------------------- */
+.rsvp-form-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    background: var(--rsvp-surface);
+    transition: opacity 150ms;
+    user-select: none;
+    font-family: var(--font-family);
+}
+.rsvp-form-status:hover { opacity: 0.8; }
+.rsvp-form-status.open {
+    color: var(--rsvp-green);
+    border-color: var(--rsvp-green);
+    background: var(--rsvp-green-bg);
+}
+.rsvp-form-status.closed {
+    color: var(--rsvp-red);
+    border-color: var(--rsvp-red);
+    background: var(--rsvp-red-bg);
+}
+.rsvp-form-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+}
+.rsvp-form-status svg {
+    flex-shrink: 0;
+    margin-left: 2px;
+}
+
+/* ---- Action buttons (Share, Export CSV: white background) --- */
+.rsvp-btn-action {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--rsvp-surface);
+    cursor: pointer;
+    font-family: var(--rsvp-font-heading);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-text);
+    transition: border-color 150ms;
+    white-space: nowrap;
+}
+.rsvp-btn-action:hover { border-color: var(--primary-text); }
+.rsvp-btn-action svg { flex-shrink: 0; }
+
+.rsvp-btn-print {
+    background: #2563EB !important;
+    color: #fff !important;
+    border-color: #2563EB !important;
+}
+.rsvp-btn-print:hover {
+    background: #1d4ed8 !important;
+    border-color: #1d4ed8 !important;
+}
+
+/* ---- Export dropdown ----------------------------------------- */
+.rsvp-export-dropdown-wrap {
+    position: relative;
+}
+
+.rsvp-export-chevron {
+    margin-left: 2px;
+    transition: transform 150ms;
+    flex-shrink: 0;
+}
+.rsvp-export-dropdown-wrap .rsvp-export-menu.open ~ .rsvp-export-chevron,
+.rsvp-export-menu.open + .rsvp-export-chevron { transform: rotate(180deg); }
+
+.rsvp-export-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--rsvp-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+    padding: 6px;
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 150ms, transform 150ms;
+}
+.rsvp-export-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.rsvp-export-menu-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-shrink: 0;
-    min-width: 0;
-}
-
-.rsvp-top-bar-center {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-}
-
-.rsvp-top-bar-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-}
-
-/* Back button */
-.rsvp-back-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: var(--border-radius);
-    color: #9333ea;
-    text-decoration: none;
-    transition: background 0.15s;
-    flex-shrink: 0;
-}
-.rsvp-back-btn:hover { background: var(--accent-bg); }
-
-.rsvp-top-bar-separator {
-    width: 1px;
-    height: 20px;
-    background: var(--border-color);
-    flex-shrink: 0;
-}
-
-.rsvp-page-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--primary-text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 240px;
-}
-
-.rsvp-page-title-sub {
-    font-size: 12px;
-    color: var(--secondary-text);
-    font-weight: 400;
-    margin-left: 6px;
-}
-
-/* Lock icon button — sits next to the form-status badge */
-.rsvp-lock-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
+    width: 100%;
+    padding: 9px 14px;
     border: none;
     background: transparent;
-    border-radius: 6px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: var(--rsvp-font-heading);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary-text);
+    transition: background 120ms;
+    text-align: left;
+}
+.rsvp-export-menu-item:hover {
+    background: var(--rsvp-bg);
+}
+.rsvp-export-menu-item svg {
+    flex-shrink: 0;
+}
+
+/* Icon-only button (used in header) */
+.rsvp-btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--primary-bg);
     cursor: pointer;
     color: var(--secondary-text);
-    padding: 0;
-    flex-shrink: 0;
-    transition: color 0.15s, background 0.15s;
-    margin-left: 4px;
+    transition: border-color 150ms, color 150ms;
 }
-.rsvp-lock-btn:hover {
+.rsvp-btn-icon:hover {
+    border-color: var(--primary-text);
     color: var(--primary-text);
-    background: var(--accent-bg);
 }
-.rsvp-lock-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Action buttons */
+/* Generic button (modals, etc.) */
 .rsvp-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 12px;
-    border-radius: var(--button-radius);
+    padding: 8px 16px;
+    border-radius: 8px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     border: 1px solid var(--border-color);
     background: var(--primary-bg);
     color: var(--primary-text);
+    font-family: var(--rsvp-font-heading);
     transition: background 0.15s, border-color 0.15s, opacity 0.15s;
     white-space: nowrap;
     text-decoration: none;
 }
-.rsvp-btn:hover { background: var(--accent-bg); }
+.rsvp-btn:hover { background: var(--accent-bg, #f1f5f9); }
 .rsvp-btn:disabled { opacity: 0.45; cursor: not-allowed; }
-
 .rsvp-btn svg { flex-shrink: 0; }
 
 .rsvp-btn-primary {
@@ -159,127 +291,240 @@ body {
 }
 .rsvp-btn-success:hover { background: #15803d; }
 
-/* Form open/close toggle */
-.rsvp-form-status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-}
-.rsvp-form-status-badge.open {
-    background: #dcfce7;
-    color: #16a34a;
-}
-.rsvp-form-status-badge.closed {
-    background: #fee2e2;
-    color: #dc2626;
-}
-.rsvp-form-status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: currentColor;
-}
-
 /* ---- Main content area ------------------------------------ */
-.rsvp-layout {
-    padding-top: 60px;
-    min-height: 100vh;
-}
-
 .rsvp-main {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 24px 20px;
+    padding: var(--rsvp-space-lg);
 }
 
-/* ---- Stats row ------------------------------------------- */
-.rsvp-stats {
+/* ---- KPI Cards ------------------------------------------- */
+.rsvp-kpi-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--rsvp-space);
+    margin-bottom: var(--rsvp-space-lg);
 }
 
-.rsvp-stat-card {
-    background: var(--primary-bg);
+.rsvp-kpi-card {
+    background: var(--rsvp-surface);
     border: 1px solid var(--border-color);
-    border-radius: var(--card-radius);
-    padding: 16px 20px;
+    border-radius: 12px;
+    padding: 32px;
+}
+
+.rsvp-kpi-number-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.rsvp-kpi-number {
+    font-family: var(--rsvp-font-heading);
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--primary-text);
+    margin-bottom: 8px;
+}
+.rsvp-kpi-number-wrap .rsvp-kpi-number { margin-bottom: 0; }
+
+/* Big thumb icons next to KPI numbers */
+.rsvp-kpi-thumb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.rsvp-kpi-thumb svg {
+    width: 48px;
+    height: 48px;
+    display: block;
+}
+.rsvp-kpi-thumb-up { color: var(--rsvp-green); }
+.rsvp-kpi-thumb-down { color: var(--rsvp-red); }
+
+.rsvp-kpi-card.accepted .rsvp-kpi-number-wrap .rsvp-kpi-thumb-up { color: var(--rsvp-green); }
+.rsvp-kpi-card.declined .rsvp-kpi-number-wrap .rsvp-kpi-thumb-down { color: var(--rsvp-red); }
+
+.rsvp-kpi-label {
+    font-family: var(--rsvp-font-heading);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--secondary-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.rsvp-kpi-label svg { flex-shrink: 0; }
+
+/* First card (Responses): same size as Attending/Declining labels */
+.rsvp-kpi-row .rsvp-kpi-card:first-child .rsvp-kpi-label {
+    font-size: 18px;
+}
+.rsvp-kpi-row .rsvp-kpi-card:first-child .rsvp-kpi-label svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* Thumb icon in label (replaces checkmark / X) */
+.rsvp-kpi-label-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.rsvp-kpi-label-icon svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+.rsvp-kpi-label-icon.rsvp-kpi-thumb-up { color: var(--rsvp-green); }
+.rsvp-kpi-label-icon.rsvp-kpi-thumb-down { color: var(--rsvp-red); }
+
+.rsvp-kpi-card.accepted .rsvp-kpi-number { color: var(--rsvp-green); }
+.rsvp-kpi-card.accepted .rsvp-kpi-label { color: var(--rsvp-green); font-size: 18px; }
+.rsvp-kpi-card.accepted .rsvp-kpi-label .rsvp-kpi-label-icon { color: var(--rsvp-green); }
+
+.rsvp-kpi-card.declined .rsvp-kpi-number { color: var(--rsvp-red); }
+.rsvp-kpi-card.declined .rsvp-kpi-label { color: var(--rsvp-red); font-size: 18px; }
+.rsvp-kpi-card.declined .rsvp-kpi-label .rsvp-kpi-label-icon { color: var(--rsvp-red); }
+
+.rsvp-kpi-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.rsvp-kpi-breakdown {
     display: flex;
     flex-direction: column;
     gap: 4px;
-}
-
-.rsvp-stat-value {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--primary-text);
-    line-height: 1;
-}
-
-.rsvp-stat-label {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--secondary-text);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-family: var(--font-family);
+    text-align: right;
+    padding-top: 4px;
 }
-
-/* ---- Toolbar (search + filters) -------------------------- */
-.rsvp-toolbar {
+.rsvp-kpi-breakdown span {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 14px;
+    justify-content: flex-end;
+    gap: 4px;
+    white-space: nowrap;
+}
+.rsvp-kpi-breakdown strong {
+    color: var(--primary-text);
+    font-weight: 600;
+}
+
+/* ---- Controls (search + category filters) ---------------- */
+.rsvp-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: var(--rsvp-space);
     flex-wrap: wrap;
 }
 
-.rsvp-search-wrap {
+.rsvp-search-box {
     position: relative;
     flex: 1;
-    min-width: 200px;
-    max-width: 380px;
+    min-width: 240px;
+    max-width: 420px;
 }
 
-.rsvp-search-wrap svg {
+.rsvp-search-box input {
+    width: 100%;
+    padding: 10px 16px 10px 42px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: var(--font-family);
+    font-size: 14px;
+    background: var(--rsvp-surface);
+    color: var(--primary-text);
+    outline: none;
+    transition: border-color 150ms;
+}
+.rsvp-search-box input:focus { border-color: var(--rsvp-blue); }
+.rsvp-search-box input::placeholder { color: var(--border-color); }
+.rsvp-search-box svg {
     position: absolute;
-    left: 10px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--secondary-text);
+    color: var(--border-color);
     pointer-events: none;
 }
 
-.rsvp-search {
-    width: 100%;
-    padding: 7px 12px 7px 34px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    font-size: 13px;
-    background: var(--primary-bg);
-    color: var(--primary-text);
-    outline: none;
-    transition: border-color 0.15s;
+.rsvp-category-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }
-.rsvp-search:focus { border-color: #9333ea; }
 
-.rsvp-count-label {
+.rsvp-cat-btn {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background: var(--rsvp-surface);
+    font-family: var(--rsvp-font-heading);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--secondary-text);
+    cursor: pointer;
+    transition: all 150ms;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+.rsvp-cat-btn:hover {
+    border-color: var(--primary-text);
+    color: var(--primary-text);
+}
+/* "All" badge active → black. Group badges active → group color via inline style (inline overrides CSS). */
+.rsvp-cat-btn.active {
+    background: #000000;
+    color: #fff;
+    border-color: #000000;
+}
+/* When a group pill is active its inline style already sets background/border/color — no extra rule needed. */
+.rsvp-cat-btn.active .rsvp-cat-dot {
+    background: rgba(255,255,255,0.85) !important;
+}
+.rsvp-cat-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.rsvp-cat-btn-add {
+    border-style: dashed;
+    color: var(--secondary-text);
+}
+.rsvp-cat-btn-add:hover {
+    border-color: #9333ea;
+    color: #9333ea;
+}
+
+.rsvp-response-count {
+    margin-left: auto;
     font-size: 13px;
     color: var(--secondary-text);
-    margin-left: auto;
     white-space: nowrap;
 }
 
 /* ---- Table ----------------------------------------------- */
-.rsvp-table-wrap {
-    background: var(--primary-bg);
+.rsvp-table-wrapper {
+    background: var(--rsvp-surface);
     border: 1px solid var(--border-color);
-    border-radius: var(--card-radius);
+    border-radius: 12px;
     overflow: hidden;
 }
 
@@ -291,66 +536,302 @@ body {
 table.rsvp-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13px;
-    min-width: 600px;
+    min-width: 800px;
+    /* table-layout:fixed lets us control column widths via <colgroup> */
+    table-layout: fixed;
+}
+/* Ellipsis only on header labels and plain-text data cells (not badge cells) */
+table.rsvp-table thead th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+table.rsvp-table td.rsvp-cell-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* Badge/icon cells must never clip their content */
+table.rsvp-table td:not(.rsvp-cell-text) {
+    overflow: visible;
 }
 
-table.rsvp-table th {
-    background: var(--secondary-bg);
-    color: var(--secondary-text);
-    font-weight: 600;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 10px 14px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-    white-space: nowrap;
+table.rsvp-table thead th {
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 10;
+    background: var(--rsvp-bg);
+    font-family: var(--rsvp-font-heading);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--primary-text);
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    overflow: visible;
+}
+table.rsvp-table thead th:hover { color: var(--primary-text); }
+
+/* ---- Column resize handle -------------------------------- */
+.rsvp-col-resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    cursor: col-resize;
+    z-index: 20;
+    /* Invisible by default, visible area for grab */
+    background: transparent;
+    transition: background 120ms;
+    /* Shift the grab area to straddle the border */
+    margin-right: -3px;
+}
+table.rsvp-table thead th:hover .rsvp-col-resizer,
+.rsvp-col-resizer:hover {
+    background: var(--rsvp-blue);
+    opacity: 0.35;
+}
+/* Show a solid blue line while actively dragging */
+.rsvp-col-resizer.resizing {
+    background: var(--rsvp-blue);
+    opacity: 0.7;
+}
+/* Prevent text/sort cursor conflict while resizing */
+body.rsvp-resizing-col,
+body.rsvp-resizing-col * {
+    cursor: col-resize !important;
+    user-select: none !important;
 }
 
-table.rsvp-table th.col-notes { width: 180px; }
-table.rsvp-table th.col-date  { width: 130px; }
-table.rsvp-table th.col-actions { width: 60px; text-align: center; }
+.rsvp-th-content {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Sort indicator — hidden until header hover (or when column is sorted) */
+.rsvp-sort-icon {
+    opacity: 0;
+    transition: opacity 150ms;
+    display: flex;
+    flex-direction: column;
+    line-height: 0;
+    font-size: 10px;
+}
+table.rsvp-table thead th:hover .rsvp-sort-icon { opacity: 0.7; }
+table.rsvp-table thead th.sorted .rsvp-sort-icon { opacity: 1; color: var(--rsvp-blue); }
+
+/* Column filter icon — hidden until header hover (or when filter is active) */
+.rsvp-th-filter-icon {
+    display: inline-flex;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 150ms;
+    position: relative;
+}
+table.rsvp-table thead th:hover .rsvp-th-filter-icon { opacity: 0.7; }
+.rsvp-th-filter-icon.active { opacity: 1; color: var(--rsvp-blue); }
+
+/* Column filter dropdown */
+.rsvp-col-filter-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+    background: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    min-width: 180px;
+    z-index: 200;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 13px;
+    color: var(--primary-text);
+    cursor: default;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.rsvp-col-filter-dropdown label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-weight: 400;
+    text-transform: none;
+}
+.rsvp-col-filter-dropdown label:hover { background: var(--secondary-bg); }
+
+/* Table body */
+table.rsvp-table tbody tr {
+    background: var(--rsvp-surface);
+    border-bottom: 1px solid var(--rsvp-border-light);
+    transition: opacity 150ms;
+}
+table.rsvp-table tbody tr:last-child { border-bottom: none; }
+table.rsvp-table tbody tr:hover { background: var(--rsvp-bg); }
 
 table.rsvp-table td {
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border-color);
-    vertical-align: top;
+    padding: 16px 20px;
+    font-size: 14px;
     color: var(--primary-text);
+    vertical-align: middle;
 }
 
-table.rsvp-table tr:last-child td { border-bottom: none; }
+/* Filtering animation */
+table.rsvp-table tbody.filtering { opacity: 0.5; }
 
-table.rsvp-table tr:hover td { background: var(--secondary-bg); }
+/* Column widths */
+table.rsvp-table th.col-attendance { width: 60px; text-align: center; }
+table.rsvp-table td.col-attendance-cell { text-align: center; }
+table.rsvp-table th.col-fullName    { min-width: 150px; }
+table.rsvp-table th.col-mobile      { width: 140px; }
+table.rsvp-table th.col-email       { min-width: 170px; }
+table.rsvp-table th.col-ageCategory { width: 120px; }
+table.rsvp-table th.col-allergies   { min-width: 150px; }
+table.rsvp-table th.col-transport   { width: 110px; }
+table.rsvp-table th.col-song        { min-width: 140px; }
+table.rsvp-table th.col-message     { min-width: 180px; }
+table.rsvp-table th.col-group       { width: 140px; }
+table.rsvp-table th.col-table       { width: 80px; }
+table.rsvp-table th.col-notes       { width: 180px; }
+table.rsvp-table th.col-date        { width: 130px; }
+table.rsvp-table th.col-actions     { width: 60px; text-align: center; }
 
-/* Attending badge */
-.rsvp-attending-yes {
+/* ---- Badges ---------------------------------------------- */
+.rsvp-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--rsvp-font-heading);
+    white-space: nowrap;
+}
+.rsvp-badge-green  { background: var(--rsvp-green-bg); color: var(--rsvp-green); }
+.rsvp-badge-red    { background: var(--rsvp-red-bg); color: var(--rsvp-red); }
+.rsvp-badge-blue   { background: var(--rsvp-blue-bg); color: var(--rsvp-blue); }
+.rsvp-badge-yellow { background: var(--rsvp-yellow-bg); color: var(--rsvp-yellow); }
+.rsvp-badge-purple { background: var(--rsvp-purple-bg); color: var(--rsvp-purple); }
+.rsvp-badge-gray   { background: var(--secondary-bg); color: var(--secondary-text); }
+
+/* ---- Attendance icon (circle check / x) ------------------- */
+.rsvp-attendance-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: opacity 150ms, box-shadow 150ms;
+}
+.rsvp-attendance-icon:hover {
+    opacity: 0.85;
+    box-shadow: 0 0 0 2px currentColor;
+}
+.rsvp-attendance-yes { background: #dcfce7; color: var(--rsvp-green); }
+.rsvp-attendance-no { background: #fee2e2; color: var(--rsvp-red); }
+.rsvp-attendance-unknown { background: var(--secondary-bg); color: var(--secondary-text); }
+
+/* ---- Fixed-option badges (age, transport) ----------------- */
+.rsvp-cell-badge {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 2px 8px;
+    padding: 4px 12px;
     border-radius: 20px;
-    background: #dcfce7;
-    color: #16a34a;
     font-weight: 600;
     font-size: 12px;
+    font-family: var(--rsvp-font-heading);
+    cursor: pointer;
+    transition: opacity 0.12s, box-shadow 0.12s;
 }
-.rsvp-attending-no {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    background: #fee2e2;
-    color: #dc2626;
+.rsvp-cell-badge:hover {
+    opacity: 0.9;
+    box-shadow: 0 0 0 2px currentColor;
+}
+.rsvp-option-attendance-yes { background: var(--rsvp-green-bg); color: var(--rsvp-green); }
+.rsvp-option-attendance-no  { background: var(--rsvp-red-bg); color: var(--rsvp-red); }
+.rsvp-option-age-adult      { background: var(--rsvp-blue-bg); color: var(--rsvp-blue); }
+.rsvp-option-age-child      { background: var(--rsvp-yellow-bg); color: var(--rsvp-yellow); }
+.rsvp-option-age-senior     { background: var(--secondary-bg); color: var(--secondary-text); }
+.rsvp-option-age-teen       { background: var(--rsvp-purple-bg); color: var(--rsvp-purple); }
+/* Transport: Yes = green, No = red */
+.rsvp-option-transport-yes  { background: var(--rsvp-green-bg); color: var(--rsvp-green); }
+.rsvp-option-transport-no   { background: var(--rsvp-red-bg); color: var(--rsvp-red); }
+.rsvp-option-other          { background: var(--secondary-bg); color: var(--secondary-text); }
+
+/* In-cell: wrap keeps the badge visible while the menu is open; menu is portaled to body */
+.rsvp-badge-options-wrap {
+    position: relative;
+    display: inline-block;
+}
+/* When menu is in body it uses position:fixed and .rsvp-badge-options-dropdown--fixed */
+.rsvp-badge-options-dropdown {
+    min-width: 140px;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--rsvp-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 1200;
+    padding: 6px 0;
+    font-size: 13px;
+    font-family: var(--font-family);
+}
+.rsvp-badge-options-dropdown--fixed {
+    position: fixed;
+}
+.rsvp-badge-options-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: var(--font-family);
+    color: var(--primary-text);
+    transition: background 0.1s;
+}
+.rsvp-badge-options-dropdown button:hover {
+    background: var(--rsvp-bg);
+}
+.rsvp-badge-options-dropdown button.selected {
     font-weight: 600;
-    font-size: 12px;
+    color: var(--rsvp-blue);
 }
 
-/* Editable cells */
+.rsvp-fixed-option-select {
+    width: 100%;
+    max-width: 160px;
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: var(--font-family);
+    background: var(--primary-bg);
+    color: var(--primary-text);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
+}
+.rsvp-fixed-option-select:focus { border-color: #9333ea; }
+
+/* ---- Editable cells -------------------------------------- */
 .rsvp-cell-editable {
     cursor: pointer;
     border-radius: 4px;
@@ -360,9 +841,7 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
     display: inline-block;
     transition: background 0.12s;
 }
-.rsvp-cell-editable:hover {
-    background: var(--accent-bg);
-}
+.rsvp-cell-editable:hover { background: var(--accent-bg, #f1f5f9); }
 .rsvp-cell-editable.editing {
     outline: 2px solid #9333ea;
     background: var(--primary-bg);
@@ -372,7 +851,10 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
     cursor: text;
 }
 
-/* Notes textarea in cell */
+/* Full name column bold */
+td .rsvp-cell-fullname { font-weight: 500; }
+
+/* Notes */
 .rsvp-notes-input {
     width: 100%;
     min-height: 56px;
@@ -402,7 +884,7 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
     color: var(--secondary-text);
 }
 
-/* Delete button in row */
+/* Delete button */
 .rsvp-row-delete-btn {
     display: flex;
     align-items: center;
@@ -417,9 +899,46 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
     margin: 0 auto;
     transition: background 0.12s, color 0.12s;
 }
-.rsvp-row-delete-btn:hover {
-    background: #fef2f2;
-    color: #dc2626;
+.rsvp-row-delete-btn:hover { background: #fef2f2; color: #dc2626; }
+
+/* ---- Group badge (same pill style as age category) --------- */
+.rsvp-group-badge {
+    /* Uses .rsvp-cell-badge base; color/background from inline style or .rsvp-option-other for "No group" */
+}
+
+/* Group select shown in-cell when editing (click badge → select) */
+.rsvp-group-select {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    max-width: 160px;
+    padding: 6px 28px 6px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: var(--font-family);
+    background-color: var(--primary-bg);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    color: var(--primary-text);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
+}
+.rsvp-group-select:focus { border-color: #9333ea; }
+.rsvp-group-select:hover { background-color: var(--accent-bg, #f1f5f9); }
+
+.rsvp-no-groups-hint {
+    color: var(--secondary-text);
+    font-size: 12px;
+    font-style: italic;
+}
+
+.rsvp-table-number-cell {
+    font-variant-numeric: tabular-nums;
+    min-width: 40px;
+    text-align: center;
 }
 
 /* ---- Empty state ----------------------------------------- */
@@ -437,6 +956,7 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
     font-weight: 600;
     color: var(--primary-text);
     margin: 0 0 8px;
+    font-family: var(--rsvp-font-heading);
 }
 .rsvp-empty p {
     font-size: 14px;
@@ -459,7 +979,7 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
     width: 32px;
     height: 32px;
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     background: var(--primary-bg);
     color: var(--primary-text);
     cursor: pointer;
@@ -467,11 +987,11 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
     font-weight: 500;
     transition: background 0.12s, border-color 0.12s;
 }
-.rsvp-pagination-btn:hover:not(:disabled) { background: var(--accent-bg); }
+.rsvp-pagination-btn:hover:not(:disabled) { background: var(--accent-bg, #f1f5f9); }
 .rsvp-pagination-btn.active {
-    background: #9333ea;
+    background: var(--rsvp-blue);
     color: #fff;
-    border-color: #9333ea;
+    border-color: var(--rsvp-blue);
 }
 .rsvp-pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -496,8 +1016,8 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
 
 .rsvp-modal {
     background: var(--primary-bg);
-    border-radius: var(--card-radius);
-    box-shadow: var(--shadow-lg);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg, 0 8px 32px rgba(0,0,0,0.18));
     padding: 28px;
     width: 100%;
     max-width: 440px;
@@ -507,6 +1027,7 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
 .rsvp-modal-overlay.open .rsvp-modal { transform: scale(1); }
 
 .rsvp-modal-title {
+    font-family: var(--rsvp-font-heading);
     font-size: 16px;
     font-weight: 700;
     color: var(--primary-text);
@@ -534,7 +1055,7 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
     width: 100%;
     padding: 9px 12px;
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     font-size: 14px;
     font-family: var(--font-family);
     background: var(--secondary-bg);
@@ -549,7 +1070,7 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
 .rsvp-modal-link-result {
     background: var(--secondary-bg);
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     padding: 10px 12px;
     font-size: 13px;
     word-break: break-all;
@@ -566,145 +1087,8 @@ table.rsvp-table tr:hover td { background: var(--secondary-bg); }
     margin-top: 4px;
 }
 
-/* ---- User menu (reuse app.php styles) -------------------- */
-.user-info { position: relative; }
-
-/* ---- Toast ----------------------------------------------- */
-.rsvp-toast {
-    position: fixed;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%) translateY(8px);
-    background: var(--primary-text);
-    color: var(--primary-bg);
-    padding: 11px 22px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    z-index: 9999;
-    box-shadow: var(--shadow-lg);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s, transform 0.25s;
-    white-space: nowrap;
-}
-.rsvp-toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    pointer-events: auto;
-}
-.rsvp-toast.error { background: #c0392b; }
-.rsvp-toast.success { background: #16a34a; }
-
-/* ---- Loading spinner ------------------------------------- */
-.rsvp-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    gap: 16px;
-    color: var(--secondary-text);
-    font-size: 14px;
-}
-.rsvp-spinner {
-    width: 32px;
-    height: 32px;
-    border: 3px solid var(--border-color);
-    border-top-color: #9333ea;
-    border-radius: 50%;
-    animation: rsvp-spin 0.75s linear infinite;
-}
-@keyframes rsvp-spin { to { transform: rotate(360deg); } }
-
-/* ---- Responsive ------------------------------------------ */
-@media (max-width: 640px) {
-    .rsvp-top-bar-center { display: none; }
-    .rsvp-page-title { max-width: 120px; }
-    .rsvp-main { padding: 16px 12px; }
-    .rsvp-stats { grid-template-columns: repeat(2, 1fr); }
-    .rsvp-btn span { display: none; }
-}
-
-/* ---- Table columns: Group & Table Number ----------------- */
-table.rsvp-table th.col-group  { width: 140px; }
-table.rsvp-table th.col-table  { width: 80px; }
-
-.rsvp-table-number-cell {
-    font-variant-numeric: tabular-nums;
-    min-width: 40px;
-    text-align: center;
-}
-
-/* Group select inside table cell */
-.rsvp-group-select {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 100%;
-    max-width: 130px;
-    padding: 4px 8px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 12px;
-    font-family: var(--font-family);
-    background: var(--primary-bg);
-    color: var(--primary-text);
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.15s, border-left-width 0.15s;
-    border-left-width: 3px;
-}
-.rsvp-group-select:focus { border-color: #9333ea; }
-.rsvp-group-select:hover { background: var(--accent-bg); }
-
-.rsvp-no-groups-hint {
-    color: var(--secondary-text);
-    font-size: 12px;
-    font-style: italic;
-}
-
-/* ---- Group filter pills ----------------------------------- */
-.rsvp-group-filter-wrap {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-
-.rsvp-group-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid var(--border-color);
-    background: var(--primary-bg);
-    color: var(--primary-text);
-    transition: background 0.12s, border-color 0.12s, color 0.12s;
-    white-space: nowrap;
-}
-.rsvp-group-pill:hover { background: var(--accent-bg); }
-.rsvp-group-pill.active {
-    background: var(--pill-color, #9333ea);
-    border-color: var(--pill-color, #9333ea);
-    color: #fff;
-}
-.rsvp-group-pill.active .rsvp-pill-dot { background: rgba(255,255,255,0.85) !important; }
-
-.rsvp-pill-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-/* ---- Group management modal ------------------------------ */
-.rsvp-modal-wide {
-    max-width: 520px;
-}
+/* ---- Group modal ------------------------------------------ */
+.rsvp-modal-wide { max-width: 520px; }
 
 .rsvp-groups-list {
     margin-bottom: 20px;
@@ -772,7 +1156,6 @@ table.rsvp-table th.col-table  { width: 80px; }
 }
 .rsvp-group-delete-btn:hover { background: #fef2f2; color: #dc2626; }
 
-/* Add group form */
 .rsvp-groups-add-form {
     border-top: 1px solid var(--border-color);
     padding-top: 16px;
@@ -789,7 +1172,7 @@ table.rsvp-table th.col-table  { width: 80px; }
     flex: 1;
     padding: 9px 12px;
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     font-size: 14px;
     font-family: var(--font-family);
     background: var(--secondary-bg);
@@ -800,7 +1183,6 @@ table.rsvp-table th.col-table  { width: 80px; }
 }
 .rsvp-groups-add-row input:focus { border-color: #9333ea; }
 
-/* Color swatches */
 .rsvp-color-swatches {
     display: flex;
     flex-wrap: wrap;
@@ -824,18 +1206,171 @@ table.rsvp-table th.col-table  { width: 80px; }
     box-shadow: 0 0 0 2px var(--primary-bg);
 }
 
-/* ---- Modo Boda overrides ---------------------------------- */
-body.dark-mode .rsvp-table-wrap,
-body.dark-mode .rsvp-stat-card,
-body.dark-mode .rsvp-modal,
-body.dark-mode .rsvp-btn {
-    background: var(--secondary-bg);
+/* ---- User menu ------------------------------------------- */
+.user-info { position: relative; }
+
+/* ---- Toast ----------------------------------------------- */
+.rsvp-toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: var(--primary-text);
+    color: var(--primary-bg);
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 9999;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    white-space: nowrap;
 }
-body.dark-mode .rsvp-attending-yes { background: rgba(22,163,74,0.12); }
-body.dark-mode .rsvp-attending-no  { background: rgba(220,38,38,0.12); }
-body.dark-mode .rsvp-form-status-badge.open  { background: rgba(22,163,74,0.12); }
-body.dark-mode .rsvp-form-status-badge.closed { background: rgba(220,38,38,0.12); }
+.rsvp-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+.rsvp-toast.error { background: #c0392b; }
+.rsvp-toast.success { background: #16a34a; }
+
+/* ---- Share tooltip ---------------------------------------- */
+.rsvp-share-tooltip {
+    position: fixed;
+    top: 80px;
+    right: 48px;
+    background: var(--primary-text);
+    color: #fff;
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms;
+    z-index: 500;
+}
+.rsvp-share-tooltip.visible { opacity: 1; }
+
+/* ---- Loading spinner ------------------------------------- */
+.rsvp-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 16px;
+    color: var(--secondary-text);
+    font-size: 14px;
+}
+.rsvp-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--rsvp-blue);
+    border-radius: 50%;
+    animation: rsvp-spin 0.75s linear infinite;
+}
+@keyframes rsvp-spin { to { transform: rotate(360deg); } }
+
+/* ---- Print ----------------------------------------------- */
+.rsvp-print-header {
+    display: none;
+    text-align: center;
+    margin-bottom: 32px;
+    padding-top: 16px;
+}
+.rsvp-print-header-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+.rsvp-print-header h1 {
+    font-family: var(--rsvp-font-heading);
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+.rsvp-print-subtitle {
+    font-size: 14px;
+    color: var(--secondary-text);
+    text-decoration: none;
+}
+.rsvp-print-header p {
+    color: var(--secondary-text);
+    font-size: 13px;
+    margin: 0;
+}
+
+@media print {
+    .rsvp-header, .rsvp-controls, .no-print { display: none !important; }
+    .rsvp-main { padding: 0; }
+    .rsvp-print-header { display: block !important; }
+    .rsvp-kpi-row { break-inside: avoid; }
+    .rsvp-table-wrapper { border: none; border-radius: 0; }
+    table.rsvp-table thead th { position: static; background: var(--secondary-bg); }
+    body { background: #fff; }
+    .rsvp-kpi-card { border: 1px solid #ccc; }
+}
+
+/* ---- Responsive ------------------------------------------ */
+@media (max-width: 768px) {
+    .rsvp-header { padding: 0 var(--rsvp-space); }
+    .rsvp-header-title { font-size: 15px; }
+    .rsvp-header-actions .rsvp-btn-action span { display: none; }
+    .rsvp-main { padding: var(--rsvp-space); }
+    .rsvp-kpi-row { grid-template-columns: 1fr; gap: 16px; }
+    .rsvp-kpi-number { font-size: 36px; }
+    .rsvp-kpi-thumb svg { width: 36px; height: 36px; }
+    .rsvp-kpi-card { padding: 24px; }
+    .rsvp-controls { flex-direction: column; align-items: stretch; }
+    .rsvp-search-box { max-width: none; }
+    .rsvp-response-count { margin-left: 0; text-align: right; }
+}
+
+/* ---- Dark mode (Modo Boda) -------------------------------- */
+/* Override app.css body.dark-mode / .dark-mode so RSVP dashboard always uses light theme (--rsvp-bg, --rsvp-surface). */
+body.dark-mode {
+    background-color: var(--rsvp-bg);
+}
+/* [DISABLED_FOR_WEDDING_VERSION]: Dark mode disabled for RSVP dashboard. Keep light theme only so header, cards, table and selected pill "All" (black) are correct. */
+/*
+body.dark-mode { background-color: var(--secondary-bg); }
+body.dark-mode .rsvp-header,
+body.dark-mode .rsvp-table-wrapper,
+body.dark-mode .rsvp-kpi-card,
+body.dark-mode .rsvp-modal,
+body.dark-mode .rsvp-btn,
+body.dark-mode .rsvp-btn-action { background: var(--secondary-bg); }
+
+body.dark-mode .rsvp-attendance-yes     { background: rgba(22,163,74,0.2); }
+body.dark-mode .rsvp-attendance-no      { background: rgba(220,38,38,0.2); }
+body.dark-mode .rsvp-option-attendance-yes,
+body.dark-mode .rsvp-option-transport-yes { background: rgba(22,163,74,0.2); }
+body.dark-mode .rsvp-option-attendance-no { background: rgba(220,38,38,0.2); }
+body.dark-mode .rsvp-option-age-adult     { background: rgba(29,78,216,0.2); }
+body.dark-mode .rsvp-option-age-child     { background: rgba(180,83,9,0.2); }
+body.dark-mode .rsvp-option-transport-no  { background: rgba(100,116,139,0.2); }
+body.dark-mode .rsvp-option-other         { background: var(--secondary-bg); }
+
+body.dark-mode .rsvp-form-status.open     { background: rgba(22,163,74,0.12); }
+body.dark-mode .rsvp-form-status.closed   { background: rgba(220,38,38,0.12); }
+
+body.dark-mode .rsvp-badge-green  { background: rgba(25,135,84,0.15); }
+body.dark-mode .rsvp-badge-red    { background: rgba(220,53,69,0.15); }
+body.dark-mode .rsvp-badge-blue   { background: rgba(13,110,253,0.15); }
+body.dark-mode .rsvp-badge-yellow { background: rgba(245,158,11,0.15); }
+body.dark-mode .rsvp-badge-purple { background: rgba(124,58,237,0.15); }
+
 body.dark-mode .rsvp-group-select { background: var(--primary-bg); }
 body.dark-mode .rsvp-group-item   { background: var(--primary-bg); }
-body.dark-mode .rsvp-group-pill   { background: var(--primary-bg); }
+body.dark-mode .rsvp-cat-btn      { background: var(--primary-bg); }
 body.dark-mode .rsvp-swatch.active { box-shadow: 0 0 0 2px var(--secondary-bg); }
+body.dark-mode .rsvp-col-filter-dropdown { background: var(--secondary-bg); }
+body.dark-mode .rsvp-kpi-card.accepted .rsvp-kpi-number { color: #22c55e; }
+body.dark-mode .rsvp-kpi-card.declined .rsvp-kpi-number { color: #ef4444; }
+*/

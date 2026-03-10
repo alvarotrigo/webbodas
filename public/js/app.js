@@ -46,7 +46,7 @@
      }, 100);
 
  // More global variables
- let currentTheme = 'theme-wedding-blush-ivory';
+ let currentTheme = null;
  let suppressThemeHistory = false;
  let addedSections = [];
  let selectedSections = new Set();
@@ -276,11 +276,18 @@
  let useDatabase = pageManagerInstance.useDatabase;
  
  // Override setters to sync convenience variables
+ function updateDeletePageButtonVisibility() {
+     const btn = document.getElementById('delete-page-btn');
+     if (!btn) return;
+     btn.style.display = currentPageId ? 'flex' : 'none';
+ }
+
  Object.defineProperty(pageManagerInstance, 'currentPageId', {
      get: function() { return this._currentPageId; },
      set: function(value) { 
          this._currentPageId = value;
          currentPageId = value;
+         updateDeletePageButtonVisibility();
      },
      configurable: true,
      enumerable: true
@@ -302,9 +309,9 @@
      let originalValue = '';
      let isEditing = false;
 
-     // Make editable on click
+     // Make editable on click (allow even when no page ID yet, e.g. new page)
      pageNameDisplay.addEventListener('click', (e) => {
-         if (!isEditing && currentPageId) {
+         if (!isEditing) {
              e.stopPropagation();
              originalValue = pageNameDisplay.textContent.trim();
              pageNameDisplay.contentEditable = 'true';
@@ -329,41 +336,41 @@
          pageNameDisplay.contentEditable = 'false';
          isEditing = false;
 
-         // If value changed, save it
-         // NOTE: We only send the title field (not the entire page data) for performance
-         // The API endpoint will only update the fields provided, so this is optimized
-         if (newValue !== originalValue && currentPageId) {
-             try {
-                 const response = await fetch('./api/pages.php', {
-                     method: 'PUT',
-                     headers: {
-                         'Content-Type': 'application/json',
-                     },
-                     body: JSON.stringify({
-                         id: currentPageId,
-                         title: newValue, // Only sending title, not full page payload
-                         clerk_user_id: serverUserData?.clerk_user_id || null
-                     })
-                 });
+         // If value changed, save it (API if we have a page ID, otherwise just update local state)
+         if (newValue !== originalValue) {
+             if (currentPageId) {
+                 try {
+                     const response = await fetch('./api/pages.php', {
+                         method: 'PUT',
+                         headers: {
+                             'Content-Type': 'application/json',
+                         },
+                         body: JSON.stringify({
+                             id: currentPageId,
+                             title: newValue, // Only sending title, not full page payload
+                             clerk_user_id: serverUserData?.clerk_user_id || null
+                         })
+                     });
 
-                 const result = await response.json();
+                     const result = await response.json();
 
-                 if (result.success) {
-                     // Update the pageManager title
-                     pageManager.currentPageTitle = newValue;
-                     updatePageNameDisplay(newValue);
-                 } else {
-                     // Revert on error
+                     if (result.success) {
+                         pageManager.currentPageTitle = newValue;
+                         updatePageNameDisplay(newValue);
+                     } else {
+                         updatePageNameDisplay(originalValue);
+                         console.error('Failed to update page title:', result.error);
+                     }
+                 } catch (error) {
                      updatePageNameDisplay(originalValue);
-                     console.error('Failed to update page title:', result.error);
+                     console.error('Error updating page title:', error);
                  }
-             } catch (error) {
-                 // Revert on error
-                 updatePageNameDisplay(originalValue);
-                 console.error('Error updating page title:', error);
+             } else {
+                 // New/unsaved page: only update local title (used when page is first saved)
+                 pageManager.currentPageTitle = newValue;
+                 updatePageNameDisplay(newValue);
              }
          } else {
-             // No change, just revert display
              updatePageNameDisplay(originalValue);
          }
      });
@@ -384,15 +391,10 @@
          }
      });
 
-     // Update editing state based on whether a page is loaded
+     // Allow editing the page name whenever the display is shown (including new/unsaved pages)
      function updateEditingState() {
-         if (currentPageId) {
-             pageNameDisplay.style.cursor = 'pointer';
-             pageNameDisplay.style.pointerEvents = 'auto';
-         } else {
-             pageNameDisplay.style.cursor = 'default';
-             pageNameDisplay.style.pointerEvents = 'none';
-         }
+         pageNameDisplay.style.cursor = 'pointer';
+         pageNameDisplay.style.pointerEvents = 'auto';
      }
 
      // Initial state
@@ -435,6 +437,59 @@ window.pageManagerInstance = pageManagerInstance;
 
  // Setup inline editing for page name
  setupPageNameEditing();
+
+ // Delete page button and confirmation modal
+ function setupDeletePageButton() {
+     const deleteBtn = document.getElementById('delete-page-btn');
+     const modal = document.getElementById('delete-page-modal');
+     const cancelBtn = document.getElementById('delete-page-modal-cancel');
+     const confirmBtn = document.getElementById('delete-page-modal-confirm');
+     if (!deleteBtn || !modal || !cancelBtn || !confirmBtn) return;
+
+     updateDeletePageButtonVisibility();
+
+     deleteBtn.addEventListener('click', (e) => {
+         e.stopPropagation();
+         if (!currentPageId) return;
+         modal.classList.add('show');
+     });
+
+     function closeDeleteModal() {
+         modal.classList.remove('show');
+     }
+
+     cancelBtn.addEventListener('click', closeDeleteModal);
+     modal.addEventListener('click', (e) => {
+         if (e.target === modal) closeDeleteModal();
+     });
+
+     confirmBtn.addEventListener('click', async () => {
+         if (!currentPageId) return;
+         confirmBtn.disabled = true;
+         try {
+             const response = await fetch('./api/pages.php', {
+                 method: 'DELETE',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify({
+                     id: currentPageId,
+                     clerk_user_id: serverUserData?.clerk_user_id || null
+                 })
+             });
+             const result = await response.json();
+             if (result.success) {
+                 closeDeleteModal();
+                 window.location.href = './app.php';
+             } else {
+                 console.error('Failed to delete page:', result.error);
+                 confirmBtn.disabled = false;
+             }
+         } catch (err) {
+             console.error('Error deleting page:', err);
+             confirmBtn.disabled = false;
+         }
+     });
+ }
+ setupDeletePageButton();
  
  // History manager instance (will be initialized after context is ready)
  let historyManager = null;
@@ -837,27 +892,26 @@ window.pageManagerInstance = pageManagerInstance;
 const templates = [
     { id: 1, is_pro: 0, name: 'Wedding One',    file: 'template1.html',  category: 'classic', tags: ['classic', 'modern', 'cream'] },
     { id: 2, is_pro: 0, name: 'Luxury One',     file: 'template2.html',          category: 'luxe',    tags: ['black', 'gold', 'cream'] },
-    { id: 3, is_pro: 0, name: 'Wedding One',    file: 'template3.html',   category: 'minimal', tags: ['minimal', 'modern', 'grey'] },
-    { id: 4, is_pro: 0, name: 'Rustic One',     file: 'template4.html',     category: 'rustic',  tags: ['sage', 'terracota', 'chic'] },
-    { id: 5, is_pro: 0, name: 'Beach Wedding',  file: 'template5.html',      category: 'summer',  tags: ['beach', 'sea', 'water'] },
-    { id: 6, is_pro: 0, name: 'Travellers',  file: 'template6.html',      category: 'alternative',  tags: ['travel', 'adventure', 'road'] },
+    { id: 3, is_pro: 0, name: 'Rustic One',     file: 'template3.html',     category: 'rustic',  tags: ['sage', 'terracota', 'chic'] },
+    { id: 4, is_pro: 0, name: 'Beach Wedding',  file: 'template4.html',      category: 'modern',  tags: ['beach', 'sea', 'water'] },
+    { id: 5, is_pro: 0, name: 'Travellers',  file: 'template5.html',      category: 'alternative',  tags: ['travel', 'adventure', 'road'] },
+    { id: 6, is_pro: 0, name: 'Funny Wedding',  file: 'template6.html',      category: 'funny',  tags: ['happy', 'laugh', 'casual'] },
 ];
 
 // Template style categories - replaces templates/categorias.json
 const templateCategories = [
-    { id: 'all',         name: 'All Templates',          icon: '🎨' },
-    { id: 'minimal',     name: 'Minimalist & Modern',    icon: '🌿' },
-    { id: 'classic',     name: 'Classic & Romantic',     icon: '🌸' },
-    { id: 'rustic',      name: 'Rustic Boho & Chic',     icon: '🪵' },
-    { id: 'funny',       name: 'Funny & Light',          icon: '🤣' },
-    { id: 'luxe',        name: 'Luxe & Glamour',         icon: '✨' },
-    { id: 'alternative', name: 'Edgy & Alternative',     icon: '🎸' },
-    { id: 'fairytale',   name: 'Enchanted & Fairytale',  icon: '🏰' },
-    { id: 'summer',      name: 'Summer & Beach',         icon: '🌞' },
-    { id: 'winter',      name: 'Winter & Snow',          icon: '❄️' },
-    { id: 'celestial',   name: 'Celestial & Moody',      icon: '🌙' },
-    { id: 'vintage',     name: 'Retro & Vintage',        icon: '🎞️' },
+    { id: 'all',         name: 'All Templates',  icon: '🎨' },
+    { id: 'modern',      name: 'Modern',         icon: '🌿' },
+    { id: 'classic',     name: 'Classic',        icon: '🌸' },
+    { id: 'rustic',      name: 'Rustic',         icon: '🪵' },
+    { id: 'funny',       name: 'Funny',          icon: '🤣' },
+    { id: 'luxe',        name: 'Luxe',           icon: '✨' },
+    { id: 'fairytale',   name: 'Fairytale',      icon: '🏰' },
+    { id: 'vintage',     name: 'Vintage',        icon: '🎞️' },
+    { id: 'alternative', name: 'Alternative',    icon: '🎸' },
 ];
+// Expose so onboarding.js can build category pills
+window.templateCategories = templateCategories;
 
  // Helper function to sort sections - free sections first for non-pro users
  function sortSectionsByUserAccess(sectionsArray) {
@@ -1287,27 +1341,99 @@ currentTemplateUrl = template.url;
  // Onboarding sidebar mode: true when no template is loaded yet.
  window.isOnboardingMode = false;
 
- // Enters "onboarding" sidebar state: hides theme selector, disables hover panel,
- // enables click-to-filter on categories.
- function enterOnboardingMode() {
-     window.isOnboardingMode = true;
-     const sidebar = document.querySelector('.sidebar');
-     if (sidebar) sidebar.classList.add('onboarding-mode');
-     hideCategoryPanel();
- }
- window.enterOnboardingMode = enterOnboardingMode;
+ // Enters onboarding: removes sidebar-ready from all elements so CSS defaults hide everything.
+ // The main-area becomes full-width automatically (no translateX offset).
+function enterOnboardingMode() {
+    window.isOnboardingMode = true;
+    // [DISABLED_FOR_WEDDING_VERSION]: Sidebar removed; no sidebar-ready class manipulation needed.
+    // sidebarCollapsed = true;
+    // const sidebar      = document.querySelector('.sidebar');
+    // const editorLayout = document.querySelector('.editor-layout');
+    // const topBar       = document.querySelector('.top-bar');
+    // const toggleButton = document.getElementById('toggle-sidebar');
+    // if (sidebar)      { sidebar.classList.remove('sidebar-ready', 'collapsed'); sidebar.classList.add('onboarding-mode'); }
+    // if (editorLayout) editorLayout.classList.remove('sidebar-ready', 'collapsed');
+    // if (topBar)       topBar.classList.remove('sidebar-ready', 'sidebar-collapsed');
+    // if (toggleButton) toggleButton.classList.remove('sidebar-ready', 'collapsed', 'invisible');
+    hideCategoryPanel();
+}
 
- // Exits "onboarding" sidebar state: restores theme selector and hover panel behaviour.
- function exitOnboardingMode() {
-     window.isOnboardingMode = false;
-     const sidebar = document.querySelector('.sidebar');
-     if (sidebar) sidebar.classList.remove('onboarding-mode');
-     document.querySelectorAll('#category-list .category-item').forEach(el => el.classList.remove('onboarding-active'));
- }
- window.exitOnboardingMode = exitOnboardingMode;
+ // Exits onboarding: adds sidebar-ready to all elements, revealing sidebar and offsetting main-area.
+ // If window._collapseAfterOnboarding is true (set by selectTemplate in onboarding.js),
+ // all elements get sidebar-ready + collapsed simultaneously so no open→close animation flashes.
+function exitOnboardingMode() {
+    window.isOnboardingMode = false;
+    // [DISABLED_FOR_WEDDING_VERSION]: Sidebar has been removed; keepCollapsed/sidebarCollapsed
+    // state and all sidebar-ready class manipulation are no longer needed.
+    // const keepCollapsed = !!window._collapseAfterOnboarding;
+    // window._collapseAfterOnboarding = false;
+    // sidebarCollapsed = keepCollapsed;
+    // const sidebar      = document.querySelector('.sidebar');
+    // const editorLayout = document.querySelector('.editor-layout');
+    // const topBar       = document.querySelector('.top-bar');
+    // const toggleButton = document.getElementById('toggle-sidebar');
+    // if (sidebar) {
+    //     sidebar.classList.remove('onboarding-mode');
+    //     sidebar.classList.add('sidebar-ready');
+    //     if (keepCollapsed) sidebar.classList.add('collapsed');
+    //     else sidebar.classList.remove('collapsed');
+    // }
+    // if (editorLayout) {
+    //     editorLayout.classList.add('sidebar-ready');
+    //     if (keepCollapsed) editorLayout.classList.add('collapsed');
+    //     else editorLayout.classList.remove('collapsed');
+    // }
+    // if (topBar) {
+    //     topBar.classList.add('sidebar-ready');
+    //     if (keepCollapsed) topBar.classList.add('sidebar-collapsed');
+    //     else topBar.classList.remove('sidebar-collapsed');
+    // }
+    // if (toggleButton) {
+    //     toggleButton.classList.remove('invisible');
+    //     toggleButton.classList.add('sidebar-ready');
+    //     if (keepCollapsed) {
+    //         toggleButton.classList.add('collapsed');
+    //         const icon = toggleButton.querySelector('i');
+    //         if (icon) icon.setAttribute('data-lucide', 'chevron-right');
+    //     } else {
+    //         toggleButton.classList.remove('collapsed');
+    //         const icon = toggleButton.querySelector('i');
+    //         if (icon) icon.setAttribute('data-lucide', 'chevron-left');
+    //     }
+    // }
 
- // Hide sidebar and its toggle when opening the template preview popup (onboarding).
- function hideSidebarForPreview() {
+    // Always show the Change Template button once a template is active (new or existing page).
+    const changeTemplateBtn = document.getElementById('change-template-btn');
+    if (changeTemplateBtn) changeTemplateBtn.style.display = '';
+    document.querySelectorAll('#category-list .category-item').forEach(el => el.classList.remove('onboarding-active'));
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+}
+
+// [DISABLED_FOR_WEDDING_VERSION]: Replaced by window._collapseAfterOnboarding flag inside exitOnboardingMode,
+// which applies the collapsed state atomically so no open→close animation flashes.
+// window.collapseSidebarAfterTemplateInsert = function collapseSidebarAfterTemplateInsert() {
+//     sidebarCollapsed = true;
+//     const sidebar = document.querySelector('.sidebar');
+//     const editorLayout = document.querySelector('.editor-layout');
+//     const topBar = document.querySelector('.top-bar');
+//     const toggleButton = document.getElementById('toggle-sidebar');
+//     if (sidebar) sidebar.classList.add('collapsed');
+//     if (editorLayout) editorLayout.classList.add('collapsed');
+//     if (topBar) { topBar.classList.remove('sidebar-collapsed'); topBar.classList.add('sidebar-collapsed'); }
+//     if (toggleButton) {
+//         toggleButton.classList.add('collapsed');
+//         const icon = toggleButton.querySelector('i');
+//         if (icon) icon.setAttribute('data-lucide', 'chevron-right');
+//     }
+//     const changeTemplateBtn = document.getElementById('change-template-btn');
+//     if (changeTemplateBtn) changeTemplateBtn.style.display = '';
+//     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+// };
+
+// Hides sidebar when opening the template preview popup (onboarding preview).
+// In onboarding the sidebar already has no sidebar-ready, so nothing to do.
+// In normal mode (template already chosen), collapse it temporarily.
+function hideSidebarForPreview() {
      sidebarCollapsed = true;
      const editorLayout = document.querySelector('.editor-layout');
      const sidebar = document.querySelector('.sidebar');
@@ -1326,8 +1452,14 @@ currentTemplateUrl = template.url;
      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
  }
 
- // Restore sidebar and toggle when closing the preview popup (with or without choosing a template).
+ // Restores sidebar after closing the preview popup.
+ // Stays hidden if still in onboarding (no template chosen yet).
  function showSidebarAfterPreview() {
+     if (window.isOnboardingMode) {
+         const categoryPanel = document.querySelector('.category-hover-panel');
+         if (categoryPanel) categoryPanel.style.left = '0';
+         return;
+     }
      sidebarCollapsed = false;
      const editorLayout = document.querySelector('.editor-layout');
      const sidebar = document.querySelector('.sidebar');
@@ -1356,10 +1488,11 @@ currentTemplateUrl = template.url;
  }
  window.setActiveSidebarCategory = setActiveSidebarCategory;
 
- // Genera el menú lateral con filtros de estilo (templates). Wedding/template-first: solo templates, no catálogo de secciones.
- function generateCategories() {
-     const categoryList = document.getElementById('category-list');
-     categoryList.innerHTML = '';
+// Genera el menú lateral con filtros de estilo (templates). Wedding/template-first: solo templates, no catálogo de secciones.
+function generateCategories() {
+    const categoryList = document.getElementById('category-list');
+    if (!categoryList) return;
+    categoryList.innerHTML = '';
      
      Object.entries(templateStyles).forEach(([styleKey, styleData]) => {
          const categoryItem = document.createElement('div');
@@ -1636,17 +1769,18 @@ currentTemplateUrl = template.url;
  }
 
  // Toggle sidebar toggle visibility
- function toggleSidebarVisibility(hide = true) {
-     console.warn({toggleSidebarVisibility, hide});
-     const sidebarToggle = document.getElementById('toggle-sidebar');
-     if (hide) {
-         console.log("hide");
-         sidebarToggle.classList.add('invisible');
-     } else {
-         console.log("show");
-         sidebarToggle.classList.remove('invisible');
-     }
- }
+function toggleSidebarVisibility(hide = true) {
+    console.warn({toggleSidebarVisibility, hide});
+    const sidebarToggle = document.getElementById('toggle-sidebar');
+    if (!sidebarToggle) return;
+    if (hide) {
+        console.log("hide");
+        sidebarToggle.classList.add('invisible');
+    } else {
+        console.log("show");
+        sidebarToggle.classList.remove('invisible');
+    }
+}
 
  // Habilitar panel de temas (selector de skin/theme en sidebar)
  const THEMES_SELECTOR_ENABLED = true;
@@ -1660,6 +1794,8 @@ currentTemplateUrl = template.url;
          hideCategoryPanel();
          window.HeaderModal?.close();
      }
+     const topbarThemeBtn = document.getElementById('topbar-theme-btn');
+     if (topbarThemeBtn) topbarThemeBtn.classList.add('active');
  }
 
  // Close theme panel
@@ -1668,6 +1804,8 @@ currentTemplateUrl = template.url;
      if (panel) {
          panel.classList.remove('show');
      }
+     const topbarThemeBtn = document.getElementById('topbar-theme-btn');
+     if (topbarThemeBtn) topbarThemeBtn.classList.remove('active');
  }
 
  // Hide category hover panel
@@ -2116,6 +2254,12 @@ window.showCategoryPanel = showCategoryPanel;
     viewportBtns.forEach(function(btn) {
         btn.disabled = selectedSections.size === 0;
     });
+
+    // Enable/disable topbar theme button
+    const topbarThemeBtn = document.getElementById('topbar-theme-btn');
+    if (topbarThemeBtn) {
+        topbarThemeBtn.disabled = selectedSections.size === 0;
+    }
 }
  
  /**
@@ -2193,19 +2337,24 @@ function syncSelectedSectionsFromIframe() {
      const toggleButton = document.getElementById('toggle-sidebar');
      const icon = toggleButton.querySelector('i');
      
-     if (sidebarCollapsed) {
-         editorLayout.classList.add('collapsed');
-         sidebar.classList.add('collapsed');
-         topBar.classList.add('sidebar-collapsed');
-         toggleButton.classList.add('collapsed');
-         icon.setAttribute('data-lucide', 'chevron-right');
-     } else {
-         editorLayout.classList.remove('collapsed');
-         sidebar.classList.remove('collapsed');
-         topBar.classList.remove('sidebar-collapsed');
-         toggleButton.classList.remove('collapsed');
-         icon.setAttribute('data-lucide', 'chevron-left');
-     }
+    if (sidebarCollapsed) {
+        editorLayout.classList.add('collapsed');
+        sidebar.classList.add('collapsed');
+        topBar.classList.add('sidebar-collapsed');
+        toggleButton.classList.add('collapsed');
+        icon.setAttribute('data-lucide', 'chevron-right');
+    } else {
+        editorLayout.classList.remove('collapsed');
+        sidebar.classList.remove('collapsed');
+        topBar.classList.remove('sidebar-collapsed');
+        toggleButton.classList.remove('collapsed');
+        // Ensure sidebar-ready is on all elements so CSS offsets apply
+        editorLayout.classList.add('sidebar-ready');
+        sidebar.classList.add('sidebar-ready');
+        topBar.classList.add('sidebar-ready');
+        toggleButton.classList.add('sidebar-ready');
+        icon.setAttribute('data-lucide', 'chevron-left');
+    }
      
      // Adjust category hover panel position if it exists
      const categoryPanel = document.querySelector('.category-hover-panel');
@@ -2637,7 +2786,7 @@ function downloadPage() {
              // Validación básica del tema (el servidor hará la normalización completa)
              let sanitizedTheme = theme || currentTheme;
              if (!sanitizedTheme || typeof sanitizedTheme !== 'string') {
-                 sanitizedTheme = currentTheme || 'theme-wedding-blush-ivory';
+                 sanitizedTheme = currentTheme || '';
              }
              
              const draft = {
@@ -2745,18 +2894,19 @@ function downloadPage() {
              draft.fullHtml = '';
          }
          
-         // Ensure theme is always a string (not an array)
-         if (draft.theme) {
-             if (Array.isArray(draft.theme)) {
-                 console.warn('Theme is an array in draft, extracting first valid value:', draft.theme);
-                 draft.theme = draft.theme.find(t => typeof t === 'string' && t.trim() !== '') || 'theme-light-minimal';
-             } else if (typeof draft.theme !== 'string' || draft.theme.trim() === '') {
-                 console.warn('Invalid theme in draft, using default:', draft.theme);
-                 draft.theme = 'theme-light-minimal';
-             }
-         } else {
-             draft.theme = 'theme-light-minimal';
-         }
+        // Ensure theme is always a string (not an array)
+        if (draft.theme) {
+            if (Array.isArray(draft.theme)) {
+                console.warn('Theme is an array in draft, extracting first valid value:', draft.theme);
+                draft.theme = draft.theme.find(t => typeof t === 'string' && t.trim() !== '') || '';
+            } else if (typeof draft.theme !== 'string') {
+                console.warn('Invalid theme in draft, discarding:', draft.theme);
+                draft.theme = '';
+            }
+        } else {
+            // No theme saved — leave empty so no theme is pre-selected on restore
+            draft.theme = '';
+        }
          
          draftData = draft;
          currentTemplateUrl = draft.templateUrl || null;
@@ -2950,8 +3100,77 @@ function downloadPage() {
      }
  }
 
- // Clear draft from localStorage and clear all sections
- function clearDraft() {
+// Show confirmation popup before changing template (replaces sidebar toggle behavior)
+function showChangeTemplateConfirm() {
+    const existingModal = document.getElementById('change-template-confirm-modal');
+    if (existingModal) existingModal.remove();
+
+    const modalHTML = `
+        <div id="change-template-confirm-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10000]" style="display:flex;">
+            <div class="download-options-modal-content github-export-content rounded-2xl shadow-2xl max-w-lg w-full mx-4" style="background-color: var(--primary-bg, #ffffff); max-height: unset; overflow: visible;" onclick="event.stopPropagation()">
+                <div class="p-8 relative">
+                    <button onclick="document.getElementById('change-template-confirm-modal').remove()" aria-label="Close" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full transition-all hover:bg-[var(--accent-bg)] text-[var(--secondary-text)] hover:text-[var(--primary-text)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-[var(--primary-text)] pr-8">Change Template</h2>
+                    </div>
+                    <p class="text-[var(--secondary-text)] text-sm leading-relaxed mb-6">
+                        Changing the template means starting a new website. You will lose the changes you made in your current website.
+                        <br><br>
+                        <strong class="text-[var(--primary-text)]">Are you sure?</strong>
+                    </p>
+                    <div class="flex gap-3 justify-end">
+                        <button id="change-template-cancel-btn" class="change-template-modal-cancel-btn px-5 py-2.5 text-sm font-medium rounded-xl transition-all">
+                            Cancel
+                        </button>
+                        <button id="change-template-confirm-btn" class="change-template-modal-confirm-btn px-5 py-2.5 text-sm font-medium rounded-xl transition-all">
+                            Yes, change template
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    const modal = document.getElementById('change-template-confirm-modal');
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+
+    document.getElementById('change-template-cancel-btn').addEventListener('click', () => {
+        modal.remove();
+    });
+
+    document.getElementById('change-template-confirm-btn').addEventListener('click', () => {
+        modal.remove();
+        if (typeof window.Onboarding !== 'undefined') {
+            window.Onboarding.reset();
+        }
+        clearDraft();
+    });
+
+    const escapeHandler = (e) => {
+        if (e.key === 'Escape') {
+            modal.remove();
+            document.removeEventListener('keydown', escapeHandler);
+        }
+    };
+    document.addEventListener('keydown', escapeHandler);
+}
+
+// Clear draft from localStorage and clear all sections
+function clearDraft() {
      // Set flag to prevent autosave from creating a new draft
      isClearingDraft = true;
      
@@ -2963,16 +3182,12 @@ function downloadPage() {
      // Clear history as well
      if (historyManager) historyManager.clear();
      
-    // Reset theme to default (but don't trigger autosave)
-    currentTheme = 'theme-wedding-blush-ivory';
-     const themeCards = document.querySelectorAll('.theme-card');
-     themeCards.forEach(card => {
-         card.classList.remove('active');
-     });
-     const defaultThemeCard = document.querySelector('[data-theme="theme-light-minimal"]');
-     if (defaultThemeCard) {
-         defaultThemeCard.classList.add('active');
-     }
+   // Reset theme (no theme pre-selected after clear)
+   currentTheme = null;
+    const themeCards = document.querySelectorAll('.theme-card');
+    themeCards.forEach(card => {
+        card.classList.remove('active');
+    });
      
      // Apply default theme to iframe without triggering autosave
      const iframe = document.getElementById('preview-iframe');
@@ -3518,44 +3733,45 @@ function downloadPage() {
      }
  }
 
- // Update current theme button display
- function updateCurrentThemeButton(themeId) {
-     const previewContainer = document.getElementById('current-theme-preview');
-     const nameElement = document.getElementById('current-theme-name');
-     
-     if (!previewContainer || !nameElement) return;
-     
-     // Find the theme data
-     let themeData = themes.find(t => t.id === themeId);
-     
-     // If not found in predefined themes, check custom themes
-     if (!themeData && typeof getCustomThemes !== 'undefined') {
-         const customThemes = getCustomThemes();
-         themeData = customThemes.find(t => t.id === themeId);
-         
-         // For custom themes, extract colors from variables
-         if (themeData && themeData.variables) {
-             themeData.colors = [
-                 themeData.variables['primary-bg'],
-                 themeData.variables['secondary-bg'],
-                 themeData.variables['primary-accent'],
-                 themeData.variables['secondary-accent'],
-                 themeData.variables['border-color']
-             ];
-         }
-     }
-     
-     if (themeData) {
-         // Update preview colors
-         const colorPalette = themeData.colors.map(color => 
-             `<div class="theme-preview-color" style="background-color: ${color}"></div>`
-         ).join('');
-         previewContainer.innerHTML = colorPalette;
-         
-         // Update theme name
-         nameElement.textContent = themeData.name;
-     }
- }
+// Update current theme button display
+function updateCurrentThemeButton(themeId) {
+    const previewContainer = document.getElementById('current-theme-preview');
+    const nameElement = document.getElementById('current-theme-name');
+    const topbarPreview = document.getElementById('topbar-theme-preview');
+    
+    // Find the theme data
+    let themeData = themes.find(t => t.id === themeId);
+    
+    // If not found in predefined themes, check custom themes
+    if (!themeData && typeof getCustomThemes !== 'undefined') {
+        const customThemes = getCustomThemes();
+        themeData = customThemes.find(t => t.id === themeId);
+        
+        // For custom themes, extract colors from variables
+        if (themeData && themeData.variables) {
+            themeData.colors = [
+                themeData.variables['primary-bg'],
+                themeData.variables['secondary-bg'],
+                themeData.variables['primary-accent'],
+                themeData.variables['secondary-accent'],
+                themeData.variables['border-color']
+            ];
+        }
+    }
+    
+    if (themeData) {
+        const colorPalette = themeData.colors.map(color => 
+            `<div class="theme-preview-color" style="background-color: ${color}"></div>`
+        ).join('');
+
+        // Update hidden sidebar preview (kept for JS compatibility)
+        if (previewContainer) previewContainer.innerHTML = colorPalette;
+        if (nameElement) nameElement.textContent = themeData.name;
+
+        // Update topbar compact preview
+        if (topbarPreview) topbarPreview.innerHTML = colorPalette;
+    }
+}
 
  window.applyThemeFromCommand = function(themeId, options = {}) {
      if (!themeId || typeof themeId !== 'string' || themeId.trim() === '') {
@@ -4300,16 +4516,21 @@ function downloadPage() {
          case 'EXIT_FULLSCREEN':
              toggleFullscreenPreview();
              break;
-         case 'RESTORE_TEMPLATE_DONE':
-         case 'OUTLINE_READY':
-             // Iframe tiene el DOM de secciones listo (restore o insert con ?template=).
-             // Sincronizar selectedSections desde el iframe para que el botón del layout se habilite.
-             syncSelectedSectionsFromIframe();
-             updateSectionCounter();
-             if (typeof window.sectionOutline !== 'undefined' && window.sectionOutline.refresh) {
-                 window.sectionOutline.refresh();
-             }
-             break;
+        case 'RESTORE_TEMPLATE_DONE':
+        case 'OUTLINE_READY':
+            // Iframe tiene el DOM de secciones listo (restore o insert con ?template=).
+            // Sincronizar selectedSections desde el iframe para que el botón del layout se habilite.
+            syncSelectedSectionsFromIframe();
+            updateSectionCounter();
+            if (typeof window.sectionOutline !== 'undefined' && window.sectionOutline.refresh) {
+                window.sectionOutline.refresh();
+                // Re-apply theme after refresh so thumbnails inherit the correct CSS variables,
+                // especially when no explicit theme change was made (onboarding direct select).
+                if (typeof window.sectionOutline.refreshTheme === 'function') {
+                    window.sectionOutline.refreshTheme();
+                }
+            }
+            break;
          case 'IFRAME_CLICK':
              // Close user menu if open
              if (userMenuVisible) {
@@ -4542,6 +4763,11 @@ function syncOutlineFromTemplateContent() {
     updateSectionCounter();
     if (typeof window.sectionOutline !== 'undefined' && window.sectionOutline.refresh) {
         window.sectionOutline.refresh();
+        // Re-apply theme after refresh to ensure CSS variables resolve correctly
+        // when inserting a template without an explicit theme change.
+        if (typeof window.sectionOutline.refreshTheme === 'function') {
+            window.sectionOutline.refreshTheme();
+        }
     }
     if (typeof window.Onboarding !== 'undefined' && window.Onboarding.checkVisibility) {
         window.Onboarding.checkVisibility();
@@ -4585,6 +4811,28 @@ document.addEventListener('DOMContentLoaded', async () => {
             }, '*');
         }
 
+        // Sync sections-grid display theme with the loaded template.
+        // When the user has not selected a theme (currentTheme is null), read the
+        // theme class embedded in the template's <body> and apply it to the
+        // category-sections-grid so section thumbnails preview with matching colors.
+        // This is display-only: currentTheme stays null and no theme card is marked active.
+        if (!currentTheme && currentTemplateUrl) {
+            try {
+                const bodyClasses = iframe.contentDocument?.body?.className || '';
+                const templateThemeMatch = bodyClasses.match(/\btheme-[\w-]+/);
+                if (templateThemeMatch) {
+                    const templateTheme = templateThemeMatch[0];
+                    const categorySectionsGrid = document.getElementById('category-sections-grid');
+                    if (categorySectionsGrid) {
+                        categorySectionsGrid.className = categorySectionsGrid.className.replace(/theme-[\w-]+/g, '').trim();
+                        categorySectionsGrid.classList.add('category-sections-grid', templateTheme);
+                    }
+                }
+            } catch (e) {
+                // Silently ignore cross-origin or access errors
+            }
+        }
+
         // Template-first: after template load, sync outline/selectedSections from DOM (user picked template)
         if (currentTemplateUrl && !isRestoring) {
             setTimeout(syncOutlineFromTemplateContent, 400);
@@ -4610,11 +4858,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                  }, 1000);
              }, 500);
          } else {
-             // Check if we need to prompt for page name (new authenticated user without page ID)
-             if (pageManager.shouldPromptForPageName()) {
-                 await pageManager.promptForPageName();
-             }
-             
+             // [DISABLED_FOR_WEDDING_VERSION]: Page name prompt moved to onboarding selectTemplate().
+             // The page is now created after the user picks a template, not on iframe load.
+             // if (pageManager.shouldPromptForPageName()) {
+             //     await pageManager.promptForPageName();
+             // }
+
              // Try to restore draft after iframe is loaded (only once, on initial load)
              setTimeout(async () => {
                  const restored = await restoreDraft();
@@ -4720,9 +4969,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     //  const clearButton = document.getElementById('clear-all');
     //  clearButton.addEventListener('click', clearAllSections);
      
-     // Toggle sidebar button
-     const toggleButton = document.getElementById('toggle-sidebar');
-     toggleButton.addEventListener('click', toggleSidebar);
+     // [DISABLED_FOR_WEDDING_VERSION]: Toggle sidebar button removed along with sidebar.
+     // const toggleButton = document.getElementById('toggle-sidebar');
+     // toggleButton.addEventListener('click', toggleSidebar);
+
+     // Change Template button: shows confirmation popup before resetting to onboarding
+     const changeTemplateBtn = document.getElementById('change-template-btn');
+     if (changeTemplateBtn) {
+         changeTemplateBtn.addEventListener('click', () => {
+             showChangeTemplateConfirm();
+         });
+     }
      
     // Dark mode toggle button
     const darkModeToggle = document.getElementById('dark-mode-toggle');
@@ -4733,10 +4990,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
     
-    // Theme selector button
+    // Theme selector button (sidebar – kept for compatibility, currently commented out in HTML)
     const themeSelectorButton = document.getElementById('theme-selector-button');
     if (themeSelectorButton) {
         themeSelectorButton.addEventListener('click', openThemePanel);
+    }
+
+    // Topbar theme button (compact button in the top bar)
+    const topbarThemeBtn = document.getElementById('topbar-theme-btn');
+    if (topbarThemeBtn) {
+        topbarThemeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const panel = document.getElementById('theme-panel');
+            if (panel && panel.classList.contains('show')) {
+                closeThemePanel();
+            } else {
+                openThemePanel();
+            }
+        });
     }
 
     // Header selector button
@@ -4777,7 +5048,16 @@ document.addEventListener('DOMContentLoaded', async () => {
      if (closeThemePanelButton) {
          closeThemePanelButton.addEventListener('click', closeThemePanel);
      }
-     
+
+     // Theme panel reset badge: restore default theme
+     const themePanelResetBtn = document.getElementById('theme-panel-reset');
+     if (themePanelResetBtn && typeof selectTheme === 'function') {
+         themePanelResetBtn.addEventListener('click', (e) => {
+             e.stopPropagation();
+             selectTheme('theme-light-minimal', true);
+         });
+     }
+
      // Close theme panel when clicking outside
      const themePanel = document.getElementById('theme-panel');
      if (themePanel) {
@@ -4793,9 +5073,15 @@ document.addEventListener('DOMContentLoaded', async () => {
              const onboardingStep1 = document.querySelector('#onboarding-overlay [data-step="1"]');
              const isOnboardingStep1Click = onboardingStep1 && onboardingStep1.contains(e.target);
 
+             // Don't close when clicking the topbar theme button (it handles toggle itself)
+             const topbarBtnClick = topbarThemeBtn && topbarThemeBtn.contains(e.target);
+             // Don't close when clicking the sidebar theme selector (legacy, currently hidden)
+             const sidebarBtnClick = themeSelectorButton && themeSelectorButton.contains(e.target);
+
              if (themePanel.classList.contains('show') &&
                  !themePanel.contains(e.target) &&
-                 !themeSelectorButton.contains(e.target) &&
+                 !topbarBtnClick &&
+                 !sidebarBtnClick &&
                  !isModalOpen &&
                  !isOnboardingStep1Click) {
                  closeThemePanel();
@@ -5571,6 +5857,8 @@ document.addEventListener('DOMContentLoaded', async () => {
      // Variable to store the timeout for category hover
      let categoryHoverTimeout = null;
      
+     // Guard: sidebar may be disabled; skip all hover listeners if elements are not present.
+     if (categoryList && categoryListWrapper) {
      // Category item hover events. Template-first: all sidebar items are style filters (templates); showCategoryPanel branch kept for possible search/other use.
      categoryList.addEventListener('mouseenter', (e) => {
          // In onboarding mode, categories respond to click (not hover).
@@ -5628,4 +5916,5 @@ document.addEventListener('DOMContentLoaded', async () => {
              toggleSidebarVisibility(false);
          }
      });
+     } // end if (categoryList && categoryListWrapper)
  });

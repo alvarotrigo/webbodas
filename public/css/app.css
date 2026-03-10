@@ -126,20 +126,39 @@ body {
     margin-left: 0;
 }
 
+/* ── SIDEBAR ─────────────────────────────────────────────────────────────
+   Default state = HIDDEN (width: 0). The class .sidebar-ready is added by
+   exitOnboardingMode() once the user has chosen a template, making the
+   sidebar visible for the first time. This eliminates any flash on load.
+   ──────────────────────────────────────────────────────────────────────── */
 .sidebar {
     background: var(--primary-bg);
     border-right: 1px solid var(--border-color);
     height: 100vh;
-    transition: all 0.3s ease;
     position: fixed;
     top: 0;
     left: 0;
-    width: 300px;
+    width: 0;
     overflow: hidden;
     z-index: 10;
+    /* No transition on the hidden default — sidebar animates only after
+       .sidebar-ready is added, preventing any layout shift on page load. */
+    transition: none;
 }
+
+/* Sidebar is visible: added by exitOnboardingMode() */
+.sidebar.sidebar-ready {
+    width: 300px;
+    transition: width 0.3s ease;
+}
+
+/* User has manually collapsed the sidebar */
+.sidebar.sidebar-ready.collapsed {
+    width: 0;
+}
+
 .dark-mode .top-bar,
-.dark-mode .slidebar{
+.dark-mode .slidebar {
     border-color: rgba(0, 0, 0, 0.08);
 }
 
@@ -151,19 +170,15 @@ body {
     border-color: transparent;
 }
 
-.sidebar.collapsed {
-    width: 0;
-    overflow: hidden;
-    left: 0;
-}
-
-.sidebar.collapsed .sidebar-content {
+.sidebar.sidebar-ready.collapsed .sidebar-content {
     padding: 0;
 }
 
+/* ── SIDEBAR TOGGLE BUTTON ───────────────────────────────────────────────
+   Hidden by default; shown only when .sidebar-ready is active.
+   ──────────────────────────────────────────────────────────────────────── */
 .sidebar-toggle {
     position: fixed;
-    left: 280px;
     top: 50%;
     transform: translateY(-50%);
     width: 40px;
@@ -171,7 +186,6 @@ body {
     background: var(--primary-bg);
     border: 1px solid var(--border-color);
     border-radius: 50%;
-    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -179,13 +193,21 @@ body {
     z-index: 1000;
     transition: all 0.3s ease;
     pointer-events: auto;
+    /* Hidden until sidebar is ready */
+    display: none;
+    left: 280px;
 }
 
-.sidebar-toggle.collapsed {
+.sidebar-toggle.sidebar-ready {
+    display: flex;
+    left: 280px;
+}
+
+.sidebar-toggle.sidebar-ready.collapsed {
     left: 20px;
 }
 
-.sidebar-toggle.collapsed svg {
+.sidebar-toggle.sidebar-ready.collapsed svg {
     transform: scaleX(-1);
 }
 
@@ -207,17 +229,25 @@ body {
 .main-area {
     background: var(--primary-bg);
     overflow-y: auto;
-    /* padding: 2rem; */
     position: relative;
     height: 100%;
-    max-width: calc(100vw - 300px);
-    width: calc(100vw - 300px);
-    transform: translateX(300px);
-    /* transform: translateY(60px); */
+    /* Default: full width, no sidebar offset (onboarding / initial state) */
+    max-width: 100vw;
+    width: 100vw;
+    transform: translateX(0);
     transition: transform 0.3s ease, width 0.3s ease;
     will-change: transform, width;
 }
 
+/* Sidebar visible: offset the main area to make room */
+.editor-layout.sidebar-ready .main-area {
+    max-width: calc(100vw - 300px);
+    width: calc(100vw - 300px);
+    transform: translateX(300px);
+}
+
+/* Sidebar toggled to collapsed by user */
+.editor-layout.sidebar-ready.collapsed .main-area,
 .collapsed .main-area {
     transform: translateX(0);
     max-width: 100vw;
@@ -248,10 +278,15 @@ body {
     height: 60px;
     position: fixed;
     top: 0;
-    left: 300px;
+    left: 0;   /* Default: no sidebar → full width. Overridden by .sidebar-ready */
     right: 0;
     z-index: 2;
     transition: left 0.3s ease;
+}
+
+/* Top bar offset when sidebar is visible */
+.top-bar.sidebar-ready {
+    left: 300px;
 }
 
 .top-bar-left {
@@ -275,6 +310,15 @@ body {
     gap: 1rem;
     flex: 0 1 auto;
     margin-left: auto;
+}
+
+/* Onboarding visible: hide navbar title and buttons, keep only user block */
+body.onboarding-visible .top-bar-left,
+body.onboarding-visible .top-bar-center {
+    display: none !important;
+}
+body.onboarding-visible .top-bar-right > *:not(.user-info) {
+    display: none !important;
 }
 
 .top-bar > .flex {
@@ -398,6 +442,60 @@ body {
 
 .theme-selector-section {
     margin-bottom: 1rem;
+}
+
+/* ── TOPBAR THEME BUTTON ──────────────────────────────────────────────────
+   Compact theme selector in the top bar, left of the viewport buttons.
+   Shows only color swatches, no text.
+   ──────────────────────────────────────────────────────────────────────── */
+.topbar-theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem 0.5rem;
+    height: 36px;
+    background: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+}
+
+.topbar-theme-btn:hover:not(:disabled) {
+    border-color: var(--primary-accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.topbar-theme-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.topbar-theme-btn.active {
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.15);
+}
+
+.topbar-theme-preview {
+    display: flex;
+    align-items: center;
+    height: 22px;
+    min-width: 70px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    background: linear-gradient(90deg, #e5e7eb 0%, #f3f4f6 50%, #e5e7eb 100%);
+}
+
+.topbar-theme-preview:not(:empty) {
+    background: none;
+}
+
+.topbar-theme-preview .theme-preview-color {
+    flex: 1;
+    height: 100%;
 }
 
 /* Viewport preview styles */
@@ -974,6 +1072,34 @@ body.dark-mode .dark-mode-icon-wrapper .icon-moon {
     }
 }
 
+/* Change Template Button (same style as preview/share toolbar buttons) */
+.change-template-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 12px;
+    margin-right: 10px;
+    padding: 0.5rem;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--secondary-text);
+    background: transparent;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.change-template-btn:hover {
+    background: var(--accent-bg);
+    color: var(--primary-text);
+}
+
+.change-template-btn i {
+    flex-shrink: 0;
+}
+
 /* Full-screen preview mode */
 .editor-layout.fullscreen {
     transform: translateY(0px);
@@ -1532,6 +1658,123 @@ body.dark-mode .dark-mode-icon-wrapper .icon-moon {
 
 .page-name-save-btn:active {
     transform: translateY(0);
+}
+
+/* Delete page button (trash icon to the right of page name) */
+.delete-page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--secondary-text);
+    transition: color 0.2s ease, background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.delete-page-btn:hover {
+    color: #dc2626;
+    background-color: rgba(220, 38, 38, 0.1);
+}
+
+.delete-page-btn:focus {
+    outline: none;
+}
+
+.delete-page-btn i,
+.delete-page-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Delete Page Confirmation Modal */
+.delete-page-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.delete-page-modal.show {
+    display: flex;
+}
+
+.delete-page-modal-content {
+    background: var(--primary-bg);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+}
+
+.delete-page-modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-text);
+    margin: 0 0 12px 0;
+}
+
+.delete-page-modal-message {
+    font-size: 0.9375rem;
+    color: var(--secondary-text);
+    margin: 0 0 24px 0;
+    line-height: 1.5;
+}
+
+.delete-page-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.delete-page-modal-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    border: none;
+    font-family: inherit;
+}
+
+.delete-page-modal-cancel {
+    background: var(--border-color);
+    color: var(--primary-text);
+}
+
+.delete-page-modal-cancel:hover {
+    background: #9ca3af;
+    color: white;
+}
+
+.delete-page-modal-confirm {
+    background: #dc2626;
+    color: white;
+}
+
+.delete-page-modal-confirm:hover {
+    background: #b91c1c;
+}
+
+.delete-page-modal-confirm:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Custom Theme Modal styles */
@@ -2428,19 +2671,21 @@ body.dark-mode .dark-mode-icon-wrapper .icon-moon {
     flex-shrink: 0;
 }
 
-/* Theme Panel */
+/* Theme Panel – appears INSIDE the sidebar area, right below the top bar.
+   Panel is inside .editor-layout (transform: translateY(60px)), so fixed top is
+   relative to that: use top: 0 to align with layout top = just below top bar. */
 .theme-panel {
     position: fixed;
-    top: 0px;
-    left: 300px;
-    width: 360px;
-    height: calc(100dvh - 0px - 50px);
-    background: #fafbfc;
-    border-left: 1px solid #e5e7eb;
-    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.08);
-    transform: translateX(-100px);
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: calc(100dvh - 60px);
+    background: var(--primary-bg);
+    border-right: 1px solid var(--border-color);
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.06);
+    transform: translateX(-300px);
     transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 7;
+    z-index: 11; /* above sidebar (z-index: 10) */
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -2454,7 +2699,7 @@ body.dark-mode .dark-mode-icon-wrapper .icon-moon {
     visibility: visible;
 }
 
-/* Adjust panel position when sidebar is collapsed */
+/* When sidebar is collapsed the panel still shows at left: 0 (same behaviour) */
 .editor-layout.collapsed .theme-panel {
     left: 0;
 }
@@ -2489,6 +2734,25 @@ body.dark-mode .dark-mode-icon-wrapper .icon-moon {
 .theme-panel-title i {
     width: 20px;
     height: 20px;
+}
+
+.theme-panel-reset-badge {
+    margin-left: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--primary-text);
+    background: var(--accent-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.theme-panel-reset-badge:hover {
+    background: var(--primary-accent);
+    color: #fff;
+    border-color: var(--primary-accent);
 }
 
 .theme-panel-close {
@@ -3068,6 +3332,27 @@ body.dark-mode .dark-mode-icon-wrapper .icon-moon {
     overflow-y: auto;
 }
 
+/* Change Template confirmation modal buttons */
+.change-template-modal-cancel-btn {
+    border: 1px solid var(--border-color);
+    color: var(--secondary-text);
+    background: transparent;
+    cursor: pointer;
+}
+.change-template-modal-cancel-btn:hover {
+    background: var(--accent-bg);
+    color: var(--primary-text);
+}
+.change-template-modal-confirm-btn {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+.change-template-modal-confirm-btn:hover {
+    background: #1d4ed8;
+}
+
 #polar-test-mode-banner{
     position: fixed;
     top: 0;
@@ -3214,7 +3499,7 @@ body.dark-mode .loading-overlay {
 }
 
 .onboarding-title {
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 700;
     color: var(--primary-text);
     margin-bottom: 0.5rem;
@@ -3349,16 +3634,19 @@ body.dark-mode .onboarding-step.completed {
 
 /* ============================================================
    SIDEBAR ONBOARDING MODE
+   During onboarding the sidebar has no .sidebar-ready class so it is
+   already invisible (width: 0). The rules below only handle the
+   optional onboarding-mode class kept for category-list hiding.
    ============================================================ */
+
+/* Hide the sidebar category list during onboarding (categories shown in overlay instead) */
+.sidebar.onboarding-mode .category-list-wrapper {
+    display: none;
+}
 
 /* Hide theme selector while no template has been chosen */
 .sidebar.onboarding-mode .theme-selector-section {
     display: none;
-}
-
-/* Cursor hint: categories are clickable (not hover-based) during onboarding */
-.sidebar.onboarding-mode .category-item {
-    cursor: pointer;
 }
 
 /* Active (selected) category in onboarding mode — same background as hover + left accent */
@@ -3408,7 +3696,152 @@ body.dark-mode .category-item.onboarding-active .category-count {
 
 /* Subtitle spacing reduced for gallery layout */
 .onboarding-container--gallery .onboarding-subtitle {
-    margin-bottom: 1.75rem;
+    margin-bottom: 3rem;
+}
+
+/* === ONBOARDING FILTERS ROW (categories centered + search right next to last pill) === */
+.onboarding-filters-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-bottom: 1.5rem;
+    min-height: 36px;
+}
+
+.onboarding-filters-row .onboarding-category-filters {
+    margin-bottom: 0;
+}
+
+.onboarding-filters-row .onboarding-search-wrap {
+    flex-shrink: 0;
+    margin-left: 0.7rem;
+}
+
+.onboarding-search-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+}
+
+.onboarding-filters-row .onboarding-search-wrap {
+    width: 280px;
+    min-width: 200px;
+}
+
+.onboarding-search-icon {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-text, #9ca3af);
+    pointer-events: none;
+    flex-shrink: 0;
+}
+
+.onboarding-search-input {
+    width: 100%;
+    height: 45px;
+    padding: 0 2.5rem 0 2.4rem;
+    border: 1.5px solid var(--border-color, #e5e7eb);
+    border-radius: 999px;
+    background: var(--primary-bg, #fff);
+    color: var(--primary-text, #1e293b);
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.onboarding-search-input::placeholder {
+    color: var(--secondary-text, #9ca3af);
+}
+
+.onboarding-search-input:focus {
+    border-color: #63c2a2;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+}
+
+.onboarding-search-clear {
+    position: absolute;
+    right: 0.7rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: var(--secondary-bg, #f1f5f9);
+    color: var(--secondary-text, #64748b);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.15s, color 0.15s;
+}
+
+.onboarding-search-clear:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+/* === ONBOARDING CATEGORY FILTER PILLS === */
+.onboarding-category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 36px; /* Reserve space while pills load */
+}
+
+.onboarding-cat-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    height: 45px;
+    padding: 0 0.85rem;
+    border: 1.5px solid var(--border-color, #e5e7eb);
+    border-radius: 20px;
+    background: var(--primary-bg, #fff);
+    color: var(--primary-text, #374151);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s, color 0.18s, box-shadow 0.18s;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.onboarding-cat-btn:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+/* Active (selected) pill — blue like publish / + template button */
+.onboarding-cat-btn.active {
+    border-color: #2563eb;
+    background: #eff6ff;
+    color: #1d4ed8;
+    box-shadow: 0 0 0 1.5px #2563eb;
+}
+
+.onboarding-cat-count {
+    font-size: 0.72rem;
+    color: var(--secondary-text, #9ca3af);
+    background: var(--secondary-bg, #f1f5f9);
+    border-radius: 999px;
+    padding: 0 0.4rem;
+    min-width: 18px;
+    text-align: center;
+    transition: background 0.18s, color 0.18s;
+}
+
+.onboarding-cat-btn.active .onboarding-cat-count {
+    background: #dbeafe;
+    color: #1d4ed8;
 }
 
 /* === GALLERY GRID === */
@@ -3652,12 +4085,21 @@ body.dark-mode .category-item.onboarding-active .category-count {
     color: #111;
 }
 
+/* --- Device view toggle bar (matches top-bar viewport style: gray card, accent-bg when active) --- */
+.onboarding-preview-device-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0 0 0;
+    flex-shrink: 0;
+}
+
 /* --- Two-column body --- */
 .onboarding-preview-popup-body {
     flex: 1;
     display: flex;
     min-height: 0;
-    margin: 16px 16px 0 16px;
+    margin: 10px 16px 0 16px;
     overflow: visible;
 }
 
@@ -3669,6 +4111,53 @@ body.dark-mode .category-item.onboarding-active .category-count {
     overflow: hidden;
     background: #f5f3f0;
     border: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    transition: background 0.25s;
+}
+
+/* Desktop mode (default): iframe fills the column */
+.onboarding-preview-popup-iframe-col .onboarding-preview-iframe-wrapper {
+    flex: 1;
+    display: flex;
+    min-width: 0;
+    border-radius: 13px;
+    overflow: hidden;
+}
+
+/* Tablet / Mobile: iframe shrinks to device width, centered with bg visible */
+.onboarding-preview-popup-iframe-col.device-tablet .onboarding-preview-iframe-wrapper,
+.onboarding-preview-popup-iframe-col.device-mobile .onboarding-preview-iframe-wrapper {
+    flex: none;
+    align-self: stretch;
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.14);
+    overflow: hidden;
+    margin: 16px auto;
+}
+
+.onboarding-preview-popup-iframe-col.device-tablet .onboarding-preview-iframe-wrapper {
+    width: 768px;
+    max-width: calc(100% - 32px);
+}
+
+.onboarding-preview-popup-iframe-col.device-mobile .onboarding-preview-iframe-wrapper {
+    width: 390px;
+    max-width: calc(100% - 32px);
+    border-radius: 22px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+}
+
+/* Device frame notch ring for mobile */
+.onboarding-preview-popup-iframe-col.device-mobile .onboarding-preview-iframe-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    pointer-events: none;
 }
 
 .onboarding-preview-iframe {
@@ -3677,6 +4166,7 @@ body.dark-mode .category-item.onboarding-active .category-count {
     border: none;
     display: block;
     background: #fff;
+    transition: border-radius 0.25s;
 }
 
 /* Right: theme sidebar column */
@@ -3959,4 +4449,12 @@ body.dark-mode .onboarding-preview-themes-list .popup-theme-card {
 
 body.dark-mode .onboarding-preview-nav {
     background: rgba(245, 243, 240, 0.95);
+}
+
+/* Hide topbar controls during onboarding — only user info remains visible */
+body.onboarding-active .top-bar-left,
+body.onboarding-active .top-bar-center,
+body.onboarding-active .top-bar-right > *:not(.user-info) {
+    visibility: hidden;
+    pointer-events: none;
 }

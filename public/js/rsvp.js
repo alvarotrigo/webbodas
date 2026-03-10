@@ -13,6 +13,7 @@
     var state = {
         pageId: null,
         pageTitle: '',
+        pageUrl: '',      // public website URL for link in header
         submissions: [],
         filtered: [],
         total: 0,
@@ -24,7 +25,13 @@
         loading: false,
         accessToken: null,
         groups: [],        // [{id, name, color}, …]
-        groupFilter: null, // null = all, or group id (int) to filter
+        groupFilter: new Set(), // empty = all; Set of group ids (0 = "no group")
+        pageSlug: '',     // share_slug for linking to public form (website#rsvp)
+        sortCol: null,
+        sortDir: 'asc',
+        columnFilters: {},  // { colKey: Set of selected values }
+        openFilterCol: null,
+        colWidths: {},      // { colKey: widthPx } — persists column resize across re-renders
     };
 
     // Wedding-friendly color palette for group swatches
@@ -53,6 +60,7 @@
         loadSubmissions();
         bindTopBarActions();
         renderColorSwatches();
+        if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
     }
 
     // ----------------------------------------------------------------
@@ -104,7 +112,9 @@
                 state.formOpen       = data.form_open !== false;
                 state.formClosedMessage = data.form_closed_message || '';
                 state.pageTitle      = data.page_title || '';
+                state.pageUrl        = (data.page_url && String(data.page_url).trim()) || '';
                 state.groups         = data.groups || [];
+                state.pageSlug       = (data.share_slug && String(data.share_slug).trim()) || '';
 
                 updatePageTitle();
                 updateFormStatusBadge();
@@ -126,87 +136,345 @@
     function applyFilter() {
         var q = state.search.toLowerCase().trim();
         state.filtered = state.submissions.filter(function (s) {
-            // Group filter
-            if (state.groupFilter !== null) {
-                if (state.groupFilter === 0) {
-                    // Unassigned guests only
-                    if (s.group_id !== null && s.group_id !== undefined) return false;
+            // Group filter (category pills — multi-select)
+            if (state.groupFilter.size > 0) {
+                var hasGroupId = s.group_id !== null && s.group_id !== undefined;
+                if (!hasGroupId) {
+                    // Submission has no group: only pass if "No group" (0) is selected
+                    if (!state.groupFilter.has(0)) return false;
                 } else {
-                    if (s.group_id !== state.groupFilter) return false;
+                    if (!state.groupFilter.has(Number(s.group_id))) return false;
                 }
+            }
+            // Column filters (checkbox dropdowns)
+            var fd = s.form_data || {};
+            for (var colKey in state.columnFilters) {
+                var vals = state.columnFilters[colKey];
+                if (!vals || !vals.size) continue;
+                var cellVal = '';
+                if (colKey === 'group') {
+                    var grp = s.group_id ? state.groups.find(function (g) { return g.id === s.group_id; }) : null;
+                    cellVal = grp ? grp.name : '';
+                } else if (colKey === 'table') {
+                    cellVal = s.table_number || '';
+                } else {
+                    cellVal = String(fd[colKey] || '');
+                }
+                if (!vals.has(cellVal)) return false;
             }
             // Text search
             if (!q) return true;
-            var fd = s.form_data || {};
             var haystack = Object.values(fd).join(' ').toLowerCase()
                 + ' ' + (s.notes || '').toLowerCase()
                 + ' ' + (s.table_number || '').toLowerCase();
             return haystack.indexOf(q) !== -1;
         });
+
+        // Sort
+        if (state.sortCol) {
+            var sc = state.sortCol;
+            var sd = state.sortDir;
+            state.filtered.sort(function (a, b) {
+                var va = getSortValue(a, sc).toLowerCase();
+                var vb = getSortValue(b, sc).toLowerCase();
+                if (va < vb) return sd === 'asc' ? -1 : 1;
+                if (va > vb) return sd === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+
         state.page = 1;
         renderTable();
         renderStats();
     }
 
+    function getSortValue(sub, colKey) {
+        if (colKey === 'group') {
+            var grp = sub.group_id ? state.groups.find(function (g) { return g.id === sub.group_id; }) : null;
+            return grp ? grp.name : '';
+        }
+        if (colKey === 'table') return sub.table_number || '';
+        return String((sub.form_data || {})[colKey] || '');
+    }
+
     function renderTable() {
-        var tableWrap = document.getElementById('rsvp-table-wrap');
-        if (!tableWrap) return;
+        var cols = getFormColumns();
+        var allCols = getAllColumns(cols);
+
+        if (!state.filtered.length) {
+            var tableWrap = document.getElementById('rsvp-table-wrap');
+            if (tableWrap) {
+                tableWrap.innerHTML = buildEmptyState();
+            }
+            return;
+        }
+
+        restoreTableStructure();
+        renderTableHead(allCols);
+
+        var tbody = document.getElementById('rsvp-table-body');
+        if (!tbody) return;
 
         var start = (state.page - 1) * state.perPage;
         var pageItems = state.filtered.slice(start, start + state.perPage);
 
-        // Derive dynamic columns from all submissions
-        var cols = getFormColumns();
-
-        if (!state.filtered.length) {
-            tableWrap.innerHTML = buildEmptyState();
-            return;
-        }
-
-        var html = '<div class="rsvp-table-scroll"><table class="rsvp-table">';
-
-        // Header
-        html += '<thead><tr>';
-        cols.forEach(function (col) {
-            html += '<th>' + escHtml(formatColLabel(col)) + '</th>';
-        });
-        html += '<th class="col-group">Group</th>';
-        html += '<th class="col-table">Table</th>';
-        html += '<th class="col-notes">Notes</th>';
-        html += '<th class="col-date">Submitted</th>';
-        html += '<th class="col-actions"></th>';
-        html += '</tr></thead>';
-
-        // Body
-        html += '<tbody>';
+        var html = '';
         pageItems.forEach(function (sub) {
             html += buildRow(sub, cols);
         });
-        html += '</tbody></table></div>';
+        tbody.innerHTML = html;
 
         // Pagination
         var totalPages = Math.ceil(state.filtered.length / state.perPage);
-        if (totalPages > 1) {
-            html += buildPagination(totalPages);
+        var tableWrap = document.getElementById('rsvp-table-wrap');
+        if (tableWrap) {
+            var existingPag = tableWrap.querySelector('.rsvp-pagination');
+            if (existingPag) existingPag.remove();
+            if (totalPages > 1) {
+                tableWrap.insertAdjacentHTML('beforeend', buildPagination(totalPages));
+            }
         }
 
-        tableWrap.innerHTML = html;
-
         // Bind inline edit events
-        tableWrap.querySelectorAll('[data-editable]').forEach(bindInlineEdit);
-        tableWrap.querySelectorAll('[data-notes-id]').forEach(bindNotesEdit);
-        tableWrap.querySelectorAll('[data-group-sub-id]').forEach(bindGroupSelect);
-        tableWrap.querySelectorAll('[data-delete-id]').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                handleDelete(parseInt(btn.getAttribute('data-delete-id')));
+        if (tableWrap) {
+            tableWrap.querySelectorAll('[data-editable]').forEach(bindInlineEdit);
+            tableWrap.querySelectorAll('[data-fixed-option]').forEach(bindFixedOptionEdit);
+            tableWrap.querySelectorAll('[data-notes-id]').forEach(bindNotesEdit);
+            tableWrap.querySelectorAll('[data-group-badge]').forEach(bindGroupBadge);
+            tableWrap.querySelectorAll('[data-delete-id]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    handleDelete(parseInt(btn.getAttribute('data-delete-id')));
+                });
+            });
+            tableWrap.querySelectorAll('.rsvp-pagination-btn[data-page]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    state.page = parseInt(btn.getAttribute('data-page'));
+                    renderTable();
+                });
+            });
+        }
+    }
+
+    function getAllColumns(cols) {
+        var allCols = cols.map(function (key) {
+            var def = FORM_COLUMNS.find(function (c) { return c.key === key; });
+            return def || { key: key, label: formatColLabel(key), filterable: false };
+        });
+        EXTRA_COLUMNS.forEach(function (ec) {
+            allCols.push(ec);
+        });
+        allCols.push({ key: 'notes', label: 'Notes', filterable: false });
+        allCols.push({ key: 'date', label: 'Submitted', filterable: false });
+        allCols.push({ key: 'actions', label: '', filterable: false });
+        return allCols;
+    }
+
+    // Default column widths (px) used when no saved width exists
+    var DEFAULT_COL_WIDTHS = {
+        attendance: 52,
+        fullName:   160,
+        email:      180,
+        phone:      140,
+        dietary:    130,
+        message:    200,
+        group:      130,
+        table:       90,
+        actions:     70,
+    };
+
+    function getColWidth(key) {
+        return (state.colWidths && state.colWidths[key]) || DEFAULT_COL_WIDTHS[key] || 120;
+    }
+
+    // Sync <colgroup> widths whenever a new column set is rendered
+    function syncColgroup(allCols) {
+        var table = document.querySelector('table.rsvp-table');
+        if (!table) return;
+        var colgroup = table.querySelector('colgroup');
+        if (!colgroup) {
+            colgroup = document.createElement('colgroup');
+            table.insertBefore(colgroup, table.firstChild);
+        }
+        colgroup.innerHTML = allCols.map(function (col) {
+            return '<col data-col-key="' + escAttr(col.key) + '" style="width:' + getColWidth(col.key) + 'px">';
+        }).join('');
+    }
+
+    function renderTableHead(allCols) {
+        var thead = document.getElementById('rsvp-table-head');
+        if (!thead) return;
+
+        // Build colgroup so table-layout:fixed respects our widths
+        syncColgroup(allCols);
+
+        var html = '<tr>';
+        allCols.forEach(function (col) {
+            var sorted = state.sortCol === col.key ? ' sorted' : '';
+            html += '<th class="col-' + escAttr(col.key) + sorted + '" data-sort-col="' + escAttr(col.key) + '">';
+            html += '<div class="rsvp-th-content">';
+            html += escHtml(col.label);
+            if (col.key !== 'actions') {
+                html += '<span class="rsvp-sort-icon">' + getSortIcon(col.key) + '</span>';
+            }
+            if (col.filterable) {
+                var hasFilter = state.columnFilters[col.key] && state.columnFilters[col.key].size > 0;
+                html += '<span class="rsvp-th-filter-icon' + (hasFilter ? ' active' : '') + '" data-filter-col="' + escAttr(col.key) + '">';
+                html += '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>';
+                html += '</span>';
+            }
+            html += '</div>';
+            // Resize handle (outside .rsvp-th-content so it isn't clipped by flex)
+            if (col.key !== 'actions') {
+                html += '<span class="rsvp-col-resizer" data-resize-col="' + escAttr(col.key) + '"></span>';
+            }
+            html += '</th>';
+        });
+        html += '</tr>';
+        thead.innerHTML = html;
+
+        // Bind sort clicks
+        thead.querySelectorAll('[data-sort-col]').forEach(function (th) {
+            th.addEventListener('click', function (e) {
+                if (e.target.closest('.rsvp-th-filter-icon')) return;
+                if (e.target.closest('.rsvp-col-resizer')) return;
+                var key = th.getAttribute('data-sort-col');
+                if (key === 'actions') return;
+                handleSort(key);
             });
         });
-        tableWrap.querySelectorAll('.rsvp-pagination-btn[data-page]').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                state.page = parseInt(btn.getAttribute('data-page'));
-                renderTable();
+
+        // Bind filter icon clicks
+        thead.querySelectorAll('[data-filter-col]').forEach(function (icon) {
+            icon.addEventListener('click', function (e) {
+                e.stopPropagation();
+                toggleColumnFilter(icon.getAttribute('data-filter-col'), icon);
             });
         });
+
+        // Bind column resize handles
+        thead.querySelectorAll('.rsvp-col-resizer').forEach(function (handle) {
+            handle.addEventListener('mousedown', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                startColResize(e, handle);
+            });
+        });
+    }
+
+    // ----------------------------------------------------------------
+    // Column resizing — drives width via <colgroup><col> elements
+    // so table-layout:fixed actually applies the change.
+    // ----------------------------------------------------------------
+    function startColResize(e, handle) {
+        var colKey = handle.getAttribute('data-resize-col');
+        var table  = document.querySelector('table.rsvp-table');
+        if (!table) return;
+
+        var col = table.querySelector('col[data-col-key="' + colKey + '"]');
+        if (!col) return;
+
+        var startX     = e.clientX;
+        var startWidth = parseInt(col.style.width, 10) || getColWidth(colKey);
+
+        handle.classList.add('resizing');
+        document.body.classList.add('rsvp-resizing-col');
+
+        function onMouseMove(ev) {
+            var newWidth = Math.max(50, startWidth + (ev.clientX - startX));
+            col.style.width = newWidth + 'px';
+        }
+
+        function onMouseUp(ev) {
+            handle.classList.remove('resizing');
+            document.body.classList.remove('rsvp-resizing-col');
+
+            // Persist so re-renders keep the width
+            if (!state.colWidths) state.colWidths = {};
+            state.colWidths[colKey] = Math.max(50, startWidth + (ev.clientX - startX));
+
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    }
+
+    function getSortIcon(key) {
+        if (state.sortCol !== key) return '\u21C5';
+        return state.sortDir === 'asc' ? '\u2191' : '\u2193';
+    }
+
+    function handleSort(key) {
+        if (state.sortCol === key) {
+            state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+            state.sortCol = key;
+            state.sortDir = 'asc';
+        }
+        applyFilter();
+    }
+
+    // ---- Column filter dropdown ----
+    function toggleColumnFilter(colKey, iconEl) {
+        if (state.openFilterCol === colKey) {
+            closeAllFilterDropdowns();
+            return;
+        }
+        closeAllFilterDropdowns();
+        state.openFilterCol = colKey;
+
+        var uniqueVals = getUniqueColValues(colKey);
+        var selected = state.columnFilters[colKey] || new Set();
+
+        var dropdown = document.createElement('div');
+        dropdown.className = 'rsvp-col-filter-dropdown';
+        dropdown.innerHTML = uniqueVals.map(function (v) {
+            var checked = selected.has(v) ? ' checked' : '';
+            return '<label><input type="checkbox" value="' + escAttr(v) + '"' + checked + '> ' + escHtml(v || '(empty)') + '</label>';
+        }).join('');
+
+        iconEl.style.position = 'relative';
+        iconEl.appendChild(dropdown);
+
+        dropdown.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+            cb.addEventListener('change', function () {
+                onColFilterChange(colKey, cb.value, cb.checked);
+            });
+        });
+    }
+
+    function getUniqueColValues(colKey) {
+        var vals = new Set();
+        state.submissions.forEach(function (s) {
+            var v = '';
+            if (colKey === 'group') {
+                var grp = s.group_id ? state.groups.find(function (g) { return g.id === s.group_id; }) : null;
+                v = grp ? grp.name : '';
+            } else if (colKey === 'table') {
+                v = s.table_number || '';
+            } else {
+                v = String((s.form_data || {})[colKey] || '');
+            }
+            if (v) vals.add(v);
+        });
+        return Array.from(vals).sort();
+    }
+
+    function onColFilterChange(colKey, value, checked) {
+        if (!state.columnFilters[colKey]) state.columnFilters[colKey] = new Set();
+        if (checked) {
+            state.columnFilters[colKey].add(value);
+        } else {
+            state.columnFilters[colKey].delete(value);
+            if (state.columnFilters[colKey].size === 0) delete state.columnFilters[colKey];
+        }
+        applyFilter();
+    }
+
+    function closeAllFilterDropdowns() {
+        state.openFilterCol = null;
+        document.querySelectorAll('.rsvp-col-filter-dropdown').forEach(function (d) { d.remove(); });
     }
 
     function buildRow(sub, cols) {
@@ -215,31 +483,36 @@
 
         cols.forEach(function (col) {
             var val = fd[col] !== undefined ? fd[col] : '';
-            if (col === 'attending' || col === 'attendance' || col === 'rsvp') {
-                html += '<td>' + buildAttendingBadge(val) + '</td>';
+            var fieldKey = resolveFixedOptionFieldKey(col);
+
+            if (fieldKey === 'attendance') {
+                // Badge cell — no ellipsis
+                html += '<td class="col-attendance-cell">' + buildAttendanceIcon(val, sub.id) + '</td>';
+            } else if (col === 'fullName') {
+                // Plain text — show ellipsis when column is narrow
+                html += '<td class="rsvp-cell-text"><span class="rsvp-cell-editable rsvp-cell-fullname" data-editable data-sub-id="' + sub.id + '" data-field="' + escAttr(col) + '">' + escHtml(String(val)) + '</span></td>';
+            } else if (getFixedOptionSpec(fieldKey)) {
+                // Badge cell — no ellipsis
+                html += '<td>' + buildFixedOptionBadge(fieldKey, val, sub.id) + '</td>';
             } else {
-                html += '<td><span class="rsvp-cell-editable" data-editable data-sub-id="' + sub.id + '" data-field="' + escAttr(col) + '">' + escHtml(String(val)) + '</span></td>';
+                // Plain text — show ellipsis when column is narrow
+                html += '<td class="rsvp-cell-text"><span class="rsvp-cell-editable" data-editable data-sub-id="' + sub.id + '" data-field="' + escAttr(col) + '">' + escHtml(String(val)) + '</span></td>';
             }
         });
 
-        // Group selector
+        // Group selector — badge cell, no ellipsis
         html += '<td class="col-group-cell">' + buildGroupSelect(sub) + '</td>';
 
-        // Table number (inline-editable like other fields, stored in table_number column)
+        // Table number — badge cell, no ellipsis
         var tnum = sub.table_number || '';
-        html += '<td><span class="rsvp-cell-editable rsvp-table-number-cell" data-editable data-sub-id="' + sub.id + '" data-field="__table_number">' + escHtml(tnum) + '</span></td>';
+        html += '<td><span class="rsvp-cell-editable rsvp-table-number-cell" data-editable data-sub-id="' + sub.id + '" data-field="__table_number">' + (tnum ? '<span class="rsvp-badge rsvp-badge-gray">' + escHtml(tnum) + '</span>' : '') + '</span></td>';
 
         // Notes
         var notes = sub.notes || '';
         html += '<td>';
         html += '<span class="rsvp-cell-editable rsvp-notes-cell" data-notes-id="' + sub.id + '">';
-        if (notes) {
-            html += escHtml(notes);
-        } else {
-            html += '<span class="rsvp-notes-placeholder">Add note...</span>';
-        }
-        html += '</span>';
-        html += '</td>';
+        html += notes ? escHtml(notes) : '<span class="rsvp-notes-placeholder">Add note...</span>';
+        html += '</span></td>';
 
         // Date
         html += '<td class="rsvp-date">' + formatDate(sub.submitted_at) + '</td>';
@@ -253,14 +526,18 @@
         return html;
     }
 
-    function buildAttendingBadge(val) {
-        var v = String(val).toLowerCase();
-        if (v === 'yes' || v === 'joyfully accept' || v === 'attending' || v === '1') {
-            return '<span class="rsvp-attending-yes">✓ Yes</span>';
-        } else if (v === 'no' || v === 'regretfully decline' || v === 'not attending' || v === '0') {
-            return '<span class="rsvp-attending-no">✗ No</span>';
+    function buildAttendanceIcon(value, subId) {
+        var spec = getFixedOptionSpec('attendance');
+        var norm = spec.normalizeValue(value);
+        if (norm === 'yes') {
+            return '<span class="rsvp-attendance-icon rsvp-attendance-yes" data-fixed-option data-sub-id="' + subId + '" data-field="attendance" data-value="yes" title="Click to change">' +
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>';
         }
-        return escHtml(val);
+        if (norm === 'no') {
+            return '<span class="rsvp-attendance-icon rsvp-attendance-no" data-fixed-option data-sub-id="' + subId + '" data-field="attendance" data-value="no" title="Click to change">' +
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>';
+        }
+        return '<span class="rsvp-attendance-icon rsvp-attendance-unknown" data-fixed-option data-sub-id="' + subId + '" data-field="attendance" data-value="' + escAttr(value) + '" title="Click to change">\u2014</span>';
     }
 
     function buildEmptyState() {
@@ -269,6 +546,14 @@
             '<h3>' + (state.search ? 'No results found' : 'No responses yet') + '</h3>' +
             '<p>' + (state.search ? 'Try adjusting your search.' : 'Once guests fill in the RSVP form, their responses will appear here.') + '</p>' +
             '</div>';
+    }
+
+    function restoreTableStructure() {
+        var tableWrap = document.getElementById('rsvp-table-wrap');
+        if (!tableWrap) return;
+        if (!tableWrap.querySelector('table.rsvp-table')) {
+            tableWrap.innerHTML = '<div class="rsvp-table-scroll"><table class="rsvp-table"><thead id="rsvp-table-head"></thead><tbody id="rsvp-table-body"></tbody></table></div>';
+        }
     }
 
     function buildPagination(totalPages) {
@@ -293,22 +578,40 @@
     }
 
     function renderStats() {
-        var attending = 0, declining = 0, totalGuests = 0;
-        state.filtered.forEach(function (s) {
+        var attending = 0, declining = 0;
+        var adults = 0, children = 0, needTransport = 0;
+
+        // Compute from ALL submissions (not filtered) for the KPI totals
+        state.submissions.forEach(function (s) {
             var fd = s.form_data || {};
-            var att = String(fd.attending || fd.attendance || fd.rsvp || '').toLowerCase();
-            if (att === 'yes' || att === 'joyfully accept' || att === 'attending' || att === '1') {
+            var att = String(fd.attendance || fd.attending || fd.rsvp || '').toLowerCase();
+            var isAttending = att === 'yes' || att === 'yes, i will' || att === 'joyfully accept' || att === 'attending' || att === '1';
+            var isDeclining = att === 'no' || att === 'no, sorry' || att === 'regretfully decline' || att === 'not attending' || att === '0';
+
+            if (isAttending) {
                 attending++;
-                totalGuests += parseInt(fd.guests || fd.numberOfGuests || '1') || 1;
-            } else if (att && att !== '') {
+                var age = String(fd.ageCategory || '').toLowerCase();
+                if (age === 'adult') adults++;
+                else if (age === 'child') children++;
+                else adults++; // default to adult if no age
+                var trans = String(fd.transport || '').toLowerCase();
+                if (trans === 'yes' || trans === '1') needTransport++;
+            } else if (isDeclining) {
                 declining++;
             }
         });
 
-        setStatValue('stat-total',    state.filtered.length);
+        setStatValue('stat-total', state.submissions.length);
         setStatValue('stat-attending', attending);
         setStatValue('stat-declining', declining);
-        setStatValue('stat-guests',    totalGuests);
+
+        var breakdown = document.getElementById('attendingBreakdown');
+        if (breakdown) {
+            breakdown.innerHTML =
+                '<span>Adults: <strong>' + adults + '</strong></span>' +
+                '<span>Children: <strong>' + children + '</strong></span>' +
+                '<span>Transport: <strong>' + needTransport + '</strong></span>';
+        }
 
         var countLabel = document.getElementById('rsvp-count-label');
         if (countLabel) {
@@ -413,6 +716,109 @@
         });
     }
 
+    function bindFixedOptionEdit(badgeEl) {
+        badgeEl.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var td = badgeEl.closest('td');
+            if (!td || td.querySelector('.rsvp-badge-options-wrap')) return;
+            var subId  = parseInt(badgeEl.getAttribute('data-sub-id'));
+            var field  = badgeEl.getAttribute('data-field');
+            var spec   = getFixedOptionSpec(field);
+            if (!spec) return;
+            var currentValue = badgeEl.getAttribute('data-value') || '';
+            var sub = state.submissions.find(function (s) { return s.id === subId; });
+            if (!sub) return;
+
+            function getDisplayValue(fieldKey, formData) {
+                var fd = formData || {};
+                if (fieldKey === 'attendance') return fd.attendance || fd.attending || fd.rsvp || '';
+                return fd[fieldKey] || '';
+            }
+            function removeMenu() {
+                if (menu.parentNode) menu.parentNode.removeChild(menu);
+            }
+            function closeAndRevert() {
+                removeMenu();
+                if (!td.parentNode) return;
+                var wrap = td.querySelector('.rsvp-badge-options-wrap');
+                if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
+                var val = getDisplayValue(field, sub.form_data);
+                td.innerHTML = buildFixedOptionBadge(field, val, subId);
+                td.querySelectorAll('[data-fixed-option]').forEach(bindFixedOptionEdit);
+            }
+            function saveAndClose(newVal) {
+                var fd = Object.assign({}, sub.form_data || {});
+                if (field === 'attendance') {
+                    fd.attendance = newVal;
+                    fd.attending = newVal;
+                    fd.rsvp = newVal;
+                } else {
+                    fd[field] = newVal;
+                }
+                var payload = { id: subId, form_data: fd };
+                if (state.accessToken) payload.access_token = state.accessToken;
+                removeMenu();
+                apiFetch('api/submissions.php', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                })
+                .then(function () {
+                    sub.form_data = fd;
+                    var wrap = td.querySelector('.rsvp-badge-options-wrap');
+                    if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
+                    td.innerHTML = buildFixedOptionBadge(field, newVal, subId);
+                    td.querySelectorAll('[data-fixed-option]').forEach(bindFixedOptionEdit);
+                    showToast('Saved', 'success');
+                })
+                .catch(function (err) {
+                    showToast(err.message || 'Save failed', 'error');
+                    closeAndRevert();
+                });
+            }
+
+            var wrap = document.createElement('div');
+            wrap.className = 'rsvp-badge-options-wrap';
+            wrap.appendChild(badgeEl);
+            td.appendChild(wrap);
+
+            var menu = document.createElement('div');
+            menu.className = 'rsvp-badge-options-dropdown rsvp-badge-options-dropdown--fixed';
+
+            var emptyBtn = document.createElement('button');
+            emptyBtn.type = 'button';
+            emptyBtn.setAttribute('data-value', '');
+            emptyBtn.textContent = '—';
+            if (currentValue === '') emptyBtn.classList.add('selected');
+            emptyBtn.addEventListener('click', function () { saveAndClose(''); });
+            menu.appendChild(emptyBtn);
+
+            spec.options.forEach(function (o) {
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.setAttribute('data-value', o.value);
+                btn.textContent = o.label;
+                if (o.value === currentValue) btn.classList.add('selected');
+                btn.addEventListener('click', function () { saveAndClose(o.value); });
+                menu.appendChild(btn);
+            });
+
+            document.body.appendChild(menu);
+            var rect = wrap.getBoundingClientRect();
+            menu.style.left = rect.left + 'px';
+            menu.style.top = (rect.bottom + 4) + 'px';
+
+            function onDocClick(ev) {
+                if (td.contains(ev.target) || menu.contains(ev.target)) return;
+                document.removeEventListener('click', onDocClick);
+                closeAndRevert();
+            }
+            setTimeout(function () {
+                document.addEventListener('click', onDocClick);
+            }, 0);
+        });
+    }
+
     function bindNotesEdit(span) {
         span.addEventListener('click', function () {
             if (span.querySelector('textarea')) return;
@@ -488,88 +894,174 @@
         var wrap = document.getElementById('rsvp-group-filter');
         if (!wrap) return;
 
-        if (!state.groups.length) {
-            wrap.style.display = 'none';
-            return;
-        }
-
         wrap.style.display = 'flex';
         var html = '';
-        html += '<button class="rsvp-group-pill' + (state.groupFilter === null ? ' active' : '') + '" data-gfilter="all">All</button>';
+
+        // "All" — active when nothing is selected (black badge)
+        var allActive = state.groupFilter.size === 0;
+        html += '<button class="rsvp-cat-btn' + (allActive ? ' active' : '') + '" data-gfilter="all">All</button>';
+
+        // Group pills — active when in Set, filled with group color
         state.groups.forEach(function (g) {
-            var active = state.groupFilter === g.id ? ' active' : '';
-            html += '<button class="rsvp-group-pill' + active + '" data-gfilter="' + g.id + '" style="--pill-color:' + escAttr(g.color) + '">';
-            html += '<span class="rsvp-pill-dot" style="background:' + escAttr(g.color) + '"></span>';
+            var isActive = state.groupFilter.has(g.id);
+            var inlineStyle = isActive
+                ? ' style="background:' + escAttr(g.color) + ';border-color:' + escAttr(g.color) + ';color:#fff;"'
+                : '';
+            var dotBg = isActive ? 'rgba(255,255,255,0.85)' : escAttr(g.color);
+            html += '<button class="rsvp-cat-btn' + (isActive ? ' active' : '') + '"' + inlineStyle + ' data-gfilter="' + g.id + '">';
+            html += '<span class="rsvp-cat-dot" style="background:' + dotBg + '"></span>';
             html += escHtml(g.name) + '</button>';
         });
-        // Unassigned shortcut
-        html += '<button class="rsvp-group-pill' + (state.groupFilter === 0 ? ' active' : '') + '" data-gfilter="0" style="--pill-color:#94a3b8">';
-        html += '<span class="rsvp-pill-dot" style="background:#94a3b8"></span>No group</button>';
+
+        // "No group" pill
+        if (state.groups.length) {
+            var noGrpActive = state.groupFilter.has(0);
+            var noGrpStyle = noGrpActive
+                ? ' style="background:#94a3b8;border-color:#94a3b8;color:#fff;"'
+                : '';
+            var noGrpDot = noGrpActive ? 'rgba(255,255,255,0.85)' : '#94a3b8';
+            html += '<button class="rsvp-cat-btn' + (noGrpActive ? ' active' : '') + '"' + noGrpStyle + ' data-gfilter="0">';
+            html += '<span class="rsvp-cat-dot" style="background:' + noGrpDot + '"></span>No group</button>';
+        }
+
+        html += '<button type="button" class="rsvp-cat-btn rsvp-cat-btn-add" id="rsvp-group-add-pill-btn" title="Add group">+ Group</button>';
 
         wrap.innerHTML = html;
 
         wrap.querySelectorAll('[data-gfilter]').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 var val = btn.getAttribute('data-gfilter');
-                state.groupFilter = val === 'all' ? null : parseInt(val);
+                if (val === 'all') {
+                    // Clear all → show all
+                    state.groupFilter.clear();
+                } else {
+                    var id = parseInt(val);
+                    if (state.groupFilter.has(id)) {
+                        // Deselect
+                        state.groupFilter.delete(id);
+                    } else {
+                        // Select (add to multi-select)
+                        state.groupFilter.add(id);
+                    }
+                }
                 renderGroupFilter();
                 applyFilter();
             });
         });
+        var addBtn = document.getElementById('rsvp-group-add-pill-btn');
+        if (addBtn) addBtn.addEventListener('click', openGroupsModal);
     }
 
     // ----------------------------------------------------------------
-    // Group selector in table rows
+    // Group selector in table rows — badge style like age category
     // ----------------------------------------------------------------
+    function groupColorToBg(hex) {
+        if (!hex || hex.indexOf('#') !== 0) return 'var(--secondary-bg)';
+        var r = parseInt(hex.slice(1, 3), 16);
+        var g = parseInt(hex.slice(3, 5), 16);
+        var b = parseInt(hex.slice(5, 7), 16);
+        return 'rgba(' + r + ',' + g + ',' + b + ',0.2)';
+    }
+
     function buildGroupSelect(sub) {
         if (!state.groups.length) return '<span class="rsvp-no-groups-hint">—</span>';
 
-        var html = '<select class="rsvp-group-select" data-group-sub-id="' + sub.id + '">';
-        html += '<option value="">No group</option>';
-        state.groups.forEach(function (g) {
-            var selected = (sub.group_id !== null && sub.group_id !== undefined && Number(sub.group_id) === Number(g.id)) ? ' selected' : '';
-            html += '<option value="' + g.id + '"' + selected + '>' + escHtml(g.name) + '</option>';
-        });
-        html += '</select>';
-        return html;
+        var grp = (sub.group_id !== null && sub.group_id !== undefined)
+            ? state.groups.find(function (g) { return Number(g.id) === Number(sub.group_id); })
+            : null;
+
+        if (!grp) {
+            return '<span class="rsvp-cell-badge rsvp-group-badge rsvp-option-other" data-group-badge data-group-sub-id="' + sub.id + '" data-group-id="" title="Click to change">No group</span>';
+        }
+
+        var bg = groupColorToBg(grp.color);
+        var style = 'background:' + escAttr(bg) + ';color:' + escAttr(grp.color) + ';';
+        return '<span class="rsvp-cell-badge rsvp-group-badge" data-group-badge data-group-sub-id="' + sub.id + '" data-group-id="' + grp.id + '" style="' + style + '" title="Click to change">' + escHtml(grp.name) + '</span>';
     }
 
-    function bindGroupSelect(select) {
-        select.addEventListener('change', function () {
-            var subId   = parseInt(select.getAttribute('data-group-sub-id'));
-            var groupId = select.value ? parseInt(select.value) : null;
-            var sub     = state.submissions.find(function (s) { return s.id === subId; });
+    function bindGroupBadge(badgeEl) {
+        badgeEl.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var td = badgeEl.closest('td');
+            if (!td || td.querySelector('.rsvp-badge-options-wrap')) return;
+            var subId = parseInt(badgeEl.getAttribute('data-group-sub-id'));
+            var sub = state.submissions.find(function (s) { return s.id === subId; });
             if (!sub) return;
 
-            var payload = { id: subId, group_id: groupId };
-            if (state.accessToken) payload.access_token = state.accessToken;
+            function removeMenu() {
+                if (menu.parentNode) menu.parentNode.removeChild(menu);
+            }
+            function closeAndRevert() {
+                removeMenu();
+                var wrap = td.querySelector('.rsvp-badge-options-wrap');
+                if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
+                if (!td.parentNode) return;
+                td.innerHTML = buildGroupSelect(sub);
+                td.querySelectorAll('[data-group-badge]').forEach(bindGroupBadge);
+            }
+            function saveAndClose(groupId) {
+                var payload = { id: subId, group_id: groupId !== '' ? parseInt(groupId) : null };
+                if (state.accessToken) payload.access_token = state.accessToken;
+                removeMenu();
+                apiFetch('api/submissions.php', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                })
+                .then(function () {
+                    sub.group_id = groupId !== '' ? parseInt(groupId) : null;
+                    var wrap = td.querySelector('.rsvp-badge-options-wrap');
+                    if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
+                    td.innerHTML = buildGroupSelect(sub);
+                    td.querySelectorAll('[data-group-badge]').forEach(bindGroupBadge);
+                    showToast('Group assigned', 'success');
+                })
+                .catch(function (err) {
+                    showToast(err.message || 'Save failed', 'error');
+                    closeAndRevert();
+                });
+            }
 
-            apiFetch('api/submissions.php', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
-            })
-            .then(function () {
-                sub.group_id = groupId;
-                // Update dot color on the select
-                updateGroupSelectStyle(select, groupId);
-                showToast('Group assigned', 'success');
-            })
-            .catch(function (err) {
-                showToast(err.message || 'Save failed', 'error');
-                // Revert
-                select.value = sub.group_id !== null ? String(sub.group_id) : '';
+            var wrap = document.createElement('div');
+            wrap.className = 'rsvp-badge-options-wrap';
+            wrap.appendChild(badgeEl);
+            td.appendChild(wrap);
+
+            var menu = document.createElement('div');
+            menu.className = 'rsvp-badge-options-dropdown rsvp-badge-options-dropdown--fixed';
+
+            var noGroupBtn = document.createElement('button');
+            noGroupBtn.type = 'button';
+            noGroupBtn.setAttribute('data-value', '');
+            noGroupBtn.textContent = 'No group';
+            if (sub.group_id === null || sub.group_id === undefined) noGroupBtn.classList.add('selected');
+            noGroupBtn.addEventListener('click', function () { saveAndClose(''); });
+            menu.appendChild(noGroupBtn);
+
+            state.groups.forEach(function (g) {
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.setAttribute('data-value', String(g.id));
+                btn.textContent = g.name;
+                if (sub.group_id !== null && Number(sub.group_id) === Number(g.id)) btn.classList.add('selected');
+                btn.addEventListener('click', function () { saveAndClose(String(g.id)); });
+                menu.appendChild(btn);
             });
-        });
-        // Apply initial color
-        var sub = state.submissions.find(function (s) { return s.id === parseInt(select.getAttribute('data-group-sub-id')); });
-        if (sub) updateGroupSelectStyle(select, sub.group_id);
-    }
 
-    function updateGroupSelectStyle(select, groupId) {
-        var grp = groupId !== null ? state.groups.find(function (g) { return g.id === groupId; }) : null;
-        select.style.borderLeftColor = grp ? grp.color : 'transparent';
-        select.style.borderLeftWidth = grp ? '3px' : '1px';
+            document.body.appendChild(menu);
+            var rect = wrap.getBoundingClientRect();
+            menu.style.left = rect.left + 'px';
+            menu.style.top = (rect.bottom + 4) + 'px';
+
+            function onDocClick(ev) {
+                if (td.contains(ev.target) || menu.contains(ev.target)) return;
+                document.removeEventListener('click', onDocClick);
+                closeAndRevert();
+            }
+            setTimeout(function () {
+                document.addEventListener('click', onDocClick);
+            }, 0);
+        });
     }
 
     // ----------------------------------------------------------------
@@ -665,8 +1157,8 @@
                             if (s.group_id === gid) s.group_id = null;
                         });
                         state.groups = state.groups.filter(function (g) { return g.id !== gid; });
-                        // Reset filter if we were filtering by this group
-                        if (state.groupFilter === gid) state.groupFilter = null;
+                        // Remove from multi-select filter if it was active
+                        state.groupFilter.delete(gid);
                         renderGroupsList();
                         renderGroupFilter();
                         applyFilter();
@@ -713,7 +1205,7 @@
             });
         }
 
-        // Toggle form open/close — direct toggle via lock icon (no modal)
+        // Toggle form open/close
         var toggleBtn = document.getElementById('rsvp-toggle-form-btn');
         if (toggleBtn) {
             toggleBtn.addEventListener('click', function () {
@@ -729,21 +1221,48 @@
             });
         }
 
-        // Export CSV
-        var exportBtn = document.getElementById('rsvp-export-btn');
-        if (exportBtn) {
-            exportBtn.addEventListener('click', function () {
-                handleExport();
+        // Print: same content as Export -> PDF, opens print dialog
+        var printBtn = document.getElementById('rsvp-print-btn');
+        if (printBtn) {
+            printBtn.addEventListener('click', function () {
+                handlePrintAsPDF();
             });
         }
 
-        // Manage guest groups
-        var groupsBtn = document.getElementById('rsvp-groups-btn');
-        if (groupsBtn) {
-            groupsBtn.addEventListener('click', function () {
-                openGroupsModal();
+        // Export dropdown
+        var exportBtn = document.getElementById('rsvp-export-btn');
+        var exportMenu = document.getElementById('rsvp-export-menu');
+        if (exportBtn && exportMenu) {
+            exportBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var isOpen = exportMenu.classList.contains('open');
+                exportMenu.classList.toggle('open', !isOpen);
+                if (!isOpen) {
+                    exportMenu.style.width = exportBtn.offsetWidth + 'px';
+                }
+            });
+            exportMenu.querySelectorAll('[data-export]').forEach(function (item) {
+                item.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    exportMenu.classList.remove('open');
+                    var type = item.getAttribute('data-export');
+                    if (type === 'csv') handleExportCSV();
+                    else if (type === 'excel') handleExportExcel();
+                    else if (type === 'pdf') handleExportPDF();
+                });
             });
         }
+
+        // Close filter dropdowns and export menu on outside click
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.rsvp-th-filter-icon') && !e.target.closest('.rsvp-col-filter-dropdown')) {
+                closeAllFilterDropdowns();
+            }
+            if (!e.target.closest('.rsvp-export-dropdown-wrap')) {
+                var menu = document.getElementById('rsvp-export-menu');
+                if (menu) menu.classList.remove('open');
+            }
+        });
     }
 
     // ---- Direct lock-icon toggle (no modal) ------------------------
@@ -883,32 +1402,197 @@
         });
     }
 
-    // ---- CSV export -----------------------------------------------
-    function handleExport() {
+    // ---- Export helpers -----------------------------------------------
+
+    function getExportData() {
+        var cols = getFormColumns();
+        var allCols = getAllColumns(cols);
+        // Exclude non-data columns (actions)
+        allCols = allCols.filter(function (c) { return c.key !== 'actions'; });
+
+        var headers = allCols.map(function (c) { return c.label || formatColLabel(c.key); });
+        var rows = [];
+        state.filtered.forEach(function (sub) {
+            var fd = sub.form_data || {};
+            var row = [];
+            allCols.forEach(function (c) {
+                if (c.key === 'group') {
+                    var grp = sub.group_id ? state.groups.find(function (g) { return g.id === sub.group_id; }) : null;
+                    row.push(grp ? grp.name : '');
+                } else if (c.key === 'table') {
+                    row.push(sub.table_number || '');
+                } else if (c.key === 'notes') {
+                    row.push(sub.notes || '');
+                } else if (c.key === 'date') {
+                    row.push(sub.submitted_at ? formatDate(sub.submitted_at) : '');
+                } else {
+                    row.push(fd[c.key] !== undefined ? String(fd[c.key]) : '');
+                }
+            });
+            rows.push(row);
+        });
+        return { headers: headers, rows: rows, columns: allCols };
+    }
+
+    function handleExportCSV() {
         var params = 'action=export&page_id=' + encodeURIComponent(state.pageId);
         if (state.accessToken) params += '&access_token=' + encodeURIComponent(state.accessToken);
         window.location.href = 'api/submissions.php?' + params;
+    }
+
+    function handleExportExcel() {
+        if (typeof XLSX === 'undefined') {
+            showToast('Excel library not loaded', 'error');
+            return;
+        }
+        var data = getExportData();
+        var wsData = [data.headers].concat(data.rows);
+        var ws = XLSX.utils.aoa_to_sheet(wsData);
+
+        // Auto-size columns
+        var colWidths = data.headers.map(function (h, i) {
+            var max = h.length;
+            data.rows.forEach(function (r) {
+                var len = (r[i] || '').length;
+                if (len > max) max = len;
+            });
+            return { wch: Math.min(max + 2, 40) };
+        });
+        ws['!cols'] = colWidths;
+
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'RSVP');
+
+        var filename = (state.pageTitle || 'rsvp').replace(/[^a-zA-Z0-9_-]/g, '_') + '_' + new Date().toISOString().slice(0, 10) + '.xlsx';
+        XLSX.writeFile(wb, filename);
+        showToast('Excel downloaded', 'success');
+    }
+
+    /**
+     * Builds the same PDF document used for Export -> PDF (title, date, table).
+     * Returns the jsPDF instance or null if the library is not loaded.
+     */
+    function buildExportPDFDoc() {
+        var JsPDFConstructor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+        if (!JsPDFConstructor) return null;
+        var doc = new JsPDFConstructor({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+        var data = getExportData();
+
+        doc.setFontSize(16);
+        doc.setFont(undefined, 'bold');
+        var title = state.pageTitle || 'RSVP Responses';
+        doc.text(title, 14, 15);
+
+        doc.setFontSize(9);
+        doc.setFont(undefined, 'normal');
+        doc.setTextColor(120, 120, 120);
+        var dateStr = 'Generated on ' + new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+        doc.text(dateStr, 14, 21);
+        doc.setTextColor(0, 0, 0);
+
+        doc.autoTable({
+            head: [data.headers],
+            body: data.rows,
+            startY: 26,
+            theme: 'grid',
+            styles: {
+                fontSize: 7.5,
+                cellPadding: 2.5,
+                overflow: 'linebreak',
+                lineColor: [220, 220, 220],
+                lineWidth: 0.3,
+            },
+            headStyles: {
+                fillColor: [40, 40, 40],
+                textColor: [255, 255, 255],
+                fontStyle: 'bold',
+                fontSize: 7.5,
+            },
+            alternateRowStyles: {
+                fillColor: [248, 249, 250],
+            },
+            margin: { left: 14, right: 14 },
+        });
+        return doc;
+    }
+
+    function handleExportPDF() {
+        var doc = buildExportPDFDoc();
+        if (!doc) {
+            showToast('PDF library not loaded', 'error');
+            return;
+        }
+        var filename = (state.pageTitle || 'rsvp').replace(/[^a-zA-Z0-9_-]/g, '_') + '_' + new Date().toISOString().slice(0, 10) + '.pdf';
+        doc.save(filename);
+        showToast('PDF downloaded', 'success');
+    }
+
+    /**
+     * Opens the same PDF as Export -> PDF in a new context and triggers the print dialog.
+     */
+    function handlePrintAsPDF() {
+        var doc = buildExportPDFDoc();
+        if (!doc) {
+            showToast('PDF library not loaded', 'error');
+            return;
+        }
+        var blob = doc.output('blob');
+        var url = URL.createObjectURL(blob);
+        var iframe = document.createElement('iframe');
+        iframe.style.cssText = 'position:absolute;width:0;height:0;border:none;';
+        iframe.src = url;
+        document.body.appendChild(iframe);
+        iframe.onload = function () {
+            try {
+                iframe.contentWindow.print();
+            } catch (e) {
+                window.open(url, '_blank');
+                showToast('Open the new tab and use Ctrl+P to print', 'info');
+            }
+            setTimeout(function () {
+                URL.revokeObjectURL(url);
+                if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+            }, 1000);
+        };
     }
 
     // ----------------------------------------------------------------
     // UI helpers
     // ----------------------------------------------------------------
     function updatePageTitle() {
-        var el = document.getElementById('rsvp-page-title');
-        if (el) el.textContent = state.pageTitle || 'RSVP Dashboard';
-        document.title = (state.pageTitle ? state.pageTitle + ' — ' : '') + 'RSVP Dashboard';
+        // Main title stays "List of Assistants"; subtitle (page name) to the right, link to website when available
+        var subtitleEl = document.getElementById('rsvp-page-subtitle');
+        if (subtitleEl) {
+            subtitleEl.textContent = state.pageTitle || '';
+            subtitleEl.style.display = state.pageTitle ? 'block' : 'none';
+            subtitleEl.href = state.pageUrl || 'javascript:void(0)';
+            if (state.pageUrl) {
+                subtitleEl.setAttribute('target', '_blank');
+                subtitleEl.setAttribute('rel', 'noopener noreferrer');
+            } else {
+                subtitleEl.removeAttribute('target');
+                subtitleEl.removeAttribute('rel');
+            }
+        }
+        document.title = (state.pageTitle ? state.pageTitle + ' \u2014 ' : '') + 'RSVP Dashboard';
+
+        var printSub = document.getElementById('rsvp-print-subtitle');
+        if (printSub) {
+            printSub.textContent = state.pageTitle || '';
+            printSub.style.display = state.pageTitle ? 'block' : 'none';
+            printSub.href = state.pageUrl || '#';
+            if (state.pageUrl) printSub.setAttribute('target', '_blank');
+        }
     }
 
     function updateFormStatusBadge() {
-        var badge = document.getElementById('form-status-badge');
-        if (badge) {
-            badge.className = 'rsvp-form-status-badge ' + (state.formOpen ? 'open' : 'closed');
-            badge.innerHTML = '<span class="rsvp-form-status-dot"></span>' + (state.formOpen ? 'Form open' : 'Form closed');
-        }
-
-        // Swap lock icon: open lock when form is open, closed lock when form is closed
         var btn = document.getElementById('rsvp-toggle-form-btn');
         if (btn) {
+            btn.className = 'rsvp-form-status ' + (state.formOpen ? 'open' : 'closed');
+
+            var textEl = document.getElementById('form-status-text');
+            if (textEl) textEl.textContent = state.formOpen ? 'Form open' : 'Form closed';
+
             var iconOpen   = btn.querySelector('.lock-icon-open');
             var iconClosed = btn.querySelector('.lock-icon-closed');
             if (iconOpen)   iconOpen.style.display   = state.formOpen ? '' : 'none';
@@ -958,19 +1642,123 @@
     }
 
     // ----------------------------------------------------------------
-    // Columns
+    // Fixed-option fields: display as coloured badges, edit via dropdown
     // ----------------------------------------------------------------
+    var FIXED_OPTION_FIELDS = {
+        attendance: {
+            options: [
+                { value: 'yes', label: 'Yes, I will', badgeClass: 'rsvp-option-attendance-yes' },
+                { value: 'no',  label: 'No, sorry',  badgeClass: 'rsvp-option-attendance-no' },
+            ],
+            // Normalize legacy/form variants to canonical value for display and save
+            normalizeValue: function (v) {
+                var s = String(v || '').toLowerCase().trim();
+                if (s === 'yes' || s === 'yes, i will' || s === 'joyfully accept' || s === 'attending' || s === '1') return 'yes';
+                if (s === 'no' || s === 'no, sorry' || s === 'regretfully decline' || s === 'not attending' || s === '0') return 'no';
+                return s || '';
+            },
+        },
+        ageCategory: {
+            options: [
+                { value: 'adult',  label: 'Adult',  badgeClass: 'rsvp-option-age-adult' },
+                { value: 'child',  label: 'Child',  badgeClass: 'rsvp-option-age-child' },
+            ],
+            normalizeValue: function (v) {
+                var s = String(v || '').toLowerCase().trim();
+                if (s === 'adult')  return 'adult';
+                if (s === 'child')  return 'child';
+                return s || '';
+            },
+        },
+        transport: {
+            options: [
+                { value: 'yes', label: 'Yes', badgeClass: 'rsvp-option-transport-yes' },
+                { value: 'no',  label: 'No',  badgeClass: 'rsvp-option-transport-no' },
+            ],
+            normalizeValue: function (v) {
+                var s = String(v || '').toLowerCase().trim();
+                if (s === 'yes' || s === '1') return 'yes';
+                if (s === 'no' || s === '0') return 'no';
+                return s || '';
+            },
+        },
+    };
+
+    function getFixedOptionSpec(fieldKey) {
+        return FIXED_OPTION_FIELDS[fieldKey] || null;
+    }
+
+    function getOptionByValue(fieldKey, value) {
+        var spec = getFixedOptionSpec(fieldKey);
+        if (!spec) return null;
+        var canonical = spec.normalizeValue ? spec.normalizeValue(value) : String(value || '').toLowerCase();
+        var opt = spec.options.find(function (o) { return o.value === canonical; });
+        if (opt) return opt;
+        // Unknown value: still show as badge with neutral class
+        return { value: canonical || value, label: String(value || '').trim() || '—', badgeClass: 'rsvp-option-other' };
+    }
+
+    function buildFixedOptionBadge(fieldKey, value, subId) {
+        var spec = getFixedOptionSpec(fieldKey);
+        var opt = spec ? getOptionByValue(fieldKey, value) : null;
+        if (!opt) return escHtml(String(value || ''));
+        var label = opt.label || opt.value;
+        var cls = opt.badgeClass || 'rsvp-option-other';
+        return '<span class="rsvp-cell-badge ' + escAttr(cls) + '" data-fixed-option data-sub-id="' + subId + '" data-field="' + escAttr(fieldKey) + '" data-value="' + escAttr(opt.value) + '" title="Click to change">' + escHtml(label) + '</span>';
+    }
+
+    function isFixedOptionField(col) {
+        return FIXED_OPTION_FIELDS.hasOwnProperty(col) || col === 'attending' || col === 'rsvp';
+    }
+
+    function resolveFixedOptionFieldKey(col) {
+        if (col === 'attending' || col === 'rsvp') return 'attendance';
+        return col;
+    }
+
+    // ----------------------------------------------------------------
+    // Columns — fixed set matching the standard 9-field RSVP form
+    // ----------------------------------------------------------------
+
+    // Canonical field order and human-readable labels.
+    // The user can remove fields from a template, but these are the only
+    // fields that will ever appear in the dashboard.
+    var FORM_COLUMNS = [
+        { key: 'attendance',  label: '',                filterable: true  },
+        { key: 'fullName',    label: 'Full Name',       filterable: false },
+        { key: 'mobile',      label: 'Mobile',          filterable: false },
+        { key: 'email',       label: 'Email',           filterable: false },
+        { key: 'ageCategory', label: 'Age Category',    filterable: true  },
+        { key: 'allergies',   label: 'Allergies / Diet',filterable: false },
+        { key: 'transport',   label: 'Transport',       filterable: true  },
+        { key: 'song',        label: 'Song',            filterable: false },
+        { key: 'message',     label: 'Message',         filterable: false },
+    ];
+
+    var EXTRA_COLUMNS = [
+        { key: 'group',  label: 'Group', filterable: true  },
+        { key: 'table',  label: 'Table', filterable: true  },
+    ];
+
     function getFormColumns() {
-        var keys = [];
+        // Return only the columns that appear in at least one submission,
+        // preserving the canonical order defined above.
+        var presentKeys = {};
         state.submissions.forEach(function (s) {
-            Object.keys(s.form_data || {}).forEach(function (k) {
-                if (keys.indexOf(k) === -1) keys.push(k);
-            });
+            Object.keys(s.form_data || {}).forEach(function (k) { presentKeys[k] = true; });
         });
-        return keys;
+
+        // Always include the 9 canonical columns (show empty cells for missing values).
+        // Unknown keys from dirty data are silently ignored.
+        return FORM_COLUMNS.filter(function (col) {
+            return presentKeys[col.key] !== undefined || state.submissions.length === 0;
+        }).map(function (col) { return col.key; });
     }
 
     function formatColLabel(key) {
+        // Use the canonical label if available; fall back to auto-format for edge cases.
+        var col = FORM_COLUMNS.find(function (c) { return c.key === key; });
+        if (col) return col.label;
         return key
             .replace(/([A-Z])/g, ' $1')
             .replace(/[_-]/g, ' ')

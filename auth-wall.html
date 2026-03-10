@@ -566,7 +566,7 @@
         window.addEventListener('load', async function () {
             const basePath = getBasePath();
             const planParam = selectedPlan && (selectedPlan === 'annual' || selectedPlan === 'lifetime') ? '?plan=' + selectedPlan : '';
-            const afterSignInUrl = basePath + '/pages.php' + planParam;
+            const afterSignInUrl = basePath + '/app.php' + planParam;
             
             try {
                 await Clerk.load({
@@ -599,7 +599,7 @@
                     hideAuthLoading();
                 } else if (Clerk.user) {
                     // User is signed in - redirect to pages
-                    console.log('User signed in - redirecting to pages.php');
+                    console.log('User signed in - redirecting to app.php');
                     // Keep loading overlay visible during redirect
                     window.location.href = afterSignInUrl;
                     return;

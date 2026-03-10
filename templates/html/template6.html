@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sophie & James — Destination Wedding</title>
-    <meta name="description" content="Join Sophie & James as they celebrate their love story — a journey across the world. September 20, 2026.">
+    <title>Mia & Tom — We're Getting Hitched!</title>
+    <meta name="description" content="Mia & Tom are tying the knot! Join us for a day full of love, laughter, and questionable dance moves. October 10, 2026.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Raleway:wght@300;400;500;600&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="wedding-themes.css">
     <style>
         *, *::before, *::after {
@@ -17,19 +17,19 @@
         }
 
         :root {
-            --primary-bg: #FAF8F5;
-            --secondary-bg: #F0EDE8;
-            --accent-bg: #E5DFD6;
-            --primary-text: #2C3E50;
-            --secondary-text: #6B7B8D;
-            --accent-text: #1A2A3A;
-            --primary-accent: #C0956C;
-            --primary-accent-soft: rgba(192, 149, 108, 0.12);
-            --secondary-accent: #5B8C7A;
-            --border-color: #D5CFC5;
-            --shadow-color: rgba(44, 62, 80, 0.08);
-            --font-display: 'Playfair Display', Georgia, serif;
-            --font-body: 'Raleway', 'Helvetica Neue', sans-serif;
+            --primary-bg: #FFFDF7;
+            --secondary-bg: #FFF5E6;
+            --accent-bg: #FFECD2;
+            --primary-text: #2D2926;
+            --secondary-text: #6B6560;
+            --accent-text: #1A1715;
+            --primary-accent: #FF8C42;
+            --primary-accent-soft: rgba(255, 140, 66, 0.12);
+            --secondary-accent: #6EC6A0;
+            --border-color: #FFD6A5;
+            --shadow-color: rgba(255, 140, 66, 0.15);
+            --font-display: 'Fredoka', sans-serif;
+            --font-body: 'Nunito', sans-serif;
             --font-hand: 'Caveat', cursive;
         }
 
@@ -48,7 +48,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-
         /* ─── NAV ─── */
         nav {
             position: fixed;
@@ -56,66 +55,50 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            padding: 24px 48px;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background 0.4s ease, padding 0.4s ease, border-bottom 0.4s ease;
-            border-bottom: 1px solid transparent;
+            transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
         }
 
         nav.scrolled {
-            background: rgba(250, 248, 245, 0.95);
+            background: rgba(255, 253, 247, 0.95);
             backdrop-filter: blur(10px);
-            padding: 14px 48px;
-            border-bottom-color: var(--border-color);
+            padding: 12px 40px;
+            box-shadow: 0 4px 20px var(--shadow-color);
         }
 
         nav .logo {
             font-family: var(--font-display);
-            font-size: 18px;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            color: var(--primary-text);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-accent);
             text-decoration: none;
+            letter-spacing: 0.02em;
         }
 
         nav ul {
             list-style: none;
             display: flex;
-            gap: 28px;
+            gap: 24px;
         }
 
         nav ul li a {
             text-decoration: none;
             color: var(--secondary-text);
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.18em;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
-            position: relative;
-            padding-bottom: 4px;
-            transition: color 0.3s;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
         }
         nav ul li a:hover,
         nav ul li a.active {
             color: var(--primary-accent);
-        }
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: var(--primary-accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        nav ul li a:hover::after,
-        nav ul li a.active::after {
-            transform: scaleX(1);
+            background: var(--primary-accent-soft);
         }
 
         /* Hamburger */
@@ -128,8 +111,9 @@
         }
         .hamburger span {
             width: 24px;
-            height: 1.5px;
-            background: var(--primary-text);
+            height: 2.5px;
+            background: var(--primary-accent);
+            border-radius: 2px;
             transition: all 0.3s ease;
         }
 
@@ -142,12 +126,13 @@
             justify-content: center;
             text-align: center;
             overflow: hidden;
+            background: var(--secondary-bg);
         }
 
         section#hero .fp-bg {
             position: absolute;
             inset: 0;
-            background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&q=80');
+            background-image: url('https://images.unsplash.com/photo-1529634597503-139d3726fed5?w=1920&q=80');
             background-size: cover;
             background-position: center;
             z-index: 0;
@@ -157,7 +142,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, var(--overlay-opacity, 0.45));
+            background: rgba(0, 0, 0, var(--overlay-opacity, 0.35));
         }
 
         .hero-content {
@@ -170,51 +155,56 @@
 
         .hero-content .pre-title {
             font-family: var(--font-hand);
-            font-size: clamp(22px, 3vw, 32px);
+            font-size: clamp(24px, 3.5vw, 38px);
             margin-bottom: 12px;
             opacity: 0.9;
         }
 
         .hero-content .names {
             font-family: var(--font-display);
-            font-size: clamp(48px, 8vw, 110px);
-            font-weight: 400;
+            font-size: clamp(52px, 9vw, 120px);
+            font-weight: 600;
             line-height: 1.05;
-            letter-spacing: 0.02em;
-            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
         }
 
         .hero-content .names .amp {
-            font-style: italic;
-            font-size: 0.6em;
+            font-family: var(--font-hand);
+            font-size: 0.5em;
             display: inline-block;
-            margin: 0 12px;
-            opacity: 0.7;
+            margin: 0 8px;
+            opacity: 0.8;
+            vertical-align: middle;
         }
 
         .hero-content .date-line {
-            font-size: 13px;
-            letter-spacing: 0.35em;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
             opacity: 0.8;
-            margin-bottom: 40px;
+            margin-bottom: 36px;
         }
 
         .hero-content .hero-cta {
             display: inline-block;
-            padding: 14px 40px;
-            border: 1px solid rgba(255,255,255,0.6);
+            padding: 16px 44px;
+            background: var(--primary-accent);
             color: #fff;
-            font-size: 11px;
-            letter-spacing: 0.2em;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             text-decoration: none;
-            transition: background 0.3s, border-color 0.3s;
+            border-radius: 50px;
+            border: none;
+            transition: transform 0.3s, box-shadow 0.3s;
             font-family: var(--font-body);
         }
         .hero-content .hero-cta:hover {
-            background: rgba(255,255,255,0.15);
-            border-color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(255, 140, 66, 0.4);
         }
 
         .scroll-indicator {
@@ -223,24 +213,25 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 1;
-            color: rgba(255,255,255,0.6);
-            font-size: 10px;
-            letter-spacing: 0.25em;
+            color: rgba(255,255,255,0.7);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            animation: scrollPulse 2s ease-in-out infinite;
+            animation: bounce 2s ease-in-out infinite;
         }
         .scroll-indicator svg {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
         }
 
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
         }
 
         /* ─── SECTION COMMON ─── */
@@ -250,154 +241,232 @@
             padding: 100px 48px;
         }
 
+        .section-emoji {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
         .section-label {
-            font-size: 10px;
-            letter-spacing: 0.3em;
+            font-size: 12px;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--secondary-text);
-            margin-bottom: 12px;
-            font-weight: 500;
+            color: var(--primary-accent);
+            margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .section-title {
             font-family: var(--font-display);
-            font-size: clamp(32px, 4vw, 56px);
-            font-weight: 400;
-            line-height: 1.15;
-            margin-bottom: 20px;
+            font-size: clamp(30px, 4.5vw, 52px);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 16px;
             color: var(--accent-text);
         }
 
         .section-subtitle {
             font-family: var(--font-hand);
-            font-size: clamp(20px, 2.5vw, 28px);
-            color: var(--primary-accent);
-            margin-bottom: 32px;
+            font-size: clamp(20px, 2.5vw, 30px);
+            color: var(--secondary-accent);
+            margin-bottom: 28px;
         }
 
         .section-divider {
-            width: 50px;
-            height: 1px;
+            width: 60px;
+            height: 4px;
             background: var(--primary-accent);
-            margin-bottom: 40px;
+            border-radius: 2px;
+            margin-bottom: 36px;
         }
 
         .section-text {
-            font-size: 15px;
+            font-size: 16px;
             line-height: 1.9;
             color: var(--secondary-text);
             max-width: 640px;
         }
 
-        /* ─── STORY / TIMELINE ─── */
+        /* ─── ABOUT ─── */
+        section#about {
+            background: var(--primary-bg);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 48px;
+            align-items: center;
+        }
+
+        .about-img {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px var(--shadow-color);
+            transform: rotate(-2deg);
+            transition: transform 0.4s ease;
+        }
+        .about-img:hover {
+            transform: rotate(0deg);
+        }
+        .about-img img {
+            width: 100%;
+            display: block;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+        }
+
+        .about-text {
+            padding: 20px 0;
+        }
+
+        .about-text .fun-fact {
+            background: var(--accent-bg);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-top: 24px;
+            border-left: 4px solid var(--primary-accent);
+        }
+
+        .about-text .fun-fact h4 {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-accent);
+            margin-bottom: 6px;
+        }
+
+        .about-text .fun-fact p {
+            font-size: 14px;
+            color: var(--secondary-text);
+        }
+
+        /* ─── STORY TIMELINE ─── */
         section#story {
             background: var(--secondary-bg);
         }
 
         .timeline {
             position: relative;
-            margin-top: 60px;
-            padding-left: 40px;
+            margin-top: 48px;
+            padding: 0;
         }
-
         .timeline::before {
             content: '';
             position: absolute;
-            left: 15px;
+            left: 50%;
             top: 0;
             bottom: 0;
-            width: 1px;
-            background: var(--border-color);
+            width: 4px;
+            background: var(--primary-accent-soft);
+            border-radius: 4px;
+            transform: translateX(-50%);
         }
-
         .timeline-item {
             position: relative;
-            margin-bottom: 60px;
-            padding-left: 40px;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 48px;
+            width: 100%;
         }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-item:nth-child(odd) { flex-direction: row; }
+        .timeline-item:nth-child(even) { flex-direction: row-reverse; }
 
-        .timeline-item::before {
-            content: '';
+        .timeline-dot {
             position: absolute;
-            left: -33px;
-            top: 8px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
+            left: 50%;
+            top: 24px;
+            width: 48px;
+            height: 48px;
             background: var(--primary-accent);
-            border: 2px solid var(--secondary-bg);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            z-index: 2;
+            box-shadow: 0 4px 16px var(--shadow-color);
         }
 
-        .timeline-item .year {
-            font-family: var(--font-hand);
-            font-size: 24px;
+        .timeline-content {
+            width: calc(50% - 48px);
+            background: var(--primary-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .timeline-content:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 36px var(--shadow-color);
+        }
+
+        .timeline-content img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .timeline-body {
+            padding: 24px;
+        }
+
+        .timeline-year {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
             color: var(--primary-accent);
             margin-bottom: 4px;
         }
 
-        .timeline-item .location {
-            font-size: 11px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--secondary-text);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .timeline-item .location svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .timeline-item h3 {
+        .timeline-body h3 {
             font-family: var(--font-display);
-            font-size: 22px;
-            font-weight: 500;
+            font-size: 20px;
+            font-weight: 600;
             margin-bottom: 8px;
             color: var(--accent-text);
         }
 
-        .timeline-item p {
-            font-size: 15px;
+        .timeline-body p {
+            font-size: 14px;
             color: var(--secondary-text);
-            line-height: 1.8;
+            line-height: 1.7;
         }
 
-        .timeline-item img {
-            width: 100%;
-            max-width: 420px;
-            margin-top: 16px;
-            border-radius: 4px;
-            object-fit: cover;
-            aspect-ratio: 16/10;
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-dot {
+                left: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+                top: 0;
+            }
+            .timeline-item,
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                flex-direction: row;
+                padding-left: 60px;
+            }
+            .timeline-content {
+                width: 100%;
+            }
         }
 
         /* ─── QUOTE ─── */
         section#quote {
-            min-height: 50vh;
+            min-height: 40vh;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-        }
-
-        section#quote .fp-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            z-index: 0;
-        }
-
-        section#quote .fp-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, var(--overlay-opacity, 0.55));
+            background: var(--primary-accent);
         }
 
         .quote-content {
@@ -408,67 +477,126 @@
             max-width: 700px;
         }
 
+        .quote-content .quote-emoji {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
         .quote-content blockquote {
             font-family: var(--font-display);
-            font-style: italic;
-            font-size: clamp(22px, 3vw, 32px);
-            font-weight: 400;
-            line-height: 1.5;
+            font-size: clamp(22px, 3vw, 34px);
+            font-weight: 500;
+            line-height: 1.4;
             margin-bottom: 20px;
         }
 
         .quote-content cite {
             font-family: var(--font-hand);
-            font-size: 20px;
-            opacity: 0.7;
+            font-size: 22px;
+            opacity: 0.8;
             font-style: normal;
         }
 
-        /* ─── DETAILS / EVENTS ─── */
-        section#events {
+        /* ─── PEOPLE ─── */
+        section#people {
             background: var(--primary-bg);
+        }
+
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+            text-align: center;
+        }
+
+        .person-card {
+            background: var(--secondary-bg);
+            border-radius: 20px;
+            padding: 32px 20px;
+            transition: transform 0.3s ease;
+        }
+        .person-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .person-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 16px;
+            border: 3px solid var(--primary-accent);
+        }
+
+        .person-card h3 {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-text);
+            margin-bottom: 4px;
+        }
+
+        .person-card .person-role {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .person-card .person-quote {
+            font-family: var(--font-hand);
+            font-size: 16px;
+            color: var(--secondary-text);
+            font-style: italic;
+        }
+
+        /* ─── EVENTS ─── */
+        section#events {
+            background: var(--secondary-bg);
         }
 
         .events-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
             margin-top: 48px;
         }
 
         .event-card {
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            padding: 40px 32px;
-            border-radius: 4px;
+            background: var(--primary-bg);
+            border-radius: 20px;
+            padding: 36px 28px;
             text-align: center;
             transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 16px var(--shadow-color);
         }
         .event-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-5px) rotate(1deg);
             box-shadow: 0 12px 32px var(--shadow-color);
         }
 
-        .event-card .card-icon {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 20px;
-            color: var(--primary-accent);
+        .event-card .card-emoji {
+            font-size: 40px;
+            margin-bottom: 16px;
         }
 
         .event-card h3 {
             font-family: var(--font-display);
-            font-size: 22px;
-            font-weight: 500;
+            font-size: 20px;
+            font-weight: 600;
             margin-bottom: 8px;
             color: var(--accent-text);
         }
 
         .event-card .event-date {
             font-size: 12px;
-            letter-spacing: 0.15em;
+            font-weight: 700;
+            letter-spacing: 0.1em;
             color: var(--primary-accent);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             text-transform: uppercase;
         }
 
@@ -479,10 +607,10 @@
         }
 
         .event-card .event-location {
-            margin-top: 16px;
+            margin-top: 14px;
             font-family: var(--font-hand);
             font-size: 18px;
-            color: var(--primary-accent);
+            color: var(--secondary-accent);
         }
 
         /* ─── COUNTDOWN ─── */
@@ -494,7 +622,7 @@
         .countdown-wrapper {
             display: flex;
             justify-content: center;
-            gap: 48px;
+            gap: 40px;
             margin-top: 40px;
             flex-wrap: wrap;
         }
@@ -503,39 +631,101 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: var(--primary-bg);
+            border-radius: 20px;
+            padding: 24px 32px;
+            box-shadow: 0 4px 16px var(--shadow-color);
+            min-width: 100px;
         }
 
         .countdown-item .number {
             font-family: var(--font-display);
-            font-size: clamp(42px, 5vw, 72px);
-            font-weight: 400;
+            font-size: clamp(40px, 5vw, 64px);
+            font-weight: 700;
             color: var(--primary-accent);
             line-height: 1;
         }
 
         .countdown-item .label {
-            font-size: 10px;
-            letter-spacing: 0.25em;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--secondary-text);
             margin-top: 8px;
         }
 
+        /* ─── DRESS CODE ─── */
+        section#dressing {
+            background: var(--primary-bg);
+        }
+
+        .dress-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 48px;
+        }
+
+        .dress-card {
+            background: var(--secondary-bg);
+            border-radius: 20px;
+            padding: 40px 32px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .dress-card:hover {
+            transform: rotate(-1deg);
+        }
+
+        .dress-card .card-emoji {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .dress-card h3 {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent-text);
+            margin-bottom: 12px;
+        }
+
+        .dress-card p {
+            font-size: 14px;
+            color: var(--secondary-text);
+            line-height: 1.8;
+        }
+
+        .dress-card .color-swatches {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .dress-card .swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+        }
+
         /* ─── GALLERY ─── */
         section#gallery {
-            background: var(--primary-bg);
+            background: var(--secondary-bg);
         }
 
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 12px;
             margin-top: 48px;
         }
 
         .gallery-grid .gallery-item {
             overflow: hidden;
-            border-radius: 2px;
+            border-radius: 16px;
             aspect-ratio: 1;
         }
 
@@ -548,104 +738,17 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s ease;
+            transition: transform 0.5s ease;
         }
 
         .gallery-grid .gallery-item:hover img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
-        /* ─── ACCOMMODATION ─── */
-        section#accomodation {
-            background: var(--secondary-bg);
-        }
-
-        .hotel-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 28px;
-            margin-top: 48px;
-        }
-
-        .hotel-card {
-            background: var(--primary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .hotel-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px var(--shadow-color);
-        }
-
-        .hotel-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .hotel-card .hotel-info {
-            padding: 24px;
-        }
-
-        .hotel-card h3 {
-            font-family: var(--font-display);
-            font-size: 20px;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: var(--accent-text);
-        }
-
-        .hotel-card .hotel-price {
-            font-size: 12px;
-            color: var(--primary-accent);
-            letter-spacing: 0.1em;
-            margin-bottom: 12px;
-        }
-
-        .hotel-card p {
-            font-size: 14px;
-            color: var(--secondary-text);
-            line-height: 1.7;
-        }
-
-        .hotel-card a {
-            display: inline-block;
-            margin-top: 14px;
-            font-size: 12px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--primary-accent);
-            text-decoration: none;
-            border-bottom: 1px solid var(--primary-accent);
-            padding-bottom: 2px;
-            transition: opacity 0.3s;
-        }
-        .hotel-card a:hover { opacity: 0.7; }
-
-        /* ─── MAP ─── */
-        section#map {
-            background: var(--primary-bg);
-        }
-
-        .map-container {
-            margin-top: 40px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .map-container iframe {
-            width: 100%;
-            height: 400px;
-            border: none;
-        }
-
-        /* ─── RSVP ─── (theme variables so section background/theme picker work) */
+        /* ─── RSVP ─── */
         section#rsvp {
-            background: var(--accent-bg);
-            color: var(--primary-text);
+            background: var(--primary-accent);
+            color: #fff;
         }
 
         .rsvp-inner {
@@ -655,48 +758,54 @@
         }
 
         section#rsvp .section-label {
-            color: var(--secondary-text);
+            color: rgba(255,255,255,0.5);
         }
         section#rsvp .section-title {
-            color: var(--accent-text);
+            color: #fff;
         }
         section#rsvp .section-subtitle {
-            color: var(--primary-accent);
+            color: rgba(255,255,255,0.8);
         }
         section#rsvp .section-divider {
-            background: var(--border-color);
+            background: rgba(255,255,255,0.3);
         }
 
         .form-group {
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
         .form-group label {
             display: block;
-            font-size: 10px;
-            letter-spacing: 0.2em;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--secondary-text);
-            margin-bottom: 10px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 8px;
         }
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--primary-text);
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            color: #fff;
             font-family: var(--font-body);
             font-size: 16px;
-            font-weight: 300;
-            padding: 12px 0;
+            font-weight: 500;
+            padding: 14px 16px;
             outline: none;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255,255,255,0.4);
         }
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-bottom-color: var(--primary-accent);
+            border-color: #fff;
+            background: rgba(255,255,255,0.2);
         }
         .form-group select {
             -webkit-appearance: none;
@@ -704,42 +813,43 @@
             cursor: pointer;
         }
         .form-group select option {
-            background: var(--accent-bg);
-            color: var(--primary-text);
+            background: var(--primary-accent);
+            color: #fff;
         }
         .form-group textarea {
             resize: none;
-            height: 80px;
+            height: 90px;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 20px;
         }
 
         .btn-rsvp {
             display: inline-block;
-            padding: 14px 48px;
-            border: 1px solid var(--primary-accent);
-            background: transparent;
+            padding: 16px 52px;
+            background: #fff;
             color: var(--primary-accent);
-            font-family: var(--font-body);
-            font-size: 11px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            border-radius: 50px;
+            border: none;
             cursor: pointer;
-            transition: background 0.3s, color 0.3s;
-            margin-top: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 8px;
         }
         .btn-rsvp:hover {
-            background: var(--primary-accent);
-            color: var(--primary-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
         /* ─── GIFTS ─── */
         section#gifts {
-            background: var(--secondary-bg);
+            background: var(--primary-bg);
             text-align: center;
         }
 
@@ -748,29 +858,40 @@
             margin: 0 auto;
         }
 
-        .gifts-content .gift-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 24px;
-            color: var(--primary-accent);
-        }
-
         .gifts-content .btn-gift {
             display: inline-block;
             margin-top: 32px;
-            padding: 14px 40px;
-            border: 1px solid var(--primary-accent);
-            color: var(--primary-accent);
-            font-size: 11px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            padding: 16px 44px;
+            background: var(--primary-accent);
+            color: #fff;
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 50px;
             text-decoration: none;
-            font-family: var(--font-body);
-            transition: background 0.3s, color 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         .gifts-content .btn-gift:hover {
-            background: var(--primary-accent);
-            color: var(--primary-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px var(--shadow-color);
+        }
+
+        /* ─── MAP ─── */
+        section#map {
+            background: var(--secondary-bg);
+        }
+
+        .map-container {
+            margin-top: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px var(--shadow-color);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
         }
 
         /* ─── FOOTER ─── */
@@ -781,46 +902,51 @@
             padding: 60px 48px 40px;
         }
 
+        footer .footer-emoji {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
         footer .footer-names {
             font-family: var(--font-display);
             font-size: clamp(28px, 4vw, 44px);
-            font-weight: 400;
-            margin-bottom: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
         footer .footer-tagline {
             font-family: var(--font-hand);
-            font-size: 22px;
+            font-size: 24px;
             color: var(--primary-accent);
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
         footer .footer-note {
-            font-size: 12px;
+            font-size: 13px;
             opacity: 0.4;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
         }
 
         /* ─── REVEAL ANIMATIONS ─── */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
         .reveal-left {
             opacity: 0;
             transform: translateX(-30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
         .reveal-right {
             opacity: 0;
             transform: translateX(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
         .reveal-scale {
             opacity: 0;
-            transform: scale(0.95);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: scale(0.92);
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
         .reveal.visible,
         .reveal-left.visible,
@@ -845,45 +971,48 @@
                 background: var(--primary-bg);
                 justify-content: center;
                 align-items: center;
-                gap: 32px;
+                gap: 28px;
                 z-index: 999;
             }
             nav.menu-open ul li a {
-                font-size: 16px;
+                font-size: 18px;
                 color: var(--primary-text);
             }
-            nav { padding: 16px 24px; }
-            nav.scrolled { padding: 12px 24px; }
+            nav { padding: 14px 20px; }
+            nav.scrolled { padding: 10px 20px; }
             .section-inner { padding: 60px 24px; }
             .rsvp-inner { padding: 60px 24px; }
-            .hero-content .names { font-size: clamp(36px, 10vw, 60px); }
+            .hero-content .names { font-size: clamp(38px, 12vw, 60px); }
+            .about-grid { grid-template-columns: 1fr; gap: 32px; }
+            .about-img { transform: none; }
+            
             .events-grid { grid-template-columns: 1fr; }
+            .people-grid { grid-template-columns: 1fr 1fr; }
+            .dress-content { grid-template-columns: 1fr; }
             .gallery-grid { grid-template-columns: repeat(2, 1fr); }
             .gallery-grid .gallery-item.tall { grid-row: span 1; aspect-ratio: 1; }
-            .hotel-grid { grid-template-columns: 1fr; }
             .form-row { grid-template-columns: 1fr; gap: 0; }
-            .countdown-wrapper { gap: 28px; }
-            .timeline { padding-left: 24px; }
-            .timeline::before { left: 7px; }
-            .timeline-item { padding-left: 24px; }
-            .timeline-item::before { left: -25px; }
+            .countdown-wrapper { gap: 16px; }
+            .countdown-item { padding: 18px 22px; min-width: 80px; }
             footer { padding: 40px 24px 28px; }
+        }
+
+        @media (max-width: 480px) {
+            .people-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-
-    <!-- NAV -->
-
     <!-- NAV -->
     <nav id="nav">
-        <a href="#hero" class="logo">S & J</a>
+        <a href="#hero" class="logo">M + T 🧡</a>
         <ul>
+            <li><a href="#about">About Us</a></li>
             <li><a href="#story">Our Story</a></li>
             <li><a href="#events">Events</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#accomodation">Stay</a></li>
+            <li><a href="#people">Squad</a></li>
+            <li><a href="#gallery">Photos</a></li>
             <li><a href="#rsvp">RSVP</a></li>
         </ul>
         <div class="hamburger" onclick="this.closest('nav').classList.toggle('menu-open')">
@@ -892,141 +1021,259 @@
     </nav>
 
     <!-- HERO -->
-    <section id="hero" class="has-bg-image" data-overlay-opacity="0.45">
-        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&q=80');"></div>
+    <section id="hero" data-overlay-opacity="0.35">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1529634597503-139d3726fed5?w=1920&q=80');"></div>
         <div class="hero-content reveal">
-            <div class="pre-title">The adventure continues...</div>
-            <h1 class="names">Sophie <span class="amp">&</span> James</h1>
-            <div class="date-line">September 20, 2026 · Amalfi Coast, Italy</div>
-            <a href="#rsvp" class="hero-cta">Join Our Journey</a>
+            <div class="pre-title">OMG, it's finally happening!</div>
+            <h1 class="names">Mia <span class="amp">&</span> Tom</h1>
+            <div class="date-line">October 10, 2026 · The Barn at Sunset Ranch</div>
+            <a href="#rsvp" class="hero-cta">Heck Yes, I'm Coming!</a>
         </div>
         <div class="scroll-indicator">
-            <span>Scroll</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            <span>Keep scrolling!</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="section-inner">
+            <div class="about-grid">
+                <div class="about-img reveal-left">
+                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&q=80" alt="Mia and Tom laughing together" loading="lazy">
+                </div>
+                <div class="about-text">
+                    <span class="section-emoji reveal">👋</span>
+                    <div class="section-label reveal">Hi There!</div>
+                    <h2 class="section-title reveal">We're Getting<br>Married!</h2>
+                    <div class="section-subtitle reveal">And yes, we're as surprised as you are</div>
+                    <div class="section-divider reveal"></div>
+                    <p class="section-text reveal">After 6 years of stealing each other's fries, arguing about whose turn it is to do dishes, and somehow still choosing each other every single day — we've decided to make it official. Consider this your formal invitation to witness us cry in front of all our friends and family.</p>
+                    <div class="fun-fact reveal" data-fp-dynamic="true">
+                        <h4>🎲 Fun Fact</h4>
+                        <p>Tom proposed with a ring hidden inside a burrito. Mia almost ate it. True story.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- OUR STORY -->
     <section id="story">
         <div class="section-inner">
-            <div class="section-label reveal">Our Journey</div>
-            <h2 class="section-title reveal">A Love Story<br>Written in Passport Stamps</h2>
-            <div class="section-subtitle reveal">From strangers in a hostel to partners for life</div>
+            <span class="section-emoji reveal">💕</span>
+            <div class="section-label reveal">The Timeline of Us</div>
+            <h2 class="section-title reveal">How We Got Here<br>(Spoiler: It's Adorable)</h2>
+            <div class="section-subtitle reveal">A love story told in awkward moments</div>
             <div class="section-divider reveal"></div>
-            <p class="section-text reveal">What started as a chance meeting at a backpackers' hostel in Lisbon turned into the greatest adventure of our lives. Here are the places that wrote our love story.</p>
 
-            <div class="timeline">
-                <div class="timeline-item reveal-left" data-fp-dynamic="true">
-                    <div class="year">2019</div>
-                    <div class="location">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Lisbon, Portugal
+            <div class="timeline" data-fp-dynamic-items="true">
+                <div class="timeline-item reveal-left">
+                    <div class="timeline-dot">🎉</div>
+                    <div class="timeline-content">
+                        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=75" alt="Party scene" loading="lazy">
+                        <div class="timeline-body">
+                            <div class="timeline-year">2020 — The Meet-Cute</div>
+                            <h3>Wrong Party, Right Person</h3>
+                            <p>Tom showed up to the wrong birthday party. Mia was at the right one. They met in the hallway arguing over whose Uber was whose. Sparks flew. So did some confetti.</p>
+                        </div>
                     </div>
-                    <h3>The First Hello</h3>
-                    <p>A crowded hostel rooftop, a shared bottle of wine, and a sunset over the Tagus River. We didn't know it yet, but this was the beginning of everything.</p>
-                    <img src="https://images.unsplash.com/photo-1585208798174-6cedd86e019a?w=600&q=75" alt="Lisbon rooftop view" loading="lazy">
                 </div>
 
-                <div class="timeline-item reveal-right" data-fp-dynamic="true">
-                    <div class="year">2020</div>
-                    <div class="location">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Tokyo, Japan
+                <div class="timeline-item reveal-right">
+                    <div class="timeline-dot">🍕</div>
+                    <div class="timeline-content">
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=75" alt="Food date" loading="lazy">
+                        <div class="timeline-body">
+                            <div class="timeline-year">2020 — First Date</div>
+                            <h3>Pizza & Honesty</h3>
+                            <p>Their first date was at a pizza place. Tom ate 7 slices. Mia was impressed. They talked for 4 hours about everything from conspiracy theories to their grandmothers' cookie recipes.</p>
+                        </div>
                     </div>
-                    <h3>Lost & Found</h3>
-                    <p>Navigating the neon-lit streets of Shinjuku, we got completely lost — and realized we never wanted to find our way without each other.</p>
-                    <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=75" alt="Tokyo streets at night" loading="lazy">
                 </div>
 
-                <div class="timeline-item reveal-left" data-fp-dynamic="true">
-                    <div class="year">2022</div>
-                    <div class="location">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Santorini, Greece
+                <div class="timeline-item reveal-left">
+                    <div class="timeline-dot">✈️</div>
+                    <div class="timeline-content">
+                        <img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=600&q=75" alt="Travel adventure" loading="lazy">
+                        <div class="timeline-body">
+                            <div class="timeline-year">2022 — The Test</div>
+                            <h3>Surviving IKEA Together</h3>
+                            <p>They assembled a KALLAX shelf with zero arguments. At that point, they knew this was true love. Moving in together was the easy part after that.</p>
+                        </div>
                     </div>
-                    <h3>The Question</h3>
-                    <p>Under the most spectacular sunset either of us had ever seen, with the caldera shimmering below, James asked the question that changed everything.</p>
-                    <img src="https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=600&q=75" alt="Santorini sunset" loading="lazy">
+                </div>
+
+                <div class="timeline-item reveal-right">
+                    <div class="timeline-dot">💍</div>
+                    <div class="timeline-content">
+                        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600&q=75" alt="Engagement celebration" loading="lazy">
+                        <div class="timeline-body">
+                            <div class="timeline-year">2025 — The Proposal</div>
+                            <h3>The Burrito Incident</h3>
+                            <p>On a random Tuesday, Tom hid the ring inside Mia's favorite burrito. She bit into foil. Panicked. Then cried happy tears for 20 minutes straight. She said yes (obviously).</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- QUOTE -->
-    <section id="quote" data-overlay-opacity="0.55">
-        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80');"></div>
+    <section id="quote">
         <div class="quote-content reveal-scale">
-            <blockquote>"We travel not to escape life, but for life not to escape us."</blockquote>
-            <cite>— Our motto since day one</cite>
+            <div class="quote-emoji">😂</div>
+            <blockquote>"Marriage is finding that one special person you want to annoy for the rest of your life."</blockquote>
+            <cite>— Basically our relationship motto</cite>
         </div>
     </section>
 
     <!-- EVENTS -->
     <section id="events">
         <div class="section-inner">
-            <div class="section-label reveal">The Celebration</div>
-            <h2 class="section-title reveal">Wedding Weekend</h2>
-            <div class="section-subtitle reveal">Three days of love on the Italian coast</div>
+            <span class="section-emoji reveal">🗓️</span>
+            <div class="section-label reveal">What's Happening</div>
+            <h2 class="section-title reveal">The Party Plan</h2>
+            <div class="section-subtitle reveal">All the fun, none of the boring stuff</div>
             <div class="section-divider reveal"></div>
 
             <div class="events-grid">
                 <div class="event-card reveal" data-fp-dynamic="true">
-                    <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    <h3>Welcome Dinner</h3>
-                    <div class="event-date">Friday, September 18 · 7:00 PM</div>
-                    <p>A casual seaside dinner to reunite with loved ones. Dress code: resort casual.</p>
-                    <div class="event-location">Ristorante Marina Grande</div>
+                    <div class="card-emoji">🍻</div>
+                    <h3>Welcome Drinks</h3>
+                    <div class="event-date">Friday, Oct 9 · 6:00 PM</div>
+                    <p>Ice-breaking games, signature cocktails (named after our pets), and a "guess the embarrassing baby photo" contest.</p>
+                    <div class="event-location">📍 The Barn Courtyard</div>
                 </div>
 
                 <div class="event-card reveal" data-fp-dynamic="true">
-                    <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    <h3>The Ceremony</h3>
-                    <div class="event-date">Saturday, September 19 · 4:30 PM</div>
-                    <p>An intimate ceremony overlooking the Mediterranean Sea. Dress code: formal.</p>
-                    <div class="event-location">Villa Cimbrone Gardens</div>
+                    <div class="card-emoji">💒</div>
+                    <h3>The Main Event</h3>
+                    <div class="event-date">Saturday, Oct 10 · 3:30 PM</div>
+                    <p>The ceremony! Bring tissues. Tom will definitely cry. Mia will pretend she isn't. There will be a dog ring bearer.</p>
+                    <div class="event-location">📍 The Great Oak Garden</div>
                 </div>
 
                 <div class="event-card reveal" data-fp-dynamic="true">
-                    <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-                    <h3>Reception & Party</h3>
-                    <div class="event-date">Saturday, September 19 · 7:00 PM</div>
-                    <p>Dinner, dancing, and celebrations under the stars. Let's make memories!</p>
-                    <div class="event-location">Villa Cimbrone Terrace</div>
+                    <div class="card-emoji">🪩</div>
+                    <h3>Dinner & Dancing</h3>
+                    <div class="event-date">Saturday, Oct 10 · 6:00 PM</div>
+                    <p>Farm-to-table dinner, open bar (you're welcome), and a DJ who's been strictly forbidden from playing "Chicken Dance."</p>
+                    <div class="event-location">📍 The Barn Hall</div>
                 </div>
 
                 <div class="event-card reveal" data-fp-dynamic="true">
-                    <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                    <h3>Farewell Brunch</h3>
-                    <div class="event-date">Sunday, September 20 · 11:00 AM</div>
-                    <p>One last morning together before we part ways — until the next adventure!</p>
-                    <div class="event-location">Hotel Santa Caterina</div>
+                    <div class="card-emoji">🥞</div>
+                    <h3>Recovery Brunch</h3>
+                    <div class="event-date">Sunday, Oct 11 · 10:30 AM</div>
+                    <p>Pancakes, mimosas, and stories about who did what on the dance floor. No judgment zone.</p>
+                    <div class="event-location">📍 The Farmhouse Kitchen</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- COUNTDOWN -->
-    <section class="countdown-section" id="countdown" data-wedding-date="2026-09-20T16:30:00">
+    <section class="countdown-section" id="countdown" data-wedding-date="2026-10-10T15:30:00">
         <div class="section-inner">
-            <div class="section-label reveal">Mark Your Calendar</div>
-            <h2 class="section-title reveal" style="text-align:center;">The Countdown Is On</h2>
-            <div class="section-subtitle reveal" style="text-align:center;">Pack your bags, it's almost time!</div>
+            <span class="section-emoji reveal">⏰</span>
+            <div class="section-label reveal" style="text-align:center;">Tick Tock</div>
+            <h2 class="section-title reveal" style="text-align:center;">The Countdown Is On!</h2>
+            <div class="section-subtitle reveal" style="text-align:center;">Time to start practicing your dance moves</div>
             <div class="countdown-wrapper">
                 <div class="countdown-item reveal">
-                    <span class="number" id="days">000</span>
-                    <span class="label">Days</span>
+                    <span class="number" id="days" contenteditable="false">000</span>
+                    <span class="label" contenteditable="false">Days</span>
                 </div>
                 <div class="countdown-item reveal">
-                    <span class="number" id="hours">00</span>
-                    <span class="label">Hours</span>
+                    <span class="number" id="hours" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Hours</span>
                 </div>
                 <div class="countdown-item reveal">
-                    <span class="number" id="minutes">00</span>
-                    <span class="label">Minutes</span>
+                    <span class="number" id="minutes" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Minutes</span>
                 </div>
                 <div class="countdown-item reveal">
-                    <span class="number" id="seconds">00</span>
-                    <span class="label">Seconds</span>
+                    <span class="number" id="seconds" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PEOPLE / SQUAD -->
+    <section id="people">
+        <div class="section-inner">
+            <span class="section-emoji reveal">🫶</span>
+            <div class="section-label reveal">The Dream Team</div>
+            <h2 class="section-title reveal">Meet the Squad</h2>
+            <div class="section-subtitle reveal">The people who tolerate us the most</div>
+            <div class="section-divider reveal"></div>
+
+            <div class="people-grid" data-fp-dynamic-items="true">
+                <div class="person-card reveal">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=75" alt="Sarah" loading="lazy">
+                    <h3>Sarah Chen</h3>
+                    <div class="person-role">Maid of Honor</div>
+                    <p class="person-quote">"If Mia says jump, I ask how high. If she says plan a bachelorette, I book Vegas."</p>
+                </div>
+
+                <div class="person-card reveal">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=75" alt="Jake" loading="lazy">
+                    <h3>Jake Rodriguez</h3>
+                    <div class="person-role">Best Man</div>
+                    <p class="person-quote">"I've kept Tom's secrets for 15 years. The speech is going to be legendary."</p>
+                </div>
+
+                <div class="person-card reveal">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=75" alt="Emma" loading="lazy">
+                    <h3>Emma Larsson</h3>
+                    <div class="person-role">Bridesmaid</div>
+                    <p class="person-quote">"Mia once saved me from a bad haircut. I owe her my life."</p>
+                </div>
+
+                <div class="person-card reveal">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=75" alt="Marcus" loading="lazy">
+                    <h3>Marcus Williams</h3>
+                    <div class="person-role">Groomsman</div>
+                    <p class="person-quote">"Tom is the best friend who'll help you move AND bring pizza. Twice."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DRESS CODE -->
+    <section id="dressing">
+        <div class="section-inner">
+            <span class="section-emoji reveal">👗</span>
+            <div class="section-label reveal">What to Wear</div>
+            <h2 class="section-title reveal">Dress Code: Garden Party Chic</h2>
+            <div class="section-subtitle reveal">Look cute, be comfy, ditch the stilettos (it's grass!)</div>
+            <div class="section-divider reveal"></div>
+
+            <div class="dress-content">
+                <div class="dress-card reveal-left" data-fp-dynamic="true">
+                    <div class="card-emoji">👠</div>
+                    <h3>For the Ladies</h3>
+                    <p>Think flowy dresses, fun jumpsuits, or your favorite midi skirt. Flats or block heels recommended — your ankles will thank us. Bonus points for floral prints!</p>
+                    <div class="color-swatches">
+                        <span class="swatch" style="background: #F4A460;"></span>
+                        <span class="swatch" style="background: #DDA0DD;"></span>
+                        <span class="swatch" style="background: #98D8C8;"></span>
+                        <span class="swatch" style="background: #FFD700;"></span>
+                    </div>
+                </div>
+
+                <div class="dress-card reveal-right" data-fp-dynamic="true">
+                    <div class="card-emoji">👔</div>
+                    <h3>For the Gents</h3>
+                    <p>No need for a full suit (unless that's your thing!). Chinos + blazer is perfect. Tom will be in suspenders, so feel free to match. Fun socks encouraged!</p>
+                    <div class="color-swatches">
+                        <span class="swatch" style="background: #2F4F4F;"></span>
+                        <span class="swatch" style="background: #8B7355;"></span>
+                        <span class="swatch" style="background: #B0C4DE;"></span>
+                        <span class="swatch" style="background: #BC8F8F;"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1035,71 +1282,30 @@
     <!-- GALLERY -->
     <section id="gallery">
         <div class="section-inner">
-            <div class="section-label reveal">Our Adventures</div>
-            <h2 class="section-title reveal">Postcards from the Road</h2>
-            <div class="section-subtitle reveal">Every photo tells a story of us</div>
+            <span class="section-emoji reveal">📸</span>
+            <div class="section-label reveal">Proof We're Cute</div>
+            <h2 class="section-title reveal">Our Favorite Snaps</h2>
+            <div class="section-subtitle reveal">Mostly candids, 100% unfiltered</div>
             <div class="section-divider reveal"></div>
 
             <div class="gallery-grid">
                 <div class="gallery-item tall reveal-scale">
-                    <img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=600&q=75" alt="Travel couple adventure" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1529634597503-139d3726fed5?w=600&q=75" alt="Couple laughing" loading="lazy">
                 </div>
                 <div class="gallery-item reveal-scale">
-                    <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=75" alt="Paris Eiffel Tower" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=75" alt="Dancing together" loading="lazy">
                 </div>
                 <div class="gallery-item reveal-scale">
-                    <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600&q=75" alt="Venice canal" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&q=75" alt="Couple at sunset" loading="lazy">
                 </div>
                 <div class="gallery-item reveal-scale">
-                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=75" alt="Mountain lake landscape" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=75" alt="Fun candid moment" loading="lazy">
                 </div>
                 <div class="gallery-item tall reveal-scale">
-                    <img src="https://images.unsplash.com/photo-1502791451862-7bd8c1df2b45?w=600&q=75" alt="Northern lights" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&q=75" alt="Wedding prep" loading="lazy">
                 </div>
                 <div class="gallery-item reveal-scale">
-                    <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=600&q=75" alt="Moroccan market" loading="lazy">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ACCOMMODATION -->
-    <section id="accomodation">
-        <div class="section-inner">
-            <div class="section-label reveal">Where to Stay</div>
-            <h2 class="section-title reveal">Your Home Base</h2>
-            <div class="section-subtitle reveal">Rest up between celebrations</div>
-            <div class="section-divider reveal"></div>
-
-            <div class="hotel-grid" data-fp-dynamic-items="true">
-                <div class="hotel-card reveal">
-                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=75" alt="Hotel Santa Caterina" loading="lazy">
-                    <div class="hotel-info">
-                        <h3>Hotel Santa Caterina</h3>
-                        <div class="hotel-price">From €220 / night</div>
-                        <p>Perched on a cliff with stunning sea views. Our top recommendation — mention "Sophie & James" for a special rate.</p>
-                        <a href="#">Book Now →</a>
-                    </div>
-                </div>
-
-                <div class="hotel-card reveal">
-                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=75" alt="Villa Amalfi" loading="lazy">
-                    <div class="hotel-info">
-                        <h3>Villa Amalfi</h3>
-                        <div class="hotel-price">From €160 / night</div>
-                        <p>A charming boutique hotel with a rooftop terrace, walking distance from the ceremony venue.</p>
-                        <a href="#">Book Now →</a>
-                    </div>
-                </div>
-
-                <div class="hotel-card reveal">
-                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=75" alt="Casa del Mare" loading="lazy">
-                    <div class="hotel-info">
-                        <h3>Casa del Mare B&B</h3>
-                        <div class="hotel-price">From €95 / night</div>
-                        <p>A cozy bed and breakfast run by a lovely local family. Perfect for budget-conscious travelers.</p>
-                        <a href="#">Book Now →</a>
-                    </div>
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=75" alt="Happy couple" loading="lazy">
                 </div>
             </div>
         </div>
@@ -1108,13 +1314,14 @@
     <!-- MAP -->
     <section id="map">
         <div class="section-inner">
-            <div class="section-label reveal">Find Us</div>
+            <span class="section-emoji reveal">📍</span>
+            <div class="section-label reveal">Find Us Here</div>
             <h2 class="section-title reveal">The Venue</h2>
-            <div class="section-subtitle reveal">Villa Cimbrone, Ravello</div>
+            <div class="section-subtitle reveal">The Barn at Sunset Ranch, Malibu</div>
             <div class="section-divider reveal"></div>
-            <p class="section-text reveal">Nestled high above the Amalfi Coast, Villa Cimbrone's gardens offer one of the most breathtaking views in all of Italy — the perfect backdrop for our "I do."</p>
-            <div class="map-container reveal">
-                <iframe src="https://maps.google.com/maps?q=Villa+Cimbrone+Ravello+Italy&output=embed" loading="lazy" allowfullscreen></iframe>
+            <p class="section-text reveal">A gorgeous rustic barn surrounded by rolling hills and ocean views. There's parking on site and zero chance of getting lost (we hope). Google Maps is your best friend!</p>
+            <div class="map-container reveal" data-fp-dynamic="true">
+                <iframe src="https://maps.google.com/maps?q=Malibu+California&output=embed" loading="lazy" allowfullscreen></iframe>
             </div>
         </div>
     </section>
@@ -1122,53 +1329,71 @@
     <!-- RSVP -->
     <section id="rsvp">
         <div class="rsvp-inner">
-            <div class="section-label reveal">Respond</div>
+            <span class="section-emoji reveal">💌</span>
+            <div class="section-label reveal">Are You In?</div>
             <h2 class="section-title reveal">RSVP</h2>
-            <div class="section-subtitle reveal">We can't wait to celebrate with you</div>
+            <div class="section-subtitle reveal">Please respond by August 1st (seriously, we need headcount for the taco bar)</div>
             <div class="section-divider reveal"></div>
 
-            <form onsubmit="event.preventDefault(); alert('Thank you! Your RSVP has been received.');">
-                <div class="form-row">
-                    <div class="form-group reveal" data-fp-dynamic-items="true">
-                        <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" required>
-                    </div>
-                    <div class="form-group reveal" data-fp-dynamic-items="true">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" required>
-                    </div>
+            <form id="rsvpForm" onsubmit="handleRsvpSubmit(event)">
+                <!-- 1. Full Name -->
+                <div class="form-group reveal" data-fp-dynamic="true">
+                    <label for="fullName">First and Last Name *</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Your full name" required>
                 </div>
-                <div class="form-group reveal" data-fp-dynamic-items="true">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
+                <!-- 2. Mobile -->
+                <div class="form-group reveal" data-fp-dynamic="true">
+                    <label for="mobile">Mobile *</label>
+                    <input type="tel" id="mobile" name="mobile" required placeholder="+1 000 000 0000">
                 </div>
-                <div class="form-row">
-                    <div class="form-group reveal" data-fp-dynamic-items="true">
-                        <label for="attending">Will You Attend?</label>
-                        <select id="attending" name="attending" required>
-                            <option value="">Select...</option>
-                            <option value="yes">Joyfully Accept</option>
-                            <option value="no">Regretfully Decline</option>
-                        </select>
-                    </div>
-                    <div class="form-group reveal" data-fp-dynamic-items="true">
-                        <label for="guests">Number of Guests</label>
-                        <select id="guests" name="guests">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                    </div>
+                <!-- 3. Email -->
+                <div class="form-group reveal" data-fp-dynamic="true">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com">
                 </div>
-                <div class="form-group reveal" data-fp-dynamic-items="true">
-                    <label for="dietary">Dietary Requirements</label>
-                    <input type="text" id="dietary" name="dietary" placeholder="Vegetarian, vegan, allergies...">
+                <!-- 4. Age Category -->
+                <div class="form-group reveal" data-fp-dynamic="true">
+                    <label for="ageCategory">Age Category</label>
+                    <select id="ageCategory" name="ageCategory">
+                        <option value="" disabled selected>Select</option>
+                        <option value="adult">Adult</option>
+                        <option value="child">Child</option>
+                    </select>
                 </div>
-                <div class="form-group reveal" data-fp-dynamic-items="true">
-                    <label for="message">A Note for the Couple</label>
-                    <textarea id="message" name="message" placeholder="Share a travel tip or a wish..."></textarea>
+                <!-- 5. Attendance -->
+                <div class="form-group reveal" data-fp-dynamic="true">
+                    <label for="attendance">Will you be attending the wedding? *</label>
+                    <select id="attendance" name="attendance" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="yes">Yes, I will</option>
+                        <option value="no">No, sorry</option>
+                    </select>
                 </div>
-                <button type="submit" class="btn-rsvp reveal">Send RSVP</button>
+                <!-- 6. Allergies (conditional - visible when "Yes, I will") -->
+                <div class="form-group reveal" id="fieldAllergies" data-fp-dynamic="true" style="display:none;">
+                    <label for="allergies">Allergies or special diet</label>
+                    <input type="text" id="allergies" name="allergies" placeholder="Allergies, Celiac, Vegan, etc.">
+                </div>
+                <!-- 7. Transport (conditional - visible when "Yes, I will") -->
+                <div class="form-group reveal" id="fieldTransport" data-fp-dynamic="true" style="display:none;">
+                    <label for="transport">Will you be using the event transportation?</label>
+                    <select id="transport" name="transport">
+                        <option value="" disabled selected>Select</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <!-- 8. Song (conditional - visible when "Yes, I will") -->
+                <div class="form-group reveal" id="fieldSong" data-fp-dynamic="true" style="display:none;">
+                    <label for="song">Favorite song for the dance floor</label>
+                    <input type="text" id="song" name="song" placeholder="Artist — Song">
+                </div>
+                <!-- 9. Message (always visible) -->
+                <div class="form-group reveal" data-fp-dynamic="true">
+                    <label for="message">A message for the couple</label>
+                    <textarea id="message" name="message" placeholder="Write us something lovely..."></textarea>
+                </div>
+                <button type="submit" class="btn-rsvp reveal">Confirm</button>
             </form>
         </div>
     </section>
@@ -1177,26 +1402,23 @@
     <section id="gifts">
         <div class="section-inner">
             <div class="gifts-content">
-                <svg class="gift-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                    <line x1="12" y1="22.08" x2="12" y2="12"/>
-                </svg>
-                <div class="section-label reveal">Registry</div>
-                <h2 class="section-title reveal">Gifts</h2>
-                <div class="section-subtitle reveal">Fuel our next adventure</div>
+                <span class="section-emoji reveal">🎁</span>
+                <div class="section-label reveal">No Toasters, Please</div>
+                <h2 class="section-title reveal">Gifts & Registry</h2>
+                <div class="section-subtitle reveal">Your presence is the best present — but if you insist...</div>
                 <div class="section-divider reveal" style="margin-left:auto;margin-right:auto;"></div>
-                <p class="section-text reveal" style="margin:0 auto;">Your presence is the greatest gift. But if you'd like to contribute, we have a honeymoon fund to help us explore our next destination — Patagonia!</p>
-                <a href="#" class="btn-gift reveal">View Registry</a>
+                <p class="section-text reveal" style="margin:0 auto;">Honestly, we already have way too much stuff (Tom's vintage sneaker collection alone could fill a museum). If you'd like to give something, we have a honeymoon fund — help us eat our way through Italy! 🍝</p>
+                <a href="#" class="btn-gift reveal">View the Registry 🛒</a>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer id="footer">
-        <div class="footer-names">Sophie & James</div>
-        <div class="footer-tagline">The best journeys are the ones shared</div>
-        <p class="footer-note">September 20, 2026 · Amalfi Coast, Italy</p>
+        <div class="footer-emoji">🧡</div>
+        <div class="footer-names">Mia & Tom</div>
+        <div class="footer-tagline">Let's party like it's our wedding day... because it is!</div>
+        <p class="footer-note">October 10, 2026 · The Barn at Sunset Ranch, Malibu</p>
     </footer>
 
     <script>
@@ -1265,6 +1487,29 @@
                 }
             });
         });
+
+        // ── RSVP Conditional Fields ──
+        var attendEl = document.getElementById('attendance');
+        var conditionalIds = ['fieldAllergies', 'fieldTransport', 'fieldSong'];
+        function toggleRsvpFields() {
+            var show = attendEl && attendEl.value === 'yes';
+            conditionalIds.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.style.display = show ? '' : 'none';
+            });
+        }
+        if (attendEl) attendEl.addEventListener('change', toggleRsvpFields);
+
+        // ── RSVP Submit ──
+        window.handleRsvpSubmit = function(e) {
+            e.preventDefault();
+            alert('Thank you! Your RSVP has been received.');
+            e.target.reset();
+            conditionalIds.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+        };
 
     })();
     </script>

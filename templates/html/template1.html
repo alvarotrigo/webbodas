@@ -1099,37 +1099,64 @@
         </div>
 
         <form id="rsvpForm" class="rsvp-form reveal">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="nombre">Full Name</label>
-              <input type="text" id="nombre" name="nombre" required placeholder="Your name" />
-            </div>
-            <div class="form-group">
-              <label for="asistencia">Attendance</label>
-              <select id="asistencia" name="asistencia" required>
-                <option value="" disabled selected>Select</option>
-                <option value="si">I'll be there! 🎉</option>
-                <option value="no">Can't make it 😢</option>
-              </select>
-            </div>
+          <!-- 1. Full Name -->
+          <div class="form-group" data-fp-dynamic="true">
+            <label for="fullName">First and Last Name *</label>
+            <input type="text" id="fullName" name="fullName" required placeholder="Your full name" />
           </div>
-          <div class="form-group">
+          <!-- 2. Mobile -->
+          <div class="form-group" data-fp-dynamic="true">
+            <label for="mobile">Mobile *</label>
+            <input type="tel" id="mobile" name="mobile" required placeholder="+1 000 000 0000" />
+          </div>
+          <!-- 3. Email -->
+          <div class="form-group" data-fp-dynamic="true">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="you@email.com" />
+            <input type="email" id="email" name="email" placeholder="your@email.com" />
           </div>
-          <div class="form-group">
-            <label for="alergias">Allergies or Dietary Restrictions</label>
-            <input type="text" id="alergias" name="alergias" placeholder="None" />
+          <!-- 4. Age Category -->
+          <div class="form-group" data-fp-dynamic="true">
+            <label for="ageCategory">Age Category</label>
+            <select id="ageCategory" name="ageCategory">
+              <option value="" disabled selected>Select</option>
+              <option value="adult">Adult</option>
+              <option value="child">Child</option>
+            </select>
           </div>
-          <div class="form-group">
-            <label for="cancion">Your Song for the Dance Floor 🎶</label>
-            <input type="text" id="cancion" name="cancion" placeholder="Artist — Song" />
+          <!-- 5. Attendance -->
+          <div class="form-group" data-fp-dynamic="true">
+            <label for="attendance">Will you be attending the wedding? *</label>
+            <select id="attendance" name="attendance" required>
+              <option value="" disabled selected>Select</option>
+              <option value="yes">Yes, I will</option>
+              <option value="no">No, sorry</option>
+            </select>
           </div>
-          <div class="form-group">
-            <label for="mensaje">A Message for the Couple</label>
-            <textarea id="mensaje" name="mensaje" placeholder="Write us something lovely..."></textarea>
+          <!-- 6. Allergies (conditional - visible when "Yes, I will") -->
+          <div class="form-group" id="fieldAllergies" data-fp-dynamic="true" style="display:none;">
+            <label for="allergies">Allergies or special diet</label>
+            <input type="text" id="allergies" name="allergies" placeholder="Allergies, Celiac, Vegan, etc." />
           </div>
-          <button type="submit" class="rsvp-btn">Confirm Attendance</button>
+          <!-- 7. Transport (conditional - visible when "Yes, I will") -->
+          <div class="form-group" id="fieldTransport" data-fp-dynamic="true" style="display:none;">
+            <label for="transport">Will you be using the event transportation?</label>
+            <select id="transport" name="transport">
+              <option value="" disabled selected>Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <!-- 8. Song (conditional - visible when "Yes, I will") -->
+          <div class="form-group" id="fieldSong" data-fp-dynamic="true" style="display:none;">
+            <label for="song">Favorite song for the dance floor</label>
+            <input type="text" id="song" name="song" placeholder="Artist — Song" />
+          </div>
+          <!-- 9. Message (always visible) -->
+          <div class="form-group" data-fp-dynamic="true">
+            <label for="message">A message for the couple</label>
+            <textarea id="message" name="message" placeholder="Write us something lovely..."></textarea>
+          </div>
+          <button type="submit" class="rsvp-btn">Confirm</button>
         </form>
       </div>
     </section>
@@ -1174,7 +1201,26 @@
           toast.classList.add('show');
           setTimeout(() => toast.classList.remove('show'), 3500);
           e.target.reset();
+          // Hide conditional fields after reset
+          ['fieldAllergies', 'fieldTransport', 'fieldSong'].forEach(id => {
+              const el = document.getElementById(id);
+              if (el) el.style.display = 'none';
+          });
       });
+
+      // ─── RSVP Conditional Fields ───
+      (function() {
+          var attendEl = document.getElementById('attendance');
+          var conditionalIds = ['fieldAllergies', 'fieldTransport', 'fieldSong'];
+          function toggleFields() {
+              var show = attendEl && attendEl.value === 'yes';
+              conditionalIds.forEach(function(id) {
+                  var el = document.getElementById(id);
+                  if (el) el.style.display = show ? '' : 'none';
+              });
+          }
+          if (attendEl) attendEl.addEventListener('change', toggleFields);
+      })();
 
       // ─── SMOOTH SCROLL ───
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {

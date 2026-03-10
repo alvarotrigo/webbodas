@@ -163,8 +163,8 @@ function handleList(): void {
     $cntStmt->execute([$pageId]);
     $total = (int)($cntStmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0);
 
-    // Get page form_open state
-    $pageStmt = $pdo->prepare("SELECT form_open, form_closed_message, title FROM user_pages WHERE id = ? LIMIT 1");
+    // Get page form_open state and share_slug (for form link in dashboard)
+    $pageStmt = $pdo->prepare("SELECT form_open, form_closed_message, title, share_slug FROM user_pages WHERE id = ? LIMIT 1");
     $pageStmt->execute([$pageId]);
     $page = $pageStmt->fetch(PDO::FETCH_ASSOC);
 
@@ -184,6 +184,13 @@ function handleList(): void {
     foreach ($groups as &$g) { $g['id'] = (int)$g['id']; }
     unset($g);
 
+    // Public website URL for "view website" link (subdomain: https://{share_slug}.{domain})
+    $pageUrl = '';
+    if (!empty($page['share_slug'])) {
+        $baseDomain = getenv('SHARE_BASE_DOMAIN') ?: 'yeslovey.com';
+        $pageUrl = 'https://' . trim((string)$page['share_slug']) . '.' . $baseDomain;
+    }
+
     echo json_encode([
         'success'     => true,
         'submissions' => $rows,
@@ -191,6 +198,8 @@ function handleList(): void {
         'form_open'   => isset($page['form_open']) ? (bool)$page['form_open'] : true,
         'form_closed_message' => $page['form_closed_message'] ?? null,
         'page_title'  => $page['title'] ?? '',
+        'share_slug'  => isset($page['share_slug']) ? (string)$page['share_slug'] : '',
+        'page_url'    => $pageUrl,
         'groups'      => $groups,
     ]);
 }
