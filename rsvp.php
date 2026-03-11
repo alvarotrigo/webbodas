@@ -113,6 +113,9 @@ function editor_asset(string $path): string
 ================================================================ -->
 <header class="rsvp-header">
     <div class="rsvp-header-left">
+        <a href="app.php" id="rsvp-back-to-editor" class="rsvp-header-back" title="Back to editor" aria-label="Back to editor">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </a>
         <div class="rsvp-header-titles">
             <h1 class="rsvp-header-title" id="rsvp-page-title">List of Assistants</h1>
             <a class="rsvp-header-subtitle" id="rsvp-page-subtitle" href="#" aria-hidden="true"></a>

@@ -1560,11 +1560,12 @@
     // UI helpers
     // ----------------------------------------------------------------
     function updatePageTitle() {
-        // Main title stays "List of Assistants"; subtitle (page name) to the right, link to website when available
+        // Main title "List of Assistants"; subtitle shows full domain (no protocol) below, link to website when available
         var subtitleEl = document.getElementById('rsvp-page-subtitle');
         if (subtitleEl) {
-            subtitleEl.textContent = state.pageTitle || '';
-            subtitleEl.style.display = state.pageTitle ? 'block' : 'none';
+            var displayUrl = (state.pageUrl || '').replace(/^https?:\/\//i, '');
+            subtitleEl.textContent = displayUrl;
+            subtitleEl.style.display = displayUrl ? 'block' : 'none';
             subtitleEl.href = state.pageUrl || 'javascript:void(0)';
             if (state.pageUrl) {
                 subtitleEl.setAttribute('target', '_blank');
@@ -1578,10 +1579,16 @@
 
         var printSub = document.getElementById('rsvp-print-subtitle');
         if (printSub) {
-            printSub.textContent = state.pageTitle || '';
-            printSub.style.display = state.pageTitle ? 'block' : 'none';
+            printSub.textContent = state.pageUrl || state.pageTitle || '';
+            printSub.style.display = (state.pageUrl || state.pageTitle) ? 'block' : 'none';
             printSub.href = state.pageUrl || '#';
             if (state.pageUrl) printSub.setAttribute('target', '_blank');
+        }
+
+        // Back to editor link: include page id so we return to the same page
+        var backEl = document.getElementById('rsvp-back-to-editor');
+        if (backEl) {
+            backEl.href = state.pageId ? 'app.php?page=' + encodeURIComponent(state.pageId) : 'app.php';
         }
     }
 

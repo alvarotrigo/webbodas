@@ -985,22 +985,29 @@ function createSectionMenu(sectionNumber) {
 }
 
 /**
- * Mueve el menú de la primera sección (primera .section en el DOM) por debajo del navbar fijo
- * si existe uno en el template. Si no hay navbar, mantiene el top por defecto (20px).
- * Debe llamarse tras añadir o reorganizar secciones.
- * Nota: la primera sección suele tener data-section="1" al cargar template; solo es "0" tras reordenar.
+ * Marks the first .section in #preview-content with the class "is-first-section"
+ * and removes it from all other sections. CSS uses this class to push the section
+ * menu below the fixed navbar. Also sets --nav-height so the offset is calculated
+ * correctly regardless of which template is loaded.
+ * Must be called after adding, removing, or reordering sections, and on load.
  */
 function adjustFirstSectionMenu() {
     const previewContent = document.getElementById('preview-content');
     if (!previewContent) return;
 
-    const firstSection = previewContent.querySelector(':scope > .section');
-    const menu = firstSection && firstSection.querySelector('.section-menu');
-    if (!menu) return;
+    // Remove the marker class from every section, then re-add it only to the first one.
+    previewContent.querySelectorAll(':scope > .section').forEach((s, i) => {
+        if (i === 0) {
+            s.classList.add('is-first-section');
+        } else {
+            s.classList.remove('is-first-section');
+        }
+    });
 
+    // Set --nav-height so the CSS calc() knows how far to push down.
     const nav = previewContent.querySelector('nav');
     const navHeight = nav ? nav.offsetHeight : 0;
-    menu.style.top = (20 + navHeight) + 'px';
+    previewContent.style.setProperty('--nav-height', navHeight + 'px');
 }
 
 function removeSection(target, options = {}) {
@@ -1046,6 +1053,9 @@ function removeSection(target, options = {}) {
         section.remove();
         // Sincronizar navbar: ocultar enlace que apuntaba a esta sección
         if (window.navbarSectionSync) window.navbarSectionSync.sync();
+        // Re-apply first-section menu offset (CSS :first-child handles it, but
+        // this also clears any leftover inline top styles from the removed section's siblings)
+        adjustFirstSectionMenu();
     }
     
     // Clean up TinyMCE for removed section
@@ -1311,6 +1321,9 @@ function moveSection(buttonOrData, direction) {
     } else if (direction === 'down' && section.nextElementSibling) {
         section.parentNode.insertBefore(section.nextElementSibling, section);
     }
+
+    // Update is-first-section class after DOM change
+    adjustFirstSectionMenu();
     
     // Scroll the moved section into view
     setTimeout(() => {
@@ -3060,6 +3073,11 @@ function sendTemplateData(requestData = {}) {
     contentClone.querySelectorAll('.map-pointer-overlay, .map-edit-btn').forEach(el => el.remove());
     // Eliminar el atributo de inicialización para que se re-inicialice correctamente al restaurar
     contentClone.querySelectorAll('.map-container').forEach(el => el.removeAttribute('data-map-editor-initialized'));
+
+    // Remove countdown editor buttons and attributes (injected by inline-countdown-editor.js)
+    contentClone.querySelectorAll('.countdown-edit-btn').forEach(el => el.remove());
+    contentClone.querySelectorAll('[data-countdown-editor-initialized]').forEach(el => el.removeAttribute('data-countdown-editor-initialized'));
+    contentClone.querySelectorAll('.countdown-edit-container').forEach(el => el.classList.remove('countdown-edit-container'));
 
     // Eliminar elementos de UI de TinyMCE (toolbars, sinks, popups)
     const tinyMCEUIElements = contentClone.querySelectorAll(

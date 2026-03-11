@@ -760,14 +760,13 @@ class SectionBackgroundPicker {
                         // Clean up
                         tempParent.removeChild(tempDiv);
                         
-                        // Set color swatch
+                        // Set color swatch (no hex or "Gradient" label)
                         if (bgImage && bgImage !== 'none' && bgImage.includes('gradient')) {
                             colorSwatch.style.setProperty('background', bgImage);
-                            valueElement.textContent = 'Gradient';
+                            valueElement.textContent = '';
                         } else if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
                             colorSwatch.style.setProperty('background-color', bgColor);
-                            const hex = this.rgbToHex(bgColor);
-                            valueElement.textContent = hex || bgColor;
+                            valueElement.textContent = '';
                         } else {
                             colorSwatch.style.removeProperty('background');
                             colorSwatch.style.removeProperty('background-color');
@@ -789,19 +788,10 @@ class SectionBackgroundPicker {
                     const resolvedValue = getComputedStyle(varSource).getPropertyValue(cssVar).trim();
                     if (resolvedValue) {
                         colorSwatch.style.setProperty('background', resolvedValue);
-                        if (resolvedValue.includes('gradient')) {
-                            valueElement.textContent = 'Gradient';
-                        } else {
-                            const hex = this.rgbToHex(resolvedValue);
-                            valueElement.textContent = hex || resolvedValue;
-                        }
-                    } else {
-                        const computedColor = this.getComputedBackgroundColor(colorSwatch);
-                        valueElement.textContent = computedColor || '';
                     }
+                    valueElement.textContent = '';
                 } else {
-                    const computedColor = this.getComputedBackgroundColor(colorSwatch);
-                    valueElement.textContent = computedColor || '';
+                    valueElement.textContent = '';
                 }
             }
         });

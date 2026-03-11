@@ -11,25 +11,12 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    :root {
-      --primary-bg: #0A0A0A;
-      --secondary-bg: #F7F3ED;
-      --accent-bg: #F5EDE3;
-      --primary-text: #2A2A2A;
-      --secondary-text: #8A8680;
-      --accent-text: #FEFEFE;
-      --primary-accent: #C9A84C;
-      --primary-accent-soft: #E2CC7E;
-      --secondary-accent: #A68A3E;
-      --border-color: rgba(201, 168, 76, 0.3);
-      --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'Montserrat', Arial, sans-serif;
-    }
+    /* Theme variables come from body class (e.g. .theme-wedding-art-deco) */
 
     html { scroll-behavior: smooth; font-size: 16px; }
 
     body {
-      font-family: var(--sans);
+      font-family: var(--font-family);
       color: var(--primary-text);
       background: var(--primary-bg);
       overflow-x: hidden;
@@ -45,7 +32,7 @@
     }
     #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     #preloader span {
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: clamp(1.8rem, 5vw, 3rem);
       color: var(--primary-accent);
       letter-spacing: 0.3em;
@@ -71,7 +58,7 @@
       backdrop-filter: blur(10px);
     }
     nav .logo {
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: 1.4rem;
       color: var(--primary-accent);
       letter-spacing: 0.2em;
@@ -82,7 +69,7 @@
       list-style: none; display: flex; gap: 2.5rem;
     }
     nav ul li a {
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.7rem;
       font-weight: 500;
       letter-spacing: 0.25em;
@@ -159,7 +146,7 @@
       max-width: 800px; padding: 2rem;
     }
     .hero-overline {
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.75rem;
       font-weight: 500;
       letter-spacing: 0.5em;
@@ -170,7 +157,7 @@
       animation: heroFade 1s ease 0.5s forwards;
     }
     .hero-title {
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: clamp(3rem, 9vw, 7rem);
       font-weight: 300;
       color: var(--accent-text);
@@ -185,7 +172,7 @@
       color: var(--primary-accent-soft);
     }
     .hero-date {
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.85rem;
       font-weight: 400;
       letter-spacing: 0.4em;
@@ -213,7 +200,7 @@
     /* ─── BUTTONS ─── */
     .btn {
       display: inline-block;
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.35em;
@@ -274,7 +261,7 @@
       margin-bottom: clamp(3rem, 6vw, 5rem);
     }
     .section-header .overline {
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.7rem;
       font-weight: 500;
       letter-spacing: 0.5em;
@@ -283,14 +270,14 @@
       margin-bottom: 1rem;
     }
     .section-header h2 {
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: clamp(2.2rem, 5vw, 3.5rem);
       font-weight: 300;
       line-height: 1.2;
     }
     .section-dark .section-header h2 { color: var(--accent-text); }
     .section-header .subtitle {
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: 1.1rem;
       font-style: italic;
       color: var(--secondary-text);
@@ -366,7 +353,7 @@
       background: var(--primary-bg);
     }
     .story-text .overline {
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.5em;
@@ -375,7 +362,7 @@
       margin-bottom: 1.5rem;
     }
     .story-text h3 {
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: clamp(2rem, 4vw, 2.8rem);
       font-weight: 300;
       color: var(--accent-text);
@@ -416,7 +403,7 @@
       text-align: center; min-width: 100px;
     }
     .countdown-item .number {
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: clamp(3rem, 7vw, 5rem);
       font-weight: 300;
       color: var(--primary-accent);
@@ -424,7 +411,7 @@
       display: block;
     }
     .countdown-item .label {
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.4em;
@@ -459,7 +446,7 @@
       transform: rotate(45deg);
     }
     .timeline-item .time {
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.3em;
@@ -467,7 +454,7 @@
       margin-bottom: 0.5rem;
     }
     .timeline-item h4 {
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: 1.5rem;
       font-weight: 400;
       margin-bottom: 0.5rem;
@@ -529,7 +516,7 @@
       display: flex; flex-direction: column; justify-content: center;
     }
     .venue-info h3 {
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: 1.8rem;
       font-weight: 400;
       margin-bottom: 1rem;
@@ -567,7 +554,7 @@
     }
     .form-group label {
       display: block;
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.35em;
@@ -579,7 +566,7 @@
     .form-group select,
     .form-group textarea {
       width: 100%;
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.95rem;
       font-weight: 300;
       color: var(--accent-text);
@@ -612,7 +599,7 @@
       position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
       background: var(--primary-accent);
       color: var(--primary-bg);
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.8rem;
       font-weight: 500;
       letter-spacing: 0.15em;
@@ -631,14 +618,14 @@
       text-align: center;
     }
     footer .footer-names {
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: 2rem;
       font-weight: 300;
       color: var(--primary-accent);
       margin-bottom: 1rem;
     }
     footer p {
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.75rem;
       color: color-mix(in srgb, var(--accent-text) 40%, transparent);
       letter-spacing: 0.2em;
@@ -671,7 +658,7 @@
     }
     .parallax-quote blockquote {
       position: relative; z-index: 2;
-      font-family: var(--serif);
+      font-family: var(--heading-font);
       font-size: clamp(1.4rem, 3vw, 2.2rem);
       font-weight: 300;
       font-style: italic;
@@ -682,7 +669,7 @@
     }
     .parallax-quote cite {
       display: block;
-      font-family: var(--sans);
+      font-family: var(--font-family);
       font-size: 0.7rem;
       font-style: normal;
       letter-spacing: 0.4em;
@@ -709,7 +696,7 @@
     .stagger > * { transition-delay: calc(var(--i, 0) * 0.12s); }
   </style>
 </head>
-<body>
+<body class="theme-wedding-art-deco">
 
   <!-- Preloader -->
   <div id="preloader"><span>O & J</span></div>
@@ -781,7 +768,7 @@
   <section class="countdown-section" id="countdown" data-wedding-date="2026-09-12T15:00:00">
     <div class="section-header reveal">
       <p class="overline" style="color:var(--primary-accent)">Save the Date</p>
-      <h2 class="shimmer-text" style="font-family:var(--serif);font-size:clamp(2rem,5vw,3.5rem);font-weight:300;">Counting Down</h2>
+      <h2 class="shimmer-text" style="font-family:var(--heading-font);font-size:clamp(2rem,5vw,3.5rem);font-weight:300;">Counting Down</h2>
     </div>
     <div class="countdown-wrap reveal" style="transition-delay:0.2s;">
       <div class="countdown-item"><span class="number" id="days">000</span><span class="label">Days</span></div>

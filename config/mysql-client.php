@@ -192,15 +192,10 @@ class MySQLClient {
             // Decode JSON columns
             $decodedResults = $this->decodeJsonColumns($table, $results);
             
-            // Log first result for debugging
-            if (!empty($decodedResults)) {
-                error_log("MySQL select first result keys: " . implode(', ', array_keys($decodedResults[0])));
-                if (isset($decodedResults[0]['data'])) {
-                    error_log("MySQL select first result data type: " . gettype($decodedResults[0]['data']));
-                } else {
-                    error_log("MySQL select first result - 'data' key missing!");
-                }
-            }
+            // Optional: log first result keys for debugging (data may be missing when query selected specific columns only)
+            // if (!empty($decodedResults)) {
+            //     error_log("MySQL select first result keys: " . implode(', ', array_keys($decodedResults[0])));
+            // }
             
             return $decodedResults;
             
@@ -384,10 +379,8 @@ class MySQLClient {
                         $row[$col] = [];
                         error_log("Warning: {$table}.{$col} is NULL or empty, setting to empty array");
                     }
-                } else {
-                    // Column not in result set - this is OK if it wasn't selected
-                    error_log("Warning: {$table}.{$col} not found in result row");
                 }
+                // Column not in result set is OK when it wasn't selected (e.g. SELECT id FROM users)
             }
             
             // Format timestamp columns to ISO 8601 with UTC timezone (match Supabase format)

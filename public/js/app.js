@@ -46,8 +46,9 @@
      }, 100);
 
  // More global variables
- let currentTheme = null;
- let suppressThemeHistory = false;
+let currentTheme = null;
+let initialTheme = null; // First theme applied to the template — used by Reset button
+let suppressThemeHistory = false;
  let addedSections = [];
  let selectedSections = new Set();
  let sectionCache = new Map();
@@ -489,10 +490,452 @@ window.pageManagerInstance = pageManagerInstance;
          }
      });
  }
- setupDeletePageButton();
- 
- // History manager instance (will be initialized after context is ready)
- let historyManager = null;
+setupDeletePageButton();
+
+// ============================================================
+// PAGES SIDEBAR — list, preview, delete, switch, new page
+// ============================================================
+
+// State for the pages sidebar
+let _pagesSidebarList = []; // Last fetched list of pages
+let _deleteModalPageId = null; // Page ID pending deletion from sidebar
+
+// --- Delete modal (reused for sidebar; wires cancel/confirm once) ---
+(function setupDeletePageModalForSidebar() {
+    const modal     = document.getElementById('delete-page-modal');
+    const cancelBtn = document.getElementById('delete-page-modal-cancel');
+    const confirmBtn = document.getElementById('delete-page-modal-confirm');
+    if (!modal || !cancelBtn || !confirmBtn) return;
+
+    function closeModal() {
+        modal.classList.remove('show');
+        _deleteModalPageId = null;
+        if (confirmBtn) confirmBtn.disabled = false;
+    }
+
+    cancelBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    confirmBtn.addEventListener('click', async () => {
+        const pageIdToDelete = _deleteModalPageId;
+        if (!pageIdToDelete) return;
+        confirmBtn.disabled = true;
+        try {
+            const res = await fetch('./api/pages.php', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: pageIdToDelete,
+                    clerk_user_id: serverUserData?.clerk_user_id || null
+                })
+            });
+            const result = await res.json();
+            if (result.success) {
+                closeModal();
+                // Find next page to load (or go to onboarding)
+                const remaining = _pagesSidebarList.filter(p => String(p.id) !== String(pageIdToDelete));
+                if (remaining.length > 0) {
+                    // If we deleted the current page, load the first remaining page
+                    if (String(pageIdToDelete) === String(currentPageId)) {
+                        window.location.href = './app.php?page=' + remaining[0].id;
+                    } else {
+                        // Just refresh the list
+                        fetchAndRenderPagesList();
+                    }
+                } else {
+                    // No more pages — go to onboarding
+                    window.location.href = './app.php';
+                }
+            } else {
+                console.error('Failed to delete page:', result.error);
+                confirmBtn.disabled = false;
+            }
+        } catch (err) {
+            console.error('Error deleting page:', err);
+            confirmBtn.disabled = false;
+        }
+    });
+})();
+
+// Open the delete confirmation modal for a page from the sidebar
+function openDeletePageModal(pageId) {
+    const modal = document.getElementById('delete-page-modal');
+    if (!modal) return;
+    _deleteModalPageId = pageId;
+    const confirmBtn = document.getElementById('delete-page-modal-confirm');
+    if (confirmBtn) confirmBtn.disabled = false;
+    modal.classList.add('show');
+}
+
+// --- Unsaved changes modal ---
+function showUnsavedChangesModal(onSave, onDiscard) {
+    const existing = document.getElementById('unsaved-changes-modal');
+    if (existing) existing.remove();
+
+    const modalHTML = `
+        <div id="unsaved-changes-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10001]" style="display:flex;">
+            <div class="download-options-modal-content rounded-2xl shadow-2xl max-w-md w-full mx-4" style="background-color: var(--primary-bg, #ffffff); max-height: unset; overflow: visible;" onclick="event.stopPropagation()">
+                <div class="p-8 relative">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        </div>
+                        <h2 class="text-xl font-bold" style="color: var(--primary-text);">Unsaved Changes</h2>
+                    </div>
+                    <p style="color: var(--secondary-text);" class="text-sm leading-relaxed mb-6">
+                        Your current page has unsaved changes. What would you like to do before switching pages?
+                    </p>
+                    <div class="flex gap-3 justify-end">
+                        <button id="unsaved-discard-btn" class="unsaved-modal-discard-btn px-4 py-2.5 text-sm font-medium rounded-xl transition-all">Discard & Switch</button>
+                        <button id="unsaved-save-btn" class="unsaved-modal-save-btn px-4 py-2.5 text-sm font-medium rounded-xl transition-all">Save & Switch</button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    const modal = document.getElementById('unsaved-changes-modal');
+
+    document.getElementById('unsaved-save-btn').addEventListener('click', async () => {
+        modal.remove();
+        await saveDraft();
+        if (typeof onSave === 'function') onSave();
+    });
+
+    document.getElementById('unsaved-discard-btn').addEventListener('click', () => {
+        modal.remove();
+        if (typeof onDiscard === 'function') onDiscard();
+    });
+}
+
+// Check if there are unsaved changes based on save indicator state
+function hasUnsavedChanges() {
+    if (saveInProgress) return true;
+    const indicator = document.getElementById('save-indicator');
+    if (!indicator) return false;
+    return indicator.classList.contains('failed') || indicator.classList.contains('saving');
+}
+
+// Navigate to another page, with unsaved-changes check
+function switchToPage(pageId) {
+    if (String(pageId) === String(currentPageId)) return;
+
+    function doSwitch() {
+        window.location.href = './app.php?page=' + pageId;
+    }
+
+    if (hasUnsavedChanges()) {
+        showUnsavedChangesModal(doSwitch, doSwitch);
+    } else {
+        doSwitch();
+    }
+}
+
+// --- Page preview: second sidebar panel (hover panel, like category-hover-panel) ---
+// Always loads shared.html?token=... — never uses srcdoc to avoid src/srcdoc conflicts.
+// If the page doesn't have a share_token yet, requests one first via the share API.
+async function openPagePreview(pageId, pageTitle, shareToken) {
+    const panel   = document.getElementById('page-preview-hover-panel');
+    const iframe  = document.getElementById('page-preview-hover-iframe');
+    const titleEl = document.getElementById('page-preview-hover-title');
+    if (!panel || !iframe) return;
+
+    if (titleEl) titleEl.textContent = pageTitle || 'Preview';
+
+    // Reset iframe: remove srcdoc completely so src can load without conflicts.
+    // IMPORTANT: never assign iframe.srcdoc after this point when using src-based loading.
+    iframe.removeAttribute('srcdoc');
+    iframe.src = 'about:blank';
+    panel.classList.add('show');
+
+    let token = shareToken;
+
+    // If no token yet, request one from the share API (generates/returns token for this page)
+    if (!token) {
+        try {
+            const res = await fetch('./api/pages.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                    action: 'share',
+                    id: pageId,
+                    clerk_user_id: serverUserData?.clerk_user_id || null
+                })
+            });
+            const result = await res.json();
+            if (result.success && result.share_token) {
+                token = result.share_token;
+                // Update cached list so next hover won't need to refetch
+                const cached = _pagesSidebarList.find(p => String(p.id) === String(pageId));
+                if (cached) cached.share_token = token;
+            }
+        } catch (err) {
+            console.error('Error getting share token for preview:', err);
+        }
+    }
+
+    if (token) {
+        // Load via src — srcdoc attribute must NOT be present at this point
+        iframe.src = './shared.html?token=' + encodeURIComponent(token);
+    } else {
+        // Only fallback: use srcdoc for error message (no URL available)
+        iframe.removeAttribute('src');
+        iframe.srcdoc = '<html><body style="display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-family:sans-serif;color:#c00;font-size:14px;">Could not load preview.</body></html>';
+    }
+}
+
+function closePagePreview() {
+    const panel  = document.getElementById('page-preview-hover-panel');
+    const iframe = document.getElementById('page-preview-hover-iframe');
+    if (panel) panel.classList.remove('show');
+    if (iframe) {
+        // Remove srcdoc completely before setting src, to avoid any attribute conflict
+        iframe.removeAttribute('srcdoc');
+        iframe.src = 'about:blank';
+    }
+}
+
+// --- Unpublish a page ---
+async function unpublishPage(pageId) {
+    try {
+        const res = await fetch('./api/pages.php', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: pageId,
+                is_public: false,
+                clerk_user_id: serverUserData?.clerk_user_id || null
+            })
+        });
+        const result = await res.json();
+        if (result.success) {
+            fetchAndRenderPagesList();
+        } else {
+            console.error('Failed to unpublish page:', result.error);
+        }
+    } catch (err) {
+        console.error('Error unpublishing page:', err);
+    }
+}
+
+// [DISABLED_FOR_WEDDING_VERSION]: Date display removed from page list items per design spec
+// function formatPageDate(dateStr) {
+//     if (!dateStr) return '';
+//     try {
+//         const date = new Date(dateStr);
+//         const now = new Date();
+//         const diffMs = now - date;
+//         const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+//         if (diffDays === 0) return 'Today';
+//         if (diffDays === 1) return 'Yesterday';
+//         if (diffDays < 7) return diffDays + ' days ago';
+//         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+//     } catch (e) {
+//         return '';
+//     }
+// }
+
+// --- Fetch pages and render in sidebar ---
+async function fetchAndRenderPagesList() {
+    const container = document.getElementById('pages-list');
+    if (!container) return;
+
+    // Only fetch if authenticated and have a clerk user id
+    if (!serverUserData || !serverUserData.clerk_user_id) return;
+
+    try {
+        const res = await fetch('./api/pages.php', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin'
+        });
+        const result = await res.json();
+        if (!result.success) return;
+
+        const pages = result.pages || [];
+        _pagesSidebarList = pages;
+
+        container.innerHTML = '';
+
+        // Track whether user has pages; actual button visibility depends on onboarding state
+        window._userHasPages = pages.length > 0;
+        updateViewPagesBtnVisibility();
+
+        if (pages.length === 0) {
+            container.innerHTML = '<p class="pages-list-empty">No pages yet.</p>';
+        } else {
+            pages.forEach(page => {
+                const isActive = String(page.id) === String(currentPageId);
+                const isPublished = !!(page.is_public && page.share_url);
+                const domainDisplay = isPublished
+                    ? page.share_url.replace('https://', '')
+                    : '';
+
+                const item = document.createElement('div');
+                item.className = 'page-list-item' + (isActive ? ' active' : '');
+                item.dataset.pageId = page.id;
+                item.innerHTML = `
+                    <div class="page-list-item-info">
+                        <span class="page-list-item-name">${escapeHtml(page.title || 'Untitled Page')}</span>
+                        ${isPublished ? `
+                        <div class="page-list-item-published">
+                            <span class="page-published-dot"></span>
+                            <a href="${escapeHtml(page.share_url)}" target="_blank" class="page-published-domain" title="${escapeHtml(domainDisplay)}">${escapeHtml(domainDisplay)}</a>
+                        </div>` : ''}
+                    </div>
+                    <div class="page-list-item-actions">
+                        ${!isPublished ? `
+                        <button type="button" class="page-action-btn page-publish-btn" title="Publish page" aria-label="Publish page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m16 16-4-4-4 4"/></svg>
+                        </button>` : ''}
+                        <button type="button" class="page-action-btn page-preview-btn" title="Preview page" aria-label="Preview page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                        ${isPublished ? `
+                        <button type="button" class="page-action-btn page-unpublish-btn" title="Unpublish page" aria-label="Unpublish page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M10.584 10.587a2 2 0 0 0 2.828 2.83"/><path d="M9.363 5.365A9.466 9.466 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.72 6.72A10.949 10.949 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/></svg>
+                        </button>` : ''}
+                        ${!isPublished ? `
+                        <button type="button" class="page-action-btn page-delete-btn" title="Delete page" aria-label="Delete page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                        </button>` : ''}
+                    </div>`;
+
+                // Click on item (not on action buttons) → switch page
+                item.addEventListener('click', (e) => {
+                    if (e.target.closest('.page-action-btn')) return;
+                    if (e.target.closest('.page-list-item-published')) return;
+                    switchToPage(page.id);
+                });
+
+                // Publish button (only present for unpublished pages) — opens publish modal
+                const publishBtn = item.querySelector('.page-publish-btn');
+                if (publishBtn) {
+                    publishBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.showDownloadOptions === 'function') {
+                            window.downloadOptionsHandler.showDownloadOptions(page.id, page.share_slug || null);
+                        }
+                    });
+                }
+
+                // Preview button: uses shared.html?token=... for correct CSS/JS rendering
+                item.querySelector('.page-preview-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openPagePreview(page.id, page.title, page.share_token || null);
+                });
+
+                // Unpublish button (only present for published pages)
+                const unpublishBtn = item.querySelector('.page-unpublish-btn');
+                if (unpublishBtn) {
+                    unpublishBtn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        await unpublishPage(page.id);
+                        if (isActive && window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setPublishMode === 'function') {
+                            window.downloadOptionsHandler.setPublishMode(page.share_slug || null);
+                            const topbarLink = document.getElementById('topbar-published-link');
+                            if (topbarLink) {
+                                topbarLink.style.display = 'none';
+                                topbarLink.removeAttribute('href');
+                            }
+                        }
+                    });
+                }
+
+                // Delete button (only present for unpublished pages; published pages cannot be deleted)
+                const deleteBtn = item.querySelector('.page-delete-btn');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openDeletePageModal(page.id);
+                    });
+                }
+
+                container.appendChild(item);
+            });
+        }
+
+        // New Page button appended right after the last page item
+        const newPageBtn = document.createElement('button');
+        newPageBtn.type = 'button';
+        newPageBtn.id = 'new-page-btn';
+        newPageBtn.className = 'new-page-btn';
+        newPageBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>New Page</span>`;
+        newPageBtn.addEventListener('click', async () => {
+            if (!sidebarCollapsed) toggleSidebar();
+
+            async function startNewPage() {
+                if (window.pageManagerInstance) {
+                    window.pageManagerInstance.currentPageId = null;
+                    window.pageManagerInstance.currentPageTitle = 'Untitled Page';
+                }
+                // Reset topbar page name display so it doesn't show stale data when onboarding closes
+                const pageNameDisplay = document.getElementById('page-name-display');
+                if (pageNameDisplay) pageNameDisplay.textContent = 'Untitled Page';
+                // Hide published dot (new page is not published yet)
+                const publishedLink = document.getElementById('topbar-published-link');
+                if (publishedLink) publishedLink.style.display = 'none';
+                const viewWebsiteLink = document.getElementById('topbar-view-website-link');
+                if (viewWebsiteLink) viewWebsiteLink.style.display = 'none';
+                const rsvpBtn = document.getElementById('rsvp-dashboard-btn');
+                if (rsvpBtn) rsvpBtn.style.display = 'none';
+                const newUrl = new URL(window.location.href);
+                newUrl.searchParams.delete('page');
+                window.history.replaceState({}, '', newUrl);
+                clearDraft();
+            }
+
+            if (hasUnsavedChanges()) {
+                showUnsavedChangesModal(
+                    async () => { await saveDraft(); startNewPage(); },
+                    () => { startNewPage(); }
+                );
+            } else {
+                startNewPage();
+            }
+        });
+        container.appendChild(newPageBtn);
+
+    } catch (err) {
+        console.error('Error fetching pages list:', err);
+    }
+}
+
+// Simple HTML escape helper
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+// --- Page preview hover panel close button ---
+// [NOTE]: New Page button is now created dynamically inside fetchAndRenderPagesList()
+// [NOTE]: page-preview-back-btn is no longer used (panel replaced by hover panel)
+function setupPagesSidebarButtons() {
+    const closeBtn = document.getElementById('page-preview-hover-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            closePagePreview();
+        });
+    }
+}
+
+// Initialize pages sidebar buttons on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupPagesSidebarButtons);
+} else {
+    setupPagesSidebarButtons();
+}
+
+// ============================================================
+// END PAGES SIDEBAR
+// ============================================================
+
+// History manager instance (will be initialized after context is ready)
+let historyManager = null;
  
  // Authentication variables - Initialize from server data immediately
  let isAuthenticated = serverUserData ? serverUserData.authenticated : false;
@@ -508,6 +951,13 @@ window.pageManagerInstance = pageManagerInstance;
  let authenticationInProgress = false; // Prevent duplicate auth calls
  let clerkListenerAdded = false; // Prevent duplicate listeners
  let upgradeModalShownThisSession = false; // Prevent showing upgrade modal multiple times per session
+
+// Returns true only while the onboarding overlay is visible (user has no pages yet).
+// The upgrade modal must only appear in this scenario — never after.
+function isUserInOnboarding() {
+    const onboardingOverlay = document.getElementById('onboarding-overlay');
+    return !!(onboardingOverlay && onboardingOverlay.classList.contains('show'));
+}
  let userMenuVisible = false;
  let userMenuDocumentListenerAttached = false;
  
@@ -549,29 +999,39 @@ window.pageManagerInstance = pageManagerInstance;
          }, 100);
      }
      
-     // Check if user is authenticated but not paid - show upgrade modal on page load
-     if (editorMode === 'authenticated' && !serverUserData.is_paid && !upgradeModalShownThisSession) {
-         // Wait for DOM and upgrade modal component to be ready
-         const checkAndShowUpgradeModal = () => {
-             if (typeof upgradeModal !== 'undefined') {
-                 upgradeModalShownThisSession = true;
-                 // Small delay to ensure UI is updated first
-                 setTimeout(() => {
-                     showUpgradeModal();
-                 }, 1000);
-             } else {
-                 // Retry after a short delay if upgrade modal not loaded yet
-                 setTimeout(checkAndShowUpgradeModal, 100);
-             }
-         };
-         
-         // Start checking after DOM is ready
-         if (document.readyState === 'loading') {
-             document.addEventListener('DOMContentLoaded', checkAndShowUpgradeModal);
-         } else {
-             checkAndShowUpgradeModal();
-         }
-     }
+    // Check if user is authenticated but not paid — show upgrade modal ONLY during onboarding (no pages yet)
+    if (editorMode === 'authenticated' && !serverUserData.is_paid && !upgradeModalShownThisSession) {
+        // Wait for DOM and upgrade modal component to be ready
+        const checkAndShowUpgradeModal = () => {
+            if (typeof upgradeModal !== 'undefined') {
+                upgradeModalShownThisSession = true;
+                // Poll until _userHasPages is explicitly set by fetchAndRenderPagesList(),
+                // then only show the modal if the user genuinely has zero pages.
+                // Retries every 200ms for up to 5s to handle slow connections.
+                const checkForUpgradeModal = (attempt = 0) => {
+                    if (window._userHasPages === undefined && attempt < 25) {
+                        setTimeout(() => checkForUpgradeModal(attempt + 1), 200);
+                        return;
+                    }
+                    // Use strict false check: if undefined (e.g. network error) do not show
+                    if (isUserInOnboarding() && window._userHasPages === false) {
+                        showUpgradeModal();
+                    }
+                };
+                setTimeout(checkForUpgradeModal, 1000);
+            } else {
+                // Retry after a short delay if upgrade modal not loaded yet
+                setTimeout(checkAndShowUpgradeModal, 100);
+            }
+        };
+        
+        // Start checking after DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkAndShowUpgradeModal);
+        } else {
+            checkAndShowUpgradeModal();
+        }
+    }
  }
 
  // Wedding theme data with color palettes — 25 palettes for the wedding editor
@@ -889,13 +1349,14 @@ window.pageManagerInstance = pageManagerInstance;
  ];
 
 // Template definitions - static registry similar to sections array above
+// defaultTheme: the wedding theme pre-selected in the Themes panel when the user previews this template
 const templates = [
-    { id: 1, is_pro: 0, name: 'Wedding One',    file: 'template1.html',  category: 'classic', tags: ['classic', 'modern', 'cream'] },
-    { id: 2, is_pro: 0, name: 'Luxury One',     file: 'template2.html',          category: 'luxe',    tags: ['black', 'gold', 'cream'] },
-    { id: 3, is_pro: 0, name: 'Rustic One',     file: 'template3.html',     category: 'rustic',  tags: ['sage', 'terracota', 'chic'] },
-    { id: 4, is_pro: 0, name: 'Beach Wedding',  file: 'template4.html',      category: 'modern',  tags: ['beach', 'sea', 'water'] },
-    { id: 5, is_pro: 0, name: 'Travellers',  file: 'template5.html',      category: 'alternative',  tags: ['travel', 'adventure', 'road'] },
-    { id: 6, is_pro: 0, name: 'Funny Wedding',  file: 'template6.html',      category: 'funny',  tags: ['happy', 'laugh', 'casual'] },
+    { id: 1, is_pro: 0, name: 'Wedding One',   file: 'template1.html', category: 'classic',     tags: ['classic', 'modern', 'cream'],    defaultTheme: 'theme-wedding-sepia-lace' },
+    { id: 2, is_pro: 0, name: 'Luxury One',    file: 'template2.html', category: 'luxe',        tags: ['black', 'gold', 'cream'],        defaultTheme: 'theme-wedding-art-deco' },
+    { id: 3, is_pro: 0, name: 'Rustic One',    file: 'template3.html', category: 'rustic',      tags: ['sage', 'terracota', 'chic'],     defaultTheme: 'theme-wedding-terracotta' },
+    { id: 4, is_pro: 0, name: 'Beach Wedding', file: 'template4.html', category: 'modern',      tags: ['beach', 'sea', 'water'],         defaultTheme: 'theme-wedding-aqua-sand' },
+    { id: 5, is_pro: 0, name: 'Travellers',    file: 'template5.html', category: 'alternative', tags: ['travel', 'adventure', 'road'],   defaultTheme: 'theme-wedding-champagne-pampas' },
+    { id: 6, is_pro: 0, name: 'Funny Wedding', file: 'template6.html', category: 'funny',       tags: ['happy', 'laugh', 'casual'],      defaultTheme: 'theme-wedding-garden-party' },
 ];
 
 // Template style categories - replaces templates/categorias.json
@@ -1071,13 +1532,14 @@ const templateStyles = {};
 function buildTemplateStyles() {
     // Map each template entry to the shape expected by the UI
     const list = templates.map(t => ({
-        id:       String(t.id),
-        name:     t.name,
-        url:      'templates/html/' + t.file,
-        category: t.category,
-        tags:     t.tags || [],
-        styles:   [t.category],
-        is_pro:   t.is_pro || 0,
+        id:           String(t.id),
+        name:         t.name,
+        url:          'templates/html/' + t.file,
+        category:     t.category,
+        tags:         t.tags || [],
+        styles:       [t.category],
+        is_pro:       t.is_pro || 0,
+        defaultTheme: t.defaultTheme || null,
     }));
 
     // Build templateStyles from templateCategories
@@ -1356,57 +1818,51 @@ function enterOnboardingMode() {
     // if (topBar)       topBar.classList.remove('sidebar-ready', 'sidebar-collapsed');
     // if (toggleButton) toggleButton.classList.remove('sidebar-ready', 'collapsed', 'invisible');
     hideCategoryPanel();
+    updateViewPagesBtnVisibility();
+    // Fetch pages so _userHasPages is set and "Your Pages" button appears if the user
+    // already has pages (fixes race condition where button stayed hidden on first paint).
+    fetchAndRenderPagesList();
 }
 
  // Exits onboarding: adds sidebar-ready to all elements, revealing sidebar and offsetting main-area.
- // If window._collapseAfterOnboarding is true (set by selectTemplate in onboarding.js),
- // all elements get sidebar-ready + collapsed simultaneously so no open→close animation flashes.
+ // Sidebar starts collapsed so no open→close animation flashes when a template is inserted.
 function exitOnboardingMode() {
     window.isOnboardingMode = false;
-    // [DISABLED_FOR_WEDDING_VERSION]: Sidebar has been removed; keepCollapsed/sidebarCollapsed
-    // state and all sidebar-ready class manipulation are no longer needed.
-    // const keepCollapsed = !!window._collapseAfterOnboarding;
-    // window._collapseAfterOnboarding = false;
-    // sidebarCollapsed = keepCollapsed;
-    // const sidebar      = document.querySelector('.sidebar');
-    // const editorLayout = document.querySelector('.editor-layout');
-    // const topBar       = document.querySelector('.top-bar');
-    // const toggleButton = document.getElementById('toggle-sidebar');
-    // if (sidebar) {
-    //     sidebar.classList.remove('onboarding-mode');
-    //     sidebar.classList.add('sidebar-ready');
-    //     if (keepCollapsed) sidebar.classList.add('collapsed');
-    //     else sidebar.classList.remove('collapsed');
-    // }
-    // if (editorLayout) {
-    //     editorLayout.classList.add('sidebar-ready');
-    //     if (keepCollapsed) editorLayout.classList.add('collapsed');
-    //     else editorLayout.classList.remove('collapsed');
-    // }
-    // if (topBar) {
-    //     topBar.classList.add('sidebar-ready');
-    //     if (keepCollapsed) topBar.classList.add('sidebar-collapsed');
-    //     else topBar.classList.remove('sidebar-collapsed');
-    // }
-    // if (toggleButton) {
-    //     toggleButton.classList.remove('invisible');
-    //     toggleButton.classList.add('sidebar-ready');
-    //     if (keepCollapsed) {
-    //         toggleButton.classList.add('collapsed');
-    //         const icon = toggleButton.querySelector('i');
-    //         if (icon) icon.setAttribute('data-lucide', 'chevron-right');
-    //     } else {
-    //         toggleButton.classList.remove('collapsed');
-    //         const icon = toggleButton.querySelector('i');
-    //         if (icon) icon.setAttribute('data-lucide', 'chevron-left');
-    //     }
-    // }
+    sidebarCollapsed = true;
+    const sidebar      = document.querySelector('.sidebar');
+    const editorLayout = document.querySelector('.editor-layout');
+    const topBar       = document.querySelector('.top-bar');
+    const toggleButton = document.getElementById('toggle-sidebar');
 
-    // Always show the Change Template button once a template is active (new or existing page).
-    const changeTemplateBtn = document.getElementById('change-template-btn');
-    if (changeTemplateBtn) changeTemplateBtn.style.display = '';
+    if (sidebar) {
+        sidebar.classList.remove('onboarding-mode');
+        sidebar.classList.add('sidebar-ready', 'collapsed');
+    }
+    if (editorLayout) {
+        editorLayout.classList.add('sidebar-ready', 'collapsed');
+    }
+    if (topBar) {
+        topBar.classList.add('sidebar-ready', 'sidebar-collapsed');
+    }
+    if (toggleButton) {
+        toggleButton.classList.remove('invisible');
+        toggleButton.classList.add('sidebar-ready', 'collapsed');
+        const icon = toggleButton.querySelector('i');
+        if (icon) icon.setAttribute('data-lucide', 'globe');
+    }
+
+    // Hide "Your Pages" button when leaving onboarding
+    updateViewPagesBtnVisibility();
+
+    // [DISABLED_FOR_WEDDING_VERSION]: Change Template button replaced by View Your Pages button.
+    // const changeTemplateBtn = document.getElementById('change-template-btn');
+    // if (changeTemplateBtn) changeTemplateBtn.style.display = '';
+
     document.querySelectorAll('#category-list .category-item').forEach(el => el.classList.remove('onboarding-active'));
     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+
+    // Load the pages list now that the user has a template
+    fetchAndRenderPagesList();
 }
 
 // [DISABLED_FOR_WEDDING_VERSION]: Replaced by window._collapseAfterOnboarding flag inside exitOnboardingMode,
@@ -1446,7 +1902,7 @@ function hideSidebarForPreview() {
      if (toggleButton) {
          toggleButton.classList.add('collapsed', 'invisible');
          const icon = toggleButton.querySelector('i');
-         if (icon) icon.setAttribute('data-lucide', 'chevron-right');
+         if (icon) icon.setAttribute('data-lucide', 'globe');
      }
      if (categoryPanel) categoryPanel.style.left = '0';
      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
@@ -1472,7 +1928,7 @@ function hideSidebarForPreview() {
      if (toggleButton) {
          toggleButton.classList.remove('collapsed', 'invisible');
          const icon = toggleButton.querySelector('i');
-         if (icon) icon.setAttribute('data-lucide', 'chevron-left');
+         if (icon) icon.setAttribute('data-lucide', 'globe');
      }
      if (categoryPanel) categoryPanel.style.left = '300px';
      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
@@ -1938,9 +2394,37 @@ function showTemplatePreviewFull(sectionsGrid, styleKey, template) {
     }
     sectionsGrid.scrollTop = 0;
 
+    // Pre-select the template's default theme in the Themes panel (without creating a history entry)
+    const themeBeforePreview = currentTheme;
+    if (template.defaultTheme && typeof selectTheme === 'function') {
+        suppressThemeHistory = true;
+        try {
+            selectTheme(template.defaultTheme, true);
+        } finally {
+            suppressThemeHistory = false;
+        }
+    }
+
     const backEl = headerTitle.querySelector('.template-preview-full-back');
     if (backEl) {
-        const goBack = function () { showStylePanel(styleKey); };
+        const goBack = function () {
+            // Restore the theme that was active before opening this template preview
+            if (typeof selectTheme === 'function') {
+                suppressThemeHistory = true;
+                try {
+                    if (themeBeforePreview) {
+                        selectTheme(themeBeforePreview, true);
+                    } else {
+                        // No theme was active — clear the active highlight from all theme cards
+                        document.querySelectorAll('.theme-card').forEach(card => card.classList.remove('active'));
+                        currentTheme = null;
+                    }
+                } finally {
+                    suppressThemeHistory = false;
+                }
+            }
+            showStylePanel(styleKey);
+        };
         backEl.addEventListener('click', goBack);
         backEl.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); goBack(); } });
     }
@@ -1995,11 +2479,12 @@ function showTemplatePreviewFull(sectionsGrid, styleKey, template) {
      const isProSection = section && section.is_pro === 1;
      const isPaidUser = editorMode === 'paid';
      
-     // Check if user is trying to access a pro section without being paid
-     if (isProSection && !isPaidUser) {
-         showUpgradeModal();
-         return;
-     }
+    // [DISABLED_FOR_WEDDING_VERSION]: Upgrade modal on PRO section click removed — modal only
+    // appears during onboarding. Pro sections are silently blocked for non-paid users.
+    if (isProSection && !isPaidUser) {
+        // showUpgradeModal();
+        return;
+    }
      
      if (selectedSections.has(number)) {
          // Remove from selection
@@ -2328,46 +2813,54 @@ function syncSelectedSectionsFromIframe() {
              scheduleAutosave();
  }
 
- // Toggle sidebar
- function toggleSidebar() {
-     sidebarCollapsed = !sidebarCollapsed;
-     const editorLayout = document.querySelector('.editor-layout');
-     const sidebar = document.querySelector('.sidebar');
-     const topBar = document.querySelector('.top-bar');
-     const toggleButton = document.getElementById('toggle-sidebar');
-     const icon = toggleButton.querySelector('i');
-     
+// Show "Your Pages" button only when onboarding is visible AND user has pages
+function updateViewPagesBtnVisibility() {
+    const btn = document.getElementById('view-pages-btn');
+    if (!btn) return;
+    const shouldShow = window._userHasPages && window.isOnboardingMode;
+    btn.style.display = shouldShow ? '' : 'none';
+    if (shouldShow && typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+}
+window.updateViewPagesBtnVisibility = updateViewPagesBtnVisibility;
+
+// Toggle sidebar (pages list sidebar)
+function toggleSidebar() {
+    sidebarCollapsed = !sidebarCollapsed;
+    const editorLayout = document.querySelector('.editor-layout');
+    const sidebar = document.querySelector('.sidebar');
+    const topBar = document.querySelector('.top-bar');
+    const toggleButton = document.getElementById('toggle-sidebar');
+    if (!toggleButton) return;
+    const icon = toggleButton.querySelector('i');
+
     if (sidebarCollapsed) {
-        editorLayout.classList.add('collapsed');
-        sidebar.classList.add('collapsed');
-        topBar.classList.add('sidebar-collapsed');
+        if (editorLayout) editorLayout.classList.add('collapsed');
+        if (sidebar) sidebar.classList.add('collapsed');
+        if (topBar) topBar.classList.add('sidebar-collapsed');
         toggleButton.classList.add('collapsed');
-        icon.setAttribute('data-lucide', 'chevron-right');
+        if (icon) icon.setAttribute('data-lucide', 'globe');
     } else {
-        editorLayout.classList.remove('collapsed');
-        sidebar.classList.remove('collapsed');
-        topBar.classList.remove('sidebar-collapsed');
+        if (editorLayout) {
+            editorLayout.classList.remove('collapsed');
+            editorLayout.classList.add('sidebar-ready');
+        }
+        if (sidebar) {
+            sidebar.classList.remove('collapsed');
+            sidebar.classList.add('sidebar-ready');
+        }
+        if (topBar) {
+            topBar.classList.remove('sidebar-collapsed');
+            topBar.classList.add('sidebar-ready');
+        }
         toggleButton.classList.remove('collapsed');
-        // Ensure sidebar-ready is on all elements so CSS offsets apply
-        editorLayout.classList.add('sidebar-ready');
-        sidebar.classList.add('sidebar-ready');
-        topBar.classList.add('sidebar-ready');
         toggleButton.classList.add('sidebar-ready');
-        icon.setAttribute('data-lucide', 'chevron-left');
+        if (icon) icon.setAttribute('data-lucide', 'globe');
+        // Refresh the pages list when opening the sidebar
+        fetchAndRenderPagesList();
     }
-     
-     // Adjust category hover panel position if it exists
-     const categoryPanel = document.querySelector('.category-hover-panel');
-     if (categoryPanel) {
-         if (sidebarCollapsed) {
-             categoryPanel.style.left = '0';
-         } else {
-             categoryPanel.style.left = '300px';
-         }
-     }
-     
-     lucide.createIcons();
- }
+
+    lucide.createIcons();
+}
 
  // Switch viewport
  function switchViewport(viewport) {
@@ -3184,6 +3677,7 @@ function clearDraft() {
      
    // Reset theme (no theme pre-selected after clear)
    currentTheme = null;
+   initialTheme = null;
     const themeCards = document.querySelectorAll('.theme-card');
     themeCards.forEach(card => {
         card.classList.remove('active');
@@ -3822,6 +4316,11 @@ function updateCurrentThemeButton(themeId) {
      
      // Update current theme
      currentTheme = themeId;
+
+     // Record the very first theme applied so the Reset button can return to it
+     if (initialTheme === null) {
+         initialTheme = themeId;
+     }
      
      // Update the theme selector button
      updateCurrentThemeButton(themeId);
@@ -4065,14 +4564,14 @@ function updateCurrentThemeButton(themeId) {
              console.log('User authenticated:', userData);
              updateUserInterface();
              
-             // Show upgrade modal if user is authenticated but not paid (only once per session)
-             if (editorMode === 'authenticated' && !userData.is_paid && !upgradeModalShownThisSession) {
-                 upgradeModalShownThisSession = true;
-                 // Small delay to ensure UI is updated first
-                 setTimeout(() => {
-                     showUpgradeModal();
-                 }, 500);
-             }
+            // [DISABLED_FOR_WEDDING_VERSION]: Auto-show after auth removed — upgrade modal only appears
+            // during onboarding (when user has no pages). The primary onboarding check handles this.
+            // if (editorMode === 'authenticated' && !userData.is_paid && !upgradeModalShownThisSession) {
+            //     upgradeModalShownThisSession = true;
+            //     setTimeout(() => {
+            //         showUpgradeModal();
+            //     }, 500);
+            // }
          } else {
              console.error('Authentication failed:', result.error);
          }
@@ -4111,14 +4610,14 @@ function updateCurrentThemeButton(themeId) {
              console.log('Paid status checked:', paidStatus);
              updateUserInterface();
              
-             // Show upgrade modal if user is authenticated but not paid (only once per session)
-             if (isAuthenticated && editorMode === 'authenticated' && !isPaid && !upgradeModalShownThisSession) {
-                 upgradeModalShownThisSession = true;
-                 // Small delay to ensure UI is updated first
-                 setTimeout(() => {
-                     showUpgradeModal();
-                 }, 500);
-             }
+            // [DISABLED_FOR_WEDDING_VERSION]: Auto-show after paid-status check removed — upgrade modal
+            // only appears during onboarding (when user has no pages).
+            // if (isAuthenticated && editorMode === 'authenticated' && !isPaid && !upgradeModalShownThisSession) {
+            //     upgradeModalShownThisSession = true;
+            //     setTimeout(() => {
+            //         showUpgradeModal();
+            //     }, 500);
+            // }
          } else {
              console.error('Paid status check failed:', result.error);
          }
@@ -4274,10 +4773,12 @@ function updateCurrentThemeButton(themeId) {
              } else if (action === 'darkmode') {
                  toggleDarkMode();
                  updateDarkModeDropdownState();
-             } else if (action === 'upgrade') {
-                 closeUserMenu();
-                 showUpgradeModal();
-             }
+            } else if (action === 'upgrade') {
+                closeUserMenu();
+                // [DISABLED_FOR_WEDDING_VERSION]: Upgrade modal on menu button removed — modal only
+                // appears during onboarding (when user has no pages).
+                // showUpgradeModal();
+            }
          });
      });
 
@@ -4944,42 +5445,59 @@ document.addEventListener('DOMContentLoaded', async () => {
      checkClerk();
  }
  
- // Backup check: Show upgrade modal for authenticated non-paid users on page load
- // This ensures the modal is shown even if the initial check didn't catch it
- if (serverUserData && serverUserData.authenticated && 
-     editorMode === 'authenticated' && 
-     !serverUserData.is_paid && 
-     !upgradeModalShownThisSession) {
-     const showUpgradeModalOnLoad = () => {
-         if (typeof upgradeModal !== 'undefined') {
-             upgradeModalShownThisSession = true;
-             // Small delay to ensure UI is fully loaded
-             setTimeout(() => {
-                 showUpgradeModal();
-             }, 1500);
-         } else {
-             // Retry after a short delay if upgrade modal not loaded yet
-             setTimeout(showUpgradeModalOnLoad, 100);
-         }
-     };
-     showUpgradeModalOnLoad();
- }
+// [DISABLED_FOR_WEDDING_VERSION]: Backup auto-show removed — upgrade modal only appears during
+// onboarding (when user has no pages). The primary check at page load already handles this.
+// if (serverUserData && serverUserData.authenticated &&
+//     editorMode === 'authenticated' &&
+//     !serverUserData.is_paid &&
+//     !upgradeModalShownThisSession) {
+//     const showUpgradeModalOnLoad = () => {
+//         if (typeof upgradeModal !== 'undefined') {
+//             upgradeModalShownThisSession = true;
+//             setTimeout(() => {
+//                 showUpgradeModal();
+//             }, 1500);
+//         } else {
+//             setTimeout(showUpgradeModalOnLoad, 100);
+//         }
+//     };
+//     showUpgradeModalOnLoad();
+// }
      
     //  // Clear all button
     //  const clearButton = document.getElementById('clear-all');
     //  clearButton.addEventListener('click', clearAllSections);
      
-     // [DISABLED_FOR_WEDDING_VERSION]: Toggle sidebar button removed along with sidebar.
-     // const toggleButton = document.getElementById('toggle-sidebar');
-     // toggleButton.addEventListener('click', toggleSidebar);
+     // Toggle sidebar button (pages list)
+     const toggleButton = document.getElementById('toggle-sidebar');
+     if (toggleButton) toggleButton.addEventListener('click', toggleSidebar);
 
-     // Change Template button: shows confirmation popup before resetting to onboarding
-     const changeTemplateBtn = document.getElementById('change-template-btn');
-     if (changeTemplateBtn) {
-         changeTemplateBtn.addEventListener('click', () => {
-             showChangeTemplateConfirm();
+     // View Your Pages button: opens the left sidebar OVER the onboarding overlay.
+     // The sidebar (z-index 10) appears above the overlay (z-index 4) so the user
+     // can pick an existing page to edit without losing the template gallery.
+     // Onboarding is NOT hidden here — it stays visible behind the sidebar.
+     const viewPagesBtn = document.getElementById('view-pages-btn');
+     if (viewPagesBtn) {
+         viewPagesBtn.addEventListener('click', () => {
+             if (sidebarCollapsed) toggleSidebar();
          });
      }
+
+     // Topbar files icon: opens the left sidebar (pages list) from the top bar.
+     const topbarFilesBtn = document.getElementById('topbar-files-btn');
+     if (topbarFilesBtn) {
+         topbarFilesBtn.addEventListener('click', () => {
+             if (sidebarCollapsed) toggleSidebar();
+         });
+     }
+
+     // [DISABLED_FOR_WEDDING_VERSION]: Change Template button replaced by View Your Pages button.
+     // const changeTemplateBtn = document.getElementById('change-template-btn');
+     // if (changeTemplateBtn) {
+     //     changeTemplateBtn.addEventListener('click', () => {
+     //         showChangeTemplateConfirm();
+     //     });
+     // }
      
     // Dark mode toggle button
     const darkModeToggle = document.getElementById('dark-mode-toggle');
@@ -5049,14 +5567,15 @@ document.addEventListener('DOMContentLoaded', async () => {
          closeThemePanelButton.addEventListener('click', closeThemePanel);
      }
 
-     // Theme panel reset badge: restore default theme
-     const themePanelResetBtn = document.getElementById('theme-panel-reset');
-     if (themePanelResetBtn && typeof selectTheme === 'function') {
-         themePanelResetBtn.addEventListener('click', (e) => {
-             e.stopPropagation();
-             selectTheme('theme-light-minimal', true);
-         });
-     }
+    // Theme panel reset badge: return to the first theme the template had
+    const themePanelResetBtn = document.getElementById('theme-panel-reset');
+    if (themePanelResetBtn && typeof selectTheme === 'function') {
+        themePanelResetBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!initialTheme || currentTheme === initialTheme) return;
+            selectTheme(initialTheme, true);
+        });
+    }
 
      // Close theme panel when clicking outside
      const themePanel = document.getElementById('theme-panel');
@@ -5637,18 +6156,33 @@ document.addEventListener('DOMContentLoaded', async () => {
      const closeFullscreenBtn = document.getElementById('close-fullscreen');
      closeFullscreenBtn.addEventListener('click', toggleFullscreenPreview);
      
-     // Download page button - show options modal or open published site
+     // Download page button - show options modal or Unpublish (when published)
      const downloadBtn = document.getElementById('download-page');
-     downloadBtn.addEventListener('click', () => {
-         // If the page is already published, open shared.html?slug= in a new tab
+     downloadBtn.addEventListener('click', async () => {
+         // If the page is published, Unpublish (red button)
          if (downloadBtn.dataset.viewWebsiteSlug) {
-             window.open('shared.html?slug=' + encodeURIComponent(downloadBtn.dataset.viewWebsiteSlug), '_blank');
+             const pageId = typeof currentPageId !== 'undefined' ? currentPageId : (window.pageManagerInstance && window.pageManagerInstance.currentPageId);
+             if (!pageId) return;
+             try {
+                 const previousSlug = downloadBtn.dataset.viewWebsiteSlug;
+                 await unpublishPage(pageId);
+                 if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setPublishMode === 'function') {
+                     window.downloadOptionsHandler.setPublishMode(previousSlug);
+                 }
+                 const topbarLink = document.getElementById('topbar-published-link');
+                 if (topbarLink) {
+                     topbarLink.style.display = 'none';
+                     topbarLink.removeAttribute('href');
+                 }
+                 fetchAndRenderPagesList();
+             } catch (e) {
+                 console.error('Unpublish failed', e);
+             }
              return;
          }
          if (window.downloadOptionsHandler) {
              window.downloadOptionsHandler.showDownloadOptions();
          } else {
-             // Fallback to original download if handler not loaded
              downloadPage();
          }
      });
@@ -5665,6 +6199,20 @@ document.addEventListener('DOMContentLoaded', async () => {
              placement: 'bottom',
              arrow: true,
              theme: 'custom',
+             animation: 'scale',
+             duration: [200, 150],
+             delay: [300, 0]
+         });
+     }
+
+     // Sidebar toggle (Pages) tooltip - placement right, same style as section-outline "Layout"
+     const sidebarToggleBtn = document.getElementById('toggle-sidebar');
+     if (sidebarToggleBtn && typeof tippy !== 'undefined' && !sidebarToggleBtn._tippy) {
+         tippy(sidebarToggleBtn, {
+             placement: 'right',
+             arrow: true,
+             theme: 'custom',
+             content: sidebarToggleBtn.getAttribute('data-tippy-content') || 'Pages',
              animation: 'scale',
              duration: [200, 150],
              delay: [300, 0]
@@ -5840,12 +6388,14 @@ document.addEventListener('DOMContentLoaded', async () => {
          const sectionId = parseInt(sectionItem.dataset.section);
          const section = sections.find(s => s.id === sectionId);
          
-         // Don't trigger section selection if clicking on lock icon
-         if (e.target.closest('.category-section-lock')) {
-             e.stopPropagation();
-             showUpgradeModal();
-             return;
-         }
+        // Don't trigger section selection if clicking on lock icon
+        if (e.target.closest('.category-section-lock')) {
+            e.stopPropagation();
+            // [DISABLED_FOR_WEDDING_VERSION]: Upgrade modal on lock icon click removed — modal only
+            // appears during onboarding (when user has no pages).
+            // showUpgradeModal();
+            return;
+        }
          
          toggleSectionSelection(sectionItem, sectionId);
      });

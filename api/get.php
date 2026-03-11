@@ -18,6 +18,8 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -94,9 +96,10 @@ try {
     $document = null;
 
     if (!empty($shareToken)) {
+        // Token-based access: token itself is the credential, no is_public check required.
+        // This allows previewing private pages via share link without publishing them.
         $result = $mysqlClient->select('user_pages', 'id,data,created_at,share_slug,form_open,form_closed_message', [
-            'share_token' => $shareToken,
-            'is_public' => 1
+            'share_token' => $shareToken
         ]);
         if (!empty($result)) {
             $document = $result[0];

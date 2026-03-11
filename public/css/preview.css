@@ -125,6 +125,14 @@ footer.section{
     overflow: visible !important;
 }
 
+/* The first section's menu is pushed down to avoid overlapping the fixed navbar.
+   JS (adjustFirstSectionMenu) sets both --nav-height and the .is-first-section class
+   on whichever section is currently first, so this rule always tracks the correct
+   section regardless of insertions or deletions. */
+#preview-content > .section.is-first-section .section-menu {
+    top: calc(20px + var(--nav-height, 0px));
+}
+
 .section-menu {
     position: absolute;
     top: 20px;
@@ -197,6 +205,9 @@ footer.section{
     transition: all 0.2s ease;
     z-index: 1001;
     pointer-events: none;
+}
+.bg-picker-dropdown {
+    min-width: 152px;
 }
 
 .bg-picker-dropdown.active {

@@ -1,0 +1,806 @@
+/**
+ * =============================================================================
+ * WEDDING THEMES REFERENCE — For AI-generated templates
+ * =============================================================================
+ *
+ * INSTRUCTIONS FOR THE AI:
+ * 1. Use exactly ONE of the theme classes below on <body>, e.g.:
+ *    <body class="theme-wedding-coastal">
+ * 2. Do NOT define :root { ... } in your template. The theme class provides
+ *    all color and typography variables.
+ * 3. In your CSS, use only these variables: var(--primary-bg), var(--accent-bg),
+ *    etc. (see list below). This ensures the editor can change the theme and
+ *    the whole page restyles correctly.
+ *
+ * THEME ID (use as class on <body>)     | Name
+ * --------------------------------------+------------------------
+ * theme-wedding-blush-ivory             | Blush & Ivory
+ * theme-wedding-rose-gold               | Rose Gold & Cream
+ * theme-wedding-dusty-rose              | Dusty Rose & Sage
+ * theme-wedding-white-pearl             | White & Pearl
+ * theme-wedding-sage-white              | Sage & White
+ * theme-wedding-ash-minimal             | Ash Grey Minimal
+ * theme-wedding-terracotta              | Terracotta & Sage
+ * theme-wedding-champagne-pampas        | Champagne & Pampas
+ * theme-wedding-cedar                   | Cedar & Wildflower
+ * theme-wedding-black-gold              | Black & Gold
+ * theme-wedding-navy-gold               | Navy & Gold
+ * theme-wedding-ivory-champagne         | Ivory & Champagne
+ * theme-wedding-silver-pearl            | Silver & Pearl
+ * theme-wedding-aqua-sand               | Aqua & Sand
+ * theme-wedding-hibiscus                | Hibiscus & Coral
+ * theme-wedding-coastal                 | Coastal Blue
+ * theme-wedding-frost                   | Frost & Ice
+ * theme-wedding-berry-velvet            | Berry & Velvet
+ * theme-wedding-midnight-stars           | Midnight & Stars
+ * theme-wedding-moody-mauve             | Moody Mauve
+ * theme-wedding-lilac-gold              | Lilac & Gold
+ * theme-wedding-enchanted-forest        | Enchanted Forest
+ * theme-wedding-sepia-lace              | Sepia & Lace
+ * theme-wedding-art-deco                | Art Deco Noir
+ * theme-wedding-garden-party            | Garden Party
+ *
+ * CSS VARIABLES TO USE (do not invent your own; use only these names):
+ *   --primary-bg, --secondary-bg, --accent-bg
+ *   --primary-text, --secondary-text, --accent-text
+ *   --primary-accent, --primary-accent-soft, --secondary-accent
+ *   --border-color, --shadow-color
+ *   --gradient-1, --gradient-2, --features2-bg
+ *   --font-family, --heading-font
+ *   --border-radius, --button-radius, --card-radius
+ *   --spacing-unit
+ *   --shadow-sm, --shadow-md, --shadow-lg
+ *   --card-shadow, --card-shadow-hover, --section-shadow
+ *
+ * =============================================================================
+ */
+
+/* 1 — Blush & Ivory · Classic Romantic */
+.theme-wedding-blush-ivory {
+  --primary-bg: #fdf8f5;
+  --secondary-bg: #faf0eb;
+  --accent-bg: #f5e5dc;
+  --primary-text: #3d2a26;
+  --secondary-text: #7a5c55;
+  --accent-text: #2a1a16;
+  --primary-accent: #d4967a;
+  --primary-accent-soft: rgba(212, 150, 122, 0.12);
+  --secondary-accent: #b8785e;
+  --border-color: #f0d8cc;
+  --shadow-color: rgba(212, 150, 122, 0.12);
+  --gradient-1: linear-gradient(135deg, #fdf8f5 0%, #faf0eb 100%);
+  --gradient-2: linear-gradient(135deg, #d4967a 0%, #b8785e 100%);
+  --features2-bg: linear-gradient(135deg, #fdf8f5 0%, #f5e5dc 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 6px;
+  --button-radius: 30px;
+  --card-radius: 8px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(212, 150, 122, 0.08);
+  --shadow-md: 0 8px 24px rgba(212, 150, 122, 0.12);
+  --shadow-lg: 0 20px 48px rgba(212, 150, 122, 0.16);
+  --card-shadow: 0 4px 16px rgba(212, 150, 122, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(184, 120, 94, 0.16);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* 2 — Rose Gold & Cream · Classic Romantic */
+.theme-wedding-rose-gold {
+  --primary-bg: #fdfaf6;
+  --secondary-bg: #faf5ef;
+  --accent-bg: #f5ebe0;
+  --primary-text: #2d2520;
+  --secondary-text: #6b5248;
+  --accent-text: #1e1710;
+  --primary-accent: #c9956c;
+  --primary-accent-soft: rgba(201, 149, 108, 0.12);
+  --secondary-accent: #b07d58;
+  --border-color: #e8d5c4;
+  --shadow-color: rgba(201, 149, 108, 0.12);
+  --gradient-1: linear-gradient(135deg, #fdfaf6 0%, #faf5ef 100%);
+  --gradient-2: linear-gradient(135deg, #c9956c 0%, #b07d58 100%);
+  --features2-bg: linear-gradient(135deg, #faf5ef 0%, #f5ebe0 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 4px;
+  --button-radius: 40px;
+  --card-radius: 6px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(201, 149, 108, 0.08);
+  --shadow-md: 0 8px 24px rgba(201, 149, 108, 0.12);
+  --shadow-lg: 0 20px 48px rgba(201, 149, 108, 0.16);
+  --card-shadow: 0 4px 16px rgba(201, 149, 108, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(176, 125, 88, 0.16);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* 3 — Dusty Rose & Sage · Classic Romantic */
+.theme-wedding-dusty-rose {
+  --primary-bg: #fdf8f6;
+  --secondary-bg: #f7ede8;
+  --accent-bg: #edf0eb;
+  --primary-text: #2e2926;
+  --secondary-text: #6b6159;
+  --accent-text: #1e1916;
+  --primary-accent: #c0847a;
+  --primary-accent-soft: rgba(192, 132, 122, 0.12);
+  --secondary-accent: #7a9e7e;
+  --border-color: #e8d5d0;
+  --shadow-color: rgba(192, 132, 122, 0.12);
+  --gradient-1: linear-gradient(135deg, #fdf8f6 0%, #f7ede8 100%);
+  --gradient-2: linear-gradient(135deg, #c0847a 0%, #7a9e7e 100%);
+  --features2-bg: linear-gradient(135deg, #f7ede8 0%, #edf0eb 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 6px;
+  --button-radius: 28px;
+  --card-radius: 10px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(192, 132, 122, 0.08);
+  --shadow-md: 0 8px 24px rgba(192, 132, 122, 0.12);
+  --shadow-lg: 0 20px 48px rgba(192, 132, 122, 0.16);
+  --card-shadow: 0 4px 16px rgba(192, 132, 122, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(122, 158, 126, 0.14);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* 4 — White & Pearl · Minimalist Classic */
+.theme-wedding-white-pearl {
+  --primary-bg: #ffffff;
+  --secondary-bg: #fafaf8;
+  --accent-bg: #f5f3ee;
+  --primary-text: #1a1a1a;
+  --secondary-text: #666666;
+  --accent-text: #0f0f0f;
+  --primary-accent: #b8a898;
+  --primary-accent-soft: rgba(184, 168, 152, 0.12);
+  --secondary-accent: #9e8e7e;
+  --border-color: #e8e4de;
+  --shadow-color: rgba(0, 0, 0, 0.06);
+  --gradient-1: linear-gradient(135deg, #ffffff 0%, #fafaf8 100%);
+  --gradient-2: linear-gradient(135deg, #b8a898 0%, #9e8e7e 100%);
+  --features2-bg: linear-gradient(135deg, #fafaf8 0%, #f5f3ee 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 2px;
+  --button-radius: 4px;
+  --card-radius: 4px;
+  --spacing-unit: 1.5rem;
+  --shadow-sm: none;
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.08);
+  --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.10);
+  --section-shadow: none;
+}
+
+/* 5 — Sage & White · Minimalist Modern */
+.theme-wedding-sage-white {
+  --primary-bg: #f9faf8;
+  --secondary-bg: #f2f5f0;
+  --accent-bg: #e5ede2;
+  --primary-text: #1e2a1e;
+  --secondary-text: #5a6e5a;
+  --accent-text: #131a13;
+  --primary-accent: #7a9e7e;
+  --primary-accent-soft: rgba(122, 158, 126, 0.12);
+  --secondary-accent: #5e8462;
+  --border-color: #d8e4d5;
+  --shadow-color: rgba(122, 158, 126, 0.10);
+  --gradient-1: linear-gradient(135deg, #f9faf8 0%, #f2f5f0 100%);
+  --gradient-2: linear-gradient(135deg, #7a9e7e 0%, #5e8462 100%);
+  --features2-bg: linear-gradient(135deg, #f2f5f0 0%, #e5ede2 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 2px;
+  --button-radius: 4px;
+  --card-radius: 4px;
+  --spacing-unit: 1.5rem;
+  --shadow-sm: none;
+  --shadow-md: 0 4px 16px rgba(122, 158, 126, 0.08);
+  --shadow-lg: 0 16px 40px rgba(122, 158, 126, 0.12);
+  --card-shadow: 0 2px 12px rgba(122, 158, 126, 0.08);
+  --card-shadow-hover: 0 6px 24px rgba(122, 158, 126, 0.12);
+  --section-shadow: none;
+}
+
+/* 6 — Ash Grey · Minimalist Modern */
+.theme-wedding-ash-minimal {
+  --primary-bg: #f8f8f8;
+  --secondary-bg: #f0f0f0;
+  --accent-bg: #e5e5e5;
+  --primary-text: #1a1a1a;
+  --secondary-text: #555555;
+  --accent-text: #0f0f0f;
+  --primary-accent: #888888;
+  --primary-accent-soft: rgba(136, 136, 136, 0.12);
+  --secondary-accent: #444444;
+  --border-color: #d5d5d5;
+  --shadow-color: rgba(0, 0, 0, 0.06);
+  --gradient-1: linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 100%);
+  --gradient-2: linear-gradient(135deg, #888888 0%, #444444 100%);
+  --features2-bg: linear-gradient(135deg, #f0f0f0 0%, #e5e5e5 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 0px;
+  --button-radius: 2px;
+  --card-radius: 2px;
+  --spacing-unit: 1.5rem;
+  --shadow-sm: none;
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.08);
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.10);
+  --section-shadow: none;
+}
+
+/* 7 — Terracotta & Sage · Rustic Boho */
+.theme-wedding-terracotta {
+  --primary-bg: #faf6f2;
+  --secondary-bg: #f4ede4;
+  --accent-bg: #ece4da;
+  --primary-text: #3a2820;
+  --secondary-text: #7a5e4a;
+  --accent-text: #281a12;
+  --primary-accent: #c4714a;
+  --primary-accent-soft: rgba(196, 113, 74, 0.12);
+  --secondary-accent: #7a9e7e;
+  --border-color: #e4d5c5;
+  --shadow-color: rgba(196, 113, 74, 0.12);
+  --gradient-1: linear-gradient(135deg, #faf6f2 0%, #f4ede4 100%);
+  --gradient-2: linear-gradient(135deg, #c4714a 0%, #7a9e7e 100%);
+  --features2-bg: linear-gradient(135deg, #f4ede4 0%, #ece4da 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 8px;
+  --button-radius: 6px;
+  --card-radius: 12px;
+  --spacing-unit: 1.3rem;
+  --shadow-sm: 0 2px 8px rgba(196, 113, 74, 0.08);
+  --shadow-md: 0 8px 24px rgba(196, 113, 74, 0.12);
+  --shadow-lg: 0 20px 48px rgba(196, 113, 74, 0.16);
+  --card-shadow: 0 4px 16px rgba(196, 113, 74, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(122, 158, 126, 0.14);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* 8 — Champagne & Pampas · Boho Chic */
+.theme-wedding-champagne-pampas {
+  --primary-bg: #fdf9f4;
+  --secondary-bg: #f8f2e8;
+  --accent-bg: #f0e9d8;
+  --primary-text: #2e2820;
+  --secondary-text: #7a6a58;
+  --accent-text: #1e1810;
+  --primary-accent: #d4b896;
+  --primary-accent-soft: rgba(212, 184, 150, 0.14);
+  --secondary-accent: #a89070;
+  --border-color: #e8dcc8;
+  --shadow-color: rgba(212, 184, 150, 0.14);
+  --gradient-1: linear-gradient(135deg, #fdf9f4 0%, #f8f2e8 100%);
+  --gradient-2: linear-gradient(135deg, #d4b896 0%, #a89070 100%);
+  --features2-bg: linear-gradient(135deg, #f8f2e8 0%, #f0e9d8 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 10px;
+  --button-radius: 20px;
+  --card-radius: 14px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(212, 184, 150, 0.10);
+  --shadow-md: 0 8px 24px rgba(212, 184, 150, 0.14);
+  --shadow-lg: 0 20px 48px rgba(168, 144, 112, 0.18);
+  --card-shadow: 0 4px 16px rgba(212, 184, 150, 0.12);
+  --card-shadow-hover: 0 8px 28px rgba(168, 144, 112, 0.18);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* 9 — Cedar & Wildflower · Rustic */
+.theme-wedding-cedar {
+  --primary-bg: #f9f6f0;
+  --secondary-bg: #f2ebe0;
+  --accent-bg: #e8e0d0;
+  --primary-text: #2a2018;
+  --secondary-text: #6e5840;
+  --accent-text: #1a1208;
+  --primary-accent: #8b5e3c;
+  --primary-accent-soft: rgba(139, 94, 60, 0.12);
+  --secondary-accent: #d4956a;
+  --border-color: #dfd0bc;
+  --shadow-color: rgba(139, 94, 60, 0.12);
+  --gradient-1: linear-gradient(135deg, #f9f6f0 0%, #f2ebe0 100%);
+  --gradient-2: linear-gradient(135deg, #8b5e3c 0%, #d4956a 100%);
+  --features2-bg: linear-gradient(135deg, #f2ebe0 0%, #e8e0d0 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 6px;
+  --button-radius: 8px;
+  --card-radius: 10px;
+  --spacing-unit: 1.3rem;
+  --shadow-sm: 0 2px 8px rgba(139, 94, 60, 0.08);
+  --shadow-md: 0 8px 24px rgba(139, 94, 60, 0.12);
+  --shadow-lg: 0 20px 48px rgba(139, 94, 60, 0.16);
+  --card-shadow: 0 4px 16px rgba(139, 94, 60, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(212, 149, 106, 0.16);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* 10 — Black & Gold · Luxe Glamour */
+.theme-wedding-black-gold {
+  --primary-bg: #0d0d0d;
+  --secondary-bg: #1a1814;
+  --accent-bg: #241e18;
+  --primary-text: #f2ead8;
+  --secondary-text: #c8b89a;
+  --accent-text: #ffffff;
+  --primary-accent: #d4af37;
+  --primary-accent-soft: rgba(212, 175, 55, 0.12);
+  --secondary-accent: #b8902e;
+  --border-color: #2e2820;
+  --shadow-color: rgba(212, 175, 55, 0.20);
+  --gradient-1: linear-gradient(135deg, #0d0d0d 0%, #1a1814 100%);
+  --gradient-2: linear-gradient(135deg, #d4af37 0%, #b8902e 100%);
+  --features2-bg: linear-gradient(135deg, #1a1814 0%, #241e18 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 4px;
+  --button-radius: 6px;
+  --card-radius: 6px;
+  --spacing-unit: 1.3rem;
+  --shadow-sm: 0 1px 4px rgba(212, 175, 55, 0.15);
+  --shadow-md: 0 8px 28px rgba(184, 144, 46, 0.22);
+  --shadow-lg: 0 24px 64px rgba(184, 144, 46, 0.30);
+  --card-shadow: 0 0 0 1px rgba(212, 175, 55, 0.20), 0 12px 36px rgba(0, 0, 0, 0.6);
+  --card-shadow-hover: 0 0 0 1px rgba(212, 175, 55, 0.36), 0 18px 52px rgba(0, 0, 0, 0.7);
+  --section-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.10), inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* 11 — Navy & Gold · Luxe */
+.theme-wedding-navy-gold {
+  --primary-bg: #0c1428;
+  --secondary-bg: #14213d;
+  --accent-bg: #1a2c4e;
+  --primary-text: #f2f0e8;
+  --secondary-text: #c8c0a8;
+  --accent-text: #ffffff;
+  --primary-accent: #d4af37;
+  --primary-accent-soft: rgba(212, 175, 55, 0.12);
+  --secondary-accent: #e8c84a;
+  --border-color: #1e3050;
+  --shadow-color: rgba(212, 175, 55, 0.18);
+  --gradient-1: linear-gradient(135deg, #0c1428 0%, #14213d 100%);
+  --gradient-2: linear-gradient(135deg, #d4af37 0%, #e8c84a 100%);
+  --features2-bg: linear-gradient(135deg, #14213d 0%, #1a2c4e 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 4px;
+  --button-radius: 6px;
+  --card-radius: 8px;
+  --spacing-unit: 1.3rem;
+  --shadow-sm: 0 1px 4px rgba(212, 175, 55, 0.14);
+  --shadow-md: 0 8px 28px rgba(212, 175, 55, 0.18);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.6);
+  --card-shadow: 0 0 0 1px rgba(212, 175, 55, 0.18), 0 10px 32px rgba(0, 0, 0, 0.5);
+  --card-shadow-hover: 0 0 0 1px rgba(212, 175, 55, 0.30), 0 16px 48px rgba(0, 0, 0, 0.6);
+  --section-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.30);
+}
+
+/* 12 — Ivory & Champagne · Luxe Soft */
+.theme-wedding-ivory-champagne {
+  --primary-bg: #fefcf7;
+  --secondary-bg: #faf6ec;
+  --accent-bg: #f4ecd8;
+  --primary-text: #2a2418;
+  --secondary-text: #7a6c54;
+  --accent-text: #1a1610;
+  --primary-accent: #c8a96e;
+  --primary-accent-soft: rgba(200, 169, 110, 0.12);
+  --secondary-accent: #b08c50;
+  --border-color: #ebe0c8;
+  --shadow-color: rgba(200, 169, 110, 0.14);
+  --gradient-1: linear-gradient(135deg, #fefcf7 0%, #faf6ec 100%);
+  --gradient-2: linear-gradient(135deg, #c8a96e 0%, #b08c50 100%);
+  --features2-bg: linear-gradient(135deg, #faf6ec 0%, #f4ecd8 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 4px;
+  --button-radius: 30px;
+  --card-radius: 6px;
+  --spacing-unit: 1.5rem;
+  --shadow-sm: 0 2px 8px rgba(200, 169, 110, 0.08);
+  --shadow-md: 0 8px 24px rgba(200, 169, 110, 0.12);
+  --shadow-lg: 0 20px 48px rgba(176, 140, 80, 0.16);
+  --card-shadow: 0 4px 16px rgba(200, 169, 110, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(176, 140, 80, 0.16);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* 13 — Silver & Pearl · Luxe Cool */
+.theme-wedding-silver-pearl {
+  --primary-bg: #fafafa;
+  --secondary-bg: #f2f4f6;
+  --accent-bg: #e8ecf0;
+  --primary-text: #1a1a2a;
+  --secondary-text: #5a6272;
+  --accent-text: #0f0f1a;
+  --primary-accent: #a8b4c0;
+  --primary-accent-soft: rgba(168, 180, 192, 0.12);
+  --secondary-accent: #8096a8;
+  --border-color: #dce4ec;
+  --shadow-color: rgba(168, 180, 192, 0.14);
+  --gradient-1: linear-gradient(135deg, #fafafa 0%, #f2f4f6 100%);
+  --gradient-2: linear-gradient(135deg, #a8b4c0 0%, #8096a8 100%);
+  --features2-bg: linear-gradient(135deg, #f2f4f6 0%, #e8ecf0 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 2px;
+  --button-radius: 4px;
+  --card-radius: 4px;
+  --spacing-unit: 1.5rem;
+  --shadow-sm: none;
+  --shadow-md: 0 4px 16px rgba(168, 180, 192, 0.10);
+  --shadow-lg: 0 16px 40px rgba(168, 180, 192, 0.14);
+  --card-shadow: 0 2px 12px rgba(168, 180, 192, 0.10);
+  --card-shadow-hover: 0 6px 24px rgba(128, 150, 168, 0.16);
+  --section-shadow: none;
+}
+
+/* 14 — Aqua & Sand · Summer Beach */
+.theme-wedding-aqua-sand {
+  --primary-bg: #fdfcfa;
+  --secondary-bg: #f5f0e8;
+  --accent-bg: #e0f0f0;
+  --primary-text: #1e3a3a;
+  --secondary-text: #4a6868;
+  --accent-text: #122828;
+  --primary-accent: #5bbcb8;
+  --primary-accent-soft: rgba(91, 188, 184, 0.12);
+  --secondary-accent: #e8b48a;
+  --border-color: #d8e8e8;
+  --shadow-color: rgba(91, 188, 184, 0.12);
+  --gradient-1: linear-gradient(135deg, #fdfcfa 0%, #f5f0e8 100%);
+  --gradient-2: linear-gradient(135deg, #5bbcb8 0%, #e8b48a 100%);
+  --features2-bg: linear-gradient(135deg, #e0f0f0 0%, #fdf5ee 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 12px;
+  --button-radius: 40px;
+  --card-radius: 16px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(91, 188, 184, 0.08);
+  --shadow-md: 0 8px 24px rgba(91, 188, 184, 0.12);
+  --shadow-lg: 0 20px 48px rgba(91, 188, 184, 0.16);
+  --card-shadow: 0 4px 16px rgba(91, 188, 184, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(232, 180, 138, 0.16);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* 15 — Hibiscus & Coral · Tropical Summer */
+.theme-wedding-hibiscus {
+  --primary-bg: #fff8f5;
+  --secondary-bg: #ffeee8;
+  --accent-bg: #ffe0d8;
+  --primary-text: #2e1a14;
+  --secondary-text: #7a4a3a;
+  --accent-text: #1e1008;
+  --primary-accent: #e8654a;
+  --primary-accent-soft: rgba(232, 101, 74, 0.12);
+  --secondary-accent: #ff9a80;
+  --border-color: #ffd0c0;
+  --shadow-color: rgba(232, 101, 74, 0.12);
+  --gradient-1: linear-gradient(135deg, #fff8f5 0%, #ffeee8 100%);
+  --gradient-2: linear-gradient(135deg, #e8654a 0%, #ff9a80 100%);
+  --features2-bg: linear-gradient(135deg, #ffeee8 0%, #ffe0d8 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 14px;
+  --button-radius: 50px;
+  --card-radius: 18px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(232, 101, 74, 0.08);
+  --shadow-md: 0 8px 24px rgba(232, 101, 74, 0.12);
+  --shadow-lg: 0 20px 48px rgba(232, 101, 74, 0.16);
+  --card-shadow: 0 4px 16px rgba(232, 101, 74, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(255, 154, 128, 0.16);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* 16 — Coastal Blue & White · Summer */
+.theme-wedding-coastal {
+  --primary-bg: #f5f9fe;
+  --secondary-bg: #e8f2fc;
+  --accent-bg: #d8e8f8;
+  --primary-text: #0a1e32;
+  --secondary-text: #3a5a7a;
+  --accent-text: #061428;
+  --primary-accent: #4a8ec0;
+  --primary-accent-soft: rgba(74, 142, 192, 0.12);
+  --secondary-accent: #2e6a9c;
+  --border-color: #c8dce8;
+  --shadow-color: rgba(74, 142, 192, 0.12);
+  --gradient-1: linear-gradient(135deg, #f5f9fe 0%, #e8f2fc 100%);
+  --gradient-2: linear-gradient(135deg, #4a8ec0 0%, #2e6a9c 100%);
+  --features2-bg: linear-gradient(135deg, #e8f2fc 0%, #d8e8f8 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 10px;
+  --button-radius: 30px;
+  --card-radius: 14px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(74, 142, 192, 0.08);
+  --shadow-md: 0 8px 24px rgba(74, 142, 192, 0.12);
+  --shadow-lg: 0 20px 48px rgba(46, 106, 156, 0.16);
+  --card-shadow: 0 4px 16px rgba(74, 142, 192, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(46, 106, 156, 0.16);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* 17 — Frost & Ice · Winter Snow */
+.theme-wedding-frost {
+  --primary-bg: #f8f9ff;
+  --secondary-bg: #f0f4fc;
+  --accent-bg: #e4ecf8;
+  --primary-text: #0a1428;
+  --secondary-text: #3a4e6a;
+  --accent-text: #061020;
+  --primary-accent: #90b4d4;
+  --primary-accent-soft: rgba(144, 180, 212, 0.14);
+  --secondary-accent: #c8d8e8;
+  --border-color: #d8e4f0;
+  --shadow-color: rgba(144, 180, 212, 0.14);
+  --gradient-1: linear-gradient(135deg, #f8f9ff 0%, #f0f4fc 100%);
+  --gradient-2: linear-gradient(135deg, #90b4d4 0%, #c8d8e8 100%);
+  --features2-bg: linear-gradient(135deg, #f0f4fc 0%, #e4ecf8 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 4px;
+  --button-radius: 6px;
+  --card-radius: 6px;
+  --spacing-unit: 1.5rem;
+  --shadow-sm: 0 2px 8px rgba(144, 180, 212, 0.08);
+  --shadow-md: 0 8px 24px rgba(144, 180, 212, 0.12);
+  --shadow-lg: 0 20px 48px rgba(144, 180, 212, 0.16);
+  --card-shadow: 0 4px 16px rgba(144, 180, 212, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(200, 216, 232, 0.18);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* 18 — Berry & Velvet · Winter */
+.theme-wedding-berry-velvet {
+  --primary-bg: #1a0d1a;
+  --secondary-bg: #231222;
+  --accent-bg: #2e1830;
+  --primary-text: #f0e8f0;
+  --secondary-text: #c0a8c0;
+  --accent-text: #ffffff;
+  --primary-accent: #9b4dca;
+  --primary-accent-soft: rgba(155, 77, 202, 0.15);
+  --secondary-accent: #c86e9c;
+  --border-color: rgba(155, 77, 202, 0.25);
+  --shadow-color: rgba(155, 77, 202, 0.20);
+  --gradient-1: linear-gradient(135deg, #1a0d1a 0%, #231222 100%);
+  --gradient-2: linear-gradient(135deg, #9b4dca 0%, #c86e9c 100%);
+  --features2-bg: linear-gradient(135deg, #231222 0%, #2e1830 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 8px;
+  --button-radius: 10px;
+  --card-radius: 12px;
+  --spacing-unit: 1.3rem;
+  --shadow-sm: 0 0 0 1px rgba(155, 77, 202, 0.20), 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 0 0 1px rgba(155, 77, 202, 0.28), 0 10px 32px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 0 0 1px rgba(155, 77, 202, 0.35), 0 24px 64px rgba(0, 0, 0, 0.7);
+  --card-shadow: 0 0 0 1px rgba(155, 77, 202, 0.22), 0 10px 30px rgba(0, 0, 0, 0.6);
+  --card-shadow-hover: 0 0 0 1px rgba(200, 110, 156, 0.35), 0 16px 48px rgba(0, 0, 0, 0.7);
+  --section-shadow: inset 0 1px 0 rgba(155, 77, 202, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.30);
+}
+
+/* 19 — Midnight & Stars · Celestial */
+.theme-wedding-midnight-stars {
+  --primary-bg: #080c18;
+  --secondary-bg: #0f1428;
+  --accent-bg: #141c38;
+  --primary-text: #e8eaf8;
+  --secondary-text: #a8b0d0;
+  --accent-text: #ffffff;
+  --primary-accent: #8080d4;
+  --primary-accent-soft: rgba(128, 128, 212, 0.15);
+  --secondary-accent: #d4c8a8;
+  --border-color: rgba(128, 128, 212, 0.22);
+  --shadow-color: rgba(128, 128, 212, 0.18);
+  --gradient-1: linear-gradient(135deg, #080c18 0%, #0f1428 100%);
+  --gradient-2: linear-gradient(135deg, #8080d4 0%, #d4c8a8 100%);
+  --features2-bg: linear-gradient(135deg, #0f1428 0%, #141c38 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 8px;
+  --button-radius: 8px;
+  --card-radius: 12px;
+  --spacing-unit: 1.3rem;
+  --shadow-sm: 0 0 0 1px rgba(128, 128, 212, 0.18), 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 0 0 1px rgba(128, 128, 212, 0.24), 0 10px 32px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 0 0 1px rgba(128, 128, 212, 0.30), 0 24px 64px rgba(0, 0, 0, 0.7);
+  --card-shadow: 0 0 0 1px rgba(128, 128, 212, 0.22), 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(128, 128, 212, 0.10) inset;
+  --card-shadow-hover: 0 0 0 1px rgba(212, 200, 168, 0.35), 0 16px 48px rgba(0, 0, 0, 0.6);
+  --section-shadow: inset 0 1px 0 rgba(128, 128, 212, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.30);
+}
+
+/* 20 — Moody Mauve · Celestial */
+.theme-wedding-moody-mauve {
+  --primary-bg: #f5f0f5;
+  --secondary-bg: #ede4f0;
+  --accent-bg: #e0d0e8;
+  --primary-text: #1e1228;
+  --secondary-text: #5a3e6a;
+  --accent-text: #140c1e;
+  --primary-accent: #9060a8;
+  --primary-accent-soft: rgba(144, 96, 168, 0.12);
+  --secondary-accent: #c4a0c8;
+  --border-color: #d8c8e4;
+  --shadow-color: rgba(144, 96, 168, 0.12);
+  --gradient-1: linear-gradient(135deg, #f5f0f5 0%, #ede4f0 100%);
+  --gradient-2: linear-gradient(135deg, #9060a8 0%, #c4a0c8 100%);
+  --features2-bg: linear-gradient(135deg, #ede4f0 0%, #e0d0e8 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 10px;
+  --button-radius: 20px;
+  --card-radius: 14px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(144, 96, 168, 0.08);
+  --shadow-md: 0 8px 24px rgba(144, 96, 168, 0.12);
+  --shadow-lg: 0 20px 48px rgba(144, 96, 168, 0.16);
+  --card-shadow: 0 4px 16px rgba(144, 96, 168, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(196, 160, 200, 0.16);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* 21 — Lilac & Gold · Enchanted Fairytale */
+.theme-wedding-lilac-gold {
+  --primary-bg: #fdf8ff;
+  --secondary-bg: #f5eefa;
+  --accent-bg: #ede0f8;
+  --primary-text: #20102e;
+  --secondary-text: #6a4a80;
+  --accent-text: #140a20;
+  --primary-accent: #b07cd8;
+  --primary-accent-soft: rgba(176, 124, 216, 0.12);
+  --secondary-accent: #d4af37;
+  --border-color: #e4d0f4;
+  --shadow-color: rgba(176, 124, 216, 0.12);
+  --gradient-1: linear-gradient(135deg, #fdf8ff 0%, #f5eefa 100%);
+  --gradient-2: linear-gradient(135deg, #b07cd8 0%, #d4af37 100%);
+  --features2-bg: linear-gradient(135deg, #f5eefa 0%, #ede0f8 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 12px;
+  --button-radius: 40px;
+  --card-radius: 16px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(176, 124, 216, 0.08);
+  --shadow-md: 0 8px 24px rgba(176, 124, 216, 0.12);
+  --shadow-lg: 0 20px 48px rgba(176, 124, 216, 0.16);
+  --card-shadow: 0 4px 16px rgba(176, 124, 216, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(212, 175, 55, 0.14);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* 22 — Enchanted Forest · Fairytale */
+.theme-wedding-enchanted-forest {
+  --primary-bg: #f0f8f0;
+  --secondary-bg: #e8f4e8;
+  --accent-bg: #d8ecd8;
+  --primary-text: #0e1e14;
+  --secondary-text: #3a5a44;
+  --accent-text: #060e0a;
+  --primary-accent: #4a8c5c;
+  --primary-accent-soft: rgba(74, 140, 92, 0.12);
+  --secondary-accent: #d4af37;
+  --border-color: #c8e4cc;
+  --shadow-color: rgba(74, 140, 92, 0.12);
+  --gradient-1: linear-gradient(135deg, #f0f8f0 0%, #e8f4e8 100%);
+  --gradient-2: linear-gradient(135deg, #4a8c5c 0%, #d4af37 100%);
+  --features2-bg: linear-gradient(135deg, #e8f4e8 0%, #d8ecd8 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 10px;
+  --button-radius: 20px;
+  --card-radius: 14px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(74, 140, 92, 0.08);
+  --shadow-md: 0 8px 24px rgba(74, 140, 92, 0.12);
+  --shadow-lg: 0 20px 48px rgba(74, 140, 92, 0.16);
+  --card-shadow: 0 4px 16px rgba(74, 140, 92, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(212, 175, 55, 0.14);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* 23 — Sepia & Lace · Retro Vintage */
+.theme-wedding-sepia-lace {
+  --primary-bg: #fdf8f0;
+  --secondary-bg: #f5ede0;
+  --accent-bg: #ece0ca;
+  --primary-text: #2a2010;
+  --secondary-text: #6e5840;
+  --accent-text: #1a1208;
+  --primary-accent: #8c6840;
+  --primary-accent-soft: rgba(140, 104, 64, 0.12);
+  --secondary-accent: #b8906c;
+  --border-color: #dcc8a8;
+  --shadow-color: rgba(140, 104, 64, 0.12);
+  --gradient-1: linear-gradient(135deg, #fdf8f0 0%, #f5ede0 100%);
+  --gradient-2: linear-gradient(135deg, #8c6840 0%, #b8906c 100%);
+  --features2-bg: linear-gradient(135deg, #f5ede0 0%, #ece0ca 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 4px;
+  --button-radius: 4px;
+  --card-radius: 6px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(140, 104, 64, 0.08);
+  --shadow-md: 0 8px 24px rgba(140, 104, 64, 0.12);
+  --shadow-lg: 0 20px 48px rgba(140, 104, 64, 0.16);
+  --card-shadow: 0 4px 16px rgba(140, 104, 64, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(184, 144, 108, 0.16);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* 24 — Art Deco Noir · Edgy Alternative */
+.theme-wedding-art-deco {
+  --primary-bg: #0a0a08;
+  --secondary-bg: #141410;
+  --accent-bg: #1e1c14;
+  --primary-text: #f0ead4;
+  --secondary-text: #c4b898;
+  --accent-text: #ffffff;
+  --primary-accent: #d4af37;
+  --primary-accent-soft: rgba(212, 175, 55, 0.12);
+  --secondary-accent: #f0d060;
+  --border-color: #302c1e;
+  --shadow-color: rgba(212, 175, 55, 0.18);
+  --gradient-1: linear-gradient(135deg, #0a0a08 0%, #141410 100%);
+  --gradient-2: linear-gradient(135deg, #d4af37 0%, #f0d060 100%);
+  --features2-bg: linear-gradient(135deg, #141410 0%, #1e1c14 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 0px;
+  --button-radius: 2px;
+  --card-radius: 2px;
+  --spacing-unit: 1.3rem;
+  --shadow-sm: 0 0 0 1px rgba(212, 175, 55, 0.15), 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 0 0 1px rgba(212, 175, 55, 0.22), 0 10px 32px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 0 0 1px rgba(212, 175, 55, 0.30), 0 24px 64px rgba(0, 0, 0, 0.7);
+  --card-shadow: 0 0 0 1px rgba(212, 175, 55, 0.18), 0 10px 32px rgba(0, 0, 0, 0.6);
+  --card-shadow-hover: 0 0 0 1px rgba(240, 208, 96, 0.30), 0 16px 48px rgba(0, 0, 0, 0.7);
+  --section-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* 25 — Garden Party · Funny & Light */
+.theme-wedding-garden-party {
+  --primary-bg: #f8fdf5;
+  --secondary-bg: #f0f9e8;
+  --accent-bg: #e4f4d4;
+  --primary-text: #1a2a14;
+  --secondary-text: #4a6a3a;
+  --accent-text: #0e1e0a;
+  --primary-accent: #6daa4a;
+  --primary-accent-soft: rgba(109, 170, 74, 0.12);
+  --secondary-accent: #f0a840;
+  --border-color: #d4e8c0;
+  --shadow-color: rgba(109, 170, 74, 0.12);
+  --gradient-1: linear-gradient(135deg, #f8fdf5 0%, #f0f9e8 100%);
+  --gradient-2: linear-gradient(135deg, #6daa4a 0%, #f0a840 100%);
+  --features2-bg: linear-gradient(135deg, #f0f9e8 0%, #e4f4d4 100%);
+  --font-family: 'Cormorant Garamond', Georgia, serif;
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --border-radius: 16px;
+  --button-radius: 50px;
+  --card-radius: 20px;
+  --spacing-unit: 1.4rem;
+  --shadow-sm: 0 2px 8px rgba(109, 170, 74, 0.08);
+  --shadow-md: 0 8px 24px rgba(109, 170, 74, 0.12);
+  --shadow-lg: 0 20px 48px rgba(109, 170, 74, 0.16);
+  --card-shadow: 0 4px 16px rgba(109, 170, 74, 0.10);
+  --card-shadow-hover: 0 8px 28px rgba(240, 168, 64, 0.16);
+  --section-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}

@@ -83,16 +83,28 @@ function listUserPages($userId, $supabase) {
     try {
         $pages = $supabase->select(
             'user_pages',
-            'id,title,thumbnail_url,is_favorite,is_public,last_accessed,created_at,updated_at',
+            'id,title,thumbnail_url,is_favorite,is_public,share_token,share_slug,last_accessed,created_at,updated_at',
             [
                 'user_id' => $userId,
                 'order' => 'last_accessed.desc'
             ]
         );
-        
+
+        // Compute share_url for published pages
+        $baseDomain = getenv('SHARE_BASE_DOMAIN') ?: 'yeslovey.com';
+        $result = [];
+        foreach (($pages ?: []) as $page) {
+            if (!empty($page['is_public']) && !empty($page['share_slug'])) {
+                $page['share_url'] = 'https://' . $page['share_slug'] . '.' . $baseDomain;
+            } else {
+                $page['share_url'] = null;
+            }
+            $result[] = $page;
+        }
+
         return [
             'success' => true,
-            'pages' => $pages ?: []
+            'pages' => $result
         ];
     } catch (Exception $e) {
         error_log("Error listing pages: " . $e->getMessage());

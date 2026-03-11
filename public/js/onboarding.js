@@ -44,6 +44,7 @@
     let popupDeviceBtns = null;
     let currentPopupTemplate = null;
     let currentPopupThemeId = null;
+    let initialPopupThemeId = null; // First theme the template had — used by Reset button
     let popupTemplateList = [];
     let currentDeviceMode = 'desktop';
 
@@ -371,10 +372,19 @@
         cleanupIframe();
         popupIframe.src = template.url;
 
-        // No theme pre-selected in onboarding preview; user must choose one explicitly
-        currentPopupThemeId = null;
+        // Pre-select the template's default theme so the Themes panel shows it highlighted
+        currentPopupThemeId = template.defaultTheme || null;
+        initialPopupThemeId = currentPopupThemeId;
         buildPopupThemesList();
         updateNavButtons();
+
+        // Scroll the themes list to make the active theme visible
+        if (currentPopupThemeId && popupThemesList) {
+            const activeItem = popupThemesList.querySelector(`.popup-theme-item[data-theme-id="${currentPopupThemeId}"]`);
+            if (activeItem) {
+                setTimeout(() => activeItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 50);
+            }
+        }
 
         popup.classList.add('show');
         document.body.style.overflow = 'hidden';
@@ -404,6 +414,7 @@
         cleanupIframe();
         currentPopupTemplate = null;
         currentPopupThemeId = null;
+        initialPopupThemeId = null;
         window.showSidebarAfterPreview?.();
     }
 
@@ -581,6 +592,23 @@
         if (popupNavNext) popupNavNext.addEventListener('click', () => navigateTemplate(1));
         if (popupThemesToggle) popupThemesToggle.addEventListener('click', toggleThemesPanel);
         if (popupThemesReopen) popupThemesReopen.addEventListener('click', toggleThemesPanel);
+
+        const popupThemesResetBtn = document.getElementById('onboarding-preview-themes-reset');
+        if (popupThemesResetBtn) {
+            popupThemesResetBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!initialPopupThemeId || currentPopupThemeId === initialPopupThemeId) return;
+                currentPopupThemeId = initialPopupThemeId;
+                if (popupThemesList) {
+                    popupThemesList.querySelectorAll('.popup-theme-card').forEach(card => {
+                        card.classList.remove('active');
+                        const item = card.closest('.popup-theme-item');
+                        if (item && item.dataset.themeId === initialPopupThemeId) card.classList.add('active');
+                    });
+                }
+                applyThemeToPopupIframe(initialPopupThemeId);
+            });
+        }
 
         if (popupDeviceBtns) {
             popupDeviceBtns.forEach(btn => {
@@ -767,7 +795,8 @@
 
         overlay.classList.add('show');
         isVisible = true;
-        // Navbar hidden via body.onboarding-visible set by PHP on first paint (no JS add here to avoid flash)
+        // Navbar hidden via body.onboarding-visible (set by PHP on first paint, and re-applied here when returning to onboarding via "New Page")
+        document.body.classList.add('onboarding-visible');
 
         // Activate sidebar onboarding mode (hides theme selector, disables hover panel)
         window.enterOnboardingMode?.();

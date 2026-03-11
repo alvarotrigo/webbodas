@@ -155,7 +155,9 @@ function attachServerUserMenuHandlers() {
                 handleLogout();
             } else if (action === 'upgrade') {
                 closeUserMenu();
-                showUpgradeModal();
+                // [DISABLED_FOR_WEDDING_VERSION]: Upgrade modal on menu button removed — modal only
+                // appears during onboarding (when user has no pages).
+                // showUpgradeModal();
             }
         });
     });
@@ -209,7 +211,9 @@ attachServerUserMenuHandlers();
 
     function hideLoaderAndFallback() {
         document.body.classList.remove('auth-loading');
-        showUpgradeModal();
+        // [DISABLED_FOR_WEDDING_VERSION]: Upgrade modal as Polar checkout fallback removed — modal
+        // only appears during onboarding (when user has no pages).
+        // showUpgradeModal();
     }
 
     fetch('api/polar-create-checkout.php', {

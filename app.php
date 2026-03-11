@@ -135,6 +135,16 @@ if ($preloadedPageData && isset($preloadedPageData['page']['title'])) {
     $initialPageTitle = $preloadedPageData['page']['title'];
 }
 
+// Topbar published indicator (green icon + domain when page is published)
+$topbarPublishedUrl = null;
+$topbarPublishedDisplay = null;
+if ($preloadedPageData && !empty($preloadedPageData['page']['is_public']) && !empty($preloadedPageData['page']['share_slug'])) {
+    $shareBaseDomain = getenv('SHARE_BASE_DOMAIN') ?: 'yeslovey.com';
+    $slug = $preloadedPageData['page']['share_slug'];
+    $topbarPublishedDisplay = $slug . '.' . $shareBaseDomain;
+    $topbarPublishedUrl = 'https://' . $topbarPublishedDisplay;
+}
+
 // Hide navbar (title + buttons) until a template is present — class on body from first paint to avoid flash
 $hideNavbarUntilTemplate = false;
 if ($isAuthenticated) {
@@ -377,30 +387,60 @@ function editor_asset(string $path): string
     <?php endif; ?>
     <!-- Top Bar -->
     <div class="top-bar">
-        <!-- Left Section: Page Name -->
+        <!-- Left Section: Your Pages button + Page Name -->
         <div class="top-bar-left">
             <?php if ($isAuthenticated): ?>
+            <!-- Your Pages button: shown by JS when user has at least one page; opens left sidebar -->
+            <button type="button" id="view-pages-btn" class="view-pages-btn" data-tippy-content="Your Pages" style="display: none;" aria-label="Your Pages">
+                <i data-lucide="files" class="view-pages-icon"></i>
+                <span class="view-pages-label">Your Pages</span>
+            </button>
+            <!-- Files icon: opens left sidebar (pages list); visible in editor, hidden during onboarding -->
+            <button type="button" id="topbar-files-btn" class="topbar-files-btn" data-tippy-content="Your Pages" aria-label="Open pages sidebar">
+                <i data-lucide="files" class="topbar-files-icon"></i>
+            </button>
             <!-- Page Name Display with Back Button -->
-            <div class="page-name-container flex items-center gap-2">
-                <!-- [DISABLED_FOR_WEDDING_VERSION]: Back arrow to pages.php removed - pages.php is no longer part of the user flow.
-                <a href="./pages.php" class="back-arrow-btn" data-tippy-content="Back to pages">
-                    <i data-lucide="arrow-left" class="w-5 h-5" style="color: #9333ea;"></i>
-                </a>
-                <div class="page-name-separator" style="width: 1px; height: 20px; background: #e5e5e7;"></div>
-                -->
-                <span class="page-name-text" id="page-name-display" contenteditable="false" role="textbox" tabindex="0" title="<?php echo htmlspecialchars($initialPageTitle, ENT_QUOTES, 'UTF-8'); ?>" data-tippy-content="Edit page title">
-                    <?php echo htmlspecialchars($initialPageTitle, ENT_QUOTES, 'UTF-8'); ?>
-                </span>
-                <button type="button" id="delete-page-btn" class="delete-page-btn" aria-label="Delete page" data-tippy-content="Delete page" style="display: none;">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                </button>
+            <div class="top-bar-page-block">
+                <div class="top-bar-page-name-row flex items-center gap-2">
+                    <!-- Published indicator: green dot. Tooltip shows URL; click opens site in new tab. -->
+                    <a href="<?php echo $topbarPublishedUrl ? htmlspecialchars($topbarPublishedUrl, ENT_QUOTES, 'UTF-8') : '#'; ?>" target="_blank" rel="noopener" id="topbar-published-link" class="topbar-published-dot-link" style="display: <?php echo ($topbarPublishedUrl !== null) ? 'inline-flex' : 'none'; ?>;" title="<?php echo $topbarPublishedDisplay ? htmlspecialchars($topbarPublishedDisplay, ENT_QUOTES, 'UTF-8') : ''; ?>" data-tippy-content="<?php echo $topbarPublishedDisplay ? htmlspecialchars($topbarPublishedDisplay, ENT_QUOTES, 'UTF-8') : ''; ?>" aria-label="Open published website"><span class="topbar-published-dot" aria-hidden="true"></span></a>
+                    <div class="page-name-container flex items-center gap-2">
+                        <!-- [DISABLED_FOR_WEDDING_VERSION]: Back arrow to pages.php removed - pages.php is no longer part of the user flow.
+                        <a href="./pages.php" class="back-arrow-btn" data-tippy-content="Back to pages">
+                            <i data-lucide="arrow-left" class="w-5 h-5" style="color: #9333ea;"></i>
+                        </a>
+                        <div class="page-name-separator" style="width: 1px; height: 20px; background: #e5e5e7;"></div>
+                        -->
+                        <span class="page-name-text" id="page-name-display" contenteditable="false" role="textbox" tabindex="0" title="<?php echo htmlspecialchars($initialPageTitle, ENT_QUOTES, 'UTF-8'); ?>" data-tippy-content="Edit page title">
+                            <?php echo htmlspecialchars($initialPageTitle, ENT_QUOTES, 'UTF-8'); ?>
+                        </span>
+                        <!-- View Website icon (right of page name; shown only when page is published; opens site in new tab) -->
+                        <a id="topbar-view-website-link" href="#" target="_blank" rel="noopener" class="topbar-view-website-icon" style="display: none;" data-tippy-content="View your published website" aria-label="View your published website">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        </a>
+                        <?php if ($isAuthenticated): ?>
+                        <!-- RSVP Dashboard (right of View Website; shown by JS when page has form + is published) -->
+                        <a href="#" id="rsvp-dashboard-btn" class="topbar-rsvp-btn" data-tippy-content="View RSVP responses" style="display:none;text-decoration:none;font-size:13px;font-weight:500;color:var(--primary-text);" aria-label="View RSVP responses">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="11" y2="16"/></svg>
+                            <span>RSVP</span>
+                        </a>
+                        <?php endif; ?>
+                        <!-- [DISABLED_FOR_WEDDING_VERSION]: Trash icon replaced by View Your Pages button. The delete action is now available inside the left sidebar pages list.
+                        <button type="button" id="delete-page-btn" class="delete-page-btn" aria-label="Delete page" data-tippy-content="Delete page" style="display: none;">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                        -->
+                    </div>
+                </div>
             </div>
 
-            <!-- Change Template Button (hidden until a template is inserted via onboarding) -->
+            <!-- [DISABLED_FOR_WEDDING_VERSION]: Change Template button replaced by View Your Pages button.
             <button id="change-template-btn" class="change-template-btn" style="display:none;" data-tippy-content="Choose a new template">
                 <i data-lucide="layout-template" class="w-4 h-4"></i>
                 <span>Change Template</span>
             </button>
+            -->
+
 
             <!-- Save Indicator -->
             <div class="save-indicator" id="save-indicator">
@@ -464,20 +504,6 @@ function editor_asset(string $path): string
             <button id="download-page" class="download-btn publish-btn" data-tippy-content="Publish page" disabled>
                 <i data-lucide="upload-cloud"></i> <span class="text-sm pl-2">Publish</span>
             </button>
-
-            <?php if ($isAuthenticated): ?>
-            <!-- Back to Pages Button -->
-            <!-- <a href="./pages.php" class="top-bar-card back-to-pages-btn flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors" data-tippy-content="Back to all pages">
-                <i data-lucide="grid-2x2" class="w-4 h-4"></i>
-                <span class="text-sm">Pages</span>
-            </a> -->
-
-            <!-- RSVP Dashboard button (shown by JS when page has form + is published) -->
-            <a href="#" id="rsvp-dashboard-btn" class="top-bar-card flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors" data-tippy-content="View RSVP responses" style="display:none;text-decoration:none;font-size:13px;font-weight:500;color:var(--primary-text);">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="11" y2="16"/></svg>
-                RSVP
-            </a>
-            <?php endif; ?>
 
             <!-- User Info -->
             <div class="user-info flex items-center gap-2">
@@ -562,213 +588,45 @@ function editor_asset(string $path): string
     </div>
 
 
-    <?php // [DISABLED_FOR_WEDDING_VERSION]: Left sidebar with template categories removed. "Change Template" now shows a confirmation popup instead of toggling this sidebar. ?>
-    <?php if (false): ?>
-    <!-- Left Sidebar -->
-    <div class="sidebar">
+    <!-- Left Sidebar: Pages list (replaces the old template categories sidebar) -->
+    <div class="sidebar" id="pages-sidebar">
         <div class="sidebar-content">
-            <?php /* [DISABLED_FOR_WEDDING_VERSION]: Theme selector moved to top-bar (topbar-theme-btn). The panel now appears inside the sidebar, replacing categories when active.
-            <div class="theme-selector-section">
-                <h3 class="text-sm font-semibold text-accent-text mb-2">Theme</h3>
-                <button class="theme-selector-button" id="theme-selector-button">
-                    <div class="theme-selector-preview" id="current-theme-preview">
-                    </div>
-                    <div class="theme-selector-info">
-                        <span class="theme-selector-name" id="current-theme-name">Select Theme</span>
-                        <i data-lucide="chevron-right" class="theme-selector-icon"></i>
-                    </div>
-                </button>
+
+            <!-- Pages list panel -->
+            <div class="pages-sidebar-panel" id="pages-sidebar-panel">
+                <div class="pages-sidebar-header">
+                    <h3 class="pages-sidebar-title">Your Pages</h3>
+                </div>
+                <div class="pages-list" id="pages-list">
+                    <!-- Page items + New Page button injected by JS via fetchAndRenderPagesList() -->
+                </div>
             </div>
-            */ ?>
+
+            <!-- [DISABLED_FOR_WEDDING_VERSION]: Old in-sidebar preview panel replaced by page-preview-hover-panel outside the sidebar -->
+            <!-- <div class="page-preview-panel" id="page-preview-panel" style="display:none;">
+                <div class="page-preview-panel-header">
+                    <button type="button" id="page-preview-back-btn" class="page-preview-back-btn" aria-label="Back to pages">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        <span>Back</span>
+                    </button>
+                    <span class="page-preview-title" id="page-preview-title"></span>
+                </div>
+                <div class="page-preview-iframe-wrapper">
+                    <iframe id="page-preview-iframe" class="page-preview-iframe" src="about:blank" title="Page preview"></iframe>
+                </div>
+            </div> -->
+
             <!-- Hidden elements to keep JS compatibility (updateCurrentThemeButton uses these IDs) -->
             <div id="current-theme-preview" style="display:none;"></div>
             <span id="current-theme-name" style="display:none;"></span>
 
-            <?php if (isset($_GET['developer']) && $_GET['developer'] === '1'): ?>
-            <div class="header-selector-section">
-                <h3 class="text-sm font-semibold text-accent-text mb-2">Header</h3>
-                <button class="header-selector-button" id="header-selector-button">
-                    <div class="header-selector-info">
-                        <i data-lucide="navigation" class="w-4 h-4"></i>
-                        <span id="current-header-name">Add Header</span>
-                        <i data-lucide="chevron-right" class="w-4 h-4 ml-auto"></i>
-                    </div>
-                </button>
-            </div>
-            <?php endif; ?>
-
-            <?php /* Panel Animations oculto para simplificar editor (animaciones ON por defecto, backgrounds OFF). Para reactivar, descomentar el bloque y en app.js volver defaults a false/false.
-            <div class="animation-toggle-section">
-                <h3 class="text-sm font-semibold text-accent-text mb-4">Animations</h3>
-                <div class="side-option-card flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <span class="text-sm text-gray-700">Enable animations</span>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="animation-toggle" class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                    </label>
-                </div>
-                <div class="side-option-card flex items-center justify-between p-3 bg-gray-50 rounded-lg mt-2">
-                    <span class="text-sm text-gray-700">Animate backgrounds</span>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="animate-backgrounds-toggle" class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                    </label>
-                </div>
-            </div>
-            */ ?>
-
-            <?php /* [DISABLED_FOR_WEDDING_VERSION]: Sección Display con toggle "Enable fullscreen transition" oculta; la versión bodas no usa transición fullscreen.
-            <div class="fullpage-toggle-section">
-                <h3 class="text-sm font-semibold text-accent-text mb-4">Display</h3>
-                <div class="side-option-card flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <span class="text-sm text-gray-700">Enable fullscreen transition</span>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="fullpage-toggle" class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                    </label>
-                </div>
-                (Advanced Settings oculto: ver bloque anterior en el archivo para reactivar)
-                <div id="fullpage-advanced-settings" class="hidden mt-3">
-                    <button id="fullpage-advanced-settings-btn" class="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
-                        <i data-lucide="settings" class="w-4 h-4"></i>
-                        <span>Advanced settings</span>
-                    </button>
-                </div>
-            </div>
-            */ ?>
-            
-            <?php /* FullPage.js Advanced Settings Modal - oculto para simplificar editor. Para reactivar, descomentar.
-            <div id="fullpage-advanced-modal" class="fullpage-advanced-modal modal-overlay">
-                <div class="fullpage-advanced-modal-content">
-                    <div class="fullpage-advanced-modal-header">
-                        <h3 class="fullpage-advanced-modal-title">FullPage.js Advanced Settings</h3>
-                        <button id="fullpage-advanced-modal-close" class="fullpage-advanced-modal-close">
-                            <i data-lucide="x"></i>
-                        </button>
-                    </div>
-                    <div class="fullpage-advanced-modal-body">
-                        <!-- Scroll Speed -->
-                        <div class="fullpage-setting-row">
-                            <div class="flex items-center gap-2">
-                                <label for="fullpage-scroll-speed" class="fullpage-setting-label">Scroll speed</label>
-                                <i data-lucide="help-circle" class="w-4 h-4 cursor-help fullpage-help-icon" data-tippy-content="Speed of scrolling between sections. Lower = faster."></i>
-                            </div>
-                            <div class="fullpage-setting-controls">
-                                <input type="range" id="fullpage-scroll-speed" value="700" min="100" max="3000" step="1" class="fullpage-range-slider">
-                                <span class="fullpage-setting-value" id="fullpage-scroll-speed-value">700 ms</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Navigation Bullets -->
-                        <div class="fullpage-setting-row">
-                            <div class="flex items-center gap-2">
-                                <label for="fullpage-navigation" class="fullpage-setting-label">Navigation bullets</label>
-                                <i data-lucide="help-circle" class="w-4 h-4 cursor-help fullpage-help-icon" data-tippy-content="Shows navigation dots to jump between sections."></i>
-                            </div>
-                            <label class="fullpage-toggle-switch">
-                                <input type="checkbox" id="fullpage-navigation" class="sr-only peer" checked>
-                                <div class="fullpage-toggle-slider"></div>
-                            </label>
-                        </div>
-                        
-                        <!-- Navigation Bullets Color -->
-                        <div class="fullpage-setting-row" id="fullpage-navigation-color-row">
-                            <div class="flex items-center gap-2">
-                                <label for="fullpage-navigation-color" class="fullpage-setting-label">Bullets color</label>
-                                <i data-lucide="help-circle" class="w-4 h-4 cursor-help fullpage-help-icon" data-tippy-content="Color of the navigation bullets."></i>
-                            </div>
-                            <div class="fullpage-setting-controls">
-                                <input type="color" id="fullpage-navigation-color" value="#333333" class="fullpage-color-picker">
-                                <span class="fullpage-setting-value" id="fullpage-navigation-color-value">#333333</span>
-                                <button type="button" id="fullpage-navigation-color-reset" class="ml-1 p-0.5 text-gray-500 hover:text-gray-700 transition-colors" data-tippy-content="Reset">
-                                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Disable on Mobile -->
-                        <div class="fullpage-setting-row">
-                            <div class="flex items-center gap-2">
-                                <label for="fullpage-disable-mobile" class="fullpage-setting-label">Disable on mobile</label>
-                                <i data-lucide="help-circle" class="w-4 h-4 cursor-help fullpage-help-icon" data-tippy-content="Disables fullPage scrolling on mobile devices."></i>
-                            </div>
-                            <label class="fullpage-toggle-switch">
-                                <input type="checkbox" id="fullpage-disable-mobile" class="sr-only peer">
-                                <div class="fullpage-toggle-slider"></div>
-                            </label>
-                        </div>
-                        
-                        <!-- Use Scroll Bar -->
-                        <div class="fullpage-setting-row">
-                            <div class="flex items-center gap-2">
-                                <label for="fullpage-scrollbar" class="fullpage-setting-label">Use scroll bar</label>
-                                <i data-lucide="help-circle" class="w-4 h-4 cursor-help fullpage-help-icon" data-tippy-content="Shows a visible scrollbar on the page."></i>
-                            </div>
-                            <label class="fullpage-toggle-switch">
-                                <input type="checkbox" id="fullpage-scrollbar" class="sr-only peer">
-                                <div class="fullpage-toggle-slider"></div>
-                            </label>
-                        </div>
-                        
-                        <!-- Motion Feel -->
-                        <div class="fullpage-setting-row">
-                            <div class="flex items-center gap-2">
-                                <label for="fullpage-motion-feel" class="fullpage-setting-label">Motion feel</label>
-                                <i data-lucide="help-circle" class="w-4 h-4 cursor-help fullpage-help-icon" data-tippy-content="Animation style: Smooth, Snappy, or Relaxed."></i>
-                            </div>
-                            <select id="fullpage-motion-feel" class="fullpage-select">
-                                <option value="smooth" selected>Smooth</option>
-                                <option value="snappy">Snappy</option>
-                                <option value="relaxed">Relaxed</option>
-                            </select>
-                        </div>
-                        
-                        <!-- Combined Preview -->
-                        <div class="fullpage-preview-container">
-                            <div class="fullpage-preview-header">
-                                <div class="fullpage-preview-label">Preview</div>
-                                <button class="fullpage-preview-play-btn" id="fullpage-preview-play-btn" type="button">
-                                    <i data-lucide="play" class="w-4 h-4"></i>
-                                    <span>Play</span>
-                                </button>
-                            </div>
-                            <div class="fullpage-preview-track" id="fullpage-preview-track">
-                                <div class="fullpage-preview-section" id="fullpage-preview-section">
-                                    <div class="fullpage-preview-section-content"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            */ ?>
-
-            <div class="mb-4 category-list-wrapper">
-                
-                <div class="search-bar-wrapper">
-                    <input type="text" class="search-bar" placeholder="Search templates" id="section-search-input">
-                    <div class="search-loader" id="search-loader"></div>
-                </div>
-                <!-- <h3 class="text-sm font-semibold text-accent-text mb-4">Categories</h3>  -->
-                <div class="category-list" id="category-list">
-                    <!-- Categories will be loaded here -->
-                </div>
-            </div>
-
         </div>
     </div>
-    <?php endif; // [DISABLED_FOR_WEDDING_VERSION] end sidebar ?>
-    <!-- Hidden elements kept for JS compatibility (updateCurrentThemeButton uses these IDs) -->
-    <div id="current-theme-preview" style="display:none;"></div>
-    <span id="current-theme-name" style="display:none;"></span>
 
-    <?php // [DISABLED_FOR_WEDDING_VERSION]: Toggle button for sidebar removed along with sidebar. ?>
-    <?php if (false): ?>
-    <!-- Independent Toggle Button -->
-    <button class="sidebar-toggle" id="toggle-sidebar">
-        <i data-lucide="chevron-left"></i>
+    <!-- Independent Toggle Button (View Your Pages - glued to left edge when collapsed) -->
+    <button class="sidebar-toggle" id="toggle-sidebar" aria-label="Pages" data-tippy-content="Pages" data-tippy-placement="right">
+        <i data-lucide="files"></i>
     </button>
-    <?php endif; // [DISABLED_FOR_WEDDING_VERSION] end toggle button ?>
 
     <!-- Header Panel (Independent, replaces sidebar) -->
     <div class="header-panel" id="header-panel">
@@ -1055,6 +913,19 @@ function editor_asset(string $path): string
         </div>
     </div>
 
+    <!-- Page Preview Hover Panel (second sidebar for page previews from sidebar list) -->
+    <div class="page-preview-hover-panel" id="page-preview-hover-panel">
+        <div class="page-preview-hover-header">
+            <span class="page-preview-hover-title" id="page-preview-hover-title">Preview</span>
+            <button type="button" class="page-preview-hover-close" id="page-preview-hover-close" aria-label="Close preview">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="page-preview-hover-body">
+            <iframe id="page-preview-hover-iframe" class="page-preview-hover-iframe" src="about:blank" title="Page preview"></iframe>
+        </div>
+    </div>
+
     <!-- Category Hover Panel (Inside Editor Layout) -->
     <div class="category-hover-panel" id="category-hover-panel">
         <div class="category-hover-panel-header">
@@ -1207,6 +1078,7 @@ function editor_asset(string $path): string
                                 <div class="onboarding-preview-themes-header">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
                                     <span>Themes</span>
+                                    <button type="button" class="theme-panel-reset-badge onboarding-preview-themes-reset" id="onboarding-preview-themes-reset" aria-label="Reset to default theme" title="Reset to default theme">Reset</button>
                                     <button class="onboarding-preview-themes-toggle" id="onboarding-preview-themes-toggle" aria-label="Toggle themes panel" title="Hide themes">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l10 0"/><path d="M4 12l4 4"/><path d="M4 12l4 -4"/><path d="M20 4l0 16"/></svg>
                                     </button>
@@ -1408,11 +1280,14 @@ function editor_asset(string $path): string
             }
         }
 
-        // Switch Publish button to "View Website" if page is already published on load
+        // Switch Publish button to "View Website" if page is already published on load,
+        // or preserve previous slug for reactivation if unpublished but slug exists.
         function initViewWebsiteBtn() {
             if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setViewWebsiteMode === 'function') {
                 if (preloaded && preloaded.page && preloaded.page.is_public && preloaded.page.share_slug) {
                     window.downloadOptionsHandler.setViewWebsiteMode(preloaded.page.share_slug);
+                } else if (preloaded && preloaded.page && !preloaded.page.is_public && preloaded.page.share_slug) {
+                    window.downloadOptionsHandler.previousSlug = preloaded.page.share_slug;
                 }
             } else {
                 setTimeout(initViewWebsiteBtn, 250);
@@ -1429,6 +1304,15 @@ function editor_asset(string $path): string
                     var pm = window.pageManagerInstance;
                     if (pm && pm.currentPageId) {
                         showRsvpBtn(pm.currentPageId);
+                    }
+                    // Show published indicator in topbar (green dot + domain)
+                    var link = document.getElementById('topbar-published-link');
+                    if (link && shareUrl) {
+                        var domainDisplay = shareUrl.replace(/^https:\/\//, '');
+                        link.style.display = 'inline-flex';
+                        link.href = shareUrl;
+                        link.title = domainDisplay;
+                        link.setAttribute('data-tippy-content', domainDisplay);
                     }
                 };
             }

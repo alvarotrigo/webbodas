@@ -55,8 +55,24 @@
         if (!outlineList) return;
 
         // Get current theme from parent window
-        const currentTheme = window.currentTheme;
-        if (!currentTheme) return;
+        let themeToApply = window.currentTheme;
+
+        // When no theme is selected, fall back to the theme embedded in the template's <body>
+        // (same logic used for category-sections-grid in app.js)
+        if (!themeToApply) {
+            try {
+                const previewIframe = document.getElementById('preview-iframe');
+                if (previewIframe && previewIframe.contentDocument && previewIframe.contentDocument.body) {
+                    const bodyClasses = previewIframe.contentDocument.body.className || '';
+                    const match = bodyClasses.match(/\b((?:theme-|custom-theme-)[\w-]+)/);
+                    if (match) {
+                        themeToApply = match[1];
+                    }
+                }
+            } catch (e) {
+                // Silently ignore cross-origin or access errors
+            }
+        }
 
         // Remove old theme classes
         Array.from(outlineList.classList).forEach(cls => {
@@ -65,9 +81,9 @@
             }
         });
 
-        // Add new theme class
-        if (currentTheme && currentTheme.trim() !== '') {
-            outlineList.classList.add(currentTheme);
+        // Add resolved theme class (if any)
+        if (themeToApply && themeToApply.trim() !== '') {
+            outlineList.classList.add(themeToApply);
         }
     }
 

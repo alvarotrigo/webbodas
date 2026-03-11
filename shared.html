@@ -203,6 +203,7 @@
                         if (!html) return '';
                         return html
                             .replace(/<div[^>]*class="[^"]*section-menu[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
+                            .replace(/<button[^>]*class="[^"]*countdown-edit-btn[^"]*"[^>]*>[\s\S]*?<\/button>/gi, '')
                             .replace(/\s+id="mce_\d+"/g, '')
                             .replace(/\s+contenteditable="[^"]*"/g, '')
                             .replace(/\s+spellcheck="[^"]*"/g, '')
@@ -210,8 +211,10 @@
                             .replace(/\s+data-accordion-initialized="[^"]*"/g, '')
                             .replace(/\s+data-process-accordion-initialized="[^"]*"/g, '')
                             .replace(/\s+data-cloudinary-initialized="[^"]*"/g, '')
+                            .replace(/\s+data-countdown-editor-initialized="[^"]*"/g, '')
                             .replace(/\bmce-content-body\b/g, '')
-                            .replace(/\bin-viewport\b/g, '');
+                            .replace(/\bin-viewport\b/g, '')
+                            .replace(/\bcountdown-edit-container\b/g, '');
                     }
 
                     // Remove editor-injected hidden inputs from a form (TinyMCE, MCE, etc.)

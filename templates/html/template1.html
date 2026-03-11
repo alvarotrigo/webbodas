@@ -20,21 +20,7 @@
           box-sizing: border-box;
       }
 
-      :root {
-          --primary-bg: #F8EDE3;
-          --secondary-bg: #FFF9F4;
-          --accent-bg: #F0DAC8;
-          --primary-text: #2C2C2C;
-          --secondary-text: #3A3A3A;
-          --accent-text: #2D5A3D;
-          --primary-accent: #C47D5A;
-          --primary-accent-soft: #B8D4B8;
-          --secondary-accent: #E8937A;
-          --border-color: #8DB48E;
-          --font-display: 'Playfair Display', Georgia, serif;
-          --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
-          --font-hand: 'Caveat', cursive;
-      }
+      /* Theme variables come from body class (e.g. .theme-wedding-sepia-lace) */
 
       html {
           scroll-behavior: smooth;
@@ -43,7 +29,7 @@
       body {
           background-color: var(--primary-bg);
           color: var(--primary-text);
-          font-family: var(--font-body);
+          font-family: var(--font-family);
           font-size: 16px;
           font-weight: 400;
           line-height: 1.7;
@@ -142,7 +128,7 @@
       }
 
       .hero-label {
-          font-family: var(--font-hand);
+          font-family: 'Caveat', cursive;
           font-size: 22px;
           color: var(--primary-accent);
           margin-bottom: 16px;
@@ -150,7 +136,7 @@
       }
 
       .hero-names {
-          font-family: var(--font-display);
+          font-family: var(--heading-font);
           font-size: clamp(64px, 12vw, 140px);
           font-weight: 400;
           line-height: 1;
@@ -164,7 +150,7 @@
       }
 
       .hero-date {
-          font-family: var(--font-hand);
+          font-family: 'Caveat', cursive;
           font-size: 24px;
           color: var(--primary-accent);
           letter-spacing: 0.1em;
@@ -255,7 +241,7 @@
       }
 
       .section-title {
-          font-family: var(--font-display);
+          font-family: var(--heading-font);
           font-size: clamp(36px, 5vw, 64px);
           font-weight: 400;
           line-height: 1.15;
@@ -298,7 +284,7 @@
       }
 
       .celebration-text h3 {
-          font-family: var(--font-display);
+          font-family: var(--heading-font);
           font-size: 28px;
           font-weight: 400;
           color: var(--accent-text);
@@ -334,7 +320,7 @@
       }
 
       .events-title {
-          font-family: var(--font-display);
+          font-family: var(--heading-font);
           font-size: clamp(48px, 8vw, 100px);
           font-weight: 400;
           color: var(--accent-text);
@@ -360,7 +346,7 @@
       }
 
       .event-day-label {
-          font-family: var(--font-hand);
+          font-family: 'Caveat', cursive;
           font-size: 28px;
           color: var(--primary-accent);
           margin-bottom: 24px;
@@ -375,7 +361,7 @@
       }
 
       .event-time {
-          font-family: var(--font-display);
+          font-family: var(--heading-font);
           font-size: 15px;
           font-weight: 600;
           color: var(--accent-text);
@@ -383,7 +369,7 @@
       }
 
       .event-detail h4 {
-          font-family: var(--font-display);
+          font-family: var(--heading-font);
           font-size: 18px;
           font-weight: 500;
           color: var(--primary-text);
@@ -398,7 +384,7 @@
       }
 
       .event-detail .venue-name {
-          font-family: var(--font-hand);
+          font-family: 'Caveat', cursive;
           font-size: 18px;
           color: var(--primary-accent);
       }
@@ -410,7 +396,7 @@
       }
 
       .map-title {
-          font-family: var(--font-display);
+          font-family: var(--heading-font);
           font-size: clamp(48px, 8vw, 96px);
           font-weight: 400;
           color: var(--accent-text);
@@ -471,7 +457,7 @@
       }
 
       .stay-card h3 {
-          font-family: var(--font-display);
+          font-family: var(--heading-font);
           font-size: 20px;
           font-weight: 500;
           color: var(--accent-text);
@@ -479,7 +465,7 @@
       }
 
       .stay-card .price {
-          font-family: var(--font-hand);
+          font-family: 'Caveat', cursive;
           font-size: 18px;
           color: var(--primary-accent);
           margin-bottom: 16px;
@@ -538,7 +524,7 @@
           background: var(--secondary-bg);
           padding: 20px 40px;
           border-radius: 16px;
-          font-family: var(--font-body);
+          font-family: var(--font-family);
           font-size: 14px;
           letter-spacing: 0.2em;
           color: var(--secondary-text);
@@ -592,7 +578,7 @@
           border: none;
           border-bottom: 1px solid var(--border-color);
           color: var(--primary-text);
-          font-family: var(--font-body);
+          font-family: var(--font-family);
           font-size: 16px;
           padding: 12px 0;
           outline: none;
@@ -633,7 +619,7 @@
           border: 1px solid var(--primary-accent);
           background: transparent;
           color: var(--primary-accent);
-          font-family: var(--font-body);
+          font-family: var(--font-family);
           font-size: 12px;
           font-weight: 500;
           letter-spacing: 0.2em;
@@ -657,7 +643,7 @@
       }
 
       footer .footer-names {
-          font-family: var(--font-display);
+          font-family: var(--heading-font);
           font-size: 36px;
           font-weight: 400;
           color: var(--accent-text);
@@ -792,7 +778,7 @@
       }
     </style>
   </head>
-  <body>
+  <body class="theme-wedding-sepia-lace">
     <!-- NAV -->
     <nav id="nav">
       <a href="#home">Home</a>
@@ -810,69 +796,69 @@
         <svg viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M250 20C180 60 60 140 40 280C35 320 50 360 80 380C120 340 200 240 260 100C270 70 260 40 250 20Z"
-            fill="#4A8B5C"
+            fill="#8c6840"
             opacity="0.7"
           />
-          <path d="M240 30C200 80 120 200 80 320" stroke="#2D5A3D" stroke-width="1.5" opacity="0.4" />
-          <path d="M220 60C190 100 140 180 110 260" stroke="#2D5A3D" stroke-width="1" opacity="0.3" />
-          <circle cx="60" cy="60" r="20" fill="#D4A76A" opacity="0.6" />
-          <circle cx="90" cy="40" r="12" fill="#E8937A" opacity="0.5" />
+          <path d="M240 30C200 80 120 200 80 320" stroke="#4a3020" stroke-width="1.5" opacity="0.4" />
+          <path d="M220 60C190 100 140 180 110 260" stroke="#4a3020" stroke-width="1" opacity="0.3" />
+          <circle cx="60" cy="60" r="20" fill="#d4b896" opacity="0.6" />
+          <circle cx="90" cy="40" r="12" fill="#b8906c" opacity="0.5" />
         </svg>
       </div>
       <div class="botanical leaf-tr">
         <svg viewBox="0 0 350 450" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M50 30C120 70 240 160 270 300C275 340 260 380 230 400C190 360 100 260 40 120C30 80 40 50 50 30Z"
-            fill="#8DB48E"
+            fill="#dcc8a8"
             opacity="0.6"
           />
-          <path d="M60 40C100 100 180 220 230 340" stroke="#2D5A3D" stroke-width="1.5" opacity="0.3" />
-          <path d="M280 60C260 120 220 200 180 260" stroke="#4A8B5C" stroke-width="1" opacity="0.4" />
-          <path d="M300 20C280 40 260 80 260 120C260 80 280 40 320 20Z" fill="#2D5A3D" opacity="0.5" />
-          <circle cx="280" cy="120" r="16" fill="#E8937A" opacity="0.4" />
-          <circle cx="310" cy="90" r="8" fill="#D4A76A" opacity="0.5" />
+          <path d="M60 40C100 100 180 220 230 340" stroke="#4a3020" stroke-width="1.5" opacity="0.3" />
+          <path d="M280 60C260 120 220 200 180 260" stroke="#8c6840" stroke-width="1" opacity="0.4" />
+          <path d="M300 20C280 40 260 80 260 120C260 80 280 40 320 20Z" fill="#4a3020" opacity="0.5" />
+          <circle cx="280" cy="120" r="16" fill="#b8906c" opacity="0.4" />
+          <circle cx="310" cy="90" r="8" fill="#d4b896" opacity="0.5" />
         </svg>
       </div>
       <div class="botanical leaf-bl">
         <svg viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M20 180C40 120 100 40 200 20C180 60 160 120 140 160C120 140 80 150 20 180Z"
-            fill="#B8D4B8"
+            fill="#d4b896"
             opacity="0.6"
           />
-          <circle cx="180" cy="60" r="24" fill="#E8937A" opacity="0.3" />
-          <path d="M50 160C80 100 140 50 200 30" stroke="#4A8B5C" stroke-width="1" opacity="0.4" />
+          <circle cx="180" cy="60" r="24" fill="#b8906c" opacity="0.3" />
+          <path d="M50 160C80 100 140 50 200 30" stroke="#8c6840" stroke-width="1" opacity="0.4" />
         </svg>
       </div>
       <div class="botanical leaf-br">
         <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M180 180C160 120 100 40 20 20C40 60 60 120 80 160C100 140 140 150 180 180Z"
-            fill="#4A8B5C"
+            fill="#8c6840"
             opacity="0.5"
           />
-          <circle cx="40" cy="100" r="14" fill="#D4A76A" opacity="0.4" />
+          <circle cx="40" cy="100" r="14" fill="#d4b896" opacity="0.4" />
         </svg>
       </div>
       <div class="botanical flower-1">
         <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="40" cy="40" r="12" fill="#D4A76A" opacity="0.8" />
-          <ellipse cx="40" cy="18" rx="8" ry="14" fill="#E8937A" opacity="0.6" transform="rotate(0 40 40)" />
-          <ellipse cx="40" cy="18" rx="8" ry="14" fill="#E8937A" opacity="0.6" transform="rotate(72 40 40)" />
-          <ellipse cx="40" cy="18" rx="8" ry="14" fill="#E8937A" opacity="0.6" transform="rotate(144 40 40)" />
-          <ellipse cx="40" cy="18" rx="8" ry="14" fill="#E8937A" opacity="0.6" transform="rotate(216 40 40)" />
-          <ellipse cx="40" cy="18" rx="8" ry="14" fill="#E8937A" opacity="0.6" transform="rotate(288 40 40)" />
+          <circle cx="40" cy="40" r="12" fill="#d4b896" opacity="0.8" />
+          <ellipse cx="40" cy="18" rx="8" ry="14" fill="#b8906c" opacity="0.6" transform="rotate(0 40 40)" />
+          <ellipse cx="40" cy="18" rx="8" ry="14" fill="#b8906c" opacity="0.6" transform="rotate(72 40 40)" />
+          <ellipse cx="40" cy="18" rx="8" ry="14" fill="#b8906c" opacity="0.6" transform="rotate(144 40 40)" />
+          <ellipse cx="40" cy="18" rx="8" ry="14" fill="#b8906c" opacity="0.6" transform="rotate(216 40 40)" />
+          <ellipse cx="40" cy="18" rx="8" ry="14" fill="#b8906c" opacity="0.6" transform="rotate(288 40 40)" />
         </svg>
       </div>
       <div class="botanical flower-2">
         <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="30" cy="30" r="8" fill="#C47D5A" opacity="0.7" />
-          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#D4A76A" opacity="0.5" transform="rotate(0 30 30)" />
-          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#D4A76A" opacity="0.5" transform="rotate(60 30 30)" />
-          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#D4A76A" opacity="0.5" transform="rotate(120 30 30)" />
-          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#D4A76A" opacity="0.5" transform="rotate(180 30 30)" />
-          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#D4A76A" opacity="0.5" transform="rotate(240 30 30)" />
-          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#D4A76A" opacity="0.5" transform="rotate(300 30 30)" />
+          <circle cx="30" cy="30" r="8" fill="#8c6840" opacity="0.7" />
+          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#d4b896" opacity="0.5" transform="rotate(0 30 30)" />
+          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#d4b896" opacity="0.5" transform="rotate(60 30 30)" />
+          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#d4b896" opacity="0.5" transform="rotate(120 30 30)" />
+          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#d4b896" opacity="0.5" transform="rotate(180 30 30)" />
+          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#d4b896" opacity="0.5" transform="rotate(240 30 30)" />
+          <ellipse cx="30" cy="14" rx="6" ry="10" fill="#d4b896" opacity="0.5" transform="rotate(300 30 30)" />
         </svg>
       </div>
 
@@ -924,7 +910,7 @@
         <svg viewBox="0 0 200 300" fill="none">
           <path
             d="M160 10C120 50 40 140 30 240C28 270 40 290 60 300C90 270 150 190 170 80C175 50 170 25 160 10Z"
-            fill="#8DB48E"
+            fill="#dcc8a8"
           />
         </svg>
       </div>
@@ -1001,7 +987,7 @@
         <svg viewBox="0 0 200 300" fill="none">
           <path
             d="M40 10C80 50 160 140 170 240C172 270 160 290 140 300C110 270 50 190 30 80C25 50 30 25 40 10Z"
-            fill="#4A8B5C"
+            fill="#8c6840"
           />
         </svg>
       </div>
@@ -1073,14 +1059,14 @@
       <!-- Decorative -->
       <div class="botanical" style="bottom:-20px; left:5%; width:140px; opacity:0.35; transform:rotate(20deg);">
         <svg viewBox="0 0 200 200" fill="none">
-          <path d="M20 180C40 120 100 40 180 20C160 60 140 120 120 160C100 140 60 150 20 180Z" fill="#8DB48E" />
+          <path d="M20 180C40 120 100 40 180 20C160 60 140 120 120 160C100 140 60 150 20 180Z" fill="#dcc8a8" />
         </svg>
       </div>
       <div class="botanical" style="top:20px; right:8%; width:100px; opacity:0.3; transform:rotate(-30deg);">
         <svg viewBox="0 0 100 140" fill="none">
           <path
             d="M80 10C60 30 20 70 15 120C14 135 20 145 30 150C45 135 70 95 82 40C84 25 82 15 80 10Z"
-            fill="#4A8B5C"
+            fill="#8c6840"
           />
         </svg>
       </div>

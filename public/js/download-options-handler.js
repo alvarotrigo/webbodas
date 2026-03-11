@@ -8,6 +8,10 @@ class DownloadOptionsHandler {
         // React project generation now handled by PHP backend
         this.currentTab = 'subdomain'; // Track current tab (subdomain | domain)
         this.successShown = false; // Track if success message was shown
+        /** When set (e.g. from sidebar "Publish" on another page), publish this page instead of current */
+        this.publishPageIdOverride = null;
+        /** Previous share_slug preserved after unpublish so user can reactivate it */
+        this.previousSlug = null;
     }
 
     /**
@@ -24,50 +28,110 @@ class DownloadOptionsHandler {
     }
 
     /**
-     * Show upgrade modal for non-pro users
+     * [DISABLED_FOR_WEDDING_VERSION]: showUpgradeModal removed from download handler — upgrade modal
+     * only appears during onboarding (when user has no pages). All internal calls to this method
+     * are also disabled below.
      */
     async showUpgradeModal() {
-        // Check if upgrade modal is available
-        if (typeof window.upgradeModal !== 'undefined' && window.upgradeModal) {
-            await window.upgradeModal.show();
-        } else {
-            // Fallback: show alert
-            alert('GitHub Export is a Pro feature. Please upgrade to continue.');
-        }
+        // [DISABLED_FOR_WEDDING_VERSION]: Upgrade modal disabled outside of onboarding.
+        // if (typeof window.upgradeModal !== 'undefined' && window.upgradeModal) {
+        //     await window.upgradeModal.show();
+        // } else {
+        //     alert('GitHub Export is a Pro feature. Please upgrade to continue.');
+        // }
     }
 
     /**
      * Show publish modal — simplified design based on user plan.
-     * Non-PRO: subdomain (.yeslovey.com) + upgrade prompt.
-     * PRO: custom domain (.com).
+     * If the page had a previous slug (after unpublish), shows reactivation options.
+     * Otherwise shows the standard "choose name" input.
+     * @param {string|null} [pageId] - If provided (e.g. from sidebar), publish this page instead of current.
+     * @param {string|null} [previousSlugOverride] - Previous slug passed from sidebar page list.
      */
-    showDownloadOptions() {
+    showDownloadOptions(pageId, previousSlugOverride) {
+        this.publishPageIdOverride = pageId || null;
         const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
         const domainSuffix = isPro ? '.com' : '.yeslovey.com';
 
-        const upgradePrompt = !isPro ? `
-            <p class="text-sm text-center mt-4" style="color: var(--secondary-text);">
-                Do you want a custom <strong>.com</strong> domain?
-                <a href="javascript:void(0)" onclick="window.downloadOptionsHandler.closeModal(); window.downloadOptionsHandler.showUpgradeModal();" class="text-blue-600 hover:underline font-semibold">Upgrade to pro</a>
-            </p>
-        ` : '';
+        const savedSlug = previousSlugOverride || this.previousSlug || null;
 
-        const modalHTML = `
+        let modalHTML;
+
+        if (savedSlug) {
+            const fullDomain = savedSlug + domainSuffix;
+            modalHTML = `
             <div id="download-options-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10000]" style="display: flex;">
                 <div class="download-options-modal-content rounded-2xl shadow-2xl max-w-lg w-full mx-4 github-export-content" style="background-color: var(--primary-bg, #ffffff);" onclick="event.stopPropagation()">
                     <div class="p-8 relative">
 
-                        <!-- Close (X) button -->
                         <button onclick="window.downloadOptionsHandler.closeModal()" aria-label="Close" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full transition-all hover:bg-[var(--accent-bg)] text-[var(--secondary-text)] hover:text-[var(--primary-text)]">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                             </svg>
                         </button>
 
-                        <!-- Title -->
+                        <h2 class="text-2xl font-bold text-[var(--primary-text)] mb-2 pr-8">Republish your website</h2>
+                        <p class="text-[var(--secondary-text)] text-sm mb-6">Your previous domain is still available.</p>
+
+                        <!-- Option 1: Reactivate previous domain -->
+                        <button onclick="window.downloadOptionsHandler.reactivatePage()" class="republish-option-btn republish-option-reactivate w-full py-4 px-5 rounded-xl border-2 border-blue-500 bg-blue-50 hover:bg-blue-100 transition-all mb-3 text-left" style="background: color-mix(in srgb, var(--primary-bg) 92%, #3b82f6 8%); border-color: #3b82f6;">
+                            <div class="flex items-center gap-3">
+                                <div class="shrink-0 w-10 h-10 rounded-full flex items-center justify-center" style="background: #3b82f6;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                                </div>
+                                <div>
+                                    <span class="block font-semibold text-[var(--primary-text)]">Reactivate previous domain</span>
+                                    <span class="block text-sm mt-0.5" style="color: #3b82f6; font-weight: 500;">${fullDomain}</span>
+                                </div>
+                            </div>
+                        </button>
+
+                        <!-- Option 2: Choose a new domain -->
+                        <button onclick="window.downloadOptionsHandler.showNewDomainInput()" class="republish-option-btn w-full py-4 px-5 rounded-xl border border-[var(--border-color)] hover:border-[var(--secondary-text)] transition-all text-left" style="background: var(--primary-bg);">
+                            <div class="flex items-center gap-3">
+                                <div class="shrink-0 w-10 h-10 rounded-full flex items-center justify-center" style="background: var(--accent-bg);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--secondary-text)]"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                </div>
+                                <div>
+                                    <span class="block font-semibold text-[var(--primary-text)]">Choose a new domain</span>
+                                    <span class="block text-sm text-[var(--secondary-text)] mt-0.5">Remove the old name and pick a different one</span>
+                                </div>
+                            </div>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            `;
+        } else {
+            modalHTML = this._buildNewDomainModalHTML(domainSuffix);
+        }
+
+        const existingModal = document.getElementById('download-options-modal');
+        if (existingModal) existingModal.remove();
+
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        this.successShown = false;
+        this._attachModalCloseHandlers();
+    }
+
+    /**
+     * Build the standard "choose a new name" modal HTML (extracted for reuse).
+     */
+    _buildNewDomainModalHTML(domainSuffix) {
+        return `
+            <div id="download-options-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10000]" style="display: flex;">
+                <div class="download-options-modal-content rounded-2xl shadow-2xl max-w-lg w-full mx-4 github-export-content" style="background-color: var(--primary-bg, #ffffff);" onclick="event.stopPropagation()">
+                    <div class="p-8 relative">
+
+                        <button onclick="window.downloadOptionsHandler.closeModal()" aria-label="Close" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full transition-all hover:bg-[var(--accent-bg)] text-[var(--secondary-text)] hover:text-[var(--primary-text)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+
                         <h2 class="text-2xl font-bold text-[var(--primary-text)] mb-6 pr-8">Choose your website name</h2>
 
-                        <!-- Name input + domain suffix -->
                         <div class="flex items-center border border-[var(--border-color)] rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
                             <input type="text" id="publish-web-name" placeholder="my-wedding"
                                 class="flex-1 px-4 py-3 border-0 focus:outline-none focus:ring-0 bg-[var(--primary-bg)] text-[var(--primary-text)]"
@@ -75,9 +139,6 @@ class DownloadOptionsHandler {
                             <span class="px-4 py-3 bg-[var(--secondary-bg)] text-[var(--secondary-text)] border-l border-[var(--border-color)] whitespace-nowrap font-medium">${domainSuffix}</span>
                         </div>
 
-                        ${upgradePrompt}
-
-                        <!-- Single centered Publish button -->
                         <div class="mt-6">
                             <button onclick="window.downloadOptionsHandler.publishPage()" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all font-medium text-base flex items-center justify-center gap-2">
                                 Publish
@@ -94,25 +155,34 @@ class DownloadOptionsHandler {
                 </div>
             </div>
         `;
+    }
 
-        // Remove existing modal if any
+    /**
+     * Switch the republish modal to show the new-domain input form.
+     */
+    showNewDomainInput() {
+        const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
+        const domainSuffix = isPro ? '.com' : '.yeslovey.com';
+
         const existingModal = document.getElementById('download-options-modal');
-        if (existingModal) {
-            existingModal.remove();
-        }
+        if (existingModal) existingModal.remove();
 
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
-        this.successShown = false;
+        document.body.insertAdjacentHTML('beforeend', this._buildNewDomainModalHTML(domainSuffix));
+        this._attachModalCloseHandlers();
 
-        // Close on background click
+        const input = document.getElementById('publish-web-name');
+        if (input) input.focus();
+    }
+
+    /**
+     * Attach close-on-click and close-on-Escape handlers to the modal.
+     */
+    _attachModalCloseHandlers() {
         const modal = document.getElementById('download-options-modal');
+        if (!modal) return;
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                this.closeModal();
-            }
+            if (e.target === modal) this.closeModal();
         });
-
-        // Close on Escape key
         const escapeHandler = (e) => {
             if (e.key === 'Escape') {
                 this.closeModal();
@@ -190,10 +260,11 @@ class DownloadOptionsHandler {
             tabGithub.style.opacity = '0.5';
             tabGithub.style.cursor = 'not-allowed';
             
-            // Update the onclick to show upgrade modal instead
+            // [DISABLED_FOR_WEDDING_VERSION]: Upgrade modal on GitHub tab click removed — modal only
+            // appears during onboarding (when user has no pages).
             tabGithub.onclick = (e) => {
                 e.preventDefault();
-                this.showUpgradeModal();
+                // this.showUpgradeModal();
             };
             
             // Add a Pro badge to the tab
@@ -212,7 +283,9 @@ class DownloadOptionsHandler {
     switchTab(tabName) {
         const tabDomain = document.getElementById('tab-domain');
         if (tabName === 'domain' && tabDomain && tabDomain.disabled) {
-            this.showUpgradeModal();
+            // [DISABLED_FOR_WEDDING_VERSION]: Upgrade modal on domain tab click removed — modal only
+            // appears during onboarding (when user has no pages).
+            // this.showUpgradeModal();
             return;
         }
         this.currentTab = tabName;
@@ -267,7 +340,7 @@ class DownloadOptionsHandler {
         console.log('  currentPageId:', window.pageManagerInstance && window.pageManagerInstance.currentPageId);
         console.log('  serverUserData:', window.serverUserData);
 
-        const pageId = window.pageManagerInstance && window.pageManagerInstance.currentPageId;
+        const pageId = this.publishPageIdOverride || (window.pageManagerInstance && window.pageManagerInstance.currentPageId);
         const clerkUserId = window.serverUserData && window.serverUserData.clerk_user_id;
         const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
 
@@ -316,8 +389,16 @@ class DownloadOptionsHandler {
             })
             .then(function (data) {
                 window.downloadOptionsHandler.hideLoadingIndicator();
+                window.downloadOptionsHandler.previousSlug = null;
                 window.downloadOptionsHandler.showSuccessMessage(data.shareUrl);
-                window.downloadOptionsHandler.setViewWebsiteMode(data.shareSlug);
+                const fromSidebar = !!window.downloadOptionsHandler.publishPageIdOverride;
+                if (!fromSidebar) {
+                    window.downloadOptionsHandler.setViewWebsiteMode(data.shareSlug);
+                }
+                if (fromSidebar && typeof fetchAndRenderPagesList === 'function') {
+                    fetchAndRenderPagesList();
+                }
+                window.downloadOptionsHandler.publishPageIdOverride = null;
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(data.shareUrl).then(function () {
                         if (typeof showToast === 'function') {
@@ -334,6 +415,78 @@ class DownloadOptionsHandler {
                     showToast('Publish Failed', msg, {});
                 } else {
                     alert('Publish Failed: ' + msg);
+                }
+            });
+    }
+
+    /**
+     * Reactivate a previously published page using its stored share_slug.
+     * Sets is_public back to true without changing the slug.
+     */
+    reactivatePage() {
+        const pageId = this.publishPageIdOverride || (window.pageManagerInstance && window.pageManagerInstance.currentPageId);
+        const clerkUserId = window.serverUserData && window.serverUserData.clerk_user_id;
+        const slug = this.previousSlug;
+
+        if (!pageId || !clerkUserId || !slug) {
+            this.closeModal();
+            if (typeof showToast === 'function') {
+                showToast('Error', 'Could not reactivate. Please try publishing again.', {});
+            }
+            return;
+        }
+
+        this.closeModal();
+        this.showLoadingIndicator('Reactivating your website...');
+
+        const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
+        const publishAction = isPro ? 'publish-domain' : 'publish-subdomain';
+
+        fetch('./api/pages.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: publishAction,
+                id: pageId,
+                clerk_user_id: clerkUserId,
+                share_slug: slug
+            })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (result) {
+                if (!result.success || !result.share_url) {
+                    throw new Error(result.error || 'Failed to reactivate page');
+                }
+                return { shareUrl: result.share_url, shareSlug: result.share_slug || slug };
+            })
+            .then(function (data) {
+                window.downloadOptionsHandler.hideLoadingIndicator();
+                window.downloadOptionsHandler.previousSlug = null;
+                window.downloadOptionsHandler.showSuccessMessage(data.shareUrl);
+                const fromSidebar = !!window.downloadOptionsHandler.publishPageIdOverride;
+                if (!fromSidebar) {
+                    window.downloadOptionsHandler.setViewWebsiteMode(data.shareSlug);
+                }
+                if (fromSidebar && typeof fetchAndRenderPagesList === 'function') {
+                    fetchAndRenderPagesList();
+                }
+                window.downloadOptionsHandler.publishPageIdOverride = null;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(data.shareUrl).then(function () {
+                        if (typeof showToast === 'function') {
+                            showToast('Link Copied!', 'Your page link has been copied to the clipboard.', {});
+                        }
+                    });
+                }
+            })
+            .catch(function (error) {
+                window.downloadOptionsHandler.hideLoadingIndicator();
+                console.error('Reactivate failed:', error);
+                const msg = error.message || 'Unable to reactivate. Please try again.';
+                if (typeof showToast === 'function') {
+                    showToast('Reactivation Failed', msg, {});
+                } else {
+                    alert('Reactivation Failed: ' + msg);
                 }
             });
     }
@@ -399,29 +552,66 @@ class DownloadOptionsHandler {
     }
 
     /**
-     * Switch the top-bar Publish button to "View Website" (green).
-     * Stores the slug so the click handler in app.js can open shared.html?slug=
+     * When page is published: show View Website icon (opens site in new tab) and switch Publish button to Unpublish (red).
+     * Stores the slug on the button so app.js can handle Unpublish click.
      */
     setViewWebsiteMode(shareSlug) {
         const btn = document.getElementById('download-page');
+        const viewWebsiteLink = document.getElementById('topbar-view-website-link');
         if (!btn || !shareSlug) return;
 
+        // Show and set the View Website icon link (right of Share)
+        if (viewWebsiteLink) {
+            viewWebsiteLink.href = 'shared.html?slug=' + encodeURIComponent(shareSlug);
+            viewWebsiteLink.style.display = '';
+            if (viewWebsiteLink._tippy) {
+                viewWebsiteLink._tippy.setContent('View your published website');
+            } else {
+                viewWebsiteLink.setAttribute('data-tippy-content', 'View your published website');
+            }
+        }
+
         btn.classList.remove('publish-btn');
-        btn.classList.add('view-website-btn');
+        btn.classList.add('unpublish-btn');
         btn.dataset.viewWebsiteSlug = shareSlug;
         btn.disabled = false;
-        btn.innerHTML =
-            '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-            '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>' +
-            '<polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>' +
-            '</svg>' +
-            '<span class="text-sm pl-2">View Website</span>';
+        btn.innerHTML = '<i data-lucide="eye-off"></i> <span class="text-sm pl-2">Unpublish</span>';
 
-        // Update tooltip if Tippy is active on this element
         if (btn._tippy) {
-            btn._tippy.setContent('View your published website');
+            btn._tippy.setContent('Unpublish page');
         } else {
-            btn.setAttribute('data-tippy-content', 'View your published website');
+            btn.setAttribute('data-tippy-content', 'Unpublish page');
+        }
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
+            lucide.createIcons();
+        }
+    }
+
+    /**
+     * When page is not published: hide View Website icon and show Publish button (blue).
+     * @param {string|null} [previousSlug] - The slug the page had before unpublish, preserved for reactivation.
+     */
+    setPublishMode(previousSlug) {
+        this.previousSlug = previousSlug || null;
+        const btn = document.getElementById('download-page');
+        const viewWebsiteLink = document.getElementById('topbar-view-website-link');
+        if (viewWebsiteLink) {
+            viewWebsiteLink.href = '#';
+            viewWebsiteLink.style.display = 'none';
+        }
+        if (btn) {
+            delete btn.dataset.viewWebsiteSlug;
+            btn.classList.remove('unpublish-btn', 'view-website-btn');
+            btn.classList.add('publish-btn');
+            btn.innerHTML = '<i data-lucide="upload-cloud"></i> <span class="text-sm pl-2">Publish</span>';
+            if (btn._tippy) {
+                btn._tippy.setContent('Publish page');
+            } else {
+                btn.setAttribute('data-tippy-content', 'Publish page');
+            }
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                lucide.createIcons();
+            }
         }
     }
 
@@ -734,7 +924,9 @@ class DownloadOptionsHandler {
                 // Check if this is a subscription/upgrade error
                 if (pushResult.requiresUpgrade) {
                     this.hideLoadingIndicator();
-                    await this.showUpgradeModal();
+                    // [DISABLED_FOR_WEDDING_VERSION]: Upgrade modal on GitHub push error removed — modal
+                    // only appears during onboarding (when user has no pages).
+                    // await this.showUpgradeModal();
                     return;
                 }
                 throw new Error(pushResult.error || 'Failed to push to GitHub');
@@ -749,7 +941,9 @@ class DownloadOptionsHandler {
             
             // Check if error response has requiresUpgrade flag
             if (error.requiresUpgrade) {
-                await this.showUpgradeModal();
+                // [DISABLED_FOR_WEDDING_VERSION]: Upgrade modal on GitHub error removed — modal only
+                // appears during onboarding (when user has no pages).
+                // await this.showUpgradeModal();
             } else {
                 alert('Failed to push to GitHub: ' + error.message);
             }
