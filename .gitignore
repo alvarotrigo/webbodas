@@ -39,4 +39,3 @@ dist-ssr
 # Template screenshot generator temp files
 templates/previews/.temp/
 
-public/js/tinymce/*
