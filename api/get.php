@@ -91,7 +91,9 @@ try {
     // Support persistent share tokens (user_pages.share_token) and share_slug (publish subdomain)
     $mysqlClient = getMySQLClient();
     $shareToken = isset($_GET['token']) ? trim($_GET['token']) : '';
+    $shareToken = str_replace(['\\', "\r", "\n"], '', $shareToken); // normalize pasted/encoded URLs
     $shareSlug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
+    $shareSlug = str_replace(['\\', "\r", "\n"], '', $shareSlug);
 
     $document = null;
 

@@ -155,44 +155,81 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 32px;
+  padding: 20px;
 }
-
-.kpi-number {
-  font-family: var(--font-heading);
-  font-size: 56px;
-  font-weight: 700;
-  line-height: 1;
-  margin-bottom: 8px;
-}
-
-.kpi-label {
-  font-family: var(--font-heading);
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.kpi-card.accepted .kpi-number { color: var(--green); }
-.kpi-card.accepted .kpi-label { color: var(--green); font-size: 15px; }
-.kpi-card.declined .kpi-number { color: var(--red); }
-.kpi-card.declined .kpi-label { color: var(--red); font-size: 15px; }
 
 .kpi-header {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
-.kpi-label svg { flex-shrink: 0; }
-.kpi-card.accepted .kpi-label svg { color: var(--green); }
-.kpi-card.declined .kpi-label svg { color: var(--red); }
+
+.kpi-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.kpi-icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.kpi-icon-circle svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Icon circle colors - translucent backgrounds */
+.card-gray .kpi-icon-circle {
+  background: rgba(29, 35, 44, 0.1);
+  color: var(--text-primary);
+}
+.card-green .kpi-icon-circle {
+  background: rgba(25, 135, 84, 0.1);
+  color: var(--green);
+}
+.card-red .kpi-icon-circle {
+  background: rgba(220, 53, 69, 0.1);
+  color: var(--red);
+}
+
+.kpi-text-below {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.kpi-number-right {
+  font-family: var(--font-heading);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Colores para los números */
+.card-green .kpi-number-right {
+  color: var(--green);
+}
+
+.card-red .kpi-number-right {
+  color: var(--red);
+}
+
+.card-gray .kpi-number-right {
+  color: var(--text-primary);
+}
 
 .kpi-breakdown {
+  margin-left: auto;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -200,7 +237,6 @@ body {
   color: var(--text-secondary);
   font-family: var(--font-body);
   text-align: right;
-  padding-top: 4px;
 }
 .kpi-breakdown span {
   display: flex;
@@ -516,30 +552,38 @@ tbody.filtering { opacity: 0.5; }
 <main class="main">
   <!-- KPI Cards -->
   <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="kpi-number" id="totalCount">0</div>
-      <div class="kpi-label">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Responses
+    <div class="kpi-card card-gray">
+      <div class="kpi-header">
+        <div class="kpi-left">
+          <div class="kpi-icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <div class="kpi-text-below">Responses</div>
+        </div>
+        <div class="kpi-number-right" id="totalCount">0</div>
       </div>
     </div>
-    <div class="kpi-card accepted">
+    <div class="kpi-card card-green">
       <div class="kpi-header">
-        <div>
-          <div class="kpi-number" id="acceptedCount">0</div>
-          <div class="kpi-label">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Attending
+        <div class="kpi-left">
+          <div class="kpi-icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
+          <div class="kpi-text-below">Attending</div>
         </div>
+        <div class="kpi-number-right" id="acceptedCount">0</div>
         <div class="kpi-breakdown" id="attendingBreakdown"></div>
       </div>
     </div>
-    <div class="kpi-card declined">
-      <div class="kpi-number" id="declinedCount">0</div>
-      <div class="kpi-label">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-        Declining
+    <div class="kpi-card card-red">
+      <div class="kpi-header">
+        <div class="kpi-left">
+          <div class="kpi-icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </div>
+          <div class="kpi-text-below">Declining</div>
+        </div>
+        <div class="kpi-number-right" id="declinedCount">0</div>
       </div>
     </div>
   </div>
@@ -789,8 +833,8 @@ function applyFilters() {
     const attending = DATA.filter(r => r.attendance === 'Yes, I will');
     const accepted = attending.length;
     const declined = DATA.filter(r => r.attendance === "No, I can't").length;
-    const adults = attending.filter(r => r.ageCategory === 'Adult').length;
-    const children = attending.filter(r => r.ageCategory === 'Child').length;
+    const adults = attending.filter(r => r.ageCategory === 'Adult' || r.ageCategory === 'Senior').length;
+    const children = attending.filter(r => r.ageCategory === 'Child' || r.ageCategory === 'Teen').length;
     const transport = attending.filter(r => r.transport === 'Yes').length;
     document.getElementById('totalCount').textContent = total;
     document.getElementById('acceptedCount').textContent = accepted;
@@ -805,7 +849,7 @@ function applyFilters() {
 
 function badgeFor(type, val) {
   if (!val) return '';
-  const map = { 'Adult': 'badge-blue', 'Child': 'badge-yellow' };
+  const map = { 'Adult': 'badge-blue', 'Child': 'badge-yellow', 'Teen': 'badge-purple', 'Senior': 'badge-gray' };
   return `<span class="badge ${map[val] || 'badge-gray'}">${val}</span>`;
 }
 

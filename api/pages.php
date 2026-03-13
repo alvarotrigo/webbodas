@@ -95,7 +95,13 @@ function listUserPages($userId, $supabase) {
         $result = [];
         foreach (($pages ?: []) as $page) {
             if (!empty($page['is_public']) && !empty($page['share_slug'])) {
-                $page['share_url'] = 'https://' . $page['share_slug'] . '.' . $baseDomain;
+                $slug = trim((string) $page['share_slug']);
+                // Custom domain (e.g. "mi-boda.com"): share_slug already contains the dot
+                if (strpos($slug, '.') !== false) {
+                    $page['share_url'] = 'https://' . $slug;
+                } else {
+                    $page['share_url'] = 'https://' . $slug . '.' . $baseDomain;
+                }
             } else {
                 $page['share_url'] = null;
             }
@@ -383,7 +389,7 @@ function sharePageToken($pageId, $userId, $supabase) {
     try {
         $pages = $supabase->select(
             'user_pages',
-            'id, share_token, is_public',
+            'id, share_token, is_public, share_slug',
             [
                 'id' => $pageId,
                 'user_id' => $userId
@@ -407,7 +413,11 @@ function sharePageToken($pageId, $userId, $supabase) {
                     ['id' => $pageId, 'user_id' => $userId]
                 );
             }
-            $shareUrl = buildShareUrlWithToken($token);
+            // When page is published, return the public URL (subdomain or custom domain) so Share copies the right link
+            $shareUrl = buildShareUrlForPage($page);
+            if ($shareUrl === null) {
+                $shareUrl = buildShareUrlWithToken($token);
+            }
             return [
                 'success' => true,
                 'share_token' => $token,
@@ -447,6 +457,22 @@ function sharePageToken($pageId, $userId, $supabase) {
         error_log("Error sharing page: " . $e->getMessage());
         throw $e;
     }
+}
+
+/**
+ * Build published URL for a page (subdomain or custom domain). Returns null if page is not published.
+ */
+function buildShareUrlForPage($page) {
+    if (empty($page['is_public']) || empty($page['share_slug'])) {
+        return null;
+    }
+    $slug = trim((string) $page['share_slug']);
+    // Custom domain: share_slug is full domain (e.g. mi-boda.com)
+    if (strpos($slug, '.') !== false) {
+        return 'https://' . $slug;
+    }
+    $baseDomain = getenv('SHARE_BASE_DOMAIN') ?: 'yeslovey.com';
+    return 'https://' . $slug . '.' . $baseDomain;
 }
 
 /**
@@ -550,6 +576,150 @@ function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
         ];
     } catch (Exception $e) {
         error_log("publishPageWithSubdomain - ERROR: " . $e->getMessage());
+        return ['success' => false, 'error' => $e->getMessage()];
+    }
+}
+
+/**
+ * Publish page with a custom domain registered via OpenSRS (Pro users only).
+ * Registers the domain, then stores slug + custom_domain + is_public in the DB.
+ *
+ * @param string $pageId         - Page UUID
+ * @param string $userId         - Internal user UUID
+ * @param object $supabase       - MySQL client
+ * @param string $domain         - Full domain, e.g. "mi-boda.com"
+ * @param string $shareSlug      - Slug only (without TLD), e.g. "mi-boda"
+ * @param bool   $isPaid         - Whether the current user has a paid plan
+ * @param bool   $reactivateOnly - If true, skip OpenSRS registration (domain already registered)
+ */
+function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug, $isPaid, $reactivateOnly = false) {
+    try {
+        error_log("publishPageWithDomain - START: pageId={$pageId}, userId={$userId}, domain={$domain}");
+
+        if (!$isPaid) {
+            throw new Exception("Domain registration requires a Pro plan.");
+        }
+
+        // Validate domain format (basic check before calling OpenSRS)
+        if (!preg_match('/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z]{2,})$/i', $domain)) {
+            throw new Exception("Invalid domain format: {$domain}");
+        }
+
+        // Retrieve the page to confirm ownership
+        $pages = $supabase->select(
+            'user_pages',
+            'id, share_token, is_public',
+            [
+                'id'      => $pageId,
+                'user_id' => $userId
+            ]
+        );
+
+        if (empty($pages)) {
+            throw new Exception("Page not found or access denied (pageId={$pageId}, userId={$userId})");
+        }
+
+        $page = $pages[0];
+
+        // Sanitize slug
+        $shareSlug = strtolower(trim($shareSlug));
+        $shareSlug = preg_replace('/\s+/', '-', $shareSlug);
+        if (strlen($shareSlug) < 1 || strlen($shareSlug) > 63) {
+            throw new Exception("Website name must be between 1 and 63 characters.");
+        }
+        if (!preg_match('/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i', $shareSlug)) {
+            throw new Exception("Only letters, numbers and hyphens are allowed. Cannot start or end with a hyphen.");
+        }
+
+        if (!$reactivateOnly) {
+            // Register domain via OpenSRS
+            require_once __DIR__ . '/../src/OpenSrsClient.php';
+            $username = getenv('OPENSRS_USERNAME');
+            $testMode = strtolower(getenv('OPENSRS_TEST_MODE') ?: 'true') === 'true';
+            $apiKey   = $testMode ? getenv('OPENSRS_API_KEY_TEST') : getenv('OPENSRS_API_KEY');
+
+            if (empty($username) || empty($apiKey)) {
+                throw new Exception("OpenSRS credentials are not configured.");
+            }
+
+            $opensrs = new OpenSrsClient($username, $apiKey, $testMode);
+
+            // Final availability check before charging
+            $lookup = $opensrs->lookupDomain($domain);
+            if (($lookup['response_code'] ?? null) != 210) {
+                throw new Exception("Domain '{$domain}' is no longer available. Please choose another.");
+            }
+
+            // Build contact info (uses .env defaults)
+            $contact = [
+                'first_name'  => getenv('OPENSRS_CONTACT_FIRST')   ?: 'Wedding',
+                'last_name'   => getenv('OPENSRS_CONTACT_LAST')    ?: 'Editor',
+                'org_name'    => getenv('OPENSRS_CONTACT_ORG')     ?: 'YesLovey',
+                'address1'    => getenv('OPENSRS_CONTACT_ADDR')    ?: '123 Wedding Lane',
+                'city'        => getenv('OPENSRS_CONTACT_CITY')    ?: 'Toronto',
+                'state'       => getenv('OPENSRS_CONTACT_STATE')   ?: 'ON',
+                'postal_code' => getenv('OPENSRS_CONTACT_ZIP')     ?: 'M5V 2H1',
+                'country'     => getenv('OPENSRS_CONTACT_COUNTRY') ?: 'CA',
+                'phone'       => getenv('OPENSRS_CONTACT_PHONE')   ?: '+1.5555551234',
+                'email'       => getenv('OPENSRS_CONTACT_EMAIL')   ?: 'admin@yeslovey.com',
+            ];
+
+            $regResult = $opensrs->registerDomain($domain, $contact, 1);
+            $regCode   = $regResult['response_code'] ?? null;
+
+            if ($regCode != 200) {
+                $regText = $regResult['response_text'] ?? "code {$regCode}";
+                throw new Exception("Domain registration failed: {$regText}");
+            }
+
+            error_log("publishPageWithDomain - OpenSRS registration OK for {$domain}");
+        } else {
+            error_log("publishPageWithDomain - Reactivation only, skipping OpenSRS for {$domain}");
+        }
+
+        // Ensure share_token exists
+        if (empty($page['share_token'])) {
+            $token = sprintf(
+                '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+                mt_rand(0, 0xffff),
+                mt_rand(0, 0x0fff) | 0x4000,
+                mt_rand(0, 0x3fff) | 0x8000,
+                mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+            );
+        } else {
+            $token = $page['share_token'];
+        }
+
+        // Store the full domain (e.g. "mi-boda.com") as share_slug so the URL can be reconstructed
+        // correctly on page reload without appending the base domain again.
+        $updateData = [
+            'share_slug'    => $domain,
+            'is_public'     => 1,
+            'share_token'   => $token,
+        ];
+
+        // Store the full custom domain if the column exists (graceful fallback)
+        try {
+            $supabase->update('user_pages', array_merge($updateData, ['custom_domain' => $domain]), ['id' => $pageId, 'user_id' => $userId]);
+            error_log("publishPageWithDomain - Saved custom_domain={$domain}");
+        } catch (Exception $colEx) {
+            // Column may not exist yet; store without it
+            error_log("publishPageWithDomain - custom_domain column missing, saving without it: " . $colEx->getMessage());
+            $supabase->update('user_pages', $updateData, ['id' => $pageId, 'user_id' => $userId]);
+        }
+
+        $publishedUrl = 'https://' . $domain;
+        error_log("publishPageWithDomain - SUCCESS: url={$publishedUrl}");
+
+        return [
+            'success'      => true,
+            'share_token'  => $token,
+            'share_slug'   => $domain,    // Return full domain so topbar/link shows the real domain
+            'share_url'    => $publishedUrl,
+        ];
+    } catch (Exception $e) {
+        error_log("publishPageWithDomain - ERROR: " . $e->getMessage());
         return ['success' => false, 'error' => $e->getMessage()];
     }
 }
@@ -679,6 +849,36 @@ try {
                     throw new Exception("Page ID and website name are required for publishing.");
                 }
                 $response = publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug);
+                if (isset($response['success']) && !$response['success']) {
+                    http_response_code(400);
+                    echo json_encode($response);
+                    exit();
+                }
+            } elseif ($action === 'publish-domain') {
+                $pageId         = $input['id'] ?? null;
+                $domain         = isset($input['domain'])          ? trim((string) $input['domain'])     : '';
+                $shareSlug      = isset($input['share_slug'])      ? trim((string) $input['share_slug']) : '';
+                $reactivateOnly = !empty($input['reactivate_only']);
+
+                // If domain not provided, try to extract from share_slug (reactivation case)
+                if ($domain === '' && $shareSlug !== '' && strpos($shareSlug, '.') !== false) {
+                    $domain = $shareSlug;
+                }
+
+                if (!$pageId || $domain === '') {
+                    throw new Exception("Page ID and domain are required for custom domain publishing.");
+                }
+
+                // Derive slug (without TLD) from domain if share_slug still contains a dot or is empty
+                if ($shareSlug === '' || strpos($shareSlug, '.') !== false) {
+                    $dotPos    = strpos($domain, '.');
+                    $shareSlug = $dotPos !== false ? substr($domain, 0, $dotPos) : $domain;
+                }
+
+                // Check paid status from session
+                // Respect session is_paid and pro simulation (?pro=1) from app
+$isPaidUser = !empty($_SESSION['is_paid']) || !empty($_SESSION['simulate_pro']);
+                $response = publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug, $isPaidUser, $reactivateOnly);
                 if (isset($response['success']) && !$response['success']) {
                     http_response_code(400);
                     echo json_encode($response);

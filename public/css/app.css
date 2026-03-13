@@ -2,6 +2,8 @@
     --primary-bg: #ffffff;
     --secondary-bg: #f8f9fa;
     --accent-bg: #f1f3f4;
+    --pages-list-hover-bg: #f1f3f4;
+    --pages-list-active-bg: #e8e4f0;
     --primary-text: #2c3e50;
     --secondary-text: #6c757d;
     --accent-text: #1a252f;
@@ -24,6 +26,8 @@ body.dark-mode {
     --primary-bg: #faf9f7;
     --secondary-bg: #f5f3f0;
     --accent-bg: #ebe8e4;
+    --pages-list-hover-bg: #ebe8e4;
+    --pages-list-active-bg: #e2ddd6;
     --primary-text: #3d3935;
     --secondary-text: #6b6560;
     --accent-text: #2c2826;
@@ -131,7 +135,8 @@ body {
    exitOnboardingMode() once the user has chosen a template, making the
    sidebar visible for the first time. This eliminates any flash on load.
    ──────────────────────────────────────────────────────────────────────── */
-.sidebar {
+/* [DISABLED_FOR_WEDDING_VERSION]: Sidebar now overlays editor via translateX (mirrors section-outline-sidebar pattern) instead of resizing main area */
+/* .sidebar {
     background: var(--primary-bg);
     border-right: 1px solid var(--border-color);
     height: 100vh;
@@ -141,20 +146,42 @@ body {
     width: 0;
     overflow: hidden;
     z-index: 10;
-    /* No transition on the hidden default — sidebar animates only after
-       .sidebar-ready is added, preventing any layout shift on page load. */
     transition: none;
 }
-
-/* Sidebar is visible: added by exitOnboardingMode() */
 .sidebar.sidebar-ready {
     width: 300px;
     transition: width 0.3s ease;
 }
-
-/* User has manually collapsed the sidebar */
 .sidebar.sidebar-ready.collapsed {
     width: 0;
+} */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 268px; /* Match section-outline-sidebar / section-outline-content width */
+    background: var(--primary-bg);
+    border-right: 1px solid var(--border-color);
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08);
+    z-index: 9999;
+    /* Hidden until sidebar-ready is added by exitOnboardingMode() */
+    display: none;
+    flex-direction: column;
+    transition: none;
+}
+
+/* Sidebar activated: show it and keep collapsed (translateX) by default */
+.sidebar.sidebar-ready {
+    display: flex;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sidebar open: remove collapsed class to slide into view */
+.sidebar.sidebar-ready:not(.collapsed) {
+    transform: translateX(0);
 }
 
 .dark-mode .top-bar,
@@ -175,41 +202,35 @@ body {
 }
 
 /* ── SIDEBAR TOGGLE BUTTON (View Your Pages) ─────────────────────────────
-   Visual copy of .section-outline-toggle but on the left: same border,
-   background, icon size and hover. Glued to left edge when collapsed.
-   Hidden until .sidebar-ready is active.
+   Now position: absolute inside .sidebar, pokes out to the right —
+   mirrors section-outline-toggle which pokes out to the left.
+   Visible at left edge when sidebar is collapsed (translateX(-100%)),
+   moves with sidebar when open.
    ──────────────────────────────────────────────────────────────────────── */
 .sidebar-toggle {
-    position: fixed;
+    position: absolute;
+    right: -40px;
     top: 50%;
     transform: translateY(-50%);
     width: 40px;
     height: 48px;
-    left: 300px;
     background: var(--primary-bg);
     border: 1px solid var(--border-color);
     border-left: none;
     border-radius: 0 8px 8px 0;
+    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
-    z-index: 1000;
+    z-index: 1;
     transition: all 0.2s ease;
-    pointer-events: auto;
     color: var(--secondary-text);
-    /* Hidden until sidebar is ready */
-    display: none;
 }
 
-.sidebar-toggle.sidebar-ready {
-    display: flex;
-    left: 300px;
-}
-
-.sidebar-toggle.sidebar-ready.collapsed {
-    left: 0;
-}
+/* [DISABLED_FOR_WEDDING_VERSION]: Toggle visibility now handled by parent .sidebar display/transform */
+/* .sidebar-toggle.sidebar-ready { display: flex; left: 300px; } */
+/* .sidebar-toggle.sidebar-ready.collapsed { left: 0; } */
 
 /* Same hover as .section-outline-toggle */
 .sidebar-toggle:hover:not(:disabled) {
@@ -256,20 +277,18 @@ body.dark-mode .sidebar-toggle:hover:not(:disabled) svg {
     will-change: transform, width;
 }
 
-/* Sidebar visible: offset the main area to make room */
-.editor-layout.sidebar-ready .main-area {
+/* [DISABLED_FOR_WEDDING_VERSION]: Sidebar now overlays editor — main area no longer offset */
+/* .editor-layout.sidebar-ready .main-area {
     max-width: calc(100vw - 300px);
     width: calc(100vw - 300px);
     transform: translateX(300px);
 }
-
-/* Sidebar toggled to collapsed by user */
 .editor-layout.sidebar-ready.collapsed .main-area,
 .collapsed .main-area {
     transform: translateX(0);
     max-width: 100vw;
     width: 100vw;
-}
+} */
 
 .fullscreen .main-area {
     transition: none !important;
@@ -301,10 +320,10 @@ body.dark-mode .sidebar-toggle:hover:not(:disabled) svg {
     transition: left 0.3s ease;
 }
 
-/* Top bar offset when sidebar is visible */
-.top-bar.sidebar-ready {
+/* [DISABLED_FOR_WEDDING_VERSION]: Top bar no longer offset when sidebar is visible (overlay approach) */
+/* .top-bar.sidebar-ready {
     left: 300px;
-}
+} */
 
 .top-bar-left {
     display: flex;
@@ -338,6 +357,23 @@ body.onboarding-visible .top-bar-right > *:not(.user-info) {
     display: none !important;
 }
 
+/* Hide Pages (toggle-sidebar) and Layout (section-outline-toggle) during onboarding so it matches normal onboarding view */
+body.onboarding-visible #toggle-sidebar,
+body.onboarding-visible .section-outline-toggle {
+    display: none !important;
+}
+
+/* Hide pages sidebar toggle while theme panel is open */
+body.theme-panel-open #toggle-sidebar {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Hide "+ New Page" in the pages sidebar during onboarding (user must choose a template first) */
+body.onboarding-visible .new-page-btn {
+    display: none !important;
+}
+
 .top-bar > .flex {
     display: flex;
     align-items: center;
@@ -356,6 +392,11 @@ body.onboarding-visible .top-bar-right > *:not(.user-info) {
     align-items: center;
     gap: 0.5rem;
     min-width: 0;
+}
+
+/* Extra space between page title and undo/redo buttons in top-bar-left */
+.top-bar-left > .top-bar-card {
+    margin-left: 1rem;
 }
 
 /* Link wrapping the green "online" dot: tooltip shows URL, click opens site */
@@ -1047,25 +1088,30 @@ body.dark-mode .dark-mode-icon-wrapper .icon-moon {
     flex-shrink: 0;
 }
 
-/* RSVP button (right of View Website icon; same transparent style as view site) */
-.topbar-rsvp-btn {
+/* List of Guests button (left of Publish; icon-only, shown when page has form + is published) */
+.topbar-rsvp-btn,
+.topbar-guests-btn {
     padding: 0.5rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
     border: none;
     background: transparent;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
     color: var(--primary-text);
     text-decoration: none;
     transition: background 0.2s ease, color 0.2s ease;
 }
-.topbar-rsvp-btn:hover {
+.topbar-rsvp-btn:hover,
+.topbar-guests-btn:hover {
     background: var(--accent-bg);
     color: var(--primary-text);
 }
-.topbar-rsvp-btn svg {
+.topbar-rsvp-btn svg,
+.topbar-guests-btn svg {
     flex-shrink: 0;
     stroke: currentColor;
 }
@@ -1078,6 +1124,110 @@ body.dark-mode .dark-mode-icon-wrapper .icon-moon {
 .unpublish-btn:hover:not(:disabled) {
     background: #b91c1c !important;
     color: #fff !important;
+}
+
+/* Publish dropdown wrap (split button when published: "Published!" + options chevron) */
+.publish-dropdown-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: stretch;
+    border-radius: 0.5rem;
+    overflow: visible;
+}
+/* When not published: single button, fully rounded */
+.publish-dropdown-wrap:not(.is-published) .download-btn {
+    border-radius: 0.5rem;
+}
+/* When published: split button, left side rounded only */
+.publish-dropdown-wrap.is-published .download-btn {
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+.publish-options-chevron {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    min-width: 2rem;
+    padding: 0 6px;
+    border: none;
+    border-radius: 0 0.5rem 0.5rem 0;
+    background: inherit;
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.2s ease, opacity 0.2s ease;
+}
+.publish-dropdown-wrap.is-published .publish-options-chevron {
+    display: flex;
+    background: #16a34a;
+    color: #fff;
+}
+.publish-dropdown-wrap.is-published .publish-options-chevron:hover {
+    background: #15803d;
+    opacity: 0.95;
+}
+/* Published! state: green button */
+.publish-dropdown-wrap.is-published .download-btn.published-btn {
+    background: #16a34a !important;
+    color: #fff !important;
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+.publish-dropdown-wrap.is-published .download-btn.published-btn:hover {
+    background: #15803d !important;
+    color: #fff !important;
+}
+/* Publish options dropdown menu */
+.publish-options-menu {
+    position: absolute;
+    top: calc(100% + 0.8rem);
+    left: 0;
+    min-width: 180px;
+    background: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    padding: 6px;
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 150ms ease, transform 150ms ease;
+}
+.publish-options-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+.publish-options-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 14px;
+    border: none;
+    background: transparent;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary-text);
+    transition: background 120ms ease, color 120ms ease;
+    text-align: left;
+}
+.publish-options-menu-item:hover {
+    background: var(--accent-bg);
+}
+.publish-options-menu-item svg {
+    flex-shrink: 0;
+    stroke: currentColor;
+}
+.publish-options-menu-item[data-publish-action="unpublish"] svg {
+    stroke: #dc2626;
+}
+.publish-options-menu-item[data-publish-action="copy-link"] svg {
+    stroke: #2563eb;
+}
+.publish-options-menu-item[data-publish-action="change-domain"] svg {
+    stroke: #7c3aed;
 }
 
 /* Republish modal option buttons */
@@ -4670,20 +4820,49 @@ body.onboarding-active .top-bar-right > *:not(.user-info) {
 }
 
 .pages-sidebar-header {
-    height: 60px;
     display: flex;
     align-items: center;
-    padding: 0 16px;
-    flex-shrink: 0;
+    justify-content: space-between;
+    padding: 16px;
     border-bottom: 1px solid var(--border-color);
+    background: var(--secondary-bg);
+    flex-shrink: 0;
 }
 
 .pages-sidebar-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--primary-text);
-    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-text);
+}
+
+.pages-sidebar-title svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.pages-sidebar-close {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.pages-sidebar-close:hover {
+    background: #e5e7eb;
+    color: #111827;
 }
 
 /* Pages list scroll area */
@@ -4700,33 +4879,39 @@ body.onboarding-active .top-bar-right > *:not(.user-info) {
     text-align: center;
 }
 
-/* Individual page item */
+/* Individual page item – fixed min-height so active/online items match others */
 .page-list-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: 50px;
     padding: 9px 12px 9px 16px;
     cursor: pointer;
-    border-radius: 0;
+    border-radius: 8px;
     transition: background 0.12s;
     position: relative;
     gap: 6px;
+    margin: 2px 8px;
+    box-sizing: border-box;
 }
 
+/* Hover: characteristic light gray */
 .page-list-item:hover {
-    background: var(--accent-bg);
+    background: var(--pages-list-hover-bg, #f1f3f4);
 }
 
+/* Active (current page in editor): distinct highlight */
 .page-list-item.active {
-    background: var(--accent-bg);
-    box-shadow: var(--shadow-sm);
+    background: var(--pages-list-active-bg, #e8e4f0);
+    box-shadow: none;
 }
 
-/* Page name + date */
+/* Page name + online dot (same row) */
 .page-list-item-info {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
     min-width: 0;
     flex: 1;
 }
@@ -4746,6 +4931,11 @@ body.onboarding-active .top-bar-right > *:not(.user-info) {
     font-weight: 600;
 }
 
+/* Active page (in editor): hide preview icon – you are already viewing it */
+.page-list-item.active .page-preview-btn {
+    display: none;
+}
+
 /* [DISABLED_FOR_WEDDING_VERSION]: Date label removed per design spec */
 /* .page-list-item-date {
     font-size: 11px;
@@ -4758,7 +4948,7 @@ body.onboarding-active .top-bar-right > *:not(.user-info) {
 .page-list-item-actions {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
     opacity: 0;
     transition: opacity 0.15s;
     flex-shrink: 0;
@@ -4768,12 +4958,13 @@ body.onboarding-active .top-bar-right > *:not(.user-info) {
     opacity: 1;
 }
 
+/* Hover action buttons – slightly larger */
 .page-action-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 26px;
-    height: 26px;
+    width: 32px;
+    height: 32px;
     border: none;
     background: transparent;
     border-radius: 6px;
@@ -4860,46 +5051,19 @@ body.dark-mode .new-page-btn:hover {
 /* [DISABLED_FOR_WEDDING_VERSION]: Old in-sidebar preview panel replaced by hover panel below */
 /* .page-preview-panel { ... } */
 
-/* ── Published page indicator inside page list item ── */
-.page-list-item-published {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 2px;
-}
-
+/* Online (published) dot to the right of page name */
 .page-published-dot {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: #22c55e;
     flex-shrink: 0;
     box-shadow: 0 0 0 2px rgba(34,197,94,0.2);
 }
 
-.page-published-domain {
-    font-size: 12px;
-    color: #16a34a;
-    text-decoration: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 120px;
-    transition: color 0.12s;
-}
-
-.page-published-domain:hover {
-    color: #15803d;
-    text-decoration: underline;
-}
-
-body.dark-mode .page-published-domain {
-    color: #00ab3e;
-}
-
-body.dark-mode .page-published-domain:hover {
-    color: #24c05d;
-}
+/* [DISABLED_FOR_WEDDING_VERSION]: URL/domain no longer shown in pages list */
+/* .page-list-item-published { ... } */
+/* .page-published-domain { ... } */
 
 /* Unpublish button (amber/orange) */
 .page-unpublish-btn:hover {
@@ -4917,7 +5081,7 @@ body.dark-mode .page-unpublish-btn:hover {
 .page-preview-hover-panel {
     position: fixed;
     top: 0;
-    left: 299px;
+    left: 268px; /* Align with pages sidebar width (was 299px when sidebar was 300px) */
     width: 474px;
     height: 100dvh;
     background: var(--primary-bg);
@@ -5025,11 +5189,339 @@ body.dark-mode .page-unpublish-btn:hover {
 
 /* Dark mode adjustments */
 body.dark-mode .page-list-item:hover {
-    background: rgba(255,255,255,0.05);
+    background: var(--pages-list-hover-bg, rgba(255,255,255,0.06));
 }
 
 body.dark-mode .page-list-item.active {
-    background: var(--accent-bg);
+    background: var(--pages-list-active-bg);
 }
 
 /* ── End Pages Sidebar ── */
+
+/* ── Pro Domain Publish Modal ─────────────────────────────────── */
+
+/* TLD select dropdown — flush styling to match the input */
+.domain-tld-select {
+    appearance: none;
+    -webkit-appearance: none;
+    min-width: 4.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--primary-text);
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+/* TLD wrapper aligns select + wand side by side */
+.domain-tld-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+/* Domain input group — outer border container */
+.domain-input-group {
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.domain-input-group:focus-within {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* Wand (magic) button */
+.domain-wand-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--secondary-text);
+    cursor: pointer;
+    transition: color 0.15s;
+    flex-shrink: 0;
+}
+
+.domain-wand-btn:hover:not(:disabled) {
+    color: #eab308;
+}
+.domain-wand-btn:hover:not(:disabled) .share-icon,
+.domain-wand-btn:hover:not(:disabled) svg {
+    color: #eab308;
+    stroke: #eab308;
+}
+
+.domain-wand-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* Suggest/refresh button inside the domain input field (same background as input) */
+.domain-suggest-infield-btn {
+    outline: none;
+    cursor: pointer;
+    box-shadow: none;
+}
+.domain-suggest-infield-btn:hover:not(:disabled),
+.domain-suggest-infield-btn:hover:not(:disabled) svg {
+    color: #3b82f6;
+    stroke: #3b82f6;
+}
+
+/* Availability status indicator */
+.domain-status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.0625rem;
+    min-height: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.domain-status-indicator .domain-status-available,
+.domain-status-indicator .domain-status-unavailable,
+.domain-status-indicator span {
+    font-size: inherit;
+}
+
+.domain-status-available {
+    color: #16a34a;
+}
+
+.domain-status-unavailable {
+    color: #dc2626;
+}
+
+/* Loading spinner inside status indicator */
+.domain-status-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #93c5fd;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: domain-spin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes domain-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Pro publish button — disabled state */
+.pro-publish-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.pro-publish-btn:disabled:hover {
+    background-color: #2563eb; /* keep blue, don't darken on hover when disabled */
+}
+
+/* Wrapper for "Available domains" heading + list; extra margin so list is not stuck to Publish */
+.domain-suggestions-wrapper.hidden {
+    display: none;
+}
+
+.domain-suggestions-loading,
+.domain-suggestions-empty {
+    color: var(--secondary-text, #6b7280);
+    font-size: 0.875rem;
+    padding: 0.75rem 0;
+}
+
+.domain-suggestions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 18rem;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+.domain-suggestion-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color, #e5e7eb);
+    background: var(--primary-bg, #fff);
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    min-height: 3.5rem;
+}
+
+.domain-suggestion-item:hover {
+    background: color-mix(in srgb, var(--accent-bg, #f3f4f6) 80%, var(--primary-bg, #fff) 20%);
+    border-color: var(--secondary-text, #6b7280);
+}
+
+.domain-suggestion-name {
+    font-weight: 500;
+    color: var(--primary-text, #111827);
+    flex: 1;
+    min-width: 0;
+}
+
+.domain-suggestion-choose {
+    flex-shrink: 0;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #fff;
+    background: #2563eb;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.domain-suggestion-item:hover .domain-suggestion-choose {
+    opacity: 1;
+}
+
+.domain-suggestion-choose:hover {
+    background: #1d4ed8;
+}
+
+/* Chosen state: green circular tick (replaces Choose button) */
+.domain-suggestion-chosen {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.domain-suggestion-tick-wrap {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: rgb(0 219 81 / 34%);
+    color: #16a34a;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── End Pro Domain Publish Modal ── */
+
+/* ── Publish Progress Bar ── */
+.publish-progress-view {
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.publish-progress-bar-track {
+    width: 100%;
+    max-width: 360px;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--accent-bg, #e5e7eb);
+    overflow: hidden;
+    margin-top: 1.25rem;
+}
+
+.publish-progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #6366f1, #06b6d4, #3b82f6);
+    background-size: 200% 100%;
+    animation: publish-bar-shimmer 2s linear infinite;
+}
+
+@keyframes publish-bar-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ── Publish Success View ── */
+.publish-success-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.publish-success-domain-field {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    margin-bottom: 1rem;
+    background: var(--accent-bg, #f9fafb);
+    gap: 0.5rem;
+}
+
+.publish-success-domain-text {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--primary-text, #111827);
+    user-select: all;
+}
+
+.publish-success-copy-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 0.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--secondary-text, #6b7280);
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.publish-success-copy-btn:hover {
+    background: var(--border-color, #e5e7eb);
+    color: var(--primary-text, #111827);
+}
+
+.publish-success-view-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #16a34a;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    transition: background 0.15s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.publish-success-view-btn:hover {
+    background: #15803d;
+}
+
+/* Confetti canvas must render above modal overlays (z-index 10000–10001) */
+body > canvas {
+    z-index: 10100 !important;
+}
+
+/* ── End Publish Progress / Success ── */

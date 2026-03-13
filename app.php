@@ -70,6 +70,16 @@ if ($displayName) {
     $avatarInitial = '?';
 }
 
+// Simulate PRO user when ?pro=1 is in the URL (for development/testing)
+if (!empty($_GET['pro']) && $_GET['pro'] === '1' && $serverUserData) {
+    $serverUserData['is_paid'] = true;
+    $serverUserData['mode'] = 'paid';
+    $isPaid = true;
+    $_SESSION['simulate_pro'] = true; // So api/pages.php and other APIs treat this session as Pro
+} elseif (isset($_GET['pro']) && $_GET['pro'] !== '1') {
+    $_SESSION['simulate_pro'] = false; // Explicitly turn off simulation
+}
+
 // Pass user data to JavaScript immediately
 $userDataJson = $serverUserData ? json_encode($serverUserData) : 'null';
 
@@ -140,8 +150,13 @@ $topbarPublishedUrl = null;
 $topbarPublishedDisplay = null;
 if ($preloadedPageData && !empty($preloadedPageData['page']['is_public']) && !empty($preloadedPageData['page']['share_slug'])) {
     $shareBaseDomain = getenv('SHARE_BASE_DOMAIN') ?: 'yeslovey.com';
-    $slug = $preloadedPageData['page']['share_slug'];
-    $topbarPublishedDisplay = $slug . '.' . $shareBaseDomain;
+    $slug = trim((string) $preloadedPageData['page']['share_slug']);
+    // Custom domain: share_slug is already the full domain (e.g. "mi-boda.com")
+    if (strpos($slug, '.') !== false) {
+        $topbarPublishedDisplay = $slug;
+    } else {
+        $topbarPublishedDisplay = $slug . '.' . $shareBaseDomain;
+    }
     $topbarPublishedUrl = 'https://' . $topbarPublishedDisplay;
 }
 
@@ -395,8 +410,8 @@ function editor_asset(string $path): string
                 <i data-lucide="files" class="view-pages-icon"></i>
                 <span class="view-pages-label">Your Pages</span>
             </button>
-            <!-- Files icon: opens left sidebar (pages list); visible in editor, hidden during onboarding -->
-            <button type="button" id="topbar-files-btn" class="topbar-files-btn" data-tippy-content="Your Pages" aria-label="Open pages sidebar">
+            <!-- Files icon: only shown during onboarding; hidden permanently in editor (pages opened via left sidebar toggle) -->
+            <button type="button" id="topbar-files-btn" class="topbar-files-btn" data-tippy-content="Your Pages" aria-label="Open pages sidebar" style="display: none;">
                 <i data-lucide="files" class="topbar-files-icon"></i>
             </button>
             <!-- Page Name Display with Back Button -->
@@ -414,17 +429,11 @@ function editor_asset(string $path): string
                         <span class="page-name-text" id="page-name-display" contenteditable="false" role="textbox" tabindex="0" title="<?php echo htmlspecialchars($initialPageTitle, ENT_QUOTES, 'UTF-8'); ?>" data-tippy-content="Edit page title">
                             <?php echo htmlspecialchars($initialPageTitle, ENT_QUOTES, 'UTF-8'); ?>
                         </span>
-                        <!-- View Website icon (right of page name; shown only when page is published; opens site in new tab) -->
+                        <!-- [DISABLED_FOR_WEDDING_VERSION]: View Website icon removed from topbar.
                         <a id="topbar-view-website-link" href="#" target="_blank" rel="noopener" class="topbar-view-website-icon" style="display: none;" data-tippy-content="View your published website" aria-label="View your published website">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         </a>
-                        <?php if ($isAuthenticated): ?>
-                        <!-- RSVP Dashboard (right of View Website; shown by JS when page has form + is published) -->
-                        <a href="#" id="rsvp-dashboard-btn" class="topbar-rsvp-btn" data-tippy-content="View RSVP responses" style="display:none;text-decoration:none;font-size:13px;font-weight:500;color:var(--primary-text);" aria-label="View RSVP responses">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="11" y2="16"/></svg>
-                            <span>RSVP</span>
-                        </a>
-                        <?php endif; ?>
+                        -->
                         <!-- [DISABLED_FOR_WEDDING_VERSION]: Trash icon replaced by View Your Pages button. The delete action is now available inside the left sidebar pages list.
                         <button type="button" id="delete-page-btn" class="delete-page-btn" aria-label="Delete page" data-tippy-content="Delete page" style="display: none;">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
@@ -432,6 +441,16 @@ function editor_asset(string $path): string
                         -->
                     </div>
                 </div>
+            </div>
+
+            <!-- Undo/Redo: to the right of page title, left of Saved -->
+            <div class="top-bar-card flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+                <button id="undo-btn" class="history-btn" data-tippy-content="Undo (Ctrl+Z)" disabled>
+                    <i data-lucide="undo-2" class="w-4 h-4"></i>
+                </button>
+                <button id="redo-btn" class="history-btn" data-tippy-content="Redo (Ctrl+Shift+Z)" disabled>
+                    <i data-lucide="redo-2" class="w-4 h-4"></i>
+                </button>
             </div>
 
             <!-- [DISABLED_FOR_WEDDING_VERSION]: Change Template button replaced by View Your Pages button.
@@ -480,14 +499,6 @@ function editor_asset(string $path): string
 
         <!-- Right Section: Other Buttons and User Info -->
         <div class="top-bar-right flex items-center gap-4">
-            <div class="top-bar-card flex items-center gap-1 bg-gray-100 rounded-lg p-1">
-                <button id="undo-btn" class="history-btn" data-tippy-content="Undo (Ctrl+Z)" disabled>
-                    <i data-lucide="undo-2" class="w-4 h-4"></i>
-                </button>
-                <button id="redo-btn" class="history-btn" data-tippy-content="Redo (Ctrl+Shift+Z)" disabled>
-                    <i data-lucide="redo-2" class="w-4 h-4"></i>
-                </button>
-            </div>
             <!-- <button id="clear-all" class="clear-button flex items-center">
                 <i data-lucide="trash-2" class="w-4 h-4 mr-2"></i>
                 Clear All
@@ -501,9 +512,33 @@ function editor_asset(string $path): string
                     <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
                 </svg>
             </button>
-            <button id="download-page" class="download-btn publish-btn" data-tippy-content="Publish page" disabled>
-                <i data-lucide="upload-cloud"></i> <span class="text-sm pl-2">Publish</span>
-            </button>
+            <?php if ($isAuthenticated): ?>
+            <a href="#" id="rsvp-dashboard-btn" class="topbar-rsvp-btn topbar-guests-btn" data-tippy-content="List of Guest" style="display: none; text-decoration: none;" aria-label="List of Guest">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </a>
+            <?php endif; ?>
+            <div class="publish-dropdown-wrap" id="publish-dropdown-wrap">
+                <button id="download-page" class="download-btn publish-btn" data-tippy-content="Publish page" disabled>
+                    <i data-lucide="upload-cloud"></i> <span class="publish-btn-label text-sm pl-2">Publish</span>
+                </button>
+                <button type="button" id="publish-options-trigger" class="publish-options-chevron" aria-label="Options" data-tippy-content="Options" style="display: none;" aria-haspopup="true" aria-expanded="false">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="publish-options-menu" id="publish-options-menu" role="menu" aria-hidden="true">
+                    <button type="button" class="publish-options-menu-item" data-publish-action="unpublish" role="menuitem">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                        <span>Unpublish</span>
+                    </button>
+                    <button type="button" class="publish-options-menu-item" data-publish-action="copy-link" role="menuitem">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        <span>Copy Link</span>
+                    </button>
+                    <button type="button" class="publish-options-menu-item" data-publish-action="change-domain" role="menuitem">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                        <span>Change Domain</span>
+                    </button>
+                </div>
+            </div>
 
             <!-- User Info -->
             <div class="user-info flex items-center gap-2">
@@ -590,12 +625,24 @@ function editor_asset(string $path): string
 
     <!-- Left Sidebar: Pages list (replaces the old template categories sidebar) -->
     <div class="sidebar" id="pages-sidebar">
+
+        <!-- Toggle tab — pokes out to the right; mirrors section-outline-toggle on the left -->
+        <button class="sidebar-toggle" id="toggle-sidebar" aria-label="Pages" data-tippy-content="Pages" data-tippy-placement="right">
+            <i data-lucide="files"></i>
+        </button>
+
         <div class="sidebar-content">
 
             <!-- Pages list panel -->
             <div class="pages-sidebar-panel" id="pages-sidebar-panel">
                 <div class="pages-sidebar-header">
-                    <h3 class="pages-sidebar-title">Your Pages</h3>
+                    <div class="pages-sidebar-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z"/><polyline points="15 2 15 7 20 7"/><line x1="10" y1="12" x2="16" y2="12"/><line x1="10" y1="16" x2="16" y2="16"/><line x1="10" y1="8" x2="12" y2="8"/></svg>
+                        Your Pages
+                    </div>
+                    <button class="pages-sidebar-close" id="pages-sidebar-close" aria-label="Close pages sidebar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
                 </div>
                 <div class="pages-list" id="pages-list">
                     <!-- Page items + New Page button injected by JS via fetchAndRenderPagesList() -->
@@ -623,10 +670,10 @@ function editor_asset(string $path): string
         </div>
     </div>
 
-    <!-- Independent Toggle Button (View Your Pages - glued to left edge when collapsed) -->
-    <button class="sidebar-toggle" id="toggle-sidebar" aria-label="Pages" data-tippy-content="Pages" data-tippy-placement="right">
+    <!-- [DISABLED_FOR_WEDDING_VERSION]: Toggle button moved inside .sidebar (mirrors section-outline-toggle pattern) -->
+    <!-- <button class="sidebar-toggle" id="toggle-sidebar" aria-label="Pages" data-tippy-content="Pages" data-tippy-placement="right">
         <i data-lucide="files"></i>
-    </button>
+    </button> -->
 
     <!-- Header Panel (Independent, replaces sidebar) -->
     <div class="header-panel" id="header-panel">
@@ -1164,6 +1211,18 @@ function editor_asset(string $path): string
             <div class="delete-page-modal-actions">
                 <button type="button" id="delete-page-modal-cancel" class="delete-page-modal-btn delete-page-modal-cancel">Cancel</button>
                 <button type="button" id="delete-page-modal-confirm" class="delete-page-modal-btn delete-page-modal-confirm">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unpublish Website Confirmation Modal (same look as delete-page-modal) -->
+    <div id="unpublish-website-modal" class="delete-page-modal">
+        <div class="delete-page-modal-content">
+            <h2 class="delete-page-modal-title">Unpublish Website?</h2>
+            <p class="delete-page-modal-message" id="unpublish-website-modal-message"></p>
+            <div class="delete-page-modal-actions">
+                <button type="button" id="unpublish-website-modal-cancel" class="delete-page-modal-btn delete-page-modal-cancel">Cancel</button>
+                <button type="button" id="unpublish-website-modal-confirm" class="delete-page-modal-btn delete-page-modal-confirm">Unpublish</button>
             </div>
         </div>
     </div>

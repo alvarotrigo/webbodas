@@ -404,10 +404,14 @@ let suppressThemeHistory = false;
  
  Object.defineProperty(pageManagerInstance, 'currentPageTitle', {
      get: function() { return this._currentPageTitle; },
-     set: function(value) { 
+     set: function(value) {
          this._currentPageTitle = value;
          currentPageTitle = value;
          updatePageNameDisplay(value);
+         // Pre-fetch first domain suggestion so publish modal opens with it already in the field (Pro only)
+         if (value && value !== 'Untitled Page' && typeof window.downloadOptionsHandler !== 'undefined' && window.downloadOptionsHandler.prefetchDomainSuggestion) {
+             window.downloadOptionsHandler.prefetchDomainSuggestion(value);
+         }
      },
      configurable: true,
      enumerable: true
@@ -567,6 +571,70 @@ function openDeletePageModal(pageId) {
     modal.classList.add('show');
 }
 
+// --- Unpublish Website confirmation modal ---
+let _unpublishModalPageId = null;
+let _unpublishModalSlug = null;
+
+(function setupUnpublishWebsiteModal() {
+    const modal = document.getElementById('unpublish-website-modal');
+    const messageEl = document.getElementById('unpublish-website-modal-message');
+    const cancelBtn = document.getElementById('unpublish-website-modal-cancel');
+    const confirmBtn = document.getElementById('unpublish-website-modal-confirm');
+    if (!modal || !messageEl || !cancelBtn || !confirmBtn) return;
+
+    function closeModal() {
+        modal.classList.remove('show');
+        _unpublishModalPageId = null;
+        _unpublishModalSlug = null;
+        if (confirmBtn) confirmBtn.disabled = false;
+    }
+
+    cancelBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+
+    confirmBtn.addEventListener('click', async function () {
+        const pageId = _unpublishModalPageId;
+        const previousSlug = _unpublishModalSlug;
+        if (!pageId) return;
+        confirmBtn.disabled = true;
+        try {
+            const result = await unpublishPage(pageId);
+            if (result.success) {
+                closeModal();
+                if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setPublishMode === 'function') {
+                    window.downloadOptionsHandler.setPublishMode(previousSlug);
+                }
+                const topbarLink = document.getElementById('topbar-published-link');
+                if (topbarLink) {
+                    topbarLink.style.display = 'none';
+                    topbarLink.removeAttribute('href');
+                }
+                fetchAndRenderPagesList();
+            } else {
+                confirmBtn.disabled = false;
+            }
+        } catch (err) {
+            console.error('Unpublish failed', err);
+            confirmBtn.disabled = false;
+        }
+    });
+})();
+
+function openUnpublishWebsiteModal(pageId, slug) {
+    const modal = document.getElementById('unpublish-website-modal');
+    const messageEl = document.getElementById('unpublish-website-modal-message');
+    const confirmBtn = document.getElementById('unpublish-website-modal-confirm');
+    if (!modal || !messageEl) return;
+    _unpublishModalPageId = pageId;
+    _unpublishModalSlug = slug || null;
+    const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
+    const domainSuffix = isPro ? '.com' : '.yeslovey.com';
+    const displayDomain = slug ? (slug + domainSuffix) : 'Your website';
+    messageEl.textContent = displayDomain + ' won\'t be available anymore. Are you sure?';
+    if (confirmBtn) confirmBtn.disabled = false;
+    modal.classList.add('show');
+}
+
 // --- Unsaved changes modal ---
 function showUnsavedChangesModal(onSave, onDiscard) {
     const existing = document.getElementById('unsaved-changes-modal');
@@ -634,12 +702,15 @@ function switchToPage(pageId) {
 // --- Page preview: second sidebar panel (hover panel, like category-hover-panel) ---
 // Always loads shared.html?token=... — never uses srcdoc to avoid src/srcdoc conflicts.
 // If the page doesn't have a share_token yet, requests one first via the share API.
+let _pagePreviewCurrentPageId = null;
+
 async function openPagePreview(pageId, pageTitle, shareToken) {
     const panel   = document.getElementById('page-preview-hover-panel');
     const iframe  = document.getElementById('page-preview-hover-iframe');
     const titleEl = document.getElementById('page-preview-hover-title');
     if (!panel || !iframe) return;
 
+    _pagePreviewCurrentPageId = String(pageId);
     if (titleEl) titleEl.textContent = pageTitle || 'Preview';
 
     // Reset iframe: remove srcdoc completely so src can load without conflicts.
@@ -686,6 +757,7 @@ async function openPagePreview(pageId, pageTitle, shareToken) {
 }
 
 function closePagePreview() {
+    _pagePreviewCurrentPageId = null;
     const panel  = document.getElementById('page-preview-hover-panel');
     const iframe = document.getElementById('page-preview-hover-iframe');
     if (panel) panel.classList.remove('show');
@@ -696,27 +768,24 @@ function closePagePreview() {
     }
 }
 
-// --- Unpublish a page ---
+// --- Unpublish a page (returns { success } or throws on network error) ---
 async function unpublishPage(pageId) {
-    try {
-        const res = await fetch('./api/pages.php', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                id: pageId,
-                is_public: false,
-                clerk_user_id: serverUserData?.clerk_user_id || null
-            })
-        });
-        const result = await res.json();
-        if (result.success) {
-            fetchAndRenderPagesList();
-        } else {
-            console.error('Failed to unpublish page:', result.error);
-        }
-    } catch (err) {
-        console.error('Error unpublishing page:', err);
+    const res = await fetch('./api/pages.php', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            id: pageId,
+            is_public: false,
+            clerk_user_id: serverUserData?.clerk_user_id || null
+        })
+    });
+    const result = await res.json();
+    if (result.success) {
+        fetchAndRenderPagesList();
+    } else {
+        console.error('Failed to unpublish page:', result.error);
     }
+    return result;
 }
 
 // [DISABLED_FOR_WEDDING_VERSION]: Date display removed from page list items per design spec
@@ -768,80 +837,71 @@ async function fetchAndRenderPagesList() {
             pages.forEach(page => {
                 const isActive = String(page.id) === String(currentPageId);
                 const isPublished = !!(page.is_public && page.share_url);
-                const domainDisplay = isPublished
-                    ? page.share_url.replace('https://', '')
-                    : '';
 
                 const item = document.createElement('div');
                 item.className = 'page-list-item' + (isActive ? ' active' : '');
                 item.dataset.pageId = page.id;
+                // [DISABLED_FOR_WEDDING_VERSION]: Publish and unpublish buttons removed for wedding version. URL/domain hidden per redesign.
                 item.innerHTML = `
                     <div class="page-list-item-info">
+                        ${isPublished ? '<span class="page-published-dot" data-tippy-content="Published" aria-label="Published"></span>' : ''}
                         <span class="page-list-item-name">${escapeHtml(page.title || 'Untitled Page')}</span>
-                        ${isPublished ? `
-                        <div class="page-list-item-published">
-                            <span class="page-published-dot"></span>
-                            <a href="${escapeHtml(page.share_url)}" target="_blank" class="page-published-domain" title="${escapeHtml(domainDisplay)}">${escapeHtml(domainDisplay)}</a>
-                        </div>` : ''}
                     </div>
                     <div class="page-list-item-actions">
-                        ${!isPublished ? `
-                        <button type="button" class="page-action-btn page-publish-btn" title="Publish page" aria-label="Publish page">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m16 16-4-4-4 4"/></svg>
-                        </button>` : ''}
-                        <button type="button" class="page-action-btn page-preview-btn" title="Preview page" aria-label="Preview page">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <button type="button" class="page-action-btn page-preview-btn" data-tippy-content="Preview page" aria-label="Preview page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                         </button>
-                        ${isPublished ? `
-                        <button type="button" class="page-action-btn page-unpublish-btn" title="Unpublish page" aria-label="Unpublish page">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M10.584 10.587a2 2 0 0 0 2.828 2.83"/><path d="M9.363 5.365A9.466 9.466 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.72 6.72A10.949 10.949 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/></svg>
-                        </button>` : ''}
                         ${!isPublished ? `
-                        <button type="button" class="page-action-btn page-delete-btn" title="Delete page" aria-label="Delete page">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                        <button type="button" class="page-action-btn page-delete-btn" data-tippy-content="Delete page" aria-label="Delete page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
                         </button>` : ''}
                     </div>`;
 
                 // Click on item (not on action buttons) → switch page
                 item.addEventListener('click', (e) => {
                     if (e.target.closest('.page-action-btn')) return;
-                    if (e.target.closest('.page-list-item-published')) return;
                     switchToPage(page.id);
                 });
 
-                // Publish button (only present for unpublished pages) — opens publish modal
-                const publishBtn = item.querySelector('.page-publish-btn');
-                if (publishBtn) {
-                    publishBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.showDownloadOptions === 'function') {
-                            window.downloadOptionsHandler.showDownloadOptions(page.id, page.share_slug || null);
-                        }
-                    });
-                }
+                // [DISABLED_FOR_WEDDING_VERSION]: Publish button handler removed for wedding version.
+                // const publishBtn = item.querySelector('.page-publish-btn');
+                // if (publishBtn) {
+                //     publishBtn.addEventListener('click', (e) => {
+                //         e.stopPropagation();
+                //         if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.showDownloadOptions === 'function') {
+                //             window.downloadOptionsHandler.showDownloadOptions(page.id, page.share_slug || null);
+                //         }
+                //     });
+                // }
 
-                // Preview button: uses shared.html?token=... for correct CSS/JS rendering
+                // Preview button: open preview, or close it if this page's preview is already open
                 item.querySelector('.page-preview-btn').addEventListener('click', (e) => {
                     e.stopPropagation();
-                    openPagePreview(page.id, page.title, page.share_token || null);
+                    const panel = document.getElementById('page-preview-hover-panel');
+                    const isThisPagePreviewOpen = panel && panel.classList.contains('show') && _pagePreviewCurrentPageId === String(page.id);
+                    if (isThisPagePreviewOpen) {
+                        closePagePreview();
+                    } else {
+                        openPagePreview(page.id, page.title, page.share_token || null);
+                    }
                 });
 
-                // Unpublish button (only present for published pages)
-                const unpublishBtn = item.querySelector('.page-unpublish-btn');
-                if (unpublishBtn) {
-                    unpublishBtn.addEventListener('click', async (e) => {
-                        e.stopPropagation();
-                        await unpublishPage(page.id);
-                        if (isActive && window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setPublishMode === 'function') {
-                            window.downloadOptionsHandler.setPublishMode(page.share_slug || null);
-                            const topbarLink = document.getElementById('topbar-published-link');
-                            if (topbarLink) {
-                                topbarLink.style.display = 'none';
-                                topbarLink.removeAttribute('href');
-                            }
-                        }
-                    });
-                }
+                // [DISABLED_FOR_WEDDING_VERSION]: Unpublish button handler removed for wedding version.
+                // const unpublishBtn = item.querySelector('.page-unpublish-btn');
+                // if (unpublishBtn) {
+                //     unpublishBtn.addEventListener('click', async (e) => {
+                //         e.stopPropagation();
+                //         await unpublishPage(page.id);
+                //         if (isActive && window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setPublishMode === 'function') {
+                //             window.downloadOptionsHandler.setPublishMode(page.share_slug || null);
+                //             const topbarLink = document.getElementById('topbar-published-link');
+                //             if (topbarLink) {
+                //                 topbarLink.style.display = 'none';
+                //                 topbarLink.removeAttribute('href');
+                //             }
+                //         }
+                //     });
+                // }
 
                 // Delete button (only present for unpublished pages; published pages cannot be deleted)
                 const deleteBtn = item.querySelector('.page-delete-btn');
@@ -897,6 +957,22 @@ async function fetchAndRenderPagesList() {
         });
         container.appendChild(newPageBtn);
 
+        // Initialize Tippy tooltips for page list items (Preview, Delete, Published dot)
+        if (typeof tippy !== 'undefined') {
+            const pageListTooltips = container.querySelectorAll('[data-tippy-content]');
+            pageListTooltips.forEach(el => {
+                if (!el._tippy) {
+                    tippy(el, {
+                        placement: 'top',
+                        arrow: true,
+                        theme: 'custom',
+                        animation: 'scale',
+                        duration: [200, 150],
+                        delay: [300, 0]
+                    });
+                }
+            });
+        }
     } catch (err) {
         console.error('Error fetching pages list:', err);
     }
@@ -1819,6 +1895,7 @@ function enterOnboardingMode() {
     // if (toggleButton) toggleButton.classList.remove('sidebar-ready', 'collapsed', 'invisible');
     hideCategoryPanel();
     updateViewPagesBtnVisibility();
+    updateTopbarFilesBtnVisibility();
     // Fetch pages so _userHasPages is set and "Your Pages" button appears if the user
     // already has pages (fixes race condition where button stayed hidden on first paint).
     fetchAndRenderPagesList();
@@ -1838,21 +1915,23 @@ function exitOnboardingMode() {
         sidebar.classList.remove('onboarding-mode');
         sidebar.classList.add('sidebar-ready', 'collapsed');
     }
-    if (editorLayout) {
-        editorLayout.classList.add('sidebar-ready', 'collapsed');
-    }
-    if (topBar) {
-        topBar.classList.add('sidebar-ready', 'sidebar-collapsed');
-    }
-    if (toggleButton) {
-        toggleButton.classList.remove('invisible');
-        toggleButton.classList.add('sidebar-ready', 'collapsed');
-        const icon = toggleButton.querySelector('i');
-        if (icon) icon.setAttribute('data-lucide', 'globe');
-    }
+    // [DISABLED_FOR_WEDDING_VERSION]: Sidebar overlays editor — editorLayout/topBar/toggleButton no longer offset
+    // if (editorLayout) {
+    //     editorLayout.classList.add('sidebar-ready', 'collapsed');
+    // }
+    // if (topBar) {
+    //     topBar.classList.add('sidebar-ready', 'sidebar-collapsed');
+    // }
+    // if (toggleButton) {
+    //     toggleButton.classList.remove('invisible');
+    //     toggleButton.classList.add('sidebar-ready', 'collapsed');
+    //     const icon = toggleButton.querySelector('i');
+    //     if (icon) icon.setAttribute('data-lucide', 'globe');
+    // }
 
     // Hide "Your Pages" button when leaving onboarding
     updateViewPagesBtnVisibility();
+    updateTopbarFilesBtnVisibility();
 
     // [DISABLED_FOR_WEDDING_VERSION]: Change Template button replaced by View Your Pages button.
     // const changeTemplateBtn = document.getElementById('change-template-btn');
@@ -1891,18 +1970,21 @@ function exitOnboardingMode() {
 // In normal mode (template already chosen), collapse it temporarily.
 function hideSidebarForPreview() {
      sidebarCollapsed = true;
-     const editorLayout = document.querySelector('.editor-layout');
+     // [DISABLED_FOR_WEDDING_VERSION]: Only sidebar collapsed; editorLayout/topBar no longer manipulated
+     // const editorLayout = document.querySelector('.editor-layout');
      const sidebar = document.querySelector('.sidebar');
-     const topBar = document.querySelector('.top-bar');
+     // const topBar = document.querySelector('.top-bar');
      const toggleButton = document.getElementById('toggle-sidebar');
      const categoryPanel = document.querySelector('.category-hover-panel');
-     if (editorLayout) editorLayout.classList.add('collapsed');
+     // if (editorLayout) editorLayout.classList.add('collapsed');
      if (sidebar) sidebar.classList.add('collapsed');
-     if (topBar) topBar.classList.add('sidebar-collapsed');
+     // if (topBar) topBar.classList.add('sidebar-collapsed');
      if (toggleButton) {
-         toggleButton.classList.add('collapsed', 'invisible');
-         const icon = toggleButton.querySelector('i');
-         if (icon) icon.setAttribute('data-lucide', 'globe');
+         toggleButton.classList.add('invisible');
+         // [DISABLED_FOR_WEDDING_VERSION]: 'collapsed' class on toggle no longer needed
+         // toggleButton.classList.add('collapsed');
+         // const icon = toggleButton.querySelector('i');
+         // if (icon) icon.setAttribute('data-lucide', 'globe');
      }
      if (categoryPanel) categoryPanel.style.left = '0';
      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
@@ -1917,20 +1999,24 @@ function hideSidebarForPreview() {
          return;
      }
      sidebarCollapsed = false;
-     const editorLayout = document.querySelector('.editor-layout');
+     // [DISABLED_FOR_WEDDING_VERSION]: editorLayout/topBar no longer manipulated (overlay approach)
+     // const editorLayout = document.querySelector('.editor-layout');
      const sidebar = document.querySelector('.sidebar');
-     const topBar = document.querySelector('.top-bar');
+     // const topBar = document.querySelector('.top-bar');
      const toggleButton = document.getElementById('toggle-sidebar');
      const categoryPanel = document.querySelector('.category-hover-panel');
-     if (editorLayout) editorLayout.classList.remove('collapsed');
+     // if (editorLayout) editorLayout.classList.remove('collapsed');
      if (sidebar) sidebar.classList.remove('collapsed');
-     if (topBar) topBar.classList.remove('sidebar-collapsed');
+     // if (topBar) topBar.classList.remove('sidebar-collapsed');
      if (toggleButton) {
-         toggleButton.classList.remove('collapsed', 'invisible');
-         const icon = toggleButton.querySelector('i');
-         if (icon) icon.setAttribute('data-lucide', 'globe');
+         toggleButton.classList.remove('invisible');
+         // [DISABLED_FOR_WEDDING_VERSION]: 'collapsed' class on toggle no longer needed
+         // toggleButton.classList.remove('collapsed');
+         // const icon = toggleButton.querySelector('i');
+         // if (icon) icon.setAttribute('data-lucide', 'globe');
      }
-     if (categoryPanel) categoryPanel.style.left = '300px';
+     // [DISABLED_FOR_WEDDING_VERSION]: No sidebar offset in overlay mode
+     if (categoryPanel) categoryPanel.style.left = '0';
      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
  }
  window.hideSidebarForPreview = hideSidebarForPreview;
@@ -2252,6 +2338,7 @@ function toggleSidebarVisibility(hide = true) {
      }
      const topbarThemeBtn = document.getElementById('topbar-theme-btn');
      if (topbarThemeBtn) topbarThemeBtn.classList.add('active');
+     document.body.classList.add('theme-panel-open');
  }
 
  // Close theme panel
@@ -2262,6 +2349,7 @@ function toggleSidebarVisibility(hide = true) {
      }
      const topbarThemeBtn = document.getElementById('topbar-theme-btn');
      if (topbarThemeBtn) topbarThemeBtn.classList.remove('active');
+     document.body.classList.remove('theme-panel-open');
  }
 
  // Hide category hover panel
@@ -2823,38 +2911,44 @@ function updateViewPagesBtnVisibility() {
 }
 window.updateViewPagesBtnVisibility = updateViewPagesBtnVisibility;
 
+// Top-bar "Pages" (files) icon no longer used in editor — pages are opened via the left sidebar toggle only.
+function updateTopbarFilesBtnVisibility() {
+    const btn = document.getElementById('topbar-files-btn');
+    if (!btn) return;
+    btn.style.display = 'none';
+}
+window.updateTopbarFilesBtnVisibility = updateTopbarFilesBtnVisibility;
+
 // Toggle sidebar (pages list sidebar)
 function toggleSidebar() {
     sidebarCollapsed = !sidebarCollapsed;
-    const editorLayout = document.querySelector('.editor-layout');
     const sidebar = document.querySelector('.sidebar');
-    const topBar = document.querySelector('.top-bar');
-    const toggleButton = document.getElementById('toggle-sidebar');
-    if (!toggleButton) return;
-    const icon = toggleButton.querySelector('i');
+
+    // [DISABLED_FOR_WEDDING_VERSION]: Sidebar now overlays editor — editorLayout/topBar no longer manipulated
+    // const editorLayout = document.querySelector('.editor-layout');
+    // const topBar = document.querySelector('.top-bar');
+    // const toggleButton = document.getElementById('toggle-sidebar');
+    // if (!toggleButton) return;
+    // const icon = toggleButton.querySelector('i');
 
     if (sidebarCollapsed) {
-        if (editorLayout) editorLayout.classList.add('collapsed');
         if (sidebar) sidebar.classList.add('collapsed');
-        if (topBar) topBar.classList.add('sidebar-collapsed');
-        toggleButton.classList.add('collapsed');
-        if (icon) icon.setAttribute('data-lucide', 'globe');
+        // [DISABLED_FOR_WEDDING_VERSION]: No longer needed with overlay approach
+        // if (editorLayout) editorLayout.classList.add('collapsed');
+        // if (topBar) topBar.classList.add('sidebar-collapsed');
+        // toggleButton.classList.add('collapsed');
+        // if (icon) icon.setAttribute('data-lucide', 'globe');
     } else {
-        if (editorLayout) {
-            editorLayout.classList.remove('collapsed');
-            editorLayout.classList.add('sidebar-ready');
-        }
         if (sidebar) {
             sidebar.classList.remove('collapsed');
             sidebar.classList.add('sidebar-ready');
         }
-        if (topBar) {
-            topBar.classList.remove('sidebar-collapsed');
-            topBar.classList.add('sidebar-ready');
-        }
-        toggleButton.classList.remove('collapsed');
-        toggleButton.classList.add('sidebar-ready');
-        if (icon) icon.setAttribute('data-lucide', 'globe');
+        // [DISABLED_FOR_WEDDING_VERSION]: No longer needed with overlay approach
+        // if (editorLayout) { editorLayout.classList.remove('collapsed'); editorLayout.classList.add('sidebar-ready'); }
+        // if (topBar) { topBar.classList.remove('sidebar-collapsed'); topBar.classList.add('sidebar-ready'); }
+        // toggleButton.classList.remove('collapsed');
+        // toggleButton.classList.add('sidebar-ready');
+        // if (icon) icon.setAttribute('data-lucide', 'globe');
         // Refresh the pages list when opening the sidebar
         fetchAndRenderPagesList();
     }
@@ -4712,6 +4806,7 @@ function updateCurrentThemeButton(themeId) {
          userMenuVisible = false;
          return;
      }
+     if (typeof window.closePublishOptionsMenu === 'function') window.closePublishOptionsMenu();
 
      dropdown.classList.add('show');
      dropdown.setAttribute('aria-hidden', 'false');
@@ -5470,7 +5565,40 @@ document.addEventListener('DOMContentLoaded', async () => {
      
      // Toggle sidebar button (pages list)
      const toggleButton = document.getElementById('toggle-sidebar');
-     if (toggleButton) toggleButton.addEventListener('click', toggleSidebar);
+     if (toggleButton) {
+         toggleButton.addEventListener('click', (e) => {
+             e.stopPropagation();
+             toggleSidebar();
+         });
+     }
+
+     // Pages sidebar close button (X in header)
+     const pagesSidebarCloseBtn = document.getElementById('pages-sidebar-close');
+     if (pagesSidebarCloseBtn) {
+         pagesSidebarCloseBtn.addEventListener('click', () => {
+             if (!sidebarCollapsed) toggleSidebar();
+         });
+     }
+
+     // Close pages sidebar on ESC
+     document.addEventListener('keydown', (e) => {
+         if (e.key === 'Escape' && !sidebarCollapsed) {
+             const sidebar = document.querySelector('.sidebar');
+             if (sidebar && sidebar.classList.contains('sidebar-ready')) {
+                 toggleSidebar();
+             }
+         }
+     });
+
+    // Close pages sidebar when clicking outside (main area, top-bar, etc.)
+    // Exclude view-pages-btn and topbar-files-btn so opening the sidebar via them does not immediately close it
+    document.addEventListener('click', (e) => {
+        if (sidebarCollapsed) return;
+        const sidebar = document.querySelector('.sidebar');
+        if (!sidebar || !sidebar.classList.contains('sidebar-ready')) return;
+        if (e.target.closest('#pages-sidebar') || e.target.closest('#toggle-sidebar') || e.target.closest('#view-pages-btn') || e.target.closest('#topbar-files-btn')) return;
+        toggleSidebar();
+    });
 
      // View Your Pages button: opens the left sidebar OVER the onboarding overlay.
      // The sidebar (z-index 10) appears above the overlay (z-index 4) so the user
@@ -5479,7 +5607,20 @@ document.addEventListener('DOMContentLoaded', async () => {
      const viewPagesBtn = document.getElementById('view-pages-btn');
      if (viewPagesBtn) {
          viewPagesBtn.addEventListener('click', () => {
-             if (sidebarCollapsed) toggleSidebar();
+             if (window.isOnboardingMode) {
+                 // In onboarding the sidebar has no .sidebar-ready so it stays hidden.
+                 // Force-open: add sidebar-ready and show the pages list.
+                 sidebarCollapsed = false;
+                 const sidebar = document.querySelector('.sidebar');
+                 if (sidebar) {
+                     sidebar.classList.remove('collapsed', 'onboarding-mode');
+                     sidebar.classList.add('sidebar-ready');
+                 }
+                 fetchAndRenderPagesList();
+                 if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+             } else {
+                 if (sidebarCollapsed) toggleSidebar();
+             }
          });
      }
 
@@ -5519,6 +5660,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (topbarThemeBtn) {
         topbarThemeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            if (!sidebarCollapsed) toggleSidebar();
             const panel = document.getElementById('theme-panel');
             if (panel && panel.classList.contains('show')) {
                 closeThemePanel();
@@ -6156,34 +6298,120 @@ document.addEventListener('DOMContentLoaded', async () => {
      const closeFullscreenBtn = document.getElementById('close-fullscreen');
      closeFullscreenBtn.addEventListener('click', toggleFullscreenPreview);
      
-     // Download page button - show options modal or Unpublish (when published)
+     // Download page button - when not published: show publish modal; when published: "Published!" opens site, options in dropdown
      const downloadBtn = document.getElementById('download-page');
-     downloadBtn.addEventListener('click', async () => {
-         // If the page is published, Unpublish (red button)
-         if (downloadBtn.dataset.viewWebsiteSlug) {
-             const pageId = typeof currentPageId !== 'undefined' ? currentPageId : (window.pageManagerInstance && window.pageManagerInstance.currentPageId);
-             if (!pageId) return;
-             try {
-                 const previousSlug = downloadBtn.dataset.viewWebsiteSlug;
-                 await unpublishPage(pageId);
-                 if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setPublishMode === 'function') {
-                     window.downloadOptionsHandler.setPublishMode(previousSlug);
-                 }
-                 const topbarLink = document.getElementById('topbar-published-link');
-                 if (topbarLink) {
-                     topbarLink.style.display = 'none';
-                     topbarLink.removeAttribute('href');
-                 }
-                 fetchAndRenderPagesList();
-             } catch (e) {
-                 console.error('Unpublish failed', e);
-             }
+     const publishWrap = document.getElementById('publish-dropdown-wrap');
+     const publishOptionsTrigger = document.getElementById('publish-options-trigger');
+     const publishOptionsMenu = document.getElementById('publish-options-menu');
+
+     downloadBtn.addEventListener('click', async (e) => {
+         // When published: main button opens published website in new tab (do not unpublish)
+         const slug = (publishWrap && publishWrap.dataset.viewWebsiteSlug) || downloadBtn.dataset.viewWebsiteSlug;
+         if (slug) {
+             const viewLink = document.getElementById('topbar-view-website-link');
+             const href = viewLink ? viewLink.href : (new URL('shared.html?slug=' + encodeURIComponent(slug), window.location.href)).href;
+             if (href && href !== '#') window.open(href, '_blank', 'noopener');
              return;
          }
          if (window.downloadOptionsHandler) {
              window.downloadOptionsHandler.showDownloadOptions();
          } else {
              downloadPage();
+         }
+     });
+
+     if (publishOptionsTrigger && publishOptionsMenu) {
+         publishOptionsTrigger.addEventListener('click', function (e) {
+             e.stopPropagation();
+             if (typeof closeUserMenu === 'function') closeUserMenu();
+             const isOpen = publishOptionsMenu.classList.toggle('open');
+             publishOptionsTrigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+             publishOptionsMenu.setAttribute('aria-hidden', !isOpen);
+             if (isOpen) publishOptionsMenu.style.minWidth = Math.max(180, publishWrap ? publishWrap.offsetWidth : 180) + 'px';
+         });
+         publishOptionsMenu.querySelectorAll('[data-publish-action]').forEach(function (item) {
+             item.addEventListener('click', async function (e) {
+                 e.stopPropagation();
+                 publishOptionsMenu.classList.remove('open');
+                 publishOptionsTrigger.setAttribute('aria-expanded', 'false');
+                 publishOptionsMenu.setAttribute('aria-hidden', 'true');
+                 const action = item.getAttribute('data-publish-action');
+                 const pageId = typeof currentPageId !== 'undefined' ? currentPageId : (window.pageManagerInstance && window.pageManagerInstance.currentPageId);
+                 const slug = (publishWrap && publishWrap.dataset.viewWebsiteSlug) || downloadBtn.dataset.viewWebsiteSlug;
+
+                 if (action === 'unpublish' && pageId && slug) {
+                     openUnpublishWebsiteModal(pageId, slug);
+                 } else if (action === 'copy-link' && slug) {
+                     // Prefer the topbar published link (exact URL from server: subdomain, custom domain, or .local)
+                     const topbarLink = document.getElementById('topbar-published-link');
+                     let fullUrl = (topbarLink && topbarLink.href && topbarLink.href !== '#' && topbarLink.getAttribute('href') !== '#') ? topbarLink.href : null;
+                     if (!fullUrl) {
+                         // Build from slug: custom domain has a dot (e.g. mi-boda.com), subdomain does not
+                         fullUrl = slug.indexOf('.') !== -1
+                             ? 'https://' + slug
+                             : 'https://' + slug + '.yeslovey.com';
+                     }
+                     function copyPublishLinkFallback(text) {
+                         var ta = document.createElement('textarea');
+                         ta.value = text;
+                         ta.style.position = 'fixed';
+                         ta.style.left = '-999999px';
+                         ta.style.top = '-999999px';
+                         document.body.appendChild(ta);
+                         ta.focus();
+                         ta.select();
+                         try {
+                             document.execCommand('copy');
+                             if (typeof showToast === 'function') showToast('Link Copied!', 'Share link has been copied to your clipboard.', {});
+                         } catch (e) {
+                             if (typeof showToast === 'function') showToast('Copy Failed', 'Could not copy. Please copy the link manually.', {});
+                         }
+                         document.body.removeChild(ta);
+                     }
+                     if (navigator.clipboard && navigator.clipboard.writeText) {
+                         navigator.clipboard.writeText(fullUrl).then(function () {
+                             if (typeof showToast === 'function') showToast('Link Copied!', 'Share link has been copied to your clipboard.', {});
+                         }).catch(function () { copyPublishLinkFallback(fullUrl); });
+                     } else {
+                         copyPublishLinkFallback(fullUrl);
+                     }
+                 } else if (action === 'change-domain' && window.downloadOptionsHandler) {
+                     window.downloadOptionsHandler.showChangeDomainModal();
+                 }
+             });
+         });
+     }
+
+     function closePublishOptionsMenu() {
+         if (publishOptionsMenu && publishOptionsTrigger) {
+             publishOptionsMenu.classList.remove('open');
+             publishOptionsTrigger.setAttribute('aria-expanded', 'false');
+             publishOptionsMenu.setAttribute('aria-hidden', 'true');
+         }
+     }
+     window.closePublishOptionsMenu = closePublishOptionsMenu;
+
+     // 1) Close when user clicks outside the dropdown (anywhere in document)
+     document.addEventListener('click', function (e) {
+         if (publishOptionsMenu && publishOptionsMenu.classList.contains('open') && !e.target.closest('.publish-dropdown-wrap')) {
+             closePublishOptionsMenu();
+         }
+     });
+
+     // 2) Close when user triggers another action: themes, account, share, preview, etc. (use capture so we run first)
+     document.addEventListener('click', function (e) {
+         if (!publishOptionsMenu || !publishOptionsMenu.classList.contains('open')) return;
+         var target = e.target;
+         if (target.closest('#topbar-theme-btn') || target.closest('#share-page') || target.closest('#preview-fullscreen') ||
+             target.closest('#server-user-display') || target.closest('#clerk-user-button') || target.closest('.user-info') ||
+             target.closest('#undo-btn') || target.closest('#redo-btn') || target.closest('.top-bar-left') || target.closest('.top-bar-center')) {
+             closePublishOptionsMenu();
+         }
+     }, true);
+
+     document.addEventListener('keydown', function (e) {
+         if (e.key === 'Escape' && publishOptionsMenu && publishOptionsMenu.classList.contains('open')) {
+             closePublishOptionsMenu();
          }
      });
      

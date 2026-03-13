@@ -100,8 +100,8 @@
         const shareToken = urlParams.get('token');
         const docId = urlParams.get('doc');
 
-        // Slug can come from ?slug= param (internal rewrite) or from the subdomain itself
-        // (browser URL stays as slug.yeslovey.com, so query param may be empty)
+        // Slug can come from ?slug= param (internal rewrite), from the subdomain (slug.yeslovey.com),
+        // or from the full hostname when it's a custom domain (e.g. mi-boda.com).
         let shareSlug = urlParams.get('slug');
         if (!shareSlug) {
             const hostParts = window.location.hostname.split('.');
@@ -110,6 +110,9 @@
                 if (sub !== 'www' && sub !== 'www1') {
                     shareSlug = sub;
                 }
+            } else if (hostParts.length === 2) {
+                // Custom domain (e.g. mi-boda.com): use full hostname as slug (stored as share_slug in DB)
+                shareSlug = window.location.hostname;
             }
         }
 

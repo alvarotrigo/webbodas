@@ -240,36 +240,40 @@ function editor_asset(string $path): string
     <!-- Main content (shown after load) -->
     <div id="rsvp-content" style="display:none;">
 
-        <!-- KPI Cards -->
+        <!-- KPI Cards (Attending | Declining | Responses) -->
         <div class="rsvp-kpi-row">
-            <div class="rsvp-kpi-card">
-                <div class="rsvp-kpi-number" id="stat-total">0</div>
-                <div class="rsvp-kpi-label">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    Responses
-                </div>
-            </div>
-            <div class="rsvp-kpi-card accepted">
+            <div class="rsvp-kpi-card rsvp-card-green">
                 <div class="rsvp-kpi-header">
-                    <div>
-                        <div class="rsvp-kpi-number-wrap">
-                            <span class="rsvp-kpi-number" id="stat-attending">0</span>
-                        </div>
-                        <div class="rsvp-kpi-label">
-                            <span class="rsvp-kpi-label-icon rsvp-kpi-thumb-up"><i data-lucide="thumbs-up"></i></span>
-                            Attending
-                        </div>
+                    <div class="rsvp-kpi-icon-circle">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="rsvp-kpi-number-label">
+                        <div class="rsvp-kpi-number-right" id="stat-attending">0</div>
+                        <div class="rsvp-kpi-text-below">Attending</div>
                     </div>
                     <div class="rsvp-kpi-breakdown" id="attendingBreakdown"></div>
                 </div>
             </div>
-            <div class="rsvp-kpi-card declined">
-                <div class="rsvp-kpi-number-wrap">
-                    <span class="rsvp-kpi-number" id="stat-declining">0</span>
+            <div class="rsvp-kpi-card rsvp-card-red">
+                <div class="rsvp-kpi-header">
+                    <div class="rsvp-kpi-icon-circle">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </div>
+                    <div class="rsvp-kpi-number-label">
+                        <div class="rsvp-kpi-number-right" id="stat-declining">0</div>
+                        <div class="rsvp-kpi-text-below">Declining</div>
+                    </div>
                 </div>
-                <div class="rsvp-kpi-label">
-                    <span class="rsvp-kpi-label-icon rsvp-kpi-thumb-down"><i data-lucide="thumbs-down"></i></span>
-                    Declining
+            </div>
+            <div class="rsvp-kpi-card rsvp-card-gray">
+                <div class="rsvp-kpi-header">
+                    <div class="rsvp-kpi-icon-circle">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    </div>
+                    <div class="rsvp-kpi-number-label">
+                        <div class="rsvp-kpi-number-right" id="stat-total">0</div>
+                        <div class="rsvp-kpi-text-below">Responses</div>
+                    </div>
                 </div>
             </div>
         </div>
