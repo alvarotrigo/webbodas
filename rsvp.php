@@ -98,6 +98,10 @@ function editor_asset(string $path): string
     <!-- RSVP Dashboard CSS -->
     <link rel="stylesheet" href="<?= editor_asset('public/css/rsvp.css') ?>">
 
+    <!-- Tippy.js for tooltips (same as app.php) -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
     <!-- Lucide icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
@@ -113,27 +117,31 @@ function editor_asset(string $path): string
 ================================================================ -->
 <header class="rsvp-header">
     <div class="rsvp-header-left">
-        <a href="app.php" id="rsvp-back-to-editor" class="rsvp-header-back" title="Back to editor" aria-label="Back to editor">
+        <a href="app.php" id="rsvp-back-to-editor" class="rsvp-header-back" data-tippy-content="Back to editor" aria-label="Back to editor">
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         </a>
         <div class="rsvp-header-titles">
+        <a id="rsvp-form-section-link" class="rsvp-form-section-link" href="#rsvp" data-tippy-content="View form" aria-label="View form" target="_blank" rel="noopener noreferrer">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </a>
             <h1 class="rsvp-header-title" id="rsvp-page-title">List of Assistants</h1>
-            <a class="rsvp-header-subtitle" id="rsvp-page-subtitle" href="#" aria-hidden="true"></a>
+
         </div>
-        <button class="rsvp-form-status open" id="rsvp-toggle-form-btn" title="Open or close the RSVP form">
+        <button class="rsvp-form-status open" id="rsvp-toggle-form-btn" data-tippy-content="Open or close the RSVP form">
             <span class="rsvp-form-status-dot"></span>
             <span id="form-status-text">Form open</span>
+            <svg class="rsvp-form-status-warning-icon" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;margin-left:4px" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             <svg class="lock-icon-open" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-left:2px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0"/></svg>
             <svg class="lock-icon-closed" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;margin-left:2px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         </button>
     </div>
     <div class="rsvp-header-actions">
-        <button id="rsvp-share-btn" class="rsvp-btn-action" title="Share dashboard with your partner">
+        <button id="rsvp-share-btn" class="rsvp-btn-action" data-tippy-content="Share dashboard with your partner">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
             <span>Share</span>
         </button>
         <div class="rsvp-export-dropdown-wrap" id="rsvp-export-wrap">
-            <button id="rsvp-export-btn" class="rsvp-btn-action" title="Export data">
+            <button id="rsvp-export-btn" class="rsvp-btn-action" data-tippy-content="Export data">
                 <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 <span>Export</span>
                 <svg class="rsvp-export-chevron" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
@@ -153,7 +161,7 @@ function editor_asset(string $path): string
                 </button>
             </div>
         </div>
-        <button id="rsvp-print-btn" class="rsvp-btn-action rsvp-btn-print" title="Print">
+        <button id="rsvp-print-btn" class="rsvp-btn-action rsvp-btn-print" data-tippy-content="Print">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             <span>Print</span>
         </button>

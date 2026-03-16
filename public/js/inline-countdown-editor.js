@@ -42,6 +42,10 @@ class InlineCountdownEditor {
         const firstItem = section.querySelector('.countdown-item');
         if (!firstItem) return;
 
+        // Avoid duplicate button (e.g. after re-init or clone)
+        const container = firstItem.parentElement;
+        if (!container || container.querySelector('.countdown-edit-btn')) return;
+
         section.setAttribute('data-countdown-editor-initialized', 'true');
 
         // Assign a unique UID for undo/redo tracking
@@ -52,11 +56,7 @@ class InlineCountdownEditor {
             );
         }
 
-        // Find the container that holds all .countdown-item elements
-        const container = firstItem.parentElement;
-        if (!container) return;
-
-        // Add class for CSS styling (position: relative + hover detection)
+        // Add class for CSS (container hosts the last-item positioning context)
         container.classList.add('countdown-edit-container');
 
         // Prevent TinyMCE from making number/label spans editable
@@ -65,7 +65,10 @@ class InlineCountdownEditor {
             el.setAttribute('data-mce-bogus', 'all');
         });
 
-        // Build the edit button with a calendar icon
+        const lastItem = container.querySelector('.countdown-item:last-of-type');
+        if (!lastItem) return;
+
+        // Build the edit button; placed inside last countdown-item so it sits right next to it
         const editBtn = document.createElement('button');
         editBtn.className = 'countdown-edit-btn';
         editBtn.setAttribute('type', 'button');
@@ -79,7 +82,7 @@ class InlineCountdownEditor {
             </svg>
             <span>Edit Date</span>
         `;
-        container.appendChild(editBtn);
+        lastItem.appendChild(editBtn);
 
         const openHandler = (e) => {
             e.preventDefault();

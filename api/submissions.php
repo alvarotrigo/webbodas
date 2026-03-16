@@ -163,8 +163,8 @@ function handleList(): void {
     $cntStmt->execute([$pageId]);
     $total = (int)($cntStmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0);
 
-    // Get page form_open state and share_slug (for form link in dashboard)
-    $pageStmt = $pdo->prepare("SELECT form_open, form_closed_message, title, share_slug FROM user_pages WHERE id = ? LIMIT 1");
+    // Get page form_open state, share_slug and is_public (for form link and unpublished warning in dashboard)
+    $pageStmt = $pdo->prepare("SELECT form_open, form_closed_message, title, share_slug, is_public FROM user_pages WHERE id = ? LIMIT 1");
     $pageStmt->execute([$pageId]);
     $page = $pageStmt->fetch(PDO::FETCH_ASSOC);
 
@@ -184,12 +184,19 @@ function handleList(): void {
     foreach ($groups as &$g) { $g['id'] = (int)$g['id']; }
     unset($g);
 
-    // Public website URL for "view website" link (subdomain: https://{share_slug}.{domain})
+    // Public website URL: custom domain (pro) = https://domain.com; subdomain = https://slug.yeslovey.com
     $pageUrl = '';
     if (!empty($page['share_slug'])) {
-        $baseDomain = getenv('SHARE_BASE_DOMAIN') ?: 'yeslovey.com';
-        $pageUrl = 'https://' . trim((string)$page['share_slug']) . '.' . $baseDomain;
+        $slug = trim((string)$page['share_slug']);
+        if (strpos($slug, '.') !== false) {
+            $pageUrl = 'https://' . $slug;
+        } else {
+            $baseDomain = getenv('SHARE_BASE_DOMAIN') ?: 'yeslovey.com';
+            $pageUrl = 'https://' . $slug . '.' . $baseDomain;
+        }
     }
+
+    $isPublic = isset($page['is_public']) ? (bool)(int)$page['is_public'] : false;
 
     echo json_encode([
         'success'     => true,
@@ -200,6 +207,7 @@ function handleList(): void {
         'page_title'  => $page['title'] ?? '',
         'share_slug'  => isset($page['share_slug']) ? (string)$page['share_slug'] : '',
         'page_url'    => $pageUrl,
+        'is_public'   => $isPublic,
         'groups'      => $groups,
     ]);
 }

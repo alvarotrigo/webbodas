@@ -313,14 +313,15 @@ class DownloadOptionsHandler {
         const wrap = document.getElementById('publish-dropdown-wrap');
         const currentSlug = (wrap && wrap.dataset.viewWebsiteSlug) ? wrap.dataset.viewWebsiteSlug.trim() : '';
         const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
-        const domainSuffix = isPro ? '.com' : '.yeslovey.com';
+        const domainSuffix = isPro ? '' : '.yeslovey.com';
 
         if (!currentSlug) {
             this.showNewDomainInput();
             return;
         }
 
-        const currentDomain = currentSlug + domainSuffix;
+        // For Pro, share_slug already contains the full domain (e.g. "mi-boda.com"); for free, append base domain
+        const currentDomain = currentSlug.includes('.') ? currentSlug : (currentSlug + domainSuffix);
         const existingModal = document.getElementById('download-options-modal');
         if (existingModal) existingModal.remove();
 
@@ -1090,8 +1091,10 @@ class DownloadOptionsHandler {
      * Show the success view inside the modal with confetti, domain field & View Site button.
      */
     _showPublishSuccess(publishedUrl, contentEl) {
-        const safeUrl = publishedUrl.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-        const displayDomain = publishedUrl.replace(/^https?:\/\//, '');
+        // Ensure we copy the published URL (subdomain or custom domain), never the token link
+        const urlToCopy = publishedUrl && publishedUrl.startsWith('http') ? publishedUrl : ('https://' + (publishedUrl || '').replace(/^https?:\/\//, ''));
+        const safeUrl = urlToCopy.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        const displayDomain = urlToCopy.replace(/^https?:\/\//, '');
 
         contentEl.innerHTML = `
             <div class="p-8 relative publish-success-view">
@@ -1105,9 +1108,9 @@ class DownloadOptionsHandler {
                     <h2 class="text-2xl font-bold text-[var(--primary-text)]">Your website has been published \ud83c\udf89</h2>
                 </div>
 
-                <div class="publish-success-domain-field">
+                <div class="publish-success-domain-field" data-publish-success-url="${safeUrl}">
                     <span class="publish-success-domain-text">${displayDomain}</span>
-                    <button type="button" id="publish-success-copy-btn" class="publish-success-copy-btn" aria-label="Copy link" data-tippy-content="Copy link">
+                    <button type="button" id="publish-success-copy-btn" class="publish-success-copy-btn" aria-label="Copy link" data-tippy-content="Copy link" data-copy-url="${safeUrl}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                     </button>
                 </div>
@@ -1118,13 +1121,47 @@ class DownloadOptionsHandler {
             </div>
         `;
 
-        document.getElementById('publish-success-copy-btn').addEventListener('click', function () {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(publishedUrl).then(function () {
-                    if (typeof showToast === 'function') showToast('Copied!', 'Link copied to clipboard.', {});
-                });
-            }
-        });
+        const copyBtn = contentEl.querySelector('#publish-success-copy-btn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', function () {
+                const textToCopy = urlToCopy || ('https://' + (contentEl.querySelector('.publish-success-domain-text') && contentEl.querySelector('.publish-success-domain-text').textContent || '').trim());
+                if (!textToCopy || textToCopy === 'https://') return;
+
+                function showCopiedTooltip() {
+                    const parent = copyBtn.parentElement;
+                    if (!parent) return;
+                    const existing = parent.querySelector('.publish-copy-tooltip');
+                    if (existing) existing.remove();
+                    const tip = document.createElement('span');
+                    tip.className = 'publish-copy-tooltip';
+                    tip.textContent = 'Copied!';
+                    parent.appendChild(tip);
+                    setTimeout(function () { tip.remove(); }, 2000);
+                }
+
+                function fallbackCopy() {
+                    const ta = document.createElement('textarea');
+                    ta.value = textToCopy;
+                    ta.setAttribute('readonly', '');
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    ta.style.top = '0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    try {
+                        if (document.execCommand('copy')) showCopiedTooltip();
+                    } catch (e) { /* ignore */ }
+                    document.body.removeChild(ta);
+                }
+
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textToCopy).then(showCopiedTooltip).catch(fallbackCopy);
+                } else {
+                    fallbackCopy();
+                }
+            });
+        }
 
         this._firePublishConfetti();
     }
@@ -1149,8 +1186,10 @@ class DownloadOptionsHandler {
     showSuccessMessage(publishedUrl) {
         const id = 'publish-success-modal';
         if (document.getElementById(id)) return;
-        const displayDomain = publishedUrl.replace(/^https?:\/\//, '');
-        const safeUrl = publishedUrl.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        // Ensure we show and copy the published URL (subdomain/custom domain), not a token link
+        const urlToCopy = publishedUrl && publishedUrl.startsWith('http') ? publishedUrl : ('https://' + (publishedUrl || '').replace(/^https?:\/\//, ''));
+        const displayDomain = urlToCopy.replace(/^https?:\/\//, '');
+        const safeUrl = urlToCopy.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
         const html = `<div id="${id}" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10001]" style="display: flex;">
             <div class="rounded-2xl shadow-2xl max-w-lg w-full mx-4 p-8 github-export-content" style="background-color: var(--primary-bg, #ffffff);" onclick="event.stopPropagation()">
@@ -1159,7 +1198,7 @@ class DownloadOptionsHandler {
                 </div>
                 <div class="publish-success-domain-field">
                     <span class="publish-success-domain-text">${displayDomain}</span>
-                    <button type="button" id="copy-published-url-btn" class="publish-success-copy-btn" aria-label="Copy link">
+                    <button type="button" id="copy-published-url-btn" class="publish-success-copy-btn" aria-label="Copy link" data-copy-url="${safeUrl}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                     </button>
                 </div>
@@ -1168,13 +1207,45 @@ class DownloadOptionsHandler {
             </div></div>`;
         document.body.insertAdjacentHTML('beforeend', html);
 
-        document.getElementById('copy-published-url-btn').addEventListener('click', function () {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(publishedUrl).then(function () {
-                    if (typeof showToast === 'function') showToast('Copied!', 'Link copied to clipboard.', {});
-                });
-            }
-        });
+        const copyBtnEl = document.getElementById('copy-published-url-btn');
+        if (copyBtnEl) {
+            copyBtnEl.addEventListener('click', function () {
+                const textToCopy = urlToCopy || 'https://' + (document.querySelector('#' + id + ' .publish-success-domain-text') && document.querySelector('#' + id + ' .publish-success-domain-text').textContent || '').trim();
+                if (!textToCopy || textToCopy === 'https://') return;
+
+                function showCopiedTooltip() {
+                    const parent = copyBtnEl.parentElement;
+                    if (!parent) return;
+                    const existing = parent.querySelector('.publish-copy-tooltip');
+                    if (existing) existing.remove();
+                    const tip = document.createElement('span');
+                    tip.className = 'publish-copy-tooltip';
+                    tip.textContent = 'Copied!';
+                    parent.appendChild(tip);
+                    setTimeout(function () { tip.remove(); }, 2000);
+                }
+                function fallbackCopy() {
+                    const ta = document.createElement('textarea');
+                    ta.value = textToCopy;
+                    ta.setAttribute('readonly', '');
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    ta.style.top = '0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    try {
+                        if (document.execCommand('copy')) showCopiedTooltip();
+                    } catch (e) { /* ignore */ }
+                    document.body.removeChild(ta);
+                }
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textToCopy).then(showCopiedTooltip).catch(fallbackCopy);
+                } else {
+                    fallbackCopy();
+                }
+            });
+        }
 
         const overlay = document.getElementById(id);
         overlay.addEventListener('click', function (e) {
@@ -1195,8 +1266,7 @@ class DownloadOptionsHandler {
     /**
      * When page is published: show View Website icon and switch Publish to "Published!" (green) with options dropdown.
      * Stores the slug on the wrap so dropdown actions (Unpublish, Copy Link, Change Domain) can use it.
-     * If shareSlug contains a dot it is treated as a full custom domain (Pro) and the link
-     * points directly to https://shareSlug instead of the shared.html viewer.
+     * Opens the real published URL (subdomain or custom domain), never shared.html — shared.html?slug= is only for unpublished/share preview.
      */
     setViewWebsiteMode(shareSlug) {
         const btn = document.getElementById('download-page');
@@ -1206,11 +1276,11 @@ class DownloadOptionsHandler {
         const menu = document.getElementById('publish-options-menu');
         if (!btn || !shareSlug) return;
 
-        // Custom domain (Pro): slug contains a dot → link directly to the domain
+        // Published page: always open real URL — custom domain (Pro) or subdomain (free)
         const isCustomDomain = shareSlug.includes('.');
         const viewHref = isCustomDomain
             ? 'https://' + shareSlug
-            : 'shared.html?slug=' + encodeURIComponent(shareSlug);
+            : 'https://' + shareSlug + '.yeslovey.com';
 
         // Show and set the View Website icon link (right of Share)
         if (viewWebsiteLink) {
@@ -1257,6 +1327,13 @@ class DownloadOptionsHandler {
      */
     setPublishMode(previousSlug) {
         this.previousSlug = previousSlug || null;
+        this.publishPageIdOverride = null;
+        this.cachedDomainSuggestions = null;
+        this.cachedDomainSuggestionsForTitle = null;
+        this.domainSuggestions = [];
+        this.suggestionIndex = 0;
+        this.domainAvailable = false;
+        this.chosenSuggestionDomain = null;
         const btn = document.getElementById('download-page');
         const viewWebsiteLink = document.getElementById('topbar-view-website-link');
         const wrap = document.getElementById('publish-dropdown-wrap');

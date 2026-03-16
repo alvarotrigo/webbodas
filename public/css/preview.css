@@ -105,11 +105,24 @@ body {
     min-height: auto;
 }
 
+/* El footer también hereda contain-intrinsic-size: 1000px 800px de .section,
+   lo que lo hace verse más alto de lo real en el editor con has-full-template. */
+#preview-content.has-full-template footer.section {
+    contain-intrinsic-size: unset;
+}
+
 /* Anular efectos reveal en la vista editor; solo se muestran al hacer clic en Preview (ojo) o en publicación. */
 body:not(.fullscreen-mode) #preview-content .reveal,
 body:not(.fullscreen-mode) #preview-content .reveal-left,
 body:not(.fullscreen-mode) #preview-content .reveal-right,
 body:not(.fullscreen-mode) #preview-content .reveal-scale {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+}
+
+/* Parallax quote blockquote uses .reveal-scale; ensure it is always visible in preview
+   (parent opacity:0 would hide all content even if child has in-viewport animation). */
+#preview-content .parallax-quote .reveal-scale {
     opacity: 1;
     transform: translateY(0) translateX(0) scale(1);
 }
@@ -134,9 +147,10 @@ footer.section{
 }
 
 .section-menu {
-    position: absolute;
+    position: absolute !important; /* Override template rules like .countdown-section > * { position: relative } */
     top: 20px;
     right: 20px;
+    width: auto; /* Prevent stretching to full width when parent has flex/grid or * { position:relative } */
     /* Neutral background so the menu does not inherit template theme (e.g. cream/yellow) and appear as a yellow rectangle */
     background: var(--section-menu-bg, #374151);
     color: var(--section-menu-text, #f3f4f6);
@@ -434,9 +448,13 @@ body.dark-mode .bg-picker-img-option.danger:hover {
     flex-shrink: 0;
 }
 
-/* Hide opacity wrapper by default */
+/* Hide opacity wrapper by default (sections) and always for footer (no overlay) */
 section .section-menu .overlay-opacity-wrapper {
     display: none;
+}
+
+footer .section-menu .overlay-opacity-wrapper {
+    display: none !important;
 }
 
 /* Show opacity wrapper when section has background image */

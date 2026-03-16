@@ -82,9 +82,9 @@ body {
 
 .rsvp-header-titles {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
 }
 
 .rsvp-header-title {
@@ -150,6 +150,18 @@ body {
     border-color: var(--rsvp-red);
     background: var(--rsvp-red-bg);
 }
+/* Unpublished + form open: yellow warning. When form closed, use normal red (no yellow override). */
+.rsvp-form-status.rsvp-form-status--unpublished.open {
+    color: #b45309;
+    border-color: #eab308;
+    background: rgba(234, 179, 8, 0.15);
+}
+.rsvp-form-status.rsvp-form-status--unpublished.open .rsvp-form-status-dot {
+    background: currentColor;
+}
+.rsvp-form-status-warning-icon {
+    flex-shrink: 0;
+}
 .rsvp-form-status-dot {
     width: 8px;
     height: 8px;
@@ -162,24 +174,52 @@ body {
     margin-left: 2px;
 }
 
-/* ---- Action buttons (Share, Export CSV: white background) --- */
+/* Link to form section (#rsvp) on the public page — same style as header back: no border, hover background */
+.rsvp-form-section-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    color: var(--secondary-text);
+    text-decoration: none;
+    border: none;
+    background: transparent;
+    transition: color 0.15s, background-color 0.15s;
+    flex-shrink: 0;
+}
+.rsvp-form-section-link:hover {
+    color: var(--primary-text);
+    background-color: var(--rsvp-border-light);
+}
+.rsvp-form-section-link svg {
+    flex-shrink: 0;
+}
+
+/* ---- Action buttons (Share, Export) — same style as header back: no border, hover background --- */
 .rsvp-btn-action {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     padding: 8px 16px;
+    min-height: 40px;
     border-radius: 8px;
-    border: 1px solid var(--border-color);
-    background: var(--rsvp-surface);
+    border: none;
+    background: transparent;
     cursor: pointer;
     font-family: var(--rsvp-font-heading);
     font-size: 13px;
     font-weight: 600;
-    color: var(--primary-text);
-    transition: border-color 150ms;
+    color: var(--secondary-text);
+    transition: color 0.15s, background-color 0.15s;
     white-space: nowrap;
 }
-.rsvp-btn-action:hover { border-color: var(--primary-text); }
+.rsvp-btn-action:hover {
+    color: var(--primary-text);
+    background-color: var(--rsvp-border-light);
+}
 .rsvp-btn-action svg { flex-shrink: 0; }
 
 .rsvp-btn-print {
@@ -1207,7 +1247,19 @@ td .rsvp-cell-fullname { font-weight: 500; }
     box-shadow: 0 0 0 2px var(--primary-bg);
 }
 
-/* ---- User menu ------------------------------------------- */
+/* ---- User menu (match app.php: avatar + name in a row, same dropdown) ---- */
+.rsvp-header-actions .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+.rsvp-header-actions #server-user-display {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
 .user-info { position: relative; }
 
 /* ---- Toast ----------------------------------------------- */
@@ -1236,6 +1288,7 @@ td .rsvp-cell-fullname { font-weight: 500; }
 }
 .rsvp-toast.error { background: #c0392b; }
 .rsvp-toast.success { background: #16a34a; }
+.rsvp-toast.closed { background: #c0392b; }
 
 /* ---- Share tooltip ---------------------------------------- */
 .rsvp-share-tooltip {
@@ -1361,6 +1414,9 @@ body.dark-mode .rsvp-option-other         { background: var(--secondary-bg); }
 
 body.dark-mode .rsvp-form-status.open     { background: rgba(22,163,74,0.12); }
 body.dark-mode .rsvp-form-status.closed   { background: rgba(220,38,38,0.12); }
+body.dark-mode .rsvp-form-status.rsvp-form-status--unpublished.open { color: #fbbf24; border-color: #eab308; background: rgba(234, 179, 8, 0.2); }
+body.dark-mode .rsvp-form-section-link   { border-color: var(--border-color); }
+body.dark-mode .rsvp-form-section-link:hover { background: rgba(13,110,253,0.15); }
 
 body.dark-mode .rsvp-badge-green  { background: rgba(25,135,84,0.15); }
 body.dark-mode .rsvp-badge-red    { background: rgba(220,53,69,0.15); }

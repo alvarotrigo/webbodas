@@ -101,27 +101,33 @@
         const docId = urlParams.get('doc');
 
         // Slug can come from ?slug= param (internal rewrite), from the subdomain (slug.yeslovey.com),
-        // or from the full hostname when it's a custom domain (e.g. mi-boda.com).
+        // or from the full hostname when it's a custom domain (e.g. mi-boda.com). Do not treat .local / .localhost as custom domain.
         let shareSlug = urlParams.get('slug');
+        let slugFromSubdomain = false;
         if (!shareSlug) {
             const hostParts = window.location.hostname.split('.');
             if (hostParts.length >= 3) {
                 const sub = hostParts[0];
                 if (sub !== 'www' && sub !== 'www1') {
                     shareSlug = sub;
+                    slugFromSubdomain = true;
                 }
             } else if (hostParts.length === 2) {
-                // Custom domain (e.g. mi-boda.com): use full hostname as slug (stored as share_slug in DB)
-                shareSlug = window.location.hostname;
+                const host = window.location.hostname;
+                // Custom domain only for real TLDs (e.g. mi-boda.com). Skip .local, .localhost, .test, .dev
+                if (!/\.(local|localhost|test|dev|invalid)$/i.test(host)) {
+                    shareSlug = host;
+                }
             }
         }
 
-        // Build the appropriate API URL (slug for publish URLs, token for share, doc for legacy)
+        // Build the appropriate API URL. Prefer token first so preview and share links (shared.html?token=...)
+        // always work even when the page is not published; then slug (published URL), then legacy doc.
         let apiUrl = null;
-        if (shareSlug) {
-            apiUrl = 'api/get.php?slug=' + encodeURIComponent(shareSlug);
-        } else if (shareToken) {
+        if (shareToken) {
             apiUrl = 'api/get.php?token=' + encodeURIComponent(shareToken);
+        } else if (shareSlug) {
+            apiUrl = 'api/get.php?slug=' + encodeURIComponent(shareSlug);
         } else if (docId) {
             apiUrl = 'api/get.php?id=' + encodeURIComponent(docId);
         }
@@ -129,9 +135,19 @@
         if (!apiUrl) {
             showError('Missing document ID or link');
         } else {
-            // Resolve API and asset URLs relative to current page (shared.html may be at root or in a subpath)
+            // Resolve API and asset URLs relative to current page (shared.html may be at root or in a subpath).
+            // When the slug comes from the subdomain (e.g. 16marzo.yeslovey.com), the API is on the main domain
+            // (yeslovey.com), not on the subdomain, so we must use the main domain origin for the API request.
             const basePath = window.location.pathname.replace(/\/[^/]*$/, '/');
-            const resolveApi = (url) => url.startsWith('http') ? url : (window.location.origin + basePath + url.replace(/^\.\//, ''));
+            let apiOrigin = window.location.origin;
+            if (slugFromSubdomain) {
+                const hostParts = window.location.hostname.split('.');
+                if (hostParts.length >= 3) {
+                    const mainHost = hostParts.slice(-2).join('.');
+                    apiOrigin = window.location.protocol + '//' + mainHost;
+                }
+            }
+            const resolveApi = (url) => url.startsWith('http') ? url : (apiOrigin + basePath + url.replace(/^\.\//, ''));
 
             fetch(resolveApi(apiUrl))
                 .then(response => response.json())

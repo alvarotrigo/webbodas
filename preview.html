@@ -362,9 +362,12 @@
             flex-shrink: 0;
         }
         
-        /* Hide opacity wrapper by default */
+        /* Hide opacity wrapper by default (sections) and always for footer (no overlay) */
         section .section-menu .overlay-opacity-wrapper {
             display: none;
+        }
+        footer .section-menu .overlay-opacity-wrapper {
+            display: none !important;
         }
         
         /* Show opacity wrapper when section has background image */

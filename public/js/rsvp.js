@@ -19,6 +19,7 @@
         total: 0,
         formOpen: true,
         formClosedMessage: '',
+        isPublished: true, // false when website is unpublished (show warning in form status badge)
         search: '',
         page: 1,
         perPage: 50,
@@ -61,6 +62,16 @@
         bindTopBarActions();
         renderColorSwatches();
         if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+
+        // Tippy.js tooltips for header (same black theme as app.php topbar)
+        var headerTooltips = document.querySelectorAll('.rsvp-header [data-tippy-content]');
+        if (typeof tippy !== 'undefined' && headerTooltips.length > 0) {
+            tippy(headerTooltips, {
+                placement: 'bottom',
+                arrow: true,
+                theme: 'custom'
+            });
+        }
     }
 
     // ----------------------------------------------------------------
@@ -111,6 +122,7 @@
                 state.total          = data.total || 0;
                 state.formOpen       = data.form_open !== false;
                 state.formClosedMessage = data.form_closed_message || '';
+                state.isPublished    = data.is_public !== false;
                 state.pageTitle      = data.page_title || '';
                 state.pageUrl        = (data.page_url && String(data.page_url).trim()) || '';
                 state.groups         = data.groups || [];
@@ -1289,7 +1301,7 @@
         .then(function (data) {
             state.formOpen = data.form_open;
             updateFormStatusBadge();
-            showToast('Form is now ' + (state.formOpen ? 'open' : 'closed'), 'success');
+            showToast('Form is now ' + (state.formOpen ? 'open' : 'closed'), state.formOpen ? 'success' : 'closed');
         })
         .catch(function (err) {
             showToast(err.message || 'Error', 'error');
@@ -1333,7 +1345,7 @@
                 state.formClosedMessage = closedMsg || '';
                 updateFormStatusBadge();
                 closeModal(modal);
-                showToast('Form is now ' + (state.formOpen ? 'open' : 'closed'), 'success');
+                showToast('Form is now ' + (state.formOpen ? 'open' : 'closed'), state.formOpen ? 'success' : 'closed');
             })
             .catch(function (err) {
                 showToast(err.message || 'Error', 'error');
@@ -1560,22 +1572,22 @@
     // UI helpers
     // ----------------------------------------------------------------
     function updatePageTitle() {
-        // Main title "List of Assistants"; subtitle shows full domain (no protocol) below, link to website when available
-        var subtitleEl = document.getElementById('rsvp-page-subtitle');
-        if (subtitleEl) {
-            var displayUrl = (state.pageUrl || '').replace(/^https?:\/\//i, '');
-            subtitleEl.textContent = displayUrl;
-            subtitleEl.style.display = displayUrl ? 'block' : 'none';
-            subtitleEl.href = state.pageUrl || 'javascript:void(0)';
+        document.title = (state.pageTitle ? state.pageTitle + ' \u2014 ' : '') + 'RSVP Dashboard';
+
+        // Form section link: point to public page #rsvp (open in new tab when we have pageUrl)
+        var formSectionLink = document.getElementById('rsvp-form-section-link');
+        if (formSectionLink) {
+            var formHref = (state.pageUrl || '').trim();
+            formHref = formHref ? formHref.replace(/#.*$/, '') + '#rsvp' : '#rsvp';
+            formSectionLink.href = formHref;
             if (state.pageUrl) {
-                subtitleEl.setAttribute('target', '_blank');
-                subtitleEl.setAttribute('rel', 'noopener noreferrer');
+                formSectionLink.setAttribute('target', '_blank');
+                formSectionLink.setAttribute('rel', 'noopener noreferrer');
             } else {
-                subtitleEl.removeAttribute('target');
-                subtitleEl.removeAttribute('rel');
+                formSectionLink.setAttribute('target', '_self');
+                formSectionLink.removeAttribute('rel');
             }
         }
-        document.title = (state.pageTitle ? state.pageTitle + ' \u2014 ' : '') + 'RSVP Dashboard';
 
         var printSub = document.getElementById('rsvp-print-subtitle');
         if (printSub) {
@@ -1595,16 +1607,27 @@
     function updateFormStatusBadge() {
         var btn = document.getElementById('rsvp-toggle-form-btn');
         if (btn) {
-            btn.className = 'rsvp-form-status ' + (state.formOpen ? 'open' : 'closed');
+            var baseClass = 'rsvp-form-status ' + (state.formOpen ? 'open' : 'closed');
+            if (!state.isPublished) baseClass += ' rsvp-form-status--unpublished';
+            btn.className = baseClass;
 
             var textEl = document.getElementById('form-status-text');
             if (textEl) textEl.textContent = state.formOpen ? 'Form open' : 'Form closed';
 
+            /* Warning icon only when unpublished and form open; when closed show normal red */
+            var warningIcon = btn.querySelector('.rsvp-form-status-warning-icon');
+            if (warningIcon) warningIcon.style.display = (state.isPublished || !state.formOpen) ? 'none' : '';
+
             var iconOpen   = btn.querySelector('.lock-icon-open');
             var iconClosed = btn.querySelector('.lock-icon-closed');
-            if (iconOpen)   iconOpen.style.display   = state.formOpen ? '' : 'none';
-            if (iconClosed) iconClosed.style.display = state.formOpen ? 'none' : '';
-            btn.title = state.formOpen ? 'Close the RSVP form' : 'Open the RSVP form';
+            if (iconOpen)   iconOpen.style.display   = state.formOpen && state.isPublished ? '' : 'none';
+            if (iconClosed) iconClosed.style.display = !state.formOpen && state.isPublished ? '' : 'none';
+
+            if (!state.isPublished) {
+                btn.title = 'Website is not published';
+            } else {
+                btn.title = state.formOpen ? 'Close the RSVP form' : 'Open the RSVP form';
+            }
         }
     }
 
@@ -1800,8 +1823,8 @@
         function toggleMenu(open) {
             trigger.setAttribute('aria-expanded', String(open));
             dropdown.setAttribute('aria-hidden', String(!open));
-            if (open) dropdown.classList.add('open');
-            else       dropdown.classList.remove('open');
+            if (open) dropdown.classList.add('show');
+            else      dropdown.classList.remove('show');
         }
 
         trigger.addEventListener('click', function (e) {

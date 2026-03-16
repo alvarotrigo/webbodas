@@ -318,11 +318,22 @@ class TinyMCEEditor {
         finalNormalElements.forEach(assignId);
         finalTextOnlyDivs.forEach(assignId);
         
-        const normalSelectors = finalNormalElements.map(el => '#' + el.id).join(', ');
+        // Anchors must not get <p> or <div> wrappers (would make the link block-sized, e.g. .card-btn)
+        const anchorElements = finalNormalElements.filter(el => el.tagName === 'A');
+        const nonAnchorElements = finalNormalElements.filter(el => el.tagName !== 'A');
+        const anchorSelectors = anchorElements.map(el => '#' + el.id).join(', ');
+        const normalSelectors = nonAnchorElements.map(el => '#' + el.id).join(', ');
         const textOnlySelectors = finalTextOnlyDivs.map(el => '#' + el.id).join(', ');
         
-        if (finalNormalElements.length > 0) {
-            console.log(`Initializing TinyMCE for ${finalNormalElements.length} normal elements`);
+        if (anchorElements.length > 0) {
+            tinymce.init({
+                ...baseTinyConfig,
+                selector: anchorSelectors,
+                invalid_elements: 'p,div,h1,h2,h3,h4,h5,h6,ul,ol,li,blockquote,section,article,header,footer,nav'
+            });
+        }
+        if (nonAnchorElements.length > 0) {
+            console.log(`Initializing TinyMCE for ${nonAnchorElements.length} normal elements`);
             tinymce.init({ ...baseTinyConfig, selector: normalSelectors });
         }
         if (finalTextOnlyDivs.length > 0) {

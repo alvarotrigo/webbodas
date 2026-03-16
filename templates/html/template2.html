@@ -394,7 +394,8 @@
       content: ''; position: absolute; inset: 0;
       background: color-mix(in srgb, var(--primary-bg) 75%, transparent);
     }
-    .countdown-section > * { position: relative; z-index: 2; }
+    /* Exclude .section-menu so the editor toolbar keeps position:absolute and does not stretch full width */
+    .countdown-section > *:not(.section-menu) { position: relative; z-index: 2; }
     .countdown-wrap {
       display: flex; gap: clamp(1.5rem, 4vw, 4rem);
       justify-content: center; flex-wrap: wrap;

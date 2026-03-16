@@ -1317,7 +1317,7 @@ function editor_asset(string $path): string
     <!-- Crisp Chat -->
     <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="89bf80cc-90a6-4d14-acc3-d0a68bddeffc";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 
-    <!-- RSVP Dashboard button: show when page has a form and is published -->
+    <!-- RSVP Dashboard (Guests) button: show when page has a form. Kept visible after unpublish so user can still access guest list. -->
     <!-- Also initializes "View Website" button mode if page is already published -->
     <script>
     (function () {
@@ -1330,8 +1330,8 @@ function editor_asset(string $path): string
             btn.style.display = 'flex';
         }
 
-        // Show button if page is already published on load
-        if (preloaded && preloaded.page && preloaded.page.is_public && preloaded.page.share_slug) {
+        // Show Guests button if page has a form (current or past); keep visible even when unpublished
+        if (preloaded && preloaded.page && preloaded.page.id) {
             var pageHasForm = preloaded.page.data && preloaded.page.data.fullHtml &&
                 preloaded.page.data.fullHtml.indexOf('<form') !== -1;
             if (pageHasForm) {
@@ -1340,13 +1340,18 @@ function editor_asset(string $path): string
         }
 
         // Switch Publish button to "View Website" if page is already published on load,
-        // or preserve previous slug for reactivation if unpublished but slug exists.
+        // or reset to Publish mode so state from a previous page never leaks.
         function initViewWebsiteBtn() {
             if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setViewWebsiteMode === 'function') {
                 if (preloaded && preloaded.page && preloaded.page.is_public && preloaded.page.share_slug) {
                     window.downloadOptionsHandler.setViewWebsiteMode(preloaded.page.share_slug);
-                } else if (preloaded && preloaded.page && !preloaded.page.is_public && preloaded.page.share_slug) {
-                    window.downloadOptionsHandler.previousSlug = preloaded.page.share_slug;
+                } else {
+                    // Reset to Publish mode; preserve slug for reactivation if it exists
+                    var prevSlug = (preloaded && preloaded.page && preloaded.page.share_slug) ? preloaded.page.share_slug : null;
+                    window.downloadOptionsHandler.setPublishMode(prevSlug);
+                    // Also hide topbar published indicator (green dot) since this page is not published
+                    var topbarLink = document.getElementById('topbar-published-link');
+                    if (topbarLink) { topbarLink.style.display = 'none'; topbarLink.href = '#'; }
                 }
             } else {
                 setTimeout(initViewWebsiteBtn, 250);

@@ -10,12 +10,20 @@
     position: relative;
 }
 
+/* Last item is the positioning context so the button sits to the right of the last number */
+.countdown-edit-container .countdown-item:last-of-type {
+    position: relative;
+}
+
 /* ── Edit button ──────────────────────────────────────────────────────────── */
 
+/* Positioned to the right of the last countdown-item; always visible */
 .countdown-edit-container .countdown-edit-btn {
     position: absolute;
-    top: 0;
-    right: 0;
+    left: 100%;
+    margin-left: 12px;
+    top: 30%;
+    transform: translateY(-50%);
     z-index: 10;
     display: flex;
     align-items: center;
@@ -29,20 +37,11 @@
     font-weight: 500;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     cursor: pointer;
-    opacity: 0;
-    transform: translateY(-4px);
-    transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s ease;
-    pointer-events: none;
+    transition: background 0.15s ease;
     white-space: nowrap;
     box-shadow: none;
     outline: none;
     outline-offset: 0;
-}
-
-.countdown-edit-container:hover .countdown-edit-btn {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
 }
 
 .countdown-edit-container .countdown-edit-btn:hover {

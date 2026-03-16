@@ -923,6 +923,11 @@ async function fetchAndRenderPagesList() {
         newPageBtn.className = 'new-page-btn';
         newPageBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>New Page</span>`;
         newPageBtn.addEventListener('click', async () => {
+            // Close preview panel if open when starting a new page
+            const previewPanel = document.getElementById('page-preview-hover-panel');
+            if (previewPanel && previewPanel.classList.contains('show')) {
+                closePagePreview();
+            }
             if (!sidebarCollapsed) toggleSidebar();
 
             async function startNewPage() {
@@ -935,11 +940,15 @@ async function fetchAndRenderPagesList() {
                 if (pageNameDisplay) pageNameDisplay.textContent = 'Untitled Page';
                 // Hide published dot (new page is not published yet)
                 const publishedLink = document.getElementById('topbar-published-link');
-                if (publishedLink) publishedLink.style.display = 'none';
+                if (publishedLink) { publishedLink.style.display = 'none'; publishedLink.href = '#'; }
                 const viewWebsiteLink = document.getElementById('topbar-view-website-link');
-                if (viewWebsiteLink) viewWebsiteLink.style.display = 'none';
+                if (viewWebsiteLink) { viewWebsiteLink.style.display = 'none'; viewWebsiteLink.href = '#'; }
                 const rsvpBtn = document.getElementById('rsvp-dashboard-btn');
                 if (rsvpBtn) rsvpBtn.style.display = 'none';
+                // Reset Publish button from "Published!" back to "Publish" (new page has no publication)
+                if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setPublishMode === 'function') {
+                    window.downloadOptionsHandler.setPublishMode(null);
+                }
                 const newUrl = new URL(window.location.href);
                 newUrl.searchParams.delete('page');
                 window.history.replaceState({}, '', newUrl);
@@ -5572,13 +5581,17 @@ document.addEventListener('DOMContentLoaded', async () => {
          });
      }
 
-     // Pages sidebar close button (X in header)
-     const pagesSidebarCloseBtn = document.getElementById('pages-sidebar-close');
-     if (pagesSidebarCloseBtn) {
-         pagesSidebarCloseBtn.addEventListener('click', () => {
-             if (!sidebarCollapsed) toggleSidebar();
-         });
-     }
+    // Pages sidebar close button (X in header): close preview if open, then close the sidebar
+    const pagesSidebarCloseBtn = document.getElementById('pages-sidebar-close');
+    if (pagesSidebarCloseBtn) {
+        pagesSidebarCloseBtn.addEventListener('click', () => {
+            const previewPanel = document.getElementById('page-preview-hover-panel');
+            if (previewPanel && previewPanel.classList.contains('show')) {
+                closePagePreview();
+            }
+            if (!sidebarCollapsed) toggleSidebar();
+        });
+    }
 
      // Close pages sidebar on ESC
      document.addEventListener('keydown', (e) => {
@@ -5591,12 +5604,12 @@ document.addEventListener('DOMContentLoaded', async () => {
      });
 
     // Close pages sidebar when clicking outside (main area, top-bar, etc.)
-    // Exclude view-pages-btn and topbar-files-btn so opening the sidebar via them does not immediately close it
+    // Exclude view-pages-btn, topbar-files-btn, and page-preview-hover-panel so closing the preview does not close the sidebar
     document.addEventListener('click', (e) => {
         if (sidebarCollapsed) return;
         const sidebar = document.querySelector('.sidebar');
         if (!sidebar || !sidebar.classList.contains('sidebar-ready')) return;
-        if (e.target.closest('#pages-sidebar') || e.target.closest('#toggle-sidebar') || e.target.closest('#view-pages-btn') || e.target.closest('#topbar-files-btn')) return;
+        if (e.target.closest('#pages-sidebar') || e.target.closest('#toggle-sidebar') || e.target.closest('#view-pages-btn') || e.target.closest('#topbar-files-btn') || e.target.closest('#page-preview-hover-panel')) return;
         toggleSidebar();
     });
 
@@ -6305,14 +6318,17 @@ document.addEventListener('DOMContentLoaded', async () => {
      const publishOptionsMenu = document.getElementById('publish-options-menu');
 
      downloadBtn.addEventListener('click', async (e) => {
-         // When published: main button opens published website in new tab (do not unpublish)
-         const slug = (publishWrap && publishWrap.dataset.viewWebsiteSlug) || downloadBtn.dataset.viewWebsiteSlug;
-         if (slug) {
-             const viewLink = document.getElementById('topbar-view-website-link');
-             const href = viewLink ? viewLink.href : (new URL('shared.html?slug=' + encodeURIComponent(slug), window.location.href)).href;
-             if (href && href !== '#') window.open(href, '_blank', 'noopener');
-             return;
-         }
+        // When published: main button opens published website in new tab (real domain/subdomain, not shared.html)
+        const slug = (publishWrap && publishWrap.dataset.viewWebsiteSlug) || downloadBtn.dataset.viewWebsiteSlug;
+        if (slug) {
+            const viewLink = document.getElementById('topbar-view-website-link');
+            let href = viewLink && viewLink.href && viewLink.href !== '#' ? viewLink.href : null;
+            if (!href) {
+                href = slug.indexOf('.') !== -1 ? 'https://' + slug : 'https://' + slug + '.yeslovey.com';
+            }
+            if (href) window.open(href, '_blank', 'noopener');
+            return;
+        }
          if (window.downloadOptionsHandler) {
              window.downloadOptionsHandler.showDownloadOptions();
          } else {

@@ -77,6 +77,30 @@ nav li a[contenteditable="true"],
     display: inline-block;
 }
 
+/*
+ * Button-style links (e.g. .card-btn in template1 stay cards): keep inline-block and
+ * shrink-wrap width in the editor so they don't stretch or grow when contenteditable.
+ * TinyMCE wraps the link text in <p>, which would make the anchor a block container;
+ * we force the anchor to stay inline-block and inner p/div to display inline.
+ */
+a.card-btn[contenteditable="true"],
+a.card-btn.mce-content-body,
+.stay-card a.card-btn[contenteditable="true"],
+.stay-card a.card-btn.mce-content-body {
+    display: inline-block !important;
+    width: max-content;
+    max-width: 100%;
+}
+
+/* Undo TinyMCE's <p> wrapper: render as inline so the button doesn't stretch */
+a.card-btn[contenteditable="true"] p,
+a.card-btn.mce-content-body p,
+.stay-card a.card-btn p {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 /* Hide outlines and disable editing in fullscreen mode */
 .fullscreen-mode [contenteditable="true"] {
     outline: none !important;
