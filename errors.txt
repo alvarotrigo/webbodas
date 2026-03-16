@@ -15971,3 +15971,597 @@
 [16-Mar-2026 11:26:38 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
 [16-Mar-2026 11:26:38 UTC] MySQL select params: {"where_user_id_0":2}
 [16-Mar-2026 11:26:38 UTC] MySQL select returned 4 rows
+[16-Mar-2026 11:36:43 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:36:43 UTC] Pages API - Method: GET
+[16-Mar-2026 11:36:43 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:36:43 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:43 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:43 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:43 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:36:43 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:36:43 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:36:43 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:36:43 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:36:43 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:36:43 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:36:43 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:36:43 UTC] MySQL select returned 4 rows
+[16-Mar-2026 11:36:47 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:36:47 UTC] Pages API - Method: GET
+[16-Mar-2026 11:36:47 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:36:47 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:47 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:47 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:47 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:36:47 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:36:47 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:36:47 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:36:47 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:36:47 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:36:47 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:36:47 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:36:47 UTC] MySQL select returned 4 rows
+[16-Mar-2026 11:36:56 UTC] Pages API - Incoming request - Method: POST, Payload size: 229 bytes (0.22 KB)
+[16-Mar-2026 11:36:56 UTC] Pages API - Method: POST
+[16-Mar-2026 11:36:56 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:56 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:56 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:56 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:56 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:36:56 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:36:56 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:36:56 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:36:56 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:36:56 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:36:56 UTC] Pages API POST - action='create', input_keys=action,title,data,clerk_user_id, raw_snippet={"action":"create","title":"Prueba bugs","data":{"fullHtml":"","theme":"theme-light-minimal","fullpageEnabled":false,"an
+[16-Mar-2026 11:36:56 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0
+[16-Mar-2026 11:36:56 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c"}
+[16-Mar-2026 11:36:56 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:36:56 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:36:56 UTC] Pages API - Method: GET
+[16-Mar-2026 11:36:56 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:36:56 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:56 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:56 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:56 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:36:56 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:36:56 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:36:56 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:36:56 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:36:56 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:36:56 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:36:56 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:36:56 UTC] MySQL select returned 5 rows
+[16-Mar-2026 11:36:57 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:36:57 UTC] Pages API - Method: GET
+[16-Mar-2026 11:36:57 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:36:57 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:57 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:57 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:57 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:36:57 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:36:57 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:36:57 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:36:57 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:36:57 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:36:57 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:36:57 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:36:57 UTC] MySQL select returned 5 rows
+[16-Mar-2026 11:36:58 UTC] Pages API - Incoming request - Method: PUT, Payload size: 37,662 bytes (36.78 KB)
+[16-Mar-2026 11:36:58 UTC] Pages API - Method: PUT
+[16-Mar-2026 11:36:58 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:58 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:58 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:58 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:36:58 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:36:58 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:36:58 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:36:58 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:36:58 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:36:58 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:36:58 UTC] MySQL select query: SELECT `id`, `updated_at` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:36:58 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:36:58 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:36:58 UTC] MySQL update query: UPDATE `user_pages` SET `title` = :title, `data` = :data, `last_accessed` = :last_accessed, `updated_at` = :updated_at WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:36:58 UTC] MySQL update params: {"title":"Prueba bugs","data":"{\"fullHtml\":\"\\n                <!-- PRELOADER -->\\...[truncated]","last_accessed":"2026-03-16 11:36:58","updated_at":"2026-03-16 11:36:58","where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:36:58 UTC] MySQL update affected rows: 1
+[16-Mar-2026 11:36:58 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:36:58 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:36:58 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:37:08 UTC] Pages API - Incoming request - Method: PUT, Payload size: 37,422 bytes (36.54 KB)
+[16-Mar-2026 11:37:08 UTC] Pages API - Method: PUT
+[16-Mar-2026 11:37:08 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:37:08 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:37:08 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:37:08 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:37:08 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:37:08 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:37:08 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:37:08 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:37:08 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:37:08 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:37:08 UTC] MySQL select query: SELECT `id`, `updated_at` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:37:08 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:37:08 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:37:08 UTC] MySQL update query: UPDATE `user_pages` SET `title` = :title, `data` = :data, `last_accessed` = :last_accessed, `updated_at` = :updated_at WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:37:08 UTC] MySQL update params: {"title":"Prueba bugs","data":"{\"fullHtml\":\"\\n                <!-- PRELOADER -->\\...[truncated]","last_accessed":"2026-03-16 11:37:08","updated_at":"2026-03-16 11:37:08","where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:37:08 UTC] MySQL update affected rows: 1
+[16-Mar-2026 11:37:08 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:37:08 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:37:08 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:37:22 UTC] Pages API - Incoming request - Method: PUT, Payload size: 37,412 bytes (36.54 KB)
+[16-Mar-2026 11:37:22 UTC] Pages API - Method: PUT
+[16-Mar-2026 11:37:22 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:37:22 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:37:22 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:37:22 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:37:22 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:37:22 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:37:22 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:37:22 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:37:22 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:37:22 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:37:22 UTC] MySQL select query: SELECT `id`, `updated_at` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:37:22 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:37:22 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:37:22 UTC] MySQL update query: UPDATE `user_pages` SET `title` = :title, `data` = :data, `last_accessed` = :last_accessed, `updated_at` = :updated_at WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:37:22 UTC] MySQL update params: {"title":"Prueba bugs","data":"{\"fullHtml\":\"\\n                <!-- PRELOADER -->\\...[truncated]","last_accessed":"2026-03-16 11:37:22","updated_at":"2026-03-16 11:37:22","where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:37:22 UTC] MySQL update affected rows: 1
+[16-Mar-2026 11:37:22 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:37:22 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:37:22 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:38:46 UTC] Pages API - Incoming request - Method: PUT, Payload size: 36,597 bytes (35.74 KB)
+[16-Mar-2026 11:38:46 UTC] Pages API - Method: PUT
+[16-Mar-2026 11:38:46 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:38:46 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:38:46 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:38:46 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:38:46 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:38:46 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:38:46 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:38:46 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:38:46 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:38:46 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:38:46 UTC] MySQL select query: SELECT `id`, `updated_at` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:38:46 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:38:46 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:38:46 UTC] MySQL update query: UPDATE `user_pages` SET `title` = :title, `data` = :data, `last_accessed` = :last_accessed, `updated_at` = :updated_at WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:38:46 UTC] MySQL update params: {"title":"Prueba bugs","data":"{\"fullHtml\":\"\\n                <!-- PRELOADER -->\\...[truncated]","last_accessed":"2026-03-16 11:38:46","updated_at":"2026-03-16 11:38:46","where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:38:46 UTC] MySQL update affected rows: 1
+[16-Mar-2026 11:38:46 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:38:46 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:38:46 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:21 UTC] Pages API - Incoming request - Method: POST, Payload size: 144 bytes (0.14 KB)
+[16-Mar-2026 11:39:21 UTC] Pages API - Method: POST
+[16-Mar-2026 11:39:21 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:21 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:21 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:21 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:21 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:39:21 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:39:21 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:21 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:39:21 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:39:21 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:39:21 UTC] Pages API POST - action='publish-subdomain', input_keys=action,id,clerk_user_id,share_slug, raw_snippet={"action":"publish-subdomain","id":"7018fe37-212c-11f1-bfcb-d85ed359730c","clerk_user_id":"user_3AhnQJV5XslRK9dMtMXyCieG
+[16-Mar-2026 11:39:21 UTC] publishPageWithSubdomain - START: pageId=7018fe37-212c-11f1-bfcb-d85ed359730c, userId=2, shareSlug=mar
+[16-Mar-2026 11:39:21 UTC] MySQL select query: SELECT `id`, `share_slug` FROM `user_pages` WHERE `id` = :where_id_0
+[16-Mar-2026 11:39:21 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c"}
+[16-Mar-2026 11:39:21 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:21 UTC] publishPageWithSubdomain - Column check OK. Current share_slug for page: "NULL"
+[16-Mar-2026 11:39:21 UTC] MySQL select query: SELECT `id`, `share_token`, `is_public` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:39:21 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:39:21 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:21 UTC] publishPageWithSubdomain - Page lookup: found id=7018fe37-212c-11f1-bfcb-d85ed359730c
+[16-Mar-2026 11:39:21 UTC] MySQL select query: SELECT `id` FROM `user_pages` WHERE `share_slug` = :where_share_slug_0
+[16-Mar-2026 11:39:21 UTC] MySQL select params: {"where_share_slug_0":"mar"}
+[16-Mar-2026 11:39:21 UTC] MySQL select returned 0 rows
+[16-Mar-2026 11:39:21 UTC] publishPageWithSubdomain - Uniqueness check for 'mar': []
+[16-Mar-2026 11:39:21 UTC] publishPageWithSubdomain - Calling UPDATE with data: {"share_slug":"mar","is_public":1,"share_token":"c07838c0-9215-47cd-91c7-cc39e0fea6c1"} WHERE id=7018fe37-212c-11f1-bfcb-d85ed359730c, user_id=2
+[16-Mar-2026 11:39:21 UTC] MySQL update query: UPDATE `user_pages` SET `share_slug` = :share_slug, `is_public` = :is_public, `share_token` = :share_token WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:39:21 UTC] MySQL update params: {"share_slug":"mar","is_public":1,"share_token":"c07838c0-9215-47cd-91c7-cc39e0fea6c1","where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:39:21 UTC] MySQL update affected rows: 1
+[16-Mar-2026 11:39:21 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:39:21 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:39:21 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:21 UTC] publishPageWithSubdomain - UPDATE done. share_slug now in DB: mar
+[16-Mar-2026 11:39:21 UTC] publishPageWithSubdomain - SUCCESS: url=https://mar.yeslovey.com
+[16-Mar-2026 11:39:37 UTC] Pages API - Incoming request - Method: POST, Payload size: 113 bytes (0.11 KB)
+[16-Mar-2026 11:39:37 UTC] Pages API - Method: POST
+[16-Mar-2026 11:39:37 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:37 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:37 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:37 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:37 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:39:37 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:39:37 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:37 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:39:37 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:39:37 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:39:37 UTC] Pages API POST - action='share', input_keys=action,id,clerk_user_id, raw_snippet={"action":"share","id":"7018fe37-212c-11f1-bfcb-d85ed359730c","clerk_user_id":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:39:37 UTC] MySQL select query: SELECT `id`, `share_token`, `is_public`, `share_slug` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:39:37 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:39:37 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:57 UTC] Pages API - Incoming request - Method: PUT, Payload size: 114 bytes (0.11 KB)
+[16-Mar-2026 11:39:57 UTC] Pages API - Method: PUT
+[16-Mar-2026 11:39:57 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:57 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:57 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:57 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:57 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:39:57 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:39:57 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:57 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:39:57 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:39:57 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:39:57 UTC] MySQL select query: SELECT `id`, `updated_at` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:39:57 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:39:57 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:57 UTC] MySQL update query: UPDATE `user_pages` SET `is_public` = :is_public, `last_accessed` = :last_accessed, `updated_at` = :updated_at WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:39:57 UTC] MySQL update params: {"is_public":0,"last_accessed":"2026-03-16 11:39:57","updated_at":"2026-03-16 11:39:57","where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:39:57 UTC] MySQL update affected rows: 1
+[16-Mar-2026 11:39:57 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:39:57 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:39:57 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:57 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:39:57 UTC] Pages API - Method: GET
+[16-Mar-2026 11:39:57 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:39:57 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:57 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:57 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:57 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:39:57 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:39:57 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:57 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:39:57 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:39:57 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:39:57 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:39:57 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:39:57 UTC] MySQL select returned 5 rows
+[16-Mar-2026 11:39:57 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:39:57 UTC] Pages API - Method: GET
+[16-Mar-2026 11:39:57 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:39:57 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:57 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:57 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:39:57 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:39:57 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:39:57 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:39:57 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:39:57 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:39:57 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:39:57 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:39:57 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:39:57 UTC] MySQL select returned 5 rows
+[16-Mar-2026 11:40:23 UTC] Successfully loaded .env from: C:\Users\Pablo\Documents\GitHub\nine-screen-canvas-flow/.env
+[16-Mar-2026 11:40:23 UTC] syncClerkSession - Refreshing paid status for: ptrigol@gmail.com
+[16-Mar-2026 11:40:24 UTC] Purchases database connection failed: SQLSTATE[HY000] [1045] Access denied for user 'alvarotrigo_alvarotrigo'@'79.117.116.182' (using password: YES)
+[16-Mar-2026 11:40:24 UTC] Attempted connection to: host=nocn.noc-n.com, dbname=alvarotrigo_alvarotrigo, user=alvarotrigo_alvarotrigo
+[16-Mar-2026 11:40:24 UTC] Error checking user paid status: Purchases database connection failed: SQLSTATE[HY000] [1045] Access denied for user 'alvarotrigo_alvarotrigo'@'79.117.116.182' (using password: YES)
+[16-Mar-2026 11:40:24 UTC] MySQL select query: SELECT * FROM `users` WHERE `email` = :where_email_0 AND `pro_status_source` = :where_pro_status_source_1
+[16-Mar-2026 11:40:24 UTC] MySQL select params: {"where_email_0":"ptrigol@gmail.com","where_pro_status_source_1":"polar"}
+[16-Mar-2026 11:40:24 UTC] MySQL select returned 0 rows
+[16-Mar-2026 11:40:24 UTC] MySQL select query: SELECT * FROM `subscriptions` WHERE `customer_email` = :where_customer_email_0 AND `status` = :where_status_1
+[16-Mar-2026 11:40:24 UTC] MySQL select params: {"where_customer_email_0":"ptrigol@gmail.com","where_status_1":"active"}
+[16-Mar-2026 11:40:24 UTC] MySQL select returned 0 rows
+[16-Mar-2026 11:40:24 UTC] syncClerkSession - Paid status refreshed: is_paid=false
+[16-Mar-2026 11:40:24 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:40:24 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:40:24 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:24 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:40:24 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:40:24 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:25 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:40:25 UTC] Pages API - Method: GET
+[16-Mar-2026 11:40:25 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:40:25 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:25 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:25 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:25 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:40:25 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:40:25 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:25 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:40:25 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:40:25 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:40:25 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:40:25 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:40:25 UTC] MySQL select returned 5 rows
+[16-Mar-2026 11:40:40 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:40:40 UTC] Pages API - Method: GET
+[16-Mar-2026 11:40:40 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:40:40 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:40 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:40 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:40 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:40:40 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:40:40 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:40 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:40:40 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:40:40 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:40:40 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:40:40 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:40:40 UTC] MySQL select returned 5 rows
+[16-Mar-2026 11:40:42 UTC] Pages API - Incoming request - Method: DELETE, Payload size: 96 bytes (0.09 KB)
+[16-Mar-2026 11:40:42 UTC] Pages API - Method: DELETE
+[16-Mar-2026 11:40:42 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:42 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:42 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:42 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:42 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:40:42 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:40:42 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:42 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:40:42 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:40:42 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:40:42 UTC] MySQL select query: SELECT `id` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:40:42 UTC] MySQL select params: {"where_id_0":"7018fe37-212c-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:40:42 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:42 UTC] Successfully loaded .env from: C:\Users\Pablo\Documents\GitHub\nine-screen-canvas-flow/.env
+[16-Mar-2026 11:40:42 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:40:42 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:40:42 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:42 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:40:42 UTC] MySQL select params: {"where_id_0":"f2435a14-2127-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:40:42 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:43 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:40:43 UTC] Pages API - Method: GET
+[16-Mar-2026 11:40:43 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:40:43 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:43 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:43 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:43 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:40:43 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:40:43 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:43 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:40:43 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:40:43 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:40:43 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:40:43 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:40:43 UTC] MySQL select returned 4 rows
+[16-Mar-2026 11:40:45 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:40:45 UTC] Pages API - Method: GET
+[16-Mar-2026 11:40:45 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:40:45 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:45 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:45 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:45 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:40:45 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:40:45 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:45 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:40:45 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:40:45 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:40:45 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:40:45 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:40:45 UTC] MySQL select returned 4 rows
+[16-Mar-2026 11:40:49 UTC] Pages API - Incoming request - Method: POST, Payload size: 113 bytes (0.11 KB)
+[16-Mar-2026 11:40:49 UTC] Pages API - Method: POST
+[16-Mar-2026 11:40:49 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:49 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:49 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:49 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:40:49 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:40:49 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:40:49 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:49 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:40:49 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:40:49 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:40:49 UTC] Pages API POST - action='share', input_keys=action,id,clerk_user_id, raw_snippet={"action":"share","id":"f2435a14-2127-11f1-bfcb-d85ed359730c","clerk_user_id":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:40:49 UTC] MySQL select query: SELECT `id`, `share_token`, `is_public`, `share_slug` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:40:49 UTC] MySQL select params: {"where_id_0":"f2435a14-2127-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:40:49 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:40:49 UTC] MySQL update query: UPDATE `user_pages` SET `share_token` = :share_token, `is_public` = :is_public WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:40:49 UTC] MySQL update params: {"share_token":"e0b14818-aa91-4d9a-a595-5c9da8ab06d6","is_public":1,"where_id_0":"f2435a14-2127-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:40:49 UTC] MySQL update affected rows: 1
+[16-Mar-2026 11:40:49 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:40:49 UTC] MySQL select params: {"where_id_0":"f2435a14-2127-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:40:49 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:43:02 UTC] Pages API - Incoming request - Method: POST, Payload size: 113 bytes (0.11 KB)
+[16-Mar-2026 11:43:02 UTC] Pages API - Method: POST
+[16-Mar-2026 11:43:02 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:43:02 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:43:02 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:43:02 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:43:02 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:43:02 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:43:02 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:43:02 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:43:02 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:43:02 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:43:02 UTC] Pages API POST - action='share', input_keys=action,id,clerk_user_id, raw_snippet={"action":"share","id":"f2435a14-2127-11f1-bfcb-d85ed359730c","clerk_user_id":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:43:02 UTC] MySQL select query: SELECT `id`, `share_token`, `is_public`, `share_slug` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:43:02 UTC] MySQL select params: {"where_id_0":"f2435a14-2127-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:43:02 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:12 UTC] Successfully loaded .env from: C:\Users\Pablo\Documents\GitHub\nine-screen-canvas-flow/.env
+[16-Mar-2026 11:45:12 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:12 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:12 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:12 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:12 UTC] MySQL select params: {"where_id_0":"f2435a14-2127-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:12 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:13 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:45:13 UTC] Pages API - Method: GET
+[16-Mar-2026 11:45:13 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:45:13 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:13 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:13 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:13 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:13 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:13 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:13 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:13 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:13 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:13 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:45:13 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:45:13 UTC] MySQL select returned 4 rows
+[16-Mar-2026 11:45:14 UTC] Pages API - Incoming request - Method: POST, Payload size: 113 bytes (0.11 KB)
+[16-Mar-2026 11:45:14 UTC] Pages API - Method: POST
+[16-Mar-2026 11:45:14 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:14 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:14 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:14 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:14 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:14 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:14 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:14 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:14 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:14 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:14 UTC] Pages API POST - action='share', input_keys=action,id,clerk_user_id, raw_snippet={"action":"share","id":"f2435a14-2127-11f1-bfcb-d85ed359730c","clerk_user_id":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:14 UTC] MySQL select query: SELECT `id`, `share_token`, `is_public`, `share_slug` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:14 UTC] MySQL select params: {"where_id_0":"f2435a14-2127-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:14 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:25 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:45:25 UTC] Pages API - Method: GET
+[16-Mar-2026 11:45:25 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:45:25 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:25 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:25 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:25 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:25 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:25 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:25 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:25 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:25 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:25 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:45:25 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:45:25 UTC] MySQL select returned 4 rows
+[16-Mar-2026 11:45:26 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:45:26 UTC] Pages API - Method: GET
+[16-Mar-2026 11:45:26 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:45:26 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:26 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:26 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:26 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:26 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:26 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:26 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:26 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:26 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:26 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:45:26 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:45:26 UTC] MySQL select returned 4 rows
+[16-Mar-2026 11:45:30 UTC] Pages API - Incoming request - Method: POST, Payload size: 224 bytes (0.22 KB)
+[16-Mar-2026 11:45:30 UTC] Pages API - Method: POST
+[16-Mar-2026 11:45:30 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:30 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:30 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:30 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:30 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:30 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:30 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:30 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:30 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:30 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:30 UTC] Pages API POST - action='create', input_keys=action,title,data,clerk_user_id, raw_snippet={"action":"create","title":"fallos","data":{"fullHtml":"","theme":"theme-light-minimal","fullpageEnabled":false,"animati
+[16-Mar-2026 11:45:30 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0
+[16-Mar-2026 11:45:30 UTC] MySQL select params: {"where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c"}
+[16-Mar-2026 11:45:30 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:30 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:45:30 UTC] Pages API - Method: GET
+[16-Mar-2026 11:45:30 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:45:30 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:30 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:30 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:30 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:30 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:30 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:30 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:30 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:30 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:30 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:45:30 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:45:30 UTC] MySQL select returned 5 rows
+[16-Mar-2026 11:45:31 UTC] Pages API - Incoming request - Method: GET, Payload size: 0 bytes (0 KB)
+[16-Mar-2026 11:45:31 UTC] Pages API - Method: GET
+[16-Mar-2026 11:45:31 UTC] Pages API - clerk_user_id from request: null
+[16-Mar-2026 11:45:31 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:31 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:31 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:31 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:31 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:31 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:31 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:31 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:31 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:31 UTC] MySQL select query: SELECT `id`, `title`, `thumbnail_url`, `is_favorite`, `is_public`, `share_token`, `share_slug`, `last_accessed`, `created_at`, `updated_at` FROM `user_pages` WHERE `user_id` = :where_user_id_0 ORDER BY COALESCE(`last_accessed`, '1970-01-01 00:00:00') DESC
+[16-Mar-2026 11:45:31 UTC] MySQL select params: {"where_user_id_0":2}
+[16-Mar-2026 11:45:31 UTC] MySQL select returned 5 rows
+[16-Mar-2026 11:45:31 UTC] Pages API - Incoming request - Method: PUT, Payload size: 43,994 bytes (42.96 KB)
+[16-Mar-2026 11:45:31 UTC] Pages API - Method: PUT
+[16-Mar-2026 11:45:31 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:31 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:31 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:31 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:31 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:31 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:31 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:31 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:31 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:31 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:31 UTC] MySQL select query: SELECT `id`, `updated_at` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:31 UTC] MySQL select params: {"where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:31 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:31 UTC] MySQL update query: UPDATE `user_pages` SET `title` = :title, `data` = :data, `last_accessed` = :last_accessed, `updated_at` = :updated_at WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:31 UTC] MySQL update params: {"title":"fallos","data":"{\"fullHtml\":\"\\n                <!-- Preloader -->\\...[truncated]","last_accessed":"2026-03-16 11:45:31","updated_at":"2026-03-16 11:45:31","where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:31 UTC] MySQL update affected rows: 1
+[16-Mar-2026 11:45:31 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:31 UTC] MySQL select params: {"where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:31 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:32 UTC] Pages API - Incoming request - Method: POST, Payload size: 113 bytes (0.11 KB)
+[16-Mar-2026 11:45:32 UTC] Pages API - Method: POST
+[16-Mar-2026 11:45:32 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:32 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:32 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:32 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:32 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:32 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:32 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:32 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:32 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:32 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:32 UTC] Pages API POST - action='share', input_keys=action,id,clerk_user_id, raw_snippet={"action":"share","id":"a232b68d-212d-11f1-bfcb-d85ed359730c","clerk_user_id":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:32 UTC] MySQL select query: SELECT `id`, `share_token`, `is_public`, `share_slug` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:32 UTC] MySQL select params: {"where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:32 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:32 UTC] MySQL update query: UPDATE `user_pages` SET `share_token` = :share_token, `is_public` = :is_public WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:32 UTC] MySQL update params: {"share_token":"3d573d3a-cdc0-4008-abf1-37e2f43c30bf","is_public":1,"where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:32 UTC] MySQL update affected rows: 1
+[16-Mar-2026 11:45:32 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:32 UTC] MySQL select params: {"where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:32 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:46 UTC] Pages API - Incoming request - Method: PUT, Payload size: 43,999 bytes (42.97 KB)
+[16-Mar-2026 11:45:46 UTC] Pages API - Method: PUT
+[16-Mar-2026 11:45:46 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:46 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:46 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:46 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:46 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:46 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:46 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:46 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:46 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:46 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:46 UTC] MySQL select query: SELECT `id`, `updated_at` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:46 UTC] MySQL select params: {"where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:46 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:46 UTC] MySQL update query: UPDATE `user_pages` SET `title` = :title, `data` = :data, `last_accessed` = :last_accessed, `updated_at` = :updated_at WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:46 UTC] MySQL update params: {"title":"fallos","data":"{\"fullHtml\":\"\\n                <!-- Preloader -->\\...[truncated]","last_accessed":"2026-03-16 11:45:46","updated_at":"2026-03-16 11:45:46","where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:46 UTC] MySQL update affected rows: 1
+[16-Mar-2026 11:45:46 UTC] MySQL select query: SELECT * FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:46 UTC] MySQL select params: {"where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:46 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:46 UTC] Pages API - Incoming request - Method: POST, Payload size: 113 bytes (0.11 KB)
+[16-Mar-2026 11:45:46 UTC] Pages API - Method: POST
+[16-Mar-2026 11:45:46 UTC] Pages API - clerk_user_id from request: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:46 UTC] Pages API - clerk_user_id from session: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:46 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:46 UTC] Pages API - Using clerk_user_id: user_3AhnQJV5XslRK9dMtMXyCieGbiA
+[16-Mar-2026 11:45:46 UTC] MySQL select query: SELECT `id` FROM `users` WHERE `clerk_user_id` = :where_clerk_user_id_0
+[16-Mar-2026 11:45:46 UTC] MySQL select params: {"where_clerk_user_id_0":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:46 UTC] MySQL select returned 1 rows
+[16-Mar-2026 11:45:46 UTC] getUserIdFromClerkId - Query result: [{"id":2}]
+[16-Mar-2026 11:45:46 UTC] Pages API - User ID from database: 2
+[16-Mar-2026 11:45:46 UTC] Pages API - Success! User ID: 2
+[16-Mar-2026 11:45:46 UTC] Pages API POST - action='share', input_keys=action,id,clerk_user_id, raw_snippet={"action":"share","id":"a232b68d-212d-11f1-bfcb-d85ed359730c","clerk_user_id":"user_3AhnQJV5XslRK9dMtMXyCieGbiA"}
+[16-Mar-2026 11:45:46 UTC] MySQL select query: SELECT `id`, `share_token`, `is_public`, `share_slug` FROM `user_pages` WHERE `id` = :where_id_0 AND `user_id` = :where_user_id_1
+[16-Mar-2026 11:45:46 UTC] MySQL select params: {"where_id_0":"a232b68d-212d-11f1-bfcb-d85ed359730c","where_user_id_1":2}
+[16-Mar-2026 11:45:46 UTC] MySQL select returned 1 rows

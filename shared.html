@@ -72,6 +72,10 @@
         footer.section {
             min-height: auto;
         }
+        /* Full template: respect each section's natural height (same as preview.css has-full-template) */
+        #preview-content.has-full-template .section:not(footer) {
+            min-height: auto;
+        }
     </style>
 </head>
 <body>

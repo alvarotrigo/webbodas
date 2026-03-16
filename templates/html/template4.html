@@ -348,6 +348,7 @@ section {
 .quote-section::before {
   content: ''; position: absolute; inset: 0;
   background: color-mix(in srgb, var(--accent-text) 55%, transparent);
+  opacity: var(--overlay-opacity, 0.55);
 }
 .quote-content {
   position: relative; z-index: 2; max-width: 700px; margin: 0 auto;
@@ -694,7 +695,7 @@ footer small {
 </section>
 
 <!-- QUOTE -->
-<section class="quote-section">
+<section class="quote-section" data-bg="true" data-overlay-opacity="0.55">
   <div class="quote-content reveal-scale">
     <p class="quote-text">«El amor no necesita ser perfecto, solo necesita ser verdadero.»</p>
     <p class="quote-author">— Anónimo</p>
