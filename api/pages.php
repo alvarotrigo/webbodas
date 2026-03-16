@@ -608,7 +608,7 @@ function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug,
         // Retrieve the page to confirm ownership
         $pages = $supabase->select(
             'user_pages',
-            'id, share_token, is_public',
+            'id, share_token, is_public, cloudflare_zone_id, dns_status',
             [
                 'id'      => $pageId,
                 'user_id' => $userId
@@ -633,7 +633,7 @@ function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug,
 
         if (!$reactivateOnly) {
             // Register domain via OpenSRS
-            require_once __DIR__ . '/../src/OpenSrsClient.php';
+            require_once __DIR__ . '/../includes/OpenSrsClient.php';
             $username = getenv('OPENSRS_USERNAME');
             $testMode = strtolower(getenv('OPENSRS_TEST_MODE') ?: 'true') === 'true';
             $apiKey   = $testMode ? getenv('OPENSRS_API_KEY_TEST') : getenv('OPENSRS_API_KEY');
@@ -677,6 +677,83 @@ function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug,
             error_log("publishPageWithDomain - Reactivation only, skipping OpenSRS for {$domain}");
         }
 
+        // ── Cloudflare DNS automation ────────────────────────────────
+        $cloudflareZoneId = null;
+        $dnsStatus = 'none';
+
+        // On reactivation, check if zone already exists in DB
+        $existingZoneId = $page['cloudflare_zone_id'] ?? null;
+
+        if ($reactivateOnly && !empty($existingZoneId)) {
+            // Zone already set up from previous registration
+            $cloudflareZoneId = $existingZoneId;
+            $dnsStatus = $page['dns_status'] ?? 'pending';
+            error_log("publishPageWithDomain - Reactivation: existing Cloudflare zone {$cloudflareZoneId}");
+        } else {
+            try {
+                require_once __DIR__ . '/../includes/CloudflareClient.php';
+                $cfToken = getenv('CLOUDFLARE_API_TOKEN');
+                $cfAccountId = getenv('CLOUDFLARE_ACCOUNT_ID');
+
+                if (empty($cfToken) || empty($cfAccountId)) {
+                    throw new RuntimeException("Cloudflare credentials are not configured.");
+                }
+
+                $cloudflare = new CloudflareClient($cfToken, $cfAccountId);
+
+                // 1. Create zone (handle duplicate zone error 1061)
+                try {
+                    $zone = $cloudflare->createZone($domain);
+                } catch (CloudflareApiException $zoneEx) {
+                    if ($zoneEx->cloudflareErrorCode === 1061) {
+                        // Zone already exists — look it up
+                        error_log("publishPageWithDomain - Cloudflare zone already exists for {$domain}, looking up");
+                        $existingZones = $cloudflare->listZones($domain);
+                        if (!empty($existingZones)) {
+                            $zone = $existingZones[0];
+                        } else {
+                            throw $zoneEx;
+                        }
+                    } else {
+                        throw $zoneEx;
+                    }
+                }
+
+                $cloudflareZoneId = $zone['id'];
+                $nameservers = $zone['name_servers'] ?? [];
+                error_log("publishPageWithDomain - Cloudflare zone created: {$cloudflareZoneId}");
+
+                // 2. Add DNS records
+                $serverIp = getenv('SERVER_IP');
+                if (!empty($serverIp)) {
+                    $cloudflare->addDnsRecord($cloudflareZoneId, 'A', $domain, $serverIp, true);
+                    $cloudflare->addDnsRecord($cloudflareZoneId, 'CNAME', 'www', $domain, true);
+                    error_log("publishPageWithDomain - DNS records added for {$domain}");
+                } else {
+                    error_log("publishPageWithDomain - SERVER_IP not set, skipping DNS records");
+                }
+
+                // 3. Update nameservers on the domain via OpenSRS
+                if (!empty($nameservers)) {
+                    if (!isset($opensrs)) {
+                        require_once __DIR__ . '/../includes/OpenSrsClient.php';
+                        $username = getenv('OPENSRS_USERNAME');
+                        $testMode = strtolower(getenv('OPENSRS_TEST_MODE') ?: 'true') === 'true';
+                        $apiKey   = $testMode ? getenv('OPENSRS_API_KEY_TEST') : getenv('OPENSRS_API_KEY');
+                        $opensrs = new OpenSrsClient($username, $apiKey, $testMode);
+                    }
+                    $opensrs->updateNameservers($domain, $nameservers);
+                    error_log("publishPageWithDomain - Nameservers updated to: " . implode(', ', $nameservers));
+                }
+
+                $dnsStatus = 'pending';
+            } catch (Exception $cfEx) {
+                // Cloudflare failed but domain is registered — continue with publish
+                error_log("publishPageWithDomain - Cloudflare error (non-fatal): " . $cfEx->getMessage());
+                $dnsStatus = 'failed';
+            }
+        }
+
         // Ensure share_token exists
         if (empty($page['share_token'])) {
             $token = sprintf(
@@ -699,13 +776,21 @@ function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug,
             'share_token'   => $token,
         ];
 
-        // Store the full custom domain if the column exists (graceful fallback)
+        // Store the full custom domain + Cloudflare fields if columns exist (graceful fallback)
+        $extraFields = ['custom_domain' => $domain];
+        if ($cloudflareZoneId) {
+            $extraFields['cloudflare_zone_id'] = $cloudflareZoneId;
+        }
+        if ($dnsStatus !== 'none') {
+            $extraFields['dns_status'] = $dnsStatus;
+        }
+
         try {
-            $supabase->update('user_pages', array_merge($updateData, ['custom_domain' => $domain]), ['id' => $pageId, 'user_id' => $userId]);
-            error_log("publishPageWithDomain - Saved custom_domain={$domain}");
+            $supabase->update('user_pages', array_merge($updateData, $extraFields), ['id' => $pageId, 'user_id' => $userId]);
+            error_log("publishPageWithDomain - Saved custom_domain={$domain}, dns_status={$dnsStatus}");
         } catch (Exception $colEx) {
-            // Column may not exist yet; store without it
-            error_log("publishPageWithDomain - custom_domain column missing, saving without it: " . $colEx->getMessage());
+            // Columns may not exist yet; try without extra fields
+            error_log("publishPageWithDomain - Extra columns missing, saving without them: " . $colEx->getMessage());
             $supabase->update('user_pages', $updateData, ['id' => $pageId, 'user_id' => $userId]);
         }
 
@@ -717,6 +802,7 @@ function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug,
             'share_token'  => $token,
             'share_slug'   => $domain,    // Return full domain so topbar/link shows the real domain
             'share_url'    => $publishedUrl,
+            'dns_status'   => $dnsStatus,
         ];
     } catch (Exception $e) {
         error_log("publishPageWithDomain - ERROR: " . $e->getMessage());

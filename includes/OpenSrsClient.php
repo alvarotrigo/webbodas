@@ -91,6 +91,25 @@ class OpenSrsClient
         return $this->sendRequest($xml);
     }
 
+    /**
+     * Update nameservers for a registered domain
+     * Used to point domains to Cloudflare nameservers after zone creation
+     */
+    public function updateNameservers(string $domain, array $nameservers): array
+    {
+        $assignNs = [];
+        foreach (array_values($nameservers) as $i => $ns) {
+            $assignNs["name{$i}"] = ['name' => $ns, 'sortorder' => $i + 1];
+        }
+
+        $xml = $this->buildEnvelope('MODIFY', 'DOMAIN', [
+            'domain'        => $domain,
+            'op_type'       => 'assign',
+            'assign_ns'     => $assignNs,
+        ]);
+        return $this->sendRequest($xml);
+    }
+
     // ─── Private helpers ─────────────────────────────────────────
 
     /**

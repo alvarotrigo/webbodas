@@ -91,7 +91,10 @@ CREATE TABLE IF NOT EXISTS user_pages (
     is_public BOOLEAN DEFAULT FALSE,
     share_token CHAR(36) UNIQUE DEFAULT NULL, -- UUID stored as CHAR(36)
     share_slug VARCHAR(64) UNIQUE DEFAULT NULL, -- Custom subdomain for publish URL (slug.yeslovey.com)
-    
+    custom_domain VARCHAR(255) DEFAULT NULL, -- Full custom domain (e.g. "mi-boda.com")
+    cloudflare_zone_id VARCHAR(32) DEFAULT NULL, -- Cloudflare zone ID for custom domain DNS
+    dns_status VARCHAR(16) DEFAULT 'none', -- DNS setup status: none, pending, active, failed
+
     -- Tracking
     last_accessed TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -157,6 +160,15 @@ CREATE TABLE IF NOT EXISTS dashboard_access_links (
 -- ALTER TABLE user_pages
 --     ADD COLUMN IF NOT EXISTS form_open BOOLEAN DEFAULT TRUE,
 --     ADD COLUMN IF NOT EXISTS form_closed_message VARCHAR(500) DEFAULT NULL;
+
+-- ===================================
+-- ALTER: user_pages - Custom domain DNS (Cloudflare)
+-- ===================================
+-- Run this migration separately if user_pages already exists:
+-- ALTER TABLE user_pages
+--     ADD COLUMN IF NOT EXISTS custom_domain VARCHAR(255) DEFAULT NULL,
+--     ADD COLUMN IF NOT EXISTS cloudflare_zone_id VARCHAR(32) DEFAULT NULL,
+--     ADD COLUMN IF NOT EXISTS dns_status VARCHAR(16) DEFAULT 'none';
 
 -- ===================================
 -- HELPER FUNCTIONS

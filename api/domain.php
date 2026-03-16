@@ -27,7 +27,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/../config/env.php';
 require_once __DIR__ . '/../config/mysql-client.php';
 require_once __DIR__ . '/../includes/clerk-auth.php';
-require_once __DIR__ . '/../src/OpenSrsClient.php';
+require_once __DIR__ . '/../includes/OpenSrsClient.php';
 
 // ── Auth check ───────────────────────────────────────────────────
 $clerkUserId = $_SESSION['clerk_user_id'] ?? null;
@@ -119,15 +119,16 @@ try {
             $code   = $result['response_code'] ?? null;
 
             // 210 = available, 211 = taken
+            $testMode = strtolower(getenv('OPENSRS_TEST_MODE') ?: 'true') === 'true';
             if ($code == 210) {
-                echo json_encode(['success' => true, 'available' => true]);
+                echo json_encode(['success' => true, 'available' => true, 'test_mode' => $testMode]);
             } elseif ($code == 211) {
-                echo json_encode(['success' => true, 'available' => false]);
+                echo json_encode(['success' => true, 'available' => false, 'test_mode' => $testMode]);
             } else {
                 // Unexpected code — treat as unavailable to be safe
                 $text = $result['response_text'] ?? "code {$code}";
                 error_log("Domain API lookup - unexpected code {$code} for {$domain}: {$text}");
-                echo json_encode(['success' => true, 'available' => false, 'note' => $text]);
+                echo json_encode(['success' => true, 'available' => false, 'note' => $text, 'test_mode' => $testMode]);
             }
             break;
 

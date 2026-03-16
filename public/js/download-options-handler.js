@@ -205,6 +205,8 @@ class DownloadOptionsHandler {
                             </svg>
                         </button>
 
+                        <div id="opensrs-test-mode-banner" class="hidden mb-3 px-3 py-1.5 bg-amber-100 border border-amber-300 rounded-lg text-xs text-amber-800 font-medium">OpenSRS Test Mode — sandbox environment, no real charges.</div>
+
                         <h2 class="text-2xl font-bold text-[var(--primary-text)] mb-2 pr-8">Choose your domain</h2>
 
                         <!-- Domain input: slug only, with fixed .com suffix (Pro: .com only) -->
@@ -264,6 +266,8 @@ class DownloadOptionsHandler {
                                 <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                             </svg>
                         </button>
+
+                        <div id="opensrs-test-mode-banner" class="hidden mb-3 px-3 py-1.5 bg-amber-100 border border-amber-300 rounded-lg text-xs text-amber-800 font-medium">OpenSRS Test Mode — sandbox environment, no real charges.</div>
 
                         <h2 class="text-2xl font-bold text-[var(--primary-text)] mb-6 pr-8">Change Domain</h2>
 
@@ -578,6 +582,8 @@ class DownloadOptionsHandler {
                 this.domainAvailable = !!data.available;
                 this._setDomainStatus(this.domainAvailable ? 'available' : 'unavailable');
                 this._updatePublishBtnState(this.domainAvailable);
+                const testBanner = document.getElementById('opensrs-test-mode-banner');
+                if (testBanner) testBanner.classList.toggle('hidden', !data.test_mode);
             })
             .catch(() => {
                 this._setDomainStatus('error');
@@ -1134,9 +1140,10 @@ class DownloadOptionsHandler {
         // ── Pro: stages tied to real operations, bar stops at ~82% and waits for the API
         const proStages = [
             { at: 0,    pct: 5,  dur: 500,  title: 'Checking domain availability...' },
-            { at: 1800, pct: 35, dur: 1500, title: 'Processing your purchase...' },
-            { at: 5000, pct: 65, dur: 2000, title: 'Registering your domain...' },
-            { at: 9000, pct: 82, dur: 3000, title: 'Setting up your website...' },
+            { at: 1800, pct: 30, dur: 1500, title: 'Processing your purchase...' },
+            { at: 5000, pct: 55, dur: 2000, title: 'Registering your domain...' },
+            { at: 9000, pct: 70, dur: 2000, title: 'Configuring DNS...' },
+            { at: 13000, pct: 85, dur: 3000, title: 'Setting up your website...' },
         ];
 
         // ── Free: original fake 9-second fill (unchanged behaviour)
