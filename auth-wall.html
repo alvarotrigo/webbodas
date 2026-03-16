@@ -522,10 +522,24 @@
 
         // Check if a plan was selected from the landing page pricing
         const selectedPlan = new URLSearchParams(window.location.search).get('plan');
-        
+
+        // Testing only: preserve ?pro=1 so app.php simulates Pro for a normal account (no effect in production)
+        const proParam = new URLSearchParams(window.location.search).get('pro');
+
         // Helper: Get base path for redirects
         function getBasePath() {
             return window.location.hostname === 'localhost' ? '/nine-screen-canvas-flow' : '';
+        }
+
+        // Post-login: always redirect to pages.php (free and pro)
+        function getAfterLoginRedirectUrl() {
+            return getBasePath() + '/pages.php';
+        }
+
+        // Append testing param ?pro=1 to URL when present (testing only; production never has it)
+        function appendProParamIfTesting(url) {
+            if (proParam !== '1') return url;
+            return url + (url.indexOf('?') === -1 ? '?' : '&') + 'pro=1';
         }
 
         // UI Helpers
@@ -566,29 +580,25 @@
         window.addEventListener('load', async function () {
             const basePath = getBasePath();
             const planParam = selectedPlan && (selectedPlan === 'annual' || selectedPlan === 'lifetime') ? '?plan=' + selectedPlan : '';
-            const afterSignInUrl = basePath + '/app.php' + planParam;
-            
+            const defaultAfterSignInUrl = basePath + '/pages.php' + planParam;
+
             try {
                 await Clerk.load({
-                    afterSignInUrl: afterSignInUrl,
-                    afterSignUpUrl: afterSignInUrl
+                    afterSignInUrl: defaultAfterSignInUrl,
+                    afterSignUpUrl: defaultAfterSignInUrl
                 });
-                
-                // SIMPLE LOGIC:
+
                 // 1. If coming from logout -> sign out from Clerk first, then show form
-                // 2. If user is signed in -> redirect to pages.php
+                // 2. If user is signed in -> fetch user/pages summary and redirect (app / app?page=id / pages.php)
                 // 3. Otherwise -> show sign-in form
-                
+
                 if (isFromLogout) {
                     console.log('From logout - ensuring Clerk is signed out');
-                    // Must sign out from Clerk if user still exists
                     if (Clerk.user) {
                         console.log('Clerk user still exists - signing out...');
                         try {
-                            // Sign out WITHOUT redirect (pass current URL to stay here)
                             await Clerk.signOut();
                             console.log('Clerk sign out complete');
-                            // Reload the page without the logout param to show clean form
                             window.location.href = window.location.pathname;
                             return;
                         } catch (e) {
@@ -598,13 +608,25 @@
                     console.log('Ready to show sign-in form');
                     hideAuthLoading();
                 } else if (Clerk.user) {
-                    // User is signed in - redirect to pages
-                    console.log('User signed in - redirecting to app.php');
-                    // Keep loading overlay visible during redirect
-                    window.location.href = afterSignInUrl;
+                    // User already signed in: get pages_count / first_page_id to choose redirect
+                    console.log('User signed in - fetching status for redirect...');
+                    try {
+                        const res = await fetch(basePath + '/api/auth-handler.php', { method: 'GET', credentials: 'same-origin' });
+                        const json = await res.json();
+                        if (json.success && json.data) {
+                            let url = getAfterLoginRedirectUrl();
+                            if (planParam && url.indexOf('?') === -1) url += planParam;
+                            else if (planParam && url.indexOf('?') !== -1) url += '&' + planParam.slice(1);
+                            url = appendProParamIfTesting(url);
+                            window.location.href = url;
+                            return;
+                        }
+                    } catch (e) {
+                        console.error('Error fetching auth status:', e);
+                    }
+                    window.location.href = appendProParamIfTesting(defaultAfterSignInUrl);
                     return;
                 } else {
-                    // User is not signed in - show login form
                     hideAuthLoading();
                 }
                 
@@ -630,11 +652,17 @@
                                 localStorage.setItem('editorMode', userData.is_paid ? 'paid' : 'authenticated');
                                 localStorage.setItem('isAuthenticated', 'true');
                                 localStorage.setItem('isPaid', userData.is_paid.toString());
-                                
+
                                 hideLoading();
                                 showSuccess('Successfully signed in! Redirecting...');
+                                let url = getAfterLoginRedirectUrl();
+                                const basePath = getBasePath();
+                                const planParam = selectedPlan && (selectedPlan === 'annual' || selectedPlan === 'lifetime') ? '?plan=' + selectedPlan : '';
+                                if (planParam && url.indexOf('?') === -1) url += planParam;
+                                else if (planParam && url.indexOf('?') !== -1) url += '&' + planParam.slice(1);
+                                url = appendProParamIfTesting(url);
                                 setTimeout(() => {
-                                    window.location.href = afterSignInUrl;
+                                    window.location.href = url;
                                 }, 1000);
                             } else {
                                 throw new Error(result.error || 'Authentication failed');
@@ -648,8 +676,8 @@
                 
                 // Mount sign-in form
                 Clerk.mountSignIn(document.getElementById('clerk-sign-in'), {
-                    afterSignInUrl: afterSignInUrl,
-                    afterSignUpUrl: afterSignInUrl,
+                    afterSignInUrl: defaultAfterSignInUrl,
+                    afterSignUpUrl: defaultAfterSignInUrl,
                     appearance: {
                         elements: {
                             formButtonPrimary: {

@@ -405,11 +405,13 @@ function editor_asset(string $path): string
         <!-- Left Section: Your Pages button + Page Name -->
         <div class="top-bar-left">
             <?php if ($isAuthenticated): ?>
-            <!-- Your Pages button: shown by JS when user has at least one page; opens left sidebar -->
-            <button type="button" id="view-pages-btn" class="view-pages-btn" data-tippy-content="Your Pages" style="display: none;" aria-label="Your Pages">
+            <!-- Your Pages: link to pages list (pages.php); same look as onboarding button -->
+            <a href="pages.php" id="view-pages-btn" class="view-pages-btn" data-tippy-content="Your Pages" aria-label="Your Pages">
                 <i data-lucide="files" class="view-pages-icon"></i>
                 <span class="view-pages-label">Your Pages</span>
-            </button>
+            </a>
+            <!-- Vertical separator between Your Pages and page title -->
+            <div class="top-bar-separator" aria-hidden="true"></div>
             <!-- Files icon: only shown during onboarding; hidden permanently in editor (pages opened via left sidebar toggle) -->
             <button type="button" id="topbar-files-btn" class="topbar-files-btn" data-tippy-content="Your Pages" aria-label="Open pages sidebar" style="display: none;">
                 <i data-lucide="files" class="topbar-files-icon"></i>
@@ -506,7 +508,7 @@ function editor_asset(string $path): string
             <button id="preview-fullscreen" class="preview-fullscreen-btn" data-tippy-content="Preview" disabled>
                 <i data-lucide="eye"></i>
             </button>
-            <button id="share-page" class="share-btn" data-tippy-content="Share page" disabled>
+            <button id="share-page" class="share-btn" data-tippy-content="Share page" disabled style="<?php echo ($topbarPublishedUrl !== null) ? 'display: none;' : ''; ?>">
                 <i data-lucide="share-2" class="share-icon"></i>
                 <svg class="share-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
@@ -1315,7 +1317,7 @@ function editor_asset(string $path): string
     <script src="<?= editor_asset('public/js/section-outline.js') ?>" async></script>
 
     <!-- Crisp Chat -->
-    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="89bf80cc-90a6-4d14-acc3-d0a68bddeffc";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="d4ebad7e-2de5-4f33-b155-d5bcf5601cc0";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 
     <!-- RSVP Dashboard (Guests) button: show when page has a form. Kept visible after unpublish so user can still access guest list. -->
     <!-- Also initializes "View Website" button mode if page is already published -->

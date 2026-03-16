@@ -408,10 +408,10 @@ let suppressThemeHistory = false;
          this._currentPageTitle = value;
          currentPageTitle = value;
          updatePageNameDisplay(value);
-         // Pre-fetch first domain suggestion so publish modal opens with it already in the field (Pro only)
-         if (value && value !== 'Untitled Page' && typeof window.downloadOptionsHandler !== 'undefined' && window.downloadOptionsHandler.prefetchDomainSuggestion) {
-             window.downloadOptionsHandler.prefetchDomainSuggestion(value);
-         }
+         // [DISABLED_FOR_WEDDING_VERSION]: Domain recommendations removed — Pro only .com; no prefetch.
+         // if (value && value !== 'Untitled Page' && window.downloadOptionsHandler?.prefetchDomainSuggestion) {
+         //     window.downloadOptionsHandler.prefetchDomainSuggestion(value);
+         // }
      },
      configurable: true,
      enumerable: true
@@ -594,15 +594,17 @@ let _unpublishModalSlug = null;
 
     confirmBtn.addEventListener('click', async function () {
         const pageId = _unpublishModalPageId;
-        const previousSlug = _unpublishModalSlug;
         if (!pageId) return;
         confirmBtn.disabled = true;
         try {
             const result = await unpublishPage(pageId);
             if (result.success) {
                 closeModal();
+                // Pro users keep their domain slug for reactivation.
+                // Free users get null so they pick a fresh subdomain name on next publish.
+                const slugForReactivation = result.is_paid ? (result.previous_slug || null) : null;
                 if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setPublishMode === 'function') {
-                    window.downloadOptionsHandler.setPublishMode(previousSlug);
+                    window.downloadOptionsHandler.setPublishMode(slugForReactivation);
                 }
                 const topbarLink = document.getElementById('topbar-published-link');
                 if (topbarLink) {
@@ -628,9 +630,16 @@ function openUnpublishWebsiteModal(pageId, slug) {
     _unpublishModalPageId = pageId;
     _unpublishModalSlug = slug || null;
     const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
-    const domainSuffix = isPro ? '.com' : '.yeslovey.com';
-    const displayDomain = slug ? (slug + domainSuffix) : 'Your website';
-    messageEl.textContent = displayDomain + ' won\'t be available anymore. Are you sure?';
+    if (isPro) {
+        // Pro: domain is kept but the site shows a 503 "unavailable" page until reactivated
+        const displayDomain = slug ? slug : 'your domain';
+        messageEl.textContent = displayDomain + ' will show a temporary "unavailable" page. You can reactivate it later.';
+    } else {
+        // Free: subdomain is permanently released — user must choose a new name on next publish
+        const domainSuffix = '.yeslovey.com';
+        const displayDomain = slug ? (slug + domainSuffix) : 'Your website';
+        messageEl.textContent = displayDomain + ' will be unpublished and the subdomain will be released. You can choose a new name when you publish again.';
+    }
     if (confirmBtn) confirmBtn.disabled = false;
     modal.classList.add('show');
 }
@@ -768,14 +777,16 @@ function closePagePreview() {
     }
 }
 
-// --- Unpublish a page (returns { success } or throws on network error) ---
+// --- Unpublish a page (returns { success, is_paid, previous_slug } or throws on network error) ---
+// Free users: share_slug is cleared in the DB — subdomain is released, no reactivation offered.
+// Pro users: share_slug is preserved — domain is kept, reactivation option is shown on next publish.
 async function unpublishPage(pageId) {
     const res = await fetch('./api/pages.php', {
-        method: 'PUT',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+            action: 'unpublish',
             id: pageId,
-            is_public: false,
             clerk_user_id: serverUserData?.clerk_user_id || null
         })
     });
@@ -834,8 +845,11 @@ async function fetchAndRenderPagesList() {
         if (pages.length === 0) {
             container.innerHTML = '<p class="pages-list-empty">No pages yet.</p>';
         } else {
+            // Single page in list (free or pro): do not add 'active' class (no need to differentiate)
+            const isSinglePage = pages.length === 1;
+            const isFreeSinglePage = serverUserData && !serverUserData.is_paid && isSinglePage;
             pages.forEach(page => {
-                const isActive = String(page.id) === String(currentPageId);
+                const isActive = !isSinglePage && String(page.id) === String(currentPageId);
                 const isPublished = !!(page.is_public && page.share_url);
 
                 const item = document.createElement('div');
@@ -848,9 +862,9 @@ async function fetchAndRenderPagesList() {
                         <span class="page-list-item-name">${escapeHtml(page.title || 'Untitled Page')}</span>
                     </div>
                     <div class="page-list-item-actions">
-                        <button type="button" class="page-action-btn page-preview-btn" data-tippy-content="Preview page" aria-label="Preview page">
+                        ${!isSinglePage ? `<button type="button" class="page-action-btn page-preview-btn" data-tippy-content="Preview page" aria-label="Preview page">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                        </button>
+                        </button>` : ''}
                         ${!isPublished ? `
                         <button type="button" class="page-action-btn page-delete-btn" data-tippy-content="Delete page" aria-label="Delete page">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
@@ -874,17 +888,20 @@ async function fetchAndRenderPagesList() {
                 //     });
                 // }
 
-                // Preview button: open preview, or close it if this page's preview is already open
-                item.querySelector('.page-preview-btn').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const panel = document.getElementById('page-preview-hover-panel');
-                    const isThisPagePreviewOpen = panel && panel.classList.contains('show') && _pagePreviewCurrentPageId === String(page.id);
-                    if (isThisPagePreviewOpen) {
-                        closePagePreview();
-                    } else {
-                        openPagePreview(page.id, page.title, page.share_token || null);
-                    }
-                });
+                // Preview button: open preview, or close it if this page's preview is already open (not shown for free user with single page)
+                const previewBtn = item.querySelector('.page-preview-btn');
+                if (previewBtn) {
+                    previewBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const panel = document.getElementById('page-preview-hover-panel');
+                        const isThisPagePreviewOpen = panel && panel.classList.contains('show') && _pagePreviewCurrentPageId === String(page.id);
+                        if (isThisPagePreviewOpen) {
+                            closePagePreview();
+                        } else {
+                            openPagePreview(page.id, page.title, page.share_token || null);
+                        }
+                    });
+                }
 
                 // [DISABLED_FOR_WEDDING_VERSION]: Unpublish button handler removed for wedding version.
                 // const unpublishBtn = item.querySelector('.page-unpublish-btn');
@@ -917,12 +934,23 @@ async function fetchAndRenderPagesList() {
         }
 
         // New Page button appended right after the last page item
+        // Free users with 1 page already: button enabled; click opens upgrade modal, hover shows "Upgrade to Pro"
+        const isFreeAtLimit = serverUserData && !serverUserData.is_paid && pages.length >= 1;
         const newPageBtn = document.createElement('button');
         newPageBtn.type = 'button';
         newPageBtn.id = 'new-page-btn';
         newPageBtn.className = 'new-page-btn';
+        if (isFreeAtLimit) {
+            newPageBtn.setAttribute('data-tippy-content', 'Upgrade to Pro');
+        }
         newPageBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>New Page</span>`;
         newPageBtn.addEventListener('click', async () => {
+            if (isFreeAtLimit) {
+                if (typeof showUpgradeModal === 'function') {
+                    showUpgradeModal();
+                }
+                return;
+            }
             // Close preview panel if open when starting a new page
             const previewPanel = document.getElementById('page-preview-hover-panel');
             if (previewPanel && previewPanel.classList.contains('show')) {
@@ -966,7 +994,7 @@ async function fetchAndRenderPagesList() {
         });
         container.appendChild(newPageBtn);
 
-        // Initialize Tippy tooltips for page list items (Preview, Delete, Published dot)
+        // Initialize Tippy tooltips for page list items (Preview, Delete, New Page "Upgrade to Pro")
         if (typeof tippy !== 'undefined') {
             const pageListTooltips = container.querySelectorAll('[data-tippy-content]');
             pageListTooltips.forEach(el => {
@@ -1744,6 +1772,21 @@ function buildTemplateStyles() {
          }
      }
      return { styleHrefs: externalHrefs, inlineStyles: mergedInline };
+ }
+
+ /**
+  * When user has no page yet (came from "New Webpage"): prompt for page name, create page, then insert template.
+  * When user already has a page: insert template only.
+  * @param {Object} template - Template object with url, name, etc.
+  * @param {function} [onAfterInsert] - Optional callback after insert (e.g. hideCategoryPanel).
+  */
+ async function requestPageNameThenInsertTemplate(template, onAfterInsert) {
+     if (!template || !template.url) return;
+     if (typeof window.pageManagerInstance !== 'undefined' && window.pageManagerInstance.shouldPromptForPageName()) {
+         await window.pageManagerInstance.promptForPageName();
+     }
+     insertFullTemplateIntoPreview(template);
+     if (typeof onAfterInsert === 'function') onAfterInsert();
  }
 
  /**
@@ -2527,9 +2570,9 @@ function showTemplatePreviewFull(sectionsGrid, styleKey, template) {
     }
     const useBtn = headerTitle.querySelector('.template-preview-use-btn');
     if (useBtn && template.url) {
-        useBtn.addEventListener('click', () => { insertFullTemplateIntoPreview(template); hideCategoryPanel(); });
+        useBtn.addEventListener('click', () => { requestPageNameThenInsertTemplate(template, hideCategoryPanel); });
         useBtn.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); insertFullTemplateIntoPreview(template); hideCategoryPanel(); }
+            if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); requestPageNameThenInsertTemplate(template, hideCategoryPanel); }
         });
     }
 }
@@ -2910,13 +2953,12 @@ function syncSelectedSectionsFromIframe() {
              scheduleAutosave();
  }
 
-// Show "Your Pages" button only when onboarding is visible AND user has pages
+// Keep "Your Pages" topbar link visible (it navigates to pages.php)
 function updateViewPagesBtnVisibility() {
     const btn = document.getElementById('view-pages-btn');
     if (!btn) return;
-    const shouldShow = window._userHasPages && window.isOnboardingMode;
-    btn.style.display = shouldShow ? '' : 'none';
-    if (shouldShow && typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    btn.style.display = '';
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
 window.updateViewPagesBtnVisibility = updateViewPagesBtnVisibility;
 
@@ -5613,29 +5655,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         toggleSidebar();
     });
 
-     // View Your Pages button: opens the left sidebar OVER the onboarding overlay.
-     // The sidebar (z-index 10) appears above the overlay (z-index 4) so the user
-     // can pick an existing page to edit without losing the template gallery.
-     // Onboarding is NOT hidden here — it stays visible behind the sidebar.
-     const viewPagesBtn = document.getElementById('view-pages-btn');
-     if (viewPagesBtn) {
-         viewPagesBtn.addEventListener('click', () => {
-             if (window.isOnboardingMode) {
-                 // In onboarding the sidebar has no .sidebar-ready so it stays hidden.
-                 // Force-open: add sidebar-ready and show the pages list.
-                 sidebarCollapsed = false;
-                 const sidebar = document.querySelector('.sidebar');
-                 if (sidebar) {
-                     sidebar.classList.remove('collapsed', 'onboarding-mode');
-                     sidebar.classList.add('sidebar-ready');
-                 }
-                 fetchAndRenderPagesList();
-                 if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-             } else {
-                 if (sidebarCollapsed) toggleSidebar();
-             }
-         });
-     }
+     // View Your Pages link: navigates to pages.php (no click handler — use default link behavior)
 
      // Topbar files icon: opens the left sidebar (pages list) from the top bar.
      const topbarFilesBtn = document.getElementById('topbar-files-btn');
@@ -6606,7 +6626,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                      const template = (templateStyles[styleKey] && templateStyles[styleKey].templates)
                          ? templateStyles[styleKey].templates.find(t => t.id === id)
                          : null;
-                     if (template && template.url) insertFullTemplateIntoPreview(template);
+                     if (template && template.url) requestPageNameThenInsertTemplate(template);
                  }
                  return;
              }

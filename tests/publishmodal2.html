@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Domain Owner Details</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); }
+
+  .modal {
+    position: relative; z-index: 10;
+    background: #fff; border-radius: 16px; padding: 32px;
+    width: 100%; max-width: 480px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+  }
+
+  .close-btn {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: none; cursor: pointer;
+    color: #999; font-size: 20px; line-height: 1;
+  }
+  .close-btn:hover { color: #333; }
+
+  .free-badge {
+    display: inline-block;
+    background: #f0fdf4; color: #16a34a;
+    font-size: 13px; font-weight: 600;
+    padding: 4px 12px; border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .modal h2 {
+    font-size: 22px; font-weight: 700; color: #111;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 13px; color: #888;
+    margin-bottom: 24px;
+  }
+
+  .form-row {
+    display: flex; gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .form-group {
+    display: flex; flex-direction: column;
+    flex: 1;
+  }
+
+  .form-group label {
+    font-size: 13px; font-weight: 500; color: #444;
+    margin-bottom: 5px;
+  }
+
+  .form-group label .optional {
+    color: #aaa; font-weight: 400;
+  }
+
+  .form-group input {
+    padding: 10px 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+  }
+
+  .checkbox-group {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .checkbox-group input[type="checkbox"] {
+    margin-top: 3px; width: 16px; height: 16px;
+    accent-color: #3b82f6; flex-shrink: 0;
+  }
+  .checkbox-group label {
+    font-size: 13px; color: #555; line-height: 1.4;
+  }
+  .checkbox-group label a {
+    color: #3b82f6; text-decoration: underline;
+  }
+
+  .checkboxes { margin-top: 20px; margin-bottom: 24px; }
+
+  .cta-btn {
+    width: 100%;
+    padding: 14px;
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .cta-btn:hover { background: #2563eb; }
+</style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="modal">
+    <button class="close-btn">✕</button>
+
+    <div class="free-badge">🎉 Free custom domain included!</div>
+
+    <h2>Domain Owner Details</h2>
+    <p class="subtitle">This information will be used to register your domain.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>First name</label>
+        <input type="text" placeholder="John">
+      </div>
+      <div class="form-group">
+        <label>Last name</label>
+        <input type="text" placeholder="Doe">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="john@example.com">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" placeholder="+1 555 000 0000">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Address</label>
+        <input type="text" placeholder="123 Main St, City, Country">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Organization <span class="optional">(optional)</span></label>
+        <input type="text" placeholder="Company name">
+      </div>
+    </div>
+
+    <div class="checkboxes">
+      <div class="checkbox-group">
+        <input type="checkbox" id="confirm">
+        <label for="confirm">I confirm these details are accurate and belong to the domain owner.</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="terms">
+        <label for="terms">I agree to the <a href="#">Domain Registration Terms</a></label>
+      </div>
+    </div>
+
+    <button class="cta-btn">Register domain and publish 🔗</button>
+  </div>
+</body>
+</html>

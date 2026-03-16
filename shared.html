@@ -88,6 +88,13 @@
         <p id="error-message">The shared page could not be loaded.</p>
         <p style="font-size: 14px; color: #999;">Please check the link and try again.</p>
     </div>
+
+    <!-- Shown when a Pro user has unpublished their site (API returns 503) -->
+    <div id="unavailable" class="error-container" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#d1a84b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:1rem;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <h1 style="color:#555;font-size:1.75rem;font-weight:700;margin-bottom:.5rem;">Site unavailable right now</h1>
+        <p style="color:#777;font-size:1rem;max-width:360px;line-height:1.6;">This website is temporarily unavailable. Please try again later.</p>
+    </div>
     
     <div id="preview-content" class="has-full-template @container"></div>
     
@@ -97,6 +104,12 @@
             const errorDiv = document.getElementById('error');
             errorDiv.style.display = 'flex';
             document.getElementById('error-message').textContent = message;
+        }
+
+        // Shown when the API returns 503 — Pro user's site is temporarily unavailable
+        function showUnavailablePage() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('unavailable').style.display = 'flex';
         }
         
         // Get share token, slug (publish subdomain), or legacy document ID from URL
@@ -154,8 +167,16 @@
             const resolveApi = (url) => url.startsWith('http') ? url : (apiOrigin + basePath + url.replace(/^\.\//, ''));
 
             fetch(resolveApi(apiUrl))
-                .then(response => response.json())
+                .then(response => {
+                    // 503: Pro user's site is temporarily unpublished — show dedicated message
+                    if (response.status === 503) {
+                        showUnavailablePage();
+                        return null;
+                    }
+                    return response.json();
+                })
                 .then(result => {
+                    if (!result) return; // handled above (503)
                     if (result.error) {
                         throw new Error(result.error);
                     }

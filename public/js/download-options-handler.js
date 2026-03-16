@@ -12,25 +12,18 @@ class DownloadOptionsHandler {
         this.publishPageIdOverride = null;
         /** Previous share_slug preserved after unpublish so user can reactivate it */
         this.previousSlug = null;
-        /** Domain suggestions from OpenSRS NAME_SUGGEST (Pro only) */
-        this.domainSuggestions = [];
-        /** Current index into domainSuggestions for cycling via wand button */
-        this.suggestionIndex = 0;
-        /** Whether the current slug+TLD combo is confirmed available (Pro only) */
+        /** Whether the current slug+.com is confirmed available (Pro only) */
         this.domainAvailable = false;
         /** Debounce timer id for availability checks */
         this._availabilityTimer = null;
-        /** Cached first suggestion + full list for current page title (Pro). Used so modal opens with suggestion already in the field. */
-        this.cachedDomainSuggestions = null;
-        this.cachedDomainSuggestionsForTitle = null;
-        /** When user clicks "Choose" on a suggestion, we store it here and enable Publish without updating the input. */
-        this.chosenSuggestionDomain = null;
-        /** TLDs to request when fetching domain suggestions (same name, other extensions). */
-        this.suggestTlds = ['.com', '.es', '.online', '.net', '.org'];
-
-        // Pre-fetch domain suggestion for current page if already set (e.g. handler created after page load)
-        const title = (typeof window.pageManagerInstance !== 'undefined' && window.pageManagerInstance.currentPageTitle) || '';
-        if (title && title !== 'Untitled Page') this.prefetchDomainSuggestion(title);
+        // [DISABLED_FOR_WEDDING_VERSION]: Domain recommendations removed — Pro users can only purchase .com; no suggestions.
+        // this.domainSuggestions = [];
+        // this.suggestionIndex = 0;
+        // this.cachedDomainSuggestions = null;
+        // this.cachedDomainSuggestionsForTitle = null;
+        // this.chosenSuggestionDomain = null;
+        // this.suggestTlds = ['.com', '.es', '.online', '.net', '.org'];
+        // if (title && title !== 'Untitled Page') this.prefetchDomainSuggestion(title);
     }
 
     /**
@@ -125,11 +118,7 @@ class DownloadOptionsHandler {
             </div>
             `;
         } else if (isPro) {
-            const pageTitle = (window.pageManagerInstance && window.pageManagerInstance.currentPageTitle) || '';
-            const initialDomain = (this.cachedDomainSuggestionsForTitle === pageTitle && this.cachedDomainSuggestions && this.cachedDomainSuggestions[0])
-                ? this.cachedDomainSuggestions[0]
-                : '';
-            modalHTML = this._buildProDomainModalHTML(initialDomain);
+            modalHTML = this._buildProDomainModalHTML();
         } else {
             modalHTML = this._buildNewDomainModalHTML(domainSuffix);
         }
@@ -144,6 +133,10 @@ class DownloadOptionsHandler {
         // For Pro users opening the new-domain form directly, initialize domain features
         if (!savedSlug && isPro) {
             this._initProDomainModal();
+        }
+        // For free users: initialize subdomain slug availability check (DB lookup)
+        if (!savedSlug && !isPro) {
+            this._initFreeSubdomainModal();
         }
     }
 
@@ -171,8 +164,14 @@ class DownloadOptionsHandler {
                             <span class="px-4 py-3 bg-[var(--secondary-bg)] text-[var(--secondary-text)] border-l border-[var(--border-color)] whitespace-nowrap font-medium">${domainSuffix}</span>
                         </div>
 
-                        <div class="mt-6">
-                            <button onclick="window.downloadOptionsHandler.publishPage()" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all font-medium text-base flex items-center justify-center gap-2">
+                        <!-- Availability status indicator (same as Pro: "Checking availability..." / Available / Not available) -->
+                        <div id="domain-status-indicator" class="domain-status-indicator mt-3 min-h-[1.75rem] flex items-center gap-2">
+                            <!-- Populated dynamically by _setDomainStatus() -->
+                        </div>
+
+                        <div class="mt-5">
+                            <button id="free-publish-btn" onclick="window.downloadOptionsHandler.publishPage()" disabled
+                                class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all font-medium text-base flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600">
                                 Publish
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
                                     <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
@@ -190,13 +189,11 @@ class DownloadOptionsHandler {
     }
 
     /**
-     * Build the Pro "choose a new domain" modal: slug input + TLD dropdown + wand button
-     * + real-time availability indicator + conditional Publish button.
-     * Used only for Pro (is_paid) users.
-     * @param {string} [initialDomain] - Pre-loaded first suggestion so the field is filled when modal opens (avoids text changing after open).
+     * Build the Pro "choose a new domain" modal: slug input + fixed .com suffix,
+     * real-time availability indicator, and conditional Publish button.
+     * Pro users can only purchase .com domains (no recommendations).
      */
-    _buildProDomainModalHTML(initialDomain) {
-        const safeValue = (initialDomain || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    _buildProDomainModalHTML() {
         return `
             <div id="download-options-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10000]" style="display: flex;">
                 <div class="download-options-modal-content rounded-2xl shadow-2xl max-w-lg w-full mx-4 github-export-content" style="background-color: var(--primary-bg, #ffffff);" onclick="event.stopPropagation()">
@@ -208,35 +205,28 @@ class DownloadOptionsHandler {
                             </svg>
                         </button>
 
-                        <h2 class="text-2xl font-bold text-[var(--primary-text)] mb-1 pr-8">Choose your domain</h2>
+                        <h2 class="text-2xl font-bold text-[var(--primary-text)] mb-2 pr-8">Choose your domain</h2>
 
-
-                        <!-- Domain input: full domain (e.g. my-wedding.com) -->
+                        <!-- Domain input: slug only, with fixed .com suffix (Pro: .com only) -->
                         <div class="domain-input-group flex items-center border border-[var(--border-color)] rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
-                            <input type="text" id="publish-web-name" placeholder="my-wedding.com" value="${safeValue}"
+                            <input type="text" id="publish-web-name" placeholder="my-wedding"
                                 class="flex-1 px-4 py-3 border-0 focus:outline-none focus:ring-0 bg-[var(--primary-bg)] text-[var(--primary-text)] min-w-0"
-                                maxlength="253" autocomplete="off" spellcheck="false">
+                                maxlength="64" autocomplete="off" spellcheck="false">
+                            <span class="px-4 py-3 bg-[var(--secondary-bg)] text-[var(--secondary-text)] border-l border-[var(--border-color)] whitespace-nowrap font-medium">.com</span>
                         </div>
-                        
 
-                        <!-- Availability status indicator -->
-                        <div id="domain-status-indicator" class="domain-status-indicator mt-3 min-h-[1.75rem] flex items-center gap-2">
+                        <!-- Availability status indicator (mb-4 adds space above Continue when e.g. "Not available") -->
+                        <div id="domain-status-indicator" class="domain-status-indicator mt-3 min-h-0 flex items-center gap-1">
                             <!-- Populated dynamically by _setDomainStatus() -->
                         </div>
-
-                        <!-- Available domains section (heading + list) when domain is not available -->
-                        <div id="domain-suggestions-wrapper" class="domain-suggestions-wrapper hidden mt-4 mb-6" aria-hidden="true">
-                            <h2 class="text-2xl font-bold text-[var(--primary-text)] mb-3 pr-8">Available domains</h2>
-                            <div id="domain-suggestions-list" class="domain-suggestions-list" role="list">
-                                <!-- Populated by _renderUnavailableSuggestions() when status is unavailable -->
-                            </div>
-                        </div>
+                        <!-- Pro only: 1 year free message, shown when domain is Available -->
+                        <div id="pro-domain-free-year" class="hidden -mt-2.5 mb-3 text-lm text-[var(--secondary-text)] leading-none">🎉 1 year free with your website!</div>
 
                         <div class="mt-5">
                             <button id="pro-publish-btn" onclick="window.downloadOptionsHandler.publishPage()"
                                 disabled
                                 class="pro-publish-btn w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all font-medium text-base flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600">
-                                Publish
+                                Continue
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
                                     <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
                                     <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
@@ -260,7 +250,10 @@ class DownloadOptionsHandler {
      */
     _buildChangeDomainModalHTML(currentDomain, domainSuffix, currentSlug) {
         const safeCurrent = (currentDomain || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        const safePlaceholder = (currentSlug || 'my-wedding').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        // For .com (Pro), input is slug-only so placeholder should be slug without TLD
+        let placeholderSlug = (currentSlug || 'my-wedding').trim();
+        if (domainSuffix === '.com' && placeholderSlug.endsWith('.com')) placeholderSlug = placeholderSlug.slice(0, -4).trim() || 'my-wedding';
+        const safePlaceholder = placeholderSlug.replace(/</g, '&lt;').replace(/>/g, '&gt;');
         return `
             <div id="download-options-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[10000]" style="display: flex;">
                 <div class="download-options-modal-content rounded-2xl shadow-2xl max-w-lg w-full mx-4 github-export-content" style="background-color: var(--primary-bg, #ffffff);" onclick="event.stopPropagation()">
@@ -284,13 +277,15 @@ class DownloadOptionsHandler {
                             <div class="flex items-center border border-[var(--border-color)] rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
                                 <input type="text" id="publish-web-name" placeholder="${safePlaceholder}" value=""
                                     class="flex-1 px-4 py-3 border-0 focus:outline-none focus:ring-0 bg-[var(--primary-bg)] text-[var(--primary-text)]"
-                                    maxlength="64" autocomplete="off">
+                                    maxlength="64" autocomplete="off" spellcheck="false">
                                 <span class="px-4 py-3 bg-[var(--secondary-bg)] text-[var(--secondary-text)] border-l border-[var(--border-color)] whitespace-nowrap font-medium">${domainSuffix}</span>
                             </div>
+                            <div id="domain-status-indicator" class="domain-status-indicator mt-3 min-h-[1.75rem] flex items-center gap-2"></div>
                         </div>
 
                         <div class="mt-6">
-                            <button onclick="window.downloadOptionsHandler.publishPage()" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all font-medium text-base flex items-center justify-center gap-2">
+                            <button id="pro-publish-btn" onclick="window.downloadOptionsHandler.publishPage()" ${domainSuffix === '.com' ? 'disabled' : ''}
+                                class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all font-medium text-base flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600">
                                 Update Domain
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
                                     <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/>
@@ -313,7 +308,7 @@ class DownloadOptionsHandler {
         const wrap = document.getElementById('publish-dropdown-wrap');
         const currentSlug = (wrap && wrap.dataset.viewWebsiteSlug) ? wrap.dataset.viewWebsiteSlug.trim() : '';
         const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
-        const domainSuffix = isPro ? '' : '.yeslovey.com';
+        const domainSuffix = isPro ? '.com' : '.yeslovey.com';
 
         if (!currentSlug) {
             this.showNewDomainInput();
@@ -330,9 +325,14 @@ class DownloadOptionsHandler {
 
         const input = document.getElementById('publish-web-name');
         if (input) {
-            input.placeholder = currentSlug;
+            if (domainSuffix === '.com' && currentSlug.endsWith('.com')) {
+                input.placeholder = currentSlug.slice(0, -4).trim() || 'my-wedding';
+            } else {
+                input.placeholder = currentSlug || 'my-wedding';
+            }
             input.focus();
         }
+        if (isPro) this._initProDomainModal();
     }
 
     /**
@@ -514,32 +514,14 @@ class DownloadOptionsHandler {
 
     /**
      * Called after inserting the Pro domain modal HTML.
-     * Resets state, uses cached suggestion if available, otherwise fetches from the page title, and attaches listeners.
+     * Resets availability state and attaches input listener for real-time .com availability check.
      */
     _initProDomainModal() {
         this.domainAvailable = false;
-        this.chosenSuggestionDomain = null;
-        const pageTitle = (window.pageManagerInstance && window.pageManagerInstance.currentPageTitle) || '';
-        const hasCache = pageTitle && this.cachedDomainSuggestionsForTitle === pageTitle && Array.isArray(this.cachedDomainSuggestions) && this.cachedDomainSuggestions.length > 0;
-
-        if (hasCache) {
-            this.domainSuggestions = this.cachedDomainSuggestions.slice();
-            this.suggestionIndex = 0;
-        } else {
-            this.domainSuggestions = [];
-            this.suggestionIndex = 0;
-        }
         this._setDomainStatus('idle');
 
         const input = document.getElementById('publish-web-name');
         if (input) input.focus();
-
-        if (hasCache && input && input.value.trim()) {
-            // Field already has value from HTML (cached first suggestion). Just run availability check.
-            this._checkAvailability(input.value.trim());
-        } else if (pageTitle && pageTitle !== 'Untitled Page') {
-            this._fetchSuggestions(pageTitle);
-        }
 
         this._attachDomainCheckListeners();
 
@@ -548,92 +530,36 @@ class DownloadOptionsHandler {
         }
     }
 
-    /**
-     * Pre-fetch domain suggestion for the given page title and cache it.
-     * When the user opens the publish modal, the first suggestion is already in the field (no text change after open).
-     * Call this when the current page title is set (e.g. on page load or page switch). Pro users only.
-     * @param {string} pageTitle
-     */
-    prefetchDomainSuggestion(pageTitle) {
-        if (!pageTitle || pageTitle === 'Untitled Page') return;
-        const isPro = !!(typeof window.serverUserData !== 'undefined' && window.serverUserData && window.serverUserData.is_paid);
-        if (!isPro) return;
-
-        fetch('./api/domain.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'suggest', query: pageTitle, tlds: this.suggestTlds })
-        })
-        .then(function(res) { return res.json(); })
-        .then((data) => {
-            if (!data.success || !Array.isArray(data.suggestions) || data.suggestions.length === 0) return;
-            this.cachedDomainSuggestions = data.suggestions.slice();
-            this.cachedDomainSuggestionsForTitle = pageTitle;
-        })
-        .catch(function() { /* ignore; modal will fetch on open */ });
-    }
-
-    /**
-     * Fetch domain suggestions from OpenSRS based on the page title or slug.
-     * Stores results in this.domainSuggestions and in cache; pre-fills the first suggestion if input is empty.
-     * @param {string} pageTitleOrSlug
-     * @param {function} [onDone] - Optional callback when fetch completes (e.g. to re-render unavailable suggestions list).
-     */
-    _fetchSuggestions(pageTitleOrSlug, onDone) {
-        fetch('./api/domain.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'suggest', query: pageTitleOrSlug, tlds: this.suggestTlds })
-        })
-        .then(function(res) { return res.json(); })
-        .then((data) => {
-            const list = Array.isArray(data.suggestions) ? data.suggestions.slice() : [];
-            this.domainSuggestions = list;
-            this.suggestionIndex = 0;
-            this.cachedDomainSuggestions = list.slice();
-            this.cachedDomainSuggestionsForTitle = pageTitleOrSlug;
-
-            if (data.success && list.length > 0) {
-                const input = document.getElementById('publish-web-name');
-                if (input && !input.value.trim()) {
-                    input.value = this.domainSuggestions[0];
-                    this._checkAvailability(this.domainSuggestions[0]);
-                }
-            }
-            if (typeof onDone === 'function') onDone.call(this);
-        })
-        .catch((err) => {
-            console.warn('Domain suggestions failed:', err);
-            this.domainSuggestions = [];
-            this.cachedDomainSuggestionsForTitle = pageTitleOrSlug;
-            if (typeof onDone === 'function') onDone.call(this);
-        });
-    }
+    // [DISABLED_FOR_WEDDING_VERSION]: Domain recommendations removed — Pro only .com; no suggest API or prefetch.
+    // prefetchDomainSuggestion(pageTitle) { ... }
+    // _fetchSuggestions(pageTitleOrSlug, onDone) { ... }
 
     /**
      * Check domain availability with a 600ms debounce.
-     * Updates the status indicator and the Publish button state.
-     * @param {string} [fullDomain] - Full domain (e.g. "my-wedding.com"). If omitted, reads from input.
+     * Pro: input is slug only; we append .com and check slug.com.
+     * @param {string} [slugOrFull] - If provided, use as slug (we append .com) or skip and read from input.
      */
-    _checkAvailability(fullDomain) {
+    _checkAvailability(slugOrFull) {
         const input = document.getElementById('publish-web-name');
-        const raw = (fullDomain != null ? fullDomain : (input && input.value) || '').trim();
-        const trimmed = raw.toLowerCase();
+        let slug = (slugOrFull != null ? slugOrFull : (input && input.value) || '').trim().toLowerCase();
+        // Strip .com if user typed it (Pro is .com only)
+        if (slug.endsWith('.com')) slug = slug.slice(0, -4).trim();
 
         this.domainAvailable = false;
         this._updatePublishBtnState(false);
 
-        if (!trimmed) {
+        if (!slug) {
             this._setDomainStatus('idle');
             return;
         }
 
-        // Must contain at least one dot and only valid domain chars
-        if (!trimmed.includes('.') || !/^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$/i.test(trimmed)) {
+        // Slug: letters, numbers, hyphens only (no dots)
+        if (!/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/i.test(slug)) {
             this._setDomainStatus('invalid');
             return;
         }
 
+        const fullDomain = slug + '.com';
         this._setDomainStatus('loading');
 
         if (this._availabilityTimer) clearTimeout(this._availabilityTimer);
@@ -641,7 +567,7 @@ class DownloadOptionsHandler {
             fetch('./api/domain.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'lookup', domain: trimmed })
+                body: JSON.stringify({ action: 'lookup', domain: fullDomain })
             })
             .then(function(res) { return res.json(); })
             .then((data) => {
@@ -650,8 +576,7 @@ class DownloadOptionsHandler {
                     return;
                 }
                 this.domainAvailable = !!data.available;
-                const lookedUpDomain = trimmed;
-                this._setDomainStatus(this.domainAvailable ? 'available' : 'unavailable', lookedUpDomain);
+                this._setDomainStatus(this.domainAvailable ? 'available' : 'unavailable');
                 this._updatePublishBtnState(this.domainAvailable);
             })
             .catch(() => {
@@ -661,11 +586,21 @@ class DownloadOptionsHandler {
     }
 
     /**
+     * Enable or disable the Publish button based on availability.
+     * Works for both Pro (pro-publish-btn) and Free (free-publish-btn) modals.
+     * @param {boolean} enabled
+     */
+    _updatePublishBtnState(enabled) {
+        const btn = document.getElementById('pro-publish-btn') || document.getElementById('free-publish-btn');
+        if (!btn) return;
+        btn.disabled = !enabled;
+    }
+
+    /**
      * Update the domain availability status indicator.
      * @param {'idle'|'loading'|'available'|'unavailable'|'invalid'|'error'} state
-     * @param {string} [lookedUpDomain] - When state is 'unavailable', the domain we just looked up (so suggestions use it without reading input).
      */
-    _setDomainStatus(state, lookedUpDomain) {
+    _setDomainStatus(state) {
         const el = document.getElementById('domain-status-indicator');
         if (!el) return;
 
@@ -678,125 +613,31 @@ class DownloadOptionsHandler {
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 domain-status-available" style="color:#16a34a"><polyline points="20 6 9 17 4 12"/></svg>
                 <span class="domain-status-available font-medium" style="color:#16a34a">Available</span>`,
             unavailable: `
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 domain-status-unavailable" style="color:#dc2626"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                <span class="domain-status-unavailable" style="color:#dc2626">Not available.</span>`,
+                <div class="flex items-center gap-2 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 domain-status-unavailable" style="color:#dc2626"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <span class="domain-status-unavailable" style="color:#dc2626">Not available.</span>
+                </div>`,
             invalid: `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" style="color:#d97706"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                <span style="color:#d97706">Enter a full domain (e.g. my-wedding.com)</span>`,
+                <div class="flex items-center gap-2 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" style="color:#d97706"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span style="color:#d97706">Use only letters, numbers and hyphens (e.g. my-wedding)</span>
+                </div>`,
             error: `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" style="color:#9ca3af"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                <span style="color:#9ca3af">Could not check availability. Try again.</span>`,
+                <div class="flex items-center gap-2 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" style="color:#9ca3af"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span style="color:#9ca3af">Could not check availability. Try again.</span>
+                </div>`,
         };
 
         el.innerHTML = states[state] || '';
-
-        const wrapper = document.getElementById('domain-suggestions-wrapper');
-        const listContainer = document.getElementById('domain-suggestions-list');
-        if (wrapper && listContainer) {
-            if (state === 'unavailable') {
-                wrapper.classList.remove('hidden');
-                wrapper.setAttribute('aria-hidden', 'false');
-                this._renderUnavailableSuggestions(lookedUpDomain);
-            } else {
-                wrapper.classList.add('hidden');
-                wrapper.setAttribute('aria-hidden', 'true');
-                listContainer.innerHTML = '';
-                this.chosenSuggestionDomain = null;
-            }
-        }
+        // Pro modal only: show/hide "1 year Free" message when domain is available
+        const benefitEl = document.getElementById('pro-domain-free-year');
+        if (benefitEl) benefitEl.style.display = (state === 'available') ? 'block' : 'none';
     }
 
-    /**
-     * Render the list of domain suggestions below "Not available." (wide spacing, hover highlight, Choose button).
-     * Suggestions are based on: lookedUpDomain (when coming from availability check), or current input slug, or page title.
-     * @param {string} [lookedUpDomain] - Domain we just looked up (e.g. "mywedding.com"); used to derive query so we don't rely on input timing.
-     */
-    _renderUnavailableSuggestions(lookedUpDomain) {
-        const listContainer = document.getElementById('domain-suggestions-list');
-        if (!listContainer) return;
-
-        const pageTitle = (window.pageManagerInstance && window.pageManagerInstance.currentPageTitle) || '';
-        let currentQuery;
-        if (lookedUpDomain && lookedUpDomain.length > 0) {
-            const slug = lookedUpDomain.includes('.') ? lookedUpDomain.substring(0, lookedUpDomain.indexOf('.')) : lookedUpDomain;
-            currentQuery = (slug && slug.length > 0) ? slug : pageTitle;
-        } else {
-            const input = document.getElementById('publish-web-name');
-            const raw = (input && input.value || '').trim();
-            const slug = raw.includes('.') ? raw.substring(0, raw.indexOf('.')) : raw;
-            currentQuery = (slug && slug.length > 0) ? slug : pageTitle;
-        }
-
-        const suggestionsMatchCurrentQuery = this.cachedDomainSuggestionsForTitle === currentQuery;
-        const hasSuggestions = Array.isArray(this.domainSuggestions) && this.domainSuggestions.length > 0;
-
-        if (!suggestionsMatchCurrentQuery) {
-            if (currentQuery) {
-                listContainer.innerHTML = '<p class="domain-suggestions-loading text-[var(--secondary-text)] text-sm py-3">Loading suggestions...</p>';
-                this._fetchSuggestions(currentQuery, () => this._renderUnavailableSuggestions());
-            } else {
-                listContainer.innerHTML = '';
-            }
-            return;
-        }
-
-        if (!hasSuggestions) {
-            listContainer.innerHTML = '<p class="domain-suggestions-empty text-[var(--secondary-text)] text-sm py-3">No available suggestions for this name. Try a different word or variation.</p>';
-            return;
-        }
-
-        const chosen = this.chosenSuggestionDomain;
-        const fragment = document.createDocumentFragment();
-        this.domainSuggestions.forEach((domain) => {
-            const safeDomain = (domain || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-            const isChosen = chosen === domain;
-            const row = document.createElement('div');
-            row.className = 'domain-suggestion-item';
-            row.setAttribute('role', 'listitem');
-            if (isChosen) {
-                row.innerHTML = `
-                    <span class="domain-suggestion-name">${safeDomain}</span>
-                    <span class="domain-suggestion-chosen" aria-label="Chosen"><span class="domain-suggestion-tick-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span>
-                `;
-            } else {
-                row.innerHTML = `
-                    <span class="domain-suggestion-name">${safeDomain}</span>
-                    <button type="button" class="domain-suggestion-choose" data-domain="${safeDomain}" aria-label="Choose ${safeDomain}">Choose</button>
-                `;
-                const chooseBtn = row.querySelector('.domain-suggestion-choose');
-                if (chooseBtn) {
-                    chooseBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        this._chooseSuggestion(domain);
-                    });
-                }
-            }
-            fragment.appendChild(row);
-        });
-        listContainer.innerHTML = '';
-        listContainer.appendChild(fragment);
-    }
-
-    /**
-     * User chose a suggestion: show green tick on that row, enable Publish; do not update the input.
-     * @param {string} domain
-     */
-    _chooseSuggestion(domain) {
-        this.chosenSuggestionDomain = domain;
-        this._updatePublishBtnState(true);
-        this._renderUnavailableSuggestions();
-    }
-
-    /**
-     * Enable or disable the Pro Publish button based on availability.
-     * @param {boolean} enabled
-     */
-    _updatePublishBtnState(enabled) {
-        const btn = document.getElementById('pro-publish-btn');
-        if (!btn) return;
-        btn.disabled = !enabled;
-    }
+    // [DISABLED_FOR_WEDDING_VERSION]: Domain recommendations removed — no suggestions list or Choose flow.
+    // _renderUnavailableSuggestions(lookedUpDomain) { ... }
+    // _chooseSuggestion(domain) { ... }
 
     /**
      * Attach input listener to the Pro modal for real-time availability checks.
@@ -805,10 +646,78 @@ class DownloadOptionsHandler {
         const input = document.getElementById('publish-web-name');
         if (!input) return;
 
-        input.addEventListener('input', () => {
-            this.chosenSuggestionDomain = null;
-            this._checkAvailability();
-        });
+        input.addEventListener('input', () => this._checkAvailability());
+    }
+
+    // ─── Free user: subdomain slug availability (DB check) ─────────────
+
+    /**
+     * Check subdomain slug availability against the database (no other page has this share_slug).
+     * Shows "Checking availability..." then Available / Not available, same as Pro.
+     * @param {string} [slugOrFull] - If provided, use as slug; otherwise read from publish-web-name input.
+     */
+    _checkSubdomainAvailability(slugOrFull) {
+        const input = document.getElementById('publish-web-name');
+        let slug = (slugOrFull != null ? slugOrFull : (input && input.value) || '').trim();
+        slug = slug.replace(/\s+/g, '-').toLowerCase();
+
+        this.domainAvailable = false;
+        this._updatePublishBtnState(false);
+
+        if (!slug) {
+            this._setDomainStatus('idle');
+            return;
+        }
+
+        if (!/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/i.test(slug)) {
+            this._setDomainStatus('invalid');
+            return;
+        }
+
+        this._setDomainStatus('loading');
+
+        if (this._availabilityTimer) clearTimeout(this._availabilityTimer);
+        this._availabilityTimer = setTimeout(() => {
+            const pageId = this.publishPageIdOverride || (window.pageManagerInstance && window.pageManagerInstance.currentPageId);
+            const clerkUserId = window.serverUserData && window.serverUserData.clerk_user_id;
+            if (!clerkUserId) {
+                this._setDomainStatus('error');
+                return;
+            }
+            fetch('./api/pages.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'check-subdomain',
+                    share_slug: slug,
+                    id: pageId || undefined,
+                    clerk_user_id: clerkUserId
+                })
+            })
+                .then(function (res) { return res.json(); })
+                .then((data) => {
+                    if (!data.success) {
+                        this._setDomainStatus('error');
+                        return;
+                    }
+                    this.domainAvailable = !!data.available;
+                    this._setDomainStatus(this.domainAvailable ? 'available' : 'unavailable');
+                    this._updatePublishBtnState(this.domainAvailable);
+                })
+                .catch(() => {
+                    this._setDomainStatus('error');
+                });
+        }, 600);
+    }
+
+    /**
+     * Attach input listener to the free-user modal for real-time slug availability checks.
+     */
+    _initFreeSubdomainModal() {
+        const input = document.getElementById('publish-web-name');
+        if (!input) return;
+        input.addEventListener('input', () => this._checkSubdomainAvailability());
+        this._checkSubdomainAvailability();
     }
 
     // ─── End Pro Domain Logic ────────────────────────────────────────
@@ -826,7 +735,7 @@ class DownloadOptionsHandler {
     /**
      * Publish page.
      * Non-PRO: subdomain (slug.yeslovey.com) via publish-subdomain action.
-     * PRO: custom domain (slug.com) via publish-domain action — requires domain availability confirmed.
+     * PRO: custom domain (slug.com) — Step 1 validates domain, then transitions to Step 2a (owner form).
      */
     publishPage() {
         console.log('publishPage() called');
@@ -850,47 +759,43 @@ class DownloadOptionsHandler {
 
         const input = document.getElementById('publish-web-name');
         const webName = (input && input.value.trim()) || '';
-        const domainToPublish = (isPro && this.chosenSuggestionDomain) ? this.chosenSuggestionDomain : webName;
-        if (!domainToPublish) {
-            alert('Please enter a name for your website or choose a domain from the list.');
+        if (!webName) {
+            alert('Please enter a name for your website.');
             if (input) input.focus();
             return;
         }
 
-        let publishAction, payload;
         if (isPro) {
-            const fullDomain = domainToPublish.toLowerCase();
-            if (!fullDomain.includes('.')) {
-                alert('Please enter a full domain (e.g. my-wedding.com) or choose one from the list.');
+            // Step 1 → Step 2a: store pending domain, show owner details form
+            let slug = webName.toLowerCase().trim();
+            if (slug.endsWith('.com')) slug = slug.slice(0, -4).trim();
+            if (!slug) {
+                alert('Please enter a name for your domain.');
                 if (input) input.focus();
                 return;
             }
-
-            const allowedByAvailability = this.domainAvailable;
-            const allowedByChosenSuggestion = this.chosenSuggestionDomain && this.chosenSuggestionDomain.toLowerCase() === fullDomain;
-            if (!allowedByAvailability && !allowedByChosenSuggestion) {
-                alert('Please wait for the domain availability check to complete, or choose an available domain from the list.');
+            if (!this.domainAvailable) {
+                alert('Please wait for the domain availability check to complete, or choose an available name.');
                 return;
             }
-
-            const slugFromDomain = fullDomain.substring(0, fullDomain.indexOf('.'));
-            publishAction = 'publish-domain';
-            payload = {
-                action: publishAction,
-                id: pageId,
-                clerk_user_id: clerkUserId,
-                domain: fullDomain,
-                share_slug: slugFromDomain
-            };
-        } else {
-            publishAction = 'publish-subdomain';
-            payload = {
-                action: publishAction,
-                id: pageId,
-                clerk_user_id: clerkUserId,
-                share_slug: webName
-            };
+            this._pendingDomain = slug + '.com';
+            this._pendingSlug   = slug;
+            this._showOwnerForm();
+            return;
         }
+
+        // Free user: publish directly with subdomain
+        if (!this.domainAvailable) {
+            alert('Please wait for the availability check to complete, or choose an available name.');
+            return;
+        }
+        const slug = webName.replace(/\s+/g, '-').toLowerCase().trim();
+        const payload = {
+            action: 'publish-subdomain',
+            id: pageId,
+            clerk_user_id: clerkUserId,
+            share_slug: slug
+        };
 
         console.log('Publish: sending POST to api/pages.php', payload);
 
@@ -908,6 +813,214 @@ class DownloadOptionsHandler {
             });
 
         this._showPublishProgress(apiPromise);
+    }
+
+    /**
+     * Step 2a: Replace modal content with the domain owner details form.
+     * Called after the user confirms domain availability in Step 1 (Pro flow).
+     */
+    _showOwnerForm() {
+        const modal = document.getElementById('download-options-modal');
+        const contentEl = modal ? modal.querySelector('.download-options-modal-content') : null;
+        if (!contentEl) return;
+        contentEl.innerHTML = this._buildOwnerFormHTML();
+        // Widen modal for Step 2a so the form fits better on screen
+        contentEl.classList.remove('max-w-lg');
+        contentEl.classList.add('max-w-2xl');
+        // Enable/disable CTA based on checkbox state
+        const form = contentEl.querySelector('#publish-owner-form');
+        if (form) {
+            form.addEventListener('change', () => {
+                const chk1 = form.querySelector('#pub-owner-confirm');
+                const chk2 = form.querySelector('#pub-owner-terms');
+                const btn  = form.querySelector('#pub-owner-submit-btn');
+                if (btn) btn.disabled = !(chk1 && chk1.checked && chk2 && chk2.checked);
+            });
+        }
+    }
+
+    /**
+     * Build the Step 2a HTML: domain owner details form.
+     */
+    _buildOwnerFormHTML() {
+        const domain = (this._pendingDomain || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return `
+            <div class="p-8 relative publish-owner-form-view">
+                <!-- Back button -->
+                <button onclick="window.downloadOptionsHandler._goBackToStep1()" aria-label="Back" class="absolute top-4 left-4 w-8 h-8 flex items-center justify-center rounded-full transition-all hover:bg-[var(--accent-bg)] text-[var(--secondary-text)] hover:text-[var(--primary-text)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <!-- Close button -->
+                <button onclick="window.downloadOptionsHandler.closeModal()" aria-label="Close" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full transition-all hover:bg-[var(--accent-bg)] text-[var(--secondary-text)] hover:text-[var(--primary-text)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+
+                <form id="publish-owner-form" onsubmit="event.preventDefault(); window.downloadOptionsHandler._submitOwnerForm();" autocomplete="on">
+                    <!-- Free badge (centered) -->
+                    <div class="flex justify-center mb-2">
+                        <div class="pub-owner-badge">🎉 Free custom domain included!</div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-[var(--primary-text)] mb-2 pr-8">Domain Owner Details</h2>
+                    <p class="pub-owner-subtitle mb-5">This information will be used to register <strong>${domain}</strong>.</p>
+
+                    <div class="pub-owner-row">
+                        <div class="pub-owner-group">
+                            <label for="pub-owner-first">First name</label>
+                            <input type="text" id="pub-owner-first" name="first_name" placeholder="John" required autocomplete="given-name">
+                        </div>
+                        <div class="pub-owner-group">
+                            <label for="pub-owner-last">Last name</label>
+                            <input type="text" id="pub-owner-last" name="last_name" placeholder="Doe" required autocomplete="family-name">
+                        </div>
+                    </div>
+
+                    <div class="pub-owner-row">
+                        <div class="pub-owner-group">
+                            <label for="pub-owner-email">Email</label>
+                            <input type="email" id="pub-owner-email" name="email" placeholder="john@example.com" required autocomplete="email">
+                        </div>
+                        <div class="pub-owner-group">
+                            <label for="pub-owner-phone">Phone</label>
+                            <input type="tel" id="pub-owner-phone" name="phone" placeholder="+1 555 000 0000" required autocomplete="tel">
+                        </div>
+                    </div>
+
+                    <div class="pub-owner-row">
+                        <div class="pub-owner-group">
+                            <label for="pub-owner-address">Address</label>
+                            <input type="text" id="pub-owner-address" name="address" placeholder="123 Main St, City, Country" required autocomplete="street-address">
+                        </div>
+                    </div>
+
+                    <div class="pub-owner-row">
+                        <div class="pub-owner-group">
+                            <label for="pub-owner-org">Organization <span class="pub-owner-optional">(optional)</span></label>
+                            <input type="text" id="pub-owner-org" name="organization" placeholder="Company name" autocomplete="organization">
+                        </div>
+                    </div>
+
+                    <div class="pub-owner-checkboxes">
+                        <div class="pub-owner-checkbox-row">
+                            <input type="checkbox" id="pub-owner-confirm">
+                            <label for="pub-owner-confirm">I confirm these details are accurate and belong to the domain owner.</label>
+                        </div>
+                        <div class="pub-owner-checkbox-row">
+                            <input type="checkbox" id="pub-owner-terms">
+                            <label for="pub-owner-terms">I agree to the <a href="./domain-registration-terms-yeslovey.html" target="_blank" rel="noopener">Domain Registration Terms</a></label>
+                        </div>
+                    </div>
+
+                    <div id="pub-owner-error" class="pub-owner-error hidden" role="alert"></div>
+
+                    <button type="submit" id="pub-owner-submit-btn" class="pub-owner-submit-btn" disabled>
+                        Register domain and publish
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </button>
+                </form>
+            </div>
+        `;
+    }
+
+    /**
+     * Go back from Step 2a to Step 1 (rebuild Pro domain modal).
+     */
+    _goBackToStep1() {
+        // Rebuild Step 1 modal and pre-fill the domain slug
+        this.closeModal();
+        document.body.insertAdjacentHTML('beforeend', this._buildProDomainModalHTML());
+        this._initProDomainModal();
+        const input = document.getElementById('publish-web-name');
+        if (input && this._pendingSlug) {
+            input.value = this._pendingSlug;
+            this._checkAvailability();
+        }
+    }
+
+    /**
+     * Step 2a → Step 2b: collect form data, validate, fire API, show progress bar.
+     */
+    _submitOwnerForm() {
+        const pageId      = this.publishPageIdOverride || (window.pageManagerInstance && window.pageManagerInstance.currentPageId);
+        const clerkUserId = window.serverUserData && window.serverUserData.clerk_user_id;
+
+        if (!pageId || !clerkUserId) {
+            alert('Session error. Please reload and try again.');
+            return;
+        }
+
+        const get = (id) => {
+            const el = document.getElementById(id);
+            return el ? el.value.trim() : '';
+        };
+
+        const firstName = get('pub-owner-first');
+        const lastName  = get('pub-owner-last');
+        const email     = get('pub-owner-email');
+        const phone     = get('pub-owner-phone');
+        const address   = get('pub-owner-address');
+        const org       = get('pub-owner-org');
+
+        if (!firstName || !lastName || !email || !phone || !address) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        const payload = {
+            action:       'publish-domain',
+            id:           pageId,
+            clerk_user_id: clerkUserId,
+            domain:       this._pendingDomain,
+            share_slug:   this._pendingSlug,
+            contact: {
+                first_name:   firstName,
+                last_name:    lastName,
+                email:        email,
+                phone:        phone,
+                address:      address,
+                organization: org
+            }
+        };
+
+        console.log('Pro publish: sending POST to api/pages.php', payload);
+
+        // Build the real API promise — progress bar starts immediately and reacts when this resolves
+        const apiPromise = fetch('./api/pages.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (result) {
+                if (!result.success || !result.share_url) {
+                    throw new Error(result.error || 'Registration failed. Please check your details and try again.');
+                }
+                return { shareUrl: result.share_url, shareSlug: result.share_slug || '', isPro: true };
+            });
+
+        // Show progress bar straight away; it will react live when the promise settles
+        this._showPublishProgress(apiPromise, 'pro');
+    }
+
+    /**
+     * Show error badge above the Register button (Step 2a) when domain registration fails.
+     * @param {string} message - Error text to display
+     */
+    _showOwnerFormError(message) {
+        const el = document.getElementById('pub-owner-error');
+        if (!el) return;
+        el.textContent = message || 'Please review your data and try again.';
+        el.classList.remove('hidden');
+    }
+
+    /**
+     * Hide the registration error badge on the owner form.
+     */
+    _hideOwnerFormError() {
+        const el = document.getElementById('pub-owner-error');
+        if (!el) return;
+        el.textContent = '';
+        el.classList.add('hidden');
     }
 
     /**
@@ -982,11 +1095,14 @@ class DownloadOptionsHandler {
 
     /**
      * Animated publish progress flow inside the modal.
-     * Shows a 15-second progress bar with changing status titles,
-     * then transitions to a success screen with confetti.
-     * @param {Promise} apiPromise - The fetch promise that resolves with {shareUrl, shareSlug}
+     * For the Pro domain flow (context='pro'): bar advances through real stages and reacts
+     * immediately when the API promise settles (success → finish, error → inline error state).
+     * For the free flow: keeps the original fake 9-second animation.
+     * @param {Promise} apiPromise  - Resolves with {shareUrl, shareSlug, isPro?} or rejects with Error
+     * @param {string}  [context]   - 'pro' for the custom domain Pro flow; omit for free subdomain
      */
-    _showPublishProgress(apiPromise) {
+    _showPublishProgress(apiPromise, context) {
+        const isPro = context === 'pro';
         const modal = document.getElementById('download-options-modal');
         const contentEl = modal ? modal.querySelector('.download-options-modal-content') : null;
 
@@ -999,62 +1115,119 @@ class DownloadOptionsHandler {
             return;
         }
 
+        const firstTitle = isPro ? 'Checking domain availability...' : 'Preparing your design...';
         contentEl.innerHTML = `
             <div class="p-8 relative publish-progress-view">
-                <h2 id="publish-progress-title" class="text-xl font-bold text-[var(--primary-text)] mb-1 text-center">Preparing your design...</h2>
+                <h2 id="publish-progress-title" class="text-xl font-bold text-[var(--primary-text)] mb-1 text-center">${firstTitle}</h2>
                 <div class="publish-progress-bar-track">
-                    <div id="publish-progress-bar-fill" class="publish-progress-bar-fill"></div>
+                    <div id="publish-progress-bar-fill" class="publish-progress-bar-fill" style="width:0%"></div>
                 </div>
                 <p id="publish-progress-quote" class="text-sm text-[var(--secondary-text)] text-center mt-4" style="font-style:italic;">
-                    \u201CA good design is a good business\u201D. <strong>Thomas Watson Jr.</strong>
+                    ${isPro ? 'This may take a few seconds&hellip;' : '\u201CA good design is a good business\u201D. <strong>Thomas Watson Jr.</strong>'}
                 </p>
             </div>
         `;
 
-        const TOTAL_DURATION = 9000;
-        const stages = [
-            { at: 0,   title: 'Verifying...' },
-            { at: 2500, title: 'Activating...' },
-            { at: 5500, title: 'Almost there...' },
-            { at: 8000, title: 'Completed!' }
-        ];
-
         const titleEl = document.getElementById('publish-progress-title');
         const barFill = document.getElementById('publish-progress-bar-fill');
-        const startTime = Date.now();
-        let stageIdx = 0;
 
-        barFill.style.transition = 'none';
-        barFill.offsetHeight;
-        barFill.style.transition = `width ${TOTAL_DURATION}ms cubic-bezier(0.4, 0, 0.2, 1)`;
-        barFill.style.width = '100%';
+        // ── Pro: stages tied to real operations, bar stops at ~82% and waits for the API
+        const proStages = [
+            { at: 0,    pct: 5,  dur: 500,  title: 'Checking domain availability...' },
+            { at: 1800, pct: 35, dur: 1500, title: 'Processing your purchase...' },
+            { at: 5000, pct: 65, dur: 2000, title: 'Registering your domain...' },
+            { at: 9000, pct: 82, dur: 3000, title: 'Setting up your website...' },
+        ];
 
-        const stageTimers = stages.map(s => {
-            return setTimeout(() => {
-                if (titleEl) titleEl.textContent = s.title;
-            }, s.at);
+        // ── Free: original fake 9-second fill (unchanged behaviour)
+        const freeStages = [
+            { at: 0,    pct: 10, dur: 800,  title: 'Verifying...' },
+            { at: 2500, pct: 60, dur: 1500, title: 'Activating...' },
+            { at: 5500, pct: 88, dur: 1500, title: 'Almost there...' },
+            { at: 8000, pct: 95, dur: 800,  title: 'Completed!' },
+        ];
+
+        const stages = isPro ? proStages : freeStages;
+
+        const stageTimers = stages.map(s => setTimeout(() => {
+            if (titleEl) titleEl.textContent = s.title;
+            barFill.style.transition = `width ${s.dur}ms ease-out`;
+            barFill.style.width = s.pct + '%';
+        }, s.at));
+
+        const cleanup = () => stageTimers.forEach(clearTimeout);
+
+        if (isPro) {
+            // React immediately when the real API promise settles
+            apiPromise
+                .then(data => {
+                    cleanup();
+                    barFill.style.transition = 'width 0.4s ease-in-out';
+                    barFill.style.width = '100%';
+                    if (titleEl) titleEl.textContent = 'Done!';
+                    setTimeout(() => this._finishPublish(data, contentEl), 500);
+                })
+                .catch(err => {
+                    cleanup();
+                    this._showProgressError(contentEl, err && err.message);
+                });
+        } else {
+            // Free flow: keep old behaviour (wait for 9-second animation, then react)
+            const TOTAL_DURATION = 9000;
+            let apiResult = null;
+            let apiError = null;
+            let progressDone = false;
+
+            apiPromise
+                .then(data => { apiResult = data; if (progressDone) this._finishPublish(apiResult, contentEl); })
+                .catch(err => { apiError = err; if (progressDone) this._handlePublishError(apiError); });
+
+            setTimeout(() => {
+                progressDone = true;
+                if (apiError) {
+                    this._handlePublishError(apiError);
+                } else if (apiResult) {
+                    this._finishPublish(apiResult, contentEl);
+                } else {
+                    apiPromise
+                        .then(data => { this._finishPublish(data, contentEl); })
+                        .catch(err => { this._handlePublishError(err); });
+                }
+            }, TOTAL_DURATION);
+        }
+    }
+
+    /**
+     * Show an inline error state inside the progress view (Pro flow only).
+     * Displays a red X, the error message, and a button to return to the owner form (Step 2a).
+     * @param {HTMLElement} contentEl
+     * @param {string}      [message]
+     */
+    _showProgressError(contentEl, message) {
+        const safeMsg = (message || 'The registration could not be completed.').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        contentEl.innerHTML = `
+            <div class="p-8 relative publish-progress-error-view text-center">
+                <div class="pub-progress-error-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-[var(--primary-text)] mt-4 mb-2">Something went wrong</h2>
+                <p class="text-sm text-[var(--secondary-text)] mb-1">${safeMsg}</p>
+                <p class="text-sm font-medium text-[var(--secondary-text)] mb-6">Check your data and try again.</p>
+                <button id="pub-progress-retry-btn" class="pub-owner-submit-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    Review your details
+                </button>
+            </div>
+        `;
+        const btn = contentEl.querySelector('#pub-progress-retry-btn');
+        if (btn) btn.addEventListener('click', () => {
+            // Shrink back to narrow modal before showing Step 2a form
+            contentEl.classList.remove('max-w-lg');
+            contentEl.classList.add('max-w-2xl');
+            this._showOwnerForm();
         });
-
-        let apiResult = null;
-        let apiError = null;
-        let progressDone = false;
-
-        apiPromise
-            .then(data => { apiResult = data; if (progressDone) this._finishPublish(apiResult, contentEl); })
-            .catch(err => { apiError = err; if (progressDone) this._handlePublishError(apiError); });
-
-        setTimeout(() => {
-            progressDone = true;
-            if (apiError) {
-                this._handlePublishError(apiError);
-            } else if (apiResult) {
-                this._finishPublish(apiResult, contentEl);
-            } else {
-                apiPromise
-                    .then(data => { this._finishPublish(data, contentEl); })
-                    .catch(err => { this._handlePublishError(err); });
-            }
-        }, TOTAL_DURATION);
     }
 
     /**
@@ -1070,7 +1243,7 @@ class DownloadOptionsHandler {
             fetchAndRenderPagesList();
         }
         this.publishPageIdOverride = null;
-        this._showPublishSuccess(data.shareUrl, contentEl);
+        this._showPublishSuccess(data.shareUrl, contentEl, !!data.isPro);
     }
 
     /**
@@ -1089,12 +1262,30 @@ class DownloadOptionsHandler {
 
     /**
      * Show the success view inside the modal with confetti, domain field & View Site button.
+     * Pro flow shows a "domain being registered" message with email verification note.
+     * @param {string} publishedUrl
+     * @param {HTMLElement} contentEl
+     * @param {boolean} [isPro] - Whether this is the Pro custom domain flow
      */
-    _showPublishSuccess(publishedUrl, contentEl) {
+    _showPublishSuccess(publishedUrl, contentEl, isPro) {
         // Ensure we copy the published URL (subdomain or custom domain), never the token link
         const urlToCopy = publishedUrl && publishedUrl.startsWith('http') ? publishedUrl : ('https://' + (publishedUrl || '').replace(/^https?:\/\//, ''));
         const safeUrl = urlToCopy.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         const displayDomain = urlToCopy.replace(/^https?:\/\//, '');
+
+        const headingHTML = isPro
+            ? `<h2 class="text-2xl font-bold text-[var(--primary-text)]">Your domain is being registered! 🎉</h2>
+               <p class="publish-success-email-verify text-base mt-2">Please check your email to verify the domain owner.</p>
+               <p class="text-sm text-[var(--secondary-text)] mt-1 italic">Note: this verification is required to keep the domain active.</p>`
+            : `<h2 class="text-2xl font-bold text-[var(--primary-text)]">Your website has been published \ud83c\udf89</h2>`;
+
+        const domainFieldClass = isPro ? 'publish-success-domain-field publish-success-domain-field--half' : 'publish-success-domain-field';
+        const hoursNoteHTML = isPro
+            ? `<p class="publish-success-hours-note flex items-center justify-center gap-2 text-sm text-[var(--secondary-text)] mt-4">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                 It can take between 1-24 hours for your website to be active
+               </p>`
+            : '';
 
         contentEl.innerHTML = `
             <div class="p-8 relative publish-success-view">
@@ -1105,21 +1296,28 @@ class DownloadOptionsHandler {
                 </button>
 
                 <div class="text-center mb-6">
-                    <h2 class="text-2xl font-bold text-[var(--primary-text)]">Your website has been published \ud83c\udf89</h2>
+                    ${headingHTML}
                 </div>
 
-                <div class="publish-success-domain-field" data-publish-success-url="${safeUrl}">
-                    <span class="publish-success-domain-text">${displayDomain}</span>
-                    <button type="button" id="publish-success-copy-btn" class="publish-success-copy-btn" aria-label="Copy link" data-tippy-content="Copy link" data-copy-url="${safeUrl}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                    </button>
+                <div class="w-full flex flex-col items-center">
+                    <div class="${domainFieldClass}" data-publish-success-url="${safeUrl}">
+                        <span class="publish-success-domain-text">${displayDomain}</span>
+                        <button type="button" id="publish-success-copy-btn" class="publish-success-copy-btn" aria-label="Copy link" data-tippy-content="Copy link" data-copy-url="${safeUrl}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        </button>
+                    </div>
                 </div>
 
                 <a href="${safeUrl}" target="_blank" rel="noopener" id="publish-success-view-btn" class="publish-success-view-btn">
-                    View Site
+                    View Website
                 </a>
+                ${hoursNoteHTML}
             </div>
         `;
+
+        // Success view: use narrow modal (do not use max-w-2xl)
+        contentEl.classList.remove('max-w-2xl');
+        contentEl.classList.add('max-w-lg');
 
         const copyBtn = contentEl.querySelector('#publish-success-copy-btn');
         if (copyBtn) {
@@ -1316,6 +1514,9 @@ class DownloadOptionsHandler {
             menu.classList.remove('open');
             menu.setAttribute('aria-hidden', 'true');
         }
+        // Hide Share Link button when published (link is available from Published dropdown)
+        const shareBtn = document.getElementById('share-page');
+        if (shareBtn) shareBtn.style.display = 'none';
         if (typeof lucide !== 'undefined' && lucide.createIcons) {
             lucide.createIcons();
         }
@@ -1328,12 +1529,7 @@ class DownloadOptionsHandler {
     setPublishMode(previousSlug) {
         this.previousSlug = previousSlug || null;
         this.publishPageIdOverride = null;
-        this.cachedDomainSuggestions = null;
-        this.cachedDomainSuggestionsForTitle = null;
-        this.domainSuggestions = [];
-        this.suggestionIndex = 0;
         this.domainAvailable = false;
-        this.chosenSuggestionDomain = null;
         const btn = document.getElementById('download-page');
         const viewWebsiteLink = document.getElementById('topbar-view-website-link');
         const wrap = document.getElementById('publish-dropdown-wrap');
@@ -1369,6 +1565,9 @@ class DownloadOptionsHandler {
                 lucide.createIcons();
             }
         }
+        // Show Share Link button again when unpublished
+        const shareBtn = document.getElementById('share-page');
+        if (shareBtn) shareBtn.style.display = '';
     }
 
     /**

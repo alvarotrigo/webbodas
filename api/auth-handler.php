@@ -62,10 +62,27 @@ try {
         }
         
     } elseif ($method === 'GET') {
-        // Return current user status
+        // Return current user status (including pages_count / first_page_id for redirect logic)
         $userStatus = getUserStatusSummary();
         $userStatus['mode'] = getUserMode();
-        
+        $userStatus['pages_count'] = 0;
+        $userStatus['first_page_id'] = null;
+        $clerkUserId = $_SESSION['clerk_user_id'] ?? null;
+        if ($clerkUserId && isUserAuthenticated()) {
+            try {
+                $supabase = getSupabaseClient();
+                $userResult = $supabase->select('users', 'id', ['clerk_user_id' => $clerkUserId]);
+                $userId = (!empty($userResult) && isset($userResult[0]['id'])) ? $userResult[0]['id'] : null;
+                if ($userId) {
+                    $pages = $supabase->select('user_pages', 'id', ['user_id' => $userId, 'order' => 'last_accessed.desc']);
+                    $pages = is_array($pages) ? $pages : [];
+                    $userStatus['pages_count'] = count($pages);
+                    $userStatus['first_page_id'] = $userStatus['pages_count'] > 0 && isset($pages[0]['id']) ? $pages[0]['id'] : null;
+                }
+            } catch (Exception $e) {
+                error_log("Auth handler GET - Error fetching pages summary: " . $e->getMessage());
+            }
+        }
         echo json_encode([
             'success' => true,
             'data' => $userStatus
@@ -184,7 +201,23 @@ function handleAuthentication($input) {
     if ($clerkUserId) {
         $_SESSION['clerk_user_id'] = $clerkUserId;
     }
-    
+
+    // Get pages_count and first_page_id for post-login redirect logic
+    $pagesCount = 0;
+    $firstPageId = null;
+    try {
+        $supabase = getSupabaseClient();
+        $userResult = $supabase->select('users', 'id', ['clerk_user_id' => $clerkUserId]);
+        $userId = (!empty($userResult) && isset($userResult[0]['id'])) ? $userResult[0]['id'] : null;
+        if ($userId) {
+            $pages = $supabase->select('user_pages', 'id', ['user_id' => $userId, 'order' => 'last_accessed.desc']);
+            $pages = is_array($pages) ? $pages : [];
+            $pagesCount = count($pages);
+            $firstPageId = $pagesCount > 0 && isset($pages[0]['id']) ? $pages[0]['id'] : null;
+        }
+    } catch (Exception $e) {
+        error_log("Auth handler - Error fetching pages summary: " . $e->getMessage());
+    }
 
     // Return authentication result
     echo json_encode([
@@ -197,7 +230,9 @@ function handleAuthentication($input) {
             'mode' => $paidStatus['is_paid'] ? 'paid' : 'authenticated',
             'subscription' => $paidStatus['status'] === 'paid' ? $paidStatus : null,
             'clerk_user_id' => $clerkUserId,
-            'avatar_url' => $sanitizedAvatar
+            'avatar_url' => $sanitizedAvatar,
+            'pages_count' => $pagesCount,
+            'first_page_id' => $firstPageId
         ]
     ]);
 }

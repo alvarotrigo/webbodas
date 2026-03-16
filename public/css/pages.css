@@ -216,6 +216,16 @@ body {
     background: #f0f7ff;
 }
 
+.page-card.new-page.new-page--disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.page-card.new-page.new-page--disabled:hover {
+    border-color: #d2d2d7;
+    background: #fafafa;
+}
+
 .new-page-content {
     text-align: center;
     padding: 40px 20px;

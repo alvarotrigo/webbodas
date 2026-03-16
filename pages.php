@@ -9,11 +9,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// [DISABLED_FOR_WEDDING_VERSION]: pages.php is no longer part of the user flow.
-// Users are now directed to app.php directly after login.
-header('Location: ./app.php');
-exit;
-
 require_once __DIR__ . '/includes/clerk-auth.php';
 require_once __DIR__ . '/config/polar.php';
 
@@ -104,6 +99,12 @@ $userEmail       = $serverUserData['email'] ?? null;
 $userName        = $serverUserData['name'] ?? null;
 $clerkUserId     = $serverUserData['clerk_user_id'] ?? null;
 $isPaid          = $serverUserData['is_paid'] ?? false;
+
+// Simulate PRO when ?pro=1 (testing only; no effect in production)
+if (!empty($_GET['pro']) && $_GET['pro'] === '1' && $serverUserData) {
+    $serverUserData['is_paid'] = true;
+    $isPaid = true;
+}
 
 // Fallback: try to get clerk_user_id directly from session if not in serverUserData
 if (!$clerkUserId && isset($_SESSION['clerk_user_id'])) {
@@ -215,23 +216,6 @@ if (!$isAuthenticated || !$clerkUserId) {
     }
     
     header('Location: ' . $basePath . '/signin/');
-    exit;
-}
-
-// If user has no pages, redirect to app.php to create their first page
-// Only redirect if not already coming from a specific action (like editing a page)
-if (empty($userPages) && !isset($_GET['page']) && !isset($_GET['action'])) {
-    error_log("pages.php - User has no pages, redirecting to app.php");
-    
-    // Detect base path (works for both local and production)
-    $basePath = '';
-    $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-    if (strpos($scriptName, '/nine-screen-canvas-flow/') !== false) {
-        // Local development
-        $basePath = '/nine-screen-canvas-flow';
-    }
-    
-    header('Location: ' . $basePath . '/app.php');
     exit;
 }
 
@@ -491,13 +475,14 @@ $userDataJson = json_encode($serverUserData);
                 <div class="empty-state-icon">📄</div>
                 <h2 class="empty-state-title">No webpages yet</h2>
                 <p class="empty-state-text">Create your first webpage to get started</p>
-                <button class="btn btn-primary" onclick="createNewPage()">Create Your First Webpage</button>
+                <a href="app.php" class="btn btn-primary">Create Your First Webpage</a>
             </div>
         <?php else: ?>
+            <?php $freeUserAtLimit = !$isPaid && count($userPages) >= 1; ?>
             <!-- Pages Grid -->
             <div class="pages-grid">
-                <!-- New Page Card -->
-                <div class="page-card new-page" onclick="createNewPage()">
+                <!-- New Page Card (free user at limit: click opens upgrade popup; hover shows "Upgrade to Pro") -->
+                <div class="page-card new-page" <?php echo $freeUserAtLimit ? 'title="Upgrade to Pro"' : ''; ?> onclick="createNewPage()" role="button" aria-label="<?php echo $freeUserAtLimit ? 'Upgrade to Pro to create more than one webpage' : 'Create new webpage'; ?>">
                     <div class="new-page-content">
                         <div class="new-page-icon">+</div>
                         <div class="new-page-text">new webpage</div>

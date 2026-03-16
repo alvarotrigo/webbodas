@@ -113,6 +113,25 @@ try {
         ]);
         if (!empty($result)) {
             $document = $result[0];
+        } else {
+            // If no published page was found for this slug, check whether it is an unpublished
+            // Pro custom-domain page (share_slug contains a dot, e.g. "mi-boda.com").
+            // Free subdomain slugs (no dot) are simply deleted on unpublish, so no record remains.
+            if (strpos($shareSlug, '.') !== false) {
+                $unavailableResult = $mysqlClient->select('user_pages', 'id, share_slug', [
+                    'share_slug' => $shareSlug,
+                    'is_public'  => 0
+                ]);
+                if (!empty($unavailableResult)) {
+                    http_response_code(503);
+                    header('Retry-After: 3600');
+                    echo json_encode([
+                        'unavailable' => true,
+                        'error'       => 'This website is temporarily unavailable.'
+                    ]);
+                    exit();
+                }
+            }
         }
     }
 

@@ -155,35 +155,29 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 20px;
+  padding: 20px 24px;
 }
 
 .kpi-header {
   display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.kpi-left {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  align-items: stretch;
+  gap: 12px;
 }
 
 .kpi-icon-circle {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  width: 64px;
+  min-height: 72px;
+  border-radius: 16px;
   flex-shrink: 0;
+  align-self: stretch;
 }
 
 .kpi-icon-circle svg {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
 }
 
 /* Icon circle colors - translucent backgrounds */
@@ -200,12 +194,10 @@ body {
   color: var(--red);
 }
 
-.kpi-text-below {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  text-align: center;
+.kpi-number-label {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
 }
 
 .kpi-number-right {
@@ -213,6 +205,14 @@ body {
   font-size: 72px;
   font-weight: 700;
   line-height: 1;
+}
+
+.kpi-text-below {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding-bottom: 6px;
 }
 
 /* Colores para los números */
@@ -554,36 +554,36 @@ tbody.filtering { opacity: 0.5; }
   <div class="kpi-row">
     <div class="kpi-card card-gray">
       <div class="kpi-header">
-        <div class="kpi-left">
-          <div class="kpi-icon-circle">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          </div>
+        <div class="kpi-icon-circle">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div class="kpi-number-label">
+          <div class="kpi-number-right" id="totalCount">0</div>
           <div class="kpi-text-below">Responses</div>
         </div>
-        <div class="kpi-number-right" id="totalCount">0</div>
       </div>
     </div>
     <div class="kpi-card card-green">
       <div class="kpi-header">
-        <div class="kpi-left">
-          <div class="kpi-icon-circle">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
+        <div class="kpi-icon-circle">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="kpi-number-label">
+          <div class="kpi-number-right" id="acceptedCount">0</div>
           <div class="kpi-text-below">Attending</div>
         </div>
-        <div class="kpi-number-right" id="acceptedCount">0</div>
         <div class="kpi-breakdown" id="attendingBreakdown"></div>
       </div>
     </div>
     <div class="kpi-card card-red">
       <div class="kpi-header">
-        <div class="kpi-left">
-          <div class="kpi-icon-circle">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </div>
+        <div class="kpi-icon-circle">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+        <div class="kpi-number-label">
+          <div class="kpi-number-right" id="declinedCount">0</div>
           <div class="kpi-text-below">Declining</div>
         </div>
-        <div class="kpi-number-right" id="declinedCount">0</div>
       </div>
     </div>
   </div>

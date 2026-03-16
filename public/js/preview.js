@@ -615,6 +615,18 @@ function addSection(sectionNumber, html, animationsEnabled, skipScroll = false, 
         sectionElement.innerHTML = html;
     }
     
+    // Clean stale inline editor artifacts (present when HTML comes from undo/redo serialization).
+    // Note: querySelectorAll only matches descendants, so attrs on sectionElement itself must be
+    // removed directly (e.g. data-countdown-editor-initialized lives on the <section> itself).
+    sectionElement.querySelectorAll('.map-pointer-overlay, .map-edit-btn').forEach(el => el.remove());
+    sectionElement.querySelectorAll('.map-container').forEach(c => c.removeAttribute('data-map-editor-initialized'));
+    sectionElement.querySelectorAll('.countdown-edit-btn').forEach(el => el.remove());
+    sectionElement.removeAttribute('data-countdown-editor-initialized');
+    sectionElement.querySelectorAll('.countdown-edit-container').forEach(el => el.classList.remove('countdown-edit-container'));
+
+    // Remove stale section-menus from stored HTML (a fresh one is always created below)
+    sectionElement.querySelectorAll('.section-menu').forEach(el => el.remove());
+
     // Add the section class and data attribute to the section element itself
     sectionElement.classList.add('section');
     sectionElement.setAttribute('data-section', sectionNumber);
@@ -707,6 +719,23 @@ function addSection(sectionNumber, html, animationsEnabled, skipScroll = false, 
         setTimeout(() => {
             window.removableElementsManager.initForSection(sectionElement);
         }, 100);
+    }
+    
+    // Initialize inline map and countdown editors for the new section.
+    // Called explicitly (the init functions have their own idempotency guards).
+    if (window.inlineMapEditor && typeof window.inlineMapEditor.initContainer === 'function') {
+        setTimeout(() => {
+            sectionElement.querySelectorAll('.map-container').forEach(container => {
+                window.inlineMapEditor.initContainer(container);
+            });
+        }, 50);
+    }
+    if (window.inlineCountdownEditor && typeof window.inlineCountdownEditor.initCountdownSection === 'function') {
+        setTimeout(() => {
+            if (sectionElement.classList.contains('countdown-section')) {
+                window.inlineCountdownEditor.initCountdownSection(sectionElement);
+            }
+        }, 50);
     }
     
     // Initialize lazy background loader for the new section
@@ -1199,6 +1228,15 @@ function addClonedSection(data) {
     const clone = temp.firstElementChild;
     
     if (!clone) return;
+
+    // Clean stale inline editor artifacts (present when HTML comes from undo/redo serialization).
+    // Note: querySelectorAll only matches descendants, so attrs on clone itself (e.g.
+    // data-countdown-editor-initialized on a <section>) must be removed directly.
+    clone.querySelectorAll('.map-pointer-overlay, .map-edit-btn').forEach(el => el.remove());
+    clone.querySelectorAll('.map-container').forEach(c => c.removeAttribute('data-map-editor-initialized'));
+    clone.querySelectorAll('.countdown-edit-btn').forEach(el => el.remove());
+    clone.removeAttribute('data-countdown-editor-initialized');
+    clone.querySelectorAll('.countdown-edit-container').forEach(el => el.classList.remove('countdown-edit-container'));
     
     const previewContent = document.getElementById('preview-content');
     const allSections = Array.from(document.querySelectorAll('.section'));
@@ -1252,6 +1290,19 @@ function addClonedSection(data) {
     // Initialize removable elements manager for the cloned section
     if (window.removableElementsManager && window.removableElementsManager.initForSection) {
         window.removableElementsManager.initForSection(clone);
+    }
+    
+    // Initialize inline map and countdown editors for the cloned section.
+    // Called explicitly (the init functions have their own idempotency guards).
+    if (window.inlineMapEditor && typeof window.inlineMapEditor.initContainer === 'function') {
+        clone.querySelectorAll('.map-container').forEach(container => {
+            window.inlineMapEditor.initContainer(container);
+        });
+    }
+    if (window.inlineCountdownEditor && typeof window.inlineCountdownEditor.initCountdownSection === 'function') {
+        if (clone.classList.contains('countdown-section')) {
+            window.inlineCountdownEditor.initCountdownSection(clone);
+        }
     }
     
     // Initialize lazy background loader for the cloned section

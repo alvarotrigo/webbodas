@@ -380,6 +380,16 @@ body.onboarding-visible .new-page-btn {
     gap: 1rem;
 }
 
+/* Vertical separator between Your Pages link and page title ( | ) */
+.top-bar-separator {
+    width: 1px;
+    height: 1.25rem;
+    background: var(--secondary-text);
+    opacity: 0.5;
+    flex-shrink: 0;
+    margin: 0 0.25rem;
+}
+
 /* Topbar left: page name + optional published dot */
 .top-bar-page-block {
     display: flex;
@@ -4767,7 +4777,7 @@ body.onboarding-active .top-bar-right > *:not(.user-info) {
     color: var(--primary-text);
 }
 
-/* ── View Your Pages topbar button ── */
+/* ── View Your Pages topbar link (to pages.php) ── */
 .view-pages-btn {
     display: flex;
     align-items: center;
@@ -4783,6 +4793,7 @@ body.onboarding-active .top-bar-right > *:not(.user-info) {
     color: var(--secondary-text);
     transition: background 0.15s, color 0.15s;
     flex-shrink: 0;
+    text-decoration: none;
 }
 
 .view-pages-btn .view-pages-icon,
@@ -5040,6 +5051,23 @@ body.dark-mode .page-delete-btn:hover {
     background: #1d4ed8;
 }
 
+.new-page-btn--disabled,
+.new-page-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.new-page-btn--disabled:hover,
+.new-page-btn:disabled:hover {
+    background: #2563eb;
+}
+
+/* Wrapper for disabled New Page button so Tippy can receive hover (disabled elements do not) */
+.new-page-btn-wrapper {
+    display: block;
+    flex-shrink: 0;
+}
+
 body.dark-mode .new-page-btn {
     background: #2563eb;
 }
@@ -5282,7 +5310,7 @@ body.dark-mode .page-list-item.active {
     gap: 0.5rem;
     font-size: 1.0625rem;
     min-height: 1.75rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0rem;
 }
 
 .domain-status-indicator .domain-status-available,
@@ -5414,6 +5442,169 @@ body.dark-mode .page-list-item.active {
 
 /* ── End Pro Domain Publish Modal ── */
 
+/* ── Pro Publish Step 2a: Owner Form ─────────────────────────────── */
+.publish-owner-form-view {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.pub-owner-badge {
+    display: inline-block;
+    background: #f0fdf4;
+    color: #16a34a;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+}
+
+.pub-owner-subtitle {
+    font-size: 1rem;
+    color: var(--secondary-text, #888);
+}
+
+.pub-owner-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.pub-owner-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.pub-owner-group label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary-text, #444);
+    margin-bottom: 5px;
+}
+
+.pub-owner-optional {
+    color: var(--secondary-text, #aaa);
+    font-weight: 400;
+}
+
+.pub-owner-group input {
+    padding: 9px 12px;
+    border: 1.5px solid var(--border-color, #e2e8f0);
+    border-radius: 10px;
+    font-size: 1rem;
+    outline: none;
+    background: var(--primary-bg, #fff);
+    color: var(--primary-text, #111);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.pub-owner-group input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.pub-owner-checkboxes {
+    margin-top: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pub-owner-checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.pub-owner-checkbox-row input[type="checkbox"] {
+    margin-top: 2px;
+    width: 16px;
+    height: 16px;
+    accent-color: #3b82f6;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.pub-owner-checkbox-row label {
+    font-size: 1rem;
+    color: var(--secondary-text, #555);
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.pub-owner-checkbox-row label a {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+
+.pub-owner-submit-btn {
+    width: 100%;
+    padding: 13px;
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.pub-owner-submit-btn:hover:not(:disabled) {
+    background: #2563eb;
+}
+
+.pub-owner-submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Registration error badge (above Register button) */
+.pub-owner-error {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #b91c1c;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.pub-owner-error.hidden {
+    display: none;
+}
+/* ── End Pro Publish Step 2a: Owner Form ── */
+
+/* ── Progress error state (Step 2b → error) ──────────────────── */
+.publish-progress-error-view {
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.pub-progress-error-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 2px solid #fecaca;
+}
+/* ── End Progress error state ── */
+
 /* ── Publish Progress Bar ── */
 .publish-progress-view {
     min-height: 180px;
@@ -5452,6 +5643,17 @@ body.dark-mode .page-list-item.active {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+/* Pro: red text for email verification line */
+.publish-success-email-verify {
+    color: #dc2626;
+}
+
+/* Pro: domain field at half width */
+.publish-success-domain-field--half {
+    width: 50%;
+    min-width: 200px;
 }
 
 .publish-success-domain-field {

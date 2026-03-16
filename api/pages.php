@@ -592,7 +592,7 @@ function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
  * @param bool   $isPaid         - Whether the current user has a paid plan
  * @param bool   $reactivateOnly - If true, skip OpenSRS registration (domain already registered)
  */
-function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug, $isPaid, $reactivateOnly = false) {
+function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug, $isPaid, $reactivateOnly = false, $contactInput = null) {
     try {
         error_log("publishPageWithDomain - START: pageId={$pageId}, userId={$userId}, domain={$domain}");
 
@@ -650,18 +650,18 @@ function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug,
                 throw new Exception("Domain '{$domain}' is no longer available. Please choose another.");
             }
 
-            // Build contact info (uses .env defaults)
+            // Build contact info: use form data when provided, fall back to .env defaults
             $contact = [
-                'first_name'  => getenv('OPENSRS_CONTACT_FIRST')   ?: 'Wedding',
-                'last_name'   => getenv('OPENSRS_CONTACT_LAST')    ?: 'Editor',
-                'org_name'    => getenv('OPENSRS_CONTACT_ORG')     ?: 'YesLovey',
-                'address1'    => getenv('OPENSRS_CONTACT_ADDR')    ?: '123 Wedding Lane',
+                'first_name'  => ($contactInput['first_name']   ?? '') ?: (getenv('OPENSRS_CONTACT_FIRST')   ?: 'Wedding'),
+                'last_name'   => ($contactInput['last_name']    ?? '') ?: (getenv('OPENSRS_CONTACT_LAST')    ?: 'Editor'),
+                'org_name'    => ($contactInput['organization'] ?? '') ?: (getenv('OPENSRS_CONTACT_ORG')     ?: 'YesLovey'),
+                'address1'    => ($contactInput['address']      ?? '') ?: (getenv('OPENSRS_CONTACT_ADDR')    ?: '123 Wedding Lane'),
                 'city'        => getenv('OPENSRS_CONTACT_CITY')    ?: 'Toronto',
                 'state'       => getenv('OPENSRS_CONTACT_STATE')   ?: 'ON',
                 'postal_code' => getenv('OPENSRS_CONTACT_ZIP')     ?: 'M5V 2H1',
                 'country'     => getenv('OPENSRS_CONTACT_COUNTRY') ?: 'CA',
-                'phone'       => getenv('OPENSRS_CONTACT_PHONE')   ?: '+1.5555551234',
-                'email'       => getenv('OPENSRS_CONTACT_EMAIL')   ?: 'admin@yeslovey.com',
+                'phone'       => ($contactInput['phone']        ?? '') ?: (getenv('OPENSRS_CONTACT_PHONE')   ?: '+1.5555551234'),
+                'email'       => ($contactInput['email']        ?? '') ?: (getenv('OPENSRS_CONTACT_EMAIL')   ?: 'admin@yeslovey.com'),
             ];
 
             $regResult = $opensrs->registerDomain($domain, $contact, 1);
@@ -721,6 +721,60 @@ function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug,
     } catch (Exception $e) {
         error_log("publishPageWithDomain - ERROR: " . $e->getMessage());
         return ['success' => false, 'error' => $e->getMessage()];
+    }
+}
+
+/**
+ * Unpublish a page with different behavior depending on the user plan:
+ *
+ * - Free users: sets is_public=0 AND clears share_slug=NULL so the subdomain is
+ *   released immediately. When the user publishes again they must pick a new name.
+ *
+ * - Pro users: sets is_public=0 but KEEPS share_slug/custom_domain intact so the
+ *   domain can be reactivated later. The public URL will return a 503 response
+ *   while the page is unpublished.
+ *
+ * @param string $pageId  - Page UUID
+ * @param string $userId  - Internal user UUID
+ * @param object $supabase - MySQL client
+ * @param bool   $isPaid  - Whether the current user has a paid plan
+ * @return array { success, is_paid, previous_slug }
+ */
+function unpublishPageAction($pageId, $userId, $supabase, $isPaid) {
+    try {
+        $pages = $supabase->select('user_pages', 'id, share_slug', [
+            'id'      => $pageId,
+            'user_id' => $userId
+        ]);
+        if (empty($pages)) {
+            throw new Exception("Page not found.");
+        }
+        $previousSlug = $pages[0]['share_slug'] ?? null;
+
+        $updateData = [
+            'is_public'  => 0,
+            'updated_at' => gmdate('Y-m-d H:i:s')
+        ];
+
+        if (!$isPaid) {
+            // Free users: release the subdomain so they can choose a new one on next publish
+            $updateData['share_slug'] = null;
+        }
+        // Pro users: keep share_slug so the domain can be reactivated later
+
+        $supabase->update('user_pages', $updateData, [
+            'id'      => $pageId,
+            'user_id' => $userId
+        ]);
+
+        return [
+            'success'       => true,
+            'is_paid'       => (bool) $isPaid,
+            'previous_slug' => $isPaid ? $previousSlug : null
+        ];
+    } catch (Exception $e) {
+        error_log("unpublishPageAction - ERROR: " . $e->getMessage());
+        throw $e;
     }
 }
 
@@ -842,6 +896,36 @@ try {
                     throw new Exception("Page ID required for sharing");
                 }
                 $response = sharePageToken($pageId, $userId, $supabase);
+            } elseif ($action === 'check-subdomain') {
+                // Check if a subdomain slug is available (not used by another page in DB).
+                $shareSlug = isset($input['share_slug']) ? trim((string) $input['share_slug']) : '';
+                $pageId = $input['id'] ?? null;
+
+                if ($shareSlug === '') {
+                    echo json_encode(['success' => true, 'available' => false]);
+                    exit();
+                }
+
+                $shareSlug = preg_replace('/\s+/', '-', $shareSlug);
+                $shareSlug = strtolower($shareSlug);
+
+                if (strlen($shareSlug) < 1 || strlen($shareSlug) > 64) {
+                    echo json_encode(['success' => true, 'available' => false]);
+                    exit();
+                }
+                if (!preg_match('/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i', $shareSlug)) {
+                    echo json_encode(['success' => true, 'available' => false]);
+                    exit();
+                }
+
+                $existing = $supabase->select('user_pages', 'id', ['share_slug' => $shareSlug]);
+                $available = true;
+                if (!empty($existing)) {
+                    $existingPageId = $existing[0]['id'] ?? null;
+                    // Same page keeping its slug is considered available
+                    $available = ($pageId !== null && $existingPageId === $pageId);
+                }
+                $response = ['success' => true, 'available' => $available];
             } elseif ($action === 'publish-subdomain') {
                 $pageId = $input['id'] ?? null;
                 $shareSlug = isset($input['share_slug']) ? trim((string) $input['share_slug']) : '';
@@ -855,10 +939,22 @@ try {
                     exit();
                 }
             } elseif ($action === 'publish-domain') {
+                // [SIMULATE_FAILURE] Remove this block after testing the error badge in the owner form
+                if (false) { // set to false to restore normal behaviour
+                    http_response_code(400);
+                    echo json_encode([
+                        'success' => false,
+                        'error'   => 'Domain registration failed. Please check your details and try again.'
+                    ]);
+                    exit();
+                }
+
                 $pageId         = $input['id'] ?? null;
                 $domain         = isset($input['domain'])          ? trim((string) $input['domain'])     : '';
                 $shareSlug      = isset($input['share_slug'])      ? trim((string) $input['share_slug']) : '';
                 $reactivateOnly = !empty($input['reactivate_only']);
+                // Contact data provided by the owner form (Step 2a)
+                $contactInput   = isset($input['contact']) && is_array($input['contact']) ? $input['contact'] : null;
 
                 // If domain not provided, try to extract from share_slug (reactivation case)
                 if ($domain === '' && $shareSlug !== '' && strpos($shareSlug, '.') !== false) {
@@ -878,12 +974,19 @@ try {
                 // Check paid status from session
                 // Respect session is_paid and pro simulation (?pro=1) from app
 $isPaidUser = !empty($_SESSION['is_paid']) || !empty($_SESSION['simulate_pro']);
-                $response = publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug, $isPaidUser, $reactivateOnly);
+                $response = publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug, $isPaidUser, $reactivateOnly, $contactInput);
                 if (isset($response['success']) && !$response['success']) {
                     http_response_code(400);
                     echo json_encode($response);
                     exit();
                 }
+            } elseif ($action === 'unpublish') {
+                $pageId = $input['id'] ?? null;
+                if (!$pageId) {
+                    throw new Exception("Page ID required for unpublishing.");
+                }
+                $isPaidUser = !empty($_SESSION['is_paid']) || !empty($_SESSION['simulate_pro']);
+                $response = unpublishPageAction($pageId, $userId, $supabase, $isPaidUser);
             } elseif ($action === 'clone') {
                 $pageId = $input['id'] ?? null;
                 if (!$pageId) {
@@ -891,6 +994,20 @@ $isPaidUser = !empty($_SESSION['is_paid']) || !empty($_SESSION['simulate_pro']);
                 }
                 $response = clonePage($pageId, $userId, $supabase);
             } else {
+                // Free users may only have 1 page; block create when already at limit
+                $isPaidUser = !empty($_SESSION['is_paid']) || !empty($_SESSION['simulate_pro']);
+                if (!$isPaidUser) {
+                    $existing = $supabase->select('user_pages', 'id', ['user_id' => $userId]);
+                    $existingCount = is_array($existing) ? count($existing) : 0;
+                    if ($existingCount >= 1) {
+                        http_response_code(403);
+                        echo json_encode([
+                            'success' => false,
+                            'error' => 'Upgrade to Pro to create more than one webpage. Delete your current page to create a new one.'
+                        ]);
+                        exit;
+                    }
+                }
                 $title = $input['title'] ?? 'Untitled Page';
                 $data = $input['data'] ?? [];
                 $response = createPage($userId, $title, $data, $supabase);

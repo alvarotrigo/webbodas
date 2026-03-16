@@ -271,11 +271,25 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Create new page
+// Free user can only have 1 page; block create and show Upgrade to Pro.
+// Pro user: go to app.php without creating a page; theme and page name are chosen in the editor.
 function createNewPage() {
+    const isPaid = serverUserData && (serverUserData.is_paid === true || serverUserData.is_paid === 'true');
+    if (!isPaid && phpUserPagesCount >= 1) {
+        if (typeof showUpgradeModal === 'function') {
+            showUpgradeModal();
+        } else {
+            alert('Upgrade to Pro to create more than one webpage. You can delete your current page to create a new one.');
+        }
+        return;
+    }
+    // Pro user: redirect to app.php (no page created yet; user picks theme then page name there)
+    if (isPaid) {
+        window.location.href = './app.php';
+        return;
+    }
     document.getElementById('pageTitle').value = '';
     document.getElementById('newPageModal').classList.add('active');
-    // Focus the input after modal is shown
     setTimeout(() => {
         document.getElementById('pageTitle').focus();
     }, 100);
@@ -313,10 +327,14 @@ async function submitNewPage() {
 
         if (result.success) {
             closeNewPageModal();
-            // Redirect to editor with the new page ID
             window.location.href = `./app.php?page=${result.page.id}`;
         } else {
-            alert('Failed to create page: ' + result.error);
+            const msg = result.error || 'Failed to create page';
+            if (typeof showUpgradeModal === 'function' && result.error && result.error.indexOf('Upgrade') !== -1) {
+                showUpgradeModal();
+            } else {
+                alert(msg);
+            }
         }
     } catch (error) {
         console.error('Error creating page:', error);
