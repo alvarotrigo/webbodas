@@ -2139,8 +2139,7 @@ footer.has-bg-image .card-themed .btn-themed-outline{
 section.has-bg-image .fp-keep-color .heading-themed,
 section.has-bg-image .fp-keep-color .heading-themed *,
 section.has-bg-image .card-themed .heading-themed,
-section.has-bg-image .card-themed .heading-themed *,
- {
+section.has-bg-image .card-themed .heading-themed * {
   color: var(--accent-text) !important;
 }
 
