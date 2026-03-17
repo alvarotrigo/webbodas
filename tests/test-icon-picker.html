@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Selector de Iconos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Iconify SVG framework – renders icons on-demand from CDN -->
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f9;
+            color: #1a1a1a;
+            font-size: 15px;
+        }
+
+        /* ── Layout ── */
+        .app {
+            display: grid;
+            grid-template-columns: 200px 1fr 280px;
+            grid-template-rows: auto 1fr auto;
+            grid-template-areas:
+                "header  header  header"
+                "sidebar main    preview"
+                "footer  footer  footer";
+            min-height: 100vh;
+        }
+        @media (max-width: 900px) {
+            .app {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "header"
+                    "sidebar"
+                    "main"
+                    "preview"
+                    "footer";
+            }
+            .sidebar { flex-direction: row; flex-wrap: wrap; overflow-x: auto; }
+        }
+
+        /* ── Header ── */
+        .header {
+            grid-area: header;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: #fff;
+            border-bottom: 1px solid #e2e2e8;
+            flex-wrap: wrap;
+        }
+        .header h1 {
+            font-size: 18px;
+            margin: 0;
+            white-space: nowrap;
+        }
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+            max-width: 400px;
+        }
+        .search-wrap input {
+            width: 100%;
+            padding: 10px 12px 10px 36px;
+            border: 1px solid #d0d0d5;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color .15s;
+        }
+        .search-wrap input:focus { border-color: #1f5eff; }
+        .search-wrap .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            pointer-events: none;
+        }
+        .result-count {
+            font-size: 13px;
+            color: #666;
+            white-space: nowrap;
+        }
+        .set-filter {
+            padding: 8px 12px;
+            border: 1px solid #d0d0d5;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            grid-area: sidebar;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 12px;
+            background: #fff;
+            border-right: 1px solid #e2e2e8;
+            overflow-y: auto;
+        }
+        .sidebar h3 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: #888;
+            margin: 8px 0 4px;
+        }
+        .cat-btn {
+            background: none;
+            border: none;
+            border-radius: 6px;
+            padding: 7px 10px;
+            font-size: 13px;
+            text-align: left;
+            cursor: pointer;
+            color: #333;
+            transition: background .1s;
+        }
+        .cat-btn:hover { background: #f0f0f5; }
+        .cat-btn.active { background: #e8ecff; color: #1f5eff; font-weight: 600; }
+
+        /* ── Main grid ── */
+        .main {
+            grid-area: main;
+            padding: 16px;
+            overflow-y: auto;
+        }
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 8px;
+        }
+        .icon-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 6px 8px;
+            background: #fff;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color .12s, box-shadow .12s;
+            text-align: center;
+            position: relative;
+        }
+        .icon-card:hover { border-color: #c8d0ff; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+        .icon-card:focus { outline: none; border-color: #1f5eff; box-shadow: 0 0 0 3px rgba(31,94,255,.2); }
+        .icon-card.selected { border-color: #1f5eff; background: #f0f3ff; }
+        .icon-card .iconify { font-size: 28px; color: #333; }
+        .icon-card .icon-name {
+            font-size: 10px;
+            color: #666;
+            line-height: 1.2;
+            word-break: break-word;
+            max-width: 100%;
+        }
+        .icon-card .set-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 8px;
+            background: #eee;
+            color: #888;
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+        .icon-card .fav-star {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #ccc;
+            transition: color .1s;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+        }
+        .icon-card .fav-star.is-fav { color: #f5a623; }
+
+        /* ── Section header in grid ── */
+        .section-header {
+            grid-column: 1 / -1;
+            font-size: 13px;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            padding: 8px 0 2px;
+            border-bottom: 1px solid #e8e8ed;
+            margin-bottom: 4px;
+        }
+
+        /* ── States ── */
+        .empty-state, .loading-state {
+            text-align: center;
+            padding: 48px 16px;
+            color: #888;
+        }
+        .empty-state span { font-size: 32px; display: block; margin-bottom: 8px; }
+
+        /* ── Preview panel ── */
+        .preview {
+            grid-area: preview;
+            padding: 16px;
+            background: #fff;
+            border-left: 1px solid #e2e2e8;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .preview h3 { margin: 0; font-size: 14px; color: #888; text-transform: uppercase; letter-spacing: .05em; }
+        .preview-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: #f7f7f9;
+            border-radius: 8px;
+        }
+        .preview-icon .iconify { font-size: 64px; color: #333; }
+        .preview-details { font-size: 13px; line-height: 1.6; }
+        .preview-details dt { color: #888; font-weight: 600; }
+        .preview-details dd { margin: 0 0 8px; }
+        .preview-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity .1s;
+        }
+        .btn:hover { opacity: .85; }
+        .btn-primary { background: #1f5eff; color: #fff; }
+        .btn-secondary { background: #e8ecff; color: #1f5eff; }
+        .btn-outline { background: #fff; color: #333; border: 1px solid #d0d0d5; }
+        .preview-placeholder { color: #aaa; font-size: 13px; text-align: center; padding: 32px 0; }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity .2s;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .toast.show { opacity: 1; }
+
+        /* ── Footer ── */
+        .footer {
+            grid-area: footer;
+            padding: 12px 20px;
+            background: #fff;
+            border-top: 1px solid #e2e2e8;
+        }
+        .footer h3 { margin: 0 0 8px; font-size: 13px; color: #888; }
+        .strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .strip-item {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f7f7f9;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #e2e2e8;
+            transition: border-color .1s;
+        }
+        .strip-item:hover { border-color: #1f5eff; }
+        .strip-item .iconify { font-size: 20px; color: #333; }
+        .mock-editor {
+            margin-top: 12px;
+        }
+        .mock-editor label { display: block; font-size: 13px; color: #888; margin-bottom: 4px; }
+        .mock-editor textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #d0d0d5;
+            font-family: "SF Mono", "Fira Code", monospace;
+            font-size: 13px;
+            resize: vertical;
+        }
+        .footer-sections {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .footer-sections > div { flex: 1; min-width: 200px; }
+    </style>
+</head>
+<body>
+<div class="app">
+    <!-- ─── Header ─── -->
+    <header class="header">
+        <h1>Selector de Iconos</h1>
+        <div class="search-wrap">
+            <span class="search-icon">
+                <span class="iconify" data-icon="lucide:search" data-width="18"></span>
+            </span>
+            <input id="search" type="text" placeholder="Buscar iconos…" autocomplete="off" />
+        </div>
+        <span class="result-count" id="resultCount"></span>
+    </header>
+
+    <!-- ─── Sidebar: Categories ─── -->
+    <nav class="sidebar" id="sidebar">
+        <h3>Categorías</h3>
+        <button class="cat-btn active" data-cat="">Todos</button>
+        <!-- Populated by JS -->
+    </nav>
+
+    <!-- ─── Main: Icon Grid ─── -->
+    <main class="main" id="mainArea">
+        <div class="loading-state" id="loadingState">Cargando iconos…</div>
+        <div class="icon-grid" id="iconGrid" role="grid" tabindex="0"></div>
+        <div class="empty-state" id="emptyState" hidden>
+            <span>🔍</span>
+            No se encontraron iconos
+        </div>
+    </main>
+
+    <!-- ─── Preview Panel ─── -->
+    <aside class="preview" id="previewPanel">
+        <h3>Vista previa</h3>
+        <div id="previewContent">
+            <p class="preview-placeholder">Selecciona un icono para ver detalles</p>
+        </div>
+    </aside>
+
+    <!-- ─── Footer ─── -->
+    <footer class="footer">
+        <div class="footer-sections">
+            <div>
+                <h3>Favoritos</h3>
+                <div class="strip" id="favStrip">
+                    <span style="color:#aaa;font-size:12px;">Sin favoritos</span>
+                </div>
+            </div>
+            <div>
+                <h3>Recientes</h3>
+                <div class="strip" id="recentStrip">
+                    <span style="color:#aaa;font-size:12px;">Sin selecciones recientes</span>
+                </div>
+            </div>
+            <div class="mock-editor">
+                <label for="editorArea">Editor (los iconos insertados aparecen aquí)</label>
+                <textarea id="editorArea" placeholder="Los iconos se insertarán aquí…"></textarea>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// FEATURED ICONS — wedding-curated subset shown first
+// ═══════════════════════════════════════════════════════════════
+const FEATURED_IDS = new Set([
+    "lucide:heart", "lucide:flower-2", "lucide:camera", "lucide:map-pinned",
+    "lucide:calendar", "lucide:clock-3", "lucide:mail", "lucide:phone",
+    "lucide:gift", "lucide:music", "lucide:cake", "lucide:car",
+    "lucide:plane", "lucide:hotel", "lucide:church", "lucide:circle-dot",
+    "lucide:users", "lucide:image", "lucide:navigation", "lucide:sparkles"
+]);
+
+// ═══════════════════════════════════════════════════════════════
+// Sidebar categories (from Lucide's own categories in the JSON)
+// ═══════════════════════════════════════════════════════════════
+const CATEGORIES_ES = {
+    'accessibility': 'Accesibilidad', 'account': 'Cuenta', 'animals': 'Animales',
+    'arrows': 'Flechas', 'brands': 'Marcas', 'buildings': 'Edificios',
+    'charts': 'Gráficos', 'communication': 'Comunicación', 'connectivity': 'Conectividad',
+    'currency': 'Moneda', 'cursors': 'Cursores', 'design': 'Diseño',
+    'development': 'Desarrollo', 'devices': 'Dispositivos', 'emoji': 'Emojis',
+    'files': 'Archivos', 'food-beverage': 'Comida y Bebida', 'furniture': 'Muebles',
+    'gaming': 'Juegos', 'home': 'Hogar', 'layout': 'Disposición',
+    'mail': 'Correo', 'maps': 'Mapas', 'math': 'Matemáticas',
+    'medical': 'Médico', 'money': 'Dinero', 'multimedia': 'Multimedia',
+    'nature': 'Naturaleza', 'navigation': 'Navegación', 'notifications': 'Notificaciones',
+    'people': 'Personas', 'photography': 'Fotografía', 'science': 'Ciencia',
+    'seasons': 'Estaciones', 'security': 'Seguridad', 'shapes': 'Formas',
+    'shopping': 'Compras', 'social': 'Social', 'sports': 'Deportes',
+    'sustainability': 'Sostenibilidad', 'text-formatting': 'Formato de texto',
+    'time': 'Tiempo', 'tools': 'Herramientas', 'transportation': 'Transporte',
+    'travel': 'Viaje', 'weather': 'Clima',
+};
+
+// ═══════════════════════════════════════════════════════════════
+// State
+// ═══════════════════════════════════════════════════════════════
+let ICON_REGISTRY = [];       // loaded from JSON
+let favorites   = JSON.parse(localStorage.getItem('iconPickerFavs') || '[]');
+let recents     = JSON.parse(localStorage.getItem('iconPickerRecents') || '[]');
+let selectedId  = null;
+let activeCat   = "";
+let searchQuery = "";
+let filteredIcons = [];
+let focusIndex  = -1;
+
+// ═══════════════════════════════════════════════════════════════
+// DOM refs
+// ═══════════════════════════════════════════════════════════════
+const searchInput   = document.getElementById('search');
+const resultCount   = document.getElementById('resultCount');
+const sidebar       = document.getElementById('sidebar');
+const iconGrid      = document.getElementById('iconGrid');
+const emptyState    = document.getElementById('emptyState');
+const loadingState  = document.getElementById('loadingState');
+const previewContent= document.getElementById('previewContent');
+const favStrip      = document.getElementById('favStrip');
+const recentStrip   = document.getElementById('recentStrip');
+const editorArea    = document.getElementById('editorArea');
+const toastEl       = document.getElementById('toast');
+
+// ═══════════════════════════════════════════════════════════════
+// Load icon registry from static JSON
+// ═══════════════════════════════════════════════════════════════
+async function loadRegistry() {
+    try {
+        const res = await fetch('../public/data/lucide-icons.json');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        ICON_REGISTRY = await res.json();
+        console.log('[IconPicker] Loaded', ICON_REGISTRY.length, 'icons from registry');
+    } catch (err) {
+        console.error('[IconPicker] Failed to load registry:', err);
+        ICON_REGISTRY = [];
+    }
+    loadingState.hidden = true;
+    buildCategorySidebar();
+    filterAndRender();
+    renderStrips();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Build category sidebar from actual data
+// ═══════════════════════════════════════════════════════════════
+function buildCategorySidebar() {
+    // Collect all unique categories from the registry
+    const catCounts = {};
+    ICON_REGISTRY.forEach(icon => {
+        (icon.categories || []).forEach(cat => {
+            catCounts[cat] = (catCounts[cat] || 0) + 1;
+        });
+    });
+    // Sort by count descending, then alphabetically
+    const cats = Object.keys(catCounts).sort((a, b) => catCounts[b] - catCounts[a] || a.localeCompare(b));
+    cats.forEach(cat => {
+        const label = CATEGORIES_ES[cat] || cat;
+        const btn = document.createElement('button');
+        btn.className = 'cat-btn';
+        btn.dataset.cat = cat;
+        btn.textContent = `${label} (${catCounts[cat]})`;
+        btn.addEventListener('click', () => {
+            activeCat = cat;
+            sidebar.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterAndRender();
+        });
+        sidebar.appendChild(btn);
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Search algorithm — scores on name, label, and tags
+// ═══════════════════════════════════════════════════════════════
+// Strip accents: teléfono → telefono, cámara → camara
+function norm(s) {
+    return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
+function scoreIcon(icon, q) {
+    if (!q) return 100;
+    const ql = norm(q);
+    const name = norm(icon.name);
+    const label = icon.label ? norm(icon.label) : '';
+
+    // 1. Exact name match
+    if (name === ql) return 100;
+    // 2. Spanish label match
+    if (label === ql) return 95;
+    // 3. Name starts with
+    if (name.startsWith(ql)) return 80;
+    // 4. Label starts with
+    if (label.startsWith(ql)) return 75;
+    // 5. Name contains
+    if (name.includes(ql)) return 60;
+    // 6. Label contains
+    if (label.includes(ql)) return 55;
+    // 7. Tag exact match
+    if (icon.tags && icon.tags.some(t => norm(t) === ql)) return 50;
+    // 8. Tag starts with
+    if (icon.tags && icon.tags.some(t => norm(t).startsWith(ql))) return 40;
+    // 9. Tag contains
+    if (icon.tags && icon.tags.some(t => norm(t).includes(ql))) return 30;
+    // 10. Category match
+    if (icon.categories && icon.categories.some(c => norm(c).includes(ql))) return 20;
+
+    return 0;
+}
+
+function filterIcons() {
+    const q = searchQuery.trim();
+    const scored = ICON_REGISTRY.map(icon => {
+        let s = scoreIcon(icon, q);
+        // Category filter
+        if (activeCat && !(icon.categories || []).includes(activeCat)) s = 0;
+        return { icon, score: s };
+    });
+    filteredIcons = scored
+        .filter(x => x.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .map(x => x.icon);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Rendering
+// ═══════════════════════════════════════════════════════════════
+function renderGrid() {
+    iconGrid.innerHTML = '';
+    loadingState.hidden = true;
+    emptyState.hidden = filteredIcons.length > 0;
+    resultCount.textContent = filteredIcons.length + ' icono' + (filteredIcons.length !== 1 ? 's' : '');
+
+    const q = searchQuery.trim();
+    const showSections = !q && !activeCat;
+
+    // If no search and no category filter, show featured first
+    let iconsToRender = filteredIcons;
+    let featuredSet = null;
+    let restIcons = null;
+
+    if (showSections) {
+        featuredSet = filteredIcons.filter(i => FEATURED_IDS.has(i.id));
+        restIcons = filteredIcons.filter(i => !FEATURED_IDS.has(i.id));
+    }
+
+    if (showSections && featuredSet.length > 0) {
+        // Featured section header
+        const hdr = document.createElement('div');
+        hdr.className = 'section-header';
+        hdr.textContent = 'Destacados para bodas';
+        iconGrid.appendChild(hdr);
+        featuredSet.forEach((icon, idx) => renderCard(icon, idx));
+
+        // All icons section header
+        const hdr2 = document.createElement('div');
+        hdr2.className = 'section-header';
+        hdr2.textContent = 'Todos los iconos';
+        iconGrid.appendChild(hdr2);
+        restIcons.forEach((icon, idx) => renderCard(icon, featuredSet.length + idx));
+    } else {
+        filteredIcons.forEach((icon, idx) => renderCard(icon, idx));
+    }
+
+    if (window.Iconify) Iconify.scan(iconGrid);
+}
+
+function renderCard(icon, idx) {
+    const displayName = icon.label || icon.name;
+    const card = document.createElement('button');
+    card.className = 'icon-card' + (icon.id === selectedId ? ' selected' : '');
+    card.dataset.id = icon.id;
+    card.dataset.idx = idx;
+    card.setAttribute('role', 'gridcell');
+    card.tabIndex = -1;
+    card.innerHTML = `
+        <button class="fav-star ${favorites.includes(icon.id) ? 'is-fav' : ''}" title="Alternar favorito" data-fav="${icon.id}">★</button>
+        <span class="iconify" data-icon="${icon.id}" data-width="28"></span>
+        <span class="icon-name">${displayName}</span>
+    `;
+    card.addEventListener('click', (e) => {
+        if (e.target.closest('.fav-star')) {
+            toggleFavorite(icon.id);
+            return;
+        }
+        selectIcon(icon.id);
+    });
+    iconGrid.appendChild(card);
+}
+
+function renderPreview() {
+    if (!selectedId) {
+        previewContent.innerHTML = '<p class="preview-placeholder">Selecciona un icono para ver detalles</p>';
+        return;
+    }
+    const icon = ICON_REGISTRY.find(i => i.id === selectedId);
+    if (!icon) return;
+
+    const detailRows = [
+        `<dt>Nombre</dt><dd>${icon.label || icon.name} <code style="font-size:12px;color:#888;">${icon.name}</code></dd>`,
+        `<dt>ID</dt><dd><code>${icon.id}</code></dd>`,
+    ];
+    if (icon.categories && icon.categories.length) {
+        const catLabels = icon.categories.map(c => CATEGORIES_ES[c] || c);
+        detailRows.push(`<dt>Categorías</dt><dd>${catLabels.join(', ')}</dd>`);
+    }
+    if (icon.tags && icon.tags.length) {
+        detailRows.push(`<dt>Etiquetas</dt><dd>${icon.tags.join(', ')}</dd>`);
+    }
+
+    previewContent.innerHTML = `
+        <div class="preview-icon">
+            <span class="iconify" data-icon="${icon.id}" data-width="64"></span>
+        </div>
+        <dl class="preview-details">
+            ${detailRows.join('')}
+        </dl>
+        <div class="preview-actions">
+            <button class="btn btn-primary" id="btnCopyId">Copiar ID</button>
+            <button class="btn btn-secondary" id="btnInsert">Insertar en editor</button>
+            <button class="btn btn-outline" id="btnCopySvg">Copiar SVG</button>
+        </div>
+    `;
+
+    document.getElementById('btnCopyId').addEventListener('click', () => {
+        navigator.clipboard.writeText(icon.id).then(() => {
+            toast('Copiado: ' + icon.id);
+        });
+    });
+    document.getElementById('btnInsert').addEventListener('click', () => {
+        const tag = `<span class="iconify" data-icon="${icon.id}"></span>`;
+        editorArea.value += (editorArea.value ? '\n' : '') + tag;
+        toast('Insertado en el editor');
+    });
+    document.getElementById('btnCopySvg').addEventListener('click', () => {
+        const rendered = previewContent.querySelector('svg');
+        if (rendered) {
+            navigator.clipboard.writeText(rendered.outerHTML).then(() => {
+                toast('SVG copiado al portapapeles');
+            });
+        } else {
+            toast('SVG aún no renderizado — intenta de nuevo');
+        }
+    });
+
+    if (window.Iconify) Iconify.scan(previewContent);
+}
+
+function renderStrips() {
+    // Favorites
+    if (favorites.length === 0) {
+        favStrip.innerHTML = '<span style="color:#aaa;font-size:12px;">Sin favoritos</span>';
+    } else {
+        favStrip.innerHTML = '';
+        favorites.forEach(id => {
+            const el = document.createElement('div');
+            el.className = 'strip-item';
+            el.title = id;
+            el.innerHTML = `<span class="iconify" data-icon="${id}" data-width="20"></span>`;
+            el.addEventListener('click', () => selectIcon(id));
+            favStrip.appendChild(el);
+        });
+    }
+    // Recents
+    if (recents.length === 0) {
+        recentStrip.innerHTML = '<span style="color:#aaa;font-size:12px;">Sin selecciones recientes</span>';
+    } else {
+        recentStrip.innerHTML = '';
+        recents.forEach(id => {
+            const el = document.createElement('div');
+            el.className = 'strip-item';
+            el.title = id;
+            el.innerHTML = `<span class="iconify" data-icon="${id}" data-width="20"></span>`;
+            el.addEventListener('click', () => selectIcon(id));
+            recentStrip.appendChild(el);
+        });
+    }
+    if (window.Iconify) {
+        Iconify.scan(favStrip);
+        Iconify.scan(recentStrip);
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Actions
+// ═══════════════════════════════════════════════════════════════
+function selectIcon(id) {
+    selectedId = id;
+    recents = [id, ...recents.filter(r => r !== id)].slice(0, 10);
+    localStorage.setItem('iconPickerRecents', JSON.stringify(recents));
+    renderGrid();
+    renderPreview();
+    renderStrips();
+}
+
+function toggleFavorite(id) {
+    if (favorites.includes(id)) {
+        favorites = favorites.filter(f => f !== id);
+    } else {
+        favorites.push(id);
+    }
+    localStorage.setItem('iconPickerFavs', JSON.stringify(favorites));
+    renderGrid();
+    renderStrips();
+}
+
+function filterAndRender() {
+    filterIcons();
+    focusIndex = -1;
+    renderGrid();
+}
+
+function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    setTimeout(() => toastEl.classList.remove('show'), 1800);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Keyboard navigation
+// ═══════════════════════════════════════════════════════════════
+iconGrid.addEventListener('keydown', (e) => {
+    const cards = iconGrid.querySelectorAll('.icon-card');
+    if (!cards.length) return;
+
+    const cols = Math.round(iconGrid.clientWidth / cards[0].offsetWidth);
+
+    let handled = true;
+    switch (e.key) {
+        case 'ArrowRight': focusIndex = Math.min(focusIndex + 1, cards.length - 1); break;
+        case 'ArrowLeft':  focusIndex = Math.max(focusIndex - 1, 0); break;
+        case 'ArrowDown':  focusIndex = Math.min(focusIndex + cols, cards.length - 1); break;
+        case 'ArrowUp':    focusIndex = Math.max(focusIndex - cols, 0); break;
+        case 'Enter':
+            if (focusIndex >= 0 && cards[focusIndex]) {
+                selectIcon(cards[focusIndex].dataset.id);
+            }
+            break;
+        case 'Escape':
+            searchInput.value = '';
+            searchQuery = '';
+            filterAndRender();
+            searchInput.focus();
+            break;
+        default: handled = false;
+    }
+    if (handled) {
+        e.preventDefault();
+        if (focusIndex >= 0 && cards[focusIndex]) cards[focusIndex].focus();
+    }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// Events
+// ═══════════════════════════════════════════════════════════════
+let debounceTimer;
+searchInput.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        searchQuery = searchInput.value;
+        filterAndRender();
+    }, 200);
+});
+
+searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchQuery = '';
+        filterAndRender();
+    }
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        focusIndex = 0;
+        const first = iconGrid.querySelector('.icon-card');
+        if (first) first.focus();
+    }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════════════════
+// "All" button in sidebar
+sidebar.querySelector('[data-cat=""]').addEventListener('click', () => {
+    activeCat = "";
+    sidebar.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    sidebar.querySelector('[data-cat=""]').classList.add('active');
+    filterAndRender();
+});
+loadRegistry();
+</script>
+</body>
+</html>

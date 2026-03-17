@@ -10,6 +10,7 @@
     "build:css": "tailwindcss -i ./src/main.css -o ./dist/output.css --watch",
     "build:css:once": "tailwindcss -i ./src/main.css -o ./dist/output.css",
     "build:assets": "gulp build",
+    "build:icons": "node build/build-icon-registry.mjs",
     "build:metadata": "node build/build-metadata-min.mjs",
     "build:metadata-described": "node build/build-metadata-described-min.mjs",
     "build:prod": "npm run build:metadata && npm run build:metadata-described && npm run build:css:once && gulp build",
