@@ -38,10 +38,10 @@ The editor uses these variables for the color picker, theme manager, and section
 ```
 
 - Use `var(--primary-bg)`, `var(--primary-text)`, etc. throughout. Do not hardcode colors the user should be able to change.
-- For overlays, use `var(--overlay-opacity, 0.6)` so the editor's opacity slider works:
+- For overlays: set the value only on the section with `data-overlay-opacity="0.4"` (0–1). In CSS use a generic fallback: `var(--overlay-opacity, 0.5)` — do not duplicate the value in CSS; the editor reads the data attribute and sets the variable.
   ```css
   .hero-bg::after {
-      background: rgba(0, 0, 0, var(--overlay-opacity, 0.6));
+      background: rgba(0, 0, 0, var(--overlay-opacity, 0.5));
   }
   ```
 

@@ -83,7 +83,7 @@ function listUserPages($userId, $supabase) {
     try {
         $pages = $supabase->select(
             'user_pages',
-            'id,title,thumbnail_url,is_favorite,is_public,share_token,share_slug,last_accessed,created_at,updated_at',
+            'id,title,thumbnail_url,is_favorite,is_public,share_token,share_slug,has_unpublished_changes,last_accessed,created_at,updated_at',
             [
                 'user_id' => $userId,
                 'order' => 'last_accessed.desc'
@@ -192,10 +192,11 @@ function createPage($userId, $title, $data, $supabase) {
  */
 function updatePage($pageId, $userId, $updates, $supabase) {
     try {
-        // Verify ownership and get current updated_at timestamp
+        // Verify ownership and get current updated_at timestamp + publish state.
+        // Only select columns that are guaranteed to exist (no new migration columns here).
         $existing = $supabase->select(
             'user_pages',
-            'id, updated_at',
+            'id, updated_at, is_public',
             [
                 'id' => $pageId,
                 'user_id' => $userId
@@ -271,7 +272,7 @@ function updatePage($pageId, $userId, $updates, $supabase) {
             // Ensure boolean is always 0 or 1 for MySQL
             $updateData['is_public'] = ($updates['is_public'] === true || $updates['is_public'] === 1 || $updates['is_public'] === '1') ? 1 : 0;
         }
-        
+
         // Always update timestamps (use gmdate for UTC)
         $updateData['last_accessed'] = gmdate('Y-m-d H:i:s');
         $updateData['updated_at'] = gmdate('Y-m-d H:i:s');
@@ -284,10 +285,34 @@ function updatePage($pageId, $userId, $updates, $supabase) {
                 'user_id' => $userId
             ]
         );
-        
+
+        // Best-effort: flag has_unpublished_changes when saving content to a published page.
+        // This runs AFTER the main save so a failure here never breaks auto-save.
+        // Requires the migration (add_published_data_to_user_pages.sql) to have been applied.
+        $hasUnpublishedChanges = 0;
+        if (isset($updates['data']) && !empty($existing[0]['is_public'])) {
+            try {
+                // Check whether the published_data snapshot already exists
+                $pubCheck = $supabase->select('user_pages', 'id, published_data', ['id' => $pageId, 'user_id' => $userId]);
+                $hasSnapshot = !empty($pubCheck[0]['published_data']);
+                if ($hasSnapshot) {
+                    $supabase->update(
+                        'user_pages',
+                        ['has_unpublished_changes' => 1],
+                        ['id' => $pageId, 'user_id' => $userId]
+                    );
+                    $hasUnpublishedChanges = 1;
+                }
+            } catch (Exception $flagEx) {
+                // Migration not applied yet — silently skip, auto-save is unaffected
+                error_log("updatePage: has_unpublished_changes flag skipped (migration pending?): " . $flagEx->getMessage());
+            }
+        }
+
         return [
             'success' => true,
-            'page' => !empty($result) ? $result[0] : null
+            'page' => !empty($result) ? $result[0] : null,
+            'has_unpublished_changes' => $hasUnpublishedChanges
         ];
     } catch (Exception $e) {
         error_log("Error updating page: " . $e->getMessage());
@@ -476,6 +501,21 @@ function buildShareUrlForPage($page) {
 }
 
 /**
+ * Ensure page data is a JSON string for storing in published_data (LONGTEXT).
+ * If the value is already a string (from DB), use it; otherwise encode (e.g. if DB returned decoded JSON).
+ */
+function ensurePublishedDataJson($data) {
+    if (is_string($data)) {
+        return $data;
+    }
+    $encoded = json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE);
+    if ($encoded === false) {
+        throw new Exception('Failed to encode page data for publish: ' . json_last_error_msg());
+    }
+    return $encoded;
+}
+
+/**
  * Build share URL with token (for Share button - same origin + shared.html?token=...)
  * shared.html lives at project root; when this script runs in api/, use parent as base path.
  */
@@ -506,7 +546,7 @@ function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
 
         $pages = $supabase->select(
             'user_pages',
-            'id, share_token, is_public',
+            'id, share_token, is_public, data',
             [
                 'id' => $pageId,
                 'user_id' => $userId
@@ -520,6 +560,7 @@ function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
         }
 
         $page = $pages[0];
+        $currentData = $page['data'] ?? null;
         $shareSlug = trim($shareSlug);
         $shareSlug = preg_replace('/\s+/', '-', $shareSlug);
         $shareSlug = strtolower($shareSlug);
@@ -539,7 +580,7 @@ function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
 
         $updateData = [
             'share_slug' => $shareSlug,
-            'is_public' => 1
+            'is_public' => 1,
         ];
 
         if (empty($page['share_token'])) {
@@ -556,9 +597,22 @@ function publishPageWithSubdomain($pageId, $userId, $supabase, $shareSlug) {
             $token = $page['share_token'];
         }
 
-        error_log("publishPageWithSubdomain - Calling UPDATE with data: " . json_encode($updateData) . " WHERE id={$pageId}, user_id={$userId}");
+        error_log("publishPageWithSubdomain - Calling UPDATE with data: " . json_encode(array_keys($updateData)) . " WHERE id={$pageId}, user_id={$userId}");
 
         $updated = $supabase->update('user_pages', $updateData, ['id' => $pageId, 'user_id' => $userId]);
+
+        // Best-effort: snapshot published_data (requires migration to be applied)
+        if ($currentData !== null) {
+            try {
+                $publishedDataJson = ensurePublishedDataJson($currentData);
+                $supabase->update('user_pages', [
+                    'published_data'          => $publishedDataJson,
+                    'has_unpublished_changes' => 0,
+                ], ['id' => $pageId, 'user_id' => $userId]);
+            } catch (Exception $snapEx) {
+                error_log("publishPageWithSubdomain: published_data snapshot skipped (migration pending?): " . $snapEx->getMessage());
+            }
+        }
 
         $savedSlug = $updated[0]['share_slug'] ?? 'N/A';
         error_log("publishPageWithSubdomain - UPDATE done. share_slug now in DB: {$savedSlug}");
@@ -608,7 +662,7 @@ function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug,
         // Retrieve the page to confirm ownership
         $pages = $supabase->select(
             'user_pages',
-            'id, share_token, is_public, cloudflare_zone_id, dns_status',
+            'id, share_token, is_public, cloudflare_zone_id, dns_status, data',
             [
                 'id'      => $pageId,
                 'user_id' => $userId
@@ -770,10 +824,14 @@ function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug,
 
         // Store the full domain (e.g. "mi-boda.com") as share_slug so the URL can be reconstructed
         // correctly on page reload without appending the base domain again.
+        $publishedDataJson = isset($page['data']) ? ensurePublishedDataJson($page['data']) : null;
         $updateData = [
-            'share_slug'    => $domain,
-            'is_public'     => 1,
-            'share_token'   => $token,
+            'share_slug'             => $domain,
+            'is_public'              => 1,
+            'share_token'            => $token,
+            // Snapshot the current draft as the publicly visible version (always store as JSON string)
+            'published_data'         => $publishedDataJson,
+            'has_unpublished_changes' => 0,
         ];
 
         // Store the full custom domain + Cloudflare fields if columns exist (graceful fallback)
@@ -807,6 +865,47 @@ function publishPageWithDomain($pageId, $userId, $supabase, $domain, $shareSlug,
     } catch (Exception $e) {
         error_log("publishPageWithDomain - ERROR: " . $e->getMessage());
         return ['success' => false, 'error' => $e->getMessage()];
+    }
+}
+
+/**
+ * Push the current draft (data) to published_data, making it the live version.
+ * Called when the user explicitly presses "Publish Changes" on an already-published page.
+ *
+ * @param string $pageId  - Page UUID
+ * @param string $userId  - Internal user UUID
+ * @param object $supabase - MySQL client
+ * @return array { success }
+ */
+function publishChangesAction($pageId, $userId, $supabase) {
+    try {
+        $pages = $supabase->select('user_pages', 'id, data, is_public', [
+            'id'      => $pageId,
+            'user_id' => $userId
+        ]);
+        if (empty($pages)) {
+            throw new Exception("Page not found or access denied.");
+        }
+        $page = $pages[0];
+        if (empty($page['is_public'])) {
+            throw new Exception("Page is not published. Publish it first before pushing changes.");
+        }
+
+        $publishedDataJson = ensurePublishedDataJson($page['data']);
+        $supabase->update('user_pages', [
+            'published_data'          => $publishedDataJson,
+            'has_unpublished_changes' => 0,
+            'updated_at'              => gmdate('Y-m-d H:i:s')
+        ], [
+            'id'      => $pageId,
+            'user_id' => $userId
+        ]);
+
+        error_log("publishChangesAction - SUCCESS: pageId={$pageId}");
+        return ['success' => true];
+    } catch (Exception $e) {
+        error_log("publishChangesAction - ERROR: " . $e->getMessage());
+        throw $e;
     }
 }
 
@@ -1066,6 +1165,12 @@ $isPaidUser = !empty($_SESSION['is_paid']) || !empty($_SESSION['simulate_pro']);
                     echo json_encode($response);
                     exit();
                 }
+            } elseif ($action === 'publish-changes') {
+                $pageId = $input['id'] ?? null;
+                if (!$pageId) {
+                    throw new Exception("Page ID required for publishing changes.");
+                }
+                $response = publishChangesAction($pageId, $userId, $supabase);
             } elseif ($action === 'unpublish') {
                 $pageId = $input['id'] ?? null;
                 if (!$pageId) {

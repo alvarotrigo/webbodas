@@ -357,17 +357,22 @@ body.onboarding-visible .top-bar-right > *:not(.user-info) {
     display: none !important;
 }
 
-/* Hide Pages (toggle-sidebar) and Layout (section-outline-toggle) during onboarding so it matches normal onboarding view */
-body.onboarding-visible #toggle-sidebar,
+/* [DISABLED_FOR_WEDDING_VERSION]: Pages sidebar and its toggle are no longer used (onboarding + editor). Kept hidden if HTML is ever uncommented. */
+#pages-sidebar,
+#toggle-sidebar {
+    display: none !important;
+}
+
+/* Hide Layout (section-outline-toggle) during onboarding so it matches normal onboarding view */
 body.onboarding-visible .section-outline-toggle {
     display: none !important;
 }
 
-/* Hide pages sidebar toggle while theme panel is open */
-body.theme-panel-open #toggle-sidebar {
+/* [DISABLED_FOR_WEDDING_VERSION]: Pages sidebar removed; rule no longer needed. */
+/* body.theme-panel-open #toggle-sidebar {
     visibility: hidden;
     pointer-events: none;
-}
+} */
 
 /* Hide "+ New Page" in the pages sidebar during onboarding (user must choose a template first) */
 body.onboarding-visible .new-page-btn {
@@ -387,7 +392,7 @@ body.onboarding-visible .new-page-btn {
     background: var(--secondary-text);
     opacity: 0.5;
     flex-shrink: 0;
-    margin: 0 0.25rem;
+    margin: 0 0.5rem;
 }
 
 /* Topbar left: page name + optional published dot */
@@ -400,7 +405,7 @@ body.onboarding-visible .new-page-btn {
 .top-bar-page-name-row {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0rem;
     min-width: 0;
 }
 
@@ -433,8 +438,8 @@ body.onboarding-visible .new-page-btn {
 
 /* Larger green "online" dot in topbar (sidebar uses smaller .page-published-dot) */
 .topbar-published-dot {
-    width: 14px;
-    height: 14px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: #22c55e;
     flex-shrink: 0;
@@ -1184,6 +1189,23 @@ body.dark-mode .dark-mode-icon-wrapper .icon-moon {
 .publish-dropdown-wrap.is-published .download-btn.published-btn:hover {
     background: #15803d !important;
     color: #fff !important;
+}
+/* "Publish Changes" state: blue button — overrides the green Published! style */
+.publish-dropdown-wrap.is-published.has-unpublished-changes .download-btn.published-btn {
+    background: #2563eb !important;
+    color: #fff !important;
+}
+.publish-dropdown-wrap.is-published.has-unpublished-changes .download-btn.published-btn:hover {
+    background: #1d4ed8 !important;
+    color: #fff !important;
+}
+.publish-dropdown-wrap.is-published.has-unpublished-changes .publish-options-chevron {
+    background: #2563eb !important;
+    color: #fff !important;
+}
+.publish-dropdown-wrap.is-published.has-unpublished-changes .publish-options-chevron:hover {
+    background: #1d4ed8 !important;
+    opacity: 1;
 }
 /* Publish options dropdown menu */
 .publish-options-menu {
@@ -4785,7 +4807,7 @@ body.onboarding-active .top-bar-right > *:not(.user-info) {
     gap: 0.375rem;
     min-width: 2.5rem;
     height: 2.5rem;
-    padding: 0 0.5rem;
+    padding: 0 0.2rem;
     border: none;
     background: transparent;
     border-radius: 0.5rem;

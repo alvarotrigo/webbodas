@@ -75,6 +75,9 @@ class TinyMCEEditor {
             // Exclude elements with fps-non-edit class or inside fps-non-edit elements
             if (el.classList.contains('fps-non-edit') || el.closest('.fps-non-edit')) return false;
             
+            // Exclude emoji elements (edited by InlineEmojiEditor modal, not TinyMCE)
+            if (el.hasAttribute('data-emoji-edit') || el.closest('[data-emoji-edit]')) return false;
+            
             // Exclude elements with no meaningful text content
             if (!this.#hasMeaningfulText(el)) return false;
             
@@ -468,6 +471,9 @@ class TinyMCEEditor {
             
             // Exclude elements with fps-non-edit class or inside fps-non-edit elements
             if (el.classList.contains('fps-non-edit') || el.closest('.fps-non-edit')) return false;
+            
+            // Exclude emoji elements (edited by InlineEmojiEditor modal, not TinyMCE)
+            if (el.hasAttribute('data-emoji-edit') || el.closest('[data-emoji-edit]')) return false;
             
             // Exclude elements with no meaningful text content
             if (!this.#hasMeaningfulText(el)) return false;

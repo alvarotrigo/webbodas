@@ -106,12 +106,16 @@ class SectionRemoveCommand {
     /**
      * @param {Object} params
      * @param {string|number} params.sectionNumber - The section number to remove
+     * @param {string} [params.sectionUid] - Section UID (to avoid stacking opacity command after remove)
+     * @param {number} [params.restoreOpacity] - If we collapsed an opacity command, opacity to restore on undo (0-1)
      * @param {string} params.html - Full HTML of the section (for undo)
      * @param {number} params.removeIndex - Position where the section was removed from
      * @param {Object} params.context
      */
-    constructor({ sectionNumber, html, removeIndex, context }) {
+    constructor({ sectionNumber, sectionUid, restoreOpacity, html, removeIndex, context }) {
         this.sectionNumber = sectionNumber;
+        this.sectionUid = sectionUid || null;
+        this.restoreOpacity = restoreOpacity;
         this.html = html;
         this.removeIndex = removeIndex;
         this.context = context;
@@ -131,13 +135,15 @@ class SectionRemoveCommand {
     undo() {
         if (!this.context) return;
         
-        // Re-add the section at its original position
+        // Re-add the section at its original position; pass restoreOpacity so iframe applies it when adding
         if (typeof this.context.addSection === 'function') {
             this.context.addSection({
                 sectionNumber: this.sectionNumber,
                 html: this.html,
                 insertIndex: this.removeIndex,
-                skipScroll: true // Don't scroll when undoing removal
+                skipScroll: true,
+                restoreOpacity: this.restoreOpacity,
+                sectionUid: this.sectionUid
             });
         }
     }

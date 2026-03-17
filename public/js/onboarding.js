@@ -518,13 +518,13 @@
         fetch(basePath + 'public/css/sections.css')
             .then(r => r.text())
             .then(css => {
-                const startMarker = '/* 1 — Blush & Ivory';
+                const startMarker = '/* 1 — Sage & White';
                 const idx = css.indexOf(startMarker);
                 if (idx !== -1) {
                     themeCssCache = css.substring(idx);
                 } else {
                     // Fallback: extract all .theme-wedding-* rules
-                    const matches = css.match(/\.theme-wedding-[\s\S]*$/);
+                    const matches = css.match(/\.theme-wedding-[\s\S]*?(?=\/\* \[DISABLED|$)/);
                     themeCssCache = matches ? matches[0] : css;
                 }
                 doInject(themeCssCache);

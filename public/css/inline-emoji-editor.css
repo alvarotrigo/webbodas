@@ -1,0 +1,461 @@
+/**
+ * Inline Emoji Editor Styles
+ * Hover effects for emoji elements and modal styles
+ * Visual pattern mirrors inline-svg-editor.css
+ */
+
+/* ─── Hover effect on emoji elements (data-emoji-edit) ────────────────────── */
+
+section [data-emoji-edit],
+footer [data-emoji-edit] {
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    position: relative;
+    display: inline-block;
+}
+
+/* Flag emoji inserted as Twemoji image (display correctly on all platforms) */
+section [data-emoji-edit] .emoji-flag-img,
+footer [data-emoji-edit] .emoji-flag-img {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    object-fit: contain;
+    display: inline-block;
+}
+
+section [data-emoji-edit]:hover,
+footer [data-emoji-edit]:hover {
+    transform: scale(1.15);
+    opacity: 0.85;
+    outline: 2px solid rgba(59, 130, 246, 0.5);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Tooltip "Change emoji" */
+section [data-emoji-edit]::after,
+footer [data-emoji-edit]::after {
+    content: "Change emoji";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1000;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Tooltip arrow */
+section [data-emoji-edit]::before,
+footer [data-emoji-edit]::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-2px);
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.9);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1000;
+}
+
+section [data-emoji-edit]:hover::after,
+footer [data-emoji-edit]:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px);
+}
+
+section [data-emoji-edit]:hover::before,
+footer [data-emoji-edit]:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(1px);
+}
+
+/* Hide in fullscreen preview mode */
+body.fullscreen-mode section [data-emoji-edit],
+body.fullscreen-mode footer [data-emoji-edit] {
+    cursor: default;
+}
+
+body.fullscreen-mode section [data-emoji-edit]:hover,
+body.fullscreen-mode footer [data-emoji-edit]:hover {
+    transform: none;
+    opacity: 1;
+    outline: none;
+}
+
+body.fullscreen-mode section [data-emoji-edit]::after,
+body.fullscreen-mode section [data-emoji-edit]::before,
+body.fullscreen-mode footer [data-emoji-edit]::after,
+body.fullscreen-mode footer [data-emoji-edit]::before {
+    display: none;
+}
+
+/* Hide tooltip during page export/download */
+body.generating section [data-emoji-edit]::after,
+body.generating section [data-emoji-edit]::before,
+body.generating footer [data-emoji-edit]::after,
+body.generating footer [data-emoji-edit]::before {
+    display: none;
+}
+
+/* ─── Modal overlay ───────────────────────────────────────────────────────── */
+
+.emoji-edit-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(4px);
+}
+
+/* ─── Modal container ─────────────────────────────────────────────────────── */
+
+.emoji-edit-modal {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--primary-bg);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 760px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    animation: emojiModalSlideIn 0.2s ease-out;
+}
+
+@keyframes emojiModalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── Modal header ─────────────────────────────────────────────────────────  */
+
+.emoji-edit-modal h2 {
+    margin: 0 0 24px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primary-text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.emoji-edit-modal .close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.emoji-edit-modal .close-btn:hover {
+    background: #f3f4f6;
+    color: #666;
+}
+
+/* ─── Content layout (side-by-side: preview + picker) ───────────────────── */
+
+.emoji-edit-content {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+/* ─── Preview panel ───────────────────────────────────────────────────────── */
+
+.emoji-preview-section {
+    flex: 0 0 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.emoji-preview-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--secondary-text);
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: flex-start;
+}
+
+.emoji-preview-container {
+    width: 140px;
+    height: 140px;
+    background:
+        linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+        linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    background-color: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.emoji-preview-char,
+.emoji-preview-placeholder {
+    font-size: 64px;
+    line-height: 1;
+    display: block;
+    user-select: none;
+}
+
+.emoji-preview-placeholder {
+    color: var(--secondary-text);
+}
+
+.emoji-preview-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    display: block;
+}
+
+/* ─── Picker panel ────────────────────────────────────────────────────────── */
+
+.emoji-picker-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* Search */
+.emoji-search-wrapper {
+    margin-bottom: 12px;
+}
+
+.emoji-search-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #2d2d2d;
+    border-radius: 8px;
+    background: #1e1e1e;
+    color: #e5e7eb;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.emoji-search-input::placeholder {
+    color: #6a6a6a;
+}
+
+.emoji-search-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Category tabs */
+.emoji-category-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    padding-bottom: 4px;
+}
+
+.emoji-category-tab {
+    padding: 5px 12px;
+    border-radius: 9999px;
+    border: 1px solid #3d3d3d;
+    background: transparent;
+    color: var(--secondary-text, #9ca3af);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.emoji-category-tab:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: #5a5a5a;
+    color: var(--primary-text, #e5e7eb);
+}
+
+.emoji-category-tab.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+/* Emoji grid */
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 40px);
+    gap: 2px;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: #3d3d3d transparent;
+}
+
+.emoji-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.emoji-grid::-webkit-scrollbar-thumb {
+    background: #3d3d3d;
+    border-radius: 3px;
+}
+
+.emoji-grid-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+    line-height: 1;
+    padding: 0;
+}
+
+.emoji-grid-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.emoji-grid-btn.selected {
+    background: rgba(59, 130, 246, 0.2);
+    outline: 2px solid #3b82f6;
+    outline-offset: -1px;
+}
+
+.emoji-grid-btn .emoji-grid-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: block;
+}
+
+.emoji-grid-btn .emoji-grid-fallback {
+    font-size: 22px;
+}
+
+.emoji-grid-empty {
+    grid-column: 1 / -1;
+    padding: 24px;
+    text-align: center;
+    color: var(--secondary-text, #9ca3af);
+    font-size: 14px;
+}
+
+/* ─── Action buttons ──────────────────────────────────────────────────────── */
+
+.emoji-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.emoji-modal-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.emoji-modal-btn.cancel {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.emoji-modal-btn.cancel:hover {
+    background: #e5e7eb;
+}
+
+.emoji-modal-btn.apply {
+    background: #3b82f6;
+    color: white;
+}
+
+.emoji-modal-btn.apply:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+    .emoji-edit-content {
+        flex-direction: column;
+    }
+
+    .emoji-preview-section {
+        flex: none;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .emoji-preview-container {
+        width: 80px;
+        height: 80px;
+    }
+
+    .emoji-preview-char {
+        font-size: 40px;
+    }
+
+    .emoji-preview-img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .emoji-grid {
+        max-height: 200px;
+    }
+}

@@ -220,7 +220,11 @@ class CloudinaryImageEditor {
             if (img.closest('[data-bg-image="true"]')) {
                 return;
             }
-            
+            // Skip emoji flags (Twemoji images inside [data-emoji-edit]); they are edited by the emoji modal, not the image editor
+            if (img.classList.contains('emoji-flag-img') || img.closest('[data-emoji-edit]')) {
+                return;
+            }
+
             // Ensure overlay container exists before adding indicators
             if (!this.overlayContainer) {
                 console.warn('📸 Cloudinary: Overlay container not ready yet, creating now...');

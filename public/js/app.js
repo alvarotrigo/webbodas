@@ -115,7 +115,7 @@ let suppressThemeHistory = false;
  
  const sectionCommandHelpers = {
      applySelectionState,
-     addSection({ sectionNumber, html, insertIndex = null, skipTinyMCE = false, skipScroll = false }) {
+     addSection({ sectionNumber, html, insertIndex = null, skipTinyMCE = false, skipScroll = false, restoreOpacity = undefined, sectionUid = null }) {
          const iframe = document.getElementById('preview-iframe');
          if (iframe && iframe.contentWindow) {
              iframe.contentWindow.postMessage({
@@ -126,7 +126,9 @@ let suppressThemeHistory = false;
                      animationsEnabled,
                      insertIndex,
                      skipTinyMCE,
-                     skipScroll
+                     skipScroll,
+                     restoreOpacity,
+                     sectionUid
                  }
              }, '*');
          }
@@ -1147,134 +1149,19 @@ function isUserInOnboarding() {
     }
  }
 
- // Wedding theme data with color palettes — 25 palettes for the wedding editor
- const themes = [
-     {
-         id: 'theme-wedding-blush-ivory',
-         name: 'Blush & Ivory',
-         colors: ['#fdf8f5', '#faf0eb', '#d4967a', '#b8785e', '#f0d8cc']
-     },
-     {
-         id: 'theme-wedding-rose-gold',
-         name: 'Rose Gold & Cream',
-         colors: ['#fdfaf6', '#faf5ef', '#c9956c', '#b07d58', '#e8d5c4']
-     },
-     {
-         id: 'theme-wedding-dusty-rose',
-         name: 'Dusty Rose & Sage',
-         colors: ['#fdf8f6', '#f7ede8', '#c0847a', '#7a9e7e', '#e8d5d0']
-     },
-     {
-         id: 'theme-wedding-white-pearl',
-         name: 'White & Pearl',
-         colors: ['#ffffff', '#fafaf8', '#b8a898', '#9e8e7e', '#e8e4de']
-     },
-     {
-         id: 'theme-wedding-sage-white',
-         name: 'Sage & White',
-         colors: ['#f9faf8', '#f2f5f0', '#7a9e7e', '#5e8462', '#d8e4d5']
-     },
-     {
-         id: 'theme-wedding-ash-minimal',
-         name: 'Ash Grey Minimal',
-         colors: ['#f8f8f8', '#f0f0f0', '#888888', '#444444', '#d5d5d5']
-     },
-     {
-         id: 'theme-wedding-terracotta',
-         name: 'Terracotta & Sage',
-         colors: ['#faf6f2', '#f4ede4', '#c4714a', '#7a9e7e', '#e4d5c5']
-     },
-     {
-         id: 'theme-wedding-champagne-pampas',
-         name: 'Champagne & Pampas',
-         colors: ['#fdf9f4', '#f8f2e8', '#d4b896', '#a89070', '#e8dcc8']
-     },
-     {
-         id: 'theme-wedding-cedar',
-         name: 'Cedar & Wildflower',
-         colors: ['#f9f6f0', '#f2ebe0', '#8b5e3c', '#d4956a', '#dfd0bc']
-     },
-     {
-         id: 'theme-wedding-black-gold',
-         name: 'Black & Gold',
-         colors: ['#0d0d0d', '#1a1814', '#d4af37', '#b8902e', '#2e2820']
-     },
-     {
-         id: 'theme-wedding-navy-gold',
-         name: 'Navy & Gold',
-         colors: ['#0c1428', '#14213d', '#d4af37', '#e8c84a', '#1e3050']
-     },
-     {
-         id: 'theme-wedding-ivory-champagne',
-         name: 'Ivory & Champagne',
-         colors: ['#fefcf7', '#faf6ec', '#c8a96e', '#b08c50', '#ebe0c8']
-     },
-     {
-         id: 'theme-wedding-silver-pearl',
-         name: 'Silver & Pearl',
-         colors: ['#fafafa', '#f2f4f6', '#a8b4c0', '#8096a8', '#dce4ec']
-     },
-     {
-         id: 'theme-wedding-aqua-sand',
-         name: 'Aqua & Sand',
-         colors: ['#fdfcfa', '#f5f0e8', '#5bbcb8', '#e8b48a', '#d8e8e8']
-     },
-     {
-         id: 'theme-wedding-hibiscus',
-         name: 'Hibiscus & Coral',
-         colors: ['#fff8f5', '#ffeee8', '#e8654a', '#ff9a80', '#ffd0c0']
-     },
-     {
-         id: 'theme-wedding-coastal',
-         name: 'Coastal Blue',
-         colors: ['#f5f9fe', '#e8f2fc', '#4a8ec0', '#2e6a9c', '#c8dce8']
-     },
-     {
-         id: 'theme-wedding-frost',
-         name: 'Frost & Ice',
-         colors: ['#f8f9ff', '#f0f4fc', '#90b4d4', '#c8d8e8', '#d8e4f0']
-     },
-     {
-         id: 'theme-wedding-berry-velvet',
-         name: 'Berry & Velvet',
-         colors: ['#1a0d1a', '#231222', '#9b4dca', '#c86e9c', '#2e1830']
-     },
-     {
-         id: 'theme-wedding-midnight-stars',
-         name: 'Midnight & Stars',
-         colors: ['#080c18', '#0f1428', '#8080d4', '#d4c8a8', '#141c38']
-     },
-     {
-         id: 'theme-wedding-moody-mauve',
-         name: 'Moody Mauve',
-         colors: ['#f5f0f5', '#ede4f0', '#9060a8', '#c4a0c8', '#d8c8e4']
-     },
-     {
-         id: 'theme-wedding-lilac-gold',
-         name: 'Lilac & Gold',
-         colors: ['#fdf8ff', '#f5eefa', '#b07cd8', '#d4af37', '#e4d0f4']
-     },
-     {
-         id: 'theme-wedding-enchanted-forest',
-         name: 'Enchanted Forest',
-         colors: ['#f0f8f0', '#e8f4e8', '#4a8c5c', '#d4af37', '#c8e4cc']
-     },
-     {
-         id: 'theme-wedding-sepia-lace',
-         name: 'Sepia & Lace',
-         colors: ['#fdf8f0', '#f5ede0', '#8c6840', '#b8906c', '#dcc8a8']
-     },
-     {
-         id: 'theme-wedding-art-deco',
-         name: 'Art Deco Noir',
-         colors: ['#0a0a08', '#141410', '#d4af37', '#f0d060', '#302c1e']
-     },
-     {
-         id: 'theme-wedding-garden-party',
-         name: 'Garden Party',
-         colors: ['#f8fdf5', '#f0f9e8', '#6daa4a', '#f0a840', '#d4e8c0']
-     }
- ];
+// Wedding theme data with color palettes (source of truth: templates/css/wedding-themes-reference.css)
+const themes = [
+    { id: 'theme-wedding-sage-white', name: 'Sage & White', colors: ['#f9fbf9', '#f0f4f0', '#8ba888', '#6b8269', '#e4ebe4'] },
+    { id: 'theme-wedding-terracotta', name: 'Terracotta & Sage', colors: ['#f4eee8', '#ede2d7', '#c6714b', '#a05636', '#e2d1c3'] },
+    { id: 'theme-wedding-midnight-stars', name: 'Midnight & Stars', colors: ['#0f141d', '#1a202c', '#d4af37', '#b8962e', '#242c3d'] },
+    { id: 'theme-wedding-coastal', name: 'Coastal Blue', colors: ['#f4f7f9', '#ebf1f5', '#5b87a8', '#3e6480', '#e0e9f0'] },
+    { id: 'theme-wedding-dusty-rose', name: 'Dusty Rose', colors: ['#fffdfd', '#fbf5f6', '#c48b90', '#a36b70', '#f5e9ea'] },
+    { id: 'theme-wedding-lilac-gold', name: 'Lilac & Gold', colors: ['#fcfbfe', '#f4f1f8', '#c5a059', '#a38040', '#ebe5f2'] },
+    { id: 'theme-wedding-berry-velvet', name: 'Berry & Velvet', colors: ['#faf7f7', '#f2ebeb', '#912737', '#6b1b26', '#e8dbdc'] },
+    { id: 'theme-wedding-champagne-pampas', name: 'Champagne & Pampas', colors: ['#fcfbf9', '#f5f1ea', '#c4a983', '#a38965', '#ede6dc'] },
+    { id: 'theme-wedding-emerald', name: 'Emerald & Ivory', colors: ['#fdfdfc', '#f2f5f3', '#1e5939', '#133b25', '#e4ebe6'] },
+    { id: 'theme-wedding-art-deco', name: 'Art Deco Noir', colors: ['#ffffff', '#f5f5f5', '#000000', '#333333', '#ebebeb'] }
+];
 
  // Expose themes globally so onboarding popup can access them
  window.themes = themes;
@@ -1464,12 +1351,7 @@ function isUserInOnboarding() {
 // Template definitions - static registry similar to sections array above
 // defaultTheme: the wedding theme pre-selected in the Themes panel when the user previews this template
 const templates = [
-    { id: 1, is_pro: 0, name: 'Wedding One',   file: 'template1.html', category: 'classic',     tags: ['classic', 'modern', 'cream'],    defaultTheme: 'theme-wedding-sepia-lace' },
-    { id: 2, is_pro: 0, name: 'Luxury One',    file: 'template2.html', category: 'luxe',        tags: ['black', 'gold', 'cream'],        defaultTheme: 'theme-wedding-art-deco' },
-    { id: 3, is_pro: 0, name: 'Rustic One',    file: 'template3.html', category: 'rustic',      tags: ['sage', 'terracota', 'chic'],     defaultTheme: 'theme-wedding-terracotta' },
-    { id: 4, is_pro: 0, name: 'Beach Wedding', file: 'template4.html', category: 'modern',      tags: ['beach', 'sea', 'water'],         defaultTheme: 'theme-wedding-aqua-sand' },
-    { id: 5, is_pro: 0, name: 'Travellers',    file: 'template5.html', category: 'alternative', tags: ['travel', 'adventure', 'road'],   defaultTheme: 'theme-wedding-champagne-pampas' },
-    { id: 6, is_pro: 0, name: 'Funny Wedding', file: 'template6.html', category: 'funny',       tags: ['happy', 'laugh', 'casual'],      defaultTheme: 'theme-wedding-garden-party' },
+     { id: 1, is_pro: 0, name: 'Tuscany Wedding', file: 'template1.html', category: 'classic',  tags: ['tuscany', 'villa', 'elegant'],    defaultTheme: 'theme-wedding-terracotta' },
 ];
 
 // Template style categories - replaces templates/categorias.json
@@ -3446,6 +3328,16 @@ function downloadPage() {
                  draftData = draft;
                  console.log('Draft saved successfully');
                  updateSaveIndicator('saved');
+
+                 // If the page is already published, switch the button to "Publish Changes"
+                 // so the user knows the live version is out of date.
+                 const publishWrap = document.getElementById('publish-dropdown-wrap');
+                 if (publishWrap && publishWrap.classList.contains('is-published') && !publishWrap.classList.contains('has-unpublished-changes')) {
+                     const slug = publishWrap.dataset.viewWebsiteSlug;
+                     if (slug && window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setPublishChangesMode === 'function') {
+                         window.downloadOptionsHandler.setPublishChangesMode(slug);
+                     }
+                 }
              } catch (e) {
                  // Don't log abort errors as they're expected when cancelling old requests
                  if (e.name === 'AbortError') {
@@ -5127,8 +5019,15 @@ function updateCurrentThemeButton(themeId) {
          case 'SECTION_REMOVED':
              // Create and execute remove command
              if (data.html && historyManager && window.SectionRemoveCommand) {
+                 let restoreOpacity = undefined;
+                 if (data.sectionUid) {
+                     const collapsed = historyManager.popLastOpacityCommandForSection(data.sectionUid);
+                     if (collapsed) restoreOpacity = collapsed.beforeOpacity;
+                 }
                  const removeCommand = new SectionRemoveCommand({
                      sectionNumber: data.sectionNumber,
+                     sectionUid: data.sectionUid || null,
+                     restoreOpacity,
                      html: data.html,
                      removeIndex: data.removeIndex,
                      context: window.sectionCommandHelpers
@@ -5283,6 +5182,13 @@ function updateCurrentThemeButton(themeId) {
              break;
          case 'COMMAND_OPACITY_CHANGE':
              if (historyManager && typeof OpacityChangeCommand !== 'undefined') {
+                 // If the last command was removing this same section, don't push opacity; store restoreOpacity on it
+                 const lastCmd = historyManager.commandStack[historyManager.commandIndex];
+                 if (lastCmd && lastCmd.sectionUid && lastCmd.sectionUid === data.sectionUid &&
+                     typeof lastCmd.removeIndex === 'number') {
+                     lastCmd.restoreOpacity = data.beforeOpacity;
+                     break;
+                 }
                  const command = new OpacityChangeCommand({
                      sectionUid: data.sectionUid,
                      beforeOpacity: data.beforeOpacity,
@@ -5326,6 +5232,18 @@ function updateCurrentThemeButton(themeId) {
                     label: data.label
                 });
                 historyManager.executeCommand(svgCommand);
+            }
+            break;
+        case 'COMMAND_INLINE_EMOJI_CHANGE':
+            if (historyManager && typeof InlineEmojiChangeCommand !== 'undefined') {
+                const emojiCommand = new InlineEmojiChangeCommand({
+                    sectionNumber: data.sectionNumber,
+                    emojiUid: data.emojiUid,
+                    beforeState: data.beforeState,
+                    afterState: data.afterState,
+                    label: data.label
+                });
+                historyManager.executeCommand(emojiCommand);
             }
             break;
         case 'COMMAND_MAP_CHANGE':
@@ -5614,56 +5532,51 @@ document.addEventListener('DOMContentLoaded', async () => {
     //  const clearButton = document.getElementById('clear-all');
     //  clearButton.addEventListener('click', clearAllSections);
      
-     // Toggle sidebar button (pages list)
-     const toggleButton = document.getElementById('toggle-sidebar');
-     if (toggleButton) {
-         toggleButton.addEventListener('click', (e) => {
-             e.stopPropagation();
-             toggleSidebar();
-         });
-     }
+     // [DISABLED_FOR_WEDDING_VERSION]: Pages sidebar and toggle removed; pages only via "Your Pages" link to pages.php.
+     // const toggleButton = document.getElementById('toggle-sidebar');
+     // if (toggleButton) {
+     //     toggleButton.addEventListener('click', (e) => {
+     //         e.stopPropagation();
+     //         toggleSidebar();
+     //     });
+     // }
 
-    // Pages sidebar close button (X in header): close preview if open, then close the sidebar
-    const pagesSidebarCloseBtn = document.getElementById('pages-sidebar-close');
-    if (pagesSidebarCloseBtn) {
-        pagesSidebarCloseBtn.addEventListener('click', () => {
-            const previewPanel = document.getElementById('page-preview-hover-panel');
-            if (previewPanel && previewPanel.classList.contains('show')) {
-                closePagePreview();
-            }
-            if (!sidebarCollapsed) toggleSidebar();
-        });
-    }
+    // const pagesSidebarCloseBtn = document.getElementById('pages-sidebar-close');
+    // if (pagesSidebarCloseBtn) {
+    //     pagesSidebarCloseBtn.addEventListener('click', () => {
+    //         const previewPanel = document.getElementById('page-preview-hover-panel');
+    //         if (previewPanel && previewPanel.classList.contains('show')) {
+    //             closePagePreview();
+    //         }
+    //         if (!sidebarCollapsed) toggleSidebar();
+    //     });
+    // }
 
-     // Close pages sidebar on ESC
-     document.addEventListener('keydown', (e) => {
-         if (e.key === 'Escape' && !sidebarCollapsed) {
-             const sidebar = document.querySelector('.sidebar');
-             if (sidebar && sidebar.classList.contains('sidebar-ready')) {
-                 toggleSidebar();
-             }
-         }
-     });
+     // document.addEventListener('keydown', (e) => {
+     //     if (e.key === 'Escape' && !sidebarCollapsed) {
+     //         const sidebar = document.querySelector('.sidebar');
+     //         if (sidebar && sidebar.classList.contains('sidebar-ready')) {
+     //             toggleSidebar();
+     //         }
+     //     }
+     // });
 
-    // Close pages sidebar when clicking outside (main area, top-bar, etc.)
-    // Exclude view-pages-btn, topbar-files-btn, and page-preview-hover-panel so closing the preview does not close the sidebar
-    document.addEventListener('click', (e) => {
-        if (sidebarCollapsed) return;
-        const sidebar = document.querySelector('.sidebar');
-        if (!sidebar || !sidebar.classList.contains('sidebar-ready')) return;
-        if (e.target.closest('#pages-sidebar') || e.target.closest('#toggle-sidebar') || e.target.closest('#view-pages-btn') || e.target.closest('#topbar-files-btn') || e.target.closest('#page-preview-hover-panel')) return;
-        toggleSidebar();
-    });
+    // document.addEventListener('click', (e) => {
+    //     if (sidebarCollapsed) return;
+    //     const sidebar = document.querySelector('.sidebar');
+    //     if (!sidebar || !sidebar.classList.contains('sidebar-ready')) return;
+    //     if (e.target.closest('#pages-sidebar') || e.target.closest('#toggle-sidebar') || e.target.closest('#view-pages-btn') || e.target.closest('#topbar-files-btn') || e.target.closest('#page-preview-hover-panel')) return;
+    //     toggleSidebar();
+    // });
 
      // View Your Pages link: navigates to pages.php (no click handler — use default link behavior)
 
-     // Topbar files icon: opens the left sidebar (pages list) from the top bar.
-     const topbarFilesBtn = document.getElementById('topbar-files-btn');
-     if (topbarFilesBtn) {
-         topbarFilesBtn.addEventListener('click', () => {
-             if (sidebarCollapsed) toggleSidebar();
-         });
-     }
+     // const topbarFilesBtn = document.getElementById('topbar-files-btn');
+     // if (topbarFilesBtn) {
+     //     topbarFilesBtn.addEventListener('click', () => {
+     //         if (sidebarCollapsed) toggleSidebar();
+     //     });
+     // }
 
      // [DISABLED_FOR_WEDDING_VERSION]: Change Template button replaced by View Your Pages button.
      // const changeTemplateBtn = document.getElementById('change-template-btn');
@@ -5693,7 +5606,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (topbarThemeBtn) {
         topbarThemeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (!sidebarCollapsed) toggleSidebar();
+            // [DISABLED_FOR_WEDDING_VERSION]: Pages sidebar removed; no need to close it before opening theme panel.
+            // if (!sidebarCollapsed) toggleSidebar();
             const panel = document.getElementById('theme-panel');
             if (panel && panel.classList.contains('show')) {
                 closeThemePanel();
@@ -6338,8 +6252,17 @@ document.addEventListener('DOMContentLoaded', async () => {
      const publishOptionsMenu = document.getElementById('publish-options-menu');
 
      downloadBtn.addEventListener('click', async (e) => {
-        // When published: main button opens published website in new tab (real domain/subdomain, not shared.html)
         const slug = (publishWrap && publishWrap.dataset.viewWebsiteSlug) || downloadBtn.dataset.viewWebsiteSlug;
+
+        // When published with pending changes: push the draft to the live site
+        if (slug && publishWrap && publishWrap.classList.contains('has-unpublished-changes')) {
+            if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.publishChanges === 'function') {
+                window.downloadOptionsHandler.publishChanges();
+            }
+            return;
+        }
+
+        // When published (no pending changes): open the published website in a new tab
         if (slug) {
             const viewLink = document.getElementById('topbar-view-website-link');
             let href = viewLink && viewLink.href && viewLink.href !== '#' ? viewLink.href : null;
@@ -6349,11 +6272,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (href) window.open(href, '_blank', 'noopener');
             return;
         }
-         if (window.downloadOptionsHandler) {
-             window.downloadOptionsHandler.showDownloadOptions();
-         } else {
-             downloadPage();
-         }
+
+        // Not published yet: show publish modal
+        if (window.downloadOptionsHandler) {
+            window.downloadOptionsHandler.showDownloadOptions();
+        } else {
+            downloadPage();
+        }
      });
 
      if (publishOptionsTrigger && publishOptionsMenu) {
@@ -6469,19 +6394,11 @@ document.addEventListener('DOMContentLoaded', async () => {
          });
      }
 
-     // Sidebar toggle (Pages) tooltip - placement right, same style as section-outline "Layout"
-     const sidebarToggleBtn = document.getElementById('toggle-sidebar');
-     if (sidebarToggleBtn && typeof tippy !== 'undefined' && !sidebarToggleBtn._tippy) {
-         tippy(sidebarToggleBtn, {
-             placement: 'right',
-             arrow: true,
-             theme: 'custom',
-             content: sidebarToggleBtn.getAttribute('data-tippy-content') || 'Pages',
-             animation: 'scale',
-             duration: [200, 150],
-             delay: [300, 0]
-         });
-     }
+     // [DISABLED_FOR_WEDDING_VERSION]: Pages sidebar toggle removed.
+     // const sidebarToggleBtn = document.getElementById('toggle-sidebar');
+     // if (sidebarToggleBtn && typeof tippy !== 'undefined' && !sidebarToggleBtn._tippy) {
+     //     tippy(sidebarToggleBtn, { ... });
+     // }
      
      // Initialize tooltips for lock icons (will be updated when sections are generated)
      function initializeLockTooltips() {

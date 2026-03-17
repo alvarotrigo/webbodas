@@ -56,10 +56,29 @@ class HistoryManager {
         }
     }
     
+    /**
+     * If the last command is an OpacityChangeCommand for the given sectionUid, remove it
+     * and return its beforeOpacity so the remove command can restore it on undo.
+     * @param {string} sectionUid
+     * @returns {{ beforeOpacity: number }|null} the original opacity to restore, or null
+     */
+    popLastOpacityCommandForSection(sectionUid) {
+        if (!sectionUid || this.commandIndex < 0) return null;
+        const last = this.commandStack[this.commandIndex];
+        if (!last || !last.sectionUid) return null;
+        if (last.sectionUid !== sectionUid) return null;
+        if (typeof last.beforeOpacity !== 'number' || typeof last.afterOpacity !== 'number') return null;
+        const beforeOpacity = last.beforeOpacity;
+        this.commandStack.pop();
+        this.commandIndex--;
+        this.updateButtons();
+        return { beforeOpacity };
+    }
+
     hasCommandUndo() {
         return this.commandIndex >= 0;
     }
-    
+
     hasCommandRedo() {
         return this.commandIndex < this.commandStack.length - 1;
     }

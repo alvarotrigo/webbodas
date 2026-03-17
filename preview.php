@@ -311,12 +311,15 @@ if (!empty($_GET['template'])) {
     <script src="<?= editor_asset('./public/js/sentry-init.js') ?>"></script>
     
     <link rel="stylesheet" href="./dist/output.css">
+    <!-- Tailwind CDN: required for arbitrary-value classes used in wedding templates (e.g. bg-[var(--primary-bg)]) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="<?= editor_asset('./public/css/viewport-animations.css') ?>">
     <link rel="stylesheet" href="<?= editor_asset('./public/css/sections.css') ?>">
     <link rel="stylesheet" href="<?= editor_asset('./public/css/header-nav.css') ?>">
     <link rel="stylesheet" href="<?= editor_asset('./public/css/simple-editor.css') ?>">
     <link rel="stylesheet" href="<?= editor_asset('./public/css/data-attributes-editor.css') ?>">
     <link rel="stylesheet" href="<?= editor_asset('./public/css/inline-svg-editor.css') ?>">
+    <link rel="stylesheet" href="<?= editor_asset('./public/css/inline-emoji-editor.css') ?>">
     <link rel="stylesheet" href="<?= editor_asset('./public/css/inline-map-editor.css') ?>">
     <link rel="stylesheet" href="<?= editor_asset('./public/css/inline-countdown-editor.css') ?>">
     
@@ -339,6 +342,8 @@ if (!empty($_GET['template'])) {
     <script defer src="<?= editor_asset('./public/js/section-background-picker.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/inline-video-editor.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/inline-svg-editor.js') ?>"></script>
+    <script defer src="<?= editor_asset('./public/js/inline-emoji-editor.js') ?>"></script>
+    <script defer src="<?= editor_asset('./public/js/tinymce/plugins/emoticons/js/emojis.min.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/inline-map-editor.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/inline-countdown-editor.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/viewport-animations.js') ?>"></script>

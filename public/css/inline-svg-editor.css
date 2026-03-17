@@ -101,6 +101,7 @@ body.generating section svg::before {
 
 /* SVG Edit Modal */
 .svg-edit-modal {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background: var(--primary-bg);
     border-radius: 16px;
     padding: 32px;

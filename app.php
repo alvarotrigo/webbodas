@@ -346,6 +346,7 @@ function editor_asset(string $path): string
     <script src="<?= editor_asset('public/js/history/commands/image-change-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/inline-video-change-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/inline-svg-change-command.js') ?>"></script>
+    <script src="<?= editor_asset('public/js/history/commands/inline-emoji-change-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/map-change-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/countdown-change-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/theme-change-command.js') ?>"></script>
@@ -412,10 +413,10 @@ function editor_asset(string $path): string
             </a>
             <!-- Vertical separator between Your Pages and page title -->
             <div class="top-bar-separator" aria-hidden="true"></div>
-            <!-- Files icon: only shown during onboarding; hidden permanently in editor (pages opened via left sidebar toggle) -->
-            <button type="button" id="topbar-files-btn" class="topbar-files-btn" data-tippy-content="Your Pages" aria-label="Open pages sidebar" style="display: none;">
+            <!-- [DISABLED_FOR_WEDDING_VERSION]: Pages sidebar and its toggle removed; user opens pages via "Your Pages" link to pages.php only. -->
+            <!-- <button type="button" id="topbar-files-btn" class="topbar-files-btn" data-tippy-content="Your Pages" aria-label="Open pages sidebar" style="display: none;">
                 <i data-lucide="files" class="topbar-files-icon"></i>
-            </button>
+            </button> -->
             <!-- Page Name Display with Back Button -->
             <div class="top-bar-page-block">
                 <div class="top-bar-page-name-row flex items-center gap-2">
@@ -625,17 +626,15 @@ function editor_asset(string $path): string
     </div>
 
 
-    <!-- Left Sidebar: Pages list (replaces the old template categories sidebar) -->
-    <div class="sidebar" id="pages-sidebar">
+    <!-- [DISABLED_FOR_WEDDING_VERSION]: Pages sidebar and toggle-sidebar removed; pages are managed via "Your Pages" link to pages.php only. -->
+    <!-- <div class="sidebar" id="pages-sidebar">
 
-        <!-- Toggle tab — pokes out to the right; mirrors section-outline-toggle on the left -->
         <button class="sidebar-toggle" id="toggle-sidebar" aria-label="Pages" data-tippy-content="Pages" data-tippy-placement="right">
             <i data-lucide="files"></i>
         </button>
 
         <div class="sidebar-content">
 
-            <!-- Pages list panel -->
             <div class="pages-sidebar-panel" id="pages-sidebar-panel">
                 <div class="pages-sidebar-header">
                     <div class="pages-sidebar-title">
@@ -647,35 +646,18 @@ function editor_asset(string $path): string
                     </button>
                 </div>
                 <div class="pages-list" id="pages-list">
-                    <!-- Page items + New Page button injected by JS via fetchAndRenderPagesList() -->
                 </div>
             </div>
 
-            <!-- [DISABLED_FOR_WEDDING_VERSION]: Old in-sidebar preview panel replaced by page-preview-hover-panel outside the sidebar -->
-            <!-- <div class="page-preview-panel" id="page-preview-panel" style="display:none;">
-                <div class="page-preview-panel-header">
-                    <button type="button" id="page-preview-back-btn" class="page-preview-back-btn" aria-label="Back to pages">
-                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                        <span>Back</span>
-                    </button>
-                    <span class="page-preview-title" id="page-preview-title"></span>
-                </div>
-                <div class="page-preview-iframe-wrapper">
-                    <iframe id="page-preview-iframe" class="page-preview-iframe" src="about:blank" title="Page preview"></iframe>
-                </div>
-            </div> -->
-
-            <!-- Hidden elements to keep JS compatibility (updateCurrentThemeButton uses these IDs) -->
             <div id="current-theme-preview" style="display:none;"></div>
             <span id="current-theme-name" style="display:none;"></span>
 
         </div>
-    </div>
+    </div> -->
 
-    <!-- [DISABLED_FOR_WEDDING_VERSION]: Toggle button moved inside .sidebar (mirrors section-outline-toggle pattern) -->
-    <!-- <button class="sidebar-toggle" id="toggle-sidebar" aria-label="Pages" data-tippy-content="Pages" data-tippy-placement="right">
-        <i data-lucide="files"></i>
-    </button> -->
+    <!-- Hidden elements for JS compatibility (updateCurrentThemeButton uses these IDs) -->
+    <div id="current-theme-preview" style="display:none;"></div>
+    <span id="current-theme-name" style="display:none;"></span>
 
     <!-- Header Panel (Independent, replaces sidebar) -->
     <div class="header-panel" id="header-panel">
@@ -1341,17 +1323,24 @@ function editor_asset(string $path): string
             }
         }
 
-        // Switch Publish button to "View Website" if page is already published on load,
-        // or reset to Publish mode so state from a previous page never leaks.
+        // Switch Publish button to the correct initial state on page load:
+        // - "Published!" (green)       → published, no pending changes
+        // - "Publish Changes" (blue)   → published, has_unpublished_changes=1
+        // - "Publish" (blue)           → not yet published
         function initViewWebsiteBtn() {
             if (window.downloadOptionsHandler && typeof window.downloadOptionsHandler.setViewWebsiteMode === 'function') {
-                if (preloaded && preloaded.page && preloaded.page.is_public && preloaded.page.share_slug) {
-                    window.downloadOptionsHandler.setViewWebsiteMode(preloaded.page.share_slug);
+                var page = preloaded && preloaded.page;
+                if (page && page.is_public && page.share_slug) {
+                    if (page.has_unpublished_changes) {
+                        window.downloadOptionsHandler.setPublishChangesMode(page.share_slug);
+                    } else {
+                        window.downloadOptionsHandler.setViewWebsiteMode(page.share_slug);
+                    }
                 } else {
                     // Reset to Publish mode; preserve slug for reactivation if it exists
-                    var prevSlug = (preloaded && preloaded.page && preloaded.page.share_slug) ? preloaded.page.share_slug : null;
+                    var prevSlug = (page && page.share_slug) ? page.share_slug : null;
                     window.downloadOptionsHandler.setPublishMode(prevSlug);
-                    // Also hide topbar published indicator (green dot) since this page is not published
+                    // Also hide topbar published indicator since this page is not published
                     var topbarLink = document.getElementById('topbar-published-link');
                     if (topbarLink) { topbarLink.style.display = 'none'; topbarLink.href = '#'; }
                 }

@@ -1500,6 +1500,7 @@ class DownloadOptionsHandler {
 
         if (wrap) {
             wrap.classList.add('is-published');
+            wrap.classList.remove('has-unpublished-changes');
             wrap.dataset.viewWebsiteSlug = shareSlug;
         }
         btn.classList.remove('publish-btn', 'unpublish-btn');
@@ -1547,7 +1548,7 @@ class DownloadOptionsHandler {
             viewWebsiteLink.style.display = 'none';
         }
         if (wrap) {
-            wrap.classList.remove('is-published');
+            wrap.classList.remove('is-published', 'has-unpublished-changes');
             delete wrap.dataset.viewWebsiteSlug;
         }
         if (trigger) {
@@ -1575,6 +1576,109 @@ class DownloadOptionsHandler {
         // Show Share Link button again when unpublished
         const shareBtn = document.getElementById('share-page');
         if (shareBtn) shareBtn.style.display = '';
+    }
+
+    /**
+     * When a published page has unsaved changes: keep the "Published!" split-button structure
+     * but switch the main button to blue "Publish Changes".
+     * The dropdown (Unpublish, Copy Link, Change Domain) remains visible.
+     * Clicking the main button calls the publish-changes API endpoint, then transitions to
+     * setViewWebsiteMode() on success.
+     *
+     * @param {string} shareSlug - The active share slug (subdomain or custom domain)
+     */
+    setPublishChangesMode(shareSlug) {
+        const btn = document.getElementById('download-page');
+        const wrap = document.getElementById('publish-dropdown-wrap');
+        const trigger = document.getElementById('publish-options-trigger');
+        const menu = document.getElementById('publish-options-menu');
+        if (!btn || !shareSlug) return;
+
+        if (wrap) {
+            wrap.classList.add('is-published', 'has-unpublished-changes');
+            wrap.dataset.viewWebsiteSlug = shareSlug;
+        }
+        btn.classList.remove('publish-btn', 'unpublish-btn');
+        btn.classList.add('published-btn');
+        btn.dataset.viewWebsiteSlug = shareSlug;
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="upload-cloud"></i> <span class="publish-btn-label text-sm pl-2">Publish Changes</span>';
+
+        if (btn._tippy) {
+            btn._tippy.setContent('Publish your changes to the live site');
+        } else {
+            btn.setAttribute('data-tippy-content', 'Publish your changes to the live site');
+        }
+        if (trigger) {
+            trigger.style.display = '';
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+        if (menu) {
+            menu.classList.remove('open');
+            menu.setAttribute('aria-hidden', 'true');
+        }
+        // Keep Share Link button hidden (use dropdown to copy link)
+        const shareBtn = document.getElementById('share-page');
+        if (shareBtn) shareBtn.style.display = 'none';
+
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
+            lucide.createIcons();
+        }
+    }
+
+    /**
+     * Sends the current draft to published_data via the publish-changes API action.
+     * Called when the user presses the "Publish Changes" button.
+     */
+    async publishChanges() {
+        const pageId = window.pageManagerInstance && window.pageManagerInstance.currentPageId;
+        const clerkUserId = window.serverUserData && window.serverUserData.clerk_user_id;
+        const wrap = document.getElementById('publish-dropdown-wrap');
+        const shareSlug = wrap && wrap.dataset.viewWebsiteSlug;
+
+        if (!pageId || !clerkUserId) {
+            if (typeof showToast === 'function') {
+                showToast('Error', 'Could not identify the current page.', {});
+            }
+            return;
+        }
+
+        const btn = document.getElementById('download-page');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="publish-btn-label text-sm pl-2">Publishing...</span>';
+        }
+
+        try {
+            const res = await fetch('./api/pages.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'publish-changes',
+                    id: pageId,
+                    clerk_user_id: clerkUserId
+                })
+            });
+            const data = await res.json();
+            if (!data.success) {
+                throw new Error(data.error || 'Failed to publish changes');
+            }
+            // Transition back to the "Published!" green state
+            this.setViewWebsiteMode(shareSlug);
+            if (typeof showToast === 'function') {
+                showToast('Published!', 'Your changes are now live.', { type: 'success' });
+            }
+        } catch (err) {
+            console.error('publishChanges error:', err);
+            if (btn) {
+                btn.disabled = false;
+            }
+            // Restore "Publish Changes" state
+            if (shareSlug) this.setPublishChangesMode(shareSlug);
+            if (typeof showToast === 'function') {
+                showToast('Publish Failed', err.message || 'Could not publish changes.', {});
+            }
+        }
     }
 
     /**

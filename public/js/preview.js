@@ -378,7 +378,9 @@ window.addEventListener('message', function(event) {
                 data.animationsEnabled,
                 data.skipScroll || false,
                 data.skipTinyMCE || false,
-                typeof data.insertIndex === 'number' ? data.insertIndex : null
+                typeof data.insertIndex === 'number' ? data.insertIndex : null,
+                data.restoreOpacity,
+                data.sectionUid || null
             );
             break;
         case 'ADD_SECTIONS_BATCH':
@@ -601,7 +603,7 @@ function initOverlayOpacity(sectionElement) {
     }
 }
 
-function addSection(sectionNumber, html, animationsEnabled, skipScroll = false, skipTinyMCE = false, insertIndex = null) {
+function addSection(sectionNumber, html, animationsEnabled, skipScroll = false, skipTinyMCE = false, insertIndex = null, restoreOpacity = undefined, sectionUidForOpacity = null) {
     // Create a temporary div to parse the HTML and extract the section element
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
@@ -665,6 +667,12 @@ function addSection(sectionNumber, html, animationsEnabled, skipScroll = false, 
         previewContent.insertBefore(sectionElement, referenceNode);
     } else {
         previewContent.appendChild(sectionElement);
+    }
+    
+    // Restore overlay opacity when undoing section remove (opacity change was collapsed into remove command)
+    if (typeof restoreOpacity === 'number') {
+        sectionElement.style.setProperty('--overlay-opacity', restoreOpacity);
+        sectionElement.setAttribute('data-overlay-opacity', String(restoreOpacity));
     }
     
     // Apply any pending text updates for this section
@@ -1068,11 +1076,13 @@ function removeSection(target, options = {}) {
         // Get the HTML of the section
         const sectionHTML = section.outerHTML;
         
-        // Notify parent to create a command
+        // Notify parent to create a command (sectionUid used to collapse opacity+remove into one undo)
+        const sectionUid = section.getAttribute('data-section-uid');
         window.parent.postMessage({
             type: 'SECTION_REMOVED',
             data: {
                 sectionNumber,
+                sectionUid: sectionUid || null,
                 html: sectionHTML,
                 removeIndex
             }

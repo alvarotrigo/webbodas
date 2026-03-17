@@ -100,14 +100,14 @@ try {
     if (!empty($shareToken)) {
         // Token-based access: token itself is the credential, no is_public check required.
         // This allows previewing private pages via share link without publishing them.
-        $result = $mysqlClient->select('user_pages', 'id,data,created_at,share_slug,form_open,form_closed_message', [
+        $result = $mysqlClient->select('user_pages', 'id,data,published_data,created_at,share_slug,form_open,form_closed_message', [
             'share_token' => $shareToken
         ]);
         if (!empty($result)) {
             $document = $result[0];
         }
     } elseif (!empty($shareSlug)) {
-        $result = $mysqlClient->select('user_pages', 'id,data,created_at,share_slug,form_open,form_closed_message', [
+        $result = $mysqlClient->select('user_pages', 'id,data,published_data,created_at,share_slug,form_open,form_closed_message', [
             'share_slug' => $shareSlug,
             'is_public' => 1
         ]);
@@ -136,11 +136,21 @@ try {
     }
 
     if ($document) {
-        $data = $document['data'];
+        // Use published_data (explicit publish snapshot) when available and valid.
+        // Fall back to data for pages published before this feature or if published_data is invalid.
+        $rawData = !empty($document['published_data']) ? $document['published_data'] : $document['data'];
+        $data = $rawData;
         if (is_string($data)) {
             $data = json_decode($data, true);
-            if ($data === null) {
-                throw new Exception('Invalid data format - failed to decode JSON');
+            if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+                // published_data may be corrupt (e.g. stored as "Array"); try fallback to data
+                $fallback = $document['data'] ?? null;
+                if ($fallback !== null && is_string($fallback) && $fallback !== $rawData) {
+                    $data = json_decode($fallback, true);
+                }
+                if ($data === null) {
+                    throw new Exception('Invalid data format - failed to decode JSON');
+                }
             }
         }
 

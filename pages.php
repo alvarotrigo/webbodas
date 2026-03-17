@@ -231,117 +231,120 @@ if ($displayName) {
 }
 
 /**
- * Render preview HTML for the first section of a page (or placeholder for template-only pages).
+ * Extract nav + first section HTML from fullHtml (the user's edited page content).
+ * Strips editor UI elements. Returns ['nav' => string|null, 'section' => string|null].
  */
-function renderPagePreview($pageData) {
-    if (empty($pageData)) {
-        return '<span class="page-preview-placeholder">No sections</span>';
+function extractNavAndFirstSection($fullHtml) {
+    $result = ['nav' => null, 'section' => null];
+    if (!is_string($fullHtml) || trim($fullHtml) === '') {
+        return $result;
     }
-    
+
+    $doc = new DOMDocument();
+    libxml_use_internal_errors(true);
+    $doc->loadHTML('<?xml encoding="utf-8" ?>' . $fullHtml, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    libxml_clear_errors();
+    $xpath = new DOMXPath($doc);
+
+    // Find nav
+    $navNode = $doc->getElementById('nav');
+    if (!$navNode) {
+        $navs = $xpath->query('//nav');
+        $navNode = $navs->length > 0 ? $navs->item(0) : null;
+    }
+
+    // Find first section (prefer #hero, then first <section>)
+    $sectionNode = $doc->getElementById('hero');
+    if (!$sectionNode) {
+        $sections = $xpath->query('//section');
+        $sectionNode = $sections->length > 0 ? $sections->item(0) : null;
+    }
+
+    // Strip editor UI from section
+    if ($sectionNode) {
+        $toRemove = $xpath->query(
+            ".//*[contains(@class, 'section-menu') or contains(@class, 'edit-text-button') or " .
+            "contains(@class, 'image-edit-button') or contains(@class, 'remove-element-button') or " .
+            "contains(@class, 'fp-watermark') or contains(@class, 'theme-switcher')]",
+            $sectionNode
+        );
+        foreach ($toRemove as $el) {
+            $el->parentNode->removeChild($el);
+        }
+    }
+
+    // Strip editor UI from nav too
+    if ($navNode) {
+        $toRemove = $xpath->query(
+            ".//*[contains(@class, 'section-menu') or contains(@class, 'edit-text-button')]",
+            $navNode
+        );
+        foreach ($toRemove as $el) {
+            $el->parentNode->removeChild($el);
+        }
+    }
+
+    $result['nav'] = $navNode ? $doc->saveHTML($navNode) : null;
+    $result['section'] = $sectionNode ? $doc->saveHTML($sectionNode) : null;
+
+    return $result;
+}
+
+/**
+ * Render preview for a page. Returns ['html' => string, 'previewLoad' => null|array].
+ * When previewLoad is set, JS will load the preview via POST into the iframe.
+ */
+function renderPagePreview($pageData, $pageId = null) {
+    $empty = ['html' => '<span class="page-preview-placeholder">No sections</span>', 'previewLoad' => null];
+    if (empty($pageData)) {
+        return $empty;
+    }
     if (is_string($pageData)) {
         $pageData = json_decode($pageData, true);
     }
-    
     if (!$pageData) {
-        return '<span class="page-preview-placeholder">No sections</span>';
+        return $empty;
     }
 
-    // Template-first: page has template but sections not yet synced — show template preview image or placeholder
-    if (!empty($pageData['templateUrl']) && (empty($pageData['sections']) || !is_array($pageData['sections']))) {
-        $templateUrl = $pageData['templateUrl'];
-        $templateId = (strpos($templateUrl, '/index.html') !== false)
-            ? basename(dirname($templateUrl))
-            : basename($templateUrl, '.html');
-        $previewPath = __DIR__ . '/templates/previews/hero_previews/' . $templateId . '.jpg';
-        $previewSrc = 'templates/previews/hero_previews/' . $templateId . '.jpg';
-        if ($templateId !== '' && file_exists($previewPath)) {
-            $previewSrcEsc = htmlspecialchars($previewSrc, ENT_QUOTES, 'UTF-8');
-            return '<div class="page-preview-placeholder page-preview-placeholder--template">'
-                . '<img src="' . $previewSrcEsc . '" alt="Preview plantilla" class="page-preview-template-img" loading="lazy" '
-                . 'onerror="this.style.display=\'none\'; var s=this.nextElementSibling; if(s) s.classList.add(\'visible\');">'
-                . '<span class="page-preview-placeholder-text page-preview-placeholder-text--fallback">Página con plantilla</span>'
-                . '</div>';
-        }
-        return '<div class="page-preview-placeholder page-preview-placeholder--template"><span class="page-preview-placeholder-text">Página con plantilla</span></div>';
-    }
-    
-    if (!isset($pageData['sections']) || empty($pageData['sections'])) {
-        return '<span class="page-preview-placeholder">No sections</span>';
-    }
-    
-    $firstSection = $pageData['sections'][0];
-    
-    if (is_array($firstSection)) {
-        if (isset($firstSection['html'])) {
-            $firstSection = $firstSection['html'];
-        } else {
-            return '<span class="page-preview-placeholder">Invalid section format</span>';
-        }
-    }
-    
-    if (!is_string($firstSection) || trim($firstSection) === '') {
-        return '<span class="page-preview-placeholder">Invalid section format</span>';
-    }
-    
-    $doc = new DOMDocument();
-    libxml_use_internal_errors(true);
-    $doc->loadHTML('<?xml encoding="utf-8" ?>' . $firstSection, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    libxml_clear_errors();
-    
-    $xpath = new DOMXPath($doc);
-    $sectionNodes = $xpath->query("//*[contains(@class, 'section')]");
-    if ($sectionNodes->length === 0) {
-        $sectionNodes = $doc->getElementsByTagName('section');
-    }
-    if ($sectionNodes->length === 0) {
-        $sectionNodes = $doc->getElementsByTagName('footer');
-    }
-    
-    if ($sectionNodes->length === 0) {
-        return '<span class="page-preview-placeholder">Invalid section</span>';
-    }
-    
-    $sectionNode = $sectionNodes->item(0);
-    
-    // Remove unwanted elements
-    $elementsToRemove = $xpath->query(
-        ".//*[contains(@class, 'section-menu') or contains(@class, 'edit-text-button') or " .
-        "contains(@class, 'image-edit-button') or contains(@class, 'remove-element-button') or " .
-        "contains(@class, 'fp-watermark')]",
-        $sectionNode
-    );
-    
-    foreach ($elementsToRemove as $element) {
-        $element->parentNode->removeChild($element);
-    }
-    
-    // Remove height style attribute
-    if ($sectionNode->hasAttribute('style')) {
-        $style = $sectionNode->getAttribute('style');
-        $style = preg_replace('/height\s*:[^;]+;?/', '', $style);
-        if (trim($style)) {
-            $sectionNode->setAttribute('style', $style);
-        } else {
-            $sectionNode->removeAttribute('style');
-        }
-    }
-    
-    $cleanedHtml = $doc->saveHTML($sectionNode);
-    if (trim($cleanedHtml) === '' || strlen($cleanedHtml) < 50) {
-        return '<span class="page-preview-placeholder">Invalid section</span>';
+    $templateUrl = $pageData['templateUrl'] ?? '';
+    if ($templateUrl === '') {
+        return $empty;
     }
 
-    // Apply theme class if present
-    $themeClass = '';
-    if (isset($pageData['theme']) && !empty($pageData['theme'])) {
-        $themeClass = ' ' . htmlspecialchars($pageData['theme']);
+    $templateId = (strpos($templateUrl, '/index.html') !== false)
+        ? basename(dirname($templateUrl))
+        : basename($templateUrl, '.html');
+    if ($templateId === '' || !preg_match('/^[a-zA-Z0-9_-]+$/', $templateId)) {
+        return $empty;
     }
-    // Template-first: add class so preview uses smaller scale (avoids "zoom of hero" look)
-    $templateClass = (!empty($pageData['templateUrl'])) ? ' page-preview-content--template' : '';
-    // Minimal template CSS vars so hero section colors (--blush, --charcoal, --font-body) resolve in card preview
-    $templateVarsStyle = (!empty($pageData['templateUrl'])) ? '<style>.page-preview-content--template{--blush:#F8EDE3;--charcoal:#2C2C2C;--font-body:\'DM Sans\',\'Helvetica Neue\',sans-serif;--font-display:\'Playfair Display\',Georgia,serif;--blush-deep:#F0DAC8;--sage-light:#B8D4B8;}</style>' : '';
-    $previewHtml = $templateVarsStyle . '<div class="page-preview-content' . $themeClass . $templateClass . '">' . $cleanedHtml . '</div>';
-    return $previewHtml;
+
+    $theme = $pageData['theme'] ?? '';
+
+    // Try to extract nav + first section from user's fullHtml (edited content)
+    $fullHtml = $pageData['fullHtml'] ?? '';
+    $extracted = extractNavAndFirstSection($fullHtml);
+
+    if ($extracted['section'] !== null && $pageId !== null) {
+        $iframeId = 'page-preview-iframe-' . htmlspecialchars($pageId, ENT_QUOTES, 'UTF-8');
+        $html = '<iframe id="' . $iframeId . '" class="page-preview-iframe" src="about:blank" title="Page preview"></iframe>';
+        return [
+            'html' => $html,
+            'previewLoad' => [
+                'templateId' => $templateId,
+                'navHtml' => $extracted['nav'] ?? '',
+                'sectionHtml' => $extracted['section'],
+                'theme' => $theme,
+            ],
+        ];
+    }
+
+    // No fullHtml yet: load template snippet via GET (nav + first section from template file)
+    $snippetUrl = 'api/page-preview-snippet.php?template=' . urlencode($templateId) . ($theme !== '' ? '&theme=' . urlencode($theme) : '');
+    $snippetUrlEsc = htmlspecialchars($snippetUrl, ENT_QUOTES, 'UTF-8');
+    return [
+        'html' => '<iframe src="' . $snippetUrlEsc . '" class="page-preview-iframe" title="Page preview"></iframe>',
+        'previewLoad' => null,
+    ];
 }
 
 // Pass user data to JavaScript
@@ -477,8 +480,9 @@ $userDataJson = json_encode($serverUserData);
                 <p class="empty-state-text">Create your first webpage to get started</p>
                 <a href="app.php" class="btn btn-primary">Create Your First Webpage</a>
             </div>
-        <?php else: ?>
-            <?php $freeUserAtLimit = !$isPaid && count($userPages) >= 1; ?>
+        <?php else:
+            $pagePreviewLoads = [];
+            $freeUserAtLimit = !$isPaid && count($userPages) >= 1; ?>
             <!-- Pages Grid -->
             <div class="pages-grid">
                 <!-- New Page Card (free user at limit: click opens upgrade popup; hover shows "Upgrade to Pro") -->
@@ -506,7 +510,11 @@ $userDataJson = json_encode($serverUserData);
                         error_log("pages.php - Page {$pageId} has invalid data field, using empty array");
                         $pageData = [];
                     }
-                    $previewHtml = renderPagePreview($pageData);
+                    $previewResult = renderPagePreview($pageData, $pageId);
+                    $previewHtml = $previewResult['html'];
+                    if (!empty($previewResult['previewLoad'])) {
+                        $pagePreviewLoads[$pageId] = $previewResult['previewLoad'];
+                    }
                     $isPublished = !empty($page['is_public']) && !empty($page['share_slug']);
                     $hasForm = !empty($pageData['fullHtml']) && strpos($pageData['fullHtml'], '<form') !== false;
                     ?>
@@ -547,6 +555,34 @@ $userDataJson = json_encode($serverUserData);
             </div>
         <?php endif; ?>
     </div>
+
+    <!-- Load user-edited previews via POST (nav + first section from user data) -->
+    <?php if (!empty($pagePreviewLoads)): ?>
+    <script>
+    (function() {
+        var loads = <?php echo json_encode($pagePreviewLoads, JSON_HEX_TAG | JSON_HEX_AMP); ?>;
+        var url = 'api/page-preview-snippet.php';
+        Object.keys(loads).forEach(function(pageId) {
+            var iframe = document.getElementById('page-preview-iframe-' + pageId);
+            if (!iframe) return;
+            var d = loads[pageId];
+            var payload = new FormData();
+            payload.append('template', d.templateId);
+            payload.append('nav', d.navHtml || '');
+            payload.append('section', d.sectionHtml);
+            if (d.theme) payload.append('theme', d.theme);
+            fetch(url, { method: 'POST', body: payload })
+                .then(function(r) { return r.text(); })
+                .then(function(html) {
+                    iframe.srcdoc = html;
+                })
+                .catch(function() {
+                    iframe.src = url + '?template=' + encodeURIComponent(d.templateId);
+                });
+        });
+    })();
+    </script>
+    <?php endif; ?>
 
     <!-- New Page Modal -->
     <div id="newPageModal" class="modal">

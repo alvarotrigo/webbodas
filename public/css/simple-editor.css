@@ -101,6 +101,29 @@ a.card-btn.mce-content-body p,
     padding: 0 !important;
 }
 
+/*
+ * Story timeline cards: preserve padding so the margin between text and card edges
+ * stays visible in the editor. TinyMCE adds .mce-content-body to inner elements;
+ * the container .timeline-body must keep its padding so content doesn't touch the borders.
+ */
+#preview-content .timeline-body {
+    padding: 28px;
+}
+
+/*
+ * Timeline body h3: when TinyMCE makes the h3 the inline editable root it adds
+ * .mce-content-body to the element; ensure theme color/size still apply so the
+ * title matches the template design (--accent-text, 22px, --heading-font).
+ */
+#preview-content .timeline-body h3,
+#preview-content .timeline-body h3.mce-content-body {
+    font-family: var(--heading-font);
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    color: var(--accent-text);
+}
+
 /* Hide outlines and disable editing in fullscreen mode */
 .fullscreen-mode [contenteditable="true"] {
     outline: none !important;
