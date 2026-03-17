@@ -646,9 +646,17 @@ function renderPreview() {
         });
     });
     document.getElementById('btnInsert').addEventListener('click', () => {
-        const tag = `<span class="iconify" data-icon="${icon.id}"></span>`;
-        editorArea.value += (editorArea.value ? '\n' : '') + tag;
-        toast('Insertado en el editor');
+        let svgHtml = '';
+        const svgEl = window.Iconify ? Iconify.renderSVG(icon.id, { width: 24, height: 24 }) : null;
+        if (svgEl) {
+            svgHtml = svgEl.outerHTML;
+        } else {
+            // Fallback: try to grab the already-rendered SVG from the preview
+            const rendered = previewContent.querySelector('svg');
+            svgHtml = rendered ? rendered.outerHTML : `<span class="iconify" data-icon="${icon.id}"></span>`;
+        }
+        editorArea.value += (editorArea.value ? '\n' : '') + svgHtml;
+        toast('SVG insertado en el editor');
     });
     document.getElementById('btnCopySvg').addEventListener('click', () => {
         const rendered = previewContent.querySelector('svg');
