@@ -623,10 +623,11 @@ $userDataJson = json_encode($serverUserData);
     <!-- Upgrade Modal Component (loaded on demand) -->
     <script src="<?= editor_asset('./public/js/upgrade-modal.js') ?>"></script>
 
-    <!-- Inject PHP data for pages.js -->
+    <!-- Inject PHP data for pages.js and upgrade-modal.js -->
     <script>
-        // User data from PHP
+        // User data from PHP (expose on window so upgrade modal and other scripts can read it)
         const serverUserData = <?php echo $userDataJson; ?>;
+        window.serverUserData = serverUserData;
         const phpUserId = <?php echo json_encode($userId); ?>;
         const phpUserPagesCount = <?php echo count($userPages); ?>;
         const phpIsAuthenticated = <?php echo $isAuthenticated ? 'true' : 'false'; ?>;

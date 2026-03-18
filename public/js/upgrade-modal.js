@@ -1,8 +1,7 @@
 /**
  * Upgrade Modal Component
  * Loads and manages the upgrade modal on demand
- * 
- * Updated for Polar.sh integration
+ * Single Pro plan – checkout via Stripe
  */
 
 class UpgradeModal {
@@ -10,21 +9,8 @@ class UpgradeModal {
         this.modal = null;
         this.isLoaded = false;
         this.eventListeners = [];
-        
-        // NOTE: Checkout URLs are now managed on the backend via config/polar.php
-        // The backend automatically uses sandbox URLs when POLAR_TEST_MODE=true
-        // These URLs are kept here for reference only and are NOT used in the code
-        this.polarCheckoutUrls = {
-            production: {
-                annual: 'https://buy.polar.sh/polar_cl_vGfXimmFJMnYqTQWN7Vu3PEhqpyHoLZFdZCXJ4geYUn',
-                lifetime: 'https://buy.polar.sh/polar_cl_jvXG4n0BcuDSybmQSnMqKKmqZTYgsntIEGHh12CaUM7'
-            },
-            sandbox: {
-                // Add your sandbox checkout links here (from .env)
-                annual: 'POLAR_CHECKOUT_ANNUAL_SANDBOX',
-                lifetime: 'POLAR_CHECKOUT_LIFETIME_SANDBOX'
-            }
-        };
+        this.proFeaturesModal = null;
+        this.proFeaturesEventListeners = [];
     }
 
     /**
@@ -40,10 +26,8 @@ class UpgradeModal {
         if (existingModal) {
             this.modal = existingModal;
             this.isLoaded = true;
-            // Load Senja testimonies widget
-            this.loadSenjaWidget();
-            // Load Polar embedded checkout script
-            this.loadPolarScript();
+            // [DISABLED_FOR_WEDDING_VERSION]: Senja widget replaced by static review cards
+            // this.loadSenjaWidget();
             this.attachEventListeners();
             return this.modal;
         }
@@ -51,161 +35,128 @@ class UpgradeModal {
         // Inject CSS styles
         this.injectStyles();
 
-        // Create modal HTML with Polar pricing (Annual + Lifetime)
+        // Create modal HTML (layout aligned with upgrademodal.html reference)
         const modalHTML = `
             <div id="upgrade-modal" class="upgrade-modal">
                 <div class="upgrade-modal-content">
-                    <button class="upgrade-modal-close" id="close-upgrade-modal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                    <button class="upgrade-modal-close" id="close-upgrade-modal" type="button" aria-label="Close">✕</button>
+
+                    <div class="upgrade-modal-body">
+                        <div class="upgrade-modal-left">
+                            <div class="upgrade-modal-pro-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
-                    </button>
-                    
+                    </div>
+
                     <div class="upgrade-modal-header">
-                        <h2>Choose Your Plan</h2>
-                        <p>Select the plan that works best for you</p>
+                        <h2>Plan Pro</h2>
+                        <p class="upgrade-modal-subtitle">Unlock all premium features</p>
                     </div>
 
-                    <div class="free-plan-option">
-                        <a href="#" id="continue-free-link" class="continue-free-link">
-                            Continue with Free Plan →
-                        </a>
+                    <div class="upgrade-modal-price-row">
+                        <span class="price-amount">89€</span>
+                        <span class="price-badge">One-time payment</span>
                     </div>
 
-                    <div class="pricing-tiers">
-                        <div class="pricing-card" data-plan="annual">
-                            <div class="pricing-card-content">
-                                <div class="pricing-card-header">
-                                    <h3>Annual</h3>
-                                </div>
-                                <div class="pricing-card-price">
-                                    <span class="price-amount">$99</span>
-                                    <span class="price-period">/year</span>
-                                </div>
-                                <p class="pricing-subheading">Perfect for getting started</p>
-                                <ul class="pricing-features">
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20 6 9 17l-5-5"/>
-                                        </svg>
-                                        Access to 200+ premium sections
-                                    </li>
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20 6 9 17l-5-5"/>
-                                        </svg>
-                                        Unlimited downloads
-                                    </li>
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20 6 9 17l-5-5"/>
-                                        </svg>
-                                        Advanced customization options
-                                    </li>
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20 6 9 17l-5-5"/>
-                                        </svg>
-                                        Priority support
-                                    </li>
-                                    <li style="opacity: 0.6;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"/>
-                                        </svg>
-                                        AI creation feature (coming soon)
-                                        <span class="ai-feature-info">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="info-icon">
-                                                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
-                                            </svg>
-                                            <span class="ai-feature-tooltip">Credit-based AI creation with monthly limits. Option to purchase additional credits if needed.</span>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <button type="button" class="pricing-btn" data-plan="annual">
-                                <span class="upgrade-btn-spinner" aria-hidden="true"></span>
-                                <span class="upgrade-btn-label">Subscribe Now</span>
-                            </button>
+                    <div class="upgrade-modal-features">
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span>Custom <strong>.com domain</strong></span>
                         </div>
-                        
-                        <div class="pricing-card pricing-card-featured" data-plan="lifetime">
-                            <div class="pricing-card-badge">Best Value</div>
-                            <div class="pricing-card-content">
-                                <div class="pricing-card-header">
-                                    <h3>Lifetime</h3>
-                                </div>
-                                <div class="pricing-card-price">
-                                    <span class="price-original">$499</span>
-                                    <span class="price-amount">$289</span>
-                                    <span class="price-period">one-time</span>
-                                </div>
-                                <p class="pricing-limited-notice">⚡ Early access price</p>
-                                <p class="pricing-subheading">Pay once, use forever</p>
-                                <ul class="pricing-features">
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20 6 9 17l-5-5"/>
-                                        </svg>
-                                        Access to 200+ premium sections
-                                    </li>
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20 6 9 17l-5-5"/>
-                                        </svg>
-                                        Unlimited downloads
-                                    </li>
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20 6 9 17l-5-5"/>
-                                        </svg>
-                                        Advanced customization options
-                                    </li>
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20 6 9 17l-5-5"/>
-                                        </svg>
-                                        Priority support
-                                    </li>
-                                    <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20 6 9 17l-5-5"/>
-                                        </svg>
-                                        Lifetime updates included
-                                    </li>
-                                    <li style="opacity: 0.6;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"/>
-                                        </svg>
-                                        AI creation feature (coming soon)
-                                        <span class="ai-feature-info">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="info-icon">
-                                                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
-                                            </svg>
-                                            <span class="ai-feature-tooltip">Credit-based AI creation with monthly limits. Option to purchase additional credits if needed.</span>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <button type="button" class="pricing-btn pricing-btn-featured" data-plan="lifetime">
-                                <span class="upgrade-btn-spinner" aria-hidden="true"></span>
-                                <span class="upgrade-btn-label">Get Lifetime Access</span>
-                            </button>
+                                                <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span><strong>Unlimited</strong> pages</span>
                         </div>
-                    </div>
-                    
-                    <p class="upgrade-error-message" id="upgrade-error-message" role="alert" aria-live="polite"></p>
-                    
-                    <div class="pricing-notices">
-                        <p>Cancel anytime • Refund within 7 days • Secure checkout by Polar</p>
-                    </div>
-                    
-                    <div class="pricing-testimonies">
-                        <div class="senja-embed" data-id="274a3e6d-073f-4761-b991-f03d00c093e8" data-mode="shadow" data-lazyload="false" style="display: block; width: 100%;"></div>
-                    </div>
-                    
-                    <div class="upgrade-modal-footer">
-                        <p>Already have an account?</p>
-                        <a href="#" id="login-link">Sign in to continue</a>
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span><strong>All</strong> Pro templates</span>
+                        </div>
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span>Full visual editor</span>
+                        </div>
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span><strong>Unlimited</strong> forms</span>
+                        </div>
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span>Shareable link</span>
+                        </div>
+                            </div>
+
+                            <button type="button" class="upgrade-modal-cta-btn pricing-btn pricing-btn-pro" data-plan="pro">
+                        <span class="upgrade-btn-spinner" aria-hidden="true"></span>
+                        <span class="upgrade-btn-label">Get Pro</span>
+                            </button>
+                            <div class="pricing-notices">
+                        <p><span class="pricing-notice-shield" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> Secure payment with Stripe</p>
+                            </div>
+                                                        <div class="upgrade-modal-divider"></div>
+                            <a href="#" id="continue-free-link" class="upgrade-modal-skip-link">Continue with the free plan</a>
+
+
+
+                            <p class="upgrade-error-message" id="upgrade-error-message" role="alert" aria-live="polite"></p>
+
+                        </div>
+
+                        <div class="upgrade-modal-right">
+                            <div class="upgrade-modal-reviews-title">Trusted by the community</div>
+                            <div class="upgrade-modal-reviews">
+
+                                <div class="um-review-card um-review-card--full">
+                                    <div class="um-review-header">
+                                        <img class="um-review-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=SarahK" alt="">
+                                        <div>
+                                            <div class="um-review-name">Sarah K.</div>
+                                            <div class="um-review-role">Bride</div>
+                                        </div>
+                                    </div>
+                                    <div class="um-review-stars">★★★★★</div>
+                                    <div class="um-review-text">One of the best solutions for our big day. We selected the Pro plan for the custom .com link and it's a must-have. Thanks! — the editor is so easy to use even if you aren't a "computer person."</div>
+                                </div>
+
+                                <div class="um-review-row">
+                                    <div class="um-review-card">
+                                        <div class="um-review-header">
+                                            <img class="um-review-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=JamesM" alt="">
+                                            <div>
+                                                <div class="um-review-name">James M.</div>
+                                                <div class="um-review-role">Groom</div>
+                                            </div>
+                                        </div>
+                                        <div class="um-review-stars">★★★★★</div>
+                                        <div class="um-review-text">I didn't need to read a manual or watch tutorials—it just makes sense as you go. If you want a stunning wedding site without the headache, this is the one.</div>
+                                    </div>
+                                    <div class="um-review-card">
+                                        <div class="um-review-header">
+                                            <img class="um-review-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=RyanT" alt="">
+                                            <div>
+                                                <div class="um-review-name">Ryan T.</div>
+                                                <div class="um-review-role">Groom</div>
+                                            </div>
+                                        </div>
+                                        <div class="um-review-stars">★★★★★</div>
+                                        <div class="um-review-text">Simple, elegant, and it just works. I fell in love with the templates immediately—they are absolutely gorgeous and didn't look 'cheap' like other sites I tried.</div>
+                                    </div>
+                                </div>
+
+                                <div class="um-review-card um-review-card--full">
+                                    <div class="um-review-header">
+                                        <img class="um-review-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=LauraP" alt="">
+                                        <div>
+                                            <div class="um-review-name">Laura P.</div>
+                                            <div class="um-review-role">Bride</div>
+                                        </div>
+                                    </div>
+                                    <div class="um-review-stars">★★★★★</div>
+                                    <div class="um-review-text">I created our site in under an hour! We upgraded to Pro because we had over 100 guests and needed to get past the free plan limit. The RSVP dashboard made tracking everyone a breeze—it’s worth every penny and I wish I’d found it sooner!</div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -216,25 +167,11 @@ class UpgradeModal {
         this.modal = document.getElementById('upgrade-modal');
         this.isLoaded = true;
 
-        // Load Senja testimonies widget
-        this.loadSenjaWidget();
-        
-        // Load Polar embedded checkout script
-        this.loadPolarScript();
-
-        // Attach event listeners
+        // [DISABLED_FOR_WEDDING_VERSION]: Senja widget replaced by static review cards
+        // this.loadSenjaWidget();
         this.attachEventListeners();
 
         return this.modal;
-    }
-
-    /**
-     * Load Polar.sh embedded checkout script
-     * Note: We're now using direct links with pre-filled data via API
-     */
-    loadPolarScript() {
-        // No longer needed - we're using direct checkout links with query params
-        // Kept as placeholder in case we want to add embedded checkout later
     }
 
     /**
@@ -278,19 +215,15 @@ class UpgradeModal {
 
         const styles = `
             <style id="upgrade-modal-styles">
-                /* Upgrade modal styles */
+                /* Upgrade modal – layout aligned with upgrademodal.html reference */
                 .upgrade-modal {
                     position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
+                    inset: 0;
                     background: rgba(0, 0, 0, 0.5);
                     display: none;
                     align-items: center;
                     justify-content: center;
                     z-index: 10000;
-                    backdrop-filter: blur(4px);
                 }
 
                 .upgrade-modal.show {
@@ -298,392 +231,167 @@ class UpgradeModal {
                 }
 
                 .upgrade-modal-content {
-                    background: white;
+                    position: relative;
+                    z-index: 10;
+                    background: #fff;
                     border-radius: 16px;
-                    padding: 2.5rem 3em;
-                    max-width: 800px;
-                    width: 90%;
+                    padding: 36px 32px 20px;
+                    width: 100%;
+                    max-width: 1040px;
                     max-height: 85vh;
+                    overflow-x: hidden;
                     overflow-y: auto;
-                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-                    position: relative;
+                    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
                 }
 
-                .upgrade-modal-header {
-                    text-align: left;
-                    margin-bottom: 1.8rem;
-                }
-
-                .upgrade-modal-header h2 {
-                    font-size: 1.7rem;
-                    font-weight: 700;
-                    color: #1a252f;
-                    margin-bottom: 0.5rem;
-                }
-
-                .upgrade-modal-header p {
-                    color: #6c757d;
-                    font-size: 0.9rem;
-                }
-
-                .free-plan-option {
-                    text-align: center;
-                    margin: 0 0 1.5rem 0;
-                    padding: 0.75rem 0;
-                }
-
-                .continue-free-link {
-                    color: #6c757d;
-                    text-decoration: none;
-                    font-size: 0.95rem;
-                    font-weight: 500;
-                    padding: 0.5rem 1rem;
-                    border-radius: 6px;
-                    transition: all 0.2s ease;
-                    display: inline-block;
-                    position: relative;
-                }
-
-                .continue-free-link::after {
-                    content: '';
-                    position: absolute;
-                    bottom: 0.25rem;
-                    left: 1rem;
-                    right: 1rem;
-                    height: 1px;
-                    background: #6c757d;
-                    opacity: 0.4;
-                    transition: opacity 0.2s ease;
-                }
-
-                .continue-free-link:hover {
-                    color: #4285f4;
-                    background: rgba(66, 133, 244, 0.05);
-                }
-
-                .continue-free-link:hover::after {
-                    opacity: 0.7;
-                    background: #4285f4;
-                }
-
-                .upgrade-modal-close {
-                    position: absolute;
-                    top: 1rem;
-                    right: 1rem;
-                    width: 32px;
-                    height: 32px;
-                    border: none;
-                    background: #f1f3f4;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: all 0.2s ease;
-                }
-
-                .upgrade-modal-close:hover {
-                    background: #e9ecef;
-                }
-
-                .upgrade-modal-close i {
-                    color: #6c757d;
-                }
-
-                .upgrade-modal-close svg {
-                    color: #6c757d;
-                }
-
-                .pricing-tiers {
+                .upgrade-modal-body {
                     display: grid;
                     grid-template-columns: 1fr 1fr;
                     gap: 1.5rem;
-                    margin-bottom: 1.5rem;
-                    align-items: stretch;
+                    align-items: start;
                 }
-
-                @media (max-width: 640px) {
-                    .pricing-tiers {
+                @media (max-width: 768px) {
+                    .upgrade-modal-body {
                         grid-template-columns: 1fr;
                     }
                 }
 
-                .pricing-card {
-                    background: white;
-                    border: 2px solid #e9ecef;
-                    border-radius: 12px;
-                    padding: 1.5rem;
-                    text-align: center;
-                    position: relative;
-                    transition: all 0.3s ease;
-                    display: flex;
-                    flex-direction: column;
-                    height: 100%;
-                    z-index: 1;
-                }
-
-                .pricing-card:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                    z-index: 10;
-                }
-
-                .pricing-card-featured {
-                    background: white;
-                    border: 2px solid #ff6b6b;
-                    box-shadow: 0 4px 16px rgba(255, 107, 107, 0.2);
-                }
-
-                .pricing-card-featured:hover {
-                    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
-                }
-
-                .pricing-card-badge {
+                .upgrade-modal-close {
                     position: absolute;
-                    top: -12px;
-                    right: 1rem;
-                    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-                    color: white;
-                    padding: 0.25rem 0.75rem;
-                    border-radius: 12px;
-                    font-size: 0.75rem;
-                    font-weight: 600;
-                    text-transform: uppercase;
-                    letter-spacing: 0.5px;
-                }
-
-                .pricing-card-content {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                    min-height: 0;
-                }
-
-                .pricing-card-header {
-                    margin-bottom: 1rem;
-                }
-
-                .pricing-card-header h3 {
-                    font-size: 1.5rem;
-                    font-weight: 700;
-                    color: #1a252f;
-                    margin: 0;
-                }
-
-                .pricing-card-price {
-                    margin-bottom: 0.5rem;
-                }
-
-                .price-original {
-                    font-size: 1.5rem;
-                    font-weight: 600;
-                    color: #6c757d;
-                    text-decoration: line-through;
-                    opacity: 0.7;
-                    margin-right: 0.5rem;
-                    display: inline-block;
-                }
-
-                .price-amount {
-                    font-size: 2.5rem;
-                    font-weight: 700;
-                    color: #1a252f;
-                }
-
-                .price-period {
-                    font-size: 1rem;
-                    color: #6c757d;
-                    margin-left: 0.25rem;
-                }
-
-                .pricing-subheading {
-                    font-size: 0.9rem;
-                    color: #6c757d;
-                    margin: 0 0 1.5rem 0;
-                    font-weight: 400;
-                }
-
-                .pricing-limited-notice {
-                    font-size: 0.85rem;
-                    color: #ff6b35;
-                    font-weight: 700;
-                    margin: 0.5rem 0 0.8rem 0;
-                    padding: 0.4rem 0.8rem;
-                    background: rgba(255, 107, 53, 0.12);
-                    border-radius: 6px;
-                    display: inline-block;
-                    white-space: nowrap;
-                }
-
-                .ai-feature-info {
-                    position: relative;
-                    display: inline-flex;
-                    align-items: center;
-                    margin-left: 0.3rem;
-                    cursor: help;
-                    z-index: 100;
-                }
-
-                .ai-feature-info .info-icon {
-                    width: 14px;
-                    height: 14px;
-                    color: #6c757d;
-                    transition: color 0.2s ease;
-                }
-
-                .ai-feature-info .info-icon svg {
-                    width: 14px;
-                    height: 14px;
-                }
-
-                .ai-feature-info:hover .info-icon {
-                    color: #ff6b35;
-                }
-
-                .ai-feature-tooltip {
-                    position: absolute;
-                    bottom: 100%;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(0,0,0,0.95);
-                    color: white;
-                    padding: 0.6rem 0.8rem;
-                    border-radius: 6px;
-                    font-size: 0.75rem;
-                    white-space: normal;
-                    width: 200px;
-                    text-align: center;
-                    opacity: 0;
-                    visibility: hidden;
-                    transition: opacity 0.2s ease, visibility 0.2s ease;
-                    pointer-events: none;
-                    margin-bottom: 0.5rem;
-                    z-index: 10001;
-                    line-height: 1.4;
-                }
-
-                .ai-feature-tooltip::after {
-                    content: '';
-                    position: absolute;
-                    top: 100%;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    border: 5px solid transparent;
-                    border-top-color: #1a252f;
-                }
-
-                .ai-feature-info:hover .ai-feature-tooltip {
-                    opacity: 1;
-                    visibility: visible;
-                }
-
-                .pricing-features {
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                    text-align: left;
-                    flex: 1;
-                    min-height: 0;
-                }
-
-                .pricing-features li {
-                    display: flex;
-                    align-items: flex-start;
-                    margin-bottom: 0.2rem;
-                    font-size: 0.9rem;
-                    color: #2c3e50;
-                    position: relative;
-                }
-
-                .pricing-features li i {
-                    width: 18px;
-                    height: 18px;
-                    color: #10b981;
-                    margin-right: 0.5rem;
-                    flex-shrink: 0;
-                    margin-top: 0.1rem;
-                }
-
-                .pricing-features li svg {
-                    width: 18px;
-                    height: 18px;
-                    color: #10b981;
-                    margin-right: 0.5rem;
-                    flex-shrink: 0;
-                    margin-top: 0.1rem;
-                }
-
-                .pricing-btn {
-                    width: 100%;
-                    background: #e1e1e1;
-                    color: black;
+                    top: 16px;
+                    right: 16px;
+                    background: none;
                     border: none;
-                    padding: 0.75rem 1.5rem;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    font-size: 0.95rem;
                     cursor: pointer;
-                    transition: all 0.2s ease;
+                    color: #999;
+                    font-size: 20px;
+                    line-height: 1;
+                    padding: 0;
+                }
+                .upgrade-modal-close:hover {
+                    color: #333;
+                }
+
+                .upgrade-modal-pro-icon {
+                    width: 56px;
+                    height: 56px;
+                    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                    border-radius: 14px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    margin-top: auto;
+                    margin-bottom: 20px;
+                    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+                }
+                .upgrade-modal-pro-icon svg {
+                    width: 28px;
+                    height: 28px;
+                    color: #fff;
+                }
+
+                .upgrade-modal-header h2 {
+                    font-size: 24px;
+                    font-weight: 700;
+                    color: #111;
+                    margin-bottom: 4px;
+                }
+
+                .upgrade-modal-subtitle {
+                    font-size: 14px;
+                    color: #888;
+                    margin-bottom: 24px;
+                    line-height: 1.5;
+                }
+
+                .upgrade-modal-price-row {
+                    display: flex;
+                    align-items: baseline;
+                    gap: 8px;
+                    margin-bottom: 28px;
+                }
+                .upgrade-modal-price-row .price-amount {
+                    font-size: 56px;
+                    font-weight: 800;
+                    color: #111;
+                    line-height: 1;
+                }
+                .price-badge {
+                    background: #eff6ff;
+                    color: #3b82f6;
+                    font-size: 12px;
+                    font-weight: 600;
+                    padding: 3px 10px;
+                    border-radius: 20px;
+                    margin-left: 4px;
+                }
+
+                .upgrade-modal-features {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                    margin-bottom: 28px;
+                }
+                .upgrade-modal-feature {
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                    font-size: 18px;
+                    color: #333;
+                    font-weight: 500;
+                }
+                .upgrade-modal-feature-icon {
+                    width: 28px;
+                    height: 28px;
                     flex-shrink: 0;
-                    text-decoration: none;
-                }
-
-                .pricing-btn:hover {
-                    background: #e55a2b;
-                    color: white;
-                    transform: translateY(-1px);
-                    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
-                }
-
-                .pricing-btn-featured {
-                    background: #ff6b35;
-                    margin-top: 25px;
-                    color: white;
-                }
-
-                .pricing-btn-featured:hover {
-                    background: #e55a2b;
-                    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
-                }
-
-                .pricing-btn:disabled {
-                    opacity: 0.8;
-                    cursor: not-allowed;
-                    pointer-events: none;
-                }
-
-                .pricing-btn.loading {
-                    opacity: 0.85;
-                    cursor: progress;
-                }
-
-                .upgrade-btn-spinner {
-                    display: none;
-                    width: 18px;
-                    height: 18px;
-                    border: 2px solid rgba(255, 255, 255, 0.3);
-                    border-top-color: #ffffff;
+                    background: #f0fdf4;
                     border-radius: 50%;
-                    margin-right: 10px;
-                    animation: upgrade-btn-spin 0.8s linear infinite;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .upgrade-modal-feature-icon svg {
+                    width: 16px;
+                    height: 16px;
+                    color: #16a34a;
                 }
 
-                .pricing-btn.loading .upgrade-btn-spinner {
-                    display: inline-block;
+                .upgrade-modal-cta-btn {
+                    width: 100%;
+                    padding: 14px;
+                    background: #3b82f6;
+                    color: #fff;
+                    border: none;
+                    border-radius: 12px;
+                    font-size: 15px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: background 0.2s;
+                    margin-bottom: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .upgrade-modal-cta-btn:hover {
+                    background: #2563eb;
                 }
 
-                .pricing-btn.loading .upgrade-btn-label {
-                    opacity: 0.9;
+                .upgrade-modal-skip-link {
+                    display: block;
+                    text-align: center;
+                    font-size: 13px;
+                    color: #999;
+                    text-decoration: underline;
+                    cursor: pointer;
+                    margin-bottom: 12px;
+                }
+                .upgrade-modal-skip-link:hover {
+                    color: #666;
                 }
 
-                @keyframes upgrade-btn-spin {
-                    to {
-                        transform: rotate(360deg);
-                    }
+                .upgrade-modal-divider {
+                    height: 1px;
+                    background: #f1f5f9;
+                    margin-bottom: 12px;
                 }
 
                 .upgrade-error-message {
@@ -697,48 +405,386 @@ class UpgradeModal {
 
                 .pricing-notices {
                     text-align: center;
-                    margin: 1.5rem 0;
-                    padding: 1rem 0;
+                    margin: 0.5rem 0 1rem;
                 }
-
                 .pricing-notices p {
-                    color: #6c757d;
+                    color: #888;
                     font-size: 0.85rem;
                     margin: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 6px;
+                }
+                .pricing-notice-shield {
+                    display: inline-flex;
+                    align-items: center;
+                    color: #16a34a;
                 }
 
-                .pricing-testimonies {
-                    margin: 2rem 0 1rem;
-                    padding: 1rem 0;
-                    border-top: 1px solid #e9ecef;
+                .upgrade-modal-right {
+                    background: #f1f5f9;
+                    border-radius: 12px;
+                    padding: 1rem;
+                }
+                .upgrade-modal-reviews-title {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #64748b;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    margin-bottom: 14px;
+                }
+                .upgrade-modal-reviews {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+                .um-review-row {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 10px;
+                }
+                .um-review-card {
+                    background: #fff;
+                    border-radius: 10px;
+                    padding: 14px;
+                }
+                .um-review-card--full {
+                    width: 100%;
+                }
+                .um-review-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    margin-bottom: 8px;
+                }
+                .um-review-avatar {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    flex-shrink: 0;
+                }
+                .um-review-name {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #1e293b;
+                    line-height: 1.2;
+                }
+                .um-review-role {
+                    font-size: 12px;
+                    color: #94a3b8;
+                    font-weight: 400;
+                }
+                .um-review-stars {
+                    font-size: 14px;
+                    color: #facc15;
+                    margin-bottom: 6px;
+                    letter-spacing: 1px;
+                }
+                .um-review-text {
+                    font-size: 14px;
+                    color: #64748b;
+                    line-height: 1.55;
+                }
+                @media (max-width: 600px) {
+                    .um-review-row {
+                        grid-template-columns: 1fr;
+                    }
                 }
 
                 .upgrade-modal-footer {
                     text-align: center;
-                    margin-top: 1rem;
-                    padding-top: 1rem;
-                    border-top: 1px solid #e9ecef;
+                    margin-top: 0.75rem;
+                    padding-top: 0.75rem;
+                    border-top: 1px solid #f1f5f9;
                 }
-
                 .upgrade-modal-footer p {
-                    color: #6c757d;
+                    color: #888;
                     font-size: 0.8rem;
                     margin-bottom: 0.5rem;
                 }
-
                 .upgrade-modal-footer a {
-                    color: #4285f4;
+                    color: #3b82f6;
                     text-decoration: none;
                     font-weight: 500;
                 }
-
                 .upgrade-modal-footer a:hover {
                     text-decoration: underline;
+                }
+
+                /* CTA when used as .pricing-btn (loading state) */
+                .pricing-btn.loading {
+                    opacity: 0.85;
+                    cursor: progress;
+                }
+                .upgrade-btn-spinner {
+                    display: none;
+                    width: 18px;
+                    height: 18px;
+                    border: 2px solid rgba(255, 255, 255, 0.3);
+                    border-top-color: #fff;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                    animation: upgrade-btn-spin 0.8s linear infinite;
+                }
+                .pricing-btn.loading .upgrade-btn-spinner {
+                    display: inline-block;
+                }
+                .pricing-btn.loading .upgrade-btn-label {
+                    opacity: 0.9;
+                }
+                @keyframes upgrade-btn-spin {
+                    to { transform: rotate(360deg); }
                 }
             </style>
         `;
 
         document.head.insertAdjacentHTML('beforeend', styles);
+    }
+
+    /**
+     * Inject CSS for the narrow Pro Features (informative) modal
+     */
+    injectProFeaturesStyles() {
+        if (document.getElementById('pro-features-modal-styles')) {
+            return;
+        }
+        const styles = `
+            <style id="pro-features-modal-styles">
+                #pro-features-modal {
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0, 0, 0, 0.5);
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10001;
+                }
+                #pro-features-modal.show {
+                    display: flex;
+                }
+                #pro-features-modal .pro-features-modal-content {
+                    position: relative;
+                    z-index: 10;
+                    background: #fff;
+                    border-radius: 16px;
+                    padding: 28px 24px 24px;
+                    width: 100%;
+                    max-width: 270px;
+                    max-height: 85vh;
+                    overflow-x: hidden;
+                    overflow-y: auto;
+                    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+                }
+                #pro-features-modal .pro-features-modal-close {
+                    position: absolute;
+                    top: 12px;
+                    right: 12px;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: #999;
+                    font-size: 20px;
+                    line-height: 1;
+                    padding: 0;
+                }
+                #pro-features-modal .pro-features-modal-close:hover {
+                    color: #333;
+                }
+                #pro-features-modal .upgrade-modal-pro-icon {
+                    width: 48px;
+                    height: 48px;
+                    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 16px;
+                    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+                }
+                #pro-features-modal .upgrade-modal-pro-icon svg {
+                    width: 24px;
+                    height: 24px;
+                    color: #fff;
+                }
+                #pro-features-modal .upgrade-modal-header h2 {
+                    font-size: 20px;
+                    font-weight: 700;
+                    color: #111;
+                    margin-bottom: 4px;
+                }
+                #pro-features-modal .pro-features-modal-title-row {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    flex-wrap: wrap;
+                }
+                #pro-features-modal .pro-features-activated-badge {
+                    display: inline-block;
+                    background: #16a34a;
+                    color: #fff;
+                    font-size: 11px;
+                    font-weight: 700;
+                    padding: 4px 10px;
+                    border-radius: 20px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                #pro-features-modal .upgrade-modal-subtitle {
+                    font-size: 13px;
+                    color: #888;
+                    margin-bottom: 20px;
+                    line-height: 1.5;
+                }
+                #pro-features-modal .upgrade-modal-features {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 14px;
+                }
+                #pro-features-modal .upgrade-modal-feature {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    font-size: 15px;
+                    color: #333;
+                    font-weight: 500;
+                }
+                #pro-features-modal .upgrade-modal-feature-icon {
+                    width: 26px;
+                    height: 26px;
+                    flex-shrink: 0;
+                    background: #f0fdf4;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                #pro-features-modal .upgrade-modal-feature-icon svg {
+                    width: 14px;
+                    height: 14px;
+                    color: #16a34a;
+                }
+            </style>
+        `;
+        document.head.insertAdjacentHTML('beforeend', styles);
+    }
+
+    /**
+     * Load the Pro Features (informative-only) modal – no price, no CTA, no reviews
+     */
+    async loadProFeaturesModal() {
+        if (this.proFeaturesModal) {
+            return this.proFeaturesModal;
+        }
+        const existing = document.getElementById('pro-features-modal');
+        if (existing) {
+            this.proFeaturesModal = existing;
+            this.attachProFeaturesEventListeners();
+            return this.proFeaturesModal;
+        }
+        this.injectProFeaturesStyles();
+        const modalHTML = `
+            <div id="pro-features-modal" class="pro-features-modal">
+                <div class="pro-features-modal-content">
+                    <button class="pro-features-modal-close" id="close-pro-features-modal" type="button" aria-label="Close">✕</button>
+                    <div class="upgrade-modal-pro-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div class="upgrade-modal-header">
+                        <h2 class="pro-features-modal-title-row">Plan Pro <span class="pro-features-activated-badge">Activated!</span></h2>
+                        <p class="upgrade-modal-subtitle">All premium features unlocked 🎉</p>
+                    </div>
+                    <div class="upgrade-modal-features">
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span>Custom <strong>.com domain</strong></span>
+                        </div>
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span><strong>Unlimited</strong> pages</span>
+                        </div>
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span><strong>All</strong> Pro templates</span>
+                        </div>
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span>Full visual editor</span>
+                        </div>
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span><strong>Unlimited</strong> forms</span>
+                        </div>
+                        <div class="upgrade-modal-feature">
+                            <div class="upgrade-modal-feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                            <span>Shareable link</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        this.proFeaturesModal = document.getElementById('pro-features-modal');
+        this.attachProFeaturesEventListeners();
+        return this.proFeaturesModal;
+    }
+
+    /**
+     * Attach event listeners for the Pro Features modal
+     */
+    attachProFeaturesEventListeners() {
+        if (!this.proFeaturesModal) return;
+        this.removeProFeaturesEventListeners();
+        const closeBtn = this.proFeaturesModal.querySelector('#close-pro-features-modal');
+        const closeHandler = () => this.hideProFeaturesModal();
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeHandler);
+            this.proFeaturesEventListeners.push({ element: closeBtn, event: 'click', handler: closeHandler });
+        }
+        const outsideClickHandler = (e) => {
+            if (e.target === this.proFeaturesModal) this.hideProFeaturesModal();
+        };
+        this.proFeaturesModal.addEventListener('click', outsideClickHandler);
+        this.proFeaturesEventListeners.push({ element: this.proFeaturesModal, event: 'click', handler: outsideClickHandler });
+        const escKeyHandler = (e) => {
+            if (e.key === 'Escape' && this.proFeaturesModal && this.proFeaturesModal.classList.contains('show')) {
+                this.hideProFeaturesModal();
+            }
+        };
+        document.addEventListener('keydown', escKeyHandler);
+        this.proFeaturesEventListeners.push({ element: document, event: 'keydown', handler: escKeyHandler });
+    }
+
+    removeProFeaturesEventListeners() {
+        this.proFeaturesEventListeners.forEach(({ element, event, handler }) => {
+            element.removeEventListener(event, handler);
+        });
+        this.proFeaturesEventListeners = [];
+    }
+
+    /**
+     * Show the Pro Features (informative-only) modal – e.g. when clicking the PRO badge
+     */
+    async showProFeaturesModal() {
+        await this.loadProFeaturesModal();
+        if (this.proFeaturesModal) {
+            this.proFeaturesModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    /**
+     * Hide the Pro Features modal
+     */
+    hideProFeaturesModal() {
+        if (this.proFeaturesModal) {
+            this.proFeaturesModal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
     }
 
     /**
@@ -803,11 +849,11 @@ class UpgradeModal {
         document.addEventListener('keydown', escKeyHandler);
         this.eventListeners.push({ element: document, event: 'keydown', handler: escKeyHandler });
 
-        // Pricing buttons - create checkout with pre-filled customer info
+        // Pricing buttons - create Stripe checkout
         pricingButtons.forEach((button) => {
             const btn = /** @type {HTMLButtonElement} */ (button);
             const upgradeHandler = (e) => {
-                const plan = btn.dataset.plan || 'annual';
+                const plan = btn.dataset.plan || 'pro';
                 this.handleUpgradeClick(e, btn, plan);
             };
 
@@ -862,15 +908,10 @@ class UpgradeModal {
     }
 
     /**
-     * Handle upgrade button click
-     * Creates a Polar checkout session with pre-filled customer information
-     * 
-     * Note: Test/sandbox mode is automatically handled on the backend via POLAR_TEST_MODE in .env
-     * When POLAR_TEST_MODE=true, sandbox credentials and checkout links are used
-     * 
+     * Handle upgrade button click – creates Stripe Checkout session (single Pro plan)
      * @param {Event} e - Click event
      * @param {HTMLButtonElement} button - The clicked button
-     * @param {string} plan - The plan type ('annual' or 'lifetime')
+     * @param {string} plan - Plan identifier ('pro')
      */
     async handleUpgradeClick(e, button, plan) {
         e.preventDefault();
@@ -879,8 +920,8 @@ class UpgradeModal {
             return;
         }
 
-        if (!plan || (plan !== 'annual' && plan !== 'lifetime')) {
-            this.showUpgradeError('Please select a valid plan.');
+        if (!plan || plan !== 'pro') {
+            this.showUpgradeError('Selecciona el plan Pro.');
             return;
         }
 
@@ -888,8 +929,7 @@ class UpgradeModal {
 
         // If user is not logged in, prompt them to sign in first
         if (!user || !user.email || !user.id) {
-            this.showUpgradeError('Please sign in to upgrade.');
-            // Optionally redirect to auth page
+            this.showUpgradeError('Inicia sesión para actualizar a Pro.');
             setTimeout(() => {
                 window.location.href = 'auth-wall.html';
             }, 1500);
@@ -898,13 +938,13 @@ class UpgradeModal {
 
         try {
             this.clearUpgradeError();
-            this.setUpgradeButtonLoading(button, 'Preparing checkout...');
+            this.setUpgradeButtonLoading(button, 'Preparando checkout...');
 
             // Create checkout session with customer email pre-filled
             // Store current URL to return after successful checkout
             const currentUrl = window.location.href;
             
-            const response = await fetch('api/polar-create-checkout.php', {
+            const response = await fetch('api/stripe-create-checkout.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -913,7 +953,6 @@ class UpgradeModal {
                     email: user.email,
                     name: user.name || '',
                     clerk_user_id: user.id,
-                    plan: plan,
                     return_url: currentUrl
                 })
             });
@@ -926,17 +965,16 @@ class UpgradeModal {
             }
 
             if (!response.ok || !result.success || !result.checkout_url) {
-                throw new Error(result.error || 'Failed to create checkout session.');
+                throw new Error(result.error || 'No se pudo crear la sesión de pago.');
             }
 
-            this.setUpgradeButtonLoading(button, 'Redirecting…');
+            this.setUpgradeButtonLoading(button, 'Redirigiendo…');
             
-            // Redirect to Polar checkout with pre-filled email
             window.location.href = result.checkout_url;
             
         } catch (error) {
-            console.error('Polar checkout error:', error);
-            this.showUpgradeError(error.message || 'Unable to start checkout. Please try again.');
+            console.error('Stripe checkout error:', error);
+            this.showUpgradeError(error.message || 'No se pudo iniciar el pago. Inténtalo de nuevo.');
             this.resetUpgradeButton(button);
         }
     }
@@ -954,11 +992,34 @@ class UpgradeModal {
         }
 
         if (window.serverUserData && window.serverUserData.authenticated) {
-            return {
-                email: window.serverUserData.email || null,
-                name: window.serverUserData.name || null,
-                id: window.serverUserData.clerk_user_id || null
-            };
+            const id = window.serverUserData.clerk_user_id || null;
+            const email = window.serverUserData.email || null;
+            if (id && email) {
+                return {
+                    email: email,
+                    name: window.serverUserData.name || null,
+                    id: id
+                };
+            }
+        }
+
+        // Fallback: Clerk client-side user (when serverUserData not yet set or page doesn't expose it)
+        try {
+            const clerk = typeof window.Clerk !== 'undefined' ? window.Clerk : null;
+            const user = clerk?.user;
+            if (user) {
+                const primaryEmail = user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress || null;
+                const name = [user.firstName, user.lastName].filter(Boolean).join(' ') || null;
+                if (primaryEmail && user.id) {
+                    return {
+                        email: primaryEmail,
+                        name: name,
+                        id: user.id
+                    };
+                }
+            }
+        } catch (e) {
+            // ignore
         }
 
         return null;
@@ -1014,6 +1075,16 @@ class UpgradeModal {
 
 // Create singleton instance
 const upgradeModal = new UpgradeModal();
+
+// Open Pro Features modal when clicking the PRO badge – works on app.php and pages.php (delegated)
+document.addEventListener('click', function (e) {
+    const badge = e.target.closest('#clerk-pro-badge');
+    if (!badge) return;
+    e.preventDefault();
+    if (typeof upgradeModal !== 'undefined' && typeof upgradeModal.showProFeaturesModal === 'function') {
+        upgradeModal.showProFeaturesModal();
+    }
+});
 
 // Export for use in other scripts
 if (typeof window !== 'undefined') {

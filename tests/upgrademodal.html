@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upgrade to Pro</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); }
+
+  .modal {
+    position: relative; z-index: 10;
+    background: #fff; border-radius: 16px; padding: 36px 32px 32px;
+    width: 100%; max-width: 520px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+  }
+
+  .close-btn {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: none; cursor: pointer;
+    color: #999; font-size: 20px; line-height: 1;
+  }
+  .close-btn:hover { color: #333; }
+
+  /* Icon */
+  .pro-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 14px rgba(59,130,246,0.3);
+  }
+  .pro-icon svg { width: 28px; height: 28px; color: #fff; }
+
+  .modal h2 {
+    font-size: 24px; font-weight: 700; color: #111;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 14px; color: #888;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* Price */
+  .price-row {
+    display: flex; align-items: baseline; gap: 8px;
+    margin-bottom: 24px;
+  }
+  .price-amount {
+    font-size: 40px; font-weight: 800; color: #111;
+    line-height: 1;
+  }
+  .price-period {
+    font-size: 14px; color: #888; font-weight: 500;
+  }
+  .price-badge {
+    background: #eff6ff; color: #3b82f6;
+    font-size: 12px; font-weight: 600;
+    padding: 3px 10px; border-radius: 20px;
+    margin-left: 4px;
+  }
+
+  /* Features */
+  .features {
+    display: flex; flex-direction: column; gap: 12px;
+    margin-bottom: 28px;
+  }
+  .feature {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: #333; font-weight: 500;
+  }
+  .feature-icon {
+    width: 22px; height: 22px; flex-shrink: 0;
+    background: #f0fdf4; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .feature-icon svg { width: 13px; height: 13px; color: #16a34a; }
+
+  /* CTA */
+  .cta-btn {
+    width: 100%;
+    padding: 14px;
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 10px;
+  }
+  .cta-btn:hover { background: #2563eb; }
+
+  .skip-link {
+    display: block; text-align: center;
+    font-size: 13px; color: #999;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-bottom: 28px;
+  }
+  .skip-link:hover { color: #666; }
+
+  /* Divider */
+  .divider {
+    height: 1px; background: #f1f5f9;
+    margin-bottom: 20px;
+  }
+
+  /* Reviews */
+  .reviews-title {
+    font-size: 12px; font-weight: 600; color: #aaa;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 14px;
+  }
+
+  .reviews {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+
+  .review-card {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .review-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 6px;
+  }
+  .review-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #64748b;
+    flex-shrink: 0;
+  }
+  .review-name {
+    font-size: 12px; font-weight: 600; color: #333;
+    line-height: 1.2;
+  }
+  .review-role {
+    font-size: 11px; color: #999; font-weight: 400;
+  }
+  .review-stars {
+    font-size: 11px; color: #facc15;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  .review-text {
+    font-size: 12px; color: #666;
+    line-height: 1.45;
+  }
+</style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="modal">
+    <button class="close-btn">✕</button>
+
+    <div class="pro-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+      </svg>
+    </div>
+
+    <h2>Upgrade to Pro</h2>
+    <p class="subtitle">Unlock the full power of your website with Pro features.</p>
+
+    <div class="price-row">
+      <span class="price-amount">89€</span>
+      <span class="price-period">lifetime</span>
+      <span class="price-badge">One-time payment</span>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+        Custom .com domain included
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+        Unlimited pages
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+        Unlimited forms
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+        All Pro templates
+      </div>
+    </div>
+
+    <button class="cta-btn">⚡ Upgrade to Pro</button>
+    <span class="skip-link">Keep using free plan</span>
+
+    <div class="divider"></div>
+
+    <div class="reviews-title">Trusted by creators</div>
+    <div class="reviews">
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">TW</div>
+          <div><div class="review-name">Theodore W.</div><div class="review-role">Web Developer</div></div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">Super intuitive and works perfectly. Support is awesome — I'm sold!</div>
+      </div>
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">JY</div>
+          <div><div class="review-name">Jiyeon</div><div class="review-role">Designer</div></div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">Very high standard. The best among everything I researched.</div>
+      </div>
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">AT</div>
+          <div><div class="review-name">Antonio T.</div><div class="review-role">Graphic Designer</div></div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">The tool does its job wonderfully. Quick support team too.</div>
+      </div>
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">OK</div>
+          <div><div class="review-name">osk2</div><div class="review-role">Web Engineer</div></div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">Simple, effective, just works. Made my life easier.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

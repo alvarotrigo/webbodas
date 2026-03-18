@@ -1,23 +1,24 @@
 /**
  * Inline SVG Editor Styles
- * Simple hover effect to indicate SVGs are editable
+ * Hover effects for SVG elements + icon picker modal styles
+ * Visual pattern mirrors inline-emoji-editor.css
  */
 
-/* Make all SVG elements appear editable on hover */
+/* ─── Hover effect on editable SVGs ──────────────────────────────────────── */
+
 section svg {
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
 }
 
-/* Hover effect - subtle outline to indicate clickability */
 section svg:hover {
     outline: 2px solid rgba(59, 130, 246, 0.5);
     outline-offset: 2px;
     border-radius: 4px;
 }
 
-/* Tooltip on hover - "Change icon" */
+/* Tooltip "Change icon" */
 section svg::after {
     content: "Change icon";
     position: absolute;
@@ -53,7 +54,6 @@ section svg::before {
     z-index: 1000;
 }
 
-/* Show tooltip on hover */
 section svg:hover::after,
 section svg:hover::before {
     opacity: 1;
@@ -64,7 +64,7 @@ section svg:hover::before {
     transform: translateX(-50%) translateY(1px);
 }
 
-/* Hide hover effect and tooltip in fullscreen preview mode */
+/* Hide hover effect in fullscreen preview mode */
 body.fullscreen-mode section svg {
     cursor: default;
 }
@@ -78,13 +78,14 @@ body.fullscreen-mode section svg::before {
     display: none;
 }
 
-/* Hide tooltip during page export/download (when body has generating class) */
+/* Hide tooltip during page export/download */
 body.generating section svg::after,
 body.generating section svg::before {
     display: none;
 }
 
-/* SVG Edit Modal Overlay */
+/* ─── Modal overlay ───────────────────────────────────────────────────────── */
+
 .svg-edit-modal-overlay {
     position: fixed;
     top: 0;
@@ -99,32 +100,28 @@ body.generating section svg::before {
     backdrop-filter: blur(4px);
 }
 
-/* SVG Edit Modal */
+/* ─── Modal container ─────────────────────────────────────────────────────── */
+
 .svg-edit-modal {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background: var(--primary-bg);
     border-radius: 16px;
     padding: 32px;
-    max-width: 900px;
+    max-width: 820px;
     width: 90%;
-    max-height: 85vh;
+    max-height: 88vh;
     overflow-y: auto;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-    animation: modalSlideIn 0.2s ease-out;
+    animation: svgModalSlideIn 0.2s ease-out;
 }
 
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes svgModalSlideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Modal Header */
+/* ─── Modal header ─────────────────────────────────────────────────────────  */
+
 .svg-edit-modal h2 {
     margin: 0 0 24px 0;
     font-size: 24px;
@@ -156,20 +153,21 @@ body.generating section svg::before {
     color: #666;
 }
 
-/* Content wrapper for side-by-side layout */
+/* ─── Content layout (side-by-side: preview + picker) ─────────────────────── */
+
 .svg-edit-content {
     display: flex;
     gap: 24px;
     margin-bottom: 24px;
 }
 
-/* Icon Preview Section */
+/* ─── Preview panel ───────────────────────────────────────────────────────── */
+
 .svg-preview-section {
-    flex: 0 0 280px;
-    padding: 20px 0;
-    background: var(--primary-bg);
-    border-radius: 12px;
-    text-align: center;
+    flex: 0 0 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .svg-preview-section h3 {
@@ -179,10 +177,13 @@ body.generating section svg::before {
     margin: 0 0 12px 0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    align-self: flex-start;
 }
 
 .svg-preview-container {
-    background: 
+    width: 140px;
+    height: 140px;
+    background:
         linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
         linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
         linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
@@ -192,143 +193,166 @@ body.generating section svg::before {
     background-color: white;
     border: 2px solid #e5e7eb;
     border-radius: 12px;
-    padding: 32px;
-    min-height: 200px;
-    min-width: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: calc(100% - 10px);
+    flex-shrink: 0;
 }
 
-/* Size the SVG inside preview container */
+/* Size the SVG inside the preview container */
 .svg-preview-container svg {
     width: 96px !important;
     height: 96px !important;
 }
 
-/* Code Textarea */
-.svg-code-section {
+/* ─── Picker panel ────────────────────────────────────────────────────────── */
+
+.svg-picker-section {
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
-.svg-code-section label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #111827;
+/* Search */
+.svg-search-wrapper {
+    margin-bottom: 12px;
 }
 
-.svg-code-textarea {
+.svg-search-input {
     width: 100%;
-    min-height: 300px;
-    flex: 1;
-    padding: 16px;
+    padding: 10px 14px;
     border: 2px solid #2d2d2d;
     border-radius: 8px;
-    font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', 'Ubuntu Mono', 'Courier New', monospace;
-    font-size: 13px;
-    line-height: 1.6;
-    resize: vertical;
-    transition: border-color 0.2s;
-    background-color: #1e1e1e;
-    color: #a9dc76;
-    font-weight: 400;
-}
-
-.svg-code-textarea::selection {
-    background-color: #264f78;
-}
-
-.svg-code-textarea:focus {
+    background: #1e1e1e;
+    color: #e5e7eb;
+    font-size: 14px;
     outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.svg-search-input::placeholder {
+    color: #6a6a6a;
+}
+
+.svg-search-input:focus {
     border-color: #3b82f6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.svg-code-textarea.error {
-    border-color: #ef4444;
-}
-
-.svg-code-textarea.error:focus {
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-}
-
-.svg-code-textarea::placeholder {
-    color: #6a6a6a;
-}
-
-/* Error Message */
-.svg-error-message {
-    margin-top: 8px;
-    padding: 12px 16px;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: 8px;
-    color: #dc2626;
-    font-size: 14px;
-    display: none;
-}
-
-.svg-error-message.visible {
-    display: block;
-}
-
-/* Helper Text */
-.svg-helper-text {
-    margin-bottom: 24px;
-}
-
-.svg-helper-text h4 {
-    font-size: 12px;
-    font-weight: 600;
-    color: #9ca3af;
-    margin: 0 0 12px 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.svg-helper-sites {
+/* Category tabs */
+.svg-category-tabs {
     display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.svg-helper-sites a {
-    display: inline-flex;
-    align-items: center;
     gap: 6px;
-    padding: 10px 18px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    padding-bottom: 4px;
+}
+
+.svg-tabs-loading {
+    color: var(--secondary-text, #9ca3af);
+    font-size: 13px;
+    padding: 4px 0;
+}
+
+.svg-category-tab {
+    padding: 5px 12px;
     border-radius: 9999px;
-    font-size: 14px;
+    border: 1px solid #3d3d3d;
+    background: transparent;
+    color: var(--secondary-text, #9ca3af);
+    font-size: 12px;
     font-weight: 500;
-    color: var(--secondary-text);
-    text-decoration: none;
-    border: 1px solid #e5e7eb;
-    transition: all 0.2s;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
 }
 
-.svg-helper-sites a:hover {
-    background: #e5e7eb;
-    border-color: #d1d5db;
-    transform: translateY(-1px);
+.svg-category-tab:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: #5a5a5a;
+    color: var(--primary-text, #e5e7eb);
 }
 
-.svg-helper-sites a svg {
-    width: 14px;
-    height: 14px;
-    opacity: 0.6;
+.svg-category-tab.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
 }
 
-/* Action Buttons */
+/* Icon grid */
+.svg-icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 44px);
+    gap: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: #3d3d3d transparent;
+}
+
+.svg-icon-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.svg-icon-grid::-webkit-scrollbar-thumb {
+    background: #3d3d3d;
+    border-radius: 3px;
+}
+
+.svg-icon-grid-loading,
+.svg-icon-grid-empty {
+    grid-column: 1 / -1;
+    padding: 24px;
+    text-align: center;
+    color: var(--secondary-text, #9ca3af);
+    font-size: 14px;
+}
+
+/* Individual icon card */
+.svg-icon-card {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+    padding: 0;
+    color: var(--primary-text, #e5e7eb);
+}
+
+.svg-icon-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.svg-icon-card.selected {
+    background: rgba(59, 130, 246, 0.2);
+    outline: 2px solid #3b82f6;
+    outline-offset: -1px;
+}
+
+/* Iconify span inside cards */
+.svg-icon-card .iconify {
+    display: block;
+    width: 24px;
+    height: 24px;
+    color: inherit;
+}
+
+/* ─── Action buttons ──────────────────────────────────────────────────────── */
+
 .svg-modal-actions {
     display: flex;
     gap: 12px;
     justify-content: flex-end;
-    margin-top: 24px;
+    margin-top: 8px;
 }
 
 .svg-modal-btn {
@@ -371,18 +395,105 @@ body.generating section svg::before {
     box-shadow: none;
 }
 
-/* Responsive layout - stack vertically on smaller screens */
-@media (max-width: 768px) {
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
     .svg-edit-content {
         flex-direction: column;
     }
-    
+
     .svg-preview-section {
-        flex: 1;
-        width: 100%;
+        flex: none;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
     }
-    
-    .svg-code-textarea {
-        min-height: 200px;
+
+    .svg-preview-container {
+        width: 80px;
+        height: 80px;
+    }
+
+    .svg-preview-container svg {
+        width: 56px !important;
+        height: 56px !important;
+    }
+
+    .svg-icon-grid {
+        max-height: 200px;
     }
 }
+
+/* ─── [DISABLED_FOR_WEDDING_VERSION]: Old textarea / code-section styles ──── */
+/* The modal previously used a dark-theme textarea for pasting SVG code.      */
+/* Replaced by the visual icon picker (see .svg-picker-section above).        */
+/*
+.svg-code-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.svg-code-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+.svg-code-textarea {
+    width: 100%;
+    min-height: 300px;
+    flex: 1;
+    padding: 16px;
+    border: 2px solid #2d2d2d;
+    border-radius: 8px;
+    font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', 'Ubuntu Mono', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    resize: vertical;
+    transition: border-color 0.2s;
+    background-color: #1e1e1e;
+    color: #a9dc76;
+    font-weight: 400;
+}
+.svg-code-textarea::selection { background-color: #264f78; }
+.svg-code-textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+.svg-code-textarea.error { border-color: #ef4444; }
+.svg-code-textarea::placeholder { color: #6a6a6a; }
+.svg-error-message {
+    margin-top: 8px;
+    padding: 12px 16px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #dc2626;
+    font-size: 14px;
+    display: none;
+}
+.svg-error-message.visible { display: block; }
+.svg-helper-text { margin-bottom: 24px; }
+.svg-helper-text h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #9ca3af;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.svg-helper-sites { display: flex; gap: 12px; flex-wrap: wrap; }
+.svg-helper-sites a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--secondary-text);
+    text-decoration: none;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s;
+}
+.svg-helper-sites a:hover { background: #e5e7eb; border-color: #d1d5db; transform: translateY(-1px); }
+.svg-helper-sites a svg { width: 14px; height: 14px; opacity: 0.6; }
+*/

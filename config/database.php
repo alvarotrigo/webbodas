@@ -325,7 +325,8 @@ function checkUserPaidStatus($email) {
 }
 
 /**
- * Check if user has valid paid subscription from ANY source (legacy, Polar, or LemonSqueezy)
+ * Check if user has valid paid subscription from legacy purchases or Stripe.
+ * Polar and LemonSqueezy are no longer used in this project.
  * @param string $email User's email address
  * @return array Response with status and details
  */
@@ -337,24 +338,13 @@ function checkUserPaidStatusAllSources($email) {
         return $legacyStatus;
     }
     
-    // Check Polar.sh subscriptions (primary payment provider)
-    if (file_exists(__DIR__ . '/polar.php')) {
-        require_once __DIR__ . '/polar.php';
-        $polarStatus = checkPolarSubscription($email);
+    // Check Stripe (payment provider for Pro)
+    if (file_exists(__DIR__ . '/stripe.php')) {
+        require_once __DIR__ . '/stripe.php';
+        $stripeStatus = checkStripeSubscription($email);
         
-        if ($polarStatus['is_paid']) {
-            return $polarStatus;
-        }
-    }
-    
-    // Fallback: check LemonSqueezy (kept for backward compatibility)
-    // Only check if lemonsqueezy.php is available
-    if (file_exists(__DIR__ . '/lemonsqueezy.php')) {
-        require_once __DIR__ . '/lemonsqueezy.php';
-        $lemonSqueezyStatus = checkLemonSqueezySubscription($email);
-        
-        if ($lemonSqueezyStatus['is_paid']) {
-            return $lemonSqueezyStatus;
+        if ($stripeStatus['is_paid']) {
+            return $stripeStatus;
         }
     }
     

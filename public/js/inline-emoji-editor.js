@@ -97,8 +97,22 @@ class InlineEmojiEditor {
             'objects': 'Objects',
             'symbols': 'Symbols',
             'flags': 'Flags',
+            'wedding': 'Wedding',
             'user': 'Custom'
         };
+    }
+
+    /**
+     * Emoji names (TinyMCE database keys) to show in the Wedding category tab.
+     * Only entries that exist in the loaded emoji DB will appear.
+     */
+    getWeddingEmojiNames() {
+        return [
+            'ring', 'bouquet', 'gift', 'gift_heart', 'heart', 'hearts', 'two_hearts', 'sparkling_heart',
+            'couple_with_heart', 'couplekiss', 'wedding', 'kiss', 'love_letter', 'cupid',
+            'champagne', 'cake', 'candy', 'honey_pot', 'star', 'sparkles', 'diamond',
+            'tulip', 'rose', 'cherry_blossom', 'blossom', 'hibiscus', 'sunflower'
+        ];
     }
 
     /**
@@ -179,6 +193,24 @@ class InlineEmojiEditor {
             all.push(item);
         });
 
+        // Wedding category: add entries for each wedding emoji name that exists in rawData
+        const weddingLabel = categoryMap['wedding'] || 'Wedding';
+        if (!categories[weddingLabel]) categories[weddingLabel] = [];
+        this.getWeddingEmojiNames().forEach((name) => {
+            const entry = rawData[name];
+            if (!entry) return;
+            let char = entry.char;
+            const item = {
+                name,
+                char,
+                keywords: entry.keywords || [],
+                category: weddingLabel,
+                categoryKey: 'wedding'
+            };
+            categories[weddingLabel].push(item);
+            all.push(item);
+        });
+
         return { categories, all };
     }
 
@@ -253,7 +285,7 @@ class InlineEmojiEditor {
         }
 
         const { categories, all } = this.processEmojiData(rawData);
-        const categoryLabels = ['All', ...Object.keys(categories)];
+        const categoryLabels = ['All', 'Wedding', ...Object.keys(categories).filter(l => l !== 'Wedding')];
 
         // Create overlay
         const overlay = document.createElement('div');
@@ -261,7 +293,7 @@ class InlineEmojiEditor {
 
         // Create modal
         const modal = document.createElement('div');
-        modal.className = 'emoji-edit-modal fp-ui-theme';
+        modal.className = 'emoji-edit-modal fp-ui-theme fp-keep-color';
 
         modal.innerHTML = `
             <h2>

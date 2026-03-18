@@ -1630,6 +1630,10 @@ body.dark-mode .republish-option-reactivate {
 
 
 /* PRO Badge styles */
+.pro-badge,
+#clerk-pro-badge {
+    cursor: pointer;
+}
 .pro-badge {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -1644,11 +1648,12 @@ body.dark-mode .republish-option-reactivate {
     margin-left: 0.5rem;
 }
 
-/* PRO Badge when shown with Clerk user button */
+/* PRO Badge when shown with Clerk user button – vertically centered to avoid top clipping in top-bar */
 #clerk-user-button .pro-badge {
     position: absolute;
-    top: -8px;
+    top: 14%;
     right: -8px;
+    transform: translateY(-50%);
     font-size: 0.6rem;
     padding: 0.15rem 0.4rem;
     z-index: 10;

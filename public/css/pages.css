@@ -127,6 +127,10 @@ body {
 }
 
 /* PRO Badge styles */
+.pro-badge,
+#clerk-pro-badge {
+    cursor: pointer;
+}
 .pro-badge {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;

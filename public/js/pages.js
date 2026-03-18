@@ -18,9 +18,9 @@ console.log('=====================================');
 const clerkUserId = serverUserData?.clerk_user_id;
 const isAuthenticated = serverUserData?.authenticated ?? false;
 
-// Check if we're about to redirect to Polar checkout (keep loading state visible)
+// Check if we're about to redirect to Stripe checkout (keep loading state visible)
 const _pendingPlan = new URLSearchParams(window.location.search).get('plan');
-const _isPlanRedirect = _pendingPlan && (_pendingPlan === 'annual' || _pendingPlan === 'lifetime') && serverUserData && serverUserData.authenticated;
+const _isPlanRedirect = _pendingPlan && (_pendingPlan === 'pro' || _pendingPlan === 'annual' || _pendingPlan === 'lifetime') && serverUserData && serverUserData.authenticated;
 
 if (_isPlanRedirect) {
     // Add "Redirecting to checkout" message to the existing loading overlay
@@ -87,12 +87,14 @@ function toggleUserMenu(forceState) {
 }
 
 function openClerkProfile() {
-    if (typeof Clerk !== 'undefined' && typeof Clerk.openUserProfile === 'function') {
-        Clerk.openUserProfile();
+    if (typeof Clerk === 'undefined') {
+        console.warn('Clerk is not available. Cannot open profile.');
         return;
     }
 
-    if (typeof Clerk !== 'undefined' && typeof Clerk.load === 'function') {
+    // Always wait for Clerk.load() before openUserProfile so that ClerkJS components
+    // (modal/iframe) are ready; otherwise Clerk throws "ClerkJS components are not ready yet".
+    if (typeof Clerk.load === 'function') {
         Clerk.load()
             .then(() => {
                 if (typeof Clerk.openUserProfile === 'function') {
@@ -104,6 +106,11 @@ function openClerkProfile() {
             .catch((error) => {
                 console.error('Unable to load Clerk to open the profile:', error);
             });
+        return;
+    }
+
+    if (typeof Clerk.openUserProfile === 'function') {
+        Clerk.openUserProfile();
         return;
     }
 
@@ -191,7 +198,7 @@ function attachServerUserMenuHandlers() {
 // Initialize user menu
 attachServerUserMenuHandlers();
 
-// Auto-redirect to Polar checkout when coming from landing page pricing (?plan=annual or ?plan=lifetime)
+// Auto-redirect to Stripe checkout when coming from landing page pricing (?plan=pro, ?plan=annual, or ?plan=lifetime)
 (function() {
     if (!_isPlanRedirect) return;
 
@@ -216,14 +223,13 @@ attachServerUserMenuHandlers();
         // showUpgradeModal();
     }
 
-    fetch('api/polar-create-checkout.php', {
+    fetch('api/stripe-create-checkout.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             email: user.email,
             name: user.name,
             clerk_user_id: user.id,
-            plan: _pendingPlan,
             return_url: window.location.href
         })
     })
@@ -237,7 +243,7 @@ attachServerUserMenuHandlers();
         }
     })
     .catch(err => {
-        console.error('Polar checkout error:', err);
+        console.error('Stripe checkout error:', err);
         hideLoaderAndFallback();
     });
 })();
@@ -460,6 +466,115 @@ async function clonePage(pageId) {
         alert('Failed to clone page');
     }
 }
+
+// ============================================================
+// Payment result handler (Stripe success / error redirect)
+// ============================================================
+(function handlePaymentResult() {
+    const params = new URLSearchParams(window.location.search);
+    const payment = params.get('payment');
+
+    if (!payment) return;
+
+    // Clean URL immediately so refresh doesn't re-trigger
+    const cleanUrl = window.location.pathname;
+    window.history.replaceState({}, '', cleanUrl);
+
+    if (payment === 'success') {
+        // Load confetti only when needed, fire, then remove script
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js';
+        script.onload = function () {
+            const colors = ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#f43f5e'];
+            confetti({ particleCount: 80, spread: 60, origin: { x: 0.15, y: 0.5 }, colors, ticks: 250, angle: 60 });
+            confetti({ particleCount: 80, spread: 60, origin: { x: 0.85, y: 0.5 }, colors, ticks: 250, angle: 120 });
+            setTimeout(() => {
+                confetti({ particleCount: 50, spread: 80, origin: { x: 0.25, y: 0.4 }, colors, ticks: 200, angle: 55 });
+                confetti({ particleCount: 50, spread: 80, origin: { x: 0.75, y: 0.4 }, colors, ticks: 200, angle: 125 });
+                // Remove script from DOM after firing
+                script.remove();
+            }, 400);
+        };
+        document.head.appendChild(script);
+
+        // Toast – top center
+        const toast = document.createElement('div');
+        toast.id = 'payment-success-toast';
+        toast.innerHTML = `
+            <span style="font-size:1.3rem;">🎉</span>
+            <span>Pro Level Unlocked!</span>
+        `;
+        Object.assign(toast.style, {
+            position: 'fixed',
+            top: '28px',
+            left: '50%',
+            transform: 'translateX(-50%) translateY(-80px)',
+            background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+            color: '#fff',
+            padding: '14px 32px',
+            borderRadius: '50px',
+            fontWeight: '700',
+            fontSize: '1.05rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            boxShadow: '0 8px 32px rgba(99,102,241,0.35)',
+            zIndex: '99999',
+            transition: 'transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.45s ease',
+            opacity: '0',
+            whiteSpace: 'nowrap',
+        });
+        document.body.appendChild(toast);
+
+        // Animate in
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                toast.style.transform = 'translateX(-50%) translateY(0)';
+                toast.style.opacity = '1';
+            });
+        });
+
+        // Animate out and remove after 4 s
+        setTimeout(() => {
+            toast.style.transform = 'translateX(-50%) translateY(-80px)';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+        }, 4000);
+
+    } else if (payment === 'error') {
+        const overlay = document.createElement('div');
+        overlay.id = 'payment-error-modal';
+        overlay.innerHTML = `
+            <div id="payment-error-box">
+                <div style="font-size:3rem;margin-bottom:12px;">⚠️</div>
+                <h2 style="margin:0 0 8px;font-size:1.2rem;font-weight:700;color:#991b1b;">Payment Error</h2>
+                <p style="margin:0 0 20px;color:#7f1d1d;font-size:0.95rem;">Unexpected error. Review your payment details or try again later.</p>
+                <button id="payment-error-close" style="padding:10px 28px;background:#dc2626;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:0.95rem;cursor:pointer;">OK</button>
+            </div>
+        `;
+        Object.assign(overlay.style, {
+            position: 'fixed',
+            inset: '0',
+            background: 'rgba(0,0,0,0.45)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: '99999',
+        });
+        Object.assign(overlay.querySelector('#payment-error-box').style, {
+            background: '#fff',
+            borderRadius: '16px',
+            padding: '36px 40px',
+            textAlign: 'center',
+            maxWidth: '360px',
+            width: '90%',
+            boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
+            border: '2px solid #fca5a5',
+        });
+        document.body.appendChild(overlay);
+        document.getElementById('payment-error-close').addEventListener('click', () => overlay.remove());
+    }
+})();
 
 // Delete page
 async function deletePage(pageId, title) {

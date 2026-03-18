@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quattrocento:wght@400;700&family=Montserrat:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
-    <!-- [DISABLED_FOR_WEDDING_VERSION]: wedding-themes.css removed; theme variables are now provided by sections.css loaded in the preview iframe -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* ─── BASE ─── */
@@ -24,7 +23,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ─── NAV ─── */
+       /* ─── NAV ─── */
         nav {
             position: fixed;
             top: 0;
@@ -127,7 +126,6 @@
             content: '';
             position: absolute;
             inset: 0;
-            /* Value comes from section's data-overlay-opacity; editor sets --overlay-opacity from it */
             background: rgba(0, 0, 0, var(--overlay-opacity, 0.5));
         }
         .hero-content {
@@ -411,7 +409,6 @@
             content: '';
             position: absolute;
             inset: 0;
-            /* Value comes from section's data-overlay-opacity; editor sets --overlay-opacity from it */
             background: rgba(0, 0, 0, var(--overlay-opacity, 0.5));
         }
         .quote-inner {
@@ -644,69 +641,38 @@
         .gallery-item:hover img { transform: scale(1.08); }
 
         /* ─── RSVP ─── */
-        /* Default: gradient background — use theme "on gradient" variables (light text) */
         section#rsvp {
             background: var(--gradient-2);
-            color: var(--button-on-gradient);
+            color: #fff;
         }
         .rsvp-inner {
             max-width: 640px;
             margin: 0 auto;
             padding: 120px 48px;
         }
-        section#rsvp .section-label { color: var(--button-on-gradient); opacity: 0.6; }
-        section#rsvp .section-title { color: var(--button-on-gradient); }
-        section#rsvp .section-subtitle { color: var(--button-on-gradient); opacity: 0.85; }
-        section#rsvp .section-divider { background: var(--button-on-gradient-border); opacity: 0.5; }
-
-        /* Light backgrounds (Primary, Secondary, Accent): use theme text/border variables */
-        section#rsvp[data-bg="primary"],
-        section#rsvp[data-bg="secondary"],
-        section#rsvp[data-bg="accent"],
-        section#rsvp[data-bg="gradient-1"],
-        section#rsvp[data-bg="none"] {
-            color: var(--primary-text);
-        }
-        section#rsvp[data-bg="primary"] .section-label,
-        section#rsvp[data-bg="secondary"] .section-label,
-        section#rsvp[data-bg="accent"] .section-label,
-        section#rsvp[data-bg="gradient-1"] .section-label,
-        section#rsvp[data-bg="none"] .section-label { color: var(--secondary-text); opacity: 1; }
-        section#rsvp[data-bg="primary"] .section-title,
-        section#rsvp[data-bg="secondary"] .section-title,
-        section#rsvp[data-bg="accent"] .section-title,
-        section#rsvp[data-bg="gradient-1"] .section-title,
-        section#rsvp[data-bg="none"] .section-title { color: var(--accent-text); }
-        section#rsvp[data-bg="primary"] .section-subtitle,
-        section#rsvp[data-bg="secondary"] .section-subtitle,
-        section#rsvp[data-bg="accent"] .section-subtitle,
-        section#rsvp[data-bg="gradient-1"] .section-subtitle,
-        section#rsvp[data-bg="none"] .section-subtitle { color: var(--secondary-text); opacity: 1; }
-        section#rsvp[data-bg="primary"] .section-divider,
-        section#rsvp[data-bg="secondary"] .section-divider,
-        section#rsvp[data-bg="accent"] .section-divider,
-        section#rsvp[data-bg="gradient-1"] .section-divider,
-        section#rsvp[data-bg="none"] .section-divider { background: var(--border-color); opacity: 1; }
+        section#rsvp .section-label { color: rgba(255,255,255,0.5); }
+        section#rsvp .section-title { color: #fff; }
+        section#rsvp .section-subtitle { color: rgba(255,255,255,0.75); }
+        section#rsvp .section-divider { background: rgba(255,255,255,0.3); }
 
         .form-group { margin-bottom: 28px; }
-        section#rsvp .form-group label {
+        .form-group label {
             display: block;
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--button-on-gradient);
-            opacity: 0.7;
+            color: rgba(255,255,255,0.55);
             margin-bottom: 8px;
         }
-        section#rsvp .form-group input,
-        section#rsvp .form-group select,
-        section#rsvp .form-group textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            background: color-mix(in srgb, var(--button-on-gradient) 12%, transparent);
-            border: 1.5px solid var(--button-on-gradient-border);
+            background: rgba(255,255,255,0.12);
+            border: 1.5px solid rgba(255,255,255,0.2);
             border-radius: var(--border-radius);
-            color: var(--button-on-gradient);
+            color: #fff;
             font-family: var(--font-family);
             font-size: 16px;
             font-weight: 400;
@@ -714,74 +680,22 @@
             outline: none;
             transition: border-color 0.3s, background 0.3s;
         }
-        section#rsvp .form-group input::placeholder,
-        section#rsvp .form-group textarea::placeholder { color: var(--button-on-gradient); opacity: 0.5; }
-        section#rsvp .form-group input:focus,
-        section#rsvp .form-group select:focus,
-        section#rsvp .form-group textarea:focus {
-            border-color: var(--button-on-gradient);
-            background: color-mix(in srgb, var(--button-on-gradient) 18%, transparent);
-        }
-        section#rsvp[data-bg="primary"] .form-group label,
-        section#rsvp[data-bg="secondary"] .form-group label,
-        section#rsvp[data-bg="accent"] .form-group label,
-        section#rsvp[data-bg="gradient-1"] .form-group label,
-        section#rsvp[data-bg="none"] .form-group label { color: var(--secondary-text); opacity: 1; }
-        section#rsvp[data-bg="primary"] .form-group input,
-        section#rsvp[data-bg="primary"] .form-group select,
-        section#rsvp[data-bg="primary"] .form-group textarea,
-        section#rsvp[data-bg="secondary"] .form-group input,
-        section#rsvp[data-bg="secondary"] .form-group select,
-        section#rsvp[data-bg="secondary"] .form-group textarea,
-        section#rsvp[data-bg="accent"] .form-group input,
-        section#rsvp[data-bg="accent"] .form-group select,
-        section#rsvp[data-bg="accent"] .form-group textarea,
-        section#rsvp[data-bg="gradient-1"] .form-group input,
-        section#rsvp[data-bg="gradient-1"] .form-group select,
-        section#rsvp[data-bg="gradient-1"] .form-group textarea,
-        section#rsvp[data-bg="none"] .form-group input,
-        section#rsvp[data-bg="none"] .form-group select,
-        section#rsvp[data-bg="none"] .form-group textarea {
-            background: var(--accent-bg);
-            border-color: var(--border-color);
-            color: var(--primary-text);
-        }
-        section#rsvp[data-bg="primary"] .form-group input::placeholder,
-        section#rsvp[data-bg="primary"] .form-group textarea::placeholder,
-        section#rsvp[data-bg="secondary"] .form-group input::placeholder,
-        section#rsvp[data-bg="secondary"] .form-group textarea::placeholder,
-        section#rsvp[data-bg="accent"] .form-group input::placeholder,
-        section#rsvp[data-bg="accent"] .form-group textarea::placeholder,
-        section#rsvp[data-bg="gradient-1"] .form-group input::placeholder,
-        section#rsvp[data-bg="gradient-1"] .form-group textarea::placeholder,
-        section#rsvp[data-bg="none"] .form-group input::placeholder,
-        section#rsvp[data-bg="none"] .form-group textarea::placeholder { color: var(--secondary-text); opacity: 0.8; }
-        section#rsvp[data-bg="primary"] .form-group input:focus,
-        section#rsvp[data-bg="primary"] .form-group select:focus,
-        section#rsvp[data-bg="primary"] .form-group textarea:focus,
-        section#rsvp[data-bg="secondary"] .form-group input:focus,
-        section#rsvp[data-bg="secondary"] .form-group select:focus,
-        section#rsvp[data-bg="secondary"] .form-group textarea:focus,
-        section#rsvp[data-bg="accent"] .form-group input:focus,
-        section#rsvp[data-bg="accent"] .form-group select:focus,
-        section#rsvp[data-bg="accent"] .form-group textarea:focus,
-        section#rsvp[data-bg="gradient-1"] .form-group input:focus,
-        section#rsvp[data-bg="gradient-1"] .form-group select:focus,
-        section#rsvp[data-bg="gradient-1"] .form-group textarea:focus,
-        section#rsvp[data-bg="none"] .form-group input:focus,
-        section#rsvp[data-bg="none"] .form-group select:focus,
-        section#rsvp[data-bg="none"] .form-group textarea:focus {
-            border-color: var(--primary-accent);
-            background: var(--secondary-bg);
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: rgba(255,255,255,0.4); }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #fff;
+            background: rgba(255,255,255,0.18);
         }
         .form-group select {
             -webkit-appearance: none;
             appearance: none;
             cursor: pointer;
         }
-        section#rsvp .form-group select option {
+        .form-group select option {
             background: var(--secondary-accent);
-            color: var(--primary-bg);
+            color: #fff;
         }
         .form-group textarea {
             resize: none;
@@ -795,7 +709,7 @@
         .btn-rsvp {
             display: inline-block;
             padding: 18px 56px;
-            background: var(--button-on-gradient);
+            background: #fff;
             color: var(--primary-accent);
             font-family: var(--heading-font);
             font-size: 16px;
@@ -809,23 +723,7 @@
         }
         .btn-rsvp:hover {
             transform: translateY(-3px);
-            box-shadow: var(--shadow-md, 0 10px 30px rgba(0,0,0,0.2));
-        }
-        section#rsvp[data-bg="primary"] .btn-rsvp,
-        section#rsvp[data-bg="secondary"] .btn-rsvp,
-        section#rsvp[data-bg="accent"] .btn-rsvp,
-        section#rsvp[data-bg="gradient-1"] .btn-rsvp,
-        section#rsvp[data-bg="none"] .btn-rsvp {
-            background: var(--primary-accent);
-            color: var(--primary-bg);
-        }
-        section#rsvp[data-bg="primary"] .btn-rsvp:hover,
-        section#rsvp[data-bg="secondary"] .btn-rsvp:hover,
-        section#rsvp[data-bg="accent"] .btn-rsvp:hover,
-        section#rsvp[data-bg="gradient-1"] .btn-rsvp:hover,
-        section#rsvp[data-bg="none"] .btn-rsvp:hover {
-            background: var(--secondary-accent);
-            color: var(--primary-bg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         /* Conditional fields */
@@ -919,7 +817,7 @@
             padding: 24px 0;
         }
         .faq-item:first-child { border-top: 1px solid var(--border-color); }
-        .faq-question {
+        h3.faq-question {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -928,6 +826,7 @@
             font-size: 18px;
             color: var(--accent-text);
             font-weight: 400;
+            margin: 0;
         }
         .faq-question svg {
             width: 20px;
@@ -1028,6 +927,7 @@
             .countdown-item { padding: 20px 24px; min-width: 80px; }
             .accommodation-grid { grid-template-columns: 1fr; }
             footer { padding: 48px 24px 32px; }
+            .theme-switcher { top: auto; bottom: 20px; left: 20px; }
         }
 
         @media (max-width: 480px) {
@@ -1058,9 +958,9 @@
     <section id="hero" class="has-bg-image" data-overlay-opacity="0.4">
         <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80');"></div>
         <div class="hero-content reveal">
-            <div class="pre-title">Together forever</div>
+            <p class="pre-title">Together forever</p>
             <h1 class="names">Isabella <span class="amp">&</span> Mateo</h1>
-            <div class="date-line">June 20, 2026 · Villa dei Cipressi, Tuscany</div>
+            <p class="date-line">June 20, 2026 · Villa dei Cipressi, Tuscany</p>
             <a href="#rsvp" class="hero-cta">Join Our Celebration</a>
         </div>
         <div class="scroll-indicator">
@@ -1079,7 +979,7 @@
                 </div>
                 <div class="about-text">
                     <span class="section-emoji" data-emoji-edit>🌿</span>
-                    <div class="section-label reveal">Our Love</div>
+                    <p class="section-label reveal">Our Love</p>
                     <h2 class="section-title reveal">Two Hearts,<br>One Journey</h2>
                     <div class="section-divider reveal"></div>
                     <p class="section-text reveal">What started as a chance encounter at a little coffee shop in Florence has blossomed into a love story we never want to end. After years of laughter, adventures across continents, and more espresso than we can count — we're ready to say "I do."</p>
@@ -1093,9 +993,9 @@
     <section id="story">
         <div class="section-inner">
             <span class="section-emoji reveal" data-emoji-edit>💕</span>
-            <div class="section-label reveal">Our Timeline</div>
+            <p class="section-label reveal">Our Timeline</p>
             <h2 class="section-title reveal">The Story of Us</h2>
-            <div class="section-subtitle reveal">From strangers to soulmates</div>
+            <p class="section-subtitle reveal">From strangers to soulmates</p>
             <div class="section-divider reveal"></div>
 
             <div class="timeline" data-fp-dynamic-items="true">
@@ -1104,7 +1004,7 @@
                     <div class="timeline-content">
                         <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=75" alt="Coffee shop" loading="lazy">
                         <div class="timeline-body">
-                            <div class="timeline-year">Spring 2020 — The Meeting</div>
+                            <p class="timeline-year">Spring 2020 — The Meeting</p>
                             <h3>A Rainy Day in Florence</h3>
                             <p>Both reaching for the last almond croissant at Caffè Rivoire. Mateo let Isabella have it. She offered to share. They talked until the rain stopped — and then kept talking.</p>
                         </div>
@@ -1116,7 +1016,7 @@
                     <div class="timeline-content">
                         <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=75" alt="Romantic dinner" loading="lazy">
                         <div class="timeline-body">
-                            <div class="timeline-year">Summer 2020 — First Date</div>
+                            <p class="timeline-year">Summer 2020 — First Date</p>
                             <h3>Dinner Under the Stars</h3>
                             <p>A rooftop trattoria, homemade pasta, and a view of the Duomo. Mateo accidentally knocked over a candle. The waiter saved them. They laughed about it for weeks.</p>
                         </div>
@@ -1128,7 +1028,7 @@
                     <div class="timeline-content">
                         <img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=600&q=75" alt="New home" loading="lazy">
                         <div class="timeline-body">
-                            <div class="timeline-year">Autumn 2022 — Moving In</div>
+                            <p class="timeline-year">Autumn 2022 — Moving In</p>
                             <h3>Our Little Corner of the World</h3>
                             <p>A cozy apartment with too many plants, a cat named Espresso, and the understanding that Mateo always gets to choose the movie on Fridays.</p>
                         </div>
@@ -1140,7 +1040,7 @@
                     <div class="timeline-content">
                         <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600&q=75" alt="Proposal" loading="lazy">
                         <div class="timeline-body">
-                            <div class="timeline-year">December 2025 — The Proposal</div>
+                            <p class="timeline-year">December 2025 — The Proposal</p>
                             <h3>Back Where It Began</h3>
                             <p>Mateo took Isabella back to that same café in Florence. Same table, same croissant — but this time with a ring hidden inside the napkin. She said yes before he even finished asking.</p>
                         </div>
@@ -1151,7 +1051,7 @@
     </section>
 
     <!-- QUOTE -->
-    <section id="quote" data-overlay-opacity="0.4">
+    <section id="quote" data-overlay-opacity="0.55">
         <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1920&q=80');"></div>
         <div class="quote-inner reveal-scale">
             <blockquote>"Whatever our souls are made of, his and mine are the same."</blockquote>
@@ -1163,42 +1063,42 @@
     <section id="events">
         <div class="section-inner">
             <span class="section-emoji reveal" data-emoji-edit>🗓️</span>
-            <div class="section-label reveal">Join Us</div>
+            <p class="section-label reveal">Join Us</p>
             <h2 class="section-title reveal">Wedding Events</h2>
-            <div class="section-subtitle reveal">A weekend to remember</div>
+            <p class="section-subtitle reveal">A weekend to remember</p>
             <div class="section-divider reveal"></div>
 
             <div class="events-grid">
                 <div class="event-card reveal" data-fp-dynamic="true">
                     <span class="card-icon" data-emoji-edit>🍷</span>
                     <h3>Welcome Dinner</h3>
-                    <div class="event-date">Friday, June 19 · 7:00 PM</div>
+                    <p class="event-date">Friday, June 19 · 7:00 PM</p>
                     <p>An intimate evening of wine, antipasti, and warm welcomes under the Tuscan sky. Dress code: smart casual.</p>
-                    <div class="event-location">Villa Terrace</div>
+                    <p class="event-location">Villa Terrace</p>
                 </div>
 
                 <div class="event-card reveal" data-fp-dynamic="true">
                     <span class="card-icon" data-emoji-edit>💒</span>
                     <h3>The Ceremony</h3>
-                    <div class="event-date">Saturday, June 20 · 4:00 PM</div>
+                    <p class="event-date">Saturday, June 20 · 4:00 PM</p>
                     <p>An outdoor ceremony in the cypress garden, surrounded by rolling hills and the people we love most in this world.</p>
-                    <div class="event-location">Cypress Garden</div>
+                    <p class="event-location">Cypress Garden</p>
                 </div>
 
                 <div class="event-card reveal" data-fp-dynamic="true">
                     <span class="card-icon" data-emoji-edit>🪩</span>
                     <h3>Reception & Dancing</h3>
-                    <div class="event-date">Saturday, June 20 · 6:30 PM</div>
+                    <p class="event-date">Saturday, June 20 · 6:30 PM</p>
                     <p>A night of feasting, toasting, and dancing under the stars. Live band, open bar, and a dessert table to die for.</p>
-                    <div class="event-location">The Great Hall</div>
+                    <p class="event-location">The Great Hall</p>
                 </div>
 
                 <div class="event-card reveal" data-fp-dynamic="true">
                     <span class="card-icon" data-emoji-edit>☀️</span>
                     <h3>Morning-After Brunch</h3>
-                    <div class="event-date">Sunday, June 21 · 10:00 AM</div>
+                    <p class="event-date">Sunday, June 21 · 10:00 AM</p>
                     <p>Fresh pastries, strong coffee, and fond memories from the night before. A relaxed farewell before you head home.</p>
-                    <div class="event-location">Pool Terrace</div>
+                    <p class="event-location">Pool Terrace</p>
                 </div>
             </div>
         </div>
@@ -1208,9 +1108,9 @@
     <section class="countdown-section" id="countdown" data-wedding-date="2026-06-20T16:00:00">
         <div class="section-inner" style="text-align: center;">
             <span class="section-emoji reveal" data-emoji-edit>⏳</span>
-            <div class="section-label reveal">Counting Down</div>
+            <p class="section-label reveal">Counting Down</p>
             <h2 class="section-title reveal" style="text-align: center;">Days Until Forever</h2>
-            <div class="section-subtitle reveal" style="text-align: center;">We can hardly wait</div>
+            <p class="section-subtitle reveal" style="text-align: center;">We can hardly wait</p>
             <div class="countdown-wrapper">
                 <div class="countdown-item reveal">
                     <span class="number" id="days" contenteditable="false">000</span>
@@ -1236,34 +1136,34 @@
     <section id="people">
         <div class="section-inner">
             <span class="section-emoji reveal" data-emoji-edit>🫶</span>
-            <div class="section-label reveal">The Wedding Party</div>
+            <p class="section-label reveal">The Wedding Party</p>
             <h2 class="section-title reveal">Our Beloved Team</h2>
-            <div class="section-subtitle reveal">The ones who make it all possible</div>
+            <p class="section-subtitle reveal">The ones who make it all possible</p>
             <div class="section-divider reveal"></div>
 
             <div class="people-grid" data-fp-dynamic-items="true">
                 <div class="person-card reveal">
                     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=75" alt="Elena" loading="lazy">
                     <h3>Elena Rossi</h3>
-                    <div class="person-role">Maid of Honor</div>
+                    <p class="person-role">Maid of Honor</p>
                     <p class="person-quote">"Isabella is the sister I chose — I'll be crying before she even walks down the aisle."</p>
                 </div>
                 <div class="person-card reveal">
                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=75" alt="Marco" loading="lazy">
                     <h3>Marco Bianchi</h3>
-                    <div class="person-role">Best Man</div>
+                    <p class="person-role">Best Man</p>
                     <p class="person-quote">"Mateo and I go back 20 years. My speech will be legendary."</p>
                 </div>
                 <div class="person-card reveal">
                     <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=75" alt="Sofia" loading="lazy">
                     <h3>Sofia Laurent</h3>
-                    <div class="person-role">Bridesmaid</div>
+                    <p class="person-role">Bridesmaid</p>
                     <p class="person-quote">"These two restore my faith in love. Every. Single. Time."</p>
                 </div>
                 <div class="person-card reveal">
                     <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=75" alt="Luca" loading="lazy">
                     <h3>Luca Moretti</h3>
-                    <div class="person-role">Groomsman</div>
+                    <p class="person-role">Groomsman</p>
                     <p class="person-quote">"If Mateo is this committed to a croissant story, imagine him as a husband."</p>
                 </div>
             </div>
@@ -1274,14 +1174,14 @@
     <section id="dressing">
         <div class="section-inner">
             <span class="section-emoji reveal" data-emoji-edit>👗</span>
-            <div class="section-label reveal">What to Wear</div>
+            <p class="section-label reveal">What to Wear</p>
             <h2 class="section-title reveal">Dress Code: Garden Formal</h2>
-            <div class="section-subtitle reveal">Elegant but comfortable for an outdoor Tuscan evening</div>
+            <p class="section-subtitle reveal">Elegant but comfortable for an outdoor Tuscan evening</p>
             <div class="section-divider reveal"></div>
 
             <div class="dress-grid">
                 <div class="dress-card reveal-left" data-fp-dynamic="true">
-                    <div class="card-icon" data-emoji-edit>👠</div>
+                    <span class="card-icon" data-emoji-edit>👠</span>
                     <h3>For Her</h3>
                     <p>Flowing maxi dresses, elegant jumpsuits, or chic midi skirts. Think garden elegance — block heels or wedges are your best friend on the grass.</p>
                     <div class="color-swatches">
@@ -1292,7 +1192,7 @@
                     </div>
                 </div>
                 <div class="dress-card reveal-right" data-fp-dynamic="true">
-                    <div class="card-icon" data-emoji-edit>🤵</div>
+                    <span class="card-icon" data-emoji-edit>🤵</span>
                     <h3>For Him</h3>
                     <p>Linen suits, blazer and chinos, or a smart shirt with tailored trousers. Light fabrics for the Tuscan warmth. No ties required — but welcomed!</p>
                     <div class="color-swatches">
@@ -1310,9 +1210,9 @@
     <section id="gallery">
         <div class="section-inner">
             <span class="section-emoji reveal" data-emoji-edit>📸</span>
-            <div class="section-label reveal">Captured Moments</div>
+            <p class="section-label reveal">Captured Moments</p>
             <h2 class="section-title reveal">Our Gallery</h2>
-            <div class="section-subtitle reveal">Some of our favorite memories together</div>
+            <p class="section-subtitle reveal">Some of our favorite memories together</p>
             <div class="section-divider reveal"></div>
 
             <div class="gallery-grid">
@@ -1342,28 +1242,28 @@
     <section id="accomodation">
         <div class="section-inner">
             <span class="section-emoji reveal" data-emoji-edit>🏨</span>
-            <div class="section-label reveal">Where to Stay</div>
+            <p class="section-label reveal">Where to Stay</p>
             <h2 class="section-title reveal">Accommodation</h2>
-            <div class="section-subtitle reveal">Rest well for the celebration ahead</div>
+            <p class="section-subtitle reveal">Rest well for the celebration ahead</p>
             <div class="section-divider reveal"></div>
 
             <div class="accommodation-grid" data-fp-dynamic-items="true">
                 <div class="accommodation-card reveal" data-fp-dynamic="true">
                     <span class="card-icon" data-emoji-edit>🏰</span>
                     <h3>Villa dei Cipressi</h3>
-                    <div class="price">From €180 / night</div>
+                    <p class="price">From €180 / night</p>
                     <p>The venue itself offers rooms for guests. Limited availability — book early for the full experience of waking up in Tuscany.</p>
                 </div>
                 <div class="accommodation-card reveal" data-fp-dynamic="true">
                     <span class="card-icon" data-emoji-edit>🌾</span>
                     <h3>Agriturismo San Marco</h3>
-                    <div class="price">From €120 / night</div>
+                    <p class="price">From €120 / night</p>
                     <p>A charming farmhouse 10 minutes from the venue. Beautiful countryside views, homemade breakfast, and a pool to cool off.</p>
                 </div>
                 <div class="accommodation-card reveal" data-fp-dynamic="true">
                     <span class="card-icon" data-emoji-edit>🏠</span>
                     <h3>Hotel Bella Vista</h3>
-                    <div class="price">From €95 / night</div>
+                    <p class="price">From €95 / night</p>
                     <p>A cozy boutique hotel in the nearby town. Walking distance to restaurants and shops. We've arranged a group discount — mention "Isabella & Mateo."</p>
                 </div>
             </div>
@@ -1374,9 +1274,9 @@
     <section id="map">
         <div class="section-inner">
             <span class="section-emoji reveal" data-emoji-edit>📍</span>
-            <div class="section-label reveal">Find Us</div>
+            <p class="section-label reveal">Find Us</p>
             <h2 class="section-title reveal">The Venue</h2>
-            <div class="section-subtitle reveal">Villa dei Cipressi, Tuscany</div>
+            <p class="section-subtitle reveal">Villa dei Cipressi, Tuscany</p>
             <div class="section-divider reveal"></div>
             <p class="section-text reveal">Nestled among cypress trees and olive groves, our venue is a dream come true. Just 45 minutes from Florence airport — shuttle service available on request.</p>
             <div class="map-container reveal" data-fp-dynamic="true">
@@ -1389,44 +1289,44 @@
     <section id="faqs">
         <div class="section-inner">
             <span class="section-emoji reveal" data-emoji-edit>❓</span>
-            <div class="section-label reveal">Questions?</div>
+            <p class="section-label reveal">Questions?</p>
             <h2 class="section-title reveal">Frequently Asked</h2>
-            <div class="section-subtitle reveal">Everything you need to know</div>
+            <p class="section-subtitle reveal">Everything you need to know</p>
             <div class="section-divider reveal"></div>
 
             <div class="faq-list">
                 <div class="faq-item reveal" data-fp-dynamic="true">
-                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
                         Can I bring a plus-one?
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    </div>
+                    </h3>
                     <div class="faq-answer">
                         <p>Please check your invitation for details. If your invite says "and guest," you're welcome to bring someone! If you're unsure, reach out to us — we'll figure it out together.</p>
                     </div>
                 </div>
                 <div class="faq-item reveal" data-fp-dynamic="true">
-                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
                         Is there transportation to the venue?
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    </div>
+                    </h3>
                     <div class="faq-answer">
                         <p>Yes! We'll have shuttle buses running between the hotels and the villa. Schedules will be shared closer to the date. If you prefer to drive, there's ample parking on site.</p>
                     </div>
                 </div>
                 <div class="faq-item reveal" data-fp-dynamic="true">
-                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
                         Are children welcome?
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    </div>
+                    </h3>
                     <div class="faq-answer">
                         <p>While we love your little ones, we've opted for an adults-only celebration to allow everyone to fully enjoy the evening. We hope you understand!</p>
                     </div>
                 </div>
                 <div class="faq-item reveal" data-fp-dynamic="true">
-                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
                         What if it rains?
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    </div>
+                    </h3>
                     <div class="faq-answer">
                         <p>The villa has beautiful indoor spaces as backup. Rain or shine, it's going to be magical — we've planned for both scenarios!</p>
                     </div>
@@ -1439,41 +1339,41 @@
     <section id="rsvp">
         <div class="rsvp-inner">
             <span class="section-emoji reveal" data-emoji-edit>💌</span>
-            <div class="section-label reveal">Respond</div>
+            <p class="section-label reveal">Respond</p>
             <h2 class="section-title reveal">RSVP</h2>
-            <div class="section-subtitle reveal">Please let us know by May 1st, 2026</div>
+            <p class="section-subtitle reveal">Please let us know by May 1st, 2026</p>
             <div class="section-divider reveal"></div>
 
-            <form onsubmit="event.preventDefault(); alert('Thank you! Your RSVP has been received. We can\'t wait to celebrate with you!');">
+            <form onsubmit="event.preventDefault(); alert('Thank you! Your RSVP has been received. We can\'t wait to celebrate with you!');" data-fp-dynamic-items="true">
                 <div class="form-row">
-                    <div class="form-group reveal" data-fp-dynamic="true">
+                    <div class="form-group reveal">
                         <label for="firstName">First Name *</label>
                         <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
                     </div>
-                    <div class="form-group reveal" data-fp-dynamic="true">
+                    <div class="form-group reveal">
                         <label for="lastName">Last Name *</label>
                         <input type="text" id="lastName" name="lastName" placeholder="Your last name" required>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group reveal" data-fp-dynamic="true">
+                    <div class="form-group reveal">
                         <label for="mobile">Mobile *</label>
                         <input type="tel" id="mobile" name="mobile" placeholder="+39 000 000 0000" required>
                     </div>
-                    <div class="form-group reveal" data-fp-dynamic="true">
+                    <div class="form-group reveal">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" placeholder="you@email.com">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group reveal" data-fp-dynamic="true">
+                    <div class="form-group reveal">
                         <label for="age">Age Group</label>
                         <select id="age" name="age">
                             <option value="adult">Adult</option>
                             <option value="child">Child</option>
                         </select>
                     </div>
-                    <div class="form-group reveal" data-fp-dynamic="true">
+                    <div class="form-group reveal">
                         <label for="attending">Will You Attend? *</label>
                         <select id="attending" name="attending" required>
                             <option value="">Select...</option>
@@ -1484,24 +1384,24 @@
                 </div>
 
                 <div class="conditional-fields" id="conditionalFields">
-                    <div class="form-group reveal" data-fp-dynamic="true">
+                    <div class="form-group reveal">
                         <label for="dietary">Allergies / Dietary Requirements</label>
                         <input type="text" id="dietary" name="dietary" placeholder="Any allergies or dietary needs...">
                     </div>
-                    <div class="form-group reveal" data-fp-dynamic="true">
+                    <div class="form-group reveal">
                         <label for="transport">Will You Use the Shuttle?</label>
                         <select id="transport" name="transport">
                             <option value="yes">Yes, please</option>
                             <option value="no">No, I'll arrange my own</option>
                         </select>
                     </div>
-                    <div class="form-group reveal" data-fp-dynamic="true">
+                    <div class="form-group reveal">
                         <label for="song">Favorite Song (for the DJ!)</label>
                         <input type="text" id="song" name="song" placeholder="What gets you on the dance floor?">
                     </div>
                 </div>
 
-                <div class="form-group reveal" data-fp-dynamic="true">
+                <div class="form-group reveal">
                     <label for="message">Message for the Couple</label>
                     <textarea id="message" name="message" placeholder="A few words, a wish, or a piece of advice..."></textarea>
                 </div>
@@ -1515,9 +1415,9 @@
         <div class="section-inner">
             <div class="gifts-content">
                 <span class="section-emoji reveal" data-emoji-edit>🎁</span>
-                <div class="section-label reveal">With Love</div>
+                <p class="section-label reveal">With Love</p>
                 <h2 class="section-title reveal">Gifts & Registry</h2>
-                <div class="section-subtitle reveal">Your presence is our greatest gift</div>
+                <p class="section-subtitle reveal">Your presence is our greatest gift</p>
                 <div class="section-divider reveal" style="margin-left:auto;margin-right:auto;"></div>
                 <p class="section-text reveal" style="margin:0 auto;">If you wish to honor us with a gift, we've set up a small honeymoon fund to help us explore the Amalfi Coast. But truly, having you with us on our special day is more than enough.</p>
                 <a href="#" class="btn-gift reveal">View Registry</a>
@@ -1527,13 +1427,33 @@
 
     <!-- FOOTER -->
     <footer id="footer">
-        <div class="footer-names">Isabella & Mateo</div>
-        <div class="footer-tagline">Amore per sempre</div>
+        <h2 class="footer-names">Isabella & Mateo</h2>
+        <p class="footer-tagline">Amore per sempre</p>
         <p class="footer-note">June 20, 2026 · Villa dei Cipressi, Tuscany</p>
     </footer>
 
     <script>
     (function() {
+        // ── Theme Switcher ──
+        var themes = ['theme-wedding-terracotta', 'theme-wedding-sage-white', 'theme-wedding-midnight-stars', 'theme-wedding-coastal', 'theme-wedding-dusty-rose', 'theme-wedding-lilac-gold', 'theme-wedding-berry-velvet', 'theme-wedding-champagne-pampas', 'theme-wedding-emerald', 'theme-wedding-art-deco'];
+        var options = document.querySelectorAll('.theme-option');
+        options.forEach(function(opt) {
+            opt.addEventListener('click', function() {
+                var theme = this.getAttribute('data-theme');
+                themes.forEach(function(t) { document.body.classList.remove(t); });
+                document.body.classList.add(theme);
+                options.forEach(function(o) { o.classList.remove('active'); });
+                this.classList.add('active');
+                document.querySelector('.theme-dropdown').classList.remove('open');
+            });
+        });
+        // Close dropdown on outside click
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.theme-switcher')) {
+                document.querySelector('.theme-dropdown').classList.remove('open');
+            }
+        });
+
         // ── Countdown ──
         var section = document.querySelector('.countdown-section');
         if (section) {
@@ -1612,14 +1532,6 @@
             });
         }
 
-    })();
-    </script>
-    <!-- Sync overlay opacity from data attribute so standalone view matches editor (editor already does this) -->
-    <script>
-    (function() {
-        document.querySelectorAll('[data-overlay-opacity]').forEach(function(el) {
-            el.style.setProperty('--overlay-opacity', el.getAttribute('data-overlay-opacity'));
-        });
     })();
     </script>
 

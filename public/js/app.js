@@ -1352,7 +1352,8 @@ const themes = [
 // defaultTheme: the wedding theme pre-selected in the Themes panel when the user previews this template
 const templates = [
      { id: 1, is_pro: 0, name: 'Tuscany Wedding', file: 'template1.html', category: 'classic',  tags: ['tuscany', 'villa', 'elegant'],    defaultTheme: 'theme-wedding-terracotta' },
-];
+    { id: 5, is_pro: 0, name: 'Wedding', file: 'template5.html', category: 'wedding', tags: ['wedding'] },
+    ];
 
 // Template style categories - replaces templates/categorias.json
 const templateCategories = [

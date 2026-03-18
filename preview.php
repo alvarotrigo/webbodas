@@ -341,6 +341,7 @@ if (!empty($_GET['template'])) {
     <script defer src="<?= editor_asset('./public/js/custom-theme-manager.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/section-background-picker.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/inline-video-editor.js') ?>"></script>
+    <script defer src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
     <script defer src="<?= editor_asset('./public/js/inline-svg-editor.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/inline-emoji-editor.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/tinymce/plugins/emoticons/js/emojis.min.js') ?>"></script>

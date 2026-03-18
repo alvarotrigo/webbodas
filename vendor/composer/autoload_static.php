@@ -31,6 +31,7 @@ class ComposerStaticInitb7889f37641f5783c1d5be1c0d1ac325
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Stripe\\' => 7,
             'Speakeasy\\Serializer\\' => 21,
         ),
         'P' =>
@@ -103,6 +104,10 @@ class ComposerStaticInitb7889f37641f5783c1d5be1c0d1ac325
         'Symfony\\Polyfill\\Ctype\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'Stripe\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
         ),
         'Speakeasy\\Serializer\\' =>
         array (

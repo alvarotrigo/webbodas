@@ -33,56 +33,6 @@ footer [data-emoji-edit]:hover {
     border-radius: 4px;
 }
 
-/* Tooltip "Change emoji" */
-section [data-emoji-edit]::after,
-footer [data-emoji-edit]::after {
-    content: "Change emoji";
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-8px);
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    white-space: nowrap;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    z-index: 1000;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-/* Tooltip arrow */
-section [data-emoji-edit]::before,
-footer [data-emoji-edit]::before {
-    content: "";
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-2px);
-    border: 5px solid transparent;
-    border-top-color: rgba(0, 0, 0, 0.9);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    z-index: 1000;
-}
-
-section [data-emoji-edit]:hover::after,
-footer [data-emoji-edit]:hover::after {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-4px);
-}
-
-section [data-emoji-edit]:hover::before,
-footer [data-emoji-edit]:hover::before {
-    opacity: 1;
-    transform: translateX(-50%) translateY(1px);
-}
-
 /* Hide in fullscreen preview mode */
 body.fullscreen-mode section [data-emoji-edit],
 body.fullscreen-mode footer [data-emoji-edit] {
@@ -94,21 +44,6 @@ body.fullscreen-mode footer [data-emoji-edit]:hover {
     transform: none;
     opacity: 1;
     outline: none;
-}
-
-body.fullscreen-mode section [data-emoji-edit]::after,
-body.fullscreen-mode section [data-emoji-edit]::before,
-body.fullscreen-mode footer [data-emoji-edit]::after,
-body.fullscreen-mode footer [data-emoji-edit]::before {
-    display: none;
-}
-
-/* Hide tooltip during page export/download */
-body.generating section [data-emoji-edit]::after,
-body.generating section [data-emoji-edit]::before,
-body.generating footer [data-emoji-edit]::after,
-body.generating footer [data-emoji-edit]::before {
-    display: none;
 }
 
 /* ─── Modal overlay ───────────────────────────────────────────────────────── */

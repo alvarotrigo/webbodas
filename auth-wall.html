@@ -579,7 +579,7 @@
         // Main initialization
         window.addEventListener('load', async function () {
             const basePath = getBasePath();
-            const planParam = selectedPlan && (selectedPlan === 'annual' || selectedPlan === 'lifetime') ? '?plan=' + selectedPlan : '';
+            const planParam = selectedPlan && (selectedPlan === 'pro' || selectedPlan === 'annual' || selectedPlan === 'lifetime') ? '?plan=' + selectedPlan : '';
             const defaultAfterSignInUrl = basePath + '/pages.php' + planParam;
 
             try {
@@ -657,7 +657,7 @@
                                 showSuccess('Successfully signed in! Redirecting...');
                                 let url = getAfterLoginRedirectUrl();
                                 const basePath = getBasePath();
-                                const planParam = selectedPlan && (selectedPlan === 'annual' || selectedPlan === 'lifetime') ? '?plan=' + selectedPlan : '';
+                                const planParam = selectedPlan && (selectedPlan === 'pro' || selectedPlan === 'annual' || selectedPlan === 'lifetime') ? '?plan=' + selectedPlan : '';
                                 if (planParam && url.indexOf('?') === -1) url += planParam;
                                 else if (planParam && url.indexOf('?') !== -1) url += '&' + planParam.slice(1);
                                 url = appendProParamIfTesting(url);
