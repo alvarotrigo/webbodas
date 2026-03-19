@@ -77,6 +77,154 @@ document.addEventListener('click', () => {
     }, true);
 })();
 
+// [PREVIEW_EDIT_MODE]: Form fields inside .form-group are not fillable in editor mode.
+// Clicking a text-like field edits its placeholder instead.
+(function enableFormPlaceholderEditingInPreview() {
+    const previewContent = document.getElementById('preview-content');
+    if (!previewContent) return;
+    let activePlaceholderEditor = null;
+
+    // While editing placeholder inline, hide native placeholder to avoid double text.
+    if (!document.getElementById('fp-inline-placeholder-style')) {
+        const style = document.createElement('style');
+        style.id = 'fp-inline-placeholder-style';
+        style.textContent = `
+            input.is-editing-placeholder::placeholder,
+            textarea.is-editing-placeholder::placeholder { color: transparent !important; }
+            .fp-placeholder-inline-editor {
+                position: absolute;
+                z-index: 10001;
+                outline: none;
+                border: none;
+                background: transparent;
+                color: rgba(107, 114, 128, 0.95);
+                white-space: pre-wrap;
+                word-break: break-word;
+                cursor: text;
+                pointer-events: auto;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    function isEditablePlaceholderField(el) {
+        if (!el || !el.matches) return false;
+        if (!el.closest('.form-group')) return false;
+        if (el.matches('textarea')) return true;
+        if (!el.matches('input')) return false;
+        const t = String(el.type || 'text').toLowerCase();
+        return t !== 'hidden' && t !== 'submit' && t !== 'button' && t !== 'reset' && t !== 'image' && t !== 'checkbox' && t !== 'radio' && t !== 'file';
+    }
+
+    function closeActiveEditor(cancel) {
+        if (!activePlaceholderEditor) return;
+        const { field, overlay, beforeContent } = activePlaceholderEditor;
+        const nextValue = (overlay.textContent || '').trim();
+        const current = field.getAttribute('placeholder') || '';
+
+        overlay.remove();
+        field.classList.remove('is-editing-placeholder');
+        if (!field.className || !field.className.trim()) {
+            field.removeAttribute('class');
+        }
+        activePlaceholderEditor = null;
+
+        if (cancel || nextValue === current) return;
+
+        field.setAttribute('placeholder', nextValue);
+        const afterContent = field.outerHTML;
+        const section = field.closest('.section');
+        const sectionNumber = section ? section.getAttribute('data-section') : null;
+        const elementId = field.id || '';
+
+        if (window.parent && window.parent !== window && sectionNumber && elementId && beforeContent !== afterContent) {
+            window.parent.postMessage({
+                type: 'TEXT_EDITED',
+                data: {
+                    sectionNumber,
+                    elementId,
+                    beforeContent,
+                    afterContent
+                }
+            }, '*');
+        }
+        if (window.parent && window.parent !== window && typeof window.parent.scheduleAutosave === 'function') {
+            window.parent.scheduleAutosave();
+        }
+    }
+
+    function openInlinePlaceholderEditor(field) {
+        closeActiveEditor(false);
+
+        const rect = field.getBoundingClientRect();
+        const cs = window.getComputedStyle(field);
+        const overlay = document.createElement('div');
+        overlay.className = 'fp-placeholder-inline-editor';
+        overlay.setAttribute('contenteditable', 'true');
+        overlay.setAttribute('spellcheck', 'false');
+        overlay.style.left = `${rect.left + window.scrollX}px`;
+        overlay.style.top = `${rect.top + window.scrollY}px`;
+        overlay.style.width = `${rect.width}px`;
+        overlay.style.height = `${Math.max(rect.height, 24)}px`;
+        overlay.style.padding = cs.padding;
+        overlay.style.font = cs.font;
+        overlay.style.letterSpacing = cs.letterSpacing;
+        overlay.style.lineHeight = cs.lineHeight;
+        overlay.style.textAlign = cs.textAlign;
+        overlay.style.borderRadius = cs.borderRadius;
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.textContent = field.getAttribute('placeholder') || '';
+
+        field.classList.add('is-editing-placeholder');
+        document.body.appendChild(overlay);
+        activePlaceholderEditor = {
+            field,
+            overlay,
+            beforeContent: field.outerHTML
+        };
+
+        overlay.focus();
+        const range = document.createRange();
+        range.selectNodeContents(overlay);
+        range.collapse(false);
+        const sel = window.getSelection();
+        if (sel) {
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+
+        overlay.addEventListener('keydown', function (ev) {
+            if (ev.key === 'Escape') {
+                ev.preventDefault();
+                closeActiveEditor(true);
+                return;
+            }
+            if (ev.key === 'Enter') {
+                ev.preventDefault();
+                closeActiveEditor(false);
+            }
+        });
+        overlay.addEventListener('blur', function () {
+            closeActiveEditor(false);
+        });
+    }
+
+    previewContent.addEventListener('click', function (e) {
+        if (linksAndFormsEnabled) return;
+        const field = e.target.closest('input, textarea, select');
+        if (!field || !field.closest('form')) return;
+        if (!field.closest('.form-group')) return;
+
+        // Prevent real form interaction in editor mode.
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!isEditablePlaceholderField(field)) return;
+        openInlinePlaceholderEditor(field);
+    }, true);
+})();
+
 // Global keyboard shortcuts for undo/redo (when not in TinyMCE)
 document.addEventListener('keydown', (e) => {
     // Only handle if NOT in a TinyMCE editor (TinyMCE has its own handlers)
@@ -496,6 +644,9 @@ window.addEventListener('message', function(event) {
             if (window.removableElementsManager) {
                 window.removableElementsManager.initializeExistingSections();
             }
+            if (window.duplicableElementsManager) {
+                window.duplicableElementsManager.initializeExistingSections();
+            }
             // Initialize overlay opacity for all existing sections
             document.querySelectorAll('.section').forEach(section => {
                 initOverlayOpacity(section);
@@ -587,6 +738,9 @@ window.addEventListener('message', function(event) {
             break;
         case 'REMOVE_ELEMENT':
             removeElementByCommand(data);
+            break;
+        case 'INSERT_DUPLICATE_ELEMENT':
+            insertDuplicateElement(data);
             break;
     }
 });
@@ -728,6 +882,12 @@ function addSection(sectionNumber, html, animationsEnabled, skipScroll = false, 
             window.removableElementsManager.initForSection(sectionElement);
         }, 100);
     }
+    // Initialize duplicable elements manager for the new section
+    if (window.duplicableElementsManager && window.duplicableElementsManager.initForSection) {
+        setTimeout(() => {
+            window.duplicableElementsManager.initForSection(sectionElement);
+        }, 100);
+    }
     
     // Initialize inline map and countdown editors for the new section.
     // Called explicitly (the init functions have their own idempotency guards).
@@ -856,6 +1016,12 @@ function addParsedSection(html, index, skipTinyMCE = false) {
     if (window.removableElementsManager && window.removableElementsManager.initForSection) {
         setTimeout(() => {
             window.removableElementsManager.initForSection(sectionElement);
+        }, 100);
+    }
+    // Initialize duplicable elements manager
+    if (window.duplicableElementsManager && window.duplicableElementsManager.initForSection) {
+        setTimeout(() => {
+            window.duplicableElementsManager.initForSection(sectionElement);
         }, 100);
     }
 
@@ -1300,6 +1466,10 @@ function addClonedSection(data) {
     // Initialize removable elements manager for the cloned section
     if (window.removableElementsManager && window.removableElementsManager.initForSection) {
         window.removableElementsManager.initForSection(clone);
+    }
+    // Initialize duplicable elements manager for the cloned section
+    if (window.duplicableElementsManager && window.duplicableElementsManager.initForSection) {
+        window.duplicableElementsManager.initForSection(clone);
     }
     
     // Initialize inline map and countdown editors for the cloned section.
@@ -1785,6 +1955,10 @@ function insertFullTemplateHtml(data) {
         window.removableElementsManager.destroy();
         window.removableElementsManager = new RemovableElementsManager();
     }
+    if (window.duplicableElementsManager && window.duplicableElementsManager.destroy) {
+        window.duplicableElementsManager.destroy();
+        window.duplicableElementsManager = new DuplicableElementsManager();
+    }
 
     clearTemplateAssets();
 
@@ -1871,6 +2045,9 @@ function insertFullTemplateHtml(data) {
         if (window.removableElementsManager && window.removableElementsManager.initializeExistingSections) {
             window.removableElementsManager.initializeExistingSections();
         }
+        if (window.duplicableElementsManager && window.duplicableElementsManager.initializeExistingSections) {
+            window.duplicableElementsManager.initializeExistingSections();
+        }
         document.querySelectorAll('.section').forEach(el => initOverlayOpacity(el));
         if (window.lazyBackgroundLoader && window.lazyBackgroundLoader.refresh) window.lazyBackgroundLoader.refresh();
     }, 100);
@@ -1952,6 +2129,9 @@ function initServerRenderedTemplateContent() {
         }
         if (window.removableElementsManager && window.removableElementsManager.initializeExistingSections) {
             window.removableElementsManager.initializeExistingSections();
+        }
+        if (window.duplicableElementsManager && window.duplicableElementsManager.initializeExistingSections) {
+            window.duplicableElementsManager.initializeExistingSections();
         }
         document.querySelectorAll('.section').forEach(el => initOverlayOpacity(el));
         if (window.lazyBackgroundLoader && window.lazyBackgroundLoader.refresh) window.lazyBackgroundLoader.refresh();
@@ -2072,6 +2252,10 @@ function clearAllSections() {
         // Recreate the instance after destroying
         window.removableElementsManager = new RemovableElementsManager();
     }
+    if (window.duplicableElementsManager && window.duplicableElementsManager.destroy) {
+        window.duplicableElementsManager.destroy();
+        window.duplicableElementsManager = new DuplicableElementsManager();
+    }
     
     previewContent.innerHTML = '';
     clearTemplateAssets();
@@ -2101,6 +2285,10 @@ function clearSectionsOnly() {
     if (window.removableElementsManager && window.removableElementsManager.destroy) {
         window.removableElementsManager.destroy();
         window.removableElementsManager = new RemovableElementsManager();
+    }
+    if (window.duplicableElementsManager && window.duplicableElementsManager.destroy) {
+        window.duplicableElementsManager.destroy();
+        window.duplicableElementsManager = new DuplicableElementsManager();
     }
     // En templates completos, eliminar solo <section> y <footer> para preservar
     // elementos de estructura como <nav> que no son secciones editables.
@@ -2136,6 +2324,10 @@ function restoreHistorySnapshot(fullHtml, animationsEnabled, templateHeadHtml) {
     if (window.removableElementsManager && window.removableElementsManager.destroy) {
         window.removableElementsManager.destroy();
         window.removableElementsManager = new RemovableElementsManager();
+    }
+    if (window.duplicableElementsManager && window.duplicableElementsManager.destroy) {
+        window.duplicableElementsManager.destroy();
+        window.duplicableElementsManager = new DuplicableElementsManager();
     }
 
     // Inyectar assets del head del template (CSS, fuentes) si estan disponibles en el snapshot.
@@ -2265,6 +2457,11 @@ function restoreHistorySnapshot(fullHtml, animationsEnabled, templateHeadHtml) {
         if (window.removableElementsManager && window.removableElementsManager.initForSection) {
             sectionElements.forEach((sectionElement) => {
                 window.removableElementsManager.initForSection(sectionElement);
+            });
+        }
+        if (window.duplicableElementsManager && window.duplicableElementsManager.initForSection) {
+            sectionElements.forEach((sectionElement) => {
+                window.duplicableElementsManager.initForSection(sectionElement);
             });
         }
         
@@ -3510,6 +3707,19 @@ function applyTextState(sectionNumber, elementId, content, shouldScroll = false)
     
     // Replace the old element with the new one
     parent.replaceChild(newElement, element);
+
+    // RSVP / form: TEXT_EDITED snapshot may have a stale `for` after we renamed
+    // the sibling input (label sync). Re-link label → field so publish/submit stay consistent.
+    if (newElement && newElement.tagName === 'LABEL') {
+        const group = newElement.closest('.form-group');
+        if (group) {
+            const field = group.querySelector('input, select, textarea');
+            if (field) {
+                const fid = field.getAttribute('id') || field.getAttribute('name');
+                if (fid) newElement.setAttribute('for', fid);
+            }
+        }
+    }
     
     // Reinitialize TinyMCE for the new element if the editor exists
     if (typeof tinymce !== 'undefined' && window.tinyMCEEditor) {
@@ -3565,10 +3775,9 @@ function restoreElement(data) {
         return;
     }
     
-    // Check if parent has data-fp-dynamic-items="true"
+    // Check if parent has data-fp-dynamic-items (presence of attribute is enough)
     // If yes, mark the restored element as a dynamic item (for backward compatibility)
-    if (parent.hasAttribute('data-fp-dynamic-items') && 
-        parent.getAttribute('data-fp-dynamic-items') === 'true') {
+    if (parent.hasAttribute('data-fp-dynamic-items')) {
         if (!element.hasAttribute('data-fp-dynamic-item')) {
             element.setAttribute('data-fp-dynamic-item', 'true');
             console.log('🔄 Marked restored element as dynamic item');
@@ -3586,6 +3795,9 @@ function restoreElement(data) {
     // Reinitialize removable elements manager for this element
     if (window.removableElementsManager) {
         window.removableElementsManager.addIndicatorToElement(element);
+    }
+    if (window.duplicableElementsManager) {
+        window.duplicableElementsManager.addIndicatorToElement(element);
     }
     
     console.log('✅ Element restored successfully');
@@ -3642,12 +3854,236 @@ function removeElementByCommand(data) {
     }
     
     console.log('✅ Element removed successfully by command');
-    
+
     // Scroll to the section if requested (for undo/redo visibility)
     if (shouldScroll) {
         section.scrollIntoView({ behavior: 'auto', block: 'center' });
     }
 }
+
+/**
+ * Insert a duplicated element (for redo of duplicate command)
+ * @param {Object} data - Contains sectionNumber, sectionUid, parentSelector, insertIndex, cloneHtml, shouldScroll
+ */
+function insertDuplicateElement(data) {
+    const { sectionNumber, sectionUid, parentSelector, insertIndex, cloneHtml, shouldScroll } = data;
+
+    let section = null;
+    if (sectionUid) {
+        section = document.querySelector(`.section[data-section-uid="${sectionUid}"]`);
+    }
+    if (!section) {
+        section = document.querySelector(`.section[data-section="${sectionNumber}"]`);
+    }
+    if (!section) return;
+
+    const parent = section.querySelector(parentSelector);
+    if (!parent) return;
+
+    const temp = document.createElement('div');
+    temp.innerHTML = cloneHtml;
+    const clone = temp.firstElementChild;
+    if (!clone) return;
+
+    const children = Array.from(parent.children);
+    if (insertIndex >= children.length) {
+        parent.appendChild(clone);
+    } else {
+        parent.insertBefore(clone, children[insertIndex]);
+    }
+
+    if (window.duplicableElementsManager) {
+        window.duplicableElementsManager.assignUniqueFormFieldName(clone);
+        window.duplicableElementsManager.addIndicatorToElement(clone);
+    }
+    if (window.removableElementsManager && clone.hasAttribute('data-fp-dynamic')) {
+        window.removableElementsManager.addIndicatorToElement(clone);
+    }
+    if (window.tinyMCEEditor && typeof window.tinyMCEEditor.initEditor === 'function') {
+        setTimeout(() => {
+            try { window.tinyMCEEditor.initEditor(); } catch (e) { /* noop */ }
+        }, 10);
+    }
+
+    if (shouldScroll) {
+        section.scrollIntoView({ behavior: 'auto', block: 'center' });
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Form field label → name/id sync
+// When the user edits the text of a label inside a .form-group of an RSVP
+// form, the associated input's name/id (and the label's for attribute) are
+// updated to match the new label text (converted to camelCase), keeping all
+// field names unique within the form.
+// ---------------------------------------------------------------------------
+
+/**
+ * The visible control in a .form-group (skip hidden TinyMCE junk and submit buttons).
+ * TinyMCE can inject <input type="hidden"> before the real field — querySelector('input')
+ * would wrongly target that and leave the visible input on the old name (RSVP column mix-up).
+ */
+function getPrimaryFormFieldInGroup(formGroup, label) {
+    if (!formGroup) return null;
+
+    const forId = label && label.getAttribute('for');
+    if (forId) {
+        try {
+            const esc = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(forId) : forId.replace(/\\/g, '\\\\');
+            const byFor = formGroup.querySelector('#' + esc);
+            if (byFor && byFor.matches && byFor.matches('input, select, textarea')) {
+                const t = (byFor.type || '').toLowerCase();
+                if (byFor.tagName === 'SELECT' || byFor.tagName === 'TEXTAREA' || t !== 'hidden') {
+                    if (t !== 'hidden') return byFor;
+                }
+            }
+        } catch (e) { /* invalid id */ }
+    }
+
+    const fields = formGroup.querySelectorAll('input, select, textarea');
+    for (let i = 0; i < fields.length; i++) {
+        const el = fields[i];
+        if (el.tagName === 'SELECT' || el.tagName === 'TEXTAREA') return el;
+        const t = (el.type || '').toLowerCase();
+        if (t === 'hidden' || t === 'submit' || t === 'button' || t === 'image' || t === 'reset') continue;
+        const nm = (el.name || '') + (el.id || '');
+        if (/tinymce/i.test(nm) || /^mce/i.test(el.name || '') || /^mce/i.test(el.id || '')) continue;
+        return el;
+    }
+    return formGroup.querySelector('select, textarea') || formGroup.querySelector('input');
+}
+
+/**
+ * Converts a label string to a camelCase key suitable for use as a form
+ * field name (e.g. "Nombre del invitado *" → "nombreDelInvitado").
+ */
+function labelToCamelCase(text) {
+    return String(text || '')
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')  // strip diacritics
+        .replace(/[^a-zA-Z0-9\s]/g, '')                    // remove special chars & *
+        .trim()
+        .split(/\s+/)
+        .filter(function (w) { return w.length > 0; })
+        .map(function (w, i) {
+            return i === 0
+                ? w.toLowerCase()
+                : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+        })
+        .join('');
+}
+
+/**
+ * After the user edits a label inside a .form-group, derive a unique
+ * camelCase name from the new label text and update name/id/for on the
+ * associated form field.
+ * @param {HTMLLabelElement} label
+ */
+function syncFormFieldNameFromLabel(label) {
+    const formGroup = label.closest('.form-group');
+    if (!formGroup) return;
+
+    const form = formGroup.closest('form');
+    if (!form) return;
+
+    const oldFor = label.getAttribute('for') || '';
+
+    const field = getPrimaryFormFieldInGroup(formGroup, label);
+    if (!field || !field.name) return;
+
+    // Remove wrongly-targeted hidden (e.g. TinyMCE) that stole the label's `for` / name
+    if (oldFor) {
+        try {
+            const esc = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(oldFor) : oldFor.replace(/\\/g, '\\\\');
+            const stale = formGroup.querySelector('input[type="hidden"]#' + esc);
+            if (stale && stale !== field) stale.remove();
+        } catch (e) { /* ignore */ }
+    }
+    formGroup.querySelectorAll('input[type="hidden"]').forEach(function (h) {
+        if (h === field) return;
+        const n = (h.name || '') + (h.id || '');
+        if (/tinymce/i.test(n) || /^mce/i.test(h.name || '') || /^mce/i.test(h.id || '')) h.remove();
+    });
+
+    // Prefer committed DOM text first; TinyMCE API can still be stale
+    // during some blur/focus transitions on duplicated labels.
+    let rawText = (label.textContent || '').trim();
+    if (!rawText && typeof tinymce !== 'undefined') {
+        const editorId = label.id;
+        const editor = editorId ? tinymce.get(editorId) : null;
+        rawText = editor ? String(editor.getContent({ format: 'text' }) || '').trim() : '';
+    }
+
+    // Generic duplicated fields start with "Write new title" and should keep
+    // the seeded key "new-field" (or new-field-N) until the user changes title.
+    const normalizedRaw = String(rawText || '').trim().toLowerCase();
+    if (normalizedRaw === 'write new title' && /^new-field(?:-\d+)?$/.test(field.name || '')) {
+        const stableKey = field.id || field.name;
+        if (stableKey && label.getAttribute('for') !== stableKey) {
+            label.setAttribute('for', stableKey);
+        }
+        return;
+    }
+
+    const newBase = labelToCamelCase(rawText);
+    if (!newBase) return; // guard against empty / all-special-char labels
+
+    // Unique name + id in this form (another control may already use the id)
+    function fieldsWithNameInForm(f, name) {
+        return Array.from(f.querySelectorAll('input, select, textarea')).filter(function (el) {
+            return el.name === name;
+        });
+    }
+    function fieldsWithIdInForm(f, id) {
+        return Array.from(f.querySelectorAll('[id]')).filter(function (el) { return el.id === id; });
+    }
+    let newName = newBase;
+    let suffix = 2;
+    for (;;) {
+        const nameClash = fieldsWithNameInForm(form, newName).some(function (el) { return el !== field; });
+        const idClash = fieldsWithIdInForm(form, newName).some(function (el) { return el !== field; });
+        if (!nameClash && !idClash) break;
+        newName = newBase + '-' + suffix;
+        suffix++;
+    }
+
+    if (newName === field.name && label.getAttribute('for') === newName) return;
+
+    field.name = newName;
+    field.id   = newName;
+    label.setAttribute('for', newName);
+
+    if (window.parent && window.parent !== window && typeof window.parent.scheduleAutosave === 'function') {
+        window.parent.scheduleAutosave();
+    }
+}
+window.syncFormFieldNameFromLabel = syncFormFieldNameFromLabel;
+
+/**
+ * Fallback sync on focusout. TinyMCE labels are primarily synced from editor
+ * blur in tinymce-editor.js; this delayed run covers edge-cases where blur
+ * does not hit the expected code path after duplication/rebinds.
+ */
+(function initFormFieldLabelSync() {
+    document.addEventListener('focusout', function (e) {
+        const target = e.target;
+        if (!target) return;
+
+        const label = target.tagName === 'LABEL'
+            ? target
+            : target.closest('label[for]');
+        if (!label || !label.getAttribute('for')) return;
+
+        if (!label.closest('form') || !label.closest('.form-group')) return;
+
+        setTimeout(function () {
+            try {
+                syncFormFieldNameFromLabel(label);
+            } catch (err) {
+                console.warn('[preview] syncFormFieldNameFromLabel:', err);
+            }
+        }, 80);
+    }, true);
+}());
 
 // When preview loads with template from server (preview.php?template=...), init sections
 if (document.readyState === 'loading') {

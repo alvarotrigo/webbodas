@@ -970,7 +970,7 @@
             <div class="section-divider reveal"></div>
 
             <div class="events-grid">
-                <div class="event-card reveal" data-fp-dynamic="true">
+                <div class="event-card reveal" data-fp-dynamic data-fp-duplicable-right>
                     <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     <h3>Welcome Dinner</h3>
                     <div class="event-date">Friday, September 18 · 7:00 PM</div>
@@ -978,7 +978,7 @@
                     <div class="event-location">Ristorante Marina Grande</div>
                 </div>
 
-                <div class="event-card reveal" data-fp-dynamic="true">
+                <div class="event-card reveal" data-fp-dynamic data-fp-duplicable-right>
                     <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                     <h3>The Ceremony</h3>
                     <div class="event-date">Saturday, September 19 · 4:30 PM</div>
@@ -986,7 +986,7 @@
                     <div class="event-location">Villa Cimbrone Gardens</div>
                 </div>
 
-                <div class="event-card reveal" data-fp-dynamic="true">
+                <div class="event-card reveal" data-fp-dynamic data-fp-duplicable-right>
                     <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
                     <h3>Reception & Party</h3>
                     <div class="event-date">Saturday, September 19 · 7:00 PM</div>
@@ -994,7 +994,7 @@
                     <div class="event-location">Villa Cimbrone Terrace</div>
                 </div>
 
-                <div class="event-card reveal" data-fp-dynamic="true">
+                <div class="event-card reveal" data-fp-dynamic data-fp-duplicable-right>
                     <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                     <h3>Farewell Brunch</h3>
                     <div class="event-date">Sunday, September 20 · 11:00 AM</div>
@@ -1071,7 +1071,7 @@
             <div class="section-subtitle reveal">Rest up between celebrations</div>
             <div class="section-divider reveal"></div>
 
-            <div class="hotel-grid" data-fp-dynamic-items="true">
+            <div class="hotel-grid" data-fp-dynamic-items>
                 <div class="hotel-card reveal">
                     <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=75" alt="Hotel Santa Caterina" loading="lazy">
                     <div class="hotel-info">
@@ -1113,7 +1113,7 @@
             <div class="section-subtitle reveal">Villa Cimbrone, Ravello</div>
             <div class="section-divider reveal"></div>
             <p class="section-text reveal">Nestled high above the Amalfi Coast, Villa Cimbrone's gardens offer one of the most breathtaking views in all of Italy — the perfect backdrop for our "I do."</p>
-            <div class="map-container reveal">
+            <div class="map-container reveal" data-fp-duplicable-down>
                 <iframe src="https://maps.google.com/maps?q=Villa+Cimbrone+Ravello+Italy&output=embed" loading="lazy" allowfullscreen></iframe>
             </div>
         </div>
@@ -1129,22 +1129,22 @@
 
             <form id="rsvpForm" onsubmit="handleRsvpSubmit(event)">
                 <!-- 1. Full Name -->
-                <div class="form-group reveal" data-fp-dynamic="true">
+                <div class="form-group reveal" data-fp-dynamic data-fp-duplicable-down>
                     <label for="fullName">First and Last Name *</label>
                     <input type="text" id="fullName" name="fullName" required placeholder="Your full name">
                 </div>
                 <!-- 2. Mobile -->
-                <div class="form-group reveal" data-fp-dynamic="true">
+                <div class="form-group reveal" data-fp-dynamic data-fp-duplicable-down>
                     <label for="mobile">Mobile *</label>
                     <input type="tel" id="mobile" name="mobile" required placeholder="+1 000 000 0000">
                 </div>
                 <!-- 3. Email -->
-                <div class="form-group reveal" data-fp-dynamic="true">
+                <div class="form-group reveal" data-fp-dynamic>
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="your@email.com">
                 </div>
                 <!-- 4. Age Category -->
-                <div class="form-group reveal" data-fp-dynamic="true">
+                <div class="form-group reveal" data-fp-dynamic data-fp-duplicable-down>
                     <label for="ageCategory">Age Category</label>
                     <select id="ageCategory" name="ageCategory">
                         <option value="" disabled selected>Select</option>
@@ -1153,7 +1153,7 @@
                     </select>
                 </div>
                 <!-- 5. Attendance -->
-                <div class="form-group reveal" data-fp-dynamic="true">
+                <div class="form-group reveal" data-fp-dynamic data-fp-duplicable-down>
                     <label for="attendance">Will you be attending the wedding? *</label>
                     <select id="attendance" name="attendance" required>
                         <option value="" disabled selected>Select</option>
@@ -1162,12 +1162,12 @@
                     </select>
                 </div>
                 <!-- 6. Allergies (conditional - visible when "Yes, I will") -->
-                <div class="form-group reveal" id="fieldAllergies" data-fp-dynamic="true" style="display:none;">
+                <div class="form-group reveal" id="fieldAllergies" data-fp-dynamic data-fp-duplicable-down style="display:none;">
                     <label for="allergies">Allergies or special diet</label>
                     <input type="text" id="allergies" name="allergies" placeholder="Allergies, Celiac, Vegan, etc.">
                 </div>
                 <!-- 7. Transport (conditional - visible when "Yes, I will") -->
-                <div class="form-group reveal" id="fieldTransport" data-fp-dynamic="true" style="display:none;">
+                <div class="form-group reveal" id="fieldTransport" data-fp-dynamic data-fp-duplicable-down style="display:none;">
                     <label for="transport">Will you be using the event transportation?</label>
                     <select id="transport" name="transport">
                         <option value="" disabled selected>Select</option>
@@ -1176,12 +1176,12 @@
                     </select>
                 </div>
                 <!-- 8. Song (conditional - visible when "Yes, I will") -->
-                <div class="form-group reveal" id="fieldSong" data-fp-dynamic="true" style="display:none;">
+                <div class="form-group reveal" id="fieldSong" data-fp-dynamic data-fp-duplicable-down style="display:none;">
                     <label for="song">Favorite song for the dance floor</label>
                     <input type="text" id="song" name="song" placeholder="Artist — Song">
                 </div>
                 <!-- 9. Message (always visible) -->
-                <div class="form-group reveal" data-fp-dynamic="true">
+                <div class="form-group reveal" data-fp-dynamic data-fp-duplicable-down>
                     <label for="message">A message for the couple</label>
                     <textarea id="message" name="message" placeholder="Write us something lovely..."></textarea>
                 </div>

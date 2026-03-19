@@ -1149,18 +1149,19 @@ function isUserInOnboarding() {
     }
  }
 
-// Wedding theme data with color palettes (source of truth: templates/css/wedding-themes-reference.css)
+// Wedding theme data with color palettes (source of truth: templates/html/template6.html ... template16.html)
 const themes = [
-    { id: 'theme-wedding-sage-white', name: 'Sage & White', colors: ['#f9fbf9', '#f0f4f0', '#8ba888', '#6b8269', '#e4ebe4'] },
-    { id: 'theme-wedding-terracotta', name: 'Terracotta & Sage', colors: ['#f4eee8', '#ede2d7', '#c6714b', '#a05636', '#e2d1c3'] },
-    { id: 'theme-wedding-midnight-stars', name: 'Midnight & Stars', colors: ['#0f141d', '#1a202c', '#d4af37', '#b8962e', '#242c3d'] },
-    { id: 'theme-wedding-coastal', name: 'Coastal Blue', colors: ['#f4f7f9', '#ebf1f5', '#5b87a8', '#3e6480', '#e0e9f0'] },
-    { id: 'theme-wedding-dusty-rose', name: 'Dusty Rose', colors: ['#fffdfd', '#fbf5f6', '#c48b90', '#a36b70', '#f5e9ea'] },
-    { id: 'theme-wedding-lilac-gold', name: 'Lilac & Gold', colors: ['#fcfbfe', '#f4f1f8', '#c5a059', '#a38040', '#ebe5f2'] },
-    { id: 'theme-wedding-berry-velvet', name: 'Berry & Velvet', colors: ['#faf7f7', '#f2ebeb', '#912737', '#6b1b26', '#e8dbdc'] },
-    { id: 'theme-wedding-champagne-pampas', name: 'Champagne & Pampas', colors: ['#fcfbf9', '#f5f1ea', '#c4a983', '#a38965', '#ede6dc'] },
-    { id: 'theme-wedding-emerald', name: 'Emerald & Ivory', colors: ['#fdfdfc', '#f2f5f3', '#1e5939', '#133b25', '#e4ebe6'] },
-    { id: 'theme-wedding-art-deco', name: 'Art Deco Noir', colors: ['#ffffff', '#f5f5f5', '#000000', '#333333', '#ebebeb'] }
+    { id: 'theme-wedding-confetti', name: 'Confetti', colors: ['#FFF8F0', '#FFF0E6', '#FF6B6B', '#3D5AFE', '#F5EDFF'] },
+    { id: 'theme-mediterranean', name: 'Mediterranean', colors: ['#FBF8F4', '#F3EDE5', '#C4704A', '#7B8B68', '#F0E8DD'] },
+    { id: 'theme-dreamy-botanical', name: 'Dreamy Botanical', colors: ['#1e2d3a', '#243544', '#c9a456', '#5a8a7a', '#2a3a4a'] },
+    { id: 'theme-wedding-modern-bliss', name: 'Modern Bliss', colors: ['#fdfaf9', '#f8f3f1', '#e8488a', '#f97316', '#fdf0f5'] },
+    { id: 'theme-atelier', name: 'Atelier', colors: ['#F4EFE9', '#EDE6DC', '#1A1614', '#6B6258', '#EAE3D8'] },
+    { id: 'theme-botanical-romance', name: 'Botanical Romance', colors: ['#FCF9F5', '#F6EFE8', '#C4697A', '#8FAE8E', '#F2E8E1'] },
+    { id: 'theme-kyoto', name: 'Kyoto', colors: ['#F3EDE7', '#EBE4DC', '#181412', '#6B6360', '#E6DDD3'] },
+    { id: 'theme-avela-white', name: 'Avela White', colors: ['#F4F2EF', '#ECEAE6', '#161514', '#6E6B68', '#E8E5E0'] },
+    { id: 'theme-olive-garden', name: 'Olive Garden', colors: ['#fafaf5', '#f2f0e6', '#8a8a2e', '#a09040', '#eeebdf'] },
+    { id: 'theme-dreamday', name: 'Dreamday', colors: ['#f7f3ee', '#ede8e1', '#7a5c48', '#9a8c7e', '#ece5db'] },
+    { id: 'theme-renthem', name: 'Renthem', colors: ['#fdfcfa', '#f7f3ef', '#8c5a3e', '#a07868', '#f2ede8'] }
 ];
 
  // Expose themes globally so onboarding popup can access them
@@ -1365,7 +1366,7 @@ const templates = [
     { id: 13, is_pro: 0, name: 'Avela White', file: 'template13.html', category: 'luxe', tags: ['black-and-white', 'editorial', 'minimalist', 'monochromatic', 'luxury', 'bold', 'elegant', 'castle', 'destination'], defaultTheme: 'theme-avela-white' },
     { id: 14, is_pro: 0, name: 'Olive Garden', file: 'template14.html', category: 'classic', tags: ['olive', 'classic', 'vintage', 'elegant', 'romantic', 'garden', 'destination', 'italy', 'green'], defaultTheme: 'theme-olive-garden' },
     { id: 15, is_pro: 0, name: 'Dreamday', file: 'template15.html', category: 'luxe', tags: ['boho', 'dreamy', 'arch', 'cream', 'editorial', 'tuscany', 'destination', 'elegant', 'warm', 'pampas'], defaultTheme: 'theme-dreamday' },
-    { id: 16, is_pro: 0, name: 'Golden Hour', file: 'template16.html', category: 'classic', tags: ['warm', 'editorial', 'mediterranean', 'destination', 'santorini', 'terracotta', 'elegant', 'romantic', 'photography'], defaultTheme: 'theme-golden-hour' },
+   { id: 16, is_pro: 0, name: 'Golden Hour', file: 'template16.html', category: 'classic', tags: ['warm', 'editorial', 'mediterranean', 'destination', 'santorini', 'terracotta', 'elegant', 'romantic', 'photography'], defaultTheme: 'theme-renthem' },
     ];
 
 // Template style categories - replaces templates/categorias.json
@@ -3343,6 +3344,10 @@ function downloadPage() {
                  console.log('Draft saved successfully');
                  updateSaveIndicator('saved');
 
+                 if (typeof window.updateGuestsButtonFromFullHtml === 'function' && pageManager.currentPageId) {
+                     window.updateGuestsButtonFromFullHtml(fullHtml || '', pageManager.currentPageId);
+                 }
+
                  // If the page is already published, switch the button to "Publish Changes"
                  // so the user knows the live version is out of date.
                  const publishWrap = document.getElementById('publish-dropdown-wrap');
@@ -3454,6 +3459,10 @@ function downloadPage() {
          
          draftData = draft;
          currentTemplateUrl = draft.templateUrl || null;
+
+         if (typeof window.updateGuestsButtonFromFullHtml === 'function' && pageManager.currentPageId) {
+             window.updateGuestsButtonFromFullHtml(draft.fullHtml || '', pageManager.currentPageId);
+         }
          
          // Wait for iframe to be ready
          const iframe = document.getElementById('preview-iframe');
@@ -5175,6 +5184,18 @@ function updateCurrentThemeButton(themeId) {
                      parentSelector: data.parentSelector
                  });
                  historyManager.executeCommand(elementCommand);
+             }
+             break;
+         case 'ELEMENT_DUPLICATED':
+             if (historyManager && window.ElementDuplicateCommand) {
+                 const duplicateCommand = new ElementDuplicateCommand({
+                     sectionNumber: data.sectionNumber,
+                     sectionUid: data.sectionUid,
+                     parentSelector: data.parentSelector,
+                     insertIndex: data.insertIndex,
+                     cloneHtml: data.cloneHtml
+                 });
+                 historyManager.executeCommand(duplicateCommand);
              }
              break;
          case 'SECTION_EDITED':

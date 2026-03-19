@@ -338,6 +338,7 @@ if (!empty($_GET['template'])) {
     <script defer src="<?= editor_asset('./public/js/cloudinary-image-editor.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/data-attributes-editor.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/removable-elements-manager.js') ?>"></script>
+    <script defer src="<?= editor_asset('./public/js/duplicable-elements-manager.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/custom-theme-manager.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/section-background-picker.js') ?>"></script>
     <script defer src="<?= editor_asset('./public/js/inline-video-editor.js') ?>"></script>

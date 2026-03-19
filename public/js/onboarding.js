@@ -340,7 +340,7 @@
 
     // === PREVIEW POPUP (iframe + themes) ===
 
-    let themeCssCache = null;
+    let themeCssPromise = null;
 
     function getFilteredTemplates() {
         const all = window.allTemplates;
@@ -375,6 +375,10 @@
         // Pre-select the template's default theme so the Themes panel shows it highlighted
         currentPopupThemeId = template.defaultTheme || null;
         initialPopupThemeId = currentPopupThemeId;
+        // Warm up theme CSS fetch so first theme click applies immediately.
+        // Reset in-memory promise to avoid stale CSS across long sessions.
+        themeCssPromise = null;
+        loadThemeCss();
         buildPopupThemesList();
         updateNavButtons();
 
@@ -467,25 +471,32 @@
             const doc = popupIframe.contentDocument;
             if (!doc || !doc.body) return;
 
-            // Remove previous theme classes from body
-            const body = doc.body;
-            Array.from(body.classList).forEach(cls => {
-                if (cls.startsWith('theme-') || cls.startsWith('custom-theme-')) {
-                    body.classList.remove(cls);
-                }
-            });
-            body.classList.add(themeId);
+            const applyThemeClasses = () => {
+                // Remove previous theme classes from body
+                const body = doc.body;
+                Array.from(body.classList).forEach(cls => {
+                    if (cls.startsWith('theme-') || cls.startsWith('custom-theme-')) {
+                        body.classList.remove(cls);
+                    }
+                });
+                body.classList.add(themeId);
 
-            // Also add to <html> for selectors that target :root
-            const html = doc.documentElement;
-            Array.from(html.classList).forEach(cls => {
-                if (cls.startsWith('theme-') || cls.startsWith('custom-theme-')) {
-                    html.classList.remove(cls);
-                }
-            });
-            html.classList.add(themeId);
+                // Also add to <html> for selectors that target :root
+                const html = doc.documentElement;
+                Array.from(html.classList).forEach(cls => {
+                    if (cls.startsWith('theme-') || cls.startsWith('custom-theme-')) {
+                        html.classList.remove(cls);
+                    }
+                });
+                html.classList.add(themeId);
+            };
 
-            injectThemeCss(doc);
+            // Apply immediately, then ensure CSS is injected and re-apply to avoid
+            // first-click race conditions while styles are still loading.
+            applyThemeClasses();
+            injectThemeCss(doc).then(() => {
+                applyThemeClasses();
+            });
         } catch (e) {
             // Fallback: postMessage for cross-origin iframes
             if (popupIframe.contentWindow) {
@@ -496,40 +507,56 @@
         }
     }
 
-    function injectThemeCss(doc) {
-        if (doc.getElementById('popup-theme-css')) return;
+    function loadThemeCss() {
+        if (themeCssPromise) return themeCssPromise;
 
-        function doInject(css) {
-            if (doc.getElementById('popup-theme-css')) return;
-            const style = doc.createElement('style');
-            style.id = 'popup-theme-css';
-            style.textContent = css;
-            doc.head.appendChild(style);
-        }
-
-        if (themeCssCache) {
-            doInject(themeCssCache);
-            return;
-        }
-
-        // Fetch sections.css and extract the wedding theme block
         const currentPath = window.location.pathname;
         const basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
-        fetch(basePath + 'public/css/sections.css')
+        const cssUrl = `${basePath}public/css/sections.css?v=${Date.now()}`;
+
+        themeCssPromise = fetch(cssUrl, { cache: 'no-store' })
             .then(r => r.text())
             .then(css => {
-                const startMarker = '/* 1 — Sage & White';
-                const idx = css.indexOf(startMarker);
-                if (idx !== -1) {
-                    themeCssCache = css.substring(idx);
-                } else {
-                    // Fallback: extract all .theme-wedding-* rules
-                    const matches = css.match(/\.theme-wedding-[\s\S]*?(?=\/\* \[DISABLED|$)/);
-                    themeCssCache = matches ? matches[0] : css;
+                // Extract only body.theme-* { … } blocks that define CSS
+                // custom properties (--color-*, --font-*, etc.).
+                // Skip component rules (e.g. body.theme-dark-modern .card)
+                // that would clash with the template's own styles.
+                const blocks = [];
+                const re = /body\.theme-[^{]+\{[^}]*\}/g;
+                let m;
+                while ((m = re.exec(css)) !== null) {
+                    const sel = m[0].substring(0, m[0].indexOf('{'));
+                    // Only keep pure palette blocks whose selector is just
+                    // body.theme-* (possibly comma-separated), no descendant selectors.
+                    if (!/\.\w[^ ,{]*\s+\S/.test(sel)) blocks.push(m[0]);
                 }
-                doInject(themeCssCache);
+
+                // Never fallback to full sections.css here; that can re-introduce
+                // legacy :root/body rules and break template preview theme switching.
+                return blocks.length ? blocks.join('\n\n') : '';
             })
-            .catch(() => {});
+            .catch(() => {
+                return '';
+            })
+            .finally(() => {
+                // Allow future refreshes in case CSS changes during session.
+                themeCssPromise = null;
+            });
+        return themeCssPromise;
+    }
+
+    function injectThemeCss(doc) {
+        return loadThemeCss().then(css => {
+            if (!css) return;
+            // Always upsert style content to avoid stale injected CSS.
+            let style = doc.getElementById('popup-theme-css');
+            if (!style) {
+                style = doc.createElement('style');
+                style.id = 'popup-theme-css';
+                doc.head.appendChild(style);
+            }
+            style.textContent = css;
+        });
     }
 
     function navigateTemplate(direction) {

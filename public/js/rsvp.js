@@ -14,6 +14,7 @@
         pageId: null,
         pageTitle: '',
         pageUrl: '',      // public website URL for link in header
+        formFieldOrder: null, // ordered keys from live public form (without extras)
         submissions: [],
         filtered: [],
         total: 0,
@@ -131,6 +132,9 @@
                 updatePageTitle();
                 updateFormStatusBadge();
                 renderGroupFilter();
+                return loadFormFieldOrderFromPage();
+            })
+            .then(function () {
                 applyFilter();
             })
             .catch(function (err) {
@@ -139,6 +143,50 @@
             .finally(function () {
                 state.loading = false;
                 showLoading(false);
+            });
+    }
+
+    function normalizeFormFieldKey(key) {
+        var k = String(key || '').trim();
+        if (!k) return '';
+        if (k === 'attending' || k === 'rsvp') return 'attendance';
+        return k;
+    }
+
+    function loadFormFieldOrderFromPage() {
+        state.formFieldOrder = null;
+        var url = (state.pageUrl || '').trim();
+        if (!url) return Promise.resolve();
+
+        return fetch(url, { credentials: 'omit' })
+            .then(function (res) { return res.ok ? res.text() : ''; })
+            .then(function (html) {
+                if (!html) return;
+                var doc = new DOMParser().parseFromString(html, 'text/html');
+                var form = doc.querySelector('form');
+                if (!form) return;
+
+                var seen = {};
+                var ordered = [];
+                form.querySelectorAll('input[name], select[name], textarea[name]').forEach(function (el) {
+                    var tag = (el.tagName || '').toUpperCase();
+                    if (tag === 'INPUT') {
+                        var t = String(el.getAttribute('type') || 'text').toLowerCase();
+                        if (t === 'hidden' || t === 'submit' || t === 'button' || t === 'image' || t === 'reset') return;
+                    }
+                    var name = String(el.getAttribute('name') || '').trim();
+                    if (!name) return;
+                    if (/tinymce/i.test(name) || /^mce/i.test(name)) return;
+                    var normalized = normalizeFormFieldKey(name);
+                    if (!normalized || seen[normalized]) return;
+                    seen[normalized] = true;
+                    ordered.push(normalized);
+                });
+                if (ordered.length) state.formFieldOrder = ordered;
+            })
+            .catch(function () {
+                // If public HTML can't be fetched (e.g. custom domain CORS), fallback to submission-derived order.
+                state.formFieldOrder = null;
             });
     }
 
@@ -1771,18 +1819,36 @@
     ];
 
     function getFormColumns() {
-        // Return only the columns that appear in at least one submission,
-        // preserving the canonical order defined above.
-        var presentKeys = {};
+        // Keep canonical columns always first. Append dynamic/user-added fields after.
+        var present = {};
+        var firstSeen = [];
         state.submissions.forEach(function (s) {
-            Object.keys(s.form_data || {}).forEach(function (k) { presentKeys[k] = true; });
+            Object.keys(s.form_data || {}).forEach(function (k) {
+                var nk = normalizeFormFieldKey(k);
+                if (!nk) return;
+                if (!present[nk]) firstSeen.push(nk);
+                present[nk] = true;
+            });
         });
 
-        // Always include the 9 canonical columns (show empty cells for missing values).
-        // Unknown keys from dirty data are silently ignored.
-        return FORM_COLUMNS.filter(function (col) {
-            return presentKeys[col.key] !== undefined || state.submissions.length === 0;
-        }).map(function (col) { return col.key; });
+        // No submissions yet: show canonical order only.
+        if (state.submissions.length === 0) {
+            return FORM_COLUMNS.map(function (c) { return c.key; });
+        }
+
+        var canonicalSet = {};
+        FORM_COLUMNS.forEach(function (c) { canonicalSet[c.key] = true; });
+
+        var canonical = FORM_COLUMNS
+            .filter(function (c) { return !!present[c.key]; })
+            .map(function (c) { return c.key; });
+
+        // Keep dynamic fields in first-seen order (not alphabetical).
+        var dynamic = firstSeen.filter(function (k) {
+            return !canonicalSet[k];
+        });
+
+        return canonical.concat(dynamic);
     }
 
     function formatColLabel(key) {

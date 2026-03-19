@@ -324,6 +324,11 @@
                                     if (!key) return;
                                     if (/tinymce/i.test(key)) return;
                                     if (/^mce/i.test(key)) return;
+                                    var s = (val === undefined || val === null) ? '' : String(val);
+                                    if (Object.prototype.hasOwnProperty.call(formDataObj, key) &&
+                                        formDataObj[key] !== '' && s === '') {
+                                        return;
+                                    }
                                     formDataObj[key] = val;
                                 });
 

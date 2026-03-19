@@ -1,5 +1,31 @@
 // TinyMCE Inline Editor for Dynamic Content
 // Note: TinyMCE library is now loaded statically in HTML with defer attribute
+
+/**
+ * Stable section key for TEXT_EDITED / undo. Wedding templates often use
+ * <section id="rsvp"> without data-section; without this, blur never posts
+ * TEXT_EDITED and autosave does not run for those labels.
+ */
+function resolveSectionNumberForTextEdit(element) {
+    if (!element) return null;
+    if (element.closest('nav') || element.closest('#nav') || element.closest('#navMenu')) {
+        return 'nav';
+    }
+    const section = element.closest('section');
+    if (!section) return null;
+    const ds = section.getAttribute('data-section');
+    if (ds !== null && String(ds).trim() !== '') return String(ds);
+    const sid = section.id && String(section.id).trim();
+    if (sid) return sid;
+    const preview = document.getElementById('preview-content');
+    if (preview) {
+        const sections = Array.from(preview.querySelectorAll(':scope > section, :scope > footer'));
+        const idx = sections.indexOf(section);
+        if (idx >= 0) return String(idx);
+    }
+    return '0';
+}
+
 class TinyMCEEditor {
     constructor() {
         this.editor = null;
@@ -285,11 +311,14 @@ class TinyMCEEditor {
                 
                 // Save history only when editor loses focus (blur event)
                 editor.on('blur', () => {
-                    // Get section number from the element (null si está en nav)
                     const element = editor.getElement();
-                    const section = element ? element.closest('section') : null;
-                    const inNav = element && (element.closest('nav') || element.closest('#nav') || element.closest('#navMenu'));
-                    const sectionNumber = section ? section.getAttribute('data-section') : (inNav ? 'nav' : null);
+                    // RSVP form labels: sync name/id/for from label text HERE (TinyMCE has committed
+                    // content). document focusout + setTimeout(0) ran too early and read the old label.
+                    if (element && element.tagName === 'LABEL' && element.closest('form') && element.closest('.form-group') &&
+                        typeof window.syncFormFieldNameFromLabel === 'function') {
+                        window.syncFormFieldNameFromLabel(element);
+                    }
+                    const sectionNumber = resolveSectionNumberForTextEdit(element);
                     const elementId = element ? element.id : null;
                     
                     // Get current HTML and normalize it for comparison
@@ -702,11 +731,12 @@ class TinyMCEEditor {
                 
                 // Save history only when editor loses focus (blur event)
                 editor.on('blur', () => {
-                    // Get section number from the element (null si está en nav)
                     const element = editor.getElement();
-                    const section = element ? element.closest('section') : null;
-                    const inNav = element && (element.closest('nav') || element.closest('#nav') || element.closest('#navMenu'));
-                    const sectionNumber = section ? section.getAttribute('data-section') : (inNav ? 'nav' : null);
+                    if (element && element.tagName === 'LABEL' && element.closest('form') && element.closest('.form-group') &&
+                        typeof window.syncFormFieldNameFromLabel === 'function') {
+                        window.syncFormFieldNameFromLabel(element);
+                    }
+                    const sectionNumber = resolveSectionNumberForTextEdit(element);
                     const elementId = element ? element.id : null;
                     
                     // Get current HTML and normalize it for comparison

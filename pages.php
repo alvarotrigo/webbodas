@@ -291,6 +291,65 @@ function extractNavAndFirstSection($fullHtml) {
 }
 
 /**
+ * Resolve a valid theme class from page data / HTML.
+ * Accepts legacy shapes where theme might be nested or non-string.
+ */
+function resolvePreviewThemeClass($pageData, $fullHtml = '') {
+    $candidates = [];
+
+    if (is_array($pageData)) {
+        // Common current shape
+        if (isset($pageData['theme'])) {
+            $candidates[] = $pageData['theme'];
+        }
+        // Legacy nested shape
+        if (isset($pageData['data']) && is_array($pageData['data']) && isset($pageData['data']['theme'])) {
+            $candidates[] = $pageData['data']['theme'];
+        }
+    }
+
+    foreach ($candidates as $candidate) {
+        if (is_string($candidate)) {
+            $candidate = trim($candidate);
+            if ($candidate === '') continue;
+
+            // Keep only first token in case class list is stored.
+            if (strpos($candidate, ' ') !== false) {
+                $candidate = preg_split('/\s+/', $candidate, -1, PREG_SPLIT_NO_EMPTY)[0] ?? '';
+            }
+
+            if (preg_match('/^(?:theme|custom-theme)-[a-zA-Z0-9_-]+$/', $candidate)) {
+                return $candidate;
+            }
+        } elseif (is_array($candidate)) {
+            // Try common array/object-like payloads
+            foreach (['id', 'className', 'theme'] as $key) {
+                if (!empty($candidate[$key]) && is_string($candidate[$key])) {
+                    $value = trim($candidate[$key]);
+                    if (preg_match('/^(?:theme|custom-theme)-[a-zA-Z0-9_-]+$/', $value)) {
+                        return $value;
+                    }
+                }
+            }
+        }
+    }
+
+    // Fallback: read theme directly from saved fullHtml body class
+    if (is_string($fullHtml) && trim($fullHtml) !== '') {
+        if (preg_match('/<body[^>]*class="([^"]+)"/i', $fullHtml, $m)) {
+            $classes = preg_split('/\s+/', trim($m[1]), -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($classes as $cls) {
+                if (preg_match('/^(?:theme|custom-theme)-[a-zA-Z0-9_-]+$/', $cls)) {
+                    return $cls;
+                }
+            }
+        }
+    }
+
+    return '';
+}
+
+/**
  * Render preview for a page. Returns ['html' => string, 'previewLoad' => null|array].
  * When previewLoad is set, JS will load the preview via POST into the iframe.
  */
@@ -318,11 +377,10 @@ function renderPagePreview($pageData, $pageId = null) {
         return $empty;
     }
 
-    $theme = $pageData['theme'] ?? '';
-
     // Try to extract nav + first section from user's fullHtml (edited content)
     $fullHtml = $pageData['fullHtml'] ?? '';
     $extracted = extractNavAndFirstSection($fullHtml);
+    $theme = resolvePreviewThemeClass($pageData, $fullHtml);
 
     if ($extracted['section'] !== null && $pageId !== null) {
         $iframeId = 'page-preview-iframe-' . htmlspecialchars($pageId, ENT_QUOTES, 'UTF-8');
@@ -516,7 +574,7 @@ $userDataJson = json_encode($serverUserData);
                         $pagePreviewLoads[$pageId] = $previewResult['previewLoad'];
                     }
                     $isPublished = !empty($page['is_public']) && !empty($page['share_slug']);
-                    $hasForm = !empty($pageData['fullHtml']) && strpos($pageData['fullHtml'], '<form') !== false;
+                    $hasForm = !empty($pageData['fullHtml']) && preg_match('/<form\b/i', $pageData['fullHtml']) === 1;
                     ?>
                     <div class="page-card" onclick="editPage('<?php echo $pageId; ?>')">
                         <div class="page-preview">
@@ -583,6 +641,25 @@ $userDataJson = json_encode($serverUserData);
     })();
     </script>
     <?php endif; ?>
+
+    <!-- Set preview scale from parent so iframe stays 1440x900, no JS inside iframe (no FOUC, correct aspect) -->
+    <script>
+    (function() {
+        var DESIGN_W = 1440;
+        function applyPreviewScale() {
+            document.querySelectorAll('.page-preview').forEach(function(wrapper) {
+                var w = wrapper.clientWidth;
+                wrapper.style.setProperty('--preview-scale', w < 10 ? 0.2222 : (w / DESIGN_W));
+            });
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyPreviewScale);
+        } else {
+            applyPreviewScale();
+        }
+        window.addEventListener('resize', applyPreviewScale);
+    })();
+    </script>
 
     <!-- New Page Modal -->
     <div id="newPageModal" class="modal">

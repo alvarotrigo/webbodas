@@ -254,6 +254,7 @@ body {
     color: #007aff;
 }
 
+/* Wrapper: visible size (16:10), clips scaled iframe. Scale is set by CSS var from parent. */
 .page-preview {
     width: 100%;
     aspect-ratio: 16 / 10;
@@ -269,12 +270,17 @@ body {
     object-fit: cover;
 }
 
-/* Live template preview: nav + first section in iframe (dynamic scaling inside) */
+/* Iframe rendered at 1440x900 and scaled by parent CSS (no JS inside iframe = no FOUC, better text) */
 .page-preview-iframe {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1440px;
+    height: 900px;
     border: none;
-    display: block;
+    transform-origin: top left;
+    transform: scale(var(--preview-scale, 0.2222));
+    -webkit-font-smoothing: antialiased;
     pointer-events: none;
 }
 

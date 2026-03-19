@@ -1129,7 +1129,7 @@ class DownloadOptionsHandler {
                     <div id="publish-progress-bar-fill" class="publish-progress-bar-fill" style="width:0%"></div>
                 </div>
                 <p id="publish-progress-quote" class="text-sm text-[var(--secondary-text)] text-center mt-4" style="font-style:italic;">
-                    ${isPro ? 'This may take a few seconds&hellip;' : '\u201CA good design is a good business\u201D. <strong>Thomas Watson Jr.</strong>'}
+                    ${isPro ? 'This may take a few seconds&hellip;' : '\u201CThe sweetest joy, the wildest woe is love.\u201D. <strong>Pearl Bailey.</strong>'}
                 </p>
             </div>
         `;

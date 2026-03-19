@@ -85,6 +85,110 @@
         if (themeToApply && themeToApply.trim() !== '') {
             outlineList.classList.add(themeToApply);
         }
+
+        // Copy computed theme variables from preview iframe body into outline list.
+        // New palettes are defined as body.theme-* rules, so adding the class on
+        // outlineList alone is not enough for thumbnails to inherit --color-* tokens.
+        syncThemeVariablesFromPreview(outlineList);
+    }
+
+    function syncThemeVariablesFromPreview(outlineList) {
+        const previewIframe = document.getElementById('preview-iframe');
+        if (!previewIframe || !previewIframe.contentDocument || !previewIframe.contentDocument.body) {
+            return;
+        }
+
+        const previewBodyStyle = getComputedStyle(previewIframe.contentDocument.body);
+
+        const contractVars = [
+            '--color-canvas',
+            '--color-canvas-alt',
+            '--color-surface',
+            '--color-surface-alt',
+            '--color-surface-raised',
+            '--color-surface-inverse',
+            '--color-on-canvas',
+            '--color-on-canvas-muted',
+            '--color-on-surface',
+            '--color-on-surface-muted',
+            '--color-on-surface-subtle',
+            '--color-on-surface-inverse',
+            '--color-primary',
+            '--color-on-primary',
+            '--color-primary-hover',
+            '--color-primary-active',
+            '--color-primary-container',
+            '--color-on-primary-container',
+            '--color-secondary',
+            '--color-on-secondary',
+            '--color-secondary-hover',
+            '--color-secondary-active',
+            '--color-secondary-container',
+            '--color-on-secondary-container',
+            '--color-tertiary',
+            '--color-on-tertiary',
+            '--color-tertiary-hover',
+            '--color-tertiary-active',
+            '--color-tertiary-container',
+            '--color-on-tertiary-container',
+            '--color-link',
+            '--color-link-hover',
+            '--color-border-subtle',
+            '--color-border',
+            '--color-border-strong',
+            '--color-focus-ring',
+            '--color-overlay',
+            '--color-overlay-strong',
+            '--color-on-overlay',
+            '--color-success',
+            '--color-on-success',
+            '--color-danger',
+            '--color-on-danger',
+            '--font-body',
+            '--font-heading',
+            '--radius-sm',
+            '--radius-md',
+            '--radius-lg',
+            '--shadow-sm',
+            '--shadow-md',
+            '--shadow-lg',
+            '--space-1',
+            '--space-2',
+            '--space-3',
+            '--space-4',
+            '--space-5',
+            '--space-6',
+            '--space-7',
+            '--space-8'
+        ];
+
+        contractVars.forEach((varName) => {
+            const value = previewBodyStyle.getPropertyValue(varName);
+            if (value && value.trim()) {
+                outlineList.style.setProperty(varName, value.trim());
+            }
+        });
+
+        // Local aliases so existing outline CSS still renders correctly while
+        // the panel progressively migrates from legacy token names.
+        const aliasMap = {
+            '--primary-bg': '--color-canvas',
+            '--secondary-bg': '--color-canvas-alt',
+            '--accent-bg': '--color-surface-alt',
+            '--primary-text': '--color-on-canvas',
+            '--secondary-text': '--color-on-canvas-muted',
+            '--primary-accent': '--color-primary',
+            '--border-color': '--color-border',
+            '--font-family': '--font-body',
+            '--heading-font': '--font-heading'
+        };
+
+        Object.entries(aliasMap).forEach(([legacyVar, contractVar]) => {
+            const value = outlineList.style.getPropertyValue(contractVar);
+            if (value && value.trim()) {
+                outlineList.style.setProperty(legacyVar, value.trim());
+            }
+        });
     }
 
     // Listen for theme changes in the preview

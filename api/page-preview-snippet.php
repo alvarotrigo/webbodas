@@ -166,21 +166,5 @@ header('Content-Type: text/html; charset=utf-8');
 <body class="<?php echo htmlspecialchars($themeClass); ?>">
     <?php echo $navHtml; ?>
     <?php echo $sectionHtml; ?>
-    <script>
-    // Scale 1440x900 content to fit the iframe (top-left origin so nav + hero fill the card)
-    (function() {
-        function applyScale() {
-            var vw = 1440, vh = 900;
-            var iw = window.innerWidth || document.documentElement.clientWidth;
-            var ih = window.innerHeight || document.documentElement.clientHeight;
-            if (iw < 10 || ih < 10) return;
-            var scale = Math.min(iw / vw, ih / vh);
-            document.body.style.transform = 'scale(' + scale + ')';
-            document.body.style.transformOrigin = 'top left';
-        }
-        applyScale();
-        window.addEventListener('resize', applyScale);
-    })();
-    </script>
 </body>
 </html>

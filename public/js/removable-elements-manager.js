@@ -137,13 +137,23 @@ class RemovableElementsManager {
     }
 
     /**
-     * Handle scroll events - hide indicator if element scrolls away from cursor
+     * Update indicator position to stay fixed relative to the active element (e.g. on scroll).
+     */
+    updateIndicatorPosition() {
+        if (!this.activeElement || !this.indicator) return;
+        const rect = this.activeElement.getBoundingClientRect();
+        this.indicator.style.top = `${rect.top - 40}px`;
+        this.indicator.style.left = `${rect.right - 40}px`;
+    }
+
+    /**
+     * Handle scroll events - keep indicator fixed relative to element, hide if element scrolls away from cursor
      */
     setupScrollHandler() {
         let scrollPending = false;
 
         window.addEventListener('scroll', () => {
-            // Only check if indicator is visible and we have an active element
+            // Only run if indicator is visible and we have an active element
             if (!this.activeElement || parseFloat(this.indicator?.style.opacity || '0') === 0) {
                 return;
             }
@@ -155,20 +165,22 @@ class RemovableElementsManager {
             requestAnimationFrame(() => {
                 scrollPending = false;
 
-                // Check if mouse is still over the active element
-                if (this.activeElement) {
-                    const rect = this.activeElement.getBoundingClientRect();
-                    const isMouseOverElement = (
-                        this.lastMouseX >= rect.left &&
-                        this.lastMouseX <= rect.right &&
-                        this.lastMouseY >= rect.top &&
-                        this.lastMouseY <= rect.bottom
-                    );
+                if (!this.activeElement) return;
 
-                    // If mouse is no longer over element, hide indicator
-                    if (!isMouseOverElement) {
-                        this.hideIndicator();
-                    }
+                const rect = this.activeElement.getBoundingClientRect();
+                const isMouseOverElement = (
+                    this.lastMouseX >= rect.left &&
+                    this.lastMouseX <= rect.right &&
+                    this.lastMouseY >= rect.top &&
+                    this.lastMouseY <= rect.bottom
+                );
+
+                // Keep indicator position in sync with element (so it stays "fixed" relative to the element on scroll)
+                this.updateIndicatorPosition();
+
+                // If mouse is no longer over element, hide indicator
+                if (!isMouseOverElement) {
+                    this.hideIndicator();
                 }
             });
         }, { passive: true, capture: true });
@@ -192,8 +204,8 @@ class RemovableElementsManager {
         // Find elements with data-fp-dynamic attribute
         const dynamicElements = sectionElement.querySelectorAll('[data-fp-dynamic]');
 
-        // Find direct children of elements with data-fp-dynamic-items="true"
-        const dynamicItemContainers = sectionElement.querySelectorAll('[data-fp-dynamic-items="true"]');
+        // Find direct children of elements with data-fp-dynamic-items (presence of attribute is enough)
+        const dynamicItemContainers = sectionElement.querySelectorAll('[data-fp-dynamic-items]');
         const dynamicItemChildren = [];
         dynamicItemContainers.forEach(container => {
             // Get only direct children

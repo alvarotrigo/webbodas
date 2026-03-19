@@ -355,6 +355,7 @@ function editor_asset(string $path): string
     <script src="<?= editor_asset('public/js/history/commands/fullpage-toggle-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/fullpage-settings-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/element-remove-command.js') ?>"></script>
+    <script src="<?= editor_asset('public/js/history/commands/element-duplicate-command.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/section-commands.js') ?>"></script>
     <script src="<?= editor_asset('public/js/history/commands/header-change-command.js') ?>"></script>
 
@@ -1307,6 +1308,30 @@ function editor_asset(string $path): string
     (function () {
         var preloaded = <?= $preloadedPageDataJson ?>;
 
+        /**
+         * Normalize page.data from API (object or JSON string) and return fullHtml string.
+         */
+        function getFullHtmlFromPageData(raw) {
+            var d = raw;
+            if (typeof d === 'string') {
+                try { d = JSON.parse(d); } catch (e) { return ''; }
+            }
+            if (!d || typeof d !== 'object') return '';
+            return typeof d.fullHtml === 'string' ? d.fullHtml : '';
+        }
+
+        /**
+         * True if saved HTML contains an HTML form (case-insensitive).
+         * Exported so app.js can sync the button after draft restore / autosave.
+         */
+        window.updateGuestsButtonFromFullHtml = function (fullHtml, pageId) {
+            var btn = document.getElementById('rsvp-dashboard-btn');
+            if (!btn || !pageId) return;
+            var hasForm = typeof fullHtml === 'string' && /<form\b/i.test(fullHtml);
+            btn.href = 'rsvp.php?page=' + encodeURIComponent(pageId);
+            btn.style.display = hasForm ? 'flex' : 'none';
+        };
+
         function showRsvpBtn(pageId) {
             var btn = document.getElementById('rsvp-dashboard-btn');
             if (!btn || !pageId) return;
@@ -1314,13 +1339,10 @@ function editor_asset(string $path): string
             btn.style.display = 'flex';
         }
 
-        // Show Guests button if page has a form (current or past); keep visible even when unpublished
+        // Show Guests button when preloaded page HTML includes a form
         if (preloaded && preloaded.page && preloaded.page.id) {
-            var pageHasForm = preloaded.page.data && preloaded.page.data.fullHtml &&
-                preloaded.page.data.fullHtml.indexOf('<form') !== -1;
-            if (pageHasForm) {
-                showRsvpBtn(preloaded.page.id);
-            }
+            var fh = getFullHtmlFromPageData(preloaded.page.data);
+            window.updateGuestsButtonFromFullHtml(fh, preloaded.page.id);
         }
 
         // Switch Publish button to the correct initial state on page load:
