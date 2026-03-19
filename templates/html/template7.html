@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elena & Marco — 06.20.26</title>
+    <meta name="description" content="Join us to celebrate the wedding of Elena and Marco. June 20, 2026 at Villa dei Cipressi, Amalfi Coast, Italy.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ─── MEDITERRANEAN PALETTE ─── */
+        body.theme-mediterranean {
+            --color-canvas: #FBF8F4;
+            --color-canvas-alt: #F3EDE5;
+            --color-surface: #FFFFFF;
+            --color-surface-alt: #F0E8DD;
+            --color-surface-raised: #FFFDFB;
+            --color-surface-inverse: #2A231C;
+
+            --color-on-canvas: #2C2520;
+            --color-on-canvas-muted: #6D6258;
+            --color-on-surface: #2A231C;
+            --color-on-surface-muted: #6B6157;
+            --color-on-surface-subtle: #8C8176;
+            --color-on-surface-inverse: #F9F4EF;
+
+            --color-primary: #C4704A;
+            --color-on-primary: #FFF9F5;
+            --color-primary-hover: #B0613D;
+            --color-primary-active: #955234;
+            --color-primary-container: #F0D9CC;
+            --color-on-primary-container: #5B3324;
+
+            --color-secondary: #7B8B68;
+            --color-on-secondary: #FBFDF9;
+            --color-secondary-hover: #6B7B59;
+            --color-secondary-active: #5C6A4D;
+            --color-secondary-container: #E0E8D6;
+            --color-on-secondary-container: #364030;
+
+            --color-tertiary: #7C9EB5;
+            --color-on-tertiary: #F5FAFD;
+            --color-tertiary-hover: #6B8DA4;
+            --color-tertiary-active: #5A7B92;
+            --color-tertiary-container: #D6E6EF;
+            --color-on-tertiary-container: #254050;
+
+            --color-link: #955234;
+            --color-link-hover: #7A3F27;
+            --color-border-subtle: #E6DDD4;
+            --color-border: #D4C7BB;
+            --color-border-strong: #A69484;
+            --color-focus-ring: #7C9EB5;
+
+            --color-overlay: rgba(42, 35, 28, 0.48);
+            --color-overlay-strong: rgba(42, 35, 28, 0.68);
+            --color-on-overlay: #FFF9F5;
+
+            --color-success: #4F7A59;
+            --color-on-success: #F7FFF8;
+            --color-danger: #A34C4C;
+            --color-on-danger: #FFF8F8;
+
+            --font-body: 'Lato', 'Helvetica Neue', sans-serif;
+            --font-heading: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        /* ─── BASE ─── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--color-canvas);
+            color: var(--color-on-canvas);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+        }
+        nav.scrolled {
+            background: var(--color-surface-raised);
+            backdrop-filter: blur(12px);
+            padding: 14px 48px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        nav .logo {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--color-on-overlay);
+            letter-spacing: 0.05em;
+            text-decoration: none;
+        }
+        nav.scrolled .logo {
+            color: var(--color-on-canvas);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 32px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--color-on-overlay);
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s, opacity 0.3s;
+            opacity: 0.85;
+        }
+        nav.scrolled ul li a {
+            color: var(--color-on-canvas-muted);
+            opacity: 1;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1.5px;
+            background: var(--color-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        nav ul li a:hover,
+        nav ul li a.active { opacity: 1; }
+        nav.scrolled ul li a:hover,
+        nav.scrolled ul li a.active { color: var(--color-primary); }
+        nav ul li a:hover::after,
+        nav ul li a.active::after { transform: scaleX(1); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+        .hamburger span {
+            width: 24px;
+            height: 1.5px;
+            background: var(--color-on-overlay);
+            transition: all 0.3s ease;
+            display: block;
+        }
+        nav.scrolled .hamburger span {
+            background: var(--color-on-canvas);
+        }
+
+        /* ─── HERO ─── */
+        section#hero {
+            min-height: 100vh !important;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        section#hero .fp-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+        section#hero .fp-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--color-overlay);
+            opacity: var(--overlay-opacity, 0.4);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: var(--color-on-overlay);
+            padding: 40px 24px;
+            max-width: 900px;
+        }
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 24px;
+        }
+        .hero-names {
+            font-family: var(--font-heading);
+            font-weight: 300;
+            font-size: clamp(52px, 9vw, 120px);
+            line-height: 1.1;
+            letter-spacing: 0.02em;
+            margin-bottom: 24px;
+        }
+        .hero-names .amp {
+            display: block;
+            font-style: italic;
+            font-size: 0.35em;
+            letter-spacing: 0.15em;
+            opacity: 0.6;
+            margin: 4px 0;
+        }
+        .hero-date {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 12px;
+        }
+        .hero-location {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-size: clamp(18px, 2.5vw, 24px);
+            opacity: 0.6;
+            margin-bottom: 48px;
+        }
+        .hero-cta {
+            display: inline-block;
+            padding: 16px 48px;
+            background: var(--color-primary);
+            color: var(--color-on-primary);
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            border-radius: 2px;
+            transition: background 0.3s ease;
+        }
+        .hero-cta:hover {
+            background: var(--color-primary-hover);
+        }
+
+        /* ─── SECTION COMMON ─── */
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 64px;
+        }
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 400;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            color: var(--color-on-canvas);
+        }
+        .section-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--color-on-canvas-muted);
+            max-width: 580px;
+        }
+        .section-divider {
+            width: 48px;
+            height: 2px;
+            background: var(--color-primary);
+            margin-bottom: 40px;
+        }
+
+        /* ─── COUNTDOWN ─── */
+        section#countdown {
+            background: var(--color-canvas-alt);
+            text-align: center;
+        }
+        section#countdown .section-inner {
+            padding: 80px 64px;
+        }
+        .countdown-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 56px;
+            margin-top: 40px;
+        }
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .countdown-item .number {
+            font-family: var(--font-heading);
+            font-weight: 300;
+            font-size: clamp(44px, 6vw, 72px);
+            line-height: 1;
+            color: var(--color-primary);
+        }
+        .countdown-item .label {
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--color-on-canvas-muted);
+        }
+
+        /* ─── DETAILS (WHEN & WHERE) ─── */
+        section#details {
+            background: var(--color-canvas);
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin-top: 64px;
+        }
+        .detail-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-subtle);
+            padding: 56px 44px;
+            border-radius: 4px;
+            position: relative;
+        }
+        .detail-card .card-type {
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: 16px;
+        }
+        .detail-card h3 {
+            font-family: var(--font-heading);
+            font-size: clamp(24px, 3vw, 34px);
+            font-weight: 400;
+            color: var(--color-on-surface);
+            margin-bottom: 24px;
+        }
+        .detail-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 15px;
+            color: var(--color-on-surface-muted);
+        }
+        .detail-info .detail-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            color: var(--color-secondary);
+            margin-top: 2px;
+        }
+
+        /* ─── SCHEDULE ─── */
+        section#schedule {
+            background: var(--color-canvas-alt);
+        }
+        .timeline {
+            position: relative;
+            margin-top: 64px;
+            max-width: 700px;
+            padding-left: 48px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--color-border);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 56px;
+        }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-dot {
+            position: absolute;
+            left: -44px;
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            border: 2px solid var(--color-canvas-alt);
+            z-index: 2;
+        }
+        .timeline-time {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: 6px;
+        }
+        .timeline-item h3 {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--color-on-canvas);
+            margin-bottom: 6px;
+        }
+        .timeline-item p:not(.timeline-time) {
+            font-size: 14px;
+            color: var(--color-on-canvas-muted);
+            line-height: 1.7;
+        }
+
+        /* ─── STORY ─── */
+        section#story {
+            background: var(--color-canvas);
+        }
+        .story-milestones {
+            margin-top: 64px;
+        }
+        .milestone {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+        .milestone:last-child { margin-bottom: 0; }
+        .milestone:nth-child(even) .milestone-image { order: 2; }
+        .milestone:nth-child(even) .milestone-text { order: 1; }
+        .milestone-image {
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        .milestone-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        .milestone-image:hover img {
+            transform: scale(1.03);
+        }
+        .milestone-date {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-secondary);
+            margin-bottom: 12px;
+        }
+        .milestone-text h3 {
+            font-family: var(--font-heading);
+            font-size: clamp(24px, 3vw, 36px);
+            font-weight: 400;
+            color: var(--color-on-canvas);
+            margin-bottom: 16px;
+        }
+        .milestone-text p {
+            font-size: 15px;
+            line-height: 1.85;
+            color: var(--color-on-canvas-muted);
+        }
+
+        /* ─── GALLERY ─── */
+        section#gallery {
+            background: var(--color-canvas-alt);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 64px;
+        }
+        .gallery-item {
+            overflow: hidden;
+            aspect-ratio: 1;
+            border-radius: 4px;
+        }
+        .gallery-item.tall {
+            grid-row: span 2;
+            aspect-ratio: auto;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.04);
+        }
+
+        /* ─── ACCOMMODATION ─── */
+        section#accomodation {
+            background: var(--color-canvas);
+        }
+        .accommodation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 64px;
+        }
+        .accommodation-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-subtle);
+            padding: 44px 36px;
+            border-radius: 4px;
+        }
+        .accommodation-card .card-icon {
+            font-size: 28px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .accommodation-card .card-label {
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-secondary);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .accommodation-card h3 {
+            font-family: var(--font-heading);
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--color-on-surface);
+            margin-bottom: 12px;
+        }
+        .accommodation-card p {
+            font-size: 14px;
+            color: var(--color-on-surface-muted);
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        .accommodation-card .price {
+            font-weight: 700;
+            color: var(--color-on-surface);
+        }
+        .transport-note {
+            margin-top: 40px;
+            padding: 32px 40px;
+            background: var(--color-secondary-container);
+            border-radius: 4px;
+            font-size: 15px;
+            color: var(--color-on-secondary-container);
+        }
+        .transport-note strong {
+            color: var(--color-on-secondary-container);
+        }
+
+        /* ─── MAP ─── */
+        section#map {
+            background: var(--color-canvas-alt);
+        }
+        .map-frame {
+            margin-top: 48px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .map-frame iframe {
+            display: block;
+            width: 100%;
+            height: 450px;
+            border: 0;
+        }
+
+        /* ─── RSVP ─── */
+        section#rsvp {
+            background: var(--color-surface-alt);
+        }
+        section#rsvp .section-label {
+            color: var(--color-primary);
+        }
+        section#rsvp .section-title {
+            color: var(--color-on-canvas);
+        }
+        .rsvp-form {
+            max-width: 640px;
+            margin-top: 48px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group label {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-on-canvas-muted);
+            margin-bottom: 10px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            color: var(--color-on-surface);
+            font-family: var(--font-body);
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+            border-radius: 3px;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--color-on-surface-subtle);
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--color-primary);
+        }
+        .form-group select {
+            cursor: pointer;
+            -webkit-appearance: none;
+        }
+        .form-group select option {
+            background: var(--color-surface);
+            color: var(--color-on-surface);
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .conditional-fields {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s ease, opacity 0.4s ease;
+        }
+        .conditional-fields.show {
+            max-height: 400px;
+            opacity: 1;
+        }
+        .btn-rsvp {
+            display: inline-block;
+            padding: 16px 56px;
+            background: var(--color-primary);
+            color: var(--color-on-primary);
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: background 0.3s ease;
+            margin-top: 8px;
+        }
+        .btn-rsvp:hover {
+            background: var(--color-primary-hover);
+        }
+
+        /* ─── FAQ ─── */
+        section#faqs {
+            background: var(--color-canvas);
+        }
+        .faq-list {
+            max-width: 720px;
+            margin-top: 64px;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        .faq-question {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--color-on-canvas);
+            transition: color 0.3s;
+        }
+        .faq-question:hover {
+            color: var(--color-primary);
+        }
+        .faq-question .faq-icon {
+            font-family: var(--font-body);
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--color-on-canvas-muted);
+            transition: transform 0.3s;
+            flex-shrink: 0;
+            margin-left: 24px;
+        }
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+        .faq-answer p {
+            padding-bottom: 24px;
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--color-on-canvas-muted);
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--color-surface-inverse);
+            color: var(--color-on-surface-inverse);
+            text-align: center;
+            padding: 80px 48px;
+        }
+        .footer-olive {
+            margin: 0 auto 24px;
+            opacity: 0.4;
+        }
+        .footer-names {
+            font-family: var(--font-heading);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 300;
+            margin-bottom: 12px;
+        }
+        .footer-date {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 24px;
+        }
+        .footer-tagline {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-size: 18px;
+            opacity: 0.4;
+        }
+
+        /* ─── REVEAL ANIMATIONS ─── */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal-scale { opacity: 0; transform: scale(0.92); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .section-inner { padding: 80px 24px; }
+            nav { padding: 20px 24px; }
+            nav.scrolled { padding: 14px 24px; }
+            nav ul { display: none; }
+            .hamburger { display: flex; }
+            nav.menu-open ul {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--color-surface-raised);
+                justify-content: center;
+                align-items: center;
+                gap: 32px;
+                z-index: 1000;
+            }
+            nav.menu-open ul li a {
+                color: var(--color-on-canvas);
+                font-size: 13px;
+                opacity: 1;
+            }
+            .details-grid { grid-template-columns: 1fr; }
+            .milestone { grid-template-columns: 1fr; gap: 32px; }
+            .milestone:nth-child(even) .milestone-image { order: 0; }
+            .milestone:nth-child(even) .milestone-text { order: 0; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item.tall { grid-row: span 1; aspect-ratio: 1; }
+            .accommodation-grid { grid-template-columns: 1fr; }
+            .countdown-wrapper { gap: 28px; }
+            section#countdown .section-inner { padding: 60px 24px; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .section-inner { padding: 64px 20px; }
+            .countdown-wrapper { gap: 20px; }
+            .hero-cta { padding: 14px 36px; }
+            .gallery-grid { gap: 8px; }
+        }
+    </style>
+</head>
+<body class="theme-mediterranean">
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="#hero" class="logo">E & M</a>
+        <ul>
+            <li><a href="#details">Details</a></li>
+            <li><a href="#schedule">Schedule</a></li>
+            <li><a href="#story">Story</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#accomodation">Travel</a></li>
+            <li><a href="#rsvp">RSVP</a></li>
+        </ul>
+        <div class="hamburger" aria-label="Menu" role="button" tabindex="0">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="has-bg-image" data-overlay-opacity="0.4">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1523531294919-4bcd7c65ef8e?w=1920&q=80');"></div>
+        <div class="hero-content reveal">
+            <p class="hero-subtitle">We're getting married</p>
+            <h1 class="hero-names">
+                Elena
+                <span class="amp">and</span>
+                Marco
+            </h1>
+            <p class="hero-date">June 20, 2026</p>
+            <p class="hero-location">Villa dei Cipressi &middot; Amalfi Coast, Italy</p>
+            <a href="#rsvp" class="hero-cta">RSVP Now</a>
+        </div>
+    </section>
+
+    <!-- COUNTDOWN -->
+    <section id="countdown" class="countdown-section" data-wedding-date="2026-06-20T16:00:00">
+        <div class="section-inner">
+            <p class="section-label reveal">Counting the Days</p>
+            <div class="countdown-wrapper">
+                <div class="countdown-item reveal">
+                    <span class="number" id="days" contenteditable="false">000</span>
+                    <span class="label" contenteditable="false">Days</span>
+                </div>
+                <div class="countdown-item reveal">
+                    <span class="number" id="hours" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Hours</span>
+                </div>
+                <div class="countdown-item reveal">
+                    <span class="number" id="minutes" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Minutes</span>
+                </div>
+                <div class="countdown-item reveal">
+                    <span class="number" id="seconds" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAILS (WHEN & WHERE) -->
+    <section id="details">
+        <div class="section-inner">
+            <p class="section-label reveal">When & Where</p>
+            <h2 class="section-title reveal">The Celebration</h2>
+            <div class="section-divider reveal"></div>
+            <div class="details-grid" data-fp-dynamic-items="true">
+                <div class="detail-card reveal-left" data-fp-dynamic="true">
+                    <p class="card-type">The Ceremony</p>
+                    <h3>Exchange of Vows</h3>
+                    <div class="detail-info">
+                        <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span>Saturday, June 20th &mdash; 4:00 PM</span>
+                    </div>
+                    <div class="detail-info">
+                        <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span>Villa dei Cipressi Gardens<br>Via Cristoforo Colombo 26, Ravello</span>
+                    </div>
+                    <div class="detail-info">
+                        <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <span>Cocktail attire</span>
+                    </div>
+                </div>
+                <div class="detail-card reveal-right" data-fp-dynamic="true">
+                    <p class="card-type">The Reception</p>
+                    <h3>Dinner Under the Stars</h3>
+                    <div class="detail-info">
+                        <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span>Saturday, June 20th &mdash; 6:30 PM</span>
+                    </div>
+                    <div class="detail-info">
+                        <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span>Villa dei Cipressi Terrace<br>Overlooking the Amalfi Coast</span>
+                    </div>
+                    <div class="detail-info">
+                        <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M9 18l6-6-6-6"/></svg>
+                        <span>Live music, local wines &amp; Mediterranean cuisine</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section id="schedule">
+        <div class="section-inner">
+            <p class="section-label reveal">The Day</p>
+            <h2 class="section-title reveal">Schedule</h2>
+            <div class="section-divider reveal"></div>
+            <div class="timeline" data-fp-dynamic-items="true">
+                <div class="timeline-item reveal" data-fp-dynamic="true">
+                    <div class="timeline-dot"></div>
+                    <p class="timeline-time">3:30 PM</p>
+                    <h3>Guest Arrival</h3>
+                    <p>Welcome drinks and limoncello in the lemon garden</p>
+                </div>
+                <div class="timeline-item reveal" data-fp-dynamic="true">
+                    <div class="timeline-dot"></div>
+                    <p class="timeline-time">4:00 PM</p>
+                    <h3>The Ceremony</h3>
+                    <p>Exchange of vows among the olive trees</p>
+                </div>
+                <div class="timeline-item reveal" data-fp-dynamic="true">
+                    <div class="timeline-dot"></div>
+                    <p class="timeline-time">5:00 PM</p>
+                    <h3>Aperitivo Hour</h3>
+                    <p>Italian aperitifs and antipasti on the terrace</p>
+                </div>
+                <div class="timeline-item reveal" data-fp-dynamic="true">
+                    <div class="timeline-dot"></div>
+                    <p class="timeline-time">6:30 PM</p>
+                    <h3>Dinner & Celebrations</h3>
+                    <p>Al fresco dinner overlooking the sea, dancing under the stars</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORY -->
+    <section id="story">
+        <div class="section-inner">
+            <p class="section-label reveal">Our Story</p>
+            <h2 class="section-title reveal">How We Met</h2>
+            <div class="section-divider reveal"></div>
+            <div class="story-milestones" data-fp-dynamic-items="true">
+                <div class="milestone" data-fp-dynamic="true">
+                    <div class="milestone-image reveal-left">
+                        <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=800&q=80" alt="First meeting" loading="lazy">
+                    </div>
+                    <div class="milestone-text reveal-right">
+                        <p class="milestone-date">Summer 2021</p>
+                        <h3>A Chance Encounter</h3>
+                        <p>We met at a small trattoria in Trastevere on a warm July evening. What started as a conversation over a shared bottle of wine turned into a walk along the Tiber that lasted until sunrise.</p>
+                    </div>
+                </div>
+                <div class="milestone" data-fp-dynamic="true">
+                    <div class="milestone-image reveal-right">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80" alt="First trip together" loading="lazy">
+                    </div>
+                    <div class="milestone-text reveal-left">
+                        <p class="milestone-date">Spring 2023</p>
+                        <h3>Our First Adventure</h3>
+                        <p>A spontaneous road trip along the Amalfi Coast sealed it. Winding roads, seaside villages, and the realization that we never wanted to stop exploring the world together.</p>
+                    </div>
+                </div>
+                <div class="milestone" data-fp-dynamic="true">
+                    <div class="milestone-image reveal-left">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80" alt="The proposal" loading="lazy">
+                    </div>
+                    <div class="milestone-text reveal-right">
+                        <p class="milestone-date">Autumn 2025</p>
+                        <h3>The Question</h3>
+                        <p>On a quiet terrace overlooking the Mediterranean, with olive trees swaying in the breeze, Marco asked the question. Elena said yes before he even finished.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+        <div class="section-inner">
+            <p class="section-label reveal">Moments</p>
+            <h2 class="section-title reveal">Our Gallery</h2>
+            <div class="section-divider reveal"></div>
+            <div class="gallery-grid" data-fp-dynamic-items="true">
+                <div class="gallery-item tall reveal-scale" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1523531294919-4bcd7c65ef8e?w=600&q=80" alt="Gallery 1" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&q=80" alt="Gallery 2" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80" alt="Gallery 3" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&q=80" alt="Gallery 4" loading="lazy">
+                </div>
+                <div class="gallery-item tall reveal-scale" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600&q=80" alt="Gallery 5" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&q=80" alt="Gallery 6" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACCOMMODATION -->
+    <section id="accomodation">
+        <div class="section-inner">
+            <p class="section-label reveal">Travel & Stay</p>
+            <h2 class="section-title reveal">Where to Stay</h2>
+            <div class="section-divider reveal"></div>
+            <div class="accommodation-grid" data-fp-dynamic-items="true">
+                <div class="accommodation-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🏨</span>
+                    <p class="card-label">Recommended</p>
+                    <h3>Hotel Palazzo Avino</h3>
+                    <p>A 5-minute walk from the villa. We have reserved rooms at a special rate &mdash; mention the Elena &amp; Marco wedding when booking.</p>
+                    <p class="price">From &euro;180 / night</p>
+                </div>
+                <div class="accommodation-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🏡</span>
+                    <p class="card-label">Charming</p>
+                    <h3>Villa Cimbrone Rooms</h3>
+                    <p>A boutique guesthouse with stunning sea views, just 10 minutes from the venue along the coastal path.</p>
+                    <p class="price">From &euro;120 / night</p>
+                </div>
+                <div class="accommodation-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🌊</span>
+                    <p class="card-label">Budget-Friendly</p>
+                    <h3>Hotel Graal Ravello</h3>
+                    <p>A cozy hotel in the heart of Ravello with comfortable rooms and a beautiful pool overlooking the valley.</p>
+                    <p class="price">From &euro;85 / night</p>
+                </div>
+            </div>
+            <div class="transport-note reveal" data-fp-dynamic="true">
+                <strong>Getting there:</strong> The nearest airport is Naples (NAP), about 1.5 hours by car. We will arrange shuttle transfers from Naples and Salerno on the morning of the wedding. Return shuttles depart at 11:00 PM and 1:00 AM. Private car service is also available upon request.
+            </div>
+        </div>
+    </section>
+
+    <!-- MAP -->
+    <section id="map">
+        <div class="section-inner">
+            <p class="section-label reveal">Location</p>
+            <h2 class="section-title reveal">Find the Venue</h2>
+            <div class="section-divider reveal"></div>
+            <p class="section-text reveal">Villa dei Cipressi is perched on the cliffs of Ravello, overlooking the Mediterranean. Accessible by car or shuttle from Amalfi and Positano.</p>
+            <div class="map-frame reveal" data-fp-dynamic="true">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.0!2d14.6117!3d40.6491!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b975f5e63d8f7%3A0x8e5e8e1e1e1e1e1e!2sRavello%2C%20SA%2C%20Italy!5e0!3m2!1sen!2sit!4v1650000000000!5m2!1sen!2sit" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="rsvp">
+        <div class="section-inner">
+            <p class="section-label reveal">Respond</p>
+            <h2 class="section-title reveal">RSVP</h2>
+            <div class="section-divider reveal"></div>
+            <p class="section-text reveal" style="margin-bottom: 8px;">Please let us know by April 30th, 2026</p>
+
+            <form class="rsvp-form" onsubmit="event.preventDefault(); alert('Grazie! Your RSVP has been received.');" data-fp-dynamic-items="true">
+                <div class="form-row">
+                    <div class="form-group reveal">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Your last name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group reveal">
+                        <label for="mobile">Mobile *</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="+39 000 000 0000" required>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@email.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group reveal">
+                        <label for="age">Age Group</label>
+                        <select id="age" name="age">
+                            <option value="adult">Adult</option>
+                            <option value="child">Child</option>
+                        </select>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="attending">Will You Attend? *</label>
+                        <select id="attending" name="attending" required>
+                            <option value="">Select...</option>
+                            <option value="yes">Yes, I will</option>
+                            <option value="no">No, sorry</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="conditional-fields" id="conditionalFields">
+                    <div class="form-group reveal">
+                        <label for="dietary">Allergies / Dietary Requirements</label>
+                        <input type="text" id="dietary" name="dietary" placeholder="Any allergies or dietary needs...">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group reveal">
+                            <label for="transport">Use Shuttle Service?</label>
+                            <select id="transport" name="transport">
+                                <option value="yes">Yes, please</option>
+                                <option value="no">No, I'll arrange my own</option>
+                            </select>
+                        </div>
+                        <div class="form-group reveal">
+                            <label for="song">Favorite Song</label>
+                            <input type="text" id="song" name="song" placeholder="What gets you on the dance floor?">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group reveal">
+                    <label for="message">Message for the Couple</label>
+                    <textarea id="message" name="message" placeholder="A few words, a wish, or a piece of advice..."></textarea>
+                </div>
+                <button type="submit" class="btn-rsvp reveal">Confirm</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faqs">
+        <div class="section-inner">
+            <p class="section-label reveal">Questions</p>
+            <h2 class="section-title reveal">Frequently Asked</h2>
+            <div class="section-divider reveal"></div>
+            <div class="faq-list" data-fp-dynamic-items="true">
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <button class="faq-question" type="button">
+                        What is the dress code?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Cocktail attire. Think elegant but comfortable &mdash; the ceremony is outdoors on a terrace. Ladies may want to avoid stilettos on the stone paths. Light fabrics and soft colors are encouraged.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <button class="faq-question" type="button">
+                        How do I get to Ravello?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Fly into Naples International Airport (NAP). From there, you can take a pre-arranged shuttle (we'll coordinate this), hire a private car, or take the SITA bus. The drive takes about 1.5 hours along the stunning coastal road.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <button class="faq-question" type="button">
+                        Can I bring a plus one?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Due to venue capacity, we kindly ask that only those named on the invitation attend. If you have questions about your invitation, please reach out to us directly.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <button class="faq-question" type="button">
+                        Are children welcome?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Children are welcome! We'll have a dedicated kids' area with activities and a babysitter available during dinner and dancing.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <button class="faq-question" type="button">
+                        What if it rains?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>June on the Amalfi Coast is typically warm and sunny. However, the villa has beautiful covered terraces and an indoor salon that can host the entire celebration. Rain or shine, we will celebrate!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <!-- Olive branch SVG -->
+        <svg class="footer-olive" width="64" height="32" viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 28C32 28 20 24 10 16C6 12 4 8 4 8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+            <path d="M32 28C32 28 44 24 54 16C58 12 60 8 60 8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+            <ellipse cx="8" cy="10" rx="4" ry="2.5" transform="rotate(-30 8 10)" fill="currentColor" opacity="0.3"/>
+            <ellipse cx="14" cy="15" rx="4" ry="2.5" transform="rotate(-20 14 15)" fill="currentColor" opacity="0.3"/>
+            <ellipse cx="21" cy="20" rx="4" ry="2.5" transform="rotate(-10 21 20)" fill="currentColor" opacity="0.3"/>
+            <ellipse cx="56" cy="10" rx="4" ry="2.5" transform="rotate(30 56 10)" fill="currentColor" opacity="0.3"/>
+            <ellipse cx="50" cy="15" rx="4" ry="2.5" transform="rotate(20 50 15)" fill="currentColor" opacity="0.3"/>
+            <ellipse cx="43" cy="20" rx="4" ry="2.5" transform="rotate(10 43 20)" fill="currentColor" opacity="0.3"/>
+        </svg>
+        <h2 class="footer-names">Elena & Marco</h2>
+        <p class="footer-date">June 20, 2026</p>
+        <p class="footer-tagline">Insieme per sempre</p>
+    </footer>
+
+    <script>
+    (function() {
+        // ── Countdown ──
+        var section = document.querySelector('.countdown-section');
+        if (section) {
+            function updateCountdown() {
+                var weddingDate = new Date(section.getAttribute('data-wedding-date')).getTime();
+                var now = new Date().getTime();
+                var diff = weddingDate - now;
+                if (diff < 0) diff = 0;
+                document.getElementById('days').textContent = String(Math.floor(diff / 86400000)).padStart(3, '0');
+                document.getElementById('hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // ── Nav scroll ──
+        var nav = document.querySelector('nav');
+        window.addEventListener('scroll', function() {
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // ── Hamburger toggle ──
+        var hamburger = document.querySelector('.hamburger');
+        if (hamburger) {
+            hamburger.addEventListener('click', function() {
+                nav.classList.toggle('menu-open');
+            });
+        }
+
+        // ── Smooth scroll ──
+        document.querySelectorAll('nav a[href^="#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    nav.classList.remove('menu-open');
+                }
+            });
+        });
+
+        // ── Reveal on scroll ──
+        var reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+        reveals.forEach(function(el) { observer.observe(el); });
+
+        // ── Active nav link ──
+        var sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', function() {
+            var scrollY = window.scrollY + 120;
+            sections.forEach(function(sec) {
+                var top = sec.offsetTop;
+                var height = sec.offsetHeight;
+                var id = sec.getAttribute('id');
+                var link = document.querySelector('nav a[href="#' + id + '"]');
+                if (link) {
+                    if (scrollY >= top && scrollY < top + height) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // ── RSVP conditional fields ──
+        var attendingSelect = document.getElementById('attending');
+        var conditionalFields = document.getElementById('conditionalFields');
+        if (attendingSelect && conditionalFields) {
+            attendingSelect.addEventListener('change', function() {
+                if (this.value === 'yes') {
+                    conditionalFields.classList.add('show');
+                } else {
+                    conditionalFields.classList.remove('show');
+                }
+            });
+        }
+
+        // ── FAQ accordion ──
+        document.querySelectorAll('.faq-question').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var item = this.closest('.faq-item');
+                var isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(function(faq) {
+                    faq.classList.remove('open');
+                });
+                if (!isOpen) {
+                    item.classList.add('open');
+                }
+            });
+        });
+
+    })();
+    </script>
+
+</body>
+</html>

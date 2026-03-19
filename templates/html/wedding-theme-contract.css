@@ -1,0 +1,411 @@
+/**
+ * ============================================================================
+ * WEDDING WEBSITE THEME CONTRACT — EXACT GLOBAL VARIABLES TO USE
+ * ============================================================================
+ *
+ * PURPOSE
+ * This file defines the exact global CSS variables that all wedding templates
+ * and all color palette skins must use.
+ *
+ * HOW TO USE
+ * 1. Apply exactly one palette class on <body>, for example:
+ *      <body class="theme-terracotta">
+ *
+ * 2. Every palette class MUST define every REQUIRED COLOR TOKEN in this file.
+ *
+ * 3. Template CSS must use only these global tokens for theme colors.
+ *    Do not invent page-specific global variables such as:
+ *    --features2-bg, --button-on-gradient-border, --gradient-1, etc.
+ *
+ * 4. If a component needs local aliases, derive them from these global tokens:
+ *      .hero {
+ *        --hero-bg: linear-gradient(
+ *          to bottom,
+ *          var(--color-overlay-strong),
+ *          var(--color-overlay)
+ *        );
+ *        --hero-fg: var(--color-on-overlay);
+ *      }
+ *
+ * 5. Never guess text color from a background. Always use the paired token:
+ *      --color-primary            + --color-on-primary
+ *      --color-surface            + --color-on-surface
+ *      --color-primary-container  + --color-on-primary-container
+ *      --color-overlay            + --color-on-overlay
+ *
+ * 6. ACCESSIBILITY RULES FOR EVERY PALETTE
+ *    - Normal text: target at least 4.5:1 contrast.
+ *    - Large text (18px regular or 14px bold+): target at least 3:1.
+ *    - Prefer 7:1 for long-form body copy when possible.
+ *    - Focus ring and important UI boundaries should reach at least 3:1.
+ *
+ * 7. PALETTE DESIGN RULES
+ *    - Neutral roles (canvas/surface) should stay mostly neutral and readable.
+ *    - Brand roles (primary/secondary/tertiary) create the palette personality.
+ *    - Container roles are softer fills related to their parent brand color.
+ *    - Inverse and overlay roles are for dark sections / image overlays.
+ *
+ * ============================================================================
+ * REQUIRED COLOR TOKENS
+ * Every theme class must define ALL of these.
+ * ============================================================================
+ */
+
+/* Example structure only. Replace values when generating a real palette. */
+body.theme-example {
+  /* ------------------------------------------------------------------------
+   * 1) PAGE / SURFACE ROLES
+   * ------------------------------------------------------------------------
+   * These are the neutral background layers used throughout the site.
+   */
+
+  --color-canvas: #fcfaf7;
+  /* Main page background.
+     Use for: body, main background, default full-width sections. */
+
+  --color-canvas-alt: #f6f0ea;
+  /* Alternate page background stripe.
+     Use for: alternating full-width sections that sit directly on the page,
+     subtle section banding, soft visual rhythm between large sections. */
+
+  --color-surface: #ffffff;
+  /* Standard contained surface.
+     Use for: cards, forms, menus, RSVP panels, light modals, content boxes. */
+
+  --color-surface-alt: #f2ebe4;
+  /* Softer accent-neutral surface.
+     Use for: highlighted cards, quote blocks, timeline items, gallery captions,
+     subtle feature blocks, soft section panels. */
+
+  --color-surface-raised: #fffdfb;
+  /* Elevated neutral surface.
+     Use for: floating cards, dropdowns, popovers, sticky nav on scroll,
+     modals that need slightly more lift than normal cards. */
+
+  --color-surface-inverse: #2b221d;
+  /* Inverse / dark neutral surface.
+     Use for: footer, dark CTA band, dark editorial section, inverse navbar. */
+
+  /* ------------------------------------------------------------------------
+   * 2) TEXT / FOREGROUND ON NEUTRAL ROLES
+   * ------------------------------------------------------------------------
+   * These colors are for text and icons placed on neutral backgrounds above.
+   * Do NOT use them on brand fills unless explicitly paired.
+   */
+
+  --color-on-canvas: #2c2520;
+  /* Main text on --color-canvas and --color-canvas-alt.
+     Use for: headings, body text, labels, important icons. */
+
+  --color-on-canvas-muted: #6d6258;
+  /* Secondary text on --color-canvas and --color-canvas-alt.
+     Use for: descriptions, metadata, helper text, captions, nav subtext. */
+
+  --color-on-surface: #2a231d;
+  /* Main text on --color-surface, --color-surface-alt, --color-surface-raised.
+     Use for: card titles, form labels, body copy inside contained sections. */
+
+  --color-on-surface-muted: #6b6157;
+  /* Secondary text on surface roles.
+     Use for: secondary copy inside cards, captions, subtle metadata. */
+
+  --color-on-surface-subtle: #8c8176;
+  /* Very subtle text on surface roles.
+     Use for: placeholders, tertiary metadata, quiet separators, disabled text.
+     Do not use for essential body text. */
+
+  --color-on-surface-inverse: #f9f4ef;
+  /* Text and icons on --color-surface-inverse.
+     Use for: footer text, dark section headings, inverse buttons with text. */
+
+  /* ------------------------------------------------------------------------
+   * 3) PRIMARY BRAND ROLE
+   * ------------------------------------------------------------------------
+   * Main CTA / dominant accent family.
+   */
+
+  --color-primary: #b96d4f;
+  /* Main brand fill.
+     Use for: primary buttons, active pills, emphasis chips, small accent fills,
+     key icons, highlighted dividers, major CTA surfaces. */
+
+  --color-on-primary: #fffaf6;
+  /* Text/icons on --color-primary.
+     Use for: label color on filled primary buttons and primary badges. */
+
+  --color-primary-hover: #a75e42;
+  /* Hover state for primary fill.
+     Use for: :hover on primary buttons, interactive fills, active nav highlight. */
+
+  --color-primary-active: #8d4f36;
+  /* Pressed / active state for primary fill.
+     Use for: :active states, pressed buttons, toggled primary controls. */
+
+  --color-primary-container: #efd8cd;
+  /* Soft primary-related background.
+     Use for: icon circles, feature highlights, soft badges, callout backgrounds,
+     decorative chips, subtle emphasis areas related to primary. */
+
+  --color-on-primary-container: #5b3324;
+  /* Text/icons on --color-primary-container.
+     Use for: text or icons inside soft primary background areas. */
+
+  /* ------------------------------------------------------------------------
+   * 4) SECONDARY BRAND ROLE
+   * ------------------------------------------------------------------------
+   * Supporting accent family. Often greener, cooler, or more muted than primary.
+   */
+
+  --color-secondary: #7f8d72;
+  /* Secondary accent fill.
+     Use for: secondary buttons, supportive highlights, alternate CTAs,
+     icon accents, decorative flourishes. */
+
+  --color-on-secondary: #fbfdf9;
+  /* Text/icons on --color-secondary. */
+
+  --color-secondary-hover: #6f7d63;
+  /* Hover state for secondary fill. */
+
+  --color-secondary-active: #5e6a55;
+  /* Active/pressed state for secondary fill. */
+
+  --color-secondary-container: #e3e9dc;
+  /* Soft secondary-related background.
+     Use for: alternate chips, supportive callouts, secondary icon containers. */
+
+  --color-on-secondary-container: #364030;
+  /* Text/icons on --color-secondary-container. */
+
+  /* ------------------------------------------------------------------------
+   * 5) TERTIARY BRAND ROLE
+   * ------------------------------------------------------------------------
+   * Third accent family. Useful for editorial highlights, metallic-inspired
+   * details, florals, warm neutrals, or premium accents.
+   */
+
+  --color-tertiary: #c9a86a;
+  /* Third accent fill.
+     Use for: premium badge fills, editorial accents, separators, highlights,
+     stat accents, subtle luxury details. */
+
+  --color-on-tertiary: #2d2210;
+  /* Text/icons on --color-tertiary. */
+
+  --color-tertiary-hover: #b6965a;
+  /* Hover state for tertiary fill. */
+
+  --color-tertiary-active: #9b7f49;
+  /* Active/pressed state for tertiary fill. */
+
+  --color-tertiary-container: #f4ead6;
+  /* Soft tertiary-related background.
+     Use for: premium callouts, date badges, decorative labels, subtle highlights. */
+
+  --color-on-tertiary-container: #5b4316;
+  /* Text/icons on --color-tertiary-container. */
+
+  /* ------------------------------------------------------------------------
+   * 6) LINK / BORDER / FOCUS ROLES
+   * ------------------------------------------------------------------------
+   * Utility roles shared by many components.
+   */
+
+  --color-link: #8d4f36;
+  /* Link color on light / neutral backgrounds.
+     Usually harmonizes with primary, but may be slightly darker for readability.
+     Use for: inline links, text links, underlined navigation links. */
+
+  --color-link-hover: #733d27;
+  /* Hover color for text links. */
+
+  --color-border-subtle: #e6ddd4;
+  /* Very soft border / divider.
+     Use for: quiet separators, card outlines, image frames, form chrome.
+     Not for high-emphasis boundaries that must strongly stand out. */
+
+  --color-border: #d4c7bb;
+  /* Default border.
+     Use for: inputs, outlined buttons, stronger card outlines, dividers. */
+
+  --color-border-strong: #a69484;
+  /* Strong border / key separator.
+     Use for: active outlines, emphasized separators, stronger visual structure. */
+
+  --color-focus-ring: #7c8fb4;
+  /* Keyboard focus indicator.
+     Must remain visible against both light and dark adjacent surfaces. */
+
+  /* ------------------------------------------------------------------------
+   * 7) IMAGE OVERLAY / HERO ROLES
+   * ------------------------------------------------------------------------
+   * Use these when text sits over photos, videos, or decorative images.
+   */
+
+  --color-overlay: rgba(28, 21, 17, 0.48);
+  /* Base image overlay.
+     Use for: hero image scrim, image card overlay, text-over-photo support. */
+
+  --color-overlay-strong: rgba(28, 21, 17, 0.68);
+  /* Stronger image overlay.
+     Use for: heroes with bright photography, darkening busy images,
+     gradient overlays that must support readable text. */
+
+  --color-on-overlay: #fffaf5;
+  /* Text/icons on top of overlayed images or videos.
+     Use for: hero headlines, hero metadata, CTA text over darkened media. */
+
+  /* ------------------------------------------------------------------------
+   * 8) OPTIONAL STATUS ROLES
+   * ------------------------------------------------------------------------
+   * Recommended if templates include RSVP forms, confirmations, alerts, or
+   * validation messages. If used in your system, keep them in every palette.
+   */
+
+  --color-success: #4f7a59;
+  /* Positive status fill or emphasis. */
+
+  --color-on-success: #f7fff8;
+  /* Text/icons on success fill. */
+
+  --color-danger: #a34c4c;
+  /* Error / destructive status fill or emphasis. */
+
+  --color-on-danger: #fff8f8;
+  /* Text/icons on danger fill. */
+}
+
+/**
+ * ============================================================================
+ * OPTIONAL NON-COLOR TOKENS (TEMPLATE-LEVEL, NOT REQUIRED FOR PALETTE SWAPS)
+ * ============================================================================
+ * These are useful if you want every template to share the same naming scheme
+ * for typography, radius, shadows, and spacing.
+ *
+ * Recommended practice:
+ * - Palette classes change COLOR TOKENS only.
+ * - Template base CSS or style classes define these NON-COLOR TOKENS.
+ * ============================================================================
+ */
+
+:root {
+  --font-body: "Inter", system-ui, sans-serif;
+  /* Main body font. Use for paragraphs, buttons, labels, inputs, metadata. */
+
+  --font-heading: "Cormorant Garamond", serif;
+  /* Heading font. Use for h1-h6, hero names, section titles, editorial text. */
+
+  --radius-sm: 0.5rem;
+  /* Small radius. Use for tags, pills, small controls, image frames. */
+
+  --radius-md: 1rem;
+  /* Standard radius. Use for inputs, cards, buttons, content boxes. */
+
+  --radius-lg: 1.5rem;
+  /* Large radius. Use for hero cards, floating panels, prominent containers. */
+
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.06);
+  /* Small elevation. */
+
+  --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.10);
+  /* Standard elevation for cards and sticky elements. */
+
+  --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.14);
+  /* Strong elevation for modals and large floating blocks. */
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  /* Standard spacing scale for consistent layout rhythm. */
+}
+
+/**
+ * ============================================================================
+ * REQUIRED USAGE MAP FOR TEMPLATES
+ * ============================================================================
+ *
+ * BODY / PAGE
+ *   background: var(--color-canvas);
+ *   color: var(--color-on-canvas);
+ *
+ * ALTERNATE FULL-WIDTH SECTION
+ *   background: var(--color-canvas-alt);
+ *   color: var(--color-on-canvas);
+ *
+ * CARD / FORM / CONTENT PANEL
+ *   background: var(--color-surface);
+ *   color: var(--color-on-surface);
+ *   border-color: var(--color-border-subtle) or var(--color-border);
+ *
+ * HIGHLIGHT CARD / SOFT BADGE
+ *   background: var(--color-primary-container);
+ *   color: var(--color-on-primary-container);
+ *   OR
+ *   background: var(--color-secondary-container);
+ *   color: var(--color-on-secondary-container);
+ *   OR
+ *   background: var(--color-tertiary-container);
+ *   color: var(--color-on-tertiary-container);
+ *
+ * PRIMARY BUTTON
+ *   background: var(--color-primary);
+ *   color: var(--color-on-primary);
+ *   hover background: var(--color-primary-hover);
+ *   active background: var(--color-primary-active);
+ *
+ * SECONDARY BUTTON
+ *   background: var(--color-secondary);
+ *   color: var(--color-on-secondary);
+ *   hover background: var(--color-secondary-hover);
+ *   active background: var(--color-secondary-active);
+ *
+ * OUTLINED BUTTON ON LIGHT BACKGROUND
+ *   background: transparent;
+ *   color: var(--color-on-canvas) or var(--color-on-surface);
+ *   border-color: var(--color-border);
+ *
+ * TEXT LINK
+ *   color: var(--color-link);
+ *   hover color: var(--color-link-hover);
+ *
+ * DARK / INVERSE SECTION
+ *   background: var(--color-surface-inverse);
+ *   color: var(--color-on-surface-inverse);
+ *
+ * HERO OVER IMAGE
+ *   overlay: var(--color-overlay) or var(--color-overlay-strong);
+ *   text: var(--color-on-overlay);
+ *
+ * DIVIDERS
+ *   quiet divider: var(--color-border-subtle);
+ *   standard divider: var(--color-border);
+ *   emphasized divider: var(--color-border-strong);
+ *
+ * FOCUS
+ *   outline / ring: var(--color-focus-ring);
+ *
+ * STATUS
+ *   success fill: var(--color-success); text: var(--color-on-success);
+ *   danger  fill: var(--color-danger);  text: var(--color-on-danger);
+ *
+ * ============================================================================
+ * GENERATION RULES FOR AI
+ * ============================================================================
+ *
+ * When generating a NEW palette:
+ * 1. Define every required color token.
+ * 2. Keep canvas/surface roles readable and mostly neutral.
+ * 3. Use primary as the dominant CTA family.
+ * 4. Use secondary as the supporting accent family.
+ * 5. Use tertiary for premium/editorial/highlight accents.
+ * 6. Ensure every --color-on-* works only with its paired background.
+ * 7. Do not create new global theme variables.
+ * 8. If a component needs extra styling, create local aliases derived from the
+ *    tokens above instead of adding new global palette variables.
+ * ============================================================================
+ */

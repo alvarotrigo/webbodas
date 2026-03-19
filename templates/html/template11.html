@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sophie & William — 09.12.26</title>
+    <meta name="description" content="Join us to celebrate the wedding of Sophie and William. September 12, 2026 at Rosewood Garden Manor.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ─── BOTANICAL ROMANCE PALETTE ─── */
+        body.theme-botanical-romance {
+            --color-canvas: #FCF9F5;
+            --color-canvas-alt: #F6EFE8;
+            --color-surface: #FFFFFF;
+            --color-surface-alt: #F2E8E1;
+            --color-surface-raised: #FFFDFB;
+            --color-surface-inverse: #2B1F1B;
+
+            --color-on-canvas: #2C1F1C;
+            --color-on-canvas-muted: #6B5A55;
+            --color-on-surface: #2A1F1C;
+            --color-on-surface-muted: #6B5A55;
+            --color-on-surface-subtle: #9A8A83;
+            --color-on-surface-inverse: #F9F3EF;
+
+            --color-primary: #C4697A;
+            --color-on-primary: #FFF8F9;
+            --color-primary-hover: #B05A6B;
+            --color-primary-active: #984E5D;
+            --color-primary-container: #F2D8DC;
+            --color-on-primary-container: #5C2630;
+
+            --color-secondary: #8FAE8E;
+            --color-on-secondary: #F8FDF8;
+            --color-secondary-hover: #7A9B79;
+            --color-secondary-active: #668866;
+            --color-secondary-container: #D9ECD9;
+            --color-on-secondary-container: #2A4029;
+
+            --color-tertiary: #C8A87A;
+            --color-on-tertiary: #2D2110;
+            --color-tertiary-hover: #B49568;
+            --color-tertiary-active: #9E8057;
+            --color-tertiary-container: #F4E8D3;
+            --color-on-tertiary-container: #5A3F18;
+
+            --color-link: #984E5D;
+            --color-link-hover: #7A3747;
+            --color-border-subtle: #EAE0DA;
+            --color-border: #D6C8C0;
+            --color-border-strong: #B09A90;
+            --color-focus-ring: #C4697A;
+
+            --color-overlay: rgba(30, 18, 15, 0.48);
+            --color-overlay-strong: rgba(30, 18, 15, 0.68);
+            --color-on-overlay: #FFF8F5;
+
+            --color-success: #4F7A59;
+            --color-on-success: #F7FFF8;
+            --color-danger: #A34C4C;
+            --color-on-danger: #FFF8F8;
+
+            --font-body: 'Jost', system-ui, sans-serif;
+            --font-heading: 'Cormorant Garamond', Georgia, serif;
+            --font-script: 'Pinyon Script', cursive;
+        }
+
+        /* ─── BASE ─── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--color-canvas);
+            color: var(--color-on-canvas);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 22px 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+        }
+        nav.scrolled {
+            background: var(--color-surface-raised);
+            backdrop-filter: blur(12px);
+            padding: 14px 48px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        nav .logo {
+            position: absolute;
+            left: 48px;
+            font-family: var(--font-script);
+            font-size: 28px;
+            color: var(--color-on-canvas);
+            letter-spacing: 0.02em;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 34px;
+        }
+        nav ul li a {
+            color: var(--color-on-canvas-muted);
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 1.5px;
+            background: var(--color-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        nav ul li a:hover,
+        nav ul li a.active { color: var(--color-primary); }
+        nav ul li a:hover::after,
+        nav ul li a.active::after { transform: scaleX(1); }
+
+        .nav-cta {
+            position: absolute;
+            right: 48px;
+            background: var(--color-primary);
+            color: var(--color-on-primary) !important;
+            padding: 10px 22px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+        .nav-cta:hover { background: var(--color-primary-hover) !important; }
+        .nav-cta::after { display: none !important; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+            position: absolute;
+            right: 48px;
+            z-index: 1001;
+        }
+        .hamburger span {
+            width: 24px; height: 1.5px;
+            background: var(--color-on-canvas);
+            display: block;
+            transition: all 0.3s;
+        }
+
+        /* ─── MOBILE NAV OVERLAY ─── */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--color-surface-raised);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+        }
+        .mobile-menu.show { display: flex; }
+        .mobile-menu a {
+            font-size: 24px;
+            font-family: var(--font-heading);
+            font-style: italic;
+            color: var(--color-on-canvas);
+            transition: color 0.3s;
+        }
+        .mobile-menu a:hover { color: var(--color-primary); }
+
+        /* ─── HERO ─── */
+        section#hero {
+            min-height: 100vh !important;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background: var(--color-canvas);
+        }
+
+        /* Botanical SVG decorations */
+        .botanical-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .botanical-deco.tl { top: 50px; left: -10px; width: 300px; opacity: 0.9; }
+        .botanical-deco.tr { top: 30px; right: -10px; width: 280px; opacity: 0.9; transform: scaleX(-1); }
+        .botanical-deco.bl { bottom: 30px; left: -10px; width: 320px; opacity: 0.8; transform: scaleY(-1); }
+        .botanical-deco.br { bottom: 20px; right: -10px; width: 300px; opacity: 0.8; transform: scale(-1,1) scaleY(-1); }
+
+        .hero-portrait {
+            width: 110px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 55px 55px 0 0;
+            margin: 0 auto 28px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 40px 20px;
+            max-width: 820px;
+        }
+        .hero-bride-name {
+            font-family: var(--font-heading);
+            font-weight: 400;
+            font-style: italic;
+            font-size: clamp(54px, 9vw, 108px);
+            color: var(--color-primary);
+            line-height: 1.0;
+            display: block;
+        }
+        .hero-connector {
+            font-family: var(--font-heading);
+            font-weight: 300;
+            font-size: clamp(30px, 4.5vw, 64px);
+            color: var(--color-on-canvas-muted);
+            display: block;
+            line-height: 1.15;
+        }
+        .hero-groom-name {
+            font-family: var(--font-heading);
+            font-weight: 300;
+            font-size: clamp(36px, 5.5vw, 76px);
+            color: var(--color-on-canvas);
+            display: block;
+            line-height: 1.1;
+        }
+        .hero-tagline {
+            font-size: 14px;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--color-on-canvas-muted);
+            margin: 20px 0 36px;
+            letter-spacing: 0.03em;
+        }
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 38px;
+            border: 1.5px solid var(--color-border);
+            color: var(--color-on-canvas-muted);
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .hero-btn:hover {
+            background: var(--color-primary);
+            color: var(--color-on-primary);
+            border-color: var(--color-primary);
+        }
+
+        /* ─── SECTION COMMON ─── */
+        .section-inner {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 100px 64px;
+        }
+        .section-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: 14px;
+            display: block;
+        }
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(28px, 4vw, 52px);
+            font-weight: 400;
+            line-height: 1.2;
+            color: var(--color-on-canvas);
+            margin-bottom: 16px;
+        }
+        .section-text {
+            font-size: 15px;
+            line-height: 1.9;
+            color: var(--color-on-canvas-muted);
+            max-width: 560px;
+        }
+        .text-center { text-align: center; }
+        .text-center .section-text { margin: 0 auto; }
+
+        /* ─── ORNAMENT DIVIDER ─── */
+        .ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .ornament-line {
+            width: 60px; height: 1px;
+            background: var(--color-border-subtle);
+        }
+
+        /* ─── ABOUT / FEATURES ─── */
+        section#about { background: var(--color-canvas-alt); }
+
+        .gallery-mosaic {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 14px;
+            margin-top: 64px;
+            height: 480px;
+        }
+        .gallery-mosaic .photo-main {
+            grid-row: 1 / 3;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .gallery-mosaic .photo-small {
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .gallery-mosaic .photo-circle {
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .gallery-mosaic img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .gallery-mosaic img:hover { transform: scale(1.04); }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 72px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .feature-card {
+            padding: 36px 24px;
+            text-align: center;
+            border-right: 1px solid var(--color-border-subtle);
+        }
+        .feature-card:last-child { border-right: none; }
+        .feature-icon {
+            width: 52px; height: 52px;
+            margin: 0 auto 18px;
+            color: var(--color-primary);
+        }
+        .feature-title {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--color-on-canvas);
+            margin-bottom: 10px;
+        }
+        .feature-text {
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--color-on-canvas-muted);
+        }
+
+        /* ─── STORY ─── */
+        section#story { background: var(--color-canvas); }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .story-image-wrap {
+            position: relative;
+        }
+        .story-image-wrap img {
+            width: 100%; height: 520px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .story-badge {
+            position: absolute;
+            top: -20px; right: -20px;
+            width: 72px; height: 72px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-on-primary);
+            font-size: 26px;
+        }
+        .story-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            margin-top: 44px;
+        }
+        .story-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .story-year {
+            font-family: var(--font-heading);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-primary);
+            letter-spacing: 0.08em;
+            min-width: 52px;
+            padding-top: 2px;
+        }
+        .story-dot {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            flex-shrink: 0;
+            margin-top: 7px;
+        }
+        .story-body h4 {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--color-on-canvas);
+            margin-bottom: 4px;
+        }
+        .story-body p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--color-on-canvas-muted);
+        }
+
+        /* ─── COUNTDOWN ─── */
+        section#countdown {
+            background: var(--color-primary);
+            text-align: center;
+        }
+        section#countdown .section-inner { padding: 72px 64px; }
+        .countdown-eyebrow {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--color-on-primary);
+            opacity: 0.7;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .countdown-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(22px, 3vw, 36px);
+            font-style: italic;
+            color: var(--color-on-primary);
+            margin-bottom: 48px;
+        }
+        .countdown-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 40px;
+            border-right: 1px solid var(--color-border-subtle);
+        }
+        .countdown-item:last-child { border-right: none; }
+        .countdown-item .number {
+            font-family: var(--font-heading);
+            font-weight: 300;
+            font-size: clamp(44px, 6vw, 80px);
+            line-height: 1;
+            color: var(--color-on-primary);
+        }
+        .countdown-item .label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--color-on-primary);
+            opacity: 0.65;
+            margin-top: 8px;
+        }
+
+        /* ─── DETAILS ─── */
+        section#details { background: var(--color-canvas); }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin-top: 64px;
+        }
+        .detail-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+        .detail-card-icon {
+            width: 50px; height: 50px;
+            background: var(--color-primary-container);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 18px;
+            color: var(--color-on-primary-container);
+        }
+        .detail-card h3 {
+            font-family: var(--font-heading);
+            font-size: 22px;
+            font-weight: 500;
+            color: var(--color-on-surface);
+            margin-bottom: 10px;
+        }
+        .detail-card .detail-date {
+            font-family: var(--font-heading);
+            font-size: 30px;
+            font-weight: 300;
+            color: var(--color-primary);
+            display: block;
+            margin: 14px 0 8px;
+        }
+        .detail-card p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--color-on-surface-muted);
+        }
+
+        /* ─── SCHEDULE ─── */
+        section#schedule { background: var(--color-canvas-alt); }
+
+        .schedule-list {
+            max-width: 720px;
+            margin: 56px auto 0;
+        }
+        .schedule-item {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 28px;
+            align-items: center;
+            padding: 26px 0;
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        .schedule-item:first-child { border-top: 1px solid var(--color-border-subtle); }
+        .schedule-time {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-primary);
+        }
+        .schedule-event h4 {
+            font-family: var(--font-heading);
+            font-size: 19px;
+            font-weight: 500;
+            color: var(--color-on-canvas);
+            margin-bottom: 2px;
+        }
+        .schedule-event p {
+            font-size: 13px;
+            color: var(--color-on-canvas-muted);
+        }
+
+        /* ─── PEOPLE ─── */
+        section#people { background: var(--color-canvas); }
+
+        .people-grid {
+            display: flex;
+            justify-content: center;
+            gap: 52px;
+            flex-wrap: wrap;
+            margin-top: 64px;
+        }
+        .person-card { text-align: center; max-width: 150px; }
+        .person-photo {
+            width: 116px; height: 116px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 14px;
+            border: 3px solid var(--color-primary-container);
+        }
+        .person-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .person-role {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: 4px;
+        }
+        .person-name {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-on-canvas);
+        }
+
+        /* ─── QUOTE ─── */
+        section#quote {
+            position: relative;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        section#quote .fp-bg {
+            position: absolute; inset: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+        section#quote .fp-bg::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: var(--color-overlay, rgba(30,18,15,0.48));
+            opacity: var(--overlay-opacity, 0.4);
+        }
+        .quote-content {
+            position: relative;
+            z-index: 1;
+            color: var(--color-on-overlay);
+            padding: 80px 40px;
+            max-width: 760px;
+        }
+        .quote-mark {
+            font-family: var(--font-heading);
+            font-size: 88px;
+            line-height: 0.5;
+            color: var(--color-on-overlay);
+            opacity: 0.35;
+            display: block;
+            margin-bottom: 28px;
+        }
+        .quote-text {
+            font-family: var(--font-heading);
+            font-size: clamp(22px, 3.5vw, 40px);
+            font-style: italic;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--color-on-overlay);
+            margin-bottom: 24px;
+        }
+        .quote-author {
+            font-size: 11px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--color-on-overlay);
+            opacity: 0.65;
+        }
+
+        /* ─── RSVP ─── */
+        section#rsvp { background: var(--color-canvas-alt); }
+
+        .rsvp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .rsvp-image {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 560px;
+        }
+        .rsvp-image img { width: 100%; height: 100%; object-fit: cover; }
+
+        .rsvp-form-wrap {
+            background: var(--color-surface);
+            border-radius: 8px;
+            padding: 44px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.07);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
+            display: block;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--color-on-surface-muted);
+            margin-bottom: 7px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 14px;
+            font-size: 14px;
+            font-family: var(--font-body);
+            color: var(--color-on-surface);
+            background: var(--color-canvas);
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+            appearance: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-container);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--color-on-surface-subtle); }
+        .form-group textarea { resize: vertical; min-height: 96px; }
+
+        .conditional-fields { display: none; }
+        .conditional-fields.active { display: block; }
+
+        .btn-confirm {
+            width: 100%;
+            padding: 13px 28px;
+            background: var(--color-primary);
+            color: var(--color-on-primary);
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-confirm:hover { background: var(--color-primary-hover); }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 16px;
+            background: var(--color-secondary-container);
+            border-radius: 4px;
+            color: var(--color-on-secondary-container);
+            font-size: 14px;
+            margin-top: 14px;
+        }
+
+        /* ─── GALLERY ─── */
+        section#gallery { background: var(--color-canvas); }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 56px;
+        }
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 4px;
+            aspect-ratio: 1;
+        }
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+            aspect-ratio: unset;
+        }
+        .gallery-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.06); }
+
+        /* ─── MAP ─── */
+        section#map { background: var(--color-canvas-alt); }
+
+        .map-container {
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 44px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .map-container iframe {
+            width: 100%; height: 420px;
+            border: none; display: block;
+        }
+
+        /* ─── ACCOMMODATION ─── */
+        section#accomodation { background: var(--color-canvas); }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-top: 56px;
+        }
+        .info-card {
+            background: var(--color-surface);
+            border-radius: 8px;
+            padding: 32px;
+            border: 1px solid var(--color-border-subtle);
+        }
+        .info-card-icon {
+            width: 46px; height: 46px;
+            background: var(--color-primary-container);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-on-primary-container);
+            margin-bottom: 18px;
+        }
+        .info-card h3 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--color-on-surface);
+            margin-bottom: 10px;
+        }
+        .info-card p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--color-on-surface-muted);
+        }
+
+        /* ─── DRESS CODE ─── */
+        section#dressing { background: var(--color-canvas-alt); }
+
+        .dressing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 56px;
+        }
+        .dress-card {
+            background: var(--color-surface);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--color-border-subtle);
+        }
+        .dress-card-img { height: 200px; overflow: hidden; }
+        .dress-card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .dress-card-body { padding: 28px; }
+        .dress-card h3 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--color-on-surface);
+            margin-bottom: 8px;
+        }
+        .dress-card p {
+            font-size: 13px;
+            color: var(--color-on-surface-muted);
+            line-height: 1.8;
+        }
+        .dress-swatches {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .swatch {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--color-border-subtle);
+        }
+
+        /* ─── GIFTS ─── */
+        section#gifts { background: var(--color-canvas); }
+
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 56px;
+        }
+        .gift-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: 8px;
+            padding: 36px 28px;
+            text-align: center;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .gift-card:hover {
+            box-shadow: 0 12px 28px rgba(0,0,0,0.10);
+            transform: translateY(-4px);
+        }
+        .gift-icon { font-size: 34px; margin-bottom: 14px; display: block; }
+        .gift-card h3 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--color-on-surface);
+            margin-bottom: 8px;
+        }
+        .gift-card p {
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--color-on-surface-muted);
+            margin-bottom: 18px;
+        }
+        .btn-outline {
+            display: inline-block;
+            padding: 9px 22px;
+            border: 1.5px solid var(--color-border);
+            color: var(--color-on-surface-muted);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .btn-outline:hover {
+            background: var(--color-primary);
+            color: var(--color-on-primary);
+            border-color: var(--color-primary);
+        }
+
+        /* ─── FAQs ─── */
+        section#faqs { background: var(--color-canvas-alt); }
+
+        .faq-list {
+            max-width: 740px;
+            margin: 56px auto 0;
+        }
+        .faq-item { border-bottom: 1px solid var(--color-border-subtle); }
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 22px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--color-on-canvas);
+            gap: 16px;
+        }
+        .faq-question:hover { color: var(--color-primary); }
+        .faq-icon {
+            width: 18px; height: 18px;
+            flex-shrink: 0;
+            color: var(--color-primary);
+            transition: transform 0.3s;
+        }
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+        .faq-answer {
+            display: none;
+            padding-bottom: 22px;
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--color-on-canvas-muted);
+        }
+        .faq-item.open .faq-answer { display: block; }
+
+        /* ─── FOOTER ─── */
+        footer#footer {
+            background: var(--color-surface-inverse);
+            padding: 72px 0 40px;
+        }
+        .footer-inner {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0 64px;
+        }
+        .footer-logo {
+            font-family: var(--font-script);
+            font-size: 46px;
+            color: var(--color-on-surface-inverse);
+            text-align: center;
+            margin-bottom: 14px;
+        }
+        .footer-tagline {
+            text-align: center;
+            font-size: 13px;
+            color: var(--color-on-surface-inverse);
+            opacity: 0.5;
+            margin-bottom: 44px;
+            line-height: 1.8;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .footer-links a {
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-on-surface-inverse);
+            opacity: 0.55;
+            transition: opacity 0.3s;
+        }
+        .footer-links a:hover { opacity: 1; }
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 44px;
+        }
+        .footer-social a {
+            width: 38px; height: 38px;
+            border: 1px solid var(--color-border-strong);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-on-surface-inverse);
+            opacity: 0.55;
+            transition: all 0.3s;
+        }
+        .footer-social a:hover { opacity: 1; border-color: var(--color-primary); color: var(--color-primary); }
+        .footer-copy {
+            text-align: center;
+            font-size: 12px;
+            color: var(--color-on-surface-inverse);
+            opacity: 0.3;
+            border-top: 1px solid var(--color-border-strong);
+            padding-top: 28px;
+        }
+
+        /* ─── REVEAL ANIMATIONS ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.93);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible {
+            opacity: 1; transform: none;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1024px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .feature-card:nth-child(2) { border-right: none; }
+            .story-grid, .rsvp-grid { grid-template-columns: 1fr; gap: 48px; }
+            .rsvp-image { height: 320px; }
+            .gifts-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .section-inner { padding: 64px 24px; }
+            nav { padding: 18px 24px; }
+            nav.scrolled { padding: 12px 24px; }
+            nav .logo { left: 24px; }
+            nav ul, .nav-cta { display: none; }
+            .hamburger { display: flex; right: 24px; }
+            .details-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item:first-child { grid-column: span 2; }
+            .gallery-mosaic { grid-template-columns: 1fr; height: auto; }
+            .gallery-mosaic .photo-main { grid-row: auto; height: 280px; }
+            .gallery-mosaic .photo-small,
+            .gallery-mosaic .photo-circle { height: 180px; }
+            .form-row { grid-template-columns: 1fr; }
+            .dressing-grid, .info-cards { grid-template-columns: 1fr; }
+            .gifts-grid { grid-template-columns: 1fr; }
+            .botanical-deco { display: none; }
+            .people-grid { gap: 24px; }
+            .countdown-item { padding: 0 16px; }
+        }
+    </style>
+</head>
+<body class="theme-botanical-romance">
+
+<!-- ─── MOBILE MENU ─── -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#hero" onclick="closeMobileMenu()">Home</a>
+    <a href="#story" onclick="closeMobileMenu()">Our Story</a>
+    <a href="#details" onclick="closeMobileMenu()">When & Where</a>
+    <a href="#schedule" onclick="closeMobileMenu()">Schedule</a>
+    <a href="#people" onclick="closeMobileMenu()">People</a>
+    <a href="#gallery" onclick="closeMobileMenu()">Gallery</a>
+    <a href="#rsvp" onclick="closeMobileMenu()">RSVP</a>
+    <a href="#faqs" onclick="closeMobileMenu()">FAQs</a>
+</div>
+
+<!-- ─── NAV ─── -->
+<nav id="nav">
+    <a href="#hero" class="logo">Vibeson.</a>
+    <ul>
+        <li><a href="#story">Story</a></li>
+        <li><a href="#details">When & Where</a></li>
+        <li><a href="#schedule">Schedule</a></li>
+        <li><a href="#people">People</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#faqs">FAQs</a></li>
+    </ul>
+    <a href="#rsvp" class="nav-cta">Make Reservation</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+    <!-- Botanical SVG top-left -->
+    <div class="botanical-deco tl" aria-hidden="true">
+        <svg viewBox="0 0 300 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 220 Q90 150 180 90 Q220 65 270 40" stroke="#8FAE8E" stroke-width="1.5" fill="none" opacity="0.55"/>
+            <ellipse cx="90" cy="150" rx="30" ry="18" fill="#8FAE8E" opacity="0.32" transform="rotate(-30 90 150)"/>
+            <ellipse cx="135" cy="118" rx="26" ry="16" fill="#8FAE8E" opacity="0.38" transform="rotate(-22 135 118)"/>
+            <ellipse cx="175" cy="92" rx="23" ry="15" fill="#8FAE8E" opacity="0.32" transform="rotate(-16 175 92)"/>
+            <ellipse cx="210" cy="72" rx="21" ry="13" fill="#8FAE8E" opacity="0.28" transform="rotate(-10 210 72)"/>
+            <ellipse cx="55" cy="185" rx="20" ry="11" fill="#9BAE8E" opacity="0.22" transform="rotate(-42 55 185)"/>
+            <circle cx="60" cy="170" r="9" fill="#C4697A" opacity="0.45"/>
+            <circle cx="245" cy="48" r="6" fill="#C8A87A" opacity="0.55"/>
+            <circle cx="18" cy="238" r="5" fill="#C4697A" opacity="0.3"/>
+            <!-- cotton flower -->
+            <circle cx="108" cy="200" r="8" fill="#F9F3EF" opacity="0.8" stroke="#D6C8C0" stroke-width="1"/>
+            <circle cx="124" cy="196" r="7" fill="#F9F3EF" opacity="0.8" stroke="#D6C8C0" stroke-width="1"/>
+            <circle cx="116" cy="210" r="6" fill="#F9F3EF" opacity="0.8" stroke="#D6C8C0" stroke-width="1"/>
+            <line x1="116" y1="215" x2="112" y2="230" stroke="#8FAE8E" stroke-width="1.5"/>
+        </svg>
+    </div>
+    <!-- Botanical SVG top-right (mirrored) -->
+    <div class="botanical-deco tr" aria-hidden="true">
+        <svg viewBox="0 0 300 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 220 Q90 150 180 90 Q220 65 270 40" stroke="#8FAE8E" stroke-width="1.5" fill="none" opacity="0.55"/>
+            <ellipse cx="90" cy="150" rx="30" ry="18" fill="#8FAE8E" opacity="0.32" transform="rotate(-30 90 150)"/>
+            <ellipse cx="135" cy="118" rx="26" ry="16" fill="#8FAE8E" opacity="0.38" transform="rotate(-22 135 118)"/>
+            <ellipse cx="175" cy="92" rx="23" ry="15" fill="#8FAE8E" opacity="0.32" transform="rotate(-16 175 92)"/>
+            <ellipse cx="210" cy="72" rx="21" ry="13" fill="#8FAE8E" opacity="0.28" transform="rotate(-10 210 72)"/>
+            <circle cx="60" cy="170" r="9" fill="#C4697A" opacity="0.45"/>
+            <circle cx="245" cy="48" r="6" fill="#C8A87A" opacity="0.55"/>
+            <circle cx="108" cy="200" r="8" fill="#F9F3EF" opacity="0.8" stroke="#D6C8C0" stroke-width="1"/>
+            <circle cx="124" cy="196" r="7" fill="#F9F3EF" opacity="0.8" stroke="#D6C8C0" stroke-width="1"/>
+        </svg>
+    </div>
+    <!-- Botanical SVG bottom-left -->
+    <div class="botanical-deco bl" aria-hidden="true">
+        <svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 20 Q80 70 190 110 Q230 122 285 138" stroke="#8FAE8E" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <ellipse cx="70" cy="55" rx="26" ry="15" fill="#8FAE8E" opacity="0.28" transform="rotate(22 70 55)"/>
+            <ellipse cx="120" cy="78" rx="24" ry="14" fill="#8FAE8E" opacity="0.33" transform="rotate(26 120 78)"/>
+            <ellipse cx="168" cy="98" rx="22" ry="13" fill="#8FAE8E" opacity="0.28" transform="rotate(20 168 98)"/>
+            <circle cx="38" cy="36" r="7" fill="#C4697A" opacity="0.4"/>
+            <circle cx="248" cy="128" r="5" fill="#C8A87A" opacity="0.5"/>
+        </svg>
+    </div>
+    <!-- Botanical SVG bottom-right (mirrored) -->
+    <div class="botanical-deco br" aria-hidden="true">
+        <svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 20 Q80 70 190 110 Q230 122 285 138" stroke="#8FAE8E" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <ellipse cx="70" cy="55" rx="26" ry="15" fill="#8FAE8E" opacity="0.28" transform="rotate(22 70 55)"/>
+            <ellipse cx="120" cy="78" rx="24" ry="14" fill="#8FAE8E" opacity="0.33" transform="rotate(26 120 78)"/>
+            <ellipse cx="168" cy="98" rx="22" ry="13" fill="#8FAE8E" opacity="0.28" transform="rotate(20 168 98)"/>
+            <circle cx="38" cy="36" r="7" fill="#C4697A" opacity="0.4"/>
+            <circle cx="248" cy="128" r="5" fill="#C8A87A" opacity="0.5"/>
+        </svg>
+    </div>
+
+    <div class="hero-content">
+        <img class="hero-portrait" src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=400&q=80" alt="Sophie & William" loading="lazy">
+        <span class="hero-bride-name">Sophie Carlin</span>
+        <span class="hero-connector">&amp;</span>
+        <span class="hero-groom-name">William Gebin</span>
+        <p class="hero-tagline">I shoot both film &amp; digital and I craft my images based on natural light</p>
+        <a href="#rsvp" class="hero-btn">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Make Reservation</span>
+        </a>
+    </div>
+</section>
+
+<!-- ─── ABOUT / PROGRAMME INTRO ─── -->
+<section id="about">
+    <div class="section-inner">
+        <div class="text-center reveal">
+            <div class="ornament">
+                <div class="ornament-line"></div>
+                <span style="color:var(--color-primary);font-size:18px;" data-emoji-edit>🌸</span>
+                <div class="ornament-line"></div>
+            </div>
+            <span class="section-label">The Unrivaled Scenery</span>
+            <h2 class="section-title" style="font-style:italic;">Unforgettable Wedding Program</h2>
+            <p class="section-text">We have planned every detail with love so that you can enjoy our special day as much as we will. Every moment has been curated to create lasting memories.</p>
+        </div>
+
+        <div class="gallery-mosaic reveal">
+            <div class="photo-main">
+                <img src="https://images.unsplash.com/photo-1525770041010-2a1233dd8152?w=900&q=80" alt="Couple in nature" loading="lazy">
+            </div>
+            <div class="photo-small">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80" alt="Wedding couple" loading="lazy">
+            </div>
+            <div class="photo-circle">
+                <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=500&q=80" alt="Bride with flowers" loading="lazy">
+            </div>
+        </div>
+
+        <div class="features-grid" data-fp-dynamic-items="true">
+            <div class="feature-card reveal" data-fp-dynamic="true">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 10C6 8.9 6.9 8 8 8h8l3 8-3.5 2.5C17.4 22.5 21.5 26.6 26 28l2.5-3.5 8 3V36c0 1.1-.9 2-2 2-16.6 0-30-13.4-30-30z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Phone Reservation</h3>
+                <p class="feature-text">Confirm your spot easily by calling us or filling our RSVP form. We will get back to you within 24 hours to confirm your attendance.</p>
+            </div>
+            <div class="feature-card reveal" data-fp-dynamic="true">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 36V18l16-10 16 10v18H8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18 36V26h12v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Wedding Foods</h3>
+                <p class="feature-text">A carefully curated menu featuring seasonal, locally sourced dishes. Please let us know of any dietary requirements in your RSVP.</p>
+            </div>
+            <div class="feature-card reveal" data-fp-dynamic="true">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="24" cy="16" r="8" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 40c0-8.8 7.2-16 16-16s16 7.2 16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Grooming Ready</h3>
+                <p class="feature-text">Our trusted team of stylists will have everyone looking their very best. Hair and makeup consultations available upon request.</p>
+            </div>
+            <div class="feature-card reveal" data-fp-dynamic="true">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="18" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 40l8-14 7 9 5-7 8 12H8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Makeup &amp; Dress</h3>
+                <p class="feature-text">Find your perfect bridal look with our recommended artists and boutiques. Dress code: Garden Chic — think florals and pastels.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── OUR STORY ─── -->
+<section id="story">
+    <div class="section-inner">
+        <div class="story-grid">
+            <div class="story-image-wrap reveal-left">
+                <img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=900&q=80" alt="Sophie and William together" loading="lazy">
+                <div class="story-badge" data-emoji-edit>💬</div>
+            </div>
+            <div class="reveal-right">
+                <span class="section-label">Our Story</span>
+                <h2 class="section-title">Marry Sophie &amp; William</h2>
+                <p class="section-text">What started as a chance meeting at a summer garden party turned into the greatest adventure of our lives. Every moment since has been a gift we treasure every single day.</p>
+
+                <div class="story-timeline" data-fp-dynamic-items="true">
+                    <div class="story-item" data-fp-dynamic="true">
+                        <span class="story-year">2020</span>
+                        <div class="story-dot"></div>
+                        <div class="story-body">
+                            <h4>A Summer Meeting</h4>
+                            <p>We met at a rooftop garden party in June. William spilled his champagne and Sophie laughed — it was love at first spill.</p>
+                        </div>
+                    </div>
+                    <div class="story-item" data-fp-dynamic="true">
+                        <span class="story-year">2022</span>
+                        <div class="story-dot"></div>
+                        <div class="story-body">
+                            <h4>Adventures Together</h4>
+                            <p>From weekend hikes to spontaneous road trips, we discovered how perfectly our worlds fit together.</p>
+                        </div>
+                    </div>
+                    <div class="story-item" data-fp-dynamic="true">
+                        <span class="story-year">2024</span>
+                        <div class="story-dot"></div>
+                        <div class="story-body">
+                            <h4>The Proposal</h4>
+                            <p>Under a canopy of fairy lights in the very garden where we first met, William got down on one knee. Sophie said yes before he finished the sentence.</p>
+                        </div>
+                    </div>
+                    <div class="story-item" data-fp-dynamic="true">
+                        <span class="story-year">2026</span>
+                        <div class="story-dot"></div>
+                        <div class="story-body">
+                            <h4>Forever Begins</h4>
+                            <p>We are thrilled to celebrate this next chapter with all the people we love on September 12, 2026.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── COUNTDOWN ─── -->
+<section id="countdown" class="countdown-section" data-wedding-date="2026-09-12T16:00:00">
+    <div class="section-inner">
+        <span class="countdown-eyebrow">Counting Down To</span>
+        <h2 class="countdown-heading">Sophie &amp; William's Wedding Day</h2>
+        <div class="countdown-wrapper">
+            <div class="countdown-item" data-fp-dynamic="true">
+                <span class="number" id="days" contenteditable="false">00</span>
+                <span class="label" contenteditable="false">Days</span>
+            </div>
+            <div class="countdown-item" data-fp-dynamic="true">
+                <span class="number" id="hours" contenteditable="false">00</span>
+                <span class="label" contenteditable="false">Hours</span>
+            </div>
+            <div class="countdown-item" data-fp-dynamic="true">
+                <span class="number" id="minutes" contenteditable="false">00</span>
+                <span class="label" contenteditable="false">Minutes</span>
+            </div>
+            <div class="countdown-item" data-fp-dynamic="true">
+                <span class="number" id="seconds" contenteditable="false">00</span>
+                <span class="label" contenteditable="false">Seconds</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── DETAILS: WHEN & WHERE ─── -->
+<section id="details">
+    <div class="section-inner">
+        <div class="text-center reveal">
+            <span class="section-label">When &amp; Where</span>
+            <h2 class="section-title">Join Us to Celebrate</h2>
+            <p class="section-text">All the information you need to be part of our most special day. We can't wait to share it with you.</p>
+        </div>
+        <div class="details-grid">
+            <div class="detail-card reveal-left" data-fp-dynamic="true">
+                <div class="detail-card-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <h3>The Ceremony</h3>
+                <span class="detail-date">12 · IX · 2026</span>
+                <p><strong>4:00 PM</strong><br>St. Mary's Chapel<br>Rose Garden Manor<br>Ashford, Kent, UK</p>
+            </div>
+            <div class="detail-card reveal-right" data-fp-dynamic="true">
+                <div class="detail-card-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+                </div>
+                <h3>The Reception</h3>
+                <span class="detail-date">12 · IX · 2026</span>
+                <p><strong>6:30 PM</strong><br>The Garden Orangery<br>Rose Garden Manor<br>Ashford, Kent, UK</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── SCHEDULE ─── -->
+<section id="schedule">
+    <div class="section-inner">
+        <div class="text-center reveal">
+            <span class="section-label">Programme</span>
+            <h2 class="section-title">The Day's Schedule</h2>
+            <p class="section-text">A beautiful day planned from morning light to dancing under the stars. Here is what to expect.</p>
+        </div>
+        <div class="schedule-list" data-fp-dynamic-items="true">
+            <div class="schedule-item reveal" data-fp-dynamic="true">
+                <span class="schedule-time">3:30 PM</span>
+                <div class="schedule-event">
+                    <h4>Guest Arrival &amp; Welcome Drinks</h4>
+                    <p>Arrive at Rose Garden Manor and enjoy prosecco and canapés in the garden.</p>
+                </div>
+            </div>
+            <div class="schedule-item reveal" data-fp-dynamic="true">
+                <span class="schedule-time">4:00 PM</span>
+                <div class="schedule-event">
+                    <h4>Wedding Ceremony</h4>
+                    <p>The ceremony takes place in St. Mary's Chapel on the estate grounds.</p>
+                </div>
+            </div>
+            <div class="schedule-item reveal" data-fp-dynamic="true">
+                <span class="schedule-time">4:45 PM</span>
+                <div class="schedule-event">
+                    <h4>Champagne Reception &amp; Photos</h4>
+                    <p>Mingle with guests on the terrace while the couple takes portraits in the gardens.</p>
+                </div>
+            </div>
+            <div class="schedule-item reveal" data-fp-dynamic="true">
+                <span class="schedule-time">6:30 PM</span>
+                <div class="schedule-event">
+                    <h4>Dinner in the Orangery</h4>
+                    <p>A four-course dinner featuring locally sourced seasonal dishes and fine wines.</p>
+                </div>
+            </div>
+            <div class="schedule-item reveal" data-fp-dynamic="true">
+                <span class="schedule-time">8:30 PM</span>
+                <div class="schedule-event">
+                    <h4>Speeches &amp; Cake Cutting</h4>
+                    <p>Heartfelt words from family and friends followed by our beautiful floral cake.</p>
+                </div>
+            </div>
+            <div class="schedule-item reveal" data-fp-dynamic="true">
+                <span class="schedule-time">9:00 PM</span>
+                <div class="schedule-event">
+                    <h4>Dancing &amp; Evening Festivities</h4>
+                    <p>Live music, dancing and late-night bites until midnight. Let's celebrate!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── PEOPLE / WEDDING PARTY ─── -->
+<section id="people">
+    <div class="section-inner">
+        <div class="text-center reveal">
+            <span class="section-label">Organizers</span>
+            <h2 class="section-title">Expert Organizers</h2>
+            <p class="section-text">These wonderful people have been by our side throughout our journey and we are so glad to have them with us on the day.</p>
+        </div>
+        <div class="people-grid" data-fp-dynamic-items="true">
+            <div class="person-card reveal" data-fp-dynamic="true">
+                <div class="person-photo">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80" alt="Best Man" loading="lazy">
+                </div>
+                <p class="person-role">Planner</p>
+                <p class="person-name">Kristen L. Lindie</p>
+            </div>
+            <div class="person-card reveal" data-fp-dynamic="true">
+                <div class="person-photo">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&q=80" alt="Maid of Honor" loading="lazy">
+                </div>
+                <p class="person-role">DJ</p>
+                <p class="person-name">Hlandier D. Browni</p>
+            </div>
+            <div class="person-card reveal" data-fp-dynamic="true">
+                <div class="person-photo">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=80" alt="Groomsman" loading="lazy">
+                </div>
+                <p class="person-role">Florist</p>
+                <p class="person-name">Dalon H. Hills</p>
+            </div>
+            <div class="person-card reveal" data-fp-dynamic="true">
+                <div class="person-photo">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&q=80" alt="Bridesmaid" loading="lazy">
+                </div>
+                <p class="person-role">Designer</p>
+                <p class="person-name">Jiselora D. Rose</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── QUOTE ─── -->
+<section id="quote" class="has-bg-image" data-overlay-opacity="0.4">
+    <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1510076857177-7470076d4098?w=1920&q=80');"></div>
+    <div class="quote-content reveal-scale">
+        <span class="quote-mark">&ldquo;</span>
+        <p class="quote-text">I have found the one whom my soul loves.</p>
+        <span class="quote-author">Song of Solomon 3:4</span>
+    </div>
+</section>
+
+<!-- ─── GALLERY ─── -->
+<section id="gallery">
+    <div class="section-inner">
+        <div class="text-center reveal">
+            <span class="section-label">Instagram Feeds</span>
+            <h2 class="section-title">Our Favourite Moments</h2>
+            <p class="section-text">A few snapshots from our journey together. Share yours with <strong>#SophieAndWilliam2026</strong></p>
+        </div>
+        <div class="gallery-grid" data-fp-dynamic-items="true">
+            <div class="gallery-item reveal-scale" data-fp-dynamic="true">
+                <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=900&q=80" alt="Wedding moment" loading="lazy">
+            </div>
+            <div class="gallery-item reveal" data-fp-dynamic="true">
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500&q=80" alt="Couple portrait" loading="lazy">
+            </div>
+            <div class="gallery-item reveal" data-fp-dynamic="true">
+                <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=500&q=80" alt="Bride portrait" loading="lazy">
+            </div>
+            <div class="gallery-item reveal" data-fp-dynamic="true">
+                <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=500&q=80" alt="Wedding rings" loading="lazy">
+            </div>
+            <div class="gallery-item reveal" data-fp-dynamic="true">
+                <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=500&q=80" alt="Wedding venue" loading="lazy">
+            </div>
+            <div class="gallery-item reveal" data-fp-dynamic="true">
+                <img src="https://images.unsplash.com/photo-1550005809-91ad75fb315f?w=500&q=80" alt="Wedding flowers" loading="lazy">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── RSVP ─── -->
+<section id="rsvp">
+    <div class="section-inner">
+        <div class="rsvp-grid">
+            <div class="rsvp-image reveal-left">
+                <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=900&q=80" alt="Sophie and William" loading="lazy">
+            </div>
+            <div class="reveal-right">
+                <span class="section-label">RSVP</span>
+                <h2 class="section-title">Make Reservation</h2>
+                <p class="section-text" style="margin-bottom:32px;">Please RSVP by July 30, 2026. We can't wait to celebrate with you!</p>
+                <div class="rsvp-form-wrap">
+                    <form id="rsvpForm" novalidate>
+                        <div class="form-row" data-fp-dynamic-items="true">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" placeholder="Your last name" required>
+                            </div>
+                        </div>
+                        <div class="form-row" data-fp-dynamic-items="true">
+                            <div class="form-group">
+                                <label for="mobile">Mobile *</label>
+                                <input type="tel" id="mobile" name="mobile" placeholder="+44 7700 000000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="you@example.com">
+                            </div>
+                        </div>
+                        <div class="form-row" data-fp-dynamic-items="true">
+                            <div class="form-group">
+                                <label for="age">Guest Type</label>
+                                <select id="age" name="age">
+                                    <option value="adult">Adult</option>
+                                    <option value="child">Child</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="attending">Will you attend? *</label>
+                                <select id="attending" name="attending" required>
+                                    <option value="">Select...</option>
+                                    <option value="yes">Yes, I will!</option>
+                                    <option value="no">No, sorry</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="conditional-fields" id="conditionalFields" data-fp-dynamic-items="true">
+                            <div class="form-group">
+                                <label for="allergies">Allergies / Dietary Requirements</label>
+                                <input type="text" id="allergies" name="allergies" placeholder="Gluten free, vegetarian...">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="transport">Use transportation?</label>
+                                    <select id="transport" name="transport">
+                                        <option value="yes">Yes please</option>
+                                        <option value="no">No, I'll drive</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="song">Favourite Song</label>
+                                    <input type="text" id="song" name="song" placeholder="Your song request">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message for the Couple</label>
+                            <textarea id="message" name="message" placeholder="Share your wishes with Sophie &amp; William..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-confirm">Confirm</button>
+                        <div class="form-success" id="formSuccess">
+                            <span data-emoji-edit>🌸</span>
+                            <span> Thank you! We can't wait to celebrate with you.</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── MAP ─── -->
+<section id="map">
+    <div class="section-inner">
+        <div class="text-center reveal">
+            <span class="section-label">Location</span>
+            <h2 class="section-title">Find Us Here</h2>
+            <p class="section-text">Rose Garden Manor, Faversham Road, Ashford, Kent TN26 1NJ, United Kingdom</p>
+        </div>
+        <div class="map-container reveal">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d79879.33!2d0.8693!3d51.2142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47df44568f67f52d%3A0x3a58de5e8e2a7fc!2sAshford%2C%20UK!5e0!3m2!1sen!2ses!4v1234567890"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Wedding venue location">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+<!-- ─── ACCOMMODATION & TRANSPORT ─── -->
+<section id="accomodation">
+    <div class="section-inner">
+        <div class="text-center reveal">
+            <span class="section-label">Getting Here</span>
+            <h2 class="section-title">Accommodation &amp; Transport</h2>
+            <p class="section-text">We want to make sure your journey to and from our celebration is as smooth as possible.</p>
+        </div>
+        <div class="info-cards" data-fp-dynamic-items="true">
+            <div class="info-card reveal-left" data-fp-dynamic="true">
+                <div class="info-card-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <h3>Recommended Hotels</h3>
+                <p>We have reserved a room block at The Grand Ashford Hotel (5 min from venue) and Countryside Inn (10 min). Use code <strong>SOPHIEWILL26</strong> for a 15% discount when booking directly.</p>
+            </div>
+            <div class="info-card reveal-right" data-fp-dynamic="true">
+                <div class="info-card-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <h3>Shuttle Service</h3>
+                <p>We are providing a complimentary shuttle from Ashford International Station to the venue at 3:00 PM. Return shuttles at 12:30 AM. Indicate your need in the RSVP form.</p>
+            </div>
+            <div class="info-card reveal-left" data-fp-dynamic="true">
+                <div class="info-card-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h3>Parking</h3>
+                <p>Free parking is available on-site for up to 200 vehicles. The car park will be supervised throughout the event and is a short walk from the chapel entrance.</p>
+            </div>
+            <div class="info-card reveal-right" data-fp-dynamic="true">
+                <div class="info-card-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                </div>
+                <h3>Local Taxis</h3>
+                <p>Ashford Cars (01233 123456) and Kent Cabs (01233 654321) know the venue well and offer competitive rates. Pre-booking is recommended for late evening returns.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── DRESS CODE ─── -->
+<section id="dressing">
+    <div class="section-inner">
+        <div class="text-center reveal">
+            <span class="section-label">Dress Code</span>
+            <h2 class="section-title">Garden Chic</h2>
+            <p class="section-text">We'd love for guests to embrace the romantic garden setting. Think florals, pastels, light fabrics. Please avoid white or ivory.</p>
+        </div>
+        <div class="dressing-grid" data-fp-dynamic-items="true">
+            <div class="dress-card reveal-left" data-fp-dynamic="true">
+                <div class="dress-card-img">
+                    <img src="https://images.unsplash.com/photo-1594938298603-c8148c4b4f2e?w=700&q=80" alt="Ladies dress code" loading="lazy">
+                </div>
+                <div class="dress-card-body">
+                    <h3>For the Ladies</h3>
+                    <p>Garden-length or midi dresses in soft florals and pastels. Wedges or block heels recommended as parts of the venue are on grass.</p>
+                    <div class="dress-swatches">
+                        <div class="swatch" style="background:#F2D8DC;" title="Blush Rose"></div>
+                        <div class="swatch" style="background:#D9ECD9;" title="Sage Green"></div>
+                        <div class="swatch" style="background:#F4E8D3;" title="Champagne"></div>
+                        <div class="swatch" style="background:#EAD8F0;" title="Lavender"></div>
+                        <div class="swatch" style="background:#D6E6EF;" title="Sky Blue"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="dress-card reveal-right" data-fp-dynamic="true">
+                <div class="dress-card-img">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=700&q=80" alt="Gentlemen dress code" loading="lazy">
+                </div>
+                <div class="dress-card-body">
+                    <h3>For the Gentlemen</h3>
+                    <p>Smart suits in light tones — dusty blue, linen, stone or sage — with a crisp shirt and optional tie in complementary pastel shades.</p>
+                    <div class="dress-swatches">
+                        <div class="swatch" style="background:#C5CED8;" title="Dusty Blue"></div>
+                        <div class="swatch" style="background:#D8D0C0;" title="Stone"></div>
+                        <div class="swatch" style="background:#C4CCBF;" title="Sage Linen"></div>
+                        <div class="swatch" style="background:#D4C8B8;" title="Sand"></div>
+                        <div class="swatch" style="background:#E8DDD4;" title="Cream"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── GIFTS ─── -->
+<section id="gifts">
+    <div class="section-inner">
+        <div class="text-center reveal">
+            <span class="section-label">Wedding Gifts</span>
+            <h2 class="section-title">Your Presence is Our Present</h2>
+            <p class="section-text">Having you with us on our special day is the greatest gift of all. If you'd like to contribute to our future, here are a few ideas.</p>
+        </div>
+        <div class="gifts-grid" data-fp-dynamic-items="true">
+            <div class="gift-card reveal" data-fp-dynamic="true">
+                <span class="gift-icon" data-emoji-edit>🏠</span>
+                <h3>Our Home</h3>
+                <p>We're saving for our first home together. A contribution to our house fund would mean the world to us.</p>
+                <a href="#" class="btn-outline">Contribute</a>
+            </div>
+            <div class="gift-card reveal" data-fp-dynamic="true">
+                <span class="gift-icon" data-emoji-edit>✈️</span>
+                <h3>Honeymoon Fund</h3>
+                <p>Help us explore the world together. We're planning a trip to Japan for our honeymoon adventure.</p>
+                <a href="#" class="btn-outline">Donate</a>
+            </div>
+            <div class="gift-card reveal" data-fp-dynamic="true">
+                <span class="gift-icon" data-emoji-edit>🎁</span>
+                <h3>Gift Registry</h3>
+                <p>We have a small curated registry at John Lewis for those who prefer a more traditional gift.</p>
+                <a href="#" class="btn-outline">View Registry</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── FAQs ─── -->
+<section id="faqs">
+    <div class="section-inner">
+        <div class="text-center reveal">
+            <span class="section-label">Questions</span>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-list" data-fp-dynamic-items="true">
+            <div class="faq-item" data-fp-dynamic="true">
+                <button class="faq-question">
+                    <span>Can I bring my children?</span>
+                    <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>We love your little ones! Children are welcome at both the ceremony and dinner. We will have a dedicated children's area with entertainment and a kids' menu available.</p>
+                </div>
+            </div>
+            <div class="faq-item" data-fp-dynamic="true">
+                <button class="faq-question">
+                    <span>What if I have dietary requirements?</span>
+                    <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Please note your requirements in the RSVP form. Our caterers can accommodate most dietary needs including vegetarian, vegan, gluten-free, dairy-free and common allergies.</p>
+                </div>
+            </div>
+            <div class="faq-item" data-fp-dynamic="true">
+                <button class="faq-question">
+                    <span>Can we take photos during the ceremony?</span>
+                    <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>We have a wonderful professional photographer. During the ceremony we'd love you to be fully present — please keep phones away. After the ceremony feel free to snap away and share with #SophieAndWilliam2026.</p>
+                </div>
+            </div>
+            <div class="faq-item" data-fp-dynamic="true">
+                <button class="faq-question">
+                    <span>What time should I arrive?</span>
+                    <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Doors open at 3:30 PM for welcome drinks. The ceremony begins promptly at 4:00 PM — please aim to arrive between 3:30 and 3:50 PM to be comfortably seated.</p>
+                </div>
+            </div>
+            <div class="faq-item" data-fp-dynamic="true">
+                <button class="faq-question">
+                    <span>Is the venue accessible for guests with disabilities?</span>
+                    <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes. Rose Garden Manor has full wheelchair access, designated accessible parking and accessible toilet facilities. Please contact us directly with any specific accessibility needs so we can make proper arrangements.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer id="footer">
+    <div class="footer-inner">
+        <div class="footer-logo">Sophie &amp; William</div>
+        <p class="footer-tagline">
+            Rose Garden Manor · September 12, 2026<br>
+            <span>Ashford, Kent, United Kingdom</span>
+        </p>
+        <div class="footer-links">
+            <a href="#hero">Home</a>
+            <a href="#story">Our Story</a>
+            <a href="#details">Details</a>
+            <a href="#schedule">Schedule</a>
+            <a href="#rsvp">RSVP</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#map">Location</a>
+            <a href="#faqs">FAQs</a>
+        </div>
+        <div class="footer-social">
+            <a href="#" aria-label="Instagram">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="Pinterest">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.5 15.5c.5-2 1-4 1.5-6.5M9.5 12c1-1.5 3-3 4.5-1.5s0 4-1.5 4-2-1.5-1.5-3"/></svg>
+            </a>
+        </div>
+        <p class="footer-copy">
+            <span>© 2026 Sophie &amp; William. Made with</span> <span data-emoji-edit>🌸</span> <span>with love.</span>
+        </p>
+    </div>
+</footer>
+
+<script>
+    // ─── NAV SCROLL ───
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ─── MOBILE MENU ───
+    function toggleMobileMenu() {
+        document.getElementById('mobileMenu').classList.toggle('show');
+    }
+    function closeMobileMenu() {
+        document.getElementById('mobileMenu').classList.remove('show');
+    }
+
+    // ─── COUNTDOWN ───
+    (function () {
+        const section = document.querySelector('.countdown-section');
+        if (!section) return;
+        const target = new Date(section.dataset.weddingDate).getTime();
+        function update() {
+            const diff = target - Date.now();
+            if (diff <= 0) {
+                ['days','hours','minutes','seconds'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = '00';
+                });
+                return;
+            }
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = String(v).padStart(2,'0'); };
+            set('days', d); set('hours', h); set('minutes', m); set('seconds', s);
+        }
+        update();
+        setInterval(update, 1000);
+    })();
+
+    // ─── REVEAL ON SCROLL ───
+    (function () {
+        const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        els.forEach(el => observer.observe(el));
+    })();
+
+    // ─── RSVP CONDITIONAL FIELDS ───
+    const attendingSelect = document.getElementById('attending');
+    const conditionalFields = document.getElementById('conditionalFields');
+    if (attendingSelect && conditionalFields) {
+        attendingSelect.addEventListener('change', () => {
+            conditionalFields.classList.toggle('active', attendingSelect.value === 'yes');
+        });
+    }
+
+    // ─── RSVP FORM SUBMIT ───
+    const rsvpForm = document.getElementById('rsvpForm');
+    if (rsvpForm) {
+        rsvpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = rsvpForm.querySelector('button[type=submit]');
+            const success = document.getElementById('formSuccess');
+            if (btn) btn.style.display = 'none';
+            if (success) success.style.display = 'block';
+        });
+    }
+
+    // ─── FAQ ACCORDION ───
+    document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.closest('.faq-item');
+            const wasOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!wasOpen) item.classList.add('open');
+        });
+    });
+
+    // ─── OVERLAY OPACITY ───
+    document.querySelectorAll('[data-overlay-opacity]').forEach(section => {
+        const val = section.dataset.overlayOpacity;
+        if (val) section.style.setProperty('--overlay-opacity', val);
+    });
+
+    // ─── NAV ACTIVE LINK ───
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav ul li a');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(s => {
+            if (window.scrollY >= s.offsetTop - 120) current = s.id;
+        });
+        navLinks.forEach(a => {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+    }, { passive: true });
+</script>
+</body>
+</html>

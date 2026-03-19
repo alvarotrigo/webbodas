@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sofia & James — 12 · 07 · 2026</title>
+  <meta name="description" content="Join us to celebrate the union of Sofia and James. July 12, 2026 in Kyoto, Japan.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ─── KYOTO PALETTE ─────────────────────────────────── */
+    body.theme-kyoto {
+      --color-canvas: #F3EDE7;
+      --color-canvas-alt: #EBE4DC;
+      --color-surface: #FAF8F5;
+      --color-surface-alt: #E6DDD3;
+      --color-surface-raised: #FFFDFB;
+      --color-surface-inverse: #171210;
+      --color-on-canvas: #181412;
+      --color-on-canvas-muted: #5A5350;
+      --color-on-surface: #181412;
+      --color-on-surface-muted: #6B6360;
+      --color-on-surface-subtle: #908880;
+      --color-on-surface-inverse: #F3EDE7;
+      --color-primary: #181412;
+      --color-on-primary: #F3EDE7;
+      --color-primary-hover: #2E2A28;
+      --color-primary-active: #3D3935;
+      --color-primary-container: #E0D6CB;
+      --color-on-primary-container: #181412;
+      --color-secondary: #6B6360;
+      --color-on-secondary: #F3EDE7;
+      --color-secondary-hover: #5A5350;
+      --color-secondary-active: #4A4340;
+      --color-secondary-container: #EAE4DC;
+      --color-on-secondary-container: #2A2420;
+      --color-tertiary: #B8976A;
+      --color-on-tertiary: #181412;
+      --color-tertiary-hover: #A3845A;
+      --color-tertiary-active: #8E7049;
+      --color-tertiary-container: #F0E4CE;
+      --color-on-tertiary-container: #4A3820;
+      --color-link: #181412;
+      --color-link-hover: #6B6360;
+      --color-border-subtle: #DDD5C8;
+      --color-border: #C8BFAF;
+      --color-border-strong: #9A908A;
+      --color-focus-ring: #B8976A;
+      --color-overlay: rgba(18, 14, 11, 0.45);
+      --color-overlay-strong: rgba(18, 14, 11, 0.70);
+      --color-on-overlay: #F5F0EB;
+      --color-success: #4F7A59;
+      --color-on-success: #F7FFF8;
+      --color-danger: #A34C4C;
+      --color-on-danger: #FFF8F8;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --radius-sm: 0.5rem; --radius-md: 1rem; --radius-lg: 1.5rem;
+      --shadow-sm: 0 2px 10px rgba(0,0,0,0.06);
+      --shadow-md: 0 12px 28px rgba(0,0,0,0.10);
+      --shadow-lg: 0 24px 48px rgba(0,0,0,0.14);
+      --space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;
+      --space-5:1.5rem;--space-6:2rem;--space-7:3rem;--space-8:4rem;
+    }
+
+    /* ─── RESET & BASE ──────────────────────────────────── */
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background-color:var(--color-canvas);color:var(--color-on-canvas);font-family:var(--font-body);font-size:16px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+
+    /* ─── TYPOGRAPHY UTILITIES ──────────────────────────── */
+    .eyebrow{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--color-on-canvas-muted);display:block;margin-bottom:1rem}
+    .eyebrow-light{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--color-on-overlay);opacity:0.55;display:block;margin-bottom:1rem}
+    .section-heading{font-family:var(--font-heading);font-size:clamp(2.4rem,5vw,4.5rem);font-weight:300;letter-spacing:0.06em;line-height:1.05;color:var(--color-on-canvas)}
+    .section-heading-inv{font-family:var(--font-heading);font-size:clamp(2.4rem,5vw,4.5rem);font-weight:300;letter-spacing:0.06em;line-height:1.05;color:var(--color-on-overlay)}
+    .body-text{font-family:var(--font-body);font-size:13px;font-weight:300;line-height:2;letter-spacing:0.04em;color:var(--color-on-canvas-muted)}
+    .body-text-inv{font-family:var(--font-body);font-size:13px;font-weight:300;line-height:2;letter-spacing:0.04em;color:var(--color-on-overlay);opacity:0.75}
+    .divider-line{display:block;width:40px;height:1px;background:var(--color-border);margin:1.5rem auto}
+    .divider-line-left{display:block;width:40px;height:1px;background:var(--color-border);margin:1.5rem 0}
+
+    /* ─── BUTTONS ───────────────────────────────────────── */
+    .btn-outline{display:inline-flex;align-items:center;gap:10px;padding:13px 30px;border:1px solid var(--color-on-canvas);color:var(--color-on-canvas);font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;background:transparent;cursor:pointer;transition:background 0.3s,color 0.3s}
+    .btn-outline:hover{background:var(--color-on-canvas);color:var(--color-canvas)}
+    .btn-fill{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 40px;background:var(--color-primary);color:var(--color-on-primary);font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.3s}
+    .btn-fill:hover{background:var(--color-primary-hover)}
+    .btn-outline-inv{display:inline-flex;align-items:center;gap:10px;padding:13px 30px;border:1px solid var(--color-on-overlay);color:var(--color-on-overlay);font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;background:transparent;cursor:pointer;transition:background 0.3s,color 0.3s}
+    .btn-outline-inv:hover{background:var(--color-on-overlay);color:var(--color-surface-inverse)}
+
+    /* ─── LINK UNDERLINE ────────────────────────────────── */
+    .link-underline{display:inline-block;font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-canvas);border-bottom:1px solid var(--color-on-canvas);padding-bottom:2px;transition:opacity 0.2s}
+    .link-underline:hover{opacity:0.5}
+    .link-underline-inv{display:inline-block;font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-overlay);border-bottom:1px solid var(--color-on-overlay);padding-bottom:2px;transition:opacity 0.2s}
+    .link-underline-inv:hover{opacity:0.6}
+
+    /* ─── NAV ───────────────────────────────────────────── */
+    #nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 3rem;height:72px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,box-shadow 0.4s}
+    #nav.scrolled{background:var(--color-surface-raised);box-shadow:var(--shadow-sm)}
+    .nav-logo{font-family:var(--font-heading);font-size:1.6rem;font-weight:400;color:var(--color-on-canvas);letter-spacing:0.04em}
+    .nav-links{display:flex;align-items:center;gap:2.5rem}
+    .nav-links a{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-canvas-muted);transition:color 0.2s}
+    .nav-links a:hover{color:var(--color-on-canvas)}
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+    .nav-hamburger span{display:block;width:24px;height:1px;background:var(--color-on-canvas);transition:all 0.3s}
+    .nav-mobile{display:none;position:fixed;inset:0;background:var(--color-surface-raised);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+    .nav-mobile.open{display:flex}
+    .nav-mobile a{font-family:var(--font-body);font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--color-on-canvas-muted)}
+    .nav-mobile-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;cursor:pointer;font-size:1.5rem;color:var(--color-on-canvas)}
+    @media(max-width:768px){
+      #nav{padding:0 1.5rem}
+      .nav-links{display:none}
+      .nav-hamburger{display:flex}
+    }
+
+    /* ─── OVERLAY HELPER ────────────────────────────────── */
+    .fp-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;z-index:0}
+    .fp-bg::after{content:'';position:absolute;inset:0;background:var(--color-overlay, rgba(20,15,12,0.45))}
+    section[data-overlay-opacity] .fp-bg::after{opacity:1}
+    section{position:relative}
+
+    /* ─── HERO ──────────────────────────────────────────── */
+    #hero{min-height:100vh !important;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--color-canvas)}
+    .hero-content{position:relative;z-index:1;text-align:center;padding:0 2rem;display:flex;flex-direction:column;align-items:center}
+    .hero-eyebrow{font-family:var(--font-body);font-size:9px;font-weight:400;letter-spacing:0.32em;text-transform:uppercase;color:var(--color-on-canvas-muted);margin-bottom:1.75rem}
+    .hero-names{font-family:var(--font-heading);font-size:clamp(3.5rem,8vw,8rem);font-weight:300;letter-spacing:0.08em;color:var(--color-on-canvas);line-height:1;margin-bottom:1.5rem;text-transform:uppercase}
+    .hero-date{font-family:var(--font-body);font-size:9px;font-weight:400;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-on-canvas-muted);margin-bottom:0.5rem}
+    .hero-location{font-family:var(--font-body);font-size:9px;font-weight:400;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-on-canvas-muted)}
+    .hero-brushstroke{margin:2.5rem auto 0;width:160px;opacity:0.45}
+    .hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);font-family:var(--font-body);font-size:8px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-on-canvas-muted);display:flex;flex-direction:column;align-items:center;gap:0.75rem}
+    .hero-scroll::after{content:'';display:block;width:1px;height:40px;background:var(--color-border)}
+
+    /* ─── STORY ─────────────────────────────────────────── */
+    #story{padding:8rem 4rem;background:var(--color-canvas)}
+    .story-inner{max-width:960px;margin:0 auto;text-align:center}
+    .story-invite{font-family:var(--font-heading);font-size:clamp(1.5rem,3.2vw,2.5rem);font-weight:300;letter-spacing:0.08em;line-height:1.45;color:var(--color-on-canvas);text-transform:uppercase;margin-bottom:1.5rem;max-width:700px;margin-left:auto;margin-right:auto}
+    .story-body{font-family:var(--font-body);font-size:13px;font-weight:300;line-height:2.1;letter-spacing:0.04em;color:var(--color-on-canvas-muted);max-width:520px;margin:0 auto 2.5rem}
+    .story-photos{display:grid;grid-template-columns:1.15fr 0.85fr;gap:6px;max-width:480px;margin:3rem auto 0}
+    .story-photos img{width:100%;aspect-ratio:3/4;object-fit:cover}
+    @media(max-width:640px){
+      #story{padding:5rem 1.5rem}
+      .story-photos{grid-template-columns:1fr 1fr;max-width:100%}
+    }
+
+    /* ─── QUOTE ─────────────────────────────────────────── */
+    #quote{position:relative;min-height:50vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    #quote .fp-bg::after{background:var(--color-overlay-strong, rgba(20,15,12,0.70))}
+    .quote-content{position:relative;z-index:1;text-align:center;padding:5rem 2rem;max-width:700px;margin:0 auto}
+    .quote-mark{font-family:var(--font-heading);font-size:5rem;font-weight:300;color:var(--color-on-overlay);opacity:0.25;line-height:0.5;margin-bottom:1rem;display:block}
+    .quote-text{font-family:var(--font-heading);font-size:clamp(1.4rem,3vw,2.2rem);font-weight:300;letter-spacing:0.06em;line-height:1.55;color:var(--color-on-overlay);font-style:italic;margin-bottom:1.5rem}
+    .quote-attr{font-family:var(--font-body);font-size:9px;font-weight:400;letter-spacing:0.25em;text-transform:uppercase;color:var(--color-on-overlay);opacity:0.55}
+
+    /* ─── SCHEDULE ──────────────────────────────────────── */
+    #schedule{padding:8rem 4rem;background:var(--color-canvas-alt)}
+    .schedule-inner{max-width:1100px;margin:0 auto}
+    .schedule-event{display:grid;grid-template-columns:80px 1fr 1fr;gap:0;margin-bottom:8rem;align-items:start}
+    .schedule-event:last-child{margin-bottom:0}
+    .schedule-event.reverse{grid-template-columns:1fr 1fr 80px}
+    .schedule-vertical-label{writing-mode:vertical-rl;text-orientation:mixed;font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.35em;text-transform:uppercase;color:var(--color-on-canvas-muted);opacity:0.6;align-self:center;padding:1rem 0}
+    .schedule-event.reverse .schedule-vertical-label{grid-column:3;grid-row:1;transform:rotate(180deg)}
+    .schedule-img-group{position:relative;display:grid}
+    .schedule-img-main{width:100%;aspect-ratio:4/5;object-fit:cover}
+    .schedule-img-accent{position:absolute;width:40%;aspect-ratio:1;object-fit:cover;bottom:-2.5rem;right:-2rem;border:6px solid var(--color-canvas-alt)}
+    .schedule-text{padding:3.5rem 3rem;display:flex;flex-direction:column;justify-content:center}
+    .schedule-event.reverse .schedule-text{padding:3.5rem 3rem 3.5rem 0;text-align:right}
+    .schedule-day{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-on-canvas-muted);margin-bottom:1.2rem;display:block}
+    .schedule-event-name{font-family:var(--font-heading);font-size:clamp(2rem,4vw,3.5rem);font-weight:300;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-on-canvas);line-height:1.1;margin-bottom:2rem}
+    .schedule-times{display:flex;flex-direction:column;gap:0.9rem}
+    .schedule-time-item{display:flex;flex-direction:column;gap:0.15rem}
+    .schedule-event.reverse .schedule-times{align-items:flex-end}
+    .schedule-time{font-family:var(--font-body);font-size:11px;font-weight:400;letter-spacing:0.08em;color:var(--color-on-canvas-muted)}
+    .schedule-time-desc{font-family:var(--font-body);font-size:12px;font-weight:300;letter-spacing:0.04em;color:var(--color-on-canvas-subtle, var(--color-on-canvas-muted));opacity:0.7}
+    @media(max-width:900px){
+      #schedule{padding:5rem 1.5rem}
+      .schedule-event,.schedule-event.reverse{grid-template-columns:1fr;gap:2rem}
+      .schedule-vertical-label{writing-mode:horizontal-tb;align-self:auto}
+      .schedule-event.reverse .schedule-vertical-label{grid-column:1;grid-row:auto;transform:none}
+      .schedule-event.reverse .schedule-text{text-align:left;padding:2rem 0}
+      .schedule-text{padding:2rem 0}
+      .schedule-img-accent{display:none}
+      .schedule-event.reverse .schedule-times{align-items:flex-start}
+    }
+
+    /* ─── DETAILS ───────────────────────────────────────── */
+    #details{padding:8rem 4rem;background:var(--color-canvas)}
+    .details-inner{max-width:960px;margin:0 auto;text-align:center}
+    .details-title{font-family:var(--font-heading);font-size:clamp(2rem,4vw,3.5rem);font-weight:300;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-on-canvas);margin-bottom:1rem}
+    .details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:4rem}
+    .detail-card{background:var(--color-canvas-alt);padding:3rem 2rem;text-align:center;position:relative}
+    .detail-card::before{content:'';display:block;width:1px;height:40px;background:var(--color-border);margin:0 auto 2rem}
+    .detail-icon{font-size:1.2rem;margin-bottom:1.5rem;display:block}
+    .detail-label{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-on-canvas-muted);margin-bottom:1rem;display:block}
+    .detail-value{font-family:var(--font-heading);font-size:1.5rem;font-weight:400;letter-spacing:0.04em;color:var(--color-on-canvas);line-height:1.3;margin-bottom:0.5rem}
+    .detail-sub{font-family:var(--font-body);font-size:12px;font-weight:300;letter-spacing:0.04em;color:var(--color-on-canvas-muted)}
+    @media(max-width:700px){
+      #details{padding:5rem 1.5rem}
+      .details-grid{grid-template-columns:1fr}
+    }
+
+    /* ─── COUNTDOWN ─────────────────────────────────────── */
+    #countdown{padding:7rem 4rem;background:var(--color-surface-inverse)}
+    .countdown-section{display:block}
+    .countdown-inner{max-width:900px;margin:0 auto;text-align:center}
+    .countdown-title{font-family:var(--font-heading);font-size:clamp(1.5rem,3vw,2.5rem);font-weight:300;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-on-surface-inverse);margin-bottom:0.75rem}
+    .countdown-sub{font-family:var(--font-body);font-size:10px;font-weight:400;letter-spacing:0.25em;text-transform:uppercase;color:var(--color-on-surface-inverse);opacity:0.4;margin-bottom:4rem;display:block}
+    .countdown-items{display:flex;align-items:flex-start;justify-content:center;gap:0}
+    .countdown-item{flex:1;max-width:200px;text-align:center;position:relative}
+    .countdown-item+.countdown-item::before{content:':';font-family:var(--font-heading);font-size:3rem;font-weight:300;color:var(--color-on-surface-inverse);opacity:0.2;position:absolute;left:-0.5rem;top:0.5rem}
+    .countdown-number{font-family:var(--font-heading);font-size:clamp(3rem,7vw,6rem);font-weight:300;letter-spacing:0.05em;color:var(--color-on-surface-inverse);line-height:1;display:block}
+    .countdown-label{font-family:var(--font-body);font-size:8px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-on-surface-inverse);opacity:0.35;display:block;margin-top:0.75rem}
+    @media(max-width:600px){
+      #countdown{padding:5rem 1.5rem}
+      .countdown-items{gap:0.5rem}
+    }
+
+    /* ─── ABOUT / PEOPLE ────────────────────────────────── */
+    #about{padding:0;background:var(--color-canvas-alt);overflow:hidden}
+    .about-inner{max-width:100%}
+    .about-header{text-align:center;padding:7rem 4rem 5rem;max-width:640px;margin:0 auto}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+    .about-card{position:relative;overflow:hidden;min-height:680px;display:flex;flex-direction:column;justify-content:flex-end}
+    .about-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform 0.8s ease}
+    .about-card:hover .about-photo{transform:scale(1.04)}
+    .about-overlay{position:absolute;inset:0;background:linear-gradient(to top, var(--color-overlay-strong) 0%, var(--color-overlay) 45%, transparent 100%)}
+    .about-info{position:relative;z-index:1;padding:3rem 3rem 3.5rem}
+    .about-role{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-on-overlay);opacity:0.55;margin-bottom:0.75rem;display:block}
+    .about-name{font-family:var(--font-heading);font-size:clamp(2.2rem,4vw,3.5rem);font-weight:300;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-on-overlay);line-height:1.05;margin-bottom:1.25rem}
+    .about-bio{font-family:var(--font-body);font-size:12px;font-weight:300;line-height:2;letter-spacing:0.04em;color:var(--color-on-overlay);opacity:0.7;max-width:380px}
+    @media(max-width:700px){
+      #about .about-header{padding:5rem 1.5rem 3rem}
+      .about-grid{grid-template-columns:1fr}
+      .about-card{min-height:500px}
+    }
+
+    /* ─── PEOPLE (WEDDING PARTY) ────────────────────────── */
+    #people{padding:8rem 4rem;background:var(--color-canvas)}
+    .people-inner{max-width:1100px;margin:0 auto;text-align:center}
+    .people-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:4rem}
+    .person-card{background:var(--color-canvas-alt);overflow:hidden}
+    .person-img{width:100%;aspect-ratio:3/4;object-fit:cover}
+    .person-info{padding:1.5rem 1.2rem}
+    .person-role{font-family:var(--font-body);font-size:8px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-on-canvas-muted);opacity:0.7;margin-bottom:0.5rem;display:block}
+    .person-name{font-family:var(--font-heading);font-size:1.25rem;font-weight:400;letter-spacing:0.04em;color:var(--color-on-canvas)}
+    @media(max-width:900px){.people-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:500px){
+      #people{padding:5rem 1.5rem}
+      .people-grid{grid-template-columns:1fr 1fr}
+    }
+
+    /* ─── GALLERY ───────────────────────────────────────── */
+    #gallery{padding:0;background:var(--color-canvas-alt);overflow:hidden}
+    .gallery-top{padding:5rem 4rem 3rem;text-align:center}
+    .gallery-masonry{display:grid;grid-template-columns:1.6fr 1fr 1fr;grid-template-rows:340px 340px;gap:2px}
+    .gallery-item{overflow:hidden;position:relative}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform 0.6s ease;display:block}
+    .gallery-item:hover img{transform:scale(1.04)}
+    .gallery-item:nth-child(1){grid-column:1;grid-row:1/3}
+    .gallery-item:nth-child(2){grid-column:2;grid-row:1}
+    .gallery-item:nth-child(3){grid-column:3;grid-row:1}
+    .gallery-item:nth-child(4){grid-column:2;grid-row:2}
+    .gallery-item:nth-child(5){grid-column:3;grid-row:2}
+    @media(max-width:800px){
+      .gallery-masonry{grid-template-columns:1fr 1fr;grid-template-rows:260px 260px 260px}
+      .gallery-item:nth-child(1){grid-column:1/3;grid-row:1}
+      .gallery-item:nth-child(2){grid-column:1;grid-row:2}
+      .gallery-item:nth-child(3){grid-column:2;grid-row:2}
+      .gallery-item:nth-child(4){grid-column:1;grid-row:3}
+      .gallery-item:nth-child(5){grid-column:2;grid-row:3}
+    }
+    @media(max-width:500px){
+      #gallery .gallery-top{padding:4rem 1.5rem 1.5rem}
+      .gallery-masonry{grid-template-rows:220px 220px 220px}
+    }
+
+    /* ─── GIFTS ─────────────────────────────────────────── */
+    #gifts{padding:7rem 4rem;background:var(--color-canvas)}
+    .gifts-inner{max-width:800px;margin:0 auto;text-align:center}
+    .gifts-text{font-family:var(--font-body);font-size:13px;font-weight:300;line-height:2;letter-spacing:0.04em;color:var(--color-on-canvas-muted);max-width:560px;margin:1.5rem auto 2.5rem}
+    .gifts-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2.5rem}
+    .gift-card{background:var(--color-canvas-alt);padding:2.5rem 2rem;text-align:center}
+    .gift-icon{font-size:1.5rem;margin-bottom:1rem;display:block}
+    .gift-title{font-family:var(--font-heading);font-size:1.3rem;font-weight:400;letter-spacing:0.05em;color:var(--color-on-canvas);margin-bottom:0.75rem}
+    .gift-desc{font-family:var(--font-body);font-size:12px;font-weight:300;line-height:1.8;color:var(--color-on-canvas-muted);margin-bottom:1.5rem}
+    @media(max-width:600px){
+      #gifts{padding:5rem 1.5rem}
+      .gifts-grid{grid-template-columns:1fr}
+    }
+
+    /* ─── TRANSPORTATION & ACCOMMODATION ────────────────── */
+    #transportation{padding:7rem 4rem;background:var(--color-canvas-alt)}
+    #accomodation{padding:0 4rem 7rem;background:var(--color-canvas-alt)}
+    .travel-inner{max-width:960px;margin:0 auto}
+    .travel-header{text-align:center;margin-bottom:4rem}
+    .travel-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+    .travel-card{background:var(--color-canvas);padding:3rem 2.5rem}
+    .travel-card-icon{font-size:1.3rem;margin-bottom:1.2rem;display:block}
+    .travel-card-label{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--color-on-canvas-muted);margin-bottom:0.75rem;display:block}
+    .travel-card-title{font-family:var(--font-heading);font-size:1.5rem;font-weight:400;letter-spacing:0.04em;color:var(--color-on-canvas);margin-bottom:1rem}
+    .travel-card-text{font-family:var(--font-body);font-size:12px;font-weight:300;line-height:1.9;letter-spacing:0.03em;color:var(--color-on-canvas-muted)}
+    @media(max-width:700px){
+      #transportation,#accomodation{padding:5rem 1.5rem}
+      .travel-grid{grid-template-columns:1fr}
+    }
+
+    /* ─── MAP ───────────────────────────────────────────── */
+    #map{background:var(--color-canvas)}
+    .map-container{max-width:100%;height:480px;overflow:hidden;position:relative}
+    .map-container iframe{width:100%;height:100%;border:none;filter:grayscale(1) sepia(0.35) brightness(0.92) contrast(1.05)}
+    .map-header{padding:5rem 4rem 3rem;text-align:center}
+    @media(max-width:600px){
+      .map-header{padding:4rem 1.5rem 2rem}
+      .map-container{height:320px}
+    }
+
+    /* ─── RSVP ──────────────────────────────────────────── */
+    #rsvp{padding:8rem 4rem;background:var(--color-surface-inverse)}
+    .rsvp-inner{max-width:760px;margin:0 auto}
+    .rsvp-header{text-align:center;margin-bottom:4rem}
+    .rsvp-title{font-family:var(--font-heading);font-size:clamp(2.5rem,5vw,4rem);font-weight:300;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-on-surface-inverse);line-height:1.1;margin-bottom:0.75rem}
+    .rsvp-sub{font-family:var(--font-body);font-size:10px;font-weight:400;letter-spacing:0.25em;text-transform:uppercase;color:var(--color-on-surface-inverse);opacity:0.4}
+    .rsvp-form{display:grid;gap:1.5rem}
+    .rsvp-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .form-group{display:flex;flex-direction:column;gap:0.5rem}
+    .form-group label{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--color-on-surface-inverse);opacity:0.5}
+    .form-group input,.form-group select,.form-group textarea{background:transparent;border:none;border-bottom:1px solid var(--color-on-surface-inverse);border-bottom-color:rgba(243,237,231,0.2);color:var(--color-on-surface-inverse);font-family:var(--font-body);font-size:13px;font-weight:300;letter-spacing:0.04em;padding:0.75rem 0;outline:none;width:100%;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+    .form-group input::placeholder,.form-group textarea::placeholder{color:var(--color-on-surface-inverse);opacity:0.25}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-bottom-color:var(--color-on-surface-inverse)}
+    .form-group select option{background:var(--color-surface-inverse);color:var(--color-on-surface-inverse)}
+    .form-group textarea{resize:vertical;min-height:100px}
+    .rsvp-conditional{display:none}
+    .rsvp-conditional.visible{display:contents}
+    .rsvp-submit{text-align:center;margin-top:1rem}
+    .rsvp-success{display:none;text-align:center;padding:3rem;border:1px solid var(--color-border-subtle)}
+    .rsvp-success p{font-family:var(--font-heading);font-size:1.8rem;font-weight:300;letter-spacing:0.05em;color:var(--color-on-surface-inverse)}
+    @media(max-width:640px){
+      #rsvp{padding:5rem 1.5rem}
+      .rsvp-row{grid-template-columns:1fr}
+    }
+
+    /* ─── FAQS ──────────────────────────────────────────── */
+    #faqs{padding:7rem 4rem;background:var(--color-canvas)}
+    .faqs-inner{max-width:800px;margin:0 auto}
+    .faqs-header{text-align:center;margin-bottom:4rem}
+    .faq-item{border-bottom:1px solid var(--color-border-subtle);padding:2rem 0;cursor:pointer}
+    .faq-question{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .faq-q-text{font-family:var(--font-heading);font-size:1.2rem;font-weight:400;letter-spacing:0.03em;color:var(--color-on-canvas)}
+    .faq-toggle{font-family:var(--font-heading);font-size:1.5rem;font-weight:300;color:var(--color-on-canvas-muted);flex-shrink:0;transition:transform 0.3s;line-height:1}
+    .faq-item.open .faq-toggle{transform:rotate(45deg)}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+    .faq-item.open .faq-answer{max-height:300px}
+    .faq-a-text{font-family:var(--font-body);font-size:13px;font-weight:300;line-height:1.9;letter-spacing:0.03em;color:var(--color-on-canvas-muted);padding-top:1.25rem}
+    @media(max-width:600px){#faqs{padding:5rem 1.5rem}}
+
+    /* ─── FOOTER ────────────────────────────────────────── */
+    #footer{background:var(--color-surface-inverse);padding:6rem 4rem 4rem;text-align:center}
+    .footer-names{font-family:var(--font-heading);font-size:clamp(2.5rem,6vw,5rem);font-weight:300;letter-spacing:0.1em;color:var(--color-on-surface-inverse);margin-bottom:1rem;text-transform:uppercase}
+    .footer-date{font-family:var(--font-body);font-size:9px;font-weight:400;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-on-surface-inverse);opacity:0.35;margin-bottom:3rem;display:block}
+    .footer-divider{width:1px;height:60px;background:var(--color-on-surface-inverse);opacity:0.15;margin:0 auto 3rem}
+    .footer-nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2rem;margin-bottom:3.5rem}
+    .footer-nav a{font-family:var(--font-body);font-size:9px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-surface-inverse);opacity:0.35;transition:opacity 0.2s}
+    .footer-nav a:hover{opacity:0.7}
+    .footer-copy{font-family:var(--font-body);font-size:10px;font-weight:300;letter-spacing:0.1em;color:var(--color-on-surface-inverse);opacity:0.2}
+    @media(max-width:600px){#footer{padding:5rem 1.5rem 3rem}}
+
+    /* ─── REVEAL ANIMATIONS ─────────────────────────────── */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease,transform 0.8s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-left{opacity:0;transform:translateX(-30px);transition:opacity 0.8s ease,transform 0.8s ease}
+    .reveal-left.visible{opacity:1;transform:translateX(0)}
+    .reveal-right{opacity:0;transform:translateX(30px);transition:opacity 0.8s ease,transform 0.8s ease}
+    .reveal-right.visible{opacity:1;transform:translateX(0)}
+    .reveal-scale{opacity:0;transform:scale(0.96);transition:opacity 0.8s ease,transform 0.8s ease}
+    .reveal-scale.visible{opacity:1;transform:scale(1)}
+    .delay-1{transition-delay:0.1s}
+    .delay-2{transition-delay:0.2s}
+    .delay-3{transition-delay:0.35s}
+    .delay-4{transition-delay:0.5s}
+
+    /* ─── SECTION HEADINGS SHARED ───────────────────────── */
+    .section-header-center{text-align:center;max-width:600px;margin:0 auto}
+    .section-title{font-family:var(--font-heading);font-size:clamp(2rem,4vw,3.5rem);font-weight:300;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-on-canvas);line-height:1.1}
+    .section-title-inv{font-family:var(--font-heading);font-size:clamp(2rem,4vw,3.5rem);font-weight:300;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-on-surface-inverse);line-height:1.1}
+
+    /* ─── DRESSING ──────────────────────────────────────── */
+    #dressing{padding:7rem 4rem;background:var(--color-canvas-alt)}
+    .dressing-inner{max-width:900px;margin:0 auto;text-align:center}
+    .dressing-cards{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:3.5rem}
+    .dressing-card{background:var(--color-canvas);padding:3rem 2.5rem;text-align:center}
+    .dressing-card-title{font-family:var(--font-heading);font-size:1.4rem;font-weight:400;letter-spacing:0.05em;color:var(--color-on-canvas);margin-bottom:0.75rem}
+    .dressing-card-text{font-family:var(--font-body);font-size:13px;font-weight:300;line-height:1.9;letter-spacing:0.03em;color:var(--color-on-canvas-muted)}
+    .dressing-palette{display:flex;justify-content:center;gap:8px;margin-top:1.25rem}
+    .dressing-swatch{width:28px;height:28px;border-radius:50%;border:1px solid var(--color-border-subtle)}
+    @media(max-width:600px){
+      #dressing{padding:5rem 1.5rem}
+      .dressing-cards{grid-template-columns:1fr}
+    }
+
+  </style>
+</head>
+<body class="theme-kyoto">
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#hero" class="logo nav-logo">S &amp; J</a>
+    <div class="nav-links">
+      <a href="#story">Our Story</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#details">Details</a>
+      <a href="#people">Wedding Party</a>
+      <a href="#rsvp">RSVP</a>
+    </div>
+    <button class="nav-hamburger" id="nav-burger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="nav-mobile" id="nav-mobile">
+    <button class="nav-mobile-close" id="nav-mobile-close" aria-label="Close menu">✕</button>
+    <a href="#story" onclick="document.getElementById('nav-mobile').classList.remove('open')">Our Story</a>
+    <a href="#schedule" onclick="document.getElementById('nav-mobile').classList.remove('open')">Schedule</a>
+    <a href="#details" onclick="document.getElementById('nav-mobile').classList.remove('open')">Details</a>
+    <a href="#about" onclick="document.getElementById('nav-mobile').classList.remove('open')">About Us</a>
+    <a href="#people" onclick="document.getElementById('nav-mobile').classList.remove('open')">Wedding Party</a>
+    <a href="#gallery" onclick="document.getElementById('nav-mobile').classList.remove('open')">Gallery</a>
+    <a href="#rsvp" onclick="document.getElementById('nav-mobile').classList.remove('open')">RSVP</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <span class="hero-eyebrow reveal">A Journey Begins</span>
+      <h1 class="hero-names reveal delay-1">Sofia &amp; James</h1>
+      <p class="hero-date reveal delay-2">12 · 07 · 2026</p>
+      <p class="hero-location reveal delay-2">Kyoto, Japan</p>
+      <svg class="hero-brushstroke reveal delay-3" viewBox="0 0 280 55" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 42 C 40 10, 70 48, 100 28 C 130 8, 160 46, 190 26 C 220 6, 250 38, 270 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+        <path d="M30 50 C 60 32, 90 50, 120 38 C 150 26, 180 48, 210 34 C 230 24, 255 44, 265 30" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" fill="none" opacity="0.3"/>
+      </svg>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section id="story">
+    <div class="story-inner">
+      <span class="eyebrow reveal">Our Invitation</span>
+      <p class="story-invite reveal delay-1">We invite you to join us as we exchange vows and celebrate the love that has brought us here.</p>
+      <span class="divider-line reveal delay-2"></span>
+      <p class="story-body reveal delay-2">A journey years in the making, now culminating in a moment we can't wait to share with you. We are thrilled to have you witness the beginning of our forever.</p>
+      <a href="#about" class="link-underline reveal delay-3">Read Our Story</a>
+      <div class="story-photos reveal-scale delay-3">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80" alt="Sofia and James" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=400&q=80" alt="Couple detail" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section id="quote" class="has-bg-image" data-overlay-opacity="0.4">
+    <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1551434678-e076c223a692?w=1920&q=80');"></div>
+    <div class="quote-content">
+      <span class="quote-mark" aria-hidden="true">"</span>
+      <p class="quote-text">"Whatever our souls are made of, his and mine are the same."</p>
+      <span class="quote-attr">— Emily Brontë</span>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule">
+    <div class="schedule-inner">
+      <div style="text-align:center;margin-bottom:6rem">
+        <span class="eyebrow reveal">The Weekend</span>
+        <h2 class="section-title reveal delay-1">Schedule of Events</h2>
+      </div>
+
+      <!-- Event 1 -->
+      <div class="schedule-event" data-fp-dynamic="true">
+        <span class="schedule-vertical-label">Schedule</span>
+        <div class="schedule-img-group reveal-left">
+          <img class="schedule-img-main" src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80" alt="Welcome Dinner venue" loading="lazy">
+          <img class="schedule-img-accent" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80" alt="Dinner detail" loading="lazy">
+        </div>
+        <div class="schedule-text reveal-right">
+          <span class="schedule-day">11th July 2026</span>
+          <h3 class="schedule-event-name">Welcome<br>Dinner</h3>
+          <div class="schedule-times">
+            <div class="schedule-time-item">
+              <span class="schedule-time">6:00 PM</span>
+              <span class="schedule-time-desc">Cocktails &amp; Arrival — The Garden House</span>
+            </div>
+            <div class="schedule-time-item">
+              <span class="schedule-time">8:00 PM</span>
+              <span class="schedule-time-desc">Welcome Dinner — Grand Banquet Hall</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 2 (reverse) -->
+      <div class="schedule-event reverse" data-fp-dynamic="true">
+        <div class="schedule-text reveal-left" style="padding:3.5rem 3rem;text-align:right">
+          <span class="schedule-day">12th July 2026</span>
+          <h3 class="schedule-event-name">Ceremony &amp;<br>Reception</h3>
+          <div class="schedule-times" style="align-items:flex-end">
+            <div class="schedule-time-item" style="text-align:right">
+              <span class="schedule-time">3:00 PM</span>
+              <span class="schedule-time-desc">Ceremony — Kinkaku-ji Garden</span>
+            </div>
+            <div class="schedule-time-item" style="text-align:right">
+              <span class="schedule-time">5:00 PM</span>
+              <span class="schedule-time-desc">Welcome Drinks — The Ritz-Carlton Kyoto</span>
+            </div>
+            <div class="schedule-time-item" style="text-align:right">
+              <span class="schedule-time">6:30 PM</span>
+              <span class="schedule-time-desc">Reception — The Ritz-Carlton Kyoto</span>
+            </div>
+            <div class="schedule-time-item" style="text-align:right">
+              <span class="schedule-time">11:30 PM</span>
+              <span class="schedule-time-desc">Late Night Send-Off</span>
+            </div>
+          </div>
+        </div>
+        <div class="schedule-img-group reveal-right">
+          <img class="schedule-img-main" src="https://images.unsplash.com/photo-1525772764200-be829a350797?w=800&q=80" alt="Ceremony" loading="lazy">
+          <img class="schedule-img-accent" style="right:auto;left:-2rem" src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400&q=80" alt="Ceremony detail" loading="lazy">
+        </div>
+        <span class="schedule-vertical-label">Events</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DETAILS (WHERE & WHEN) -->
+  <section id="details">
+    <div class="details-inner">
+      <span class="eyebrow reveal">Where &amp; When</span>
+      <h2 class="details-title reveal delay-1">The Details</h2>
+      <div class="details-grid">
+        <div class="detail-card reveal delay-1" data-fp-dynamic="true">
+          <span class="detail-icon" data-emoji-edit>📅</span>
+          <span class="detail-label">Date</span>
+          <p class="detail-value">July 12, 2026</p>
+          <p class="detail-sub">Saturday</p>
+        </div>
+        <div class="detail-card reveal delay-2" data-fp-dynamic="true">
+          <span class="detail-icon" data-emoji-edit>🕒</span>
+          <span class="detail-label">Time</span>
+          <p class="detail-value">3:00 PM</p>
+          <p class="detail-sub">Ceremony begins promptly</p>
+        </div>
+        <div class="detail-card reveal delay-3" data-fp-dynamic="true">
+          <span class="detail-icon" data-emoji-edit>📍</span>
+          <span class="detail-label">Venue</span>
+          <p class="detail-value">Kinkaku-ji Garden</p>
+          <p class="detail-sub">Kyoto, Japan</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section id="countdown" class="countdown-section" data-wedding-date="2026-07-12T15:00:00">
+    <div class="countdown-inner">
+      <h2 class="countdown-title reveal">Counting Down</h2>
+      <span class="countdown-sub reveal delay-1">Until we say "I do"</span>
+      <div class="countdown-items">
+        <div class="countdown-item">
+          <span class="countdown-number" id="days" contenteditable="false">00</span>
+          <span class="countdown-label" contenteditable="false">Days</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="hours" contenteditable="false">00</span>
+          <span class="countdown-label" contenteditable="false">Hours</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="minutes" contenteditable="false">00</span>
+          <span class="countdown-label" contenteditable="false">Minutes</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="seconds" contenteditable="false">00</span>
+          <span class="countdown-label" contenteditable="false">Seconds</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT US -->
+  <section id="about">
+    <div class="about-inner">
+      <div class="about-header">
+        <span class="eyebrow reveal">The Couple</span>
+        <h2 class="section-title reveal delay-1">A Little About Us</h2>
+        <p class="body-text reveal delay-2" style="margin-top:1rem">Two wandering souls who found home in each other — somewhere between Tokyo and a midnight train.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card reveal-scale" data-fp-dynamic="true">
+          <img class="about-photo" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=900&q=80" alt="Sofia" loading="lazy">
+          <div class="about-overlay"></div>
+          <div class="about-info">
+            <span class="about-role">The Bride</span>
+            <h3 class="about-name">Sofia</h3>
+            <p class="about-bio">A ceramicist with a love for morning matcha, long walks, and the quiet beauty of imperfect things. Born in Barcelona, raised by curiosity.</p>
+          </div>
+        </div>
+        <div class="about-card reveal-scale delay-2" data-fp-dynamic="true">
+          <img class="about-photo" src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=900&q=80" alt="James" loading="lazy">
+          <div class="about-overlay"></div>
+          <div class="about-info">
+            <span class="about-role">The Groom</span>
+            <h3 class="about-name">James</h3>
+            <p class="about-bio">An architect who believes that every space tells a story. Originally from London, forever dreaming of the places he hasn't yet seen.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEDDING PARTY / PEOPLE -->
+  <section id="people">
+    <div class="people-inner">
+      <span class="eyebrow reveal">By Our Side</span>
+      <h2 class="section-title reveal delay-1">The Wedding Party</h2>
+      <div class="people-grid" data-fp-dynamic-items="true">
+        <div class="person-card reveal delay-1" data-fp-dynamic="true">
+          <img class="person-img" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" alt="Marta" loading="lazy">
+          <div class="person-info">
+            <span class="person-role">Maid of Honour</span>
+            <h3 class="person-name">Marta</h3>
+          </div>
+        </div>
+        <div class="person-card reveal delay-2" data-fp-dynamic="true">
+          <img class="person-img" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" alt="Lucas" loading="lazy">
+          <div class="person-info">
+            <span class="person-role">Best Man</span>
+            <h3 class="person-name">Lucas</h3>
+          </div>
+        </div>
+        <div class="person-card reveal delay-3" data-fp-dynamic="true">
+          <img class="person-img" src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80" alt="Clara" loading="lazy">
+          <div class="person-info">
+            <span class="person-role">Bridesmaid</span>
+            <h3 class="person-name">Clara</h3>
+          </div>
+        </div>
+        <div class="person-card reveal delay-4" data-fp-dynamic="true">
+          <img class="person-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Oliver" loading="lazy">
+          <div class="person-info">
+            <span class="person-role">Groomsman</span>
+            <h3 class="person-name">Oliver</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="gallery-top">
+      <span class="eyebrow reveal">Our Moments</span>
+      <h2 class="section-title reveal delay-1">Gallery</h2>
+    </div>
+    <div class="gallery-masonry" data-fp-dynamic-items="true">
+      <div class="gallery-item" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80" alt="Couple portrait" loading="lazy">
+      </div>
+      <div class="gallery-item" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=600&q=80" alt="Wedding detail" loading="lazy">
+      </div>
+      <div class="gallery-item" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1525772764200-be829a350797?w=600&q=80" alt="Ceremony moment" loading="lazy">
+      </div>
+      <div class="gallery-item" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=600&q=80" alt="Rings" loading="lazy">
+      </div>
+      <div class="gallery-item" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Venue" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- DRESSING CODE -->
+  <section id="dressing">
+    <div class="dressing-inner">
+      <span class="eyebrow reveal">Attire</span>
+      <h2 class="section-title reveal delay-1">Dress Code</h2>
+      <p class="body-text reveal delay-2" style="max-width:520px;margin:1rem auto 0">We invite our guests to dress in a way that reflects the beauty and serenity of the occasion.</p>
+      <div class="dressing-cards">
+        <div class="dressing-card reveal-left delay-1" data-fp-dynamic="true">
+          <span class="dressing-card-title">Formal Attire</span>
+          <p class="dressing-card-text">We kindly request formal or black-tie optional attire. Think flowing gowns, tailored suits, and elegant separates.</p>
+          <div class="dressing-palette">
+            <div class="dressing-swatch" style="background:#2C2520;" title="Charcoal"></div>
+            <div class="dressing-swatch" style="background:#C8BFAF;" title="Sand"></div>
+            <div class="dressing-swatch" style="background:#8C8280;" title="Stone"></div>
+            <div class="dressing-swatch" style="background:#EDE6DC;" title="Cream"></div>
+            <div class="dressing-swatch" style="background:#B8976A;" title="Warm Gold"></div>
+          </div>
+        </div>
+        <div class="dressing-card reveal-right delay-2" data-fp-dynamic="true">
+          <span class="dressing-card-title">Colour Palette</span>
+          <p class="dressing-card-text">We'd love for our guests to complement our venue. Earthy tones, warm neutrals, creams, and deep charcoals are very welcome. Please avoid white and ivory.</p>
+          <div class="dressing-palette">
+            <div class="dressing-swatch" style="background:#7A6B5E;" title="Taupe"></div>
+            <div class="dressing-swatch" style="background:#D6CCBE;" title="Linen"></div>
+            <div class="dressing-swatch" style="background:#4A3F35;" title="Dark Earth"></div>
+            <div class="dressing-swatch" style="background:#9E8E7E;" title="Mocha"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSPORTATION -->
+  <section id="transportation">
+    <div class="travel-inner">
+      <div class="travel-header">
+        <span class="eyebrow reveal">Getting There</span>
+        <h2 class="section-title reveal delay-1">Travel Information</h2>
+        <p class="body-text reveal delay-2" style="margin-top:0.75rem">Everything you need to know to reach us in Kyoto.</p>
+      </div>
+      <div class="travel-grid" data-fp-dynamic-items="true">
+        <div class="travel-card reveal-left" data-fp-dynamic="true">
+          <span class="travel-card-icon" data-emoji-edit>✈️</span>
+          <span class="travel-card-label">By Air</span>
+          <h3 class="travel-card-title">Kansai International</h3>
+          <p class="travel-card-text">The closest international airport to Kyoto is Kansai (KIX), approximately 75 minutes by the Haruka Express train. Osaka Itami (ITM) is also an option for domestic flights.</p>
+        </div>
+        <div class="travel-card reveal-right delay-1" data-fp-dynamic="true">
+          <span class="travel-card-icon" data-emoji-edit>🚄</span>
+          <span class="travel-card-label">By Train</span>
+          <h3 class="travel-card-title">Shinkansen</h3>
+          <p class="travel-card-text">High-speed Shinkansen trains connect Kyoto to Tokyo (approx. 2h 15m) and Osaka (approx. 15 min). The JR Kyoto Station is the main hub and walkable from key hotels.</p>
+        </div>
+        <div class="travel-card reveal-left delay-1" data-fp-dynamic="true">
+          <span class="travel-card-icon" data-emoji-edit>🚌</span>
+          <span class="travel-card-label">Shuttle Service</span>
+          <h3 class="travel-card-title">Wedding Bus</h3>
+          <p class="travel-card-text">We will be providing complimentary shuttle buses from The Ritz-Carlton Kyoto to the ceremony venue and back to the hotel after the reception. Details to follow with your RSVP confirmation.</p>
+        </div>
+        <div class="travel-card reveal-right delay-2" data-fp-dynamic="true">
+          <span class="travel-card-icon" data-emoji-edit>🚕</span>
+          <span class="travel-card-label">Taxis &amp; Apps</span>
+          <h3 class="travel-card-title">Local Transport</h3>
+          <p class="travel-card-text">Taxis are readily available in Kyoto. GO Taxi and Uber are both available. We recommend downloading the GO app before you arrive for ease of booking.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCOMMODATION -->
+  <section id="accomodation" style="padding:0 4rem 7rem;background:var(--color-canvas-alt)">
+    <div class="travel-inner">
+      <div class="travel-header">
+        <span class="eyebrow reveal">Where to Stay</span>
+        <h2 class="section-title reveal delay-1">Accommodation</h2>
+        <p class="body-text reveal delay-2" style="margin-top:0.75rem">We've reserved a block of rooms at special rates for our guests.</p>
+      </div>
+      <div class="travel-grid" data-fp-dynamic-items="true">
+        <div class="travel-card reveal-left" data-fp-dynamic="true">
+          <span class="travel-card-icon" data-emoji-edit>🏨</span>
+          <span class="travel-card-label">Venue Hotel</span>
+          <h3 class="travel-card-title">The Ritz-Carlton Kyoto</h3>
+          <p class="travel-card-text">Our wedding venue hotel. We have reserved a block of rooms at a special rate — use code <strong>SOFIAJAMES26</strong> when booking. Walking distance to the ceremony.</p>
+          <div style="margin-top:1.5rem"><a href="#" class="link-underline">Book Your Room</a></div>
+        </div>
+        <div class="travel-card reveal-right delay-1" data-fp-dynamic="true">
+          <span class="travel-card-icon" data-emoji-edit>🏯</span>
+          <span class="travel-card-label">Alternative</span>
+          <h3 class="travel-card-title">Gion Hatanaka Ryokan</h3>
+          <p class="travel-card-text">For those who prefer a more traditional Japanese experience, the Gion Hatanaka is a beautiful machiya ryokan in the historic Gion district — highly recommended.</p>
+          <div style="margin-top:1.5rem"><a href="#" class="link-underline">Learn More</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="map">
+    <div class="map-header">
+      <span class="eyebrow reveal">Find Us</span>
+      <h2 class="section-title reveal delay-1">The Venue</h2>
+      <p class="body-text reveal delay-2" style="margin-top:0.75rem;max-width:480px;margin-left:auto;margin-right:auto">Kinkaku-ji Garden, Kyoto — one of Japan's most serene and breathtaking locations.</p>
+    </div>
+    <div class="map-container" data-fp-dynamic="true">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3267.832!2d135.7292!3d35.0394!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6001a8d6cd3cc3f1%3A0xc0961d366abf4f93!2sKinkaku-ji!5e0!3m2!1sen!2ses!4v1700000000"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Wedding venue map"
+      ></iframe>
+    </div>
+  </section>
+
+  <!-- GIFTS -->
+  <section id="gifts">
+    <div class="gifts-inner">
+      <span class="eyebrow reveal">Registry</span>
+      <h2 class="section-title reveal delay-1">Gift Registry</h2>
+      <p class="gifts-text reveal delay-2">Your presence is truly the greatest gift we could ask for. However, if you wish to celebrate with a gift, we have curated a small selection of meaningful options below.</p>
+      <div class="gifts-grid" data-fp-dynamic-items="true">
+        <div class="gift-card reveal-left delay-1" data-fp-dynamic="true">
+          <span class="gift-icon" data-emoji-edit>🌸</span>
+          <h3 class="gift-title">Honeymoon Fund</h3>
+          <p class="gift-desc">Help us experience the wonders of Japan on our honeymoon — from ryokan stays to tea ceremonies and everything in between.</p>
+          <a href="#" class="btn-outline">Contribute</a>
+        </div>
+        <div class="gift-card reveal-right delay-2" data-fp-dynamic="true">
+          <span class="gift-icon" data-emoji-edit>🏠</span>
+          <h3 class="gift-title">Home Registry</h3>
+          <p class="gift-desc">We are building our first home together and have curated a collection of beautiful, meaningful pieces from our favourite makers.</p>
+          <a href="#" class="btn-outline">View Registry</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section id="rsvp">
+    <div class="rsvp-inner">
+      <div class="rsvp-header">
+        <h2 class="rsvp-title reveal">Will You Join Us?</h2>
+        <span class="rsvp-sub reveal delay-1">Kindly respond by April 30, 2026</span>
+      </div>
+      <div class="rsvp-success" id="rsvp-success">
+        <p>Thank you — we can't wait to celebrate with you.</p>
+      </div>
+      <form class="rsvp-form" id="rsvp-form" data-fp-dynamic-items="true" novalidate>
+        <div class="rsvp-row">
+          <div class="form-group">
+            <label for="rsvp-first">First Name *</label>
+            <input type="text" id="rsvp-first" name="first_name" placeholder="Sofia" required>
+          </div>
+          <div class="form-group">
+            <label for="rsvp-last">Last Name *</label>
+            <input type="text" id="rsvp-last" name="last_name" placeholder="Martínez" required>
+          </div>
+        </div>
+        <div class="rsvp-row">
+          <div class="form-group">
+            <label for="rsvp-mobile">Mobile *</label>
+            <input type="tel" id="rsvp-mobile" name="mobile" placeholder="+1 234 567 890" required>
+          </div>
+          <div class="form-group">
+            <label for="rsvp-email">Email (optional)</label>
+            <input type="email" id="rsvp-email" name="email" placeholder="your@email.com">
+          </div>
+        </div>
+        <div class="rsvp-row">
+          <div class="form-group">
+            <label for="rsvp-age">Attending as</label>
+            <select id="rsvp-age" name="age_group">
+              <option value="adult">Adult</option>
+              <option value="child">Child</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="rsvp-attend">Will you attend? *</label>
+            <select id="rsvp-attend" name="attending" required>
+              <option value="">Please select</option>
+              <option value="yes">Yes, I will be there</option>
+              <option value="no">No, sorry</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="rsvp-conditional" id="rsvp-yes-fields">
+          <div class="form-group">
+            <label for="rsvp-diet">Allergies / Dietary requirements</label>
+            <input type="text" id="rsvp-diet" name="diet" placeholder="e.g. Vegetarian, nut allergy…">
+          </div>
+          <div class="form-group">
+            <label for="rsvp-transport">Will you use our shuttle service?</label>
+            <select id="rsvp-transport" name="transport">
+              <option value="yes">Yes please</option>
+              <option value="no">No, thanks</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="rsvp-song">Favourite song for the dance floor</label>
+            <input type="text" id="rsvp-song" name="song" placeholder="Artist – Song title">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="rsvp-message">Message for us</label>
+          <textarea id="rsvp-message" name="message" placeholder="Share a thought, a wish, or a favourite memory…"></textarea>
+        </div>
+
+        <div class="rsvp-submit">
+          <button type="submit" class="btn-outline-inv">Confirm RSVP</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FAQS -->
+  <section id="faqs">
+    <div class="faqs-inner">
+      <div class="faqs-header">
+        <span class="eyebrow reveal">Questions?</span>
+        <h2 class="section-title reveal delay-1">Frequently Asked</h2>
+      </div>
+      <div data-fp-dynamic-items="true">
+        <div class="faq-item" data-fp-dynamic="true">
+          <div class="faq-question">
+            <span class="faq-q-text">Is photography permitted during the ceremony?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <p class="faq-a-text">We are having an "unplugged" ceremony — we kindly ask all guests to put away their phones and cameras so everyone can be fully present. Our professional photographers will capture every moment and we will share the gallery with you shortly after.</p>
+          </div>
+        </div>
+        <div class="faq-item" data-fp-dynamic="true">
+          <div class="faq-question">
+            <span class="faq-q-text">Can I bring children?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <p class="faq-a-text">We love your little ones, but we have chosen to make our wedding an adults-only evening from the reception onwards. Babies and infants under 12 months are of course welcome. Thank you for understanding.</p>
+          </div>
+        </div>
+        <div class="faq-item" data-fp-dynamic="true">
+          <div class="faq-question">
+            <span class="faq-q-text">What is the weather like in Kyoto in July?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <p class="faq-a-text">July in Kyoto is warm and humid, with temperatures around 30–35°C (86–95°F). We recommend lightweight, breathable fabrics. The ceremony will be outdoors, so please plan accordingly.</p>
+          </div>
+        </div>
+        <div class="faq-item" data-fp-dynamic="true">
+          <div class="faq-question">
+            <span class="faq-q-text">Do I need a visa to visit Japan?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <p class="faq-a-text">Visa requirements depend on your nationality. Many countries now have visa-free access to Japan for tourism. We recommend checking the Japanese Ministry of Foreign Affairs website or contacting your local Japanese embassy.</p>
+          </div>
+        </div>
+        <div class="faq-item" data-fp-dynamic="true">
+          <div class="faq-question">
+            <span class="faq-q-text">Who can I contact if I have further questions?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <p class="faq-a-text">Please reach out to our wedding coordinator Marta at <a href="mailto:marta@sofiajames2026.com" style="color:inherit;border-bottom:1px solid var(--color-border)">marta@sofiajames2026.com</a>. She will be happy to help with any questions or special requests.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-names">Sofia &amp; James</div>
+    <span class="footer-date">12 · 07 · 2026 — Kyoto, Japan</span>
+    <div class="footer-divider"></div>
+    <nav class="footer-nav">
+      <a href="#story">Story</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#details">Details</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#rsvp">RSVP</a>
+      <a href="#map">Map</a>
+      <a href="#faqs">FAQs</a>
+    </nav>
+    <p class="footer-copy">Made with love · Sofia &amp; James · 2026</p>
+  </footer>
+
+  <script>
+    // ─── NAV SCROLL ──────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ─── MOBILE NAV ──────────────────────────────────────
+    document.getElementById('nav-burger').addEventListener('click', () => {
+      document.getElementById('nav-mobile').classList.add('open');
+    });
+    document.getElementById('nav-mobile-close').addEventListener('click', () => {
+      document.getElementById('nav-mobile').classList.remove('open');
+    });
+
+    // ─── COUNTDOWN ───────────────────────────────────────
+    function initCountdown() {
+      const section = document.querySelector('.countdown-section');
+      if (!section) return;
+      const weddingDate = new Date(section.dataset.weddingDate);
+      const daysEl = document.getElementById('days');
+      const hoursEl = document.getElementById('hours');
+      const minutesEl = document.getElementById('minutes');
+      const secondsEl = document.getElementById('seconds');
+
+      function update() {
+        const now = new Date();
+        const diff = weddingDate - now;
+        if (diff <= 0) {
+          if(daysEl) daysEl.textContent = '00';
+          if(hoursEl) hoursEl.textContent = '00';
+          if(minutesEl) minutesEl.textContent = '00';
+          if(secondsEl) secondsEl.textContent = '00';
+          return;
+        }
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        if(daysEl) daysEl.textContent = String(d).padStart(2, '0');
+        if(hoursEl) hoursEl.textContent = String(h).padStart(2, '0');
+        if(minutesEl) minutesEl.textContent = String(m).padStart(2, '0');
+        if(secondsEl) secondsEl.textContent = String(s).padStart(2, '0');
+      }
+      update();
+      setInterval(update, 1000);
+    }
+    initCountdown();
+
+    // ─── REVEAL ON SCROLL ────────────────────────────────
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // ─── RSVP CONDITIONAL FIELDS ─────────────────────────
+    const attendSelect = document.getElementById('rsvp-attend');
+    const yesFields = document.getElementById('rsvp-yes-fields');
+    if (attendSelect && yesFields) {
+      attendSelect.addEventListener('change', () => {
+        yesFields.classList.toggle('visible', attendSelect.value === 'yes');
+      });
+    }
+
+    // ─── RSVP FORM SUBMIT ────────────────────────────────
+    const rsvpForm = document.getElementById('rsvp-form');
+    const rsvpSuccess = document.getElementById('rsvp-success');
+    if (rsvpForm) {
+      rsvpForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!rsvpForm.checkValidity()) {
+          rsvpForm.reportValidity();
+          return;
+        }
+        rsvpForm.style.display = 'none';
+        if (rsvpSuccess) rsvpSuccess.style.display = 'block';
+      });
+    }
+
+    // ─── FAQ ACCORDION ───────────────────────────────────
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.querySelector('.faq-question').addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+</body>
+</html>

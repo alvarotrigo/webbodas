@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Megan & Brian — 14 · 07 · 2026</title>
+  <meta name="description" content="Join us to celebrate the wedding of Megan and Brian. July 14, 2026 at Dunhaven Castle, Kerry, Ireland.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ─── AVELA WHITE PALETTE ─────────────────────────── */
+    body.theme-avela-white {
+      --color-canvas: #F4F2EF;
+      --color-canvas-alt: #ECEAE6;
+      --color-surface: #FAFAF8;
+      --color-surface-alt: #E8E5E0;
+      --color-surface-raised: #FFFFFF;
+      --color-surface-inverse: #161514;
+      --color-on-canvas: #161514;
+      --color-on-canvas-muted: #5C5956;
+      --color-on-surface: #161514;
+      --color-on-surface-muted: #6E6B68;
+      --color-on-surface-subtle: #9A9794;
+      --color-on-surface-inverse: #F0EDE9;
+      --color-primary: #161514;
+      --color-on-primary: #F0EDE9;
+      --color-primary-hover: #2C2A28;
+      --color-primary-active: #3F3D3B;
+      --color-primary-container: #E2DED8;
+      --color-on-primary-container: #161514;
+      --color-secondary: #6E6B68;
+      --color-on-secondary: #F0EDE9;
+      --color-secondary-hover: #5C5956;
+      --color-secondary-active: #4A4845;
+      --color-secondary-container: #ECEAE6;
+      --color-on-secondary-container: #2A2826;
+      --color-tertiary: #B09A80;
+      --color-on-tertiary: #161514;
+      --color-tertiary-hover: #9C8870;
+      --color-tertiary-active: #88755E;
+      --color-tertiary-container: #EDE5D8;
+      --color-on-tertiary-container: #3D3020;
+      --color-link: #161514;
+      --color-link-hover: #6E6B68;
+      --color-border-subtle: #DDD9D3;
+      --color-border: #C8C3BC;
+      --color-border-strong: #9A958E;
+      --color-focus-ring: #B09A80;
+      --color-overlay: rgba(12, 10, 9, 0.48);
+      --color-overlay-strong: rgba(12, 10, 9, 0.72);
+      --color-on-overlay: #F5F2EE;
+      --color-success: #4F7A59;
+      --color-on-success: #F7FFF8;
+      --color-danger: #A34C4C;
+      --color-on-danger: #FFF8F8;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --radius-sm: 0.5rem;
+      --radius-md: 1rem;
+      --radius-lg: 1.5rem;
+      --shadow-sm: 0 2px 10px rgba(0,0,0,0.06);
+      --shadow-md: 0 12px 28px rgba(0,0,0,0.10);
+      --shadow-lg: 0 24px 48px rgba(0,0,0,0.14);
+      --space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;
+      --space-5:1.5rem;--space-6:2rem;--space-7:3rem;--space-8:4rem;
+    }
+
+    /* ─── RESET & BASE ──────────────────────────────────── */
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background-color:var(--color-canvas);color:var(--color-on-canvas);font-family:var(--font-body);font-size:16px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    section{position:relative}
+
+    /* ─── TYPOGRAPHY ────────────────────────────────────── */
+    .eyebrow{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:var(--color-on-canvas-muted);display:block;margin-bottom:1.2rem}
+    .eyebrow-inv{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:var(--color-on-overlay);opacity:0.5;display:block;margin-bottom:1.2rem}
+    .section-title{font-family:var(--font-heading);font-size:clamp(2.5rem,6vw,5rem);font-weight:400;letter-spacing:0.04em;line-height:1.0;color:var(--color-on-canvas);text-transform:uppercase}
+    .section-title-inv{font-family:var(--font-heading);font-size:clamp(2.5rem,6vw,5rem);font-weight:400;letter-spacing:0.04em;line-height:1.0;color:var(--color-on-overlay);text-transform:uppercase}
+    .body-text{font-family:var(--font-body);font-size:12px;font-weight:300;line-height:2.1;letter-spacing:0.06em;color:var(--color-on-canvas-muted)}
+    .body-text-inv{font-family:var(--font-body);font-size:12px;font-weight:300;line-height:2.1;letter-spacing:0.06em;color:var(--color-on-overlay);opacity:0.75}
+    .rule{display:block;width:48px;height:1px;background:var(--color-border);margin:1.8rem auto}
+    .rule-left{display:block;width:48px;height:1px;background:var(--color-border);margin:1.8rem 0}
+
+    /* ─── BUTTONS ───────────────────────────────────────── */
+    .btn-dark{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--color-primary);color:var(--color-on-primary);font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.3s}
+    .btn-dark:hover{background:var(--color-primary-hover)}
+    .btn-outline{display:inline-flex;align-items:center;gap:8px;padding:11px 28px;border:1px solid var(--color-on-canvas);color:var(--color-on-canvas);font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;background:transparent;cursor:pointer;transition:background 0.3s,color 0.3s}
+    .btn-outline:hover{background:var(--color-on-canvas);color:var(--color-canvas)}
+    .btn-pill{display:inline-flex;align-items:center;padding:8px 18px;background:var(--color-primary);color:var(--color-on-primary);font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;border:none;border-radius:100px;cursor:pointer;transition:background 0.3s}
+    .btn-pill:hover{background:var(--color-primary-hover)}
+    .btn-outline-inv{display:inline-flex;align-items:center;gap:8px;padding:11px 28px;border:1px solid var(--color-on-overlay);color:var(--color-on-overlay);font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;background:transparent;cursor:pointer;transition:background 0.3s,color 0.3s}
+    .btn-outline-inv:hover{background:var(--color-on-overlay);color:var(--color-surface-inverse)}
+
+    /* ─── FP-BG ─────────────────────────────────────────── */
+    .fp-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+    .has-bg-image{overflow:hidden}
+    .has-bg-image > *:not(.fp-bg){position:relative;z-index:1}
+    .fp-bg::after{content:'';position:absolute;inset:0;background:var(--color-overlay,rgba(12,10,9,0.48))}
+    section[data-overlay-opacity] .fp-bg::after{opacity:1}
+    #quote .fp-bg::after{background:var(--color-overlay-strong,rgba(12,10,9,0.72))}
+    #countdown .fp-bg::after{background:var(--color-overlay-strong,rgba(12,10,9,0.72))}
+
+    /* ─── NAV ───────────────────────────────────────────── */
+    #nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 3rem;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,box-shadow 0.4s}
+    #nav.scrolled{background:var(--color-surface-raised);box-shadow:var(--shadow-sm)}
+    #nav .logo{font-family:var(--font-heading);font-size:15px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-on-canvas);text-decoration:none}
+    #nav .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+    #nav .nav-links a{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-canvas-muted);transition:color 0.3s}
+    #nav .nav-links a:hover{color:var(--color-on-canvas)}
+    #nav .nav-left{display:flex;gap:2rem;list-style:none;align-items:center}
+    #nav .nav-left a{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-canvas-muted);transition:color 0.3s}
+    #nav .nav-left a:hover{color:var(--color-on-canvas)}
+    #nav .nav-right{display:flex;gap:1.5rem;list-style:none;align-items:center}
+    #nav .nav-right a{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-canvas-muted);transition:color 0.3s}
+    #nav .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+    #nav .hamburger span{display:block;width:22px;height:1px;background:var(--color-on-canvas);transition:transform 0.3s,opacity 0.3s}
+    .mobile-menu{display:none;position:fixed;inset:0;background:var(--color-surface-raised);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{font-family:var(--font-heading);font-size:2rem;font-weight:300;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-on-canvas)}
+    @media(max-width:768px){
+      #nav .nav-left,#nav .nav-right{display:none}
+      #nav .hamburger{display:flex}
+    }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    #hero{min-height:100vh !important;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--color-canvas);padding:100px 2rem 80px}
+    .hero-date{font-family:var(--font-heading);font-size:clamp(3.5rem,10vw,8rem);font-weight:400;letter-spacing:0.04em;color:var(--color-on-canvas);text-align:center;line-height:1;margin-bottom:2rem}
+    .hero-date .dot{color:var(--color-on-canvas-muted);margin:0 0.3em}
+    .hero-photos{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:1rem;width:100%;max-width:640px;margin:0 auto 2.5rem;align-items:end}
+    .hero-photos .photo-left{height:160px;overflow:hidden}
+    .hero-photos .photo-center{height:220px;overflow:hidden}
+    .hero-photos .photo-right{height:130px;overflow:hidden}
+    .hero-photos img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%)}
+    .hero-names{font-family:var(--font-heading);font-size:clamp(1.2rem,3vw,1.6rem);font-weight:300;letter-spacing:0.28em;text-transform:uppercase;text-align:center;color:var(--color-on-canvas);margin-bottom:1.5rem}
+    .hero-sub{font-family:var(--font-body);font-size:10px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;text-align:center;color:var(--color-on-canvas-muted);max-width:280px;margin:0 auto}
+    @media(max-width:640px){
+      .hero-photos{grid-template-columns:1fr 1.2fr 1fr;gap:0.5rem}
+      .hero-photos .photo-left{height:110px}
+      .hero-photos .photo-center{height:155px}
+      .hero-photos .photo-right{height:90px}
+    }
+
+    /* ─── STORY ──────────────────────────────────────────── */
+    #story{background:var(--color-canvas-alt);padding:100px 2rem}
+    .story-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .story-img-wrap{position:relative}
+    .story-img-main{width:100%;height:480px;object-fit:cover;filter:grayscale(100%)}
+    .story-img-accent{position:absolute;bottom:-40px;right:-40px;width:200px;height:260px;object-fit:cover;filter:grayscale(100%);border:6px solid var(--color-canvas-alt)}
+    .story-text-wrap{padding-right:2rem}
+    .story-year{font-family:var(--font-heading);font-size:clamp(4rem,8vw,7rem);font-weight:300;color:var(--color-primary-container);line-height:1;margin-bottom:1rem}
+    @media(max-width:768px){
+      .story-inner{grid-template-columns:1fr;gap:3rem}
+      .story-text-wrap{padding-right:0}
+      .story-img-accent{display:none}
+    }
+
+    /* ─── PEOPLE ─────────────────────────────────────────── */
+    #people{background:var(--color-canvas);padding:100px 2rem}
+    .people-inner{max-width:900px;margin:0 auto;text-align:center}
+    .people-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:4rem}
+    .person-card{text-align:center}
+    .person-photo{width:100%;height:400px;object-fit:cover;filter:grayscale(100%);margin-bottom:1.8rem}
+    .person-name{font-family:var(--font-heading);font-size:1.8rem;font-weight:400;letter-spacing:0.08em;color:var(--color-on-canvas);margin-bottom:0.5rem}
+    .person-role{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--color-on-canvas-muted)}
+    @media(max-width:640px){.people-grid{grid-template-columns:1fr;gap:2.5rem}.person-photo{height:300px}}
+
+    /* ─── QUOTE ──────────────────────────────────────────── */
+    #quote{min-height:50vh;display:flex;align-items:center;justify-content:center;padding:80px 2rem}
+    #quote .quote-content{text-align:center;max-width:700px;margin:0 auto;position:relative;z-index:1}
+    .quote-mark{font-family:var(--font-heading);font-size:6rem;line-height:0.5;color:var(--color-on-overlay);opacity:0.3;display:block;margin-bottom:1rem}
+    .quote-text{font-family:var(--font-heading);font-size:clamp(1.5rem,3.5vw,2.5rem);font-weight:300;font-style:italic;line-height:1.4;color:var(--color-on-overlay);letter-spacing:0.02em}
+    .quote-author{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--color-on-overlay);opacity:0.5;margin-top:1.5rem;display:block}
+
+    /* ─── SCHEDULE ───────────────────────────────────────── */
+    #schedule{background:var(--color-surface-inverse);padding:100px 2rem}
+    .schedule-inner{max-width:1100px;margin:0 auto;text-align:center}
+    .schedule-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:4rem;border-top:1px solid var(--color-border-strong)}
+    .schedule-item{padding:3rem 1.5rem;border-right:1px solid var(--color-border-strong);text-align:center}
+    .schedule-item:last-child{border-right:none}
+    .schedule-time{font-family:var(--font-heading);font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;letter-spacing:0.04em;color:var(--color-on-surface-inverse);margin-bottom:0.8rem;line-height:1}
+    .schedule-label{font-family:var(--font-body);font-size:8px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:var(--color-on-surface-inverse);opacity:0.5}
+    @media(max-width:640px){
+      .schedule-grid{grid-template-columns:1fr 1fr;border-left:1px solid var(--color-border-strong)}
+      .schedule-item{border-bottom:1px solid var(--color-border-strong)}
+    }
+
+    /* ─── DETAILS / EVENTS ───────────────────────────────── */
+    #events{background:var(--color-canvas);padding:100px 2rem}
+    .events-inner{max-width:1100px;margin:0 auto}
+    .events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:4rem}
+    .event-card{background:var(--color-surface-alt);padding:3rem 2.5rem;position:relative;overflow:hidden}
+    .event-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--color-primary)}
+    .event-num{font-family:var(--font-heading);font-size:4rem;font-weight:300;color:var(--color-on-canvas-muted);line-height:1;margin-bottom:1rem}
+    .event-name{font-family:var(--font-heading);font-size:1.4rem;font-weight:400;letter-spacing:0.06em;color:var(--color-on-canvas);margin-bottom:0.5rem}
+    .event-time{font-family:var(--font-body);font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-on-canvas-muted);margin-bottom:1rem}
+    @media(max-width:768px){.events-grid{grid-template-columns:1fr}}
+
+    /* ─── LOCATION / MAP ─────────────────────────────────── */
+    #details{background:var(--color-canvas-alt);padding:100px 2rem}
+    .details-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:2rem;align-items:center;text-align:center}
+    .details-venue-name{font-family:var(--font-body);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-canvas-muted);line-height:1.8}
+    .details-center{text-align:center}
+    .details-img{width:100%;height:340px;object-fit:cover;filter:grayscale(100%);margin-bottom:2rem}
+    .details-address{font-family:var(--font-body);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-canvas-muted);line-height:1.8}
+    @media(max-width:768px){
+      .details-inner{grid-template-columns:1fr;text-align:center}
+    }
+
+    /* ─── MAP ────────────────────────────────────────────── */
+    #map{height:480px;position:relative}
+    #map .map-container{width:100%;height:100%}
+    #map iframe{width:100%;height:100%;border:none;display:block;filter:grayscale(100%)}
+
+    /* ─── COUNTDOWN ──────────────────────────────────────── */
+    #countdown{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:100px 2rem;text-align:center}
+    .countdown-section{min-height:70vh}
+    .countdown-inner{text-align:center;max-width:800px;margin:0 auto;position:relative;z-index:1}
+    .countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem}
+    .countdown-item{text-align:center}
+    .countdown-item .number{font-family:var(--font-heading);font-size:clamp(3rem,7vw,6rem);font-weight:300;color:var(--color-on-overlay);line-height:1;display:block}
+    .countdown-item .label{font-family:var(--font-body);font-size:8px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:var(--color-on-overlay);opacity:0.5;display:block;margin-top:0.5rem}
+    @media(max-width:480px){.countdown-grid{grid-template-columns:1fr 1fr}}
+
+    /* ─── GALLERY ────────────────────────────────────────── */
+    #gallery{background:var(--color-canvas);padding:100px 2rem}
+    .gallery-inner{max-width:1200px;margin:0 auto}
+    .gallery-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:2px;margin-top:4rem}
+    .gallery-item{overflow:hidden}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:transform 0.6s ease}
+    .gallery-item:hover img{transform:scale(1.03)}
+    .gallery-item:nth-child(1){grid-row:1 / 3;height:500px}
+    .gallery-item:nth-child(2){height:245px}
+    .gallery-item:nth-child(3){height:245px}
+    .gallery-item:nth-child(4){height:245px}
+    .gallery-item:nth-child(5){height:245px}
+    @media(max-width:768px){
+      .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+      .gallery-item:nth-child(1){grid-row:auto;height:220px}
+      .gallery-item:nth-child(2),.gallery-item:nth-child(3),.gallery-item:nth-child(4),.gallery-item:nth-child(5){height:180px}
+    }
+    @media(max-width:480px){.gallery-grid{grid-template-columns:1fr}}
+
+    /* ─── GIFTS & REGISTRY ───────────────────────────────── */
+    #gifts{background:var(--color-canvas-alt);padding:100px 2rem}
+    .gifts-inner{max-width:1100px;margin:0 auto}
+    .gifts-split{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch;margin-top:4rem}
+    .gift-panel{padding:4rem;position:relative;overflow:hidden}
+    .gift-panel:first-child{background:var(--color-surface)}
+    .gift-panel:last-child{background:var(--color-primary)}
+    .gift-panel-title{font-family:var(--font-heading);font-size:clamp(2rem,4vw,3.5rem);font-weight:400;text-transform:uppercase;letter-spacing:0.06em;line-height:1;margin-bottom:1.5rem}
+    .gift-panel:first-child .gift-panel-title{color:var(--color-on-surface)}
+    .gift-panel:last-child .gift-panel-title{color:var(--color-on-primary)}
+    .gift-panel:first-child .body-text{text-align:left}
+    .gift-panel:last-child .body-text-inv{text-align:left}
+    .gift-img{width:100%;height:200px;object-fit:cover;filter:grayscale(100%);margin-bottom:2rem}
+    @media(max-width:640px){.gifts-split{grid-template-columns:1fr}.gift-panel{padding:3rem 2rem}}
+
+    /* ─── TRANSPORTATION ─────────────────────────────────── */
+    #transportation{background:var(--color-canvas);padding:100px 2rem}
+    .transport-inner{max-width:1100px;margin:0 auto}
+    .transport-header{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:end;margin-bottom:4rem}
+    .transport-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+    .transport-card{background:var(--color-surface);overflow:hidden}
+    .transport-card-img{width:100%;height:220px;overflow:hidden}
+    .transport-card-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:transform 0.6s ease}
+    .transport-card:hover .transport-card-img img{transform:scale(1.03)}
+    .transport-card-body{padding:2rem}
+    .transport-title-row{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem}
+    .transport-title-svg{width:16px;height:16px;flex-shrink:0;color:var(--color-on-canvas-muted)}
+    .transport-title{font-family:var(--font-heading);font-size:1.2rem;font-weight:400;letter-spacing:0.06em;color:var(--color-on-surface)}
+    @media(max-width:768px){
+      .transport-header{grid-template-columns:1fr;gap:2rem}
+      .transport-grid{grid-template-columns:1fr}
+    }
+
+    /* ─── ACCOMMODATION ──────────────────────────────────── */
+    #accomodation{background:var(--color-canvas-alt);padding:100px 2rem}
+    .accom-inner{max-width:1100px;margin:0 auto}
+    .accom-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:4rem}
+    .accom-card{background:var(--color-surface);overflow:hidden}
+    .accom-img{width:100%;height:220px;object-fit:cover;filter:grayscale(100%)}
+    .accom-body{padding:2rem}
+    .accom-name{font-family:var(--font-heading);font-size:1.3rem;font-weight:400;letter-spacing:0.04em;color:var(--color-on-surface);margin-bottom:0.4rem}
+    .accom-dist{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-canvas-muted);margin-bottom:0.8rem}
+    @media(max-width:640px){.accom-grid{grid-template-columns:1fr}}
+
+    /* ─── DRESSING ───────────────────────────────────────── */
+    #dressing{background:var(--color-surface-inverse);padding:100px 2rem}
+    .dressing-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:5rem;align-items:center}
+    .dressing-img{width:100%;height:500px;object-fit:cover;filter:grayscale(100%)}
+    .dressing-palettes{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin-top:2rem}
+    .palette-swatch{height:48px;border-radius:2px}
+    @media(max-width:768px){.dressing-inner{grid-template-columns:1fr;gap:3rem}.dressing-img{height:300px}}
+
+    /* ─── RSVP ───────────────────────────────────────────── */
+    #rsvp{background:var(--color-canvas);padding:100px 2rem}
+    .rsvp-inner{max-width:760px;margin:0 auto;text-align:center}
+    .rsvp-form{margin-top:4rem;text-align:left}
+    .rsvp-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .form-group{margin-bottom:1.5rem}
+    .form-group label{display:block;font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-canvas-muted);margin-bottom:0.6rem}
+    .form-group input,.form-group select,.form-group textarea{width:100%;padding:14px 16px;background:var(--color-surface-alt);border:1px solid var(--color-border-subtle);color:var(--color-on-canvas);font-family:var(--font-body);font-size:13px;font-weight:300;outline:none;transition:border-color 0.3s;-webkit-appearance:none;appearance:none;border-radius:0}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--color-border-strong)}
+    .form-group input::placeholder,.form-group textarea::placeholder{color:var(--color-on-surface-subtle)}
+    .form-group textarea{resize:vertical;min-height:120px}
+    .rsvp-conditional{display:none;margin-top:0}
+    .rsvp-conditional.show{display:block}
+    .form-submit{width:100%;padding:18px;background:var(--color-primary);color:var(--color-on-primary);font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.3s;margin-top:0.5rem}
+    .form-submit:hover{background:var(--color-primary-hover)}
+    .rsvp-success{display:none;padding:2rem;background:var(--color-surface-alt);border-left:2px solid var(--color-primary);margin-top:2rem;text-align:left}
+    @media(max-width:600px){.rsvp-row{grid-template-columns:1fr}}
+
+    /* ─── FAQS ───────────────────────────────────────────── */
+    #faqs{background:var(--color-canvas-alt);padding:100px 2rem}
+    .faqs-inner{max-width:800px;margin:0 auto}
+    .faq-item{border-bottom:1px solid var(--color-border-subtle);margin-bottom:0}
+    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;cursor:pointer;gap:1rem}
+    .faq-q-text{font-family:var(--font-heading);font-size:1.1rem;font-weight:400;letter-spacing:0.04em;color:var(--color-on-canvas)}
+    .faq-icon{width:18px;height:18px;flex-shrink:0;transition:transform 0.3s;color:var(--color-on-canvas-muted)}
+    .faq-item.open .faq-icon{transform:rotate(45deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+    .faq-a p{padding-bottom:1.5rem}
+    .faq-item.open .faq-a{max-height:300px}
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    #footer{background:var(--color-surface-inverse);padding:80px 2rem 40px;text-align:center}
+    .footer-names{font-family:var(--font-heading);font-size:clamp(3rem,6vw,5rem);font-weight:300;letter-spacing:0.08em;color:var(--color-on-surface-inverse);margin-bottom:1rem;text-transform:uppercase}
+    .footer-date{font-family:var(--font-body);font-size:10px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-on-surface-inverse);opacity:0.4;margin-bottom:3rem}
+    .footer-links{display:flex;gap:2.5rem;list-style:none;justify-content:center;margin-bottom:3rem}
+    .footer-links a{font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-surface-inverse);opacity:0.4;transition:opacity 0.3s}
+    .footer-links a:hover{opacity:0.8}
+    .footer-divider{width:48px;height:1px;background:var(--color-on-surface-inverse);opacity:0.15;margin:0 auto 2rem}
+    .footer-copy{font-family:var(--font-body);font-size:10px;letter-spacing:0.12em;color:var(--color-on-surface-inverse);opacity:0.25}
+
+    /* ─── REVEAL ANIMATIONS ──────────────────────────────── */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease,transform 0.8s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-left{opacity:0;transform:translateX(-30px);transition:opacity 0.8s ease,transform 0.8s ease}
+    .reveal-left.visible{opacity:1;transform:none}
+    .reveal-right{opacity:0;transform:translateX(30px);transition:opacity 0.8s ease,transform 0.8s ease}
+    .reveal-right.visible{opacity:1;transform:none}
+    .reveal-scale{opacity:0;transform:scale(0.96);transition:opacity 0.8s ease,transform 0.8s ease}
+    .reveal-scale.visible{opacity:1;transform:none}
+
+    /* ─── SECTION UTILITIES ──────────────────────────────── */
+    .section-header{text-align:center;margin-bottom:0}
+  </style>
+</head>
+<body class="theme-avela-white">
+
+<!-- ─── MOBILE MENU ─────────────────────────────────── -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#story" onclick="closeMobileMenu()">Our Story</a>
+  <a href="#schedule" onclick="closeMobileMenu()">Schedule</a>
+  <a href="#details" onclick="closeMobileMenu()">Location</a>
+  <a href="#gallery" onclick="closeMobileMenu()">Gallery</a>
+  <a href="#transportation" onclick="closeMobileMenu()">Travel & Stay</a>
+  <a href="#gifts" onclick="closeMobileMenu()">Registry</a>
+  <a href="#rsvp" onclick="closeMobileMenu()">RSVP</a>
+  <a href="#faqs" onclick="closeMobileMenu()">FAQs</a>
+</div>
+
+<!-- ─── NAV ─────────────────────────────────────────── -->
+<nav id="nav">
+  <ul class="nav-left">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#transportation">Travel & Stay</a></li>
+    <li><a href="#gifts">Registry</a></li>
+  </ul>
+  <a href="#hero" class="logo">Megan & Brian</a>
+  <ul class="nav-right">
+    <li><a href="#faqs">FAQs</a></li>
+    <li><a href="#rsvp" class="btn-pill">RSVP</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-date">
+    <span>14</span><span class="dot">·</span><span>07</span><span class="dot">·</span><span>2026</span>
+  </div>
+  <div class="hero-photos reveal-scale">
+    <div class="photo-left">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80" alt="Wedding photo" loading="lazy">
+    </div>
+    <div class="photo-center">
+      <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600&q=80" alt="Couple photo" loading="lazy">
+    </div>
+    <div class="photo-right">
+      <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&q=80" alt="Wedding detail" loading="lazy">
+    </div>
+  </div>
+  <p class="hero-names">Megan & Brian</p>
+  <p class="hero-sub">Join us as we embark on a journey of love, joy, and eternal happiness.</p>
+</section>
+
+<!-- ─── STORY ─────────────────────────────────────────── -->
+<section id="story">
+  <div class="story-inner">
+    <div class="story-img-wrap reveal-left">
+      <img class="story-img-main" src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800&q=80" alt="Our story" loading="lazy">
+      <img class="story-img-accent" src="https://images.unsplash.com/photo-1547004783-c7f86bfe52b2?w=400&q=80" alt="Couple moment" loading="lazy">
+    </div>
+    <div class="story-text-wrap reveal-right">
+      <span class="eyebrow">Our Story</span>
+      <p class="story-year">2019</p>
+      <h2 class="section-title" style="font-size:clamp(2rem,4vw,3rem);">How It All Began</h2>
+      <span class="rule-left"></span>
+      <p class="body-text" style="margin-bottom:1.5rem;">It was a rainy Tuesday in Dublin when two souls found each other in the most unexpected of places. Brian was reaching for the last copy of a Jane Austen novel — Megan had been eyeing it all morning.</p>
+      <p class="body-text" style="margin-bottom:2rem;">What started as a dispute over a book became a four-hour conversation over coffee, then a walk through the park, then countless adventures across Ireland and beyond. Six years later, here we are — ready to say "I do" at the castle we dreamed about on our very first date.</p>
+      <a href="#rsvp" class="btn-outline">Join Our Celebration</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PEOPLE ─────────────────────────────────────────── -->
+<section id="people">
+  <div class="people-inner">
+    <span class="eyebrow reveal">The Couple</span>
+    <h2 class="section-title reveal">Who We Are</h2>
+    <div class="people-grid" data-fp-dynamic-items="true">
+      <div class="person-card reveal-left" data-fp-dynamic="true">
+        <img class="person-photo" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=80" alt="Megan" loading="lazy">
+        <p class="person-name">Megan</p>
+        <p class="person-role">The Bride</p>
+        <span class="rule"></span>
+        <p class="body-text">A landscape architect with a love for wild places and wilder music. Born in Kerry, she's never met a mountain she didn't want to climb.</p>
+      </div>
+      <div class="person-card reveal-right" data-fp-dynamic="true">
+        <img class="person-photo" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Brian" loading="lazy">
+        <p class="person-name">Brian</p>
+        <p class="person-role">The Groom</p>
+        <span class="rule"></span>
+        <p class="body-text">A marine biologist and amateur chef who believes the best adventures begin with a good meal. Originally from Galway, adopted by Kerry.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── QUOTE ─────────────────────────────────────────── -->
+<section id="quote" class="has-bg-image" data-overlay-opacity="0.4">
+  <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1920&q=80');"></div>
+  <div class="quote-content reveal-scale">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">To love and be loved is to feel the sun from both sides.</p>
+    <span class="quote-author">— David Viscott</span>
+  </div>
+</section>
+
+<!-- ─── SCHEDULE ──────────────────────────────────────── -->
+<section id="schedule">
+  <div class="schedule-inner">
+    <span class="eyebrow-inv reveal">Here's a sneak peek of</span>
+    <h2 class="section-title-inv reveal">Our Special Day's<br>Schedule</h2>
+    <div class="schedule-grid" data-fp-dynamic-items="true">
+      <div class="schedule-item reveal" data-fp-dynamic="true">
+        <p class="schedule-time">4:00 PM</p>
+        <p class="schedule-label">Ceremony</p>
+      </div>
+      <div class="schedule-item reveal" data-fp-dynamic="true">
+        <p class="schedule-time">5:00 PM</p>
+        <p class="schedule-label">Cocktail</p>
+      </div>
+      <div class="schedule-item reveal" data-fp-dynamic="true">
+        <p class="schedule-time">6:30 PM</p>
+        <p class="schedule-label">Dinner</p>
+      </div>
+      <div class="schedule-item reveal" data-fp-dynamic="true">
+        <p class="schedule-time">10:00 PM</p>
+        <p class="schedule-label">Dancing & Fireworks</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EVENTS ────────────────────────────────────────── -->
+<section id="events">
+  <div class="events-inner">
+    <div class="section-header">
+      <span class="eyebrow reveal">What to Expect</span>
+      <h2 class="section-title reveal">Day of Events</h2>
+    </div>
+    <div class="events-grid" data-fp-dynamic-items="true">
+      <div class="event-card reveal" data-fp-dynamic="true">
+        <p class="event-num">01</p>
+        <p class="event-name">The Ceremony</p>
+        <p class="event-time">4:00 PM — Castle Chapel</p>
+        <p class="body-text">A solemn and joyful exchange of vows in the beautiful chapel of Dunhaven Castle, overlooking the Kerry mountains.</p>
+      </div>
+      <div class="event-card reveal" data-fp-dynamic="true">
+        <p class="event-num">02</p>
+        <p class="event-name">Cocktail Hour</p>
+        <p class="event-time">5:00 PM — Castle Gardens</p>
+        <p class="body-text">Celebrate with us in the castle gardens. Seasonal cocktails, canapés, and live acoustic music as the evening begins.</p>
+      </div>
+      <div class="event-card reveal" data-fp-dynamic="true">
+        <p class="event-num">03</p>
+        <p class="event-name">Dinner & Dancing</p>
+        <p class="event-time">6:30 PM — Great Hall</p>
+        <p class="body-text">A seated dinner in the Great Hall followed by dancing, speeches, a midnight firework display over the lake.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DETAILS (LOCATION) ────────────────────────────── -->
+<section id="details">
+  <div class="details-inner">
+    <div class="reveal-left">
+      <p class="details-venue-name">Dunhaven Castle<br>Hotel & Restaurant</p>
+    </div>
+    <div class="details-center reveal-scale">
+      <h2 class="section-title" style="margin-bottom:1.5rem;">Location</h2>
+      <img class="details-img" src="https://images.unsplash.com/photo-1464146072230-91cabc968266?w=800&q=80" alt="Dunhaven Castle" loading="lazy">
+      <a href="#transportation" class="btn-outline">Travel & Stay</a>
+    </div>
+    <div class="reveal-right">
+      <p class="details-address">Glencairn Road<br>County Kerry, Ireland</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MAP ───────────────────────────────────────────── -->
+<section id="map" class="map-container" data-fp-dynamic="true">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2437.5!2d-9.7!3d51.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDU0JzAwLjAiTiA5wrA0MicwMC4wIlc!5e0!3m2!1sen!2sie!4v1700000000000"
+    loading="lazy"
+    allowfullscreen
+    title="Dunhaven Castle location map">
+  </iframe>
+</section>
+
+<!-- ─── COUNTDOWN ─────────────────────────────────────── -->
+<section id="countdown" class="countdown-section has-bg-image" data-overlay-opacity="0.6" data-wedding-date="2026-07-14T16:00:00">
+  <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1490750967868-88df5691cc53?w=1920&q=80');"></div>
+  <div class="countdown-inner">
+    <span class="eyebrow-inv reveal">Let the countdown begin</span>
+    <div class="countdown-grid">
+      <div class="countdown-item">
+        <span class="number" id="days" contenteditable="false">000</span>
+        <span class="label" contenteditable="false">Days</span>
+      </div>
+      <div class="countdown-item">
+        <span class="number" id="hours" contenteditable="false">00</span>
+        <span class="label" contenteditable="false">Hours</span>
+      </div>
+      <div class="countdown-item">
+        <span class="number" id="minutes" contenteditable="false">00</span>
+        <span class="label" contenteditable="false">Minutes</span>
+      </div>
+      <div class="countdown-item">
+        <span class="number" id="seconds" contenteditable="false">00</span>
+        <span class="label" contenteditable="false">Seconds</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GALLERY ───────────────────────────────────────── -->
+<section id="gallery">
+  <div class="gallery-inner">
+    <div class="section-header" style="margin-bottom:4rem;">
+      <span class="eyebrow reveal">Our Moments</span>
+      <h2 class="section-title reveal">Gallery</h2>
+    </div>
+    <div class="gallery-grid" data-fp-dynamic-items="true">
+      <div class="gallery-item reveal-left" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80" alt="Wedding gallery" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600&q=80" alt="Wedding gallery" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=80" alt="Wedding gallery" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80" alt="Wedding gallery" loading="lazy">
+      </div>
+      <div class="gallery-item reveal-right" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600&q=80" alt="Wedding gallery" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GIFTS & REGISTRY / DRESS CODE ────────────────── -->
+<section id="gifts">
+  <div class="gifts-inner">
+    <div class="gifts-split">
+      <div class="gift-panel reveal-left">
+        <img class="gift-img" src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=600&q=80" alt="Registry" loading="lazy">
+        <h2 class="gift-panel-title">Registry</h2>
+        <p class="body-text" style="margin-bottom:2rem;">Your presence is our greatest gift. If you wish to contribute to our new life together, we have created a registry with a few things we'd love for our home.</p>
+        <a href="#" class="btn-outline">View Registry</a>
+      </div>
+      <div class="gift-panel reveal-right">
+        <h2 class="gift-panel-title">Dress Code</h2>
+        <span class="rule-left" style="background:var(--color-on-primary);opacity:0.3;margin-top:1rem;"></span>
+        <p class="body-text-inv" style="margin-bottom:2rem;">We invite you to dress in Black Tie or Formal Attire. Think elegant, timeless, and refined. We would love to see a sea of monochromes, deep tones, and classic silhouettes.</p>
+        <p class="body-text-inv" style="margin-bottom:2rem;">Suggested palette: ivory, champagne, navy, charcoal, black. Please avoid white and red.</p>
+        <div class="dressing-palettes">
+          <div class="palette-swatch" style="background:#F5F0E8;" title="Ivory"></div>
+          <div class="palette-swatch" style="background:#D4C5A9;" title="Champagne"></div>
+          <div class="palette-swatch" style="background:#2E3A4E;" title="Navy"></div>
+          <div class="palette-swatch" style="background:#3A3835;" title="Charcoal"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRANSPORTATION ────────────────────────────────── -->
+<section id="transportation">
+  <div class="transport-inner">
+    <div class="transport-header">
+      <div>
+        <span class="eyebrow reveal">Getting There</span>
+        <h2 class="section-title reveal">Travel & Stay</h2>
+      </div>
+      <p class="body-text reveal">Dunhaven Castle is located in the heart of County Kerry. Here are the best ways to reach us and settle in for the weekend.</p>
+    </div>
+    <div class="transport-grid" data-fp-dynamic-items="true">
+      <div class="transport-card reveal-left" data-fp-dynamic="true">
+        <div class="transport-card-img">
+          <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=80" alt="By Air" loading="lazy">
+        </div>
+        <div class="transport-card-body">
+          <div class="transport-title-row">
+            <svg class="transport-title-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21 4 19.5 2.5S18 2 17.5 3.5L14 7l-8.2-1.8a1 1 0 0 0-.9.3l-.8.8a.5.5 0 0 0 .1.8l6.1 3.1-2.3 2.3-2.7-.8a.5.5 0 0 0-.5.1l-.8.8a.5.5 0 0 0 .1.7l3.3 2 2 3.3a.5.5 0 0 0 .7.1l.8-.8a.5.5 0 0 0 .1-.5l-.8-2.7 2.3-2.3 3.1 6.1a.5.5 0 0 0 .8.1l.8-.8a1 1 0 0 0 .3-.9z"/></svg>
+            <p class="transport-title">By Air</p>
+          </div>
+          <p class="body-text">Kerry Airport (KIR) is 45 minutes away. Cork Airport (ORK) is a scenic 2-hour drive. Dublin Airport (DUB) is 4 hours with stunning views en route.</p>
+        </div>
+      </div>
+      <div class="transport-card reveal" data-fp-dynamic="true">
+        <div class="transport-card-img">
+          <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=700&q=80" alt="By Car" loading="lazy">
+        </div>
+        <div class="transport-card-body">
+          <div class="transport-title-row">
+            <svg class="transport-title-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-4h10l2 4h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17" r="2.5"/><circle cx="16.5" cy="17" r="2.5"/></svg>
+            <p class="transport-title">By Car</p>
+          </div>
+          <p class="body-text">We recommend renting a car to explore Kerry at your own pace. Free parking is available at the castle. We advise arriving the day before.</p>
+        </div>
+      </div>
+      <div class="transport-card reveal-right" data-fp-dynamic="true">
+        <div class="transport-card-img">
+          <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=700&q=80" alt="Shuttle Service" loading="lazy">
+        </div>
+        <div class="transport-card-body">
+          <div class="transport-title-row">
+            <svg class="transport-title-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="22" height="13" rx="2"/><path d="M5 16v3m14-3v3M1 9h22"/><circle cx="7" cy="19" r="1"/><circle cx="17" cy="19" r="1"/></svg>
+            <p class="transport-title">Shuttle Service</p>
+          </div>
+          <p class="body-text">We are arranging complimentary shuttles from Killarney Town Centre at 3:00 PM and returning at midnight. Please indicate in your RSVP.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ACCOMMODATION ─────────────────────────────────── -->
+<section id="accomodation">
+  <div class="accom-inner">
+    <div class="section-header" style="text-align:left;margin-bottom:4rem;">
+      <span class="eyebrow reveal">Where to Sleep</span>
+      <h2 class="section-title reveal">Accommodation</h2>
+      <span class="rule-left reveal"></span>
+      <p class="body-text reveal" style="max-width:560px;">We have reserved a block of rooms at local hotels. Please quote "Megan & Brian Wedding" when booking. Rooms are on a first-come, first-served basis.</p>
+    </div>
+    <div class="accom-grid" data-fp-dynamic-items="true">
+      <div class="accom-card reveal-left" data-fp-dynamic="true">
+        <img class="accom-img" src="https://images.unsplash.com/photo-1455587734955-081b22074882?w=700&q=80" alt="Dunhaven Castle Hotel" loading="lazy">
+        <div class="accom-body">
+          <p class="accom-name">Dunhaven Castle Hotel</p>
+          <p class="accom-dist">On site — 0 km</p>
+          <p class="body-text">Stay right at the venue. A limited number of castle rooms are available for the wedding party and close family. Book early.</p>
+        </div>
+      </div>
+      <div class="accom-card reveal-right" data-fp-dynamic="true">
+        <img class="accom-img" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=700&q=80" alt="Killarney Grand Hotel" loading="lazy">
+        <div class="accom-body">
+          <p class="accom-name">Killarney Grand Hotel</p>
+          <p class="accom-dist">20 min · Killarney Town</p>
+          <p class="body-text">Classic Kerry hospitality in the heart of Killarney. The shuttle will pick up from here. Mention our names for a preferential rate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DRESSING ──────────────────────────────────────── -->
+<section id="dressing">
+  <div class="dressing-inner">
+    <div class="reveal-left">
+      <img class="dressing-img" src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80" alt="Dress code inspiration" loading="lazy">
+    </div>
+    <div class="reveal-right">
+      <span class="eyebrow-inv">Style Guide</span>
+      <h2 class="section-title-inv" style="font-size:clamp(2rem,4vw,3.5rem);">Dress Code</h2>
+      <span class="rule-left" style="background:var(--color-on-overlay);opacity:0.2;"></span>
+      <p class="body-text-inv" style="margin-bottom:2rem;">Black Tie Preferred. We want everyone to feel their most beautiful. Suits, tuxedos, evening gowns, and formal cocktail dresses are all welcome.</p>
+      <p class="body-text-inv" style="margin-bottom:2.5rem;">Suggested tones: ivory, champagne, slate, charcoal, and black. Please avoid white and bright red out of respect for the bride.</p>
+      <a href="#faqs" class="btn-outline-inv">More FAQs</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RSVP ──────────────────────────────────────────── -->
+<section id="rsvp">
+  <div class="rsvp-inner">
+    <span class="eyebrow reveal">We'd Love to Know</span>
+    <h2 class="section-title reveal">RSVP</h2>
+    <span class="rule reveal"></span>
+    <p class="body-text reveal" style="max-width:480px;margin:0 auto 1rem;">Kindly reply by <strong style="color:var(--color-on-canvas);">June 1, 2026</strong>. We cannot wait to celebrate with you.</p>
+    <div class="rsvp-form">
+      <form id="rsvpForm" novalidate>
+        <div class="rsvp-row">
+          <div class="form-group">
+            <label for="firstName">First Name <span style="color:var(--color-danger)">*</span></label>
+            <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name <span style="color:var(--color-danger)">*</span></label>
+            <input type="text" id="lastName" name="lastName" placeholder="Your last name" required>
+          </div>
+        </div>
+        <div class="rsvp-row">
+          <div class="form-group">
+            <label for="mobile">Mobile <span style="color:var(--color-danger)">*</span></label>
+            <input type="tel" id="mobile" name="mobile" placeholder="+353 00 000 0000" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com">
+          </div>
+        </div>
+        <div class="rsvp-row">
+          <div class="form-group">
+            <label for="age">Age Group</label>
+            <select id="age" name="age">
+              <option value="">Select…</option>
+              <option value="adult">Adult</option>
+              <option value="child">Child</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="attendance">Will you attend? <span style="color:var(--color-danger)">*</span></label>
+            <select id="attendance" name="attendance" required>
+              <option value="">Select…</option>
+              <option value="yes">Yes, I will!</option>
+              <option value="no">No, sorry</option>
+            </select>
+          </div>
+        </div>
+        <div class="rsvp-conditional" id="conditionalFields" data-fp-dynamic-items="true">
+          <div class="form-group" data-fp-dynamic="true">
+            <label for="allergies">Allergies or Dietary Requirements</label>
+            <input type="text" id="allergies" name="allergies" placeholder="Vegetarian, gluten-free, nut allergy…">
+          </div>
+          <div class="form-group" data-fp-dynamic="true">
+            <label for="transport">Do you need the shuttle service?</label>
+            <select id="transport" name="transport">
+              <option value="">Select…</option>
+              <option value="yes">Yes please</option>
+              <option value="no">No, I'll make my own way</option>
+            </select>
+          </div>
+          <div class="form-group" data-fp-dynamic="true">
+            <label for="song">Your favourite song for the dance floor</label>
+            <input type="text" id="song" name="song" placeholder="Artist — Song title">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">A message for Megan & Brian</label>
+          <textarea id="message" name="message" placeholder="Share your wishes, a memory, or simply say hello…"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Confirm</button>
+      </form>
+      <div class="rsvp-success" id="rsvpSuccess">
+        <p class="body-text" style="color:var(--color-on-canvas);"><strong>Thank you!</strong> Your RSVP has been received. We can't wait to celebrate with you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQS ──────────────────────────────────────────── -->
+<section id="faqs">
+  <div class="faqs-inner">
+    <div class="section-header" style="text-align:left;margin-bottom:4rem;">
+      <span class="eyebrow reveal">Got Questions?</span>
+      <h2 class="section-title reveal">FAQs</h2>
+      <span class="rule-left reveal"></span>
+    </div>
+    <div data-fp-dynamic-items="true">
+      <div class="faq-item reveal" data-fp-dynamic="true">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Is Dunhaven Castle child-friendly?</span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p class="body-text">Children are warmly welcome at the ceremony and cocktail hour. The formal dinner is adults only (18+). We recommend arranging childcare for the evening. A babysitting service is available at the hotel upon request.</p></div>
+      </div>
+      <div class="faq-item reveal" data-fp-dynamic="true">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">What is the RSVP deadline?</span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p class="body-text">Please RSVP by June 1, 2026. This helps us finalise numbers with the venue and caterers. If your plans change after this date, please get in touch as soon as possible.</p></div>
+      </div>
+      <div class="faq-item reveal" data-fp-dynamic="true">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Can I take photos during the ceremony?</span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p class="body-text">We are having an unplugged ceremony — please keep phones away during the vows so everyone can be present. Our photographer will capture every moment beautifully. After the ceremony, snap away!</p></div>
+      </div>
+      <div class="faq-item reveal" data-fp-dynamic="true">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Will there be parking at the castle?</span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p class="body-text">Yes, free parking is available at the castle grounds. However, we encourage guests to use the shuttle service or share rides if you plan to enjoy the bar.</p></div>
+      </div>
+      <div class="faq-item reveal" data-fp-dynamic="true">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">What should I do if I have a food allergy?</span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p class="body-text">Please note any dietary requirements or allergies in your RSVP form. The castle kitchen is fully equipped to accommodate most dietary needs including gluten-free, vegan, and nut-free options.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────── -->
+<footer id="footer">
+  <p class="footer-names">Megan & Brian</p>
+  <p class="footer-date">14 · 07 · 2026 — Dunhaven Castle, Kerry</p>
+  <ul class="footer-links">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#details">Location</a></li>
+    <li><a href="#rsvp">RSVP</a></li>
+    <li><a href="#faqs">FAQs</a></li>
+  </ul>
+  <div class="footer-divider"></div>
+  <p class="footer-copy">Made with love — Megan & Brian · 2026</p>
+</footer>
+
+<script>
+  /* ─── NAV SCROLL ──────────────────────────────────── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  /* ─── MOBILE MENU ─────────────────────────────────── */
+  function toggleMobileMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  /* ─── COUNTDOWN ───────────────────────────────────── */
+  (function() {
+    const section = document.querySelector('.countdown-section');
+    if (!section) return;
+    const dateStr = section.getAttribute('data-wedding-date');
+    if (!dateStr) return;
+    const target = new Date(dateStr).getTime();
+    function update() {
+      const now = Date.now();
+      const diff = target - now;
+      if (diff <= 0) {
+        ['days','hours','minutes','seconds'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = '00';
+        });
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      const days = document.getElementById('days');
+      const hours = document.getElementById('hours');
+      const minutes = document.getElementById('minutes');
+      const seconds = document.getElementById('seconds');
+      if (days) days.textContent = String(d).padStart(3, '0');
+      if (hours) hours.textContent = String(h).padStart(2, '0');
+      if (minutes) minutes.textContent = String(m).padStart(2, '0');
+      if (seconds) seconds.textContent = String(s).padStart(2, '0');
+    }
+    update();
+    setInterval(update, 1000);
+  })();
+
+  /* ─── REVEAL ON SCROLL ────────────────────────────── */
+  (function() {
+    const els = document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    els.forEach(el => io.observe(el));
+  })();
+
+  /* ─── RSVP CONDITIONAL ────────────────────────────── */
+  document.getElementById('attendance').addEventListener('change', function() {
+    const cond = document.getElementById('conditionalFields');
+    cond.classList.toggle('show', this.value === 'yes');
+  });
+
+  /* ─── RSVP SUBMIT ─────────────────────────────────── */
+  document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('rsvpSuccess').style.display = 'block';
+  });
+
+  /* ─── FAQ ACCORDION ───────────────────────────────── */
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>

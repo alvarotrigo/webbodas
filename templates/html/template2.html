@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olivia & James — 09.20.26</title>
+    <meta name="description" content="Join us to celebrate the wedding of Olivia and James. September 20, 2026 at Rosewood Garden Estate.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Nunito+Sans:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ─── BASE ─── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+            font-family: var(--font-family, 'Nunito Sans', sans-serif);
+            font-size: 16px;
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+        }
+        nav.scrolled {
+            background: var(--primary-bg);
+            backdrop-filter: blur(12px);
+            padding: 14px 48px;
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--border-color);
+        }
+        nav .logo {
+            position: absolute;
+            left: 48px;
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--accent-text);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 32px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--secondary-text);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-accent);
+            border-radius: 1px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        nav ul li a:hover,
+        nav ul li a.active { color: var(--primary-accent); }
+        nav ul li a:hover::after,
+        nav ul li a.active::after { transform: scaleX(1); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+            position: absolute;
+            right: 48px;
+        }
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--primary-text);
+            border-radius: 1px;
+            transition: all 0.3s ease;
+        }
+
+        /* ─── HERO ─── */
+        section#hero {
+            min-height: 100vh !important;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        section#hero .fp-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+        section#hero .fp-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, var(--overlay-opacity, 0.5));
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: #fff;
+            padding: 40px 24px;
+            max-width: 900px;
+        }
+        .hero-content .pre-title {
+            font-family: 'Pinyon Script', cursive;
+            font-size: clamp(28px, 4vw, 52px);
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+        .hero-content .names {
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: clamp(48px, 8vw, 110px);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: 0.04em;
+            margin-bottom: 20px;
+        }
+        .hero-content .names .amp {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 0.45em;
+            display: inline-block;
+            margin: 0 16px;
+            opacity: 0.8;
+            vertical-align: middle;
+        }
+        .hero-content .date-line {
+            font-family: var(--font-family, 'Nunito Sans', sans-serif);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            opacity: 0.75;
+            margin-bottom: 40px;
+        }
+        .hero-cta {
+            display: inline-block;
+            padding: 18px 52px;
+            border: 2px solid #fff;
+            color: #fff;
+            font-family: var(--font-family, 'Nunito Sans', sans-serif);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: var(--button-radius);
+            transition: all 0.4s ease;
+        }
+        .hero-cta:hover {
+            background: #fff;
+            color: var(--primary-accent);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            color: rgba(255,255,255,0.6);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+        .scroll-indicator svg { width: 16px; height: 16px; }
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ─── BOTANICAL DIVIDER ─── */
+        .botanical-divider {
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            line-height: 0;
+            overflow: hidden;
+        }
+        .botanical-divider svg {
+            width: 200px;
+            height: 40px;
+            color: var(--primary-accent);
+            opacity: 0.5;
+        }
+
+        /* ─── SECTION COMMON ─── */
+        .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 120px 48px;
+        }
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--primary-accent);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        .section-title {
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: clamp(32px, 4.5vw, 56px);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: var(--accent-text);
+        }
+        .section-subtitle {
+            font-family: 'Pinyon Script', cursive;
+            font-size: clamp(22px, 2.5vw, 32px);
+            color: var(--primary-accent);
+            margin-bottom: 24px;
+        }
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--gradient-2);
+            border-radius: 1px;
+            margin-bottom: 40px;
+        }
+        .section-text {
+            font-size: 16px;
+            line-height: 1.9;
+            color: var(--secondary-text);
+            max-width: 640px;
+        }
+        .section-emoji {
+            font-size: 40px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* ─── COUNTDOWN ─── */
+        section#countdown {
+            background: var(--accent-bg);
+            text-align: center;
+        }
+        .countdown-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 48px;
+            flex-wrap: wrap;
+        }
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--primary-bg);
+            border-radius: var(--card-radius);
+            padding: 28px 36px;
+            box-shadow: var(--card-shadow);
+            min-width: 110px;
+            border: 1px solid var(--border-color);
+        }
+        .countdown-item .number {
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: clamp(40px, 5vw, 64px);
+            font-weight: 700;
+            color: var(--primary-accent);
+            line-height: 1;
+        }
+        .countdown-item .label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--secondary-text);
+            margin-top: 8px;
+        }
+
+        /* ─── DETAILS (Ceremony + Reception) ─── */
+        section#details { background: var(--primary-bg); }
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 48px;
+        }
+        .detail-card {
+            background: var(--secondary-bg);
+            border-radius: var(--card-radius);
+            padding: 48px 36px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+        .detail-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .detail-card .card-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .detail-card h3 {
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: 26px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: var(--accent-text);
+        }
+        .detail-card .detail-date {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--primary-accent);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+        }
+        .detail-card p {
+            font-size: 14px;
+            color: var(--secondary-text);
+            line-height: 1.8;
+        }
+        .detail-card .detail-venue {
+            margin-top: 16px;
+            font-family: 'Pinyon Script', cursive;
+            font-size: 22px;
+            color: var(--primary-accent);
+        }
+
+        /* ─── SCHEDULE (Timeline) ─── */
+        section#schedule { background: var(--secondary-bg); }
+        .schedule-timeline {
+            position: relative;
+            margin-top: 60px;
+            padding: 0;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .schedule-timeline::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+        .schedule-item {
+            position: relative;
+            padding-left: 64px;
+            margin-bottom: 40px;
+        }
+        .schedule-item:last-child { margin-bottom: 0; }
+        .schedule-dot {
+            position: absolute;
+            left: 12px;
+            top: 4px;
+            width: 26px;
+            height: 26px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            border: 4px solid var(--secondary-bg);
+            z-index: 2;
+        }
+        .schedule-time {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--primary-accent);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .schedule-item h3 {
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--accent-text);
+            margin-bottom: 6px;
+        }
+        .schedule-item p {
+            font-size: 14px;
+            color: var(--secondary-text);
+            line-height: 1.8;
+        }
+
+        /* ─── STORY (Alternating) ─── */
+        section#story { background: var(--primary-bg); }
+        .story-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+        .story-block:last-child { margin-bottom: 0; }
+        .story-block.reverse { direction: rtl; }
+        .story-block.reverse > * { direction: ltr; }
+        .story-image {
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        .story-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+        .story-image:hover img { transform: scale(1.05); }
+        .story-text .story-year {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .story-text h3 {
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 12px;
+            color: var(--accent-text);
+        }
+        .story-text p {
+            font-size: 15px;
+            color: var(--secondary-text);
+            line-height: 1.9;
+        }
+
+        /* ─── GALLERY ─── */
+        section#gallery { background: var(--secondary-bg); }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 48px;
+        }
+        .gallery-item {
+            overflow: hidden;
+            border-radius: var(--card-radius);
+            aspect-ratio: 1;
+        }
+        .gallery-item.tall {
+            grid-row: span 2;
+            aspect-ratio: auto;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.08); }
+
+        /* ─── ACCOMMODATION ─── */
+        section#accomodation { background: var(--primary-bg); }
+        .accommodation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+            margin-top: 48px;
+        }
+        .accommodation-card {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 36px 28px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .accommodation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .accommodation-card .card-icon { font-size: 32px; margin-bottom: 12px; }
+        .accommodation-card h3 {
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 6px;
+            color: var(--accent-text);
+        }
+        .accommodation-card .price {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--primary-accent);
+            margin-bottom: 16px;
+        }
+        .accommodation-card p {
+            font-size: 14px;
+            color: var(--secondary-text);
+            line-height: 1.8;
+        }
+
+        /* ─── MAP ─── */
+        section#map { background: var(--secondary-bg); }
+        .map-container {
+            margin-top: 40px;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+
+        /* ─── RSVP ─── */
+        section#rsvp {
+            background: var(--gradient-2);
+            color: #fff;
+        }
+        .rsvp-inner {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 120px 48px;
+        }
+        section#rsvp .section-label { color: rgba(255,255,255,0.5); }
+        section#rsvp .section-title { color: #fff; }
+        section#rsvp .section-subtitle { color: rgba(255,255,255,0.75); }
+        section#rsvp .section-divider { background: rgba(255,255,255,0.3); }
+
+        .form-group { margin-bottom: 28px; }
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.12);
+            border: 1.5px solid rgba(255,255,255,0.2);
+            border-radius: var(--border-radius);
+            color: #fff;
+            font-family: var(--font-family, 'Nunito Sans', sans-serif);
+            font-size: 16px;
+            font-weight: 400;
+            padding: 14px 16px;
+            outline: none;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: rgba(255,255,255,0.4); }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #fff;
+            background: rgba(255,255,255,0.18);
+        }
+        .form-group select {
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+        .form-group select option {
+            background: var(--secondary-accent);
+            color: #fff;
+        }
+        .form-group textarea {
+            resize: none;
+            height: 90px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .btn-rsvp {
+            display: inline-block;
+            padding: 18px 56px;
+            background: #fff;
+            color: var(--primary-accent);
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            border-radius: var(--button-radius);
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 8px;
+        }
+        .btn-rsvp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Conditional fields */
+        .conditional-fields { display: none; }
+        .conditional-fields.show { display: block; }
+
+        /* ─── FAQS ─── */
+        section#faqs { background: var(--accent-bg); }
+        .faq-list { margin-top: 48px; max-width: 720px; }
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 24px 0;
+        }
+        .faq-item:first-child { border-top: 1px solid var(--border-color); }
+        h3.faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: 18px;
+            color: var(--accent-text);
+            font-weight: 400;
+            margin: 0;
+        }
+        .faq-question svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s;
+            stroke: var(--primary-accent);
+            flex-shrink: 0;
+        }
+        .faq-item.open .faq-question svg { transform: rotate(45deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding-top: 16px;
+        }
+        .faq-answer p {
+            font-size: 14px;
+            color: var(--secondary-text);
+            line-height: 1.8;
+        }
+
+        /* ─── FOOTER ─── */
+        footer#footer {
+            background: var(--accent-text);
+            color: var(--primary-bg);
+            text-align: center;
+            padding: 80px 48px 48px;
+        }
+        footer .footer-names {
+            font-family: var(--heading-font, 'Cormorant Garamond', serif);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        footer .footer-tagline {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 26px;
+            color: var(--primary-accent);
+            margin-bottom: 32px;
+        }
+        footer .footer-note {
+            font-size: 12px;
+            opacity: 0.4;
+            letter-spacing: 0.1em;
+        }
+
+        /* ─── REVEAL ANIMATIONS ─── */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal-scale { opacity: 0; transform: scale(0.92); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .hamburger { display: flex; }
+            nav.menu-open ul {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100vh;
+                background: var(--primary-bg);
+                justify-content: center;
+                align-items: center;
+                gap: 28px;
+                z-index: 999;
+            }
+            nav.menu-open ul li a { font-size: 16px; color: var(--primary-text); }
+            nav { padding: 14px 20px; }
+            nav .logo { left: 20px; }
+            .hamburger { right: 20px; }
+            nav.scrolled { padding: 10px 20px; }
+            .section-inner { padding: 80px 24px; }
+            .rsvp-inner { padding: 80px 24px; }
+            .details-grid { grid-template-columns: 1fr; }
+            .story-block { grid-template-columns: 1fr; gap: 32px; }
+            .story-block.reverse { direction: ltr; }
+            .story-image img { height: 280px; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item.tall { grid-row: span 1; aspect-ratio: 1; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .countdown-wrapper { gap: 16px; }
+            .countdown-item { padding: 20px 24px; min-width: 80px; }
+            .accommodation-grid { grid-template-columns: 1fr; }
+            .schedule-timeline { padding-left: 0; }
+            footer { padding: 48px 24px 32px; }
+        }
+
+        @media (max-width: 480px) {
+            .story-image img { height: 220px; }
+        }
+    </style>
+</head>
+<body class="theme-wedding-dusty-rose">
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="#hero" class="logo">O & J</a>
+        <ul>
+            <li><a href="#details">Details</a></li>
+            <li><a href="#story">Story</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#accomodation">Travel</a></li>
+            <li><a href="#rsvp">RSVP</a></li>
+        </ul>
+        <div class="hamburger" onclick="this.closest('nav').classList.toggle('menu-open')">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="has-bg-image" data-overlay-opacity="0.4">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1920&q=80');"></div>
+        <div class="hero-content reveal">
+            <p class="pre-title">We're getting married</p>
+            <h1 class="names">Olivia <span class="amp">&</span> James</h1>
+            <p class="date-line">September 20, 2026 · Rosewood Garden Estate</p>
+            <a href="#rsvp" class="hero-cta">RSVP Now</a>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </div>
+    </section>
+
+    <!-- BOTANICAL DIVIDER -->
+    <div class="botanical-divider" style="background: var(--primary-bg);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M0 20 Q50 20 70 10 Q80 6 90 10 Q100 14 100 20 Q100 14 110 10 Q120 6 130 10 Q150 20 200 20"/>
+            <path d="M75 12 Q72 4 68 2" /><path d="M85 8 Q88 2 92 0" />
+            <path d="M115 8 Q112 2 108 0" /><path d="M125 12 Q128 4 132 2" />
+        </svg>
+    </div>
+
+    <!-- COUNTDOWN -->
+    <section class="countdown-section" id="countdown" data-wedding-date="2026-09-20T16:00:00">
+        <div class="section-inner" style="text-align: center;">
+            <span class="section-emoji reveal" data-emoji-edit>🌸</span>
+            <p class="section-label reveal">Save the Date</p>
+            <h2 class="section-title reveal" style="text-align: center;">Counting the Days</h2>
+            <p class="section-subtitle reveal" style="text-align: center;">Until we say I do</p>
+            <div class="countdown-wrapper">
+                <div class="countdown-item reveal">
+                    <span class="number" id="days" contenteditable="false">000</span>
+                    <span class="label" contenteditable="false">Days</span>
+                </div>
+                <div class="countdown-item reveal">
+                    <span class="number" id="hours" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Hours</span>
+                </div>
+                <div class="countdown-item reveal">
+                    <span class="number" id="minutes" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Minutes</span>
+                </div>
+                <div class="countdown-item reveal">
+                    <span class="number" id="seconds" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOTANICAL DIVIDER -->
+    <div class="botanical-divider" style="background: var(--primary-bg);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M0 20 Q50 20 70 10 Q80 6 90 10 Q100 14 100 20 Q100 14 110 10 Q120 6 130 10 Q150 20 200 20"/>
+            <path d="M75 12 Q72 4 68 2" /><path d="M85 8 Q88 2 92 0" />
+            <path d="M115 8 Q112 2 108 0" /><path d="M125 12 Q128 4 132 2" />
+        </svg>
+    </div>
+
+    <!-- DETAILS -->
+    <section id="details">
+        <div class="section-inner">
+            <span class="section-emoji reveal" data-emoji-edit>💐</span>
+            <p class="section-label reveal">When & Where</p>
+            <h2 class="section-title reveal">Wedding Details</h2>
+            <p class="section-subtitle reveal">A day to remember</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="details-grid">
+                <div class="detail-card reveal-left" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>💒</span>
+                    <h3>The Ceremony</h3>
+                    <p class="detail-date">September 20, 2026 · 4:00 PM</p>
+                    <p>An intimate garden ceremony beneath a canopy of wisteria and climbing roses, surrounded by those we love most.</p>
+                    <p class="detail-venue">The Rose Pavilion</p>
+                </div>
+
+                <div class="detail-card reveal-right" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🥂</span>
+                    <h3>The Reception</h3>
+                    <p class="detail-date">September 20, 2026 · 6:30 PM</p>
+                    <p>Dinner, toasts, and dancing under twinkling lights in the grand garden marquee. Open bar and live music all night.</p>
+                    <p class="detail-venue">The Garden Marquee</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section id="schedule">
+        <div class="section-inner">
+            <span class="section-emoji reveal" data-emoji-edit>🕓</span>
+            <p class="section-label reveal">The Day</p>
+            <h2 class="section-title reveal">Wedding Day Schedule</h2>
+            <p class="section-subtitle reveal">Every moment matters</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="schedule-timeline" data-fp-dynamic-items="true">
+                <div class="schedule-item reveal" data-fp-dynamic="true">
+                    <div class="schedule-dot"></div>
+                    <p class="schedule-time">3:30 PM</p>
+                    <h3>Guest Arrival</h3>
+                    <p>Welcome drinks and canapes on the lawn as you take in the garden views.</p>
+                </div>
+                <div class="schedule-item reveal" data-fp-dynamic="true">
+                    <div class="schedule-dot"></div>
+                    <p class="schedule-time">4:00 PM</p>
+                    <h3>The Ceremony</h3>
+                    <p>Please be seated in the Rose Pavilion as we exchange our vows.</p>
+                </div>
+                <div class="schedule-item reveal" data-fp-dynamic="true">
+                    <div class="schedule-dot"></div>
+                    <p class="schedule-time">5:00 PM</p>
+                    <h3>Cocktail Hour</h3>
+                    <p>Signature cocktails, garden games, and photos in the botanical grounds.</p>
+                </div>
+                <div class="schedule-item reveal" data-fp-dynamic="true">
+                    <div class="schedule-dot"></div>
+                    <p class="schedule-time">6:30 PM</p>
+                    <h3>Dinner & Toasts</h3>
+                    <p>A five-course meal with wine pairings, followed by heartfelt speeches.</p>
+                </div>
+                <div class="schedule-item reveal" data-fp-dynamic="true">
+                    <div class="schedule-dot"></div>
+                    <p class="schedule-time">8:30 PM</p>
+                    <h3>First Dance & Party</h3>
+                    <p>The dance floor opens! Live band, open bar, and dessert table until midnight.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOTANICAL DIVIDER -->
+    <div class="botanical-divider" style="background: var(--primary-bg);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M0 20 Q50 20 70 10 Q80 6 90 10 Q100 14 100 20 Q100 14 110 10 Q120 6 130 10 Q150 20 200 20"/>
+            <path d="M75 12 Q72 4 68 2" /><path d="M85 8 Q88 2 92 0" />
+            <path d="M115 8 Q112 2 108 0" /><path d="M125 12 Q128 4 132 2" />
+        </svg>
+    </div>
+
+    <!-- STORY -->
+    <section id="story">
+        <div class="section-inner">
+            <span class="section-emoji reveal" data-emoji-edit>💕</span>
+            <p class="section-label reveal">Our Journey</p>
+            <h2 class="section-title reveal">Our Love Story</h2>
+            <p class="section-subtitle reveal">From the first hello to forever</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="story-block reveal-left" data-fp-dynamic="true">
+                <div class="story-image">
+                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&q=80" alt="How we met" loading="lazy">
+                </div>
+                <div class="story-text">
+                    <p class="story-year">Spring 2021 — The Meeting</p>
+                    <h3>A Sunday at the Botanical Garden</h3>
+                    <p>Both sketching the same magnolia tree from opposite benches. Olivia noticed James first — his pencil moved like a conductor's baton. He noticed her laugh when a robin stole her eraser. Coffee followed. Then dinner. Then every day after.</p>
+                </div>
+            </div>
+
+            <div class="story-block reverse reveal-right" data-fp-dynamic="true">
+                <div class="story-image">
+                    <img src="https://images.unsplash.com/photo-1529634597503-139d3726fed5?w=600&q=80" alt="First trip together" loading="lazy">
+                </div>
+                <div class="story-text">
+                    <p class="story-year">Summer 2022 — The Adventure</p>
+                    <h3>Lost in the Lavender Fields</h3>
+                    <p>A road trip through the countryside that was supposed to be three days turned into two weeks. They got lost in lavender fields in Provence, danced in the rain in a tiny village, and knew — this was it.</p>
+                </div>
+            </div>
+
+            <div class="story-block reveal-left" data-fp-dynamic="true">
+                <div class="story-image">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600&q=80" alt="The proposal" loading="lazy">
+                </div>
+                <div class="story-text">
+                    <p class="story-year">December 2025 — The Proposal</p>
+                    <h3>Under the Wisteria</h3>
+                    <p>James brought Olivia back to that same botanical garden, to the same bench where it all began. This time the magnolia was bare, but a ring sparkled in the winter light. She said yes before her tears could say it first.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+        <div class="section-inner">
+            <span class="section-emoji reveal" data-emoji-edit>📸</span>
+            <p class="section-label reveal">Captured Moments</p>
+            <h2 class="section-title reveal">Our Gallery</h2>
+            <p class="section-subtitle reveal">Moments we treasure</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item tall reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1529634597503-139d3726fed5?w=600&q=75" alt="Romantic moment" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=75" alt="Together at sunset" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&q=75" alt="Golden hour" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=75" alt="Garden walk" loading="lazy">
+                </div>
+                <div class="gallery-item tall reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&q=75" alt="Getting ready" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=75" alt="Sunset moment" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOTANICAL DIVIDER -->
+    <div class="botanical-divider" style="background: var(--primary-bg);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M0 20 Q50 20 70 10 Q80 6 90 10 Q100 14 100 20 Q100 14 110 10 Q120 6 130 10 Q150 20 200 20"/>
+            <path d="M75 12 Q72 4 68 2" /><path d="M85 8 Q88 2 92 0" />
+            <path d="M115 8 Q112 2 108 0" /><path d="M125 12 Q128 4 132 2" />
+        </svg>
+    </div>
+
+    <!-- ACCOMMODATION -->
+    <section id="accomodation">
+        <div class="section-inner">
+            <span class="section-emoji reveal" data-emoji-edit>🏨</span>
+            <p class="section-label reveal">Travel & Stay</p>
+            <h2 class="section-title reveal">Accommodation</h2>
+            <p class="section-subtitle reveal">Rest well for the celebration</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="accommodation-grid" data-fp-dynamic-items="true">
+                <div class="accommodation-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🌹</span>
+                    <h3>Rosewood Garden Estate</h3>
+                    <p class="price">From $220 / night</p>
+                    <p>Stay at the venue itself. Limited on-site suites with garden views and complimentary breakfast. Book early for the full experience.</p>
+                </div>
+                <div class="accommodation-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🏡</span>
+                    <h3>The Ivy Cottage Inn</h3>
+                    <p class="price">From $145 / night</p>
+                    <p>A charming bed & breakfast just 5 minutes from the estate. Surrounded by English gardens and countryside walks.</p>
+                </div>
+                <div class="accommodation-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🏠</span>
+                    <h3>Meadow View Hotel</h3>
+                    <p class="price">From $95 / night</p>
+                    <p>Modern comfort in the nearby town. Walking distance to restaurants and shops. Group discount — mention "Olivia & James."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAP -->
+    <section id="map">
+        <div class="section-inner">
+            <span class="section-emoji reveal" data-emoji-edit>📍</span>
+            <p class="section-label reveal">Find Us</p>
+            <h2 class="section-title reveal">The Venue</h2>
+            <p class="section-subtitle reveal">Rosewood Garden Estate</p>
+            <div class="section-divider reveal"></div>
+            <p class="section-text reveal">Nestled among rolling hills and English country gardens, our venue is a romantic haven. Just 30 minutes from the city center — shuttle service available on request.</p>
+            <div class="map-container reveal" data-fp-dynamic="true">
+                <iframe src="https://maps.google.com/maps?q=English+Garden+Estate&output=embed" loading="lazy" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="rsvp">
+        <div class="rsvp-inner">
+            <span class="section-emoji reveal" data-emoji-edit>💌</span>
+            <p class="section-label reveal">Respond</p>
+            <h2 class="section-title reveal">RSVP</h2>
+            <p class="section-subtitle reveal">Please let us know by August 1st, 2026</p>
+            <div class="section-divider reveal"></div>
+
+            <form onsubmit="event.preventDefault(); alert('Thank you! Your RSVP has been received. We can\'t wait to celebrate with you!');" data-fp-dynamic-items="true">
+                <div class="form-row">
+                    <div class="form-group reveal">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Your last name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group reveal">
+                        <label for="mobile">Mobile *</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="+1 000 000 0000" required>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@email.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group reveal">
+                        <label for="age">Age Group</label>
+                        <select id="age" name="age">
+                            <option value="adult">Adult</option>
+                            <option value="child">Child</option>
+                        </select>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="attending">Will You Attend? *</label>
+                        <select id="attending" name="attending" required>
+                            <option value="">Select...</option>
+                            <option value="yes">Yes, I will</option>
+                            <option value="no">No, sorry</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="conditional-fields" id="conditionalFields">
+                    <div class="form-group reveal">
+                        <label for="dietary">Allergies / Dietary Requirements</label>
+                        <input type="text" id="dietary" name="dietary" placeholder="Any allergies or dietary needs...">
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="transport">Will You Use the Shuttle?</label>
+                        <select id="transport" name="transport">
+                            <option value="yes">Yes, please</option>
+                            <option value="no">No, I'll arrange my own</option>
+                        </select>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="song">Favorite Song (for the DJ!)</label>
+                        <input type="text" id="song" name="song" placeholder="What gets you on the dance floor?">
+                    </div>
+                </div>
+
+                <div class="form-group reveal">
+                    <label for="message">Message for the Couple</label>
+                    <textarea id="message" name="message" placeholder="A few words, a wish, or a piece of advice..."></textarea>
+                </div>
+                <button type="submit" class="btn-rsvp reveal">Confirm</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FAQS -->
+    <section id="faqs">
+        <div class="section-inner">
+            <span class="section-emoji reveal" data-emoji-edit>❓</span>
+            <p class="section-label reveal">Questions?</p>
+            <h2 class="section-title reveal">Frequently Asked</h2>
+            <p class="section-subtitle reveal">Everything you need to know</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="faq-list">
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        Can I bring a plus-one?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </h3>
+                    <div class="faq-answer">
+                        <p>Please check your invitation for details. If it says "and guest," absolutely! If you're unsure, just reach out to us.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        What should I wear?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </h3>
+                    <div class="faq-answer">
+                        <p>Garden formal. Think flowing dresses, linen suits, and comfortable shoes for the lawn. Soft pastels and earth tones welcome — please avoid white or ivory.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        Is there parking at the venue?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </h3>
+                    <div class="faq-answer">
+                        <p>Yes, complimentary parking is available on the estate grounds. We'll also have a shuttle running between the recommended hotels and the venue.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        Are children welcome?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </h3>
+                    <div class="faq-answer">
+                        <p>We've planned an adults-only evening so everyone can relax and enjoy. We hope you understand and treat it as a night off!</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        What if it rains?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </h3>
+                    <div class="faq-answer">
+                        <p>The estate has a gorgeous glass conservatory as a backup. Rain or shine, it will be beautiful — we've planned for every scenario!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <h2 class="footer-names">Olivia & James</h2>
+        <p class="footer-tagline">Forever and always</p>
+        <p class="footer-note">September 20, 2026 · Rosewood Garden Estate</p>
+    </footer>
+
+    <script>
+    (function() {
+        // ── Countdown ──
+        var section = document.querySelector('.countdown-section');
+        if (section) {
+            function updateCountdown() {
+                var weddingDate = new Date(section.getAttribute('data-wedding-date')).getTime();
+                var now = new Date().getTime();
+                var diff = weddingDate - now;
+                if (diff < 0) diff = 0;
+                document.getElementById('days').textContent = String(Math.floor(diff / 86400000)).padStart(3, '0');
+                document.getElementById('hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // ── Nav scroll ──
+        var nav = document.querySelector('nav');
+        window.addEventListener('scroll', function() {
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // ── Smooth scroll ──
+        document.querySelectorAll('nav a[href^="#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    nav.classList.remove('menu-open');
+                }
+            });
+        });
+
+        // ── Reveal on scroll ──
+        var reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+        reveals.forEach(function(el) { observer.observe(el); });
+
+        // ── Active nav link ──
+        var sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', function() {
+            var scrollY = window.scrollY + 120;
+            sections.forEach(function(sec) {
+                var top = sec.offsetTop;
+                var height = sec.offsetHeight;
+                var id = sec.getAttribute('id');
+                var link = document.querySelector('nav a[href="#' + id + '"]');
+                if (link) {
+                    if (scrollY >= top && scrollY < top + height) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // ── RSVP conditional fields ──
+        var attendingSelect = document.getElementById('attending');
+        var conditionalFields = document.getElementById('conditionalFields');
+        if (attendingSelect && conditionalFields) {
+            attendingSelect.addEventListener('change', function() {
+                if (this.value === 'yes') {
+                    conditionalFields.classList.add('show');
+                } else {
+                    conditionalFields.classList.remove('show');
+                }
+            });
+        }
+
+    })();
+    </script>
+
+</body>
+</html>

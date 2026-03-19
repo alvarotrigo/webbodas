@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emma & James — 20 · 09 · 2026</title>
+  <meta name="description" content="Join us to celebrate the wedding of Emma and James. September 20, 2026 in Santorini, Greece.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ─── RENTHEM PALETTE ─────────────────────────────────── */
+    body.theme-renthem {
+      --color-canvas: #fdfcfa;
+      --color-canvas-alt: #f7f3ef;
+      --color-surface: #fefefe;
+      --color-surface-alt: #f2ede8;
+      --color-surface-raised: #ffffff;
+      --color-surface-inverse: #7a5347;
+      --color-on-canvas: #2a160d;
+      --color-on-canvas-muted: #7d5948;
+      --color-on-surface: #2a160d;
+      --color-on-surface-muted: #7d5948;
+      --color-on-surface-subtle: #a88070;
+      --color-on-surface-inverse: #f5ede8;
+      --color-primary: #8c5a3e;
+      --color-on-primary: #fdf8f5;
+      --color-primary-hover: #7a4d33;
+      --color-primary-active: #67402a;
+      --color-primary-container: #edddd2;
+      --color-on-primary-container: #4a2218;
+      --color-secondary: #a07868;
+      --color-on-secondary: #fdf8f5;
+      --color-secondary-hover: #8e6858;
+      --color-secondary-active: #7a5848;
+      --color-secondary-container: #f0e4dc;
+      --color-on-secondary-container: #402820;
+      --color-tertiary: #c4956a;
+      --color-on-tertiary: #2a1800;
+      --color-tertiary-hover: #b0834e;
+      --color-tertiary-active: #9c7140;
+      --color-tertiary-container: #f7e8d8;
+      --color-on-tertiary-container: #4a2c10;
+      --color-link: #8c5a3e;
+      --color-link-hover: #67402a;
+      --color-border-subtle: #ede4dc;
+      --color-border: #d8ccc4;
+      --color-border-strong: #b09888;
+      --color-focus-ring: #8c5a3e;
+      /* Light cream overlay — text appears dark on bright photo backgrounds */
+      --color-overlay: rgba(244, 238, 230, 0.18);
+      --color-overlay-strong: rgba(244, 238, 230, 0.42);
+      --color-on-overlay: #2a160d;
+      --color-success: #4f7a59;
+      --color-on-success: #f7fff8;
+      --color-danger: #a34c4c;
+      --color-on-danger: #fff8f8;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --radius-sm: 0.5rem; --radius-md: 1rem; --radius-lg: 1.5rem;
+      --shadow-sm: 0 2px 10px rgba(0,0,0,0.06);
+      --shadow-md: 0 12px 28px rgba(0,0,0,0.10);
+      --shadow-lg: 0 24px 48px rgba(0,0,0,0.14);
+      --space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;
+      --space-5:1.5rem;--space-6:2rem;--space-7:3rem;--space-8:4rem;
+    }
+
+    /* ─── RESET & BASE ─────────────────────────────────────── */
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:var(--color-canvas);color:var(--color-on-canvas);font-family:var(--font-body);line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    section{position:relative;overflow:hidden}
+
+    /* ─── NAV ──────────────────────────────────────────────── */
+    nav{
+      position:fixed;top:0;left:0;width:100%;z-index:1000;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:22px 48px;
+      transition:background 0.4s,box-shadow 0.4s,padding 0.4s;
+    }
+    nav.scrolled{
+      background:var(--color-surface);
+      box-shadow:var(--shadow-sm);
+      padding:14px 48px;
+    }
+    nav a.logo{
+      font-family:var(--font-body);font-weight:800;font-size:15px;
+      letter-spacing:0.08em;text-transform:uppercase;
+      color:var(--color-on-canvas);
+    }
+    nav a.logo span{color:var(--color-primary)}
+    nav ul{
+      list-style:none;display:flex;gap:36px;
+      position:absolute;left:50%;transform:translateX(-50%);
+    }
+    nav ul li a{
+      font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;
+      color:var(--color-on-canvas);opacity:0.8;transition:opacity 0.3s;
+    }
+    nav ul li a:hover{opacity:1}
+    .nav-book{
+      background:var(--color-primary);color:var(--color-on-primary);
+      padding:11px 26px;border-radius:50px;font-size:10px;font-weight:600;
+      letter-spacing:0.14em;text-transform:uppercase;transition:background 0.3s;
+      white-space:nowrap;
+    }
+    .nav-book:hover{background:var(--color-primary-hover)}
+    @media(max-width:900px){nav ul{display:none}.nav-book{display:none}nav{padding:18px 24px}}
+
+    /* ─── SHARED ────────────────────────────────────────────── */
+    .fp-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+    .has-bg-image>*:not(.fp-bg){position:relative;z-index:1}
+    .overlay{position:absolute;inset:0;z-index:1;background:var(--color-overlay,rgba(244,238,230,0.18));pointer-events:none}
+    .has-bg-image>.overlay~*{position:relative;z-index:2}
+    .pill-btn{
+      display:inline-block;background:var(--color-primary);color:var(--color-on-primary);
+      padding:12px 28px;border-radius:50px;font-size:10px;font-weight:600;
+      letter-spacing:0.14em;text-transform:uppercase;border:none;cursor:pointer;
+      transition:background 0.3s;
+    }
+    .pill-btn:hover{background:var(--color-primary-hover)}
+    .pill-btn-outline{
+      display:inline-block;background:transparent;color:var(--color-on-canvas);
+      padding:10px 24px;border-radius:50px;font-size:10px;font-weight:600;
+      letter-spacing:0.14em;text-transform:uppercase;border:1.5px solid var(--color-on-canvas);
+      cursor:pointer;transition:background 0.3s,color 0.3s;
+    }
+    .pill-btn-outline:hover{background:var(--color-on-canvas);color:var(--color-canvas)}
+    .section-eyebrow{
+      font-size:9px;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;
+      color:var(--color-primary);margin-bottom:12px;display:block;
+    }
+    .section-serif-title{
+      font-family:var(--font-heading);font-weight:400;color:var(--color-primary);
+      font-size:clamp(2.4rem,4vw,3.6rem);line-height:1.15;
+    }
+    .section-body{font-size:0.95rem;color:var(--color-on-canvas-muted);line-height:1.9}
+
+    /* ─── REVEAL ANIMATIONS ────────────────────────────────── */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-left{opacity:0;transform:translateX(-28px);transition:opacity 0.7s ease,transform 0.7s ease}
+    .reveal-left.visible{opacity:1;transform:none}
+    .reveal-right{opacity:0;transform:translateX(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+    .reveal-right.visible{opacity:1;transform:none}
+    .reveal-scale{opacity:0;transform:scale(0.95);transition:opacity 0.7s ease,transform 0.7s ease}
+    .reveal-scale.visible{opacity:1;transform:none}
+
+    /* ─── HERO ─────────────────────────────────────────────── */
+    section#hero{
+      min-height:100vh !important;
+      display:flex;align-items:center;justify-content:center;text-align:center;
+    }
+    .hero-content{
+      display:flex;flex-direction:column;align-items:center;
+      padding:0 24px;margin-top:-60px;
+    }
+    .hero-title{
+      font-family:var(--font-heading);
+      font-size:clamp(5rem,13vw,11rem);
+      color:var(--color-on-overlay);
+      font-weight:300;line-height:0.9;letter-spacing:0.04em;
+    }
+    .hero-subtitle{
+      font-size:9px;font-weight:600;letter-spacing:0.38em;text-transform:uppercase;
+      color:var(--color-on-canvas-muted);margin-top:18px;
+    }
+
+    /* ─── ABOUT ────────────────────────────────────────────── */
+    section#about{background:var(--color-canvas);padding:100px 0 80px}
+    .about-top{
+      max-width:1100px;margin:0 auto;padding:0 80px;
+      display:grid;grid-template-columns:1fr 1.3fr;gap:60px;align-items:start;
+    }
+    .about-heading{
+      font-family:var(--font-heading);font-size:clamp(4rem,7vw,7rem);
+      color:var(--color-primary);font-weight:300;font-style:italic;line-height:1;
+    }
+    .about-text-col{padding-top:16px}
+    .about-text-col p{font-size:0.96rem;color:var(--color-on-canvas-muted);line-height:1.9;margin-bottom:28px}
+    .about-photos{
+      max-width:1100px;margin:60px auto 0;padding:0 80px;
+      display:flex;gap:24px;align-items:flex-start;
+    }
+    .about-photo{flex:1;border-radius:20px;overflow:hidden}
+    .about-photo img{width:100%;object-fit:cover;display:block}
+    .about-photo:nth-child(1){height:380px}
+    .about-photo:nth-child(2){height:440px;margin-top:70px}
+    .about-photo:nth-child(3){height:380px;margin-top:30px}
+    @media(max-width:900px){
+      .about-top{grid-template-columns:1fr;padding:0 32px}
+      .about-photos{flex-direction:column;padding:0 32px}
+      .about-photo,.about-photo:nth-child(2),.about-photo:nth-child(3){height:280px;margin-top:0}
+    }
+
+    /* ─── FEATURES ─────────────────────────────────────────── */
+    section#features{background:var(--color-canvas);padding:80px 0 100px}
+    .features-title{
+      text-align:center;
+      font-family:var(--font-heading);font-size:clamp(2.8rem,5vw,4.5rem);
+      color:var(--color-primary);font-weight:300;margin-bottom:70px;letter-spacing:0.04em;
+    }
+    .feature-block{
+      max-width:1100px;margin:0 auto 80px;padding:0 80px;
+      display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+    }
+    .feature-block.reverse .feature-img{order:-1}
+    .feature-img{border-radius:20px;overflow:hidden}
+    .feature-img img{width:100%;height:420px;object-fit:cover;display:block;transition:transform 0.6s ease}
+    .feature-img:hover img{transform:scale(1.04)}
+    .feature-label{
+      font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+      color:var(--color-on-canvas-muted);margin-bottom:14px;display:block;
+    }
+    .feature-heading{
+      font-size:clamp(0.85rem,1.1vw,1rem);font-weight:700;letter-spacing:0.16em;
+      text-transform:uppercase;color:var(--color-on-canvas-muted);
+      margin-bottom:18px;line-height:1.5;
+    }
+    .feature-serif-heading{
+      font-family:var(--font-heading);font-size:clamp(2rem,3vw,2.8rem);
+      color:var(--color-primary);font-weight:400;margin-bottom:16px;font-style:italic;
+    }
+    .feature-body{font-size:0.9rem;color:var(--color-on-canvas-muted);line-height:1.9;margin-bottom:28px}
+    @media(max-width:768px){
+      .feature-block{grid-template-columns:1fr;padding:0 32px;gap:32px}
+      .feature-block.reverse .feature-img{order:unset}
+      .feature-img img{height:280px}
+    }
+
+    /* ─── STORY ────────────────────────────────────────────── */
+    section#story{background:var(--color-canvas-alt);padding:100px 0}
+    .story-inner{max-width:900px;margin:0 auto;padding:0 60px}
+    .story-header{text-align:center;margin-bottom:64px}
+    .story-header .section-serif-title{font-style:italic}
+    .timeline{position:relative}
+    .timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--color-border);transform:translateX(-50%)}
+    .tl-item{display:grid;grid-template-columns:1fr 48px 1fr;align-items:start;margin-bottom:52px}
+    .tl-item:nth-child(odd) .tl-text{text-align:right;padding-right:36px}
+    .tl-item:nth-child(odd) .tl-empty{order:3}
+    .tl-item:nth-child(even) .tl-text{order:3;text-align:left;padding-left:36px}
+    .tl-item:nth-child(even) .tl-empty{order:1}
+    .tl-dot{width:12px;height:12px;border-radius:50%;background:var(--color-primary);justify-self:center;margin-top:5px;position:relative;z-index:1}
+    .tl-date{font-size:8px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-primary);margin-bottom:6px}
+    .tl-text h3{font-family:var(--font-heading);font-size:1.4rem;color:var(--color-on-canvas);margin-bottom:6px;font-weight:500}
+    .tl-text p{font-size:0.88rem;color:var(--color-on-canvas-muted);line-height:1.8}
+    @media(max-width:640px){
+      .timeline::before{left:16px}
+      .tl-item{grid-template-columns:32px 1fr}
+      .tl-item:nth-child(odd) .tl-text,.tl-item:nth-child(even) .tl-text{text-align:left;padding:0 0 0 16px;grid-column:2;grid-row:1;order:2}
+      .tl-item:nth-child(odd) .tl-empty,.tl-item:nth-child(even) .tl-empty{display:none}
+      .tl-dot{grid-column:1;grid-row:1}
+    }
+
+    /* ─── COUNTDOWN ────────────────────────────────────────── */
+    section.countdown-section{background:var(--color-surface-inverse);padding:80px 0}
+    .countdown-inner{max-width:800px;margin:0 auto;padding:0 48px;text-align:center}
+    .countdown-eyebrow{font-size:9px;font-weight:600;letter-spacing:0.26em;text-transform:uppercase;color:var(--color-tertiary);margin-bottom:14px}
+    .countdown-title{font-family:var(--font-heading);font-size:clamp(1.4rem,2.5vw,2.2rem);color:var(--color-on-surface-inverse);font-style:italic;margin-bottom:48px}
+    .countdown-grid{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+    .countdown-item{min-width:90px;text-align:center}
+    .countdown-item .number{font-family:var(--font-heading);font-size:clamp(3rem,6vw,5rem);color:var(--color-on-surface-inverse);font-weight:300;line-height:1;display:block}
+    .countdown-item .label{font-size:8px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--color-tertiary);margin-top:8px;display:block}
+    .cd-sep{font-family:var(--font-heading);font-size:4rem;color:var(--color-on-surface-inverse);opacity:0.2;padding-top:6px}
+
+    /* ─── PEOPLE ────────────────────────────────────────────── */
+    section#people{background:var(--color-canvas);padding:100px 0}
+    .people-inner{max-width:1100px;margin:0 auto;padding:0 60px}
+    .people-header{text-align:center;margin-bottom:60px}
+    .people-header .section-serif-title{font-style:italic}
+    .people-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+    .person-card{text-align:center}
+    .person-photo{width:160px;height:200px;border-radius:16px;overflow:hidden;margin:0 auto 14px}
+    .person-photo img{width:100%;height:100%;object-fit:cover}
+    .person-role{font-size:8px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-primary);margin-bottom:4px}
+    .person-name{font-family:var(--font-heading);font-size:1.25rem;color:var(--color-on-canvas);font-weight:500}
+    @media(max-width:768px){.people-grid{grid-template-columns:1fr 1fr}}
+
+    /* ─── QUOTE / MIDPAGE ───────────────────────────────────── */
+    section#quote{
+      min-height:60vh;display:flex;align-items:center;justify-content:center;
+      text-align:center;padding:100px 24px;
+    }
+    .quote-inner{position:relative;z-index:2;max-width:900px;margin:0 auto}
+    .quote-pre{font-size:9px;font-weight:600;letter-spacing:0.32em;text-transform:uppercase;color:var(--color-on-overlay);opacity:0.7;margin-bottom:12px}
+    .quote-main{font-family:var(--font-heading);font-size:clamp(5rem,13vw,11rem);color:var(--color-on-overlay);font-weight:300;line-height:0.88;letter-spacing:0.06em}
+    .quote-post{font-size:9px;font-weight:600;letter-spacing:0.32em;text-transform:uppercase;color:var(--color-on-overlay);opacity:0.7;margin-top:14px}
+
+    /* ─── ACCOMODATION / VENUES ─────────────────────────────── */
+    section#accomodation{background:var(--color-canvas);padding:80px 0 100px}
+    .venues-inner{max-width:1200px;margin:0 auto;padding:0 64px}
+    .venues-heading{
+      font-family:var(--font-heading);font-style:italic;
+      font-size:clamp(1.8rem,3vw,2.6rem);color:var(--color-primary);
+      font-weight:300;margin-bottom:40px;letter-spacing:0.04em;
+    }
+    .venues-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:36px}
+    .venue-card{border-radius:20px;overflow:hidden;position:relative}
+    .venue-card img{width:100%;height:380px;object-fit:cover;display:block;transition:transform 0.6s ease}
+    .venue-card:hover img{transform:scale(1.04)}
+    .venue-label{
+      position:absolute;bottom:0;left:0;right:0;padding:24px 20px;
+      background:linear-gradient(to top,color-mix(in srgb,var(--color-surface-inverse) 60%,transparent),transparent);
+    }
+    .venue-label p{font-family:var(--font-heading);font-size:1.1rem;color:var(--color-on-surface-inverse);font-style:italic}
+    .venue-label span{font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-on-surface-inverse);opacity:0.7}
+    @media(max-width:768px){.venues-grid{grid-template-columns:1fr}}
+
+    /* ─── GALLERY ───────────────────────────────────────────── */
+    section#gallery{background:var(--color-canvas);padding:80px 0 100px}
+    .gallery-inner{max-width:1200px;margin:0 auto;padding:0 64px}
+    .gallery-title{
+      font-family:var(--font-heading);font-size:clamp(2rem,4vw,3.4rem);
+      color:var(--color-primary);font-weight:300;text-align:center;
+      letter-spacing:0.08em;margin-bottom:64px;
+    }
+    .gallery-row{display:flex;gap:20px;align-items:flex-start}
+    .gallery-photo{flex:1;overflow:hidden;border-radius:4px}
+    .gallery-photo img{width:100%;object-fit:cover;display:block;transition:transform 0.5s ease}
+    .gallery-photo:hover img{transform:scale(1.04)}
+    .gallery-photo:nth-child(1) img{height:360px}
+    .gallery-photo:nth-child(2) img{height:300px}
+    .gallery-photo:nth-child(2){margin-top:60px}
+    .gallery-photo:nth-child(3) img{height:320px}
+    .gallery-photo:nth-child(3){margin-top:20px}
+    .gallery-photo:nth-child(4) img{height:310px}
+    .gallery-photo:nth-child(4){margin-top:50px}
+    .gallery-footer{text-align:right;margin-top:36px}
+    .gallery-services-link{
+      font-size:9px;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;
+      color:var(--color-on-canvas-muted);border-bottom:1px solid var(--color-border);
+      padding-bottom:3px;
+    }
+    @media(max-width:768px){.gallery-row{flex-wrap:wrap}.gallery-photo,.gallery-photo:nth-child(n){margin-top:0;flex:1 1 45%}.gallery-photo img{height:220px!important}}
+
+    /* ─── DETAILS ──────────────────────────────────────────── */
+    section#details{background:var(--color-canvas-alt);padding:100px 0}
+    .details-inner{max-width:1000px;margin:0 auto;padding:0 60px;text-align:center}
+    .details-header{margin-bottom:56px}
+    .details-header .section-serif-title{font-style:italic}
+    .details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+    .detail-card{padding:44px 32px;background:var(--color-surface);border:1px solid var(--color-border-subtle)}
+    .detail-card:first-child{border-radius:20px 0 0 20px}
+    .detail-card:last-child{border-radius:0 20px 20px 0}
+    .detail-icon{width:44px;height:44px;border-radius:50%;background:var(--color-primary-container);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--color-on-primary-container)}
+    .detail-card h3{font-family:var(--font-heading);font-size:1.4rem;color:var(--color-on-surface);margin-bottom:10px;font-weight:500}
+    .detail-card p{font-size:0.88rem;color:var(--color-on-surface-muted);line-height:1.75}
+    .detail-card strong{color:var(--color-on-surface);font-weight:500}
+    @media(max-width:700px){.details-grid{grid-template-columns:1fr}.detail-card{border-radius:0!important;margin-bottom:2px}}
+
+    /* ─── SCHEDULE ──────────────────────────────────────────── */
+    section#schedule{background:var(--color-surface-inverse);padding:100px 0}
+    .schedule-inner{max-width:760px;margin:0 auto;padding:0 48px}
+    .schedule-header{text-align:center;margin-bottom:60px}
+    .schedule-header .section-serif-title{color:var(--color-on-surface-inverse);font-style:italic}
+    .schedule-header .section-eyebrow{color:var(--color-tertiary)}
+    .sched-list{display:flex;flex-direction:column}
+    .sched-item{
+      display:grid;grid-template-columns:110px 1fr;gap:28px;align-items:center;
+      padding:22px 0;border-bottom:1px solid color-mix(in srgb,var(--color-on-surface-inverse) 14%,transparent);
+    }
+    .sched-item:first-child{border-top:1px solid color-mix(in srgb,var(--color-on-surface-inverse) 14%,transparent)}
+    .sched-time{font-family:var(--font-heading);font-size:1.15rem;color:var(--color-tertiary);font-style:italic}
+    .sched-name{font-family:var(--font-heading);font-size:1.2rem;color:var(--color-on-surface-inverse);margin-bottom:2px}
+    .sched-desc{font-size:0.84rem;color:var(--color-on-surface-muted)}
+
+    /* ─── DRESSING ──────────────────────────────────────────── */
+    section#dressing{background:var(--color-canvas);padding:100px 0}
+    .dressing-inner{max-width:900px;margin:0 auto;padding:0 60px;text-align:center}
+    .dressing-header{margin-bottom:52px}
+    .dressing-header .section-serif-title{font-style:italic}
+    .dressing-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .dressing-card{background:var(--color-surface-alt);padding:40px 32px;border-radius:20px;text-align:center}
+    .dressing-swatch{width:60px;height:60px;border-radius:50%;margin:0 auto 14px;border:2px solid var(--color-border-subtle)}
+    .dressing-card h3{font-family:var(--font-heading);font-size:1.3rem;color:var(--color-on-canvas);margin-bottom:8px;font-style:italic}
+    .dressing-card p{font-size:0.88rem;color:var(--color-on-canvas-muted);line-height:1.75}
+    @media(max-width:580px){.dressing-grid{grid-template-columns:1fr}}
+
+    /* ─── TRANSPORTATION ────────────────────────────────────── */
+    section#transportation{background:var(--color-canvas-alt);padding:80px 0}
+    .transport-inner{max-width:900px;margin:0 auto;padding:0 60px;text-align:center}
+    .transport-header{margin-bottom:48px}
+    .transport-header .section-serif-title{font-style:italic}
+    .transport-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .transport-card{padding:32px 24px;background:var(--color-surface);border-radius:20px;text-align:center;border:1px solid var(--color-border-subtle)}
+    .transport-icon{font-size:2rem;margin-bottom:12px}
+    .transport-card h3{font-family:var(--font-heading);font-size:1.2rem;color:var(--color-on-canvas);margin-bottom:8px;font-style:italic}
+    .transport-card p{font-size:0.85rem;color:var(--color-on-canvas-muted);line-height:1.75}
+    @media(max-width:600px){.transport-grid{grid-template-columns:1fr}}
+
+    /* ─── GIFTS ─────────────────────────────────────────────── */
+    section#gifts{background:var(--color-canvas);padding:80px 0}
+    .gifts-inner{max-width:600px;margin:0 auto;padding:0 48px;text-align:center}
+    .gifts-inner .section-serif-title{font-style:italic;margin-bottom:16px}
+    .gifts-inner p{font-size:0.95rem;color:var(--color-on-canvas-muted);line-height:1.9;margin-bottom:32px}
+
+    /* ─── RSVP / BOOK NOW ───────────────────────────────────── */
+    section#rsvp{background:var(--color-canvas);padding:100px 0}
+    .rsvp-inner{max-width:860px;margin:0 auto;padding:0 60px}
+    .rsvp-heading{
+      font-family:var(--font-heading);font-size:clamp(2.8rem,5vw,5rem);
+      color:var(--color-primary);font-weight:300;font-style:italic;
+      text-align:center;margin-bottom:56px;letter-spacing:0.03em;
+    }
+    /* Inline quick contact row (matching reference image) */
+    .rsvp-quick{display:flex;gap:20px;align-items:flex-end;justify-content:center;margin-bottom:60px;flex-wrap:wrap}
+    .rsvp-quick-field{display:flex;flex-direction:column;gap:0;flex:1;min-width:180px;max-width:280px}
+    .rsvp-quick-field input{
+      border:none;border-bottom:1px solid var(--color-border);
+      padding:12px 0;font-size:0.95rem;color:var(--color-on-surface);
+      background:transparent;font-family:var(--font-body);
+      transition:border-color 0.3s;
+    }
+    .rsvp-quick-field input::placeholder{color:var(--color-on-surface-subtle)}
+    .rsvp-quick-field input:focus{outline:none;border-color:var(--color-primary)}
+    /* Full form below */
+    .rsvp-divider{text-align:center;margin-bottom:40px}
+    .rsvp-divider span{font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--color-on-canvas-muted)}
+    .rsvp-form-card{background:var(--color-surface-alt);border-radius:20px;padding:48px 40px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+    .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+    .form-group label{font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-on-surface-muted)}
+    .form-group input,.form-group select,.form-group textarea{
+      background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-sm);
+      padding:12px 16px;font-size:0.9rem;color:var(--color-on-surface);
+      font-family:var(--font-body);transition:border-color 0.3s,box-shadow 0.3s;width:100%;
+    }
+    .form-group input::placeholder,.form-group textarea::placeholder{color:var(--color-on-surface-subtle)}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-container)}
+    .form-group textarea{min-height:110px;resize:vertical}
+    .form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a07868' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+    .conditional-rsvp{display:none}
+    .conditional-rsvp.show{display:block}
+    .form-submit{text-align:center;margin-top:32px}
+    @media(max-width:580px){.form-row{grid-template-columns:1fr}.rsvp-form-card{padding:32px 20px}}
+
+    /* ─── TESTIMONIALS ──────────────────────────────────────── */
+    section#testimonials{background:var(--color-canvas-alt);padding:100px 0}
+    .testimonials-inner{max-width:1100px;margin:0 auto;padding:0 60px;text-align:center}
+    .testimonials-header{margin-bottom:60px}
+    .testimonials-header .section-serif-title{font-style:italic}
+    .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+    .testi-card{background:var(--color-surface);padding:36px 28px;border-radius:20px;text-align:left;border:1px solid var(--color-border-subtle)}
+    .testi-quote-mark{font-family:var(--font-heading);font-size:3.5rem;color:var(--color-primary-container);line-height:0.5;margin-bottom:12px;display:block}
+    .testi-text{font-family:var(--font-heading);font-size:1.05rem;font-style:italic;color:var(--color-on-surface);line-height:1.7;margin-bottom:16px}
+    .testi-author{font-size:8px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-primary)}
+    @media(max-width:768px){.testimonials-grid{grid-template-columns:1fr}}
+
+    /* ─── FAQs ──────────────────────────────────────────────── */
+    section#faqs{background:var(--color-canvas);padding:100px 0}
+    .faqs-inner{max-width:720px;margin:0 auto;padding:0 48px}
+    .faqs-header{text-align:center;margin-bottom:52px}
+    .faqs-header .section-serif-title{font-style:italic}
+    .faq-item{border-bottom:1px solid var(--color-border-subtle);padding:22px 0;cursor:pointer}
+    .faq-q{display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:var(--font-heading);font-size:1.15rem;color:var(--color-on-canvas);font-weight:500}
+    .faq-icon{width:22px;height:22px;flex-shrink:0;color:var(--color-primary);transition:transform 0.3s}
+    .faq-a{font-size:0.88rem;color:var(--color-on-canvas-muted);line-height:1.85;padding-top:14px;display:none}
+    .faq-item.open .faq-icon{transform:rotate(45deg)}
+    .faq-item.open .faq-a{display:block}
+
+    /* ─── MAP ───────────────────────────────────────────────── */
+    section#map{padding:0}
+    .map-container{background:var(--color-canvas-alt);padding:80px 0 0}
+    .map-header{text-align:center;max-width:560px;margin:0 auto 48px;padding:0 24px}
+    .map-header .section-serif-title{font-style:italic}
+    .map-container iframe{width:100%;height:420px;border:none;display:block}
+
+    /* ─── FOOTER ────────────────────────────────────────────── */
+    footer#footer{background:var(--color-surface-inverse);padding:64px 0 0}
+    .footer-inner{max-width:1200px;margin:0 auto;padding:0 64px}
+    .footer-top{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:48px;padding-bottom:48px}
+    .footer-logo{font-family:var(--font-body);font-weight:800;font-size:18px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-on-surface-inverse);margin-bottom:20px}
+    .footer-logo span{color:var(--color-tertiary)}
+    .footer-nav-links{list-style:none}
+    .footer-nav-links li{margin-bottom:10px}
+    .footer-nav-links li a{font-size:0.88rem;color:var(--color-on-surface-muted);transition:color 0.3s}
+    .footer-nav-links li a:hover{color:var(--color-on-surface-inverse)}
+    .footer-col-title{font-size:10px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-on-surface-inverse);margin-bottom:20px}
+    .footer-col-body{font-size:0.88rem;color:var(--color-on-surface-muted);line-height:1.85}
+    .footer-bottom{border-top:1px solid color-mix(in srgb,var(--color-on-surface-inverse) 16%,transparent);padding:24px 0;text-align:center}
+    .footer-copy{font-size:0.82rem;color:var(--color-on-surface-muted)}
+    @media(max-width:768px){.footer-top{grid-template-columns:1fr}.footer-inner{padding:0 32px}}
+  </style>
+</head>
+<body class="theme-renthem">
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#hero" class="logo">Rent<span>t</span>hem</a>
+    <ul>
+      <li><a href="#hero">Main</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#faqs">FAQ</a></li>
+      <li><a href="#features">Services</a></li>
+      <li><a href="#rsvp">Contact</a></li>
+    </ul>
+    <a href="#rsvp" class="nav-book">Book Event</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" class="has-bg-image" data-overlay-opacity="0.08">
+    <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=85');"></div>
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Wedding's</h1>
+      <p class="hero-subtitle">Are even more enjoyed with us</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-top">
+      <div class="reveal-left">
+        <h2 class="about-heading">About</h2>
+      </div>
+      <div class="about-text-col reveal-right">
+        <p>At Renthem, we specialize in making dream weddings a reality by offering stunning event venues for rent on a daily basis. Whether you're planning a grand celebration or an intimate ceremony, we provide a curated selection of venues that perfectly match your vision.</p>
+        <a href="#features" class="pill-btn">Read more</a>
+      </div>
+    </div>
+    <div class="about-photos" data-fp-dynamic-items="true">
+      <div class="about-photo reveal" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80" alt="Wedding arch venue" loading="lazy">
+      </div>
+      <div class="about-photo reveal" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&q=80" alt="Wedding reception hall" loading="lazy">
+      </div>
+      <div class="about-photo reveal" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=600&q=80" alt="Beach ceremony setup" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div style="max-width:1100px;margin:0 auto;padding:0 80px">
+      <h2 class="features-title reveal">Features</h2>
+    </div>
+
+    <div class="feature-block" data-fp-dynamic="true">
+      <div class="reveal-left">
+        <span class="feature-heading">Creating Magical Moments<br>in Santorini</span>
+        <p class="feature-body">It provides the ideal environment for hosting your most special events. The elegant and functional design, combined with the surrounding views offering stunning panoramas, creates an enchanting space for wedding receptions, professional events, baptisms, and other significant moments of your life.</p>
+        <a href="#rsvp" class="pill-btn">More</a>
+      </div>
+      <div class="feature-img reveal-right">
+        <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800&q=80" alt="Wedding table setting" loading="lazy">
+      </div>
+    </div>
+
+    <div class="feature-block reverse" data-fp-dynamic="true">
+      <div class="feature-img reveal-left">
+        <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=80" alt="Wedding ceremony" loading="lazy">
+      </div>
+      <div class="reveal-right">
+        <h3 class="feature-serif-heading">Wedding</h3>
+        <p class="feature-body">Plan your dream wedding in Santorini at a breathtaking venue with panoramic views that will steal the show and leave unforgettable memories for you and your guests. Celebrate your love story in a breathtaking venue, designed to create unforgettable moments. From elegant décor to personalized services, we bring your dream wedding to life with perfection.</p>
+        <a href="#rsvp" class="pill-btn">More</a>
+      </div>
+    </div>
+
+    <div class="feature-block" data-fp-dynamic="true">
+      <div class="reveal-left">
+        <span class="feature-heading">Birthday &amp; Private Events</span>
+        <p class="feature-body">Celebrate your special day in style with a birthday party at our exclusive venue. Themed décor, ambient lighting and gourmet catering options from our experienced team ensure every moment is treasured. Allow us to craft the perfect setting for joyful memories with those you love.</p>
+        <a href="#rsvp" class="pill-btn">More</a>
+      </div>
+      <div class="feature-img reveal-right">
+        <img src="https://images.unsplash.com/photo-1543007631-283050bb3e8c?w=800&q=80" alt="Birthday celebration" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section id="story">
+    <div class="story-inner">
+      <div class="story-header reveal">
+        <span class="section-eyebrow">Our Journey</span>
+        <h2 class="section-serif-title">How It All Began</h2>
+      </div>
+      <div class="timeline" data-fp-dynamic-items="true">
+        <div class="tl-item" data-fp-dynamic="true">
+          <div class="tl-text reveal-left">
+            <p class="tl-date">September 2019</p>
+            <h3>First Meeting</h3>
+            <p>We crossed paths at a gallery opening in London. Emma was admiring a painting; James was admiring Emma.</p>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-empty"></div>
+        </div>
+        <div class="tl-item" data-fp-dynamic="true">
+          <div class="tl-empty"></div>
+          <div class="tl-dot"></div>
+          <div class="tl-text reveal-right">
+            <p class="tl-date">February 2020</p>
+            <h3>First Date</h3>
+            <p>A candlelit dinner in Notting Hill that stretched well past midnight. We both knew something special had begun.</p>
+          </div>
+        </div>
+        <div class="tl-item" data-fp-dynamic="true">
+          <div class="tl-text reveal-left">
+            <p class="tl-date">July 2022</p>
+            <h3>First Home Together</h3>
+            <p>We moved into our flat in Hackney, discovering we both preferred tea to coffee and sunsets to sunrises.</p>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-empty"></div>
+        </div>
+        <div class="tl-item" data-fp-dynamic="true">
+          <div class="tl-empty"></div>
+          <div class="tl-dot"></div>
+          <div class="tl-text reveal-right">
+            <p class="tl-date">December 2024</p>
+            <h3>The Proposal</h3>
+            <p>Under the stars in Santorini, James got down on one knee. Emma said yes before he could finish the question.</p>
+          </div>
+        </div>
+        <div class="tl-item" data-fp-dynamic="true">
+          <div class="tl-text reveal-left">
+            <p class="tl-date">September 2026</p>
+            <h3>Forever Begins</h3>
+            <p>We invite you to witness the beginning of our forever. Thank you for being part of our story.</p>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-empty"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section id="countdown" class="countdown-section" data-wedding-date="2026-09-20T17:00:00">
+    <div class="countdown-inner">
+      <p class="countdown-eyebrow">Counting Down</p>
+      <h2 class="countdown-title">The big day is almost here</h2>
+      <div class="countdown-grid">
+        <div class="countdown-item">
+          <span id="days" class="number" contenteditable="false">00</span>
+          <span class="label" contenteditable="false">Days</span>
+        </div>
+        <div class="cd-sep">:</div>
+        <div class="countdown-item">
+          <span id="hours" class="number" contenteditable="false">00</span>
+          <span class="label" contenteditable="false">Hours</span>
+        </div>
+        <div class="cd-sep">:</div>
+        <div class="countdown-item">
+          <span id="minutes" class="number" contenteditable="false">00</span>
+          <span class="label" contenteditable="false">Minutes</span>
+        </div>
+        <div class="cd-sep">:</div>
+        <div class="countdown-item">
+          <span id="seconds" class="number" contenteditable="false">00</span>
+          <span class="label" contenteditable="false">Seconds</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PEOPLE -->
+  <section id="people">
+    <div class="people-inner">
+      <div class="people-header reveal">
+        <span class="section-eyebrow">The Wedding Party</span>
+        <h2 class="section-serif-title">The Ones We Love Most</h2>
+      </div>
+      <div class="people-grid" data-fp-dynamic-items="true">
+        <div class="person-card reveal" data-fp-dynamic="true">
+          <div class="person-photo">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80" alt="Maid of Honour" loading="lazy">
+          </div>
+          <p class="person-role">Maid of Honour</p>
+          <p class="person-name">Sophie Clarke</p>
+        </div>
+        <div class="person-card reveal" data-fp-dynamic="true">
+          <div class="person-photo">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80" alt="Best Man" loading="lazy">
+          </div>
+          <p class="person-role">Best Man</p>
+          <p class="person-name">Oliver Bennett</p>
+        </div>
+        <div class="person-card reveal" data-fp-dynamic="true">
+          <div class="person-photo">
+            <img src="https://images.unsplash.com/photo-1488716820095-cbe80883c496?w=400&q=80" alt="Bridesmaid" loading="lazy">
+          </div>
+          <p class="person-role">Bridesmaid</p>
+          <p class="person-name">Lily Morgan</p>
+        </div>
+        <div class="person-card reveal" data-fp-dynamic="true">
+          <div class="person-photo">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Groomsman" loading="lazy">
+          </div>
+          <p class="person-role">Groomsman</p>
+          <p class="person-name">Tom Harrison</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE / MIDPAGE -->
+  <section id="quote" class="has-bg-image" data-overlay-opacity="0.18">
+    <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=1920&q=80');"></div>
+    <div class="overlay"></div>
+    <div class="quote-inner">
+      <p class="quote-pre">Your perfect</p>
+      <h2 class="quote-main">Wedding</h2>
+      <p class="quote-post">Will come true</p>
+    </div>
+  </section>
+
+  <!-- ACCOMODATION / OUR VENUES -->
+  <section id="accomodation">
+    <div class="venues-inner">
+      <h2 class="venues-heading reveal-left">Our Venues</h2>
+      <div class="venues-grid" data-fp-dynamic-items="true">
+        <div class="venue-card reveal-scale" data-fp-dynamic="true">
+          <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=700&q=80" alt="Grand Ballroom venue" loading="lazy">
+          <div class="venue-label">
+            <p>The Grand Ballroom</p>
+            <span>Up to 300 guests</span>
+          </div>
+        </div>
+        <div class="venue-card reveal-scale" data-fp-dynamic="true">
+          <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=700&q=80" alt="Rooftop venue" loading="lazy">
+          <div class="venue-label">
+            <p>Rooftop Terrace</p>
+            <span>Up to 120 guests</span>
+          </div>
+        </div>
+        <div class="venue-card reveal-scale" data-fp-dynamic="true">
+          <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=700&q=80" alt="Beach venue" loading="lazy">
+          <div class="venue-label">
+            <p>Cliffside Garden</p>
+            <span>Up to 80 guests</span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <a href="#rsvp" class="pill-btn-outline">Watch More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="gallery-inner">
+      <h2 class="gallery-title reveal">Gallery</h2>
+      <div class="gallery-row" data-fp-dynamic-items="true">
+        <div class="gallery-photo reveal" data-fp-dynamic="true">
+          <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=500&q=80" alt="Wedding ceremony garden" loading="lazy">
+        </div>
+        <div class="gallery-photo reveal" data-fp-dynamic="true">
+          <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=500&q=80" alt="Couple walking" loading="lazy">
+        </div>
+        <div class="gallery-photo reveal" data-fp-dynamic="true">
+          <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=500&q=80" alt="Beach wedding" loading="lazy">
+        </div>
+        <div class="gallery-photo reveal" data-fp-dynamic="true">
+          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=500&q=80" alt="Couple portrait" loading="lazy">
+        </div>
+      </div>
+      <div class="gallery-footer reveal">
+        <a href="#features" class="gallery-services-link">Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section id="details">
+    <div class="details-inner">
+      <div class="details-header reveal">
+        <span class="section-eyebrow">Where &amp; When</span>
+        <h2 class="section-serif-title">Event Details</h2>
+      </div>
+      <div class="details-grid reveal">
+        <div class="detail-card">
+          <div class="detail-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3>The Date</h3>
+          <p><strong>Sunday, 20 September 2026</strong><br>Ceremony at 5:00 PM<br>Reception follows</p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h3>The Venue</h3>
+          <p><strong>Amoudi Bay Estate</strong><br>Oia, Santorini<br>Greece</p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>RSVP Deadline</h3>
+          <p><strong>30 June 2026</strong><br>Please confirm<br>your attendance</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule">
+    <div class="schedule-inner">
+      <div class="schedule-header reveal">
+        <span class="section-eyebrow">Wedding Day</span>
+        <h2 class="section-serif-title">Day Schedule</h2>
+      </div>
+      <div class="sched-list" data-fp-dynamic-items="true">
+        <div class="sched-item" data-fp-dynamic="true">
+          <p class="sched-time">3:30 PM</p>
+          <div><p class="sched-name">Guests Arrive</p><p class="sched-desc">Welcome drinks at the estate gardens</p></div>
+        </div>
+        <div class="sched-item" data-fp-dynamic="true">
+          <p class="sched-time">5:00 PM</p>
+          <div><p class="sched-name">Ceremony</p><p class="sched-desc">Exchanging vows at the cliffside pavilion</p></div>
+        </div>
+        <div class="sched-item" data-fp-dynamic="true">
+          <p class="sched-time">5:45 PM</p>
+          <div><p class="sched-name">Cocktail Hour</p><p class="sched-desc">Champagne and live acoustic music</p></div>
+        </div>
+        <div class="sched-item" data-fp-dynamic="true">
+          <p class="sched-time">7:00 PM</p>
+          <div><p class="sched-name">Dinner Reception</p><p class="sched-desc">Mediterranean feast under the stars</p></div>
+        </div>
+        <div class="sched-item" data-fp-dynamic="true">
+          <p class="sched-time">9:30 PM</p>
+          <div><p class="sched-name">First Dance &amp; Celebrations</p><p class="sched-desc">Live DJ and dancing into the night</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DRESSING -->
+  <section id="dressing">
+    <div class="dressing-inner">
+      <div class="dressing-header reveal">
+        <span class="section-eyebrow">Dress Code</span>
+        <h2 class="section-serif-title">What to Wear</h2>
+      </div>
+      <div class="dressing-grid" data-fp-dynamic-items="true">
+        <div class="dressing-card" data-fp-dynamic="true">
+          <div class="dressing-swatch" style="background:linear-gradient(135deg,#d4a96a,#e8c990)"></div>
+          <h3>Warm Golds &amp; Champagne</h3>
+          <p>Sandy beige, champagne, honey and warm gold tones. Floaty fabrics encouraged — we're dancing under the stars!</p>
+        </div>
+        <div class="dressing-card" data-fp-dynamic="true">
+          <div class="dressing-swatch" style="background:linear-gradient(135deg,#c47a50,#e8b898)"></div>
+          <h3>Earthy Terracottas</h3>
+          <p>Dusty rose, terracotta, blush and soft coral are warmly welcomed. Please avoid white, ivory and black.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSPORTATION -->
+  <section id="transportation">
+    <div class="transport-inner">
+      <div class="transport-header reveal">
+        <span class="section-eyebrow">Getting Around</span>
+        <h2 class="section-serif-title">Transportation</h2>
+      </div>
+      <div class="transport-grid" data-fp-dynamic-items="true">
+        <div class="transport-card reveal" data-fp-dynamic="true">
+          <p class="transport-icon" data-emoji-edit>✈️</p>
+          <h3>From Airport</h3>
+          <p>Shuttle buses depart from Santorini Airport to Oia at 2:00 PM on the wedding day.</p>
+        </div>
+        <div class="transport-card reveal" data-fp-dynamic="true">
+          <p class="transport-icon" data-emoji-edit>🚌</p>
+          <h3>Shuttle Service</h3>
+          <p>Complimentary shuttles run between the main hotels and the venue from 3:00 PM.</p>
+        </div>
+        <div class="transport-card reveal" data-fp-dynamic="true">
+          <p class="transport-icon" data-emoji-edit>🚕</p>
+          <h3>Taxis</h3>
+          <p>Taxis are readily available on the island. We recommend booking in advance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GIFTS -->
+  <section id="gifts">
+    <div class="gifts-inner reveal">
+      <p style="font-size:2.5rem;margin-bottom:20px" data-emoji-edit>🎁</p>
+      <span class="section-eyebrow">Gift Registry</span>
+      <h2 class="section-serif-title" style="margin-bottom:16px">A Gift From You</h2>
+      <p>Your presence is the greatest gift of all. If you'd like to give something, we have a small registry at John Lewis and welcome contributions to our honeymoon fund — we're planning a trip through Japan!</p>
+      <a href="#rsvp" class="pill-btn">View Registry</a>
+    </div>
+  </section>
+
+  <!-- RSVP / BOOK NOW -->
+  <section id="rsvp">
+    <div class="rsvp-inner">
+      <h2 class="rsvp-heading reveal">Book Now</h2>
+
+      <!-- Quick inline contact (matching reference image) -->
+      <div class="rsvp-quick reveal">
+        <div class="rsvp-quick-field">
+          <input type="text" placeholder="Name" name="quick_name" id="quick-name" aria-label="Your name">
+        </div>
+        <div class="rsvp-quick-field">
+          <input type="tel" placeholder="Phone number" name="quick_phone" id="quick-phone" aria-label="Your phone number">
+        </div>
+        <button class="pill-btn" type="button" onclick="document.getElementById('rsvp-full').scrollIntoView({behavior:'smooth'})">Send</button>
+      </div>
+
+      <!-- Full RSVP form -->
+      <div class="rsvp-divider reveal">
+        <span>— Complete your RSVP below —</span>
+      </div>
+      <div class="rsvp-form-card reveal-scale" id="rsvp-full">
+        <form id="rsvp-form" novalidate>
+          <div class="form-row" data-fp-dynamic-items="true">
+            <div class="form-group">
+              <label for="first-name">First Name *</label>
+              <input type="text" id="first-name" name="first_name" required placeholder="Emma">
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name *</label>
+              <input type="text" id="last-name" name="last_name" required placeholder="Johnson">
+            </div>
+          </div>
+          <div class="form-row" data-fp-dynamic-items="true">
+            <div class="form-group">
+              <label for="mobile">Mobile *</label>
+              <input type="tel" id="mobile" name="mobile" required placeholder="+44 7700 000000">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com">
+            </div>
+          </div>
+          <div class="form-row" data-fp-dynamic-items="true">
+            <div class="form-group">
+              <label for="age-group">Guest Type</label>
+              <select id="age-group" name="age_group">
+                <option value="adult">Adult</option>
+                <option value="child">Child</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="attendance">Will You Attend? *</label>
+              <select id="attendance" name="attendance" required>
+                <option value="">— Please select —</option>
+                <option value="yes">Yes, I will be there!</option>
+                <option value="no">No, sorry I can't make it</option>
+              </select>
+            </div>
+          </div>
+          <div class="conditional-rsvp" id="cond-yes">
+            <div class="form-group">
+              <label for="allergies">Dietary Requirements / Allergies</label>
+              <input type="text" id="allergies" name="allergies" placeholder="e.g. Vegetarian, gluten-free...">
+            </div>
+            <div class="form-row" data-fp-dynamic-items="true">
+              <div class="form-group">
+                <label for="transport-use">Use shuttle service?</label>
+                <select id="transport-use" name="transport">
+                  <option value="yes">Yes, please!</option>
+                  <option value="no">No, I'll arrange my own</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="song">Favourite Song</label>
+                <input type="text" id="song" name="song" placeholder="Artist — Song title">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">Message for the Couple</label>
+            <textarea id="message" name="message" placeholder="Share your well wishes..."></textarea>
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="pill-btn" style="padding:14px 48px;font-size:10px">Confirm RSVP</button>
+          </div>
+          <div id="rsvp-success" style="display:none;margin-top:20px;text-align:center;padding:16px;background:var(--color-primary-container);border-radius:var(--radius-sm)">
+            <p style="color:var(--color-on-primary-container);font-weight:500"><span data-emoji-edit>🎉</span> Thank you! We can't wait to celebrate with you.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="testimonials-inner">
+      <div class="testimonials-header reveal">
+        <span class="section-eyebrow">Kind Words</span>
+        <h2 class="section-serif-title">What People Say</h2>
+      </div>
+      <div class="testimonials-grid" data-fp-dynamic-items="true">
+        <div class="testi-card reveal" data-fp-dynamic="true">
+          <span class="testi-quote-mark">"</span>
+          <p class="testi-text">"Emma and James are the most loving, generous, and fun couple we know. This wedding is going to be absolutely magical."</p>
+          <p class="testi-author">Sophie Clarke — Maid of Honour</p>
+        </div>
+        <div class="testi-card reveal" data-fp-dynamic="true">
+          <span class="testi-quote-mark">"</span>
+          <p class="testi-text">"From the moment James told me about Emma, I knew she was special. Watching them together is like watching sunlight."</p>
+          <p class="testi-author">Robert Taylor — James's Father</p>
+        </div>
+        <div class="testi-card reveal" data-fp-dynamic="true">
+          <span class="testi-quote-mark">"</span>
+          <p class="testi-text">"Emma lights up every room she walks into, and James makes her light up even more. A perfect match in every way."</p>
+          <p class="testi-author">Diana Clarke — Emma's Mother</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section id="faqs">
+    <div class="faqs-inner">
+      <div class="faqs-header reveal">
+        <span class="section-eyebrow">Questions</span>
+        <h2 class="section-serif-title">Frequently Asked</h2>
+      </div>
+      <div data-fp-dynamic-items="true">
+        <div class="faq-item" data-fp-dynamic="true">
+          <div class="faq-q">
+            <span>Is the ceremony outdoors?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <div class="faq-a"><p>Yes! Both the ceremony and reception are outdoors at the Amoudi Bay Estate. We have an indoor contingency for unexpected weather.</p></div>
+        </div>
+        <div class="faq-item" data-fp-dynamic="true">
+          <div class="faq-q">
+            <span>Can I bring a plus one?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <div class="faq-a"><p>Due to the intimate venue, we've carefully curated our guest list. Your invitation will state clearly whether you have a plus one.</p></div>
+        </div>
+        <div class="faq-item" data-fp-dynamic="true">
+          <div class="faq-q">
+            <span>Are children welcome?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <div class="faq-a"><p>Children are welcome! We'll have a dedicated kids' area during the reception. Please indicate on your RSVP how many children are attending.</p></div>
+        </div>
+        <div class="faq-item" data-fp-dynamic="true">
+          <div class="faq-q">
+            <span>Can I take photos during the ceremony?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <div class="faq-a"><p>We're having an unplugged ceremony — phones away during the vows please! Our photographers will capture every moment and share them with you after.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="map" class="map-container">
+    <div class="map-header reveal">
+      <span class="section-eyebrow">Find Us</span>
+      <h2 class="section-serif-title">Getting There</h2>
+      <p style="font-size:0.9rem;color:var(--color-on-canvas-muted);margin-top:8px">Amoudi Bay Estate, Oia, Santorini — 30 min from Santorini Airport (JTR)</p>
+    </div>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3179.563!2d25.3617!3d36.4618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1499ce72afea5f0d%3A0x3b4a5a7c3a5a5a5a!2sOia%2C+Santorini!5e0!3m2!1sen!2s!4v1650000000000!5m2!1sen!2s"
+      loading="lazy"
+      allowfullscreen
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Wedding venue map"></iframe>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <p class="footer-logo">Rent<span>t</span>hem</p>
+          <ul class="footer-nav-links">
+            <li><a href="#about">About us</a></li>
+            <li><a href="#features">Services</a></li>
+            <li><a href="#rsvp">Support</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Follow us</p>
+          <ul class="footer-nav-links">
+            <li><a href="#footer">Instagram</a></li>
+            <li><a href="#footer">Facebook</a></li>
+            <li><a href="#footer">Pinterest</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Contact us</p>
+          <p class="footer-col-body">+89 747389211<br>+89 837482901<br><br>Amoudi Bay Estate,<br>Oia, Santorini, Greece</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">All rights reserved. Emma &amp; James 2026</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ─── NAV SCROLL ──────────────────────────────────────────
+    (function () {
+      const nav = document.getElementById('nav');
+      window.addEventListener('scroll', function () {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+      });
+    })();
+
+    // ─── COUNTDOWN ───────────────────────────────────────────
+    (function () {
+      const section = document.querySelector('.countdown-section');
+      if (!section) return;
+      const weddingDate = new Date(section.dataset.weddingDate);
+      const daysEl = document.getElementById('days');
+      const hoursEl = document.getElementById('hours');
+      const minutesEl = document.getElementById('minutes');
+      const secondsEl = document.getElementById('seconds');
+      function update() {
+        const diff = weddingDate - new Date();
+        if (diff <= 0) {
+          [daysEl, hoursEl, minutesEl, secondsEl].forEach(function (el) { if (el) el.textContent = '00'; });
+          return;
+        }
+        if (daysEl) daysEl.textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+        if (hoursEl) hoursEl.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+        if (minutesEl) minutesEl.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+        if (secondsEl) secondsEl.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+      }
+      update();
+      setInterval(update, 1000);
+    })();
+
+    // ─── REVEAL ON SCROLL ────────────────────────────────────
+    (function () {
+      var els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+        });
+      }, { threshold: 0.1 });
+      els.forEach(function (el) { observer.observe(el); });
+    })();
+
+    // ─── RSVP CONDITIONAL ────────────────────────────────────
+    (function () {
+      var sel = document.getElementById('attendance');
+      var cond = document.getElementById('cond-yes');
+      if (!sel || !cond) return;
+      sel.addEventListener('change', function () {
+        cond.classList.toggle('show', this.value === 'yes');
+      });
+    })();
+
+    // ─── RSVP SUBMIT ─────────────────────────────────────────
+    (function () {
+      var form = document.getElementById('rsvp-form');
+      var success = document.getElementById('rsvp-success');
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (success) success.style.display = 'block';
+        var btn = form.querySelector('button[type=submit]');
+        if (btn) { btn.textContent = 'Confirmed!'; btn.disabled = true; }
+      });
+    })();
+
+    // ─── FAQ ACCORDION ───────────────────────────────────────
+    (function () {
+      document.querySelectorAll('.faq-item').forEach(function (item) {
+        item.addEventListener('click', function () {
+          var isOpen = this.classList.contains('open');
+          document.querySelectorAll('.faq-item').forEach(function (i) { i.classList.remove('open'); });
+          if (!isOpen) this.classList.add('open');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

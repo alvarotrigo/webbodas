@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentina & Sebastian — 11.15.26</title>
+    <meta name="description" content="Join us to celebrate the wedding of Valentina and Sebastian. November 15, 2026 at The Grand Noir, New York.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ─── BASE ─── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+        }
+        nav.scrolled {
+            background: var(--primary-bg);
+            backdrop-filter: blur(12px);
+            padding: 14px 48px;
+            box-shadow: var(--shadow-sm);
+        }
+        nav .logo {
+            position: absolute;
+            left: 48px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--accent-text);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 32px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--secondary-text);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        nav ul li a:hover,
+        nav ul li a.active { color: var(--primary-accent); }
+        nav ul li a:hover::after,
+        nav ul li a.active::after { transform: scaleX(1); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+            position: absolute;
+            right: 48px;
+        }
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--primary-text);
+            transition: all 0.3s ease;
+        }
+
+        /* ─── HERO ─── */
+        section#hero {
+            min-height: 100vh !important;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        section#hero .fp-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+        section#hero .fp-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, var(--overlay-opacity, 0.5));
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: var(--accent-text);
+            padding: 40px 24px;
+            max-width: 900px;
+        }
+        .hero-content .pre-title {
+            font-family: 'Pinyon Script', cursive;
+            font-size: clamp(28px, 4vw, 48px);
+            color: var(--primary-accent);
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+        .hero-content .names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(48px, 8vw, 110px);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: 0.06em;
+            margin-bottom: 20px;
+        }
+        .hero-content .names .amp {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 0.45em;
+            display: inline-block;
+            margin: 0 16px;
+            color: var(--primary-accent);
+            opacity: 0.8;
+            vertical-align: middle;
+        }
+        .hero-content .date-line {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--secondary-text);
+            margin-bottom: 40px;
+        }
+        .hero-cta {
+            display: inline-block;
+            padding: 18px 52px;
+            border: 2px solid var(--primary-accent);
+            color: var(--primary-accent);
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: var(--button-radius);
+            transition: all 0.4s ease;
+        }
+        .hero-cta:hover {
+            background: var(--primary-accent);
+            color: var(--primary-bg);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            color: var(--secondary-text);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+        .scroll-indicator svg { width: 16px; height: 16px; }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ─── SECTION COMMON ─── */
+        .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 120px 48px;
+        }
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--primary-accent);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(32px, 4.5vw, 56px);
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: var(--accent-text);
+        }
+        .section-subtitle {
+            font-family: 'Pinyon Script', cursive;
+            font-size: clamp(22px, 2.5vw, 32px);
+            color: var(--primary-accent);
+            margin-bottom: 24px;
+        }
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--gradient-2);
+            margin-bottom: 40px;
+        }
+        .section-text {
+            font-size: 16px;
+            line-height: 1.9;
+            color: var(--secondary-text);
+            max-width: 640px;
+        }
+
+        /* ─── COUNTDOWN ─── */
+        section#countdown {
+            background: var(--accent-bg);
+            text-align: center;
+        }
+        .countdown-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 48px;
+            flex-wrap: wrap;
+        }
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--primary-bg);
+            border-radius: var(--card-radius);
+            padding: 28px 36px;
+            box-shadow: var(--card-shadow);
+            min-width: 110px;
+            border: 1px solid var(--border-color);
+        }
+        .countdown-item .number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(40px, 5vw, 64px);
+            font-weight: 700;
+            color: var(--primary-accent);
+            line-height: 1;
+        }
+        .countdown-item .label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--secondary-text);
+            margin-top: 8px;
+        }
+
+        /* ─── DETAILS / WHEN & WHERE ─── */
+        section#details { background: var(--primary-bg); }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+            margin-top: 48px;
+        }
+        .detail-card {
+            background: var(--secondary-bg);
+            border-radius: var(--card-radius);
+            padding: 40px 28px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+        .detail-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .detail-card .card-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .detail-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: var(--accent-text);
+        }
+        .detail-card .event-date {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--primary-accent);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+        }
+        .detail-card p {
+            font-size: 14px;
+            color: var(--secondary-text);
+            line-height: 1.8;
+        }
+        .detail-card .event-location {
+            margin-top: 16px;
+            font-family: 'Pinyon Script', cursive;
+            font-size: 20px;
+            color: var(--primary-accent);
+        }
+
+        /* ─── SCHEDULE / TIMELINE ─── */
+        section#schedule { background: var(--secondary-bg); }
+        .timeline {
+            position: relative;
+            margin-top: 60px;
+            padding: 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+            transform: translateX(-50%);
+        }
+        .timeline-item {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 60px;
+            width: 100%;
+        }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-item:nth-child(odd) { flex-direction: row; }
+        .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 32px;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            z-index: 2;
+            box-shadow: var(--shadow-md);
+        }
+
+        .timeline-content {
+            width: calc(50% - 48px);
+            background: var(--primary-bg);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .timeline-content:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .timeline-body { padding: 28px; }
+        .timeline-time {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .timeline-body h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            color: var(--accent-text);
+        }
+        .timeline-body p {
+            font-size: 14px;
+            color: var(--secondary-text);
+            line-height: 1.8;
+        }
+
+        /* ─── OUR STORY ─── */
+        section#story { background: var(--primary-bg); }
+        .story-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 48px;
+            align-items: center;
+        }
+        .story-image {
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        .story-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .story-image:hover img { transform: scale(1.03); }
+        .story-text blockquote {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 26px;
+            color: var(--primary-accent);
+            margin-top: 28px;
+            padding-left: 20px;
+            border-left: 3px solid var(--primary-accent-soft);
+        }
+
+        /* ─── QUOTE ─── */
+        section#quote {
+            position: relative;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        section#quote .fp-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+        section#quote .fp-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, var(--overlay-opacity, 0.5));
+        }
+        .quote-inner {
+            position: relative;
+            z-index: 1;
+            color: var(--accent-text);
+            padding: 80px 48px;
+            max-width: 750px;
+        }
+        .quote-inner blockquote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(22px, 3vw, 36px);
+            font-weight: 300;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .quote-inner cite {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 24px;
+            color: var(--primary-accent);
+            font-style: normal;
+        }
+
+        /* ─── GALLERY ─── */
+        section#gallery { background: var(--secondary-bg); }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 48px;
+        }
+        .gallery-item {
+            overflow: hidden;
+            border-radius: var(--card-radius);
+            aspect-ratio: 1;
+            position: relative;
+        }
+        .gallery-item.tall {
+            grid-row: span 2;
+            aspect-ratio: auto;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8) contrast(1.05);
+            transition: transform 0.6s ease, filter 0.6s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.08);
+            filter: brightness(1) contrast(1);
+        }
+
+        /* ─── ACCOMMODATION ─── */
+        section#accomodation { background: var(--primary-bg); }
+        .accommodation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+            margin-top: 48px;
+        }
+        .accommodation-card {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 36px 28px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .accommodation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .accommodation-card .card-icon { font-size: 32px; margin-bottom: 12px; }
+        .accommodation-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 6px;
+            color: var(--accent-text);
+        }
+        .accommodation-card .price {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--primary-accent);
+            margin-bottom: 16px;
+        }
+        .accommodation-card p {
+            font-size: 14px;
+            color: var(--secondary-text);
+            line-height: 1.8;
+        }
+
+        /* ─── MAP ─── */
+        section#map { background: var(--secondary-bg); }
+        .map-frame {
+            margin-top: 40px;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+        .map-frame iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            filter: invert(0.9) hue-rotate(180deg);
+        }
+
+        /* ─── RSVP ─── */
+        section#rsvp {
+            background: var(--accent-bg);
+        }
+        .rsvp-inner {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 120px 48px;
+        }
+        section#rsvp .section-label { color: var(--primary-accent); }
+        section#rsvp .section-title { color: var(--accent-text); }
+        section#rsvp .section-subtitle { color: var(--primary-accent); }
+        section#rsvp .section-divider { background: var(--gradient-2); }
+
+        .form-group { margin-bottom: 28px; }
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--secondary-text);
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            background: var(--primary-bg);
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--primary-text);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 14px 16px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--secondary-text); }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 3px var(--primary-accent-soft);
+        }
+        .form-group select {
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+        .form-group select option {
+            background: var(--secondary-bg);
+            color: var(--primary-text);
+        }
+        .form-group textarea {
+            resize: none;
+            height: 90px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .btn-rsvp {
+            display: inline-block;
+            padding: 18px 56px;
+            background: var(--primary-accent);
+            color: var(--primary-bg);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            border-radius: var(--button-radius);
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            margin-top: 8px;
+        }
+        .btn-rsvp:hover {
+            background: var(--secondary-accent);
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        /* RSVP data-bg overrides for light backgrounds */
+        section#rsvp[data-bg="primary"] .section-title,
+        section#rsvp[data-bg="secondary"] .section-title { color: var(--accent-text); }
+        section#rsvp[data-bg="primary"] .form-group label,
+        section#rsvp[data-bg="secondary"] .form-group label { color: var(--secondary-text); }
+        section#rsvp[data-bg="primary"] .form-group input,
+        section#rsvp[data-bg="primary"] .form-group select,
+        section#rsvp[data-bg="primary"] .form-group textarea,
+        section#rsvp[data-bg="secondary"] .form-group input,
+        section#rsvp[data-bg="secondary"] .form-group select,
+        section#rsvp[data-bg="secondary"] .form-group textarea {
+            background: var(--secondary-bg);
+            border-color: var(--border-color);
+            color: var(--primary-text);
+        }
+
+        /* Conditional fields */
+        .conditional-fields { display: none; }
+        .conditional-fields.show { display: block; }
+
+        /* ─── FAQS ─── */
+        section#faqs { background: var(--secondary-bg); }
+        .faq-list { margin-top: 48px; max-width: 720px; }
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 24px 0;
+        }
+        .faq-item:first-child { border-top: 1px solid var(--border-color); }
+        h3.faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            color: var(--accent-text);
+            font-weight: 400;
+            margin: 0;
+        }
+        .faq-question svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s;
+            stroke: var(--primary-accent);
+            flex-shrink: 0;
+        }
+        .faq-item.open .faq-question svg { transform: rotate(45deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding-top: 16px;
+        }
+        .faq-answer p {
+            font-size: 14px;
+            color: var(--secondary-text);
+            line-height: 1.8;
+        }
+
+        /* ─── FOOTER ─── */
+        footer#footer {
+            background: var(--secondary-bg);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            padding: 80px 48px 48px;
+        }
+        footer .footer-monogram {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 300;
+            color: var(--accent-text);
+            margin-bottom: 8px;
+            letter-spacing: 0.1em;
+        }
+        footer .footer-tagline {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 26px;
+            color: var(--primary-accent);
+            margin-bottom: 32px;
+        }
+        footer .footer-note {
+            font-size: 12px;
+            color: var(--secondary-text);
+            letter-spacing: 0.1em;
+        }
+
+        /* ─── REVEAL ANIMATIONS ─── */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal-scale { opacity: 0; transform: scale(0.92); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .hamburger { display: flex; }
+            nav.menu-open ul {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100vh;
+                background: var(--primary-bg);
+                justify-content: center;
+                align-items: center;
+                gap: 28px;
+                z-index: 999;
+            }
+            nav.menu-open ul li a { font-size: 16px; color: var(--primary-text); }
+            nav { padding: 14px 20px; }
+            nav .logo { left: 20px; }
+            .hamburger { right: 20px; }
+            nav.scrolled { padding: 10px 20px; }
+            .section-inner { padding: 80px 24px; }
+            .rsvp-inner { padding: 80px 24px; }
+            .story-layout { grid-template-columns: 1fr; gap: 40px; }
+            .story-image img { height: 350px; }
+            .timeline::before { left: 20px; }
+            .timeline-dot { left: 20px; width: 36px; height: 36px; font-size: 16px; top: 0; }
+            .timeline-item, .timeline-item:nth-child(odd), .timeline-item:nth-child(even) {
+                flex-direction: row; padding-left: 56px;
+            }
+            .timeline-content { width: 100%; }
+            .details-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item.tall { grid-row: span 1; aspect-ratio: 1; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .countdown-wrapper { gap: 16px; }
+            .countdown-item { padding: 20px 24px; min-width: 80px; }
+            .accommodation-grid { grid-template-columns: 1fr; }
+            footer { padding: 48px 24px 32px; }
+        }
+
+        @media (max-width: 480px) {
+            .story-image img { height: 280px; }
+        }
+    </style>
+</head>
+<body class="theme-wedding-midnight-stars">
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="#hero" class="logo">V & S</a>
+        <ul>
+            <li><a href="#details">Details</a></li>
+            <li><a href="#schedule">Schedule</a></li>
+            <li><a href="#story">Story</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#accomodation">Stay</a></li>
+            <li><a href="#rsvp">RSVP</a></li>
+        </ul>
+        <div class="hamburger" onclick="this.closest('nav').classList.toggle('menu-open')">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="has-bg-image" data-overlay-opacity="0.4">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1920&q=80');"></div>
+        <div class="hero-content reveal">
+            <p class="pre-title">We're getting married</p>
+            <h1 class="names">Valentina <span class="amp">&</span> Sebastian</h1>
+            <p class="date-line">November 15, 2026 · The Grand Noir, New York</p>
+            <a href="#rsvp" class="hero-cta">Save the Date</a>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </div>
+    </section>
+
+    <!-- COUNTDOWN -->
+    <section class="countdown-section" id="countdown" data-wedding-date="2026-11-15T18:00:00">
+        <div class="section-inner" style="text-align: center;">
+            <p class="section-label reveal">Counting Down</p>
+            <h2 class="section-title reveal" style="text-align: center;">Until We Say I Do</h2>
+            <p class="section-subtitle reveal" style="text-align: center;">Every moment brings us closer</p>
+            <div class="countdown-wrapper">
+                <div class="countdown-item reveal">
+                    <span class="number" id="days" contenteditable="false">000</span>
+                    <span class="label" contenteditable="false">Days</span>
+                </div>
+                <div class="countdown-item reveal">
+                    <span class="number" id="hours" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Hours</span>
+                </div>
+                <div class="countdown-item reveal">
+                    <span class="number" id="minutes" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Minutes</span>
+                </div>
+                <div class="countdown-item reveal">
+                    <span class="number" id="seconds" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAILS / WHEN & WHERE -->
+    <section id="details">
+        <div class="section-inner">
+            <p class="section-label reveal">Join Us</p>
+            <h2 class="section-title reveal">When & Where</h2>
+            <p class="section-subtitle reveal">An evening to remember</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="details-grid">
+                <div class="detail-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>💒</span>
+                    <h3>The Ceremony</h3>
+                    <p class="event-date">Sunday, November 15 · 5:00 PM</p>
+                    <p>An intimate candlelit ceremony in the grand ballroom. Arrive by 4:45 PM to be seated before the procession begins.</p>
+                    <p class="event-location">The Grand Ballroom</p>
+                </div>
+
+                <div class="detail-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🥂</span>
+                    <h3>The Reception</h3>
+                    <p class="event-date">Sunday, November 15 · 7:00 PM</p>
+                    <p>Cocktails, dinner, and dancing under crystal chandeliers. An open bar and curated menu await your arrival.</p>
+                    <p class="event-location">The Noir Terrace</p>
+                </div>
+
+                <div class="detail-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🎶</span>
+                    <h3>After Party</h3>
+                    <p class="event-date">Sunday, November 15 · 11:00 PM</p>
+                    <p>The night continues in the lounge with live jazz, signature cocktails, and late-night bites until the last guest leaves.</p>
+                    <p class="event-location">The Velvet Lounge</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section id="schedule">
+        <div class="section-inner">
+            <p class="section-label reveal">The Day</p>
+            <h2 class="section-title reveal">Schedule</h2>
+            <p class="section-subtitle reveal">How the evening unfolds</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="timeline" data-fp-dynamic-items="true">
+                <div class="timeline-item reveal-left" data-fp-dynamic="true">
+                    <div class="timeline-dot"><span data-emoji-edit>🚪</span></div>
+                    <div class="timeline-content">
+                        <div class="timeline-body">
+                            <p class="timeline-time">4:30 PM — Guest Arrival</p>
+                            <h3>Welcome & Seating</h3>
+                            <p>Guests are welcomed with champagne as they arrive and take their seats in the candlelit ballroom.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-right" data-fp-dynamic="true">
+                    <div class="timeline-dot"><span data-emoji-edit>💍</span></div>
+                    <div class="timeline-content">
+                        <div class="timeline-body">
+                            <p class="timeline-time">5:00 PM — The Ceremony</p>
+                            <h3>I Do</h3>
+                            <p>The moment we've been waiting for. Vows, rings, and the promise of forever in front of those we love most.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-left" data-fp-dynamic="true">
+                    <div class="timeline-dot"><span data-emoji-edit>🍸</span></div>
+                    <div class="timeline-content">
+                        <div class="timeline-body">
+                            <p class="timeline-time">6:00 PM — Cocktail Hour</p>
+                            <h3>Raise a Glass</h3>
+                            <p>Mingle on the terrace with craft cocktails, charcuterie, and live acoustic music as the city lights up below.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-right" data-fp-dynamic="true">
+                    <div class="timeline-dot"><span data-emoji-edit>🍽️</span></div>
+                    <div class="timeline-content">
+                        <div class="timeline-body">
+                            <p class="timeline-time">7:00 PM — Dinner & Toasts</p>
+                            <h3>A Feast to Remember</h3>
+                            <p>A four-course dinner paired with curated wines. Expect heartfelt speeches, a few happy tears, and plenty of laughter.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-left" data-fp-dynamic="true">
+                    <div class="timeline-dot"><span data-emoji-edit>💃</span></div>
+                    <div class="timeline-content">
+                        <div class="timeline-body">
+                            <p class="timeline-time">9:00 PM — First Dance & Party</p>
+                            <h3>Dance the Night Away</h3>
+                            <p>The dance floor opens with our first dance. After that, the band takes over and the party truly begins.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY -->
+    <section id="story">
+        <div class="section-inner">
+            <p class="section-label reveal">Our Love</p>
+            <h2 class="section-title reveal">Our Story</h2>
+            <p class="section-subtitle reveal">How it all began</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="story-layout">
+                <div class="story-image reveal-left">
+                    <img src="https://images.unsplash.com/photo-1606216794079-73f85bbd57d5?w=600&q=75" alt="Valentina and Sebastian" loading="lazy">
+                </div>
+                <div class="story-text">
+                    <p class="section-text reveal">It was a rainy evening in Manhattan when their paths first crossed at a dimly lit jazz bar in the West Village. Sebastian was drawn to her laughter; Valentina couldn't ignore his quiet confidence.</p>
+                    <p class="section-text reveal" style="margin-top: 20px;">Three years, countless late-night conversations, two rescued cats, and one unforgettable rooftop proposal later — here they are, ready to begin the next chapter surrounded by the people they love most.</p>
+                    <blockquote class="reveal">"In all the world, there is no heart for me like yours."</blockquote>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section id="quote" class="has-bg-image" data-overlay-opacity="0.4">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?w=1920&q=80');"></div>
+        <div class="quote-inner reveal-scale">
+            <blockquote>"I would rather share one lifetime with you than face all the ages of this world alone."</blockquote>
+            <cite>— J.R.R. Tolkien</cite>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+        <div class="section-inner">
+            <p class="section-label reveal">Captured Moments</p>
+            <h2 class="section-title reveal">Our Gallery</h2>
+            <p class="section-subtitle reveal">Memories worth keeping</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item tall reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=75" alt="Romantic evening" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1529634597503-139d3726fed5?w=600&q=75" alt="Together in the city" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&q=75" alt="Golden hour moment" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&q=75" alt="Getting ready" loading="lazy">
+                </div>
+                <div class="gallery-item tall reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=75" alt="Candlelit portrait" loading="lazy">
+                </div>
+                <div class="gallery-item reveal-scale">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=75" alt="Walking together" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACCOMMODATION -->
+    <section id="accomodation">
+        <div class="section-inner">
+            <p class="section-label reveal">Where to Stay</p>
+            <h2 class="section-title reveal">Accommodation</h2>
+            <p class="section-subtitle reveal">Rest in style</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="accommodation-grid" data-fp-dynamic-items="true">
+                <div class="accommodation-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🏨</span>
+                    <h3>The Grand Noir Hotel</h3>
+                    <p class="price">From $320 / night</p>
+                    <p>Our venue hotel. Walk from your room to the celebration. A block of rooms has been reserved at a special rate — mention "Valentina & Sebastian."</p>
+                </div>
+                <div class="accommodation-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>✨</span>
+                    <h3>The Langham</h3>
+                    <p class="price">From $250 / night</p>
+                    <p>A five-minute walk from the venue. Elegant rooms, rooftop bar, and impeccable service. Perfect for extending your stay.</p>
+                </div>
+                <div class="accommodation-card reveal" data-fp-dynamic="true">
+                    <span class="card-icon" data-emoji-edit>🌙</span>
+                    <h3>The NoMad</h3>
+                    <p class="price">From $180 / night</p>
+                    <p>Boutique charm in the heart of the city. Ten minutes by cab to the venue. Stylish rooms and a legendary lobby bar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAP -->
+    <section id="map">
+        <div class="section-inner">
+            <p class="section-label reveal">Find Us</p>
+            <h2 class="section-title reveal">The Venue</h2>
+            <p class="section-subtitle reveal">The Grand Noir, New York</p>
+            <div class="section-divider reveal"></div>
+            <p class="section-text reveal">Located in the heart of Manhattan, our venue is easily accessible by taxi, subway, or rideshare. Valet parking is available for those driving in.</p>
+            <div class="map-frame map-container reveal" data-fp-dynamic="true">
+                <iframe src="https://maps.google.com/maps?q=Manhattan+New+York&output=embed" loading="lazy" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="rsvp">
+        <div class="rsvp-inner">
+            <p class="section-label reveal">Respond</p>
+            <h2 class="section-title reveal">RSVP</h2>
+            <p class="section-subtitle reveal">Please let us know by October 1st, 2026</p>
+            <div class="section-divider reveal"></div>
+
+            <form onsubmit="event.preventDefault(); alert('Thank you! Your RSVP has been received. We can\'t wait to celebrate with you!');" data-fp-dynamic-items="true">
+                <div class="form-row">
+                    <div class="form-group reveal">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Your last name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group reveal">
+                        <label for="mobile">Mobile *</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="+1 000 000 0000" required>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@email.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group reveal">
+                        <label for="age">Age Group</label>
+                        <select id="age" name="age">
+                            <option value="adult">Adult</option>
+                            <option value="child">Child</option>
+                        </select>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="attending">Will You Attend? *</label>
+                        <select id="attending" name="attending" required>
+                            <option value="">Select...</option>
+                            <option value="yes">Yes, I will</option>
+                            <option value="no">No, sorry</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="conditional-fields" id="conditionalFields">
+                    <div class="form-group reveal">
+                        <label for="dietary">Allergies / Dietary Requirements</label>
+                        <input type="text" id="dietary" name="dietary" placeholder="Any allergies or dietary needs...">
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="transport">Will You Use Transportation?</label>
+                        <select id="transport" name="transport">
+                            <option value="yes">Yes, please</option>
+                            <option value="no">No, I'll arrange my own</option>
+                        </select>
+                    </div>
+                    <div class="form-group reveal">
+                        <label for="song">Favorite Song (for the DJ!)</label>
+                        <input type="text" id="song" name="song" placeholder="What gets you on the dance floor?">
+                    </div>
+                </div>
+
+                <div class="form-group reveal">
+                    <label for="message">Message for the Couple</label>
+                    <textarea id="message" name="message" placeholder="A few words, a wish, or a piece of advice..."></textarea>
+                </div>
+                <button type="submit" class="btn-rsvp reveal">Confirm</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FAQS -->
+    <section id="faqs">
+        <div class="section-inner">
+            <p class="section-label reveal">Questions?</p>
+            <h2 class="section-title reveal">Frequently Asked</h2>
+            <p class="section-subtitle reveal">Everything you need to know</p>
+            <div class="section-divider reveal"></div>
+
+            <div class="faq-list" data-fp-dynamic-items="true">
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        What is the dress code?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </h3>
+                    <div class="faq-answer">
+                        <p>Black tie optional. Think elegant evening wear — long gowns, cocktail dresses, dark suits, or tuxedos. We want you to feel as glamorous as the night itself.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        Can I bring a plus-one?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </h3>
+                    <div class="faq-answer">
+                        <p>Please check your invitation. If it says "and guest," you're welcome to bring someone special. If you're unsure, don't hesitate to reach out to us directly.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        Is there parking available?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </h3>
+                    <div class="faq-answer">
+                        <p>Valet parking is available at the venue entrance. We also recommend taxis, rideshare, or the subway — the venue is steps from several stations.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        Will there be dietary options?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </h3>
+                    <div class="faq-answer">
+                        <p>Absolutely. Please mention any dietary requirements in your RSVP and we'll ensure there are beautiful options for every guest.</p>
+                    </div>
+                </div>
+                <div class="faq-item reveal" data-fp-dynamic="true">
+                    <h3 class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        Can I take photos during the ceremony?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </h3>
+                    <div class="faq-answer">
+                        <p>We kindly ask for an unplugged ceremony — our photographer will capture every moment. Feel free to snap away during the reception and party!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <h2 class="footer-monogram">V & S</h2>
+        <p class="footer-tagline">Forever begins here</p>
+        <p class="footer-note">November 15, 2026 · The Grand Noir, New York</p>
+    </footer>
+
+    <script>
+    (function() {
+        // ── Countdown ──
+        var section = document.querySelector('.countdown-section');
+        if (section) {
+            function updateCountdown() {
+                var weddingDate = new Date(section.getAttribute('data-wedding-date')).getTime();
+                var now = new Date().getTime();
+                var diff = weddingDate - now;
+                if (diff < 0) diff = 0;
+                document.getElementById('days').textContent = String(Math.floor(diff / 86400000)).padStart(3, '0');
+                document.getElementById('hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // ── Nav scroll ──
+        var nav = document.querySelector('nav');
+        window.addEventListener('scroll', function() {
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // ── Smooth scroll ──
+        document.querySelectorAll('nav a[href^="#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    nav.classList.remove('menu-open');
+                }
+            });
+        });
+
+        // ── Reveal on scroll ──
+        var reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+        reveals.forEach(function(el) { observer.observe(el); });
+
+        // ── Active nav link ──
+        var sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', function() {
+            var scrollY = window.scrollY + 120;
+            sections.forEach(function(sec) {
+                var top = sec.offsetTop;
+                var height = sec.offsetHeight;
+                var id = sec.getAttribute('id');
+                var link = document.querySelector('nav a[href="#' + id + '"]');
+                if (link) {
+                    if (scrollY >= top && scrollY < top + height) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // ── RSVP conditional fields ──
+        var attendingSelect = document.getElementById('attending');
+        var conditionalFields = document.getElementById('conditionalFields');
+        if (attendingSelect && conditionalFields) {
+            attendingSelect.addEventListener('change', function() {
+                if (this.value === 'yes') {
+                    conditionalFields.classList.add('show');
+                } else {
+                    conditionalFields.classList.remove('show');
+                }
+            });
+        }
+
+    })();
+    </script>
+
+</body>
+</html>

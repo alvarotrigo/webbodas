@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jennifer &amp; Oliver — 12 · 07 · 2026</title>
+  <meta name="description" content="Join us to celebrate the wedding of Jennifer and Oliver. July 12, 2026 in Florence, Italy.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ─── OLIVE GARDEN PALETTE ──────────────────────────────── */
+    body.theme-olive-garden {
+      --color-canvas: #fafaf5;
+      --color-canvas-alt: #f2f0e6;
+      --color-surface: #ffffff;
+      --color-surface-alt: #eeebdf;
+      --color-surface-raised: #fffffe;
+      --color-surface-inverse: #252518;
+      --color-on-canvas: #28261a;
+      --color-on-canvas-muted: #686450;
+      --color-on-surface: #28261a;
+      --color-on-surface-muted: #6a6654;
+      --color-on-surface-subtle: #8c8878;
+      --color-on-surface-inverse: #f0ede0;
+      --color-primary: #8a8a2e;
+      --color-on-primary: #fafaf5;
+      --color-primary-hover: #787820;
+      --color-primary-active: #626216;
+      --color-primary-container: #e8e8c0;
+      --color-on-primary-container: #3a3a0a;
+      --color-secondary: #a09040;
+      --color-on-secondary: #fafaf5;
+      --color-secondary-hover: #907e34;
+      --color-secondary-active: #7c6c28;
+      --color-secondary-container: #f0e8c0;
+      --color-on-secondary-container: #403a10;
+      --color-tertiary: #c8a840;
+      --color-on-tertiary: #28200a;
+      --color-tertiary-hover: #b89434;
+      --color-tertiary-active: #a08028;
+      --color-tertiary-container: #f8f0d0;
+      --color-on-tertiary-container: #4a3c10;
+      --color-link: #8a8a2e;
+      --color-link-hover: #686620;
+      --color-border-subtle: #e0dcc8;
+      --color-border: #ccc8b0;
+      --color-border-strong: #a0a080;
+      --color-focus-ring: #8a8a2e;
+      --color-overlay: rgba(22, 20, 10, 0.52);
+      --color-overlay-strong: rgba(22, 20, 10, 0.72);
+      --color-on-overlay: #f8f6ec;
+      --color-success: #4f7a59;
+      --color-on-success: #f7fff8;
+      --color-danger: #a34c4c;
+      --color-on-danger: #fff8f8;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-script: 'Great Vibes', cursive;
+      --radius-sm: 0.5rem; --radius-md: 1rem; --radius-lg: 1.5rem;
+      --shadow-sm: 0 2px 10px rgba(0,0,0,0.06);
+      --shadow-md: 0 12px 28px rgba(0,0,0,0.10);
+      --shadow-lg: 0 24px 48px rgba(0,0,0,0.14);
+      --space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;
+      --space-5:1.5rem;--space-6:2rem;--space-7:3rem;--space-8:4rem;
+    }
+
+    /* ─── RESET & BASE ──────────────────────────────────────── */
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background-color:var(--color-canvas);color:var(--color-on-canvas);font-family:var(--font-body);font-size:16px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+
+    /* ─── NAV ───────────────────────────────────────────────── */
+    nav {
+      position:fixed;top:0;left:0;width:100%;z-index:1000;
+      padding:20px 40px;
+      display:flex;justify-content:center;align-items:center;
+      transition:background 0.4s,padding 0.4s,box-shadow 0.4s;
+    }
+    nav.scrolled {
+      background:var(--color-surface-inverse);
+      padding:12px 40px;
+      box-shadow:var(--shadow-md);
+    }
+    nav .logo {
+      position:absolute;left:40px;
+      font-family:var(--font-heading);font-size:18px;font-weight:400;
+      color:var(--color-on-overlay);letter-spacing:0.05em;
+    }
+    nav.scrolled .logo{color:var(--color-on-surface-inverse)}
+    nav ul {list-style:none;display:flex;gap:28px;align-items:center}
+    nav ul li a {
+      font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;
+      color:var(--color-on-overlay);opacity:0.85;
+      position:relative;padding-bottom:3px;
+      transition:opacity 0.3s,color 0.3s;
+    }
+    nav ul li a::after {
+      content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;
+      background:var(--color-tertiary);
+      transform:scaleX(0);transform-origin:left;
+      transition:transform 0.35s ease;
+    }
+    nav ul li a:hover{opacity:1;color:var(--color-tertiary)}
+    nav ul li a:hover::after{transform:scaleX(1)}
+    nav.scrolled ul li a{color:var(--color-on-surface-inverse)}
+    .nav-rsvp-btn {
+      background:var(--color-primary);color:var(--color-on-primary) !important;
+      padding:7px 18px;border-radius:2px;font-size:10px !important;
+      letter-spacing:0.18em;font-weight:600 !important;
+      opacity:1 !important;transition:background 0.3s !important;
+    }
+    .nav-rsvp-btn:hover{background:var(--color-primary-hover) !important}
+    .nav-rsvp-btn::after{display:none !important}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;position:absolute;right:40px;z-index:1001}
+    .hamburger span{width:22px;height:2px;background:var(--color-on-overlay);border-radius:1px;transition:all 0.3s}
+    nav.scrolled .hamburger span{background:var(--color-on-surface-inverse)}
+    .mobile-menu {
+      display:none;position:fixed;inset:0;z-index:999;
+      background:var(--color-surface-inverse);
+      flex-direction:column;align-items:center;justify-content:center;gap:32px;
+    }
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{font-family:var(--font-heading);font-size:28px;color:var(--color-on-surface-inverse);letter-spacing:0.1em}
+
+    /* ─── BACKGROUND OVERLAY UTILITY ───────────────────────── */
+    .has-bg-image{position:relative}
+    .fp-bg {
+      position:absolute;inset:0;background-size:cover;background-position:center;
+      background-repeat:no-repeat;
+    }
+    /* Single source of truth for overlay — editor sets --overlay-op via data-overlay-opacity */
+    .has-bg-image::after {
+      content:'';position:absolute;inset:0;
+      background:var(--color-overlay);
+      opacity:var(--overlay-op,1);
+      pointer-events:none;z-index:1;
+    }
+    /* Sections that need stronger overlay use --color-overlay-strong as the base */
+    section#hero.has-bg-image::after,
+    section#people.has-bg-image::after {
+      background:var(--color-overlay-strong);
+    }
+    .has-bg-image > *:not(.fp-bg){position:relative;z-index:2}
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    section#hero {
+      min-height:100vh !important;
+      position:relative;
+      display:flex;align-items:center;justify-content:center;text-align:center;
+      overflow:hidden;
+    }
+    section#hero .fp-bg{
+      background-size:cover;background-position:center 30%;
+    }
+    .hero-content{
+      position:relative;z-index:2;
+      max-width:700px;padding:0 24px;
+    }
+    .hero-supertitle {
+      font-family:var(--font-body);font-size:10px;font-weight:500;
+      letter-spacing:0.35em;text-transform:uppercase;
+      color:var(--color-on-overlay);opacity:0.75;
+      margin-bottom:var(--space-5);
+      display:flex;align-items:center;gap:12px;justify-content:center;
+    }
+    .hero-supertitle::before,.hero-supertitle::after{
+      content:'';display:inline-block;width:30px;height:1px;
+      background:var(--color-on-overlay);opacity:0.4;
+    }
+    .hero-script-names {
+      font-family:var(--font-script);
+      font-size:clamp(4rem,10vw,8rem);
+      color:var(--color-on-overlay);
+      line-height:1.1;margin-bottom:var(--space-5);
+      text-shadow:0 2px 20px rgba(0,0,0,0.4);
+    }
+    .hero-ampersand{
+      font-family:var(--font-heading);font-style:italic;
+      color:var(--color-tertiary);
+      font-size:clamp(4rem,8vw,6.5rem);
+      margin:0 8px;
+    }
+    .hero-date-band {
+      display:inline-flex;align-items:center;gap:12px;
+      margin-bottom:var(--space-5);
+    }
+    .hero-date-line{width:40px;height:1px;background:var(--color-tertiary)}
+    .hero-date {
+      font-family:var(--font-heading);font-size:clamp(1.2rem,3vw,1.8rem);
+      font-weight:400;letter-spacing:0.25em;color:var(--color-tertiary);
+    }
+    .hero-save {
+      font-family:var(--font-body);font-size:9px;font-weight:600;
+      letter-spacing:0.4em;text-transform:uppercase;
+      color:var(--color-on-overlay);opacity:0.65;
+    }
+    .hero-birds {
+      font-size:20px;margin-bottom:var(--space-3);
+      color:var(--color-tertiary);letter-spacing:8px;
+    }
+    .hero-scroll-hint {
+      position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+      z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;
+    }
+    .hero-scroll-hint span{
+      font-size:9px;letter-spacing:0.25em;text-transform:uppercase;
+      color:var(--color-on-overlay);opacity:0.5;
+    }
+    .scroll-arrow{
+      width:18px;height:18px;border-right:1px solid var(--color-on-overlay);
+      border-bottom:1px solid var(--color-on-overlay);
+      transform:rotate(45deg);opacity:0.4;
+      animation:scrollBounce 1.6s infinite;
+    }
+    @keyframes scrollBounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(4px)}}
+
+    /* ─── COUNTDOWN ─────────────────────────────────────────── */
+    section#countdown {
+      background:var(--color-primary);
+      padding:28px 24px;
+    }
+    .countdown-inner{
+      max-width:900px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:20px;flex-wrap:wrap;
+    }
+    .countdown-label-text{
+      font-family:var(--font-body);font-size:11px;font-weight:500;
+      letter-spacing:0.22em;text-transform:uppercase;
+      color:var(--color-on-primary);opacity:0.8;
+      flex-shrink:0;
+    }
+    .countdown-divider{width:1px;height:32px;background:var(--color-on-primary);opacity:0.2;flex-shrink:0}
+    .countdown-items{
+      display:flex;gap:0;flex:1;justify-content:center;
+    }
+    .countdown-item {
+      display:flex;flex-direction:column;align-items:center;
+      padding:0 20px;border-right:1px solid rgba(255,255,255,0.15);
+    }
+    .countdown-item:last-child{border-right:none}
+    .countdown-item .number {
+      font-family:var(--font-heading);font-size:clamp(2rem,4vw,3rem);
+      font-weight:300;color:var(--color-on-primary);line-height:1;
+      letter-spacing:0.05em;
+    }
+    .countdown-item .label {
+      font-size:8px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;
+      color:var(--color-on-primary);opacity:0.65;margin-top:4px;
+    }
+    .countdown-cta{
+      font-family:var(--font-body);font-size:10px;font-weight:500;
+      letter-spacing:0.2em;text-transform:uppercase;
+      color:var(--color-on-primary);opacity:0.8;
+      border:1px solid color-mix(in srgb, var(--color-on-primary) 35%, transparent);
+      padding:10px 24px;border-radius:2px;
+      transition:all 0.3s;white-space:nowrap;
+    }
+    .countdown-cta:hover{background:color-mix(in srgb, var(--color-on-primary) 12%, transparent);opacity:1}
+
+    /* ─── SECTION UTILITIES ─────────────────────────────────── */
+    .section-pad{padding:90px 24px}
+    .section-pad-lg{padding:110px 24px}
+    .container{max-width:1100px;margin:0 auto}
+    .container-sm{max-width:780px;margin:0 auto}
+    .section-eyebrow {
+      font-family:var(--font-body);font-size:9px;font-weight:600;
+      letter-spacing:0.3em;text-transform:uppercase;
+      color:var(--color-primary);margin-bottom:var(--space-3);display:block;
+    }
+    .section-title {
+      font-family:var(--font-heading);font-size:clamp(2rem,4.5vw,3.5rem);
+      font-weight:400;letter-spacing:0.06em;color:var(--color-on-canvas);
+      line-height:1.1;margin-bottom:var(--space-5);
+    }
+    .section-title-inv {
+      font-family:var(--font-heading);font-size:clamp(2rem,4.5vw,3.5rem);
+      font-weight:400;letter-spacing:0.06em;color:var(--color-on-overlay);
+      line-height:1.1;margin-bottom:var(--space-5);
+    }
+    .section-divider {
+      display:flex;align-items:center;gap:16px;
+      justify-content:center;margin-bottom:48px;
+    }
+    .section-divider::before,.section-divider::after{
+      content:'';flex:1;max-width:80px;height:1px;background:var(--color-border);
+    }
+    .section-divider-icon {
+      font-family:var(--font-heading);font-style:italic;
+      font-size:28px;color:var(--color-primary);
+    }
+    .section-subtitle {
+      font-size:14px;font-weight:300;color:var(--color-on-canvas-muted);
+      line-height:1.9;max-width:600px;margin:0 auto;
+    }
+    .btn-primary {
+      display:inline-block;
+      background:var(--color-primary);color:var(--color-on-primary);
+      font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+      padding:12px 28px;border-radius:2px;
+      border:none;cursor:pointer;
+      transition:background 0.3s,transform 0.2s;
+    }
+    .btn-primary:hover{background:var(--color-primary-hover);transform:translateY(-1px)}
+    .btn-outline {
+      display:inline-block;
+      border:1px solid var(--color-border-strong);
+      color:var(--color-on-canvas-muted);
+      font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+      padding:11px 28px;border-radius:2px;
+      cursor:pointer;background:transparent;
+      transition:all 0.3s;
+    }
+    .btn-outline:hover{border-color:var(--color-primary);color:var(--color-primary)}
+    .btn-outline-inv {
+      display:inline-block;
+      border:1px solid color-mix(in srgb, var(--color-on-overlay) 40%, transparent);
+      color:var(--color-on-overlay);
+      font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+      padding:11px 28px;border-radius:2px;cursor:pointer;background:transparent;
+      transition:all 0.3s;
+    }
+    .btn-outline-inv:hover{border-color:var(--color-tertiary);color:var(--color-tertiary)}
+    /* Button variant for people section (solid dark bg, no overlay) */
+    .btn-outline-people {
+      display:inline-block;
+      border:1px solid color-mix(in srgb, var(--color-on-surface-inverse) 40%, transparent);
+      color:var(--color-on-surface-inverse);
+      font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+      padding:11px 28px;border-radius:2px;cursor:pointer;background:transparent;
+      transition:all 0.3s;
+    }
+    .btn-outline-people:hover{border-color:var(--color-tertiary);color:var(--color-tertiary)}
+
+    /* ─── RSVP ──────────────────────────────────────────────── */
+    section#rsvp{background:var(--color-canvas-alt)}
+    .rsvp-form-wrap{
+      background:var(--color-surface);
+      border:1px solid var(--color-border-subtle);
+      border-radius:var(--radius-md);
+      padding:52px 48px;
+      box-shadow:var(--shadow-md);
+      max-width:700px;margin:0 auto;
+    }
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .form-group{display:flex;flex-direction:column;gap:6px}
+    .form-group.full{grid-column:1/-1}
+    .form-group label {
+      font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
+      color:var(--color-on-surface-muted);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border:1px solid var(--color-border);
+      border-radius:var(--radius-sm);
+      padding:11px 14px;
+      font-family:var(--font-body);font-size:14px;
+      color:var(--color-on-surface);
+      background:var(--color-surface-raised);
+      outline:none;transition:border-color 0.3s,box-shadow 0.3s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus{
+      border-color:var(--color-primary);
+      box-shadow:0 0 0 3px var(--color-primary-container);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder{color:var(--color-on-surface-subtle)}
+    .form-group textarea{resize:vertical;min-height:100px}
+    .conditional-group{display:none}
+    .conditional-group.active{display:contents}
+
+    /* ─── ABOUT (BRIDE & GROOM) ─────────────────────────────── */
+    section#about{background:var(--color-canvas)}
+    .about-ampersand {
+      font-family:var(--font-heading);font-style:italic;
+      font-size:clamp(5rem,12vw,9rem);font-weight:300;
+      color:var(--color-primary);opacity:0.25;
+      line-height:1;
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      pointer-events:none;user-select:none;
+    }
+    .about-grid {
+      display:grid;grid-template-columns:1fr auto 1fr;gap:40px;
+      align-items:start;
+    }
+    .about-person{text-align:center}
+    .about-photo-wrap{
+      position:relative;margin-bottom:28px;overflow:hidden;
+      border-radius:2px;aspect-ratio:4/3;
+    }
+    .about-photo-wrap img{
+      width:100%;height:100%;object-fit:cover;
+      transition:transform 0.6s ease;
+    }
+    .about-photo-wrap:hover img{transform:scale(1.04)}
+    .about-photo-btn {
+      position:absolute;bottom:0;left:0;right:0;
+      background:var(--color-primary);color:var(--color-on-primary);
+      font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+      padding:14px;text-align:center;
+      transition:background 0.3s;cursor:pointer;
+    }
+    .about-photo-btn:hover{background:var(--color-primary-hover)}
+    .about-person-role{
+      font-size:9px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;
+      color:var(--color-on-canvas-muted);margin-bottom:6px;display:block;
+    }
+    .about-person-name{
+      font-family:var(--font-heading);font-size:clamp(1.4rem,2.5vw,2rem);
+      font-weight:500;letter-spacing:0.08em;color:var(--color-on-canvas);
+      margin-bottom:20px;
+    }
+    .about-person-bio{
+      font-size:13px;font-weight:300;color:var(--color-on-canvas-muted);
+      line-height:2;margin-bottom:20px;text-align:left;
+    }
+    .about-quote{
+      font-family:var(--font-heading);font-style:italic;
+      font-size:14px;color:var(--color-primary);
+      border-left:2px solid var(--color-primary-container);
+      padding-left:14px;text-align:left;
+      margin-top:auto;
+    }
+    .about-ampersand-col{
+      display:flex;align-items:center;justify-content:center;
+      padding-top:60px;position:relative;
+    }
+    .about-amp-symbol{
+      font-family:var(--font-heading);font-style:italic;
+      font-size:clamp(4rem,7vw,6rem);color:var(--color-primary);
+      opacity:0.7;line-height:1;
+    }
+
+    /* ─── QUOTE ──────────────────────────────────────────────── */
+    section#quote {
+      min-height:50vh;
+      display:flex;align-items:center;justify-content:center;
+      text-align:center;overflow:hidden;padding:80px 24px;
+    }
+    .quote-content{position:relative;z-index:2;max-width:720px}
+    .quote-mark{
+      font-family:var(--font-heading);font-size:120px;line-height:0.5;
+      color:var(--color-tertiary);opacity:0.5;display:block;margin-bottom:24px;
+    }
+    .quote-text{
+      font-family:var(--font-heading);font-style:italic;
+      font-size:clamp(1.5rem,3.5vw,2.4rem);font-weight:300;
+      color:var(--color-on-overlay);line-height:1.5;margin-bottom:24px;
+    }
+    .quote-attribution{
+      font-size:10px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;
+      color:var(--color-on-overlay);opacity:0.55;
+    }
+
+    /* ─── PEOPLE (Bridesmaids & Groomsmen) ──────────────────── */
+    section#people{
+      padding:0;overflow:hidden;
+      background:var(--color-surface-inverse);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;
+    }
+    .people-wrap{
+      width:100%;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:90px 24px;
+    }
+    .people-inner{width:100%;max-width:1000px;margin:0 auto}
+    /* Override overlay-specific colors since section now has solid bg */
+    .people-supertitle{color:var(--color-tertiary)}
+    .people-title{color:var(--color-on-surface-inverse)}
+    .people-subtitle{color:var(--color-on-surface-inverse)}
+    .people-supertitle{
+      font-size:10px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;
+      color:var(--color-tertiary);margin-bottom:8px;display:block;
+    }
+    .people-title{
+      font-family:var(--font-heading);font-size:clamp(2rem,4vw,3rem);
+      font-weight:300;color:var(--color-on-overlay);
+      letter-spacing:0.12em;text-transform:uppercase;
+      margin-bottom:6px;
+    }
+    .people-subtitle{
+      font-size:11px;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;
+      color:var(--color-on-overlay);opacity:0.55;margin-bottom:52px;
+    }
+    .people-grid {
+      display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+      margin-bottom:40px;
+    }
+    .person-card{position:relative;overflow:hidden;border-radius:2px}
+    .person-card img{
+      width:100%;aspect-ratio:1;object-fit:cover;
+      filter:brightness(0.85);transition:filter 0.4s,transform 0.5s;
+    }
+    .person-card:hover img{filter:brightness(1);transform:scale(1.04)}
+    .person-card-label{
+      position:absolute;bottom:0;left:0;right:0;
+      background:var(--color-primary);
+      padding:10px;
+      font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+      color:var(--color-on-primary);text-align:center;
+    }
+    .person-card-role{
+      position:absolute;top:10px;left:10px;
+      background:rgba(0,0,0,0.5);
+      padding:4px 10px;border-radius:1px;
+      font-size:8px;letter-spacing:0.2em;text-transform:uppercase;
+      color:var(--color-on-overlay);
+    }
+
+    /* ─── STORY / BLOG ──────────────────────────────────────── */
+    section#story{background:var(--color-canvas)}
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+    .blog-card{
+      background:var(--color-surface);border-radius:2px;overflow:hidden;
+      box-shadow:var(--shadow-sm);transition:box-shadow 0.35s,transform 0.35s;
+      border:1px solid var(--color-border-subtle);
+    }
+    .blog-card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px)}
+    .blog-card-img{position:relative;overflow:hidden}
+    .blog-card-img img{
+      width:100%;aspect-ratio:3/2;object-fit:cover;
+      transition:transform 0.5s;
+    }
+    .blog-card:hover .blog-card-img img{transform:scale(1.06)}
+    .blog-card-date{
+      position:absolute;top:14px;left:14px;
+      background:var(--color-primary);color:var(--color-on-primary);
+      padding:4px 12px;border-radius:2px;
+      font-size:8px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+    }
+    .blog-card-body{padding:24px}
+    .blog-card-title{
+      font-family:var(--font-heading);font-size:1.25rem;font-weight:500;
+      color:var(--color-on-surface);line-height:1.2;margin-bottom:12px;
+      text-transform:uppercase;letter-spacing:0.04em;
+    }
+    .blog-card-excerpt{
+      font-size:13px;font-weight:300;color:var(--color-on-surface-muted);
+      line-height:1.85;margin-bottom:20px;
+    }
+
+    /* ─── DETAILS ────────────────────────────────────────────── */
+    section#details{background:var(--color-canvas-alt)}
+    .details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+    .detail-card{text-align:center}
+    .detail-icon{
+      width:48px;height:48px;margin:0 auto 20px;
+      color:var(--color-primary);
+    }
+    .detail-title{
+      font-family:var(--font-heading);font-size:1.4rem;font-weight:500;
+      letter-spacing:0.06em;text-transform:uppercase;
+      color:var(--color-on-canvas);margin-bottom:6px;
+    }
+    .detail-subtitle{
+      font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+      color:var(--color-primary);margin-bottom:16px;display:block;
+    }
+    .detail-desc{
+      font-size:13px;font-weight:300;color:var(--color-on-canvas-muted);
+      line-height:1.9;margin-bottom:24px;
+    }
+    .detail-divider{
+      width:40px;height:1px;background:var(--color-border);margin:0 auto 24px;
+    }
+
+    /* ─── SCHEDULE ───────────────────────────────────────────── */
+    section#schedule{background:var(--color-canvas)}
+    .schedule-list{
+      max-width:680px;margin:0 auto;
+      display:flex;flex-direction:column;gap:0;
+    }
+    .schedule-item {
+      display:grid;grid-template-columns:100px 1px 1fr;gap:0 24px;
+      align-items:start;padding-bottom:36px;
+    }
+    .schedule-item:last-child{padding-bottom:0}
+    .schedule-time{
+      font-family:var(--font-heading);font-size:1.1rem;font-weight:400;
+      color:var(--color-primary);text-align:right;padding-top:2px;
+      letter-spacing:0.05em;
+    }
+    .schedule-line{
+      width:1px;background:var(--color-border);
+      position:relative;
+    }
+    .schedule-line::before{
+      content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);
+      width:8px;height:8px;border-radius:50%;
+      background:var(--color-primary);border:2px solid var(--color-canvas);
+      box-shadow:0 0 0 2px var(--color-primary);
+    }
+    .schedule-body{padding-left:8px}
+    .schedule-event{
+      font-family:var(--font-heading);font-size:1.1rem;font-weight:500;
+      color:var(--color-on-canvas);letter-spacing:0.05em;margin-bottom:4px;
+    }
+    .schedule-where{
+      font-size:12px;font-weight:300;color:var(--color-on-canvas-muted);
+      letter-spacing:0.05em;
+    }
+
+    /* ─── MAP ────────────────────────────────────────────────── */
+    section#map{padding:0;overflow:hidden}
+    .map-container iframe{width:100%;height:420px;border:none;display:block}
+
+    /* ─── FAQS ───────────────────────────────────────────────── */
+    section#faqs{background:var(--color-canvas-alt)}
+    .faqs-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 48px;max-width:900px;margin:0 auto}
+    .faq-item{padding-bottom:24px;border-bottom:1px solid var(--color-border-subtle)}
+    .faq-q{
+      font-family:var(--font-heading);font-size:1.05rem;font-weight:500;
+      color:var(--color-on-canvas);margin-bottom:10px;letter-spacing:0.03em;
+      cursor:pointer;display:flex;justify-content:space-between;align-items:start;gap:12px;
+    }
+    .faq-q svg{flex-shrink:0;color:var(--color-primary);margin-top:2px;transition:transform 0.3s}
+    .faq-q.open svg{transform:rotate(180deg)}
+    .faq-a{
+      font-size:13px;font-weight:300;color:var(--color-on-canvas-muted);
+      line-height:1.9;max-height:0;overflow:hidden;
+      transition:max-height 0.35s ease,padding 0.35s;
+    }
+    .faq-a.open{max-height:300px}
+
+    /* ─── GALLERY ────────────────────────────────────────────── */
+    section#gallery{background:var(--color-surface-inverse);padding:0}
+    .gallery-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto;
+    }
+    .gallery-item{overflow:hidden;position:relative}
+    .gallery-item:first-child{grid-column:span 2;grid-row:span 2}
+    .gallery-item img{
+      width:100%;height:100%;object-fit:cover;min-height:220px;
+      transition:transform 0.5s ease,filter 0.4s;
+      filter:brightness(0.9);
+    }
+    .gallery-item:hover img{transform:scale(1.06);filter:brightness(1)}
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer#footer{
+      background:var(--color-surface-inverse);
+      padding:64px 24px 32px;text-align:center;
+    }
+    .footer-logo{
+      font-family:var(--font-script);font-size:2.8rem;
+      color:var(--color-tertiary);margin-bottom:6px;
+    }
+    .footer-tagline{
+      font-size:9px;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;
+      color:var(--color-on-surface-inverse);opacity:0.4;margin-bottom:32px;
+    }
+    .footer-birds{
+      font-size:24px;margin-bottom:8px;letter-spacing:10px;
+    }
+    .footer-social{
+      display:flex;gap:20px;justify-content:center;margin-bottom:40px;
+    }
+    .footer-social a{
+      width:38px;height:38px;border-radius:50%;
+      border:1px solid color-mix(in srgb, var(--color-on-surface-inverse) 20%, transparent);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--color-on-surface-inverse);opacity:0.6;
+      transition:opacity 0.3s,border-color 0.3s,color 0.3s;
+    }
+    .footer-social a:hover{
+      opacity:1;border-color:var(--color-tertiary);color:var(--color-tertiary);
+    }
+    .footer-nav{
+      display:flex;gap:24px;justify-content:center;flex-wrap:wrap;
+      margin-bottom:32px;
+    }
+    .footer-nav a{
+      font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;
+      color:var(--color-on-surface-inverse);opacity:0.4;
+      transition:opacity 0.3s;
+    }
+    .footer-nav a:hover{opacity:0.9}
+    .footer-copy{
+      font-size:11px;color:var(--color-on-surface-inverse);opacity:0.25;
+      border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;margin-top:8px;
+    }
+
+    /* ─── REVEAL ANIMATIONS ─────────────────────────────────── */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.75s ease,transform 0.75s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .reveal-left{opacity:0;transform:translateX(-30px);transition:opacity 0.75s ease,transform 0.75s ease}
+    .reveal-left.visible{opacity:1;transform:none}
+    .reveal-right{opacity:0;transform:translateX(30px);transition:opacity 0.75s ease,transform 0.75s ease}
+    .reveal-right.visible{opacity:1;transform:none}
+    .reveal-scale{opacity:0;transform:scale(0.94);transition:opacity 0.75s ease,transform 0.75s ease}
+    .reveal-scale.visible{opacity:1;transform:none}
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media(max-width:900px){
+      .about-grid{grid-template-columns:1fr;gap:40px}
+      .about-ampersand-col{padding-top:0}
+      .blog-grid,.details-grid{grid-template-columns:1fr}
+      .faqs-grid{grid-template-columns:1fr}
+      .people-grid{grid-template-columns:repeat(2,1fr)}
+      .gallery-grid{grid-template-columns:repeat(2,1fr)}
+      .gallery-item:first-child{grid-column:span 2;grid-row:span 1}
+      .form-grid{grid-template-columns:1fr}
+      .form-group.full{grid-column:1}
+      nav ul{display:none}
+      .hamburger{display:flex}
+      .countdown-inner{flex-direction:column;align-items:center;gap:16px}
+      .countdown-divider{display:none}
+    }
+    @media(max-width:560px){
+      .people-grid{grid-template-columns:1fr 1fr}
+      .rsvp-form-wrap{padding:32px 20px}
+      .schedule-item{grid-template-columns:80px 1px 1fr}
+    }
+  </style>
+</head>
+<body class="theme-olive-garden">
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero" onclick="closeMobileMenu()">Home</a>
+    <a href="#about" onclick="closeMobileMenu()">The Wedding</a>
+    <a href="#rsvp" onclick="closeMobileMenu()">RSVP</a>
+    <a href="#details" onclick="closeMobileMenu()">Details</a>
+    <a href="#footer" onclick="closeMobileMenu()">Contact</a>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#hero" class="logo">J &amp; O</a>
+    <ul>
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">The Wedding</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#rsvp" class="nav-rsvp-btn">RSVP</a></li>
+      <li><a href="#footer">Get In Touch</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════════ -->
+  <section id="hero" class="has-bg-image" data-overlay-opacity="0.6">
+    <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80');"></div>
+    <div class="hero-content">
+      <p class="hero-supertitle">We Are Getting Married</p>
+      <div class="hero-script-names">
+        <span>Jennifer</span>
+        <span class="hero-ampersand">&amp;</span>
+        <span>Oliver</span>
+      </div>
+      <div class="hero-date-band">
+        <div class="hero-date-line"></div>
+        <p class="hero-date">12 · 07 · 2026</p>
+        <div class="hero-date-line"></div>
+      </div>
+      <p class="hero-save">— Save the Date —</p>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ COUNTDOWN ══════════════════════ -->
+  <section id="countdown" class="countdown-section" data-wedding-date="2026-07-12T16:00:00">
+    <div class="countdown-inner">
+      <p class="countdown-label-text">Countdown to Wedding Ceremony</p>
+      <div class="countdown-divider"></div>
+      <div class="countdown-items">
+        <div class="countdown-item" data-fp-dynamic="true">
+          <span id="days" class="number" contenteditable="false">000</span>
+          <span class="label" contenteditable="false">Days</span>
+        </div>
+        <div class="countdown-item" data-fp-dynamic="true">
+          <span id="hours" class="number" contenteditable="false">00</span>
+          <span class="label" contenteditable="false">Hours</span>
+        </div>
+        <div class="countdown-item" data-fp-dynamic="true">
+          <span id="minutes" class="number" contenteditable="false">00</span>
+          <span class="label" contenteditable="false">Minutes</span>
+        </div>
+        <div class="countdown-item" data-fp-dynamic="true">
+          <span id="seconds" class="number" contenteditable="false">00</span>
+          <span class="label" contenteditable="false">Seconds</span>
+        </div>
+      </div>
+      <div class="countdown-divider"></div>
+      <a href="#rsvp" class="countdown-cta">Confirm Attendance</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ RSVP ════════════════════════════ -->
+  <section id="rsvp" class="section-pad">
+    <div class="container-sm">
+      <div class="text-center mb-12 reveal">
+        <span class="section-eyebrow">Kindly Reply</span>
+        <div class="section-divider"><span class="section-divider-icon">&amp;</span></div>
+        <h2 class="section-title" style="margin-bottom:12px">RSVP</h2>
+        <p class="section-subtitle">Please let us know by June 1st, 2026 whether you'll be able to join us on our special day.</p>
+      </div>
+      <div class="rsvp-form-wrap reveal">
+        <form id="rsvpForm">
+          <div class="form-grid" data-fp-dynamic-items="true">
+            <div class="form-group">
+              <label for="firstName">First Name *</label>
+              <input type="text" id="firstName" name="firstName" placeholder="Jennifer" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name *</label>
+              <input type="text" id="lastName" name="lastName" placeholder="Harrison" required>
+            </div>
+            <div class="form-group">
+              <label for="mobile">Mobile *</label>
+              <input type="tel" id="mobile" name="mobile" placeholder="+1 (555) 000-0000" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="jennifer@mail.com">
+            </div>
+            <div class="form-group">
+              <label for="age">Guest Type</label>
+              <select id="age" name="age">
+                <option value="adult">Adult</option>
+                <option value="child">Child</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="attending">Will You Attend? *</label>
+              <select id="attending" name="attending" required onchange="toggleAttending(this.value)">
+                <option value="">— Select —</option>
+                <option value="yes">Yes, I will!</option>
+                <option value="no">No, sorry</option>
+              </select>
+            </div>
+            <div class="conditional-group full" id="conditionalFields">
+              <div class="form-grid" data-fp-dynamic-items="true">
+                <div class="form-group full">
+                  <label for="allergies">Allergies / Dietary Restrictions</label>
+                  <input type="text" id="allergies" name="allergies" placeholder="e.g. Gluten-free, vegan…">
+                </div>
+                <div class="form-group">
+                  <label for="transport">Use Our Transportation?</label>
+                  <select id="transport" name="transport">
+                    <option value="yes">Yes, please!</option>
+                    <option value="no">No, thank you</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="song">Favourite Song for the Dance Floor</label>
+                  <input type="text" id="song" name="song" placeholder="e.g. Can't Help Falling In Love">
+                </div>
+              </div>
+            </div>
+            <div class="form-group full">
+              <label for="message">A Message for the Couple</label>
+              <textarea id="message" name="message" placeholder="Write your warm wishes here…"></textarea>
+            </div>
+            <div class="form-group full" style="text-align:center;margin-top:8px">
+              <button type="submit" class="btn-primary" style="width:100%;padding:16px;font-size:11px;letter-spacing:0.25em">Confirm Attendance</button>
+            </div>
+          </div>
+        </form>
+        <div id="rsvpSuccess" style="display:none;text-align:center;padding:40px 0">
+          <div style="font-size:40px;margin-bottom:16px" data-emoji-edit>🎉</div>
+          <h3 style="font-family:var(--font-heading);font-size:2rem;color:var(--color-on-surface);margin-bottom:12px">Thank You!</h3>
+          <p style="font-size:14px;color:var(--color-on-surface-muted)">We can't wait to celebrate with you. See you on July 12th!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ ABOUT ═══════════════════════════ -->
+  <section id="about" class="section-pad-lg">
+    <div class="container">
+      <div class="text-center mb-16 reveal">
+        <span class="section-eyebrow">Meet the Couple</span>
+        <div class="section-divider"><span class="section-divider-icon">&amp;</span></div>
+      </div>
+      <div class="about-grid">
+        <!-- BRIDE -->
+        <div class="about-person reveal-left" data-fp-dynamic="true">
+          <div class="about-photo-wrap">
+            <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&q=80" alt="Jennifer Harrison — The Bride" loading="lazy">
+            <a href="#rsvp" class="about-photo-btn">More About Jennifer</a>
+          </div>
+          <span class="about-person-role">The Bride</span>
+          <h3 class="about-person-name">Jennifer Harrison</h3>
+          <p class="about-person-bio">Love is friendship that has caught fire. It is quiet understanding, mutual confidence, sharing and forgiving. It is loyalty through good and bad times. It settles for less than perfection and makes allowances for human weaknesses.</p>
+          <blockquote class="about-quote">"Sometimes the heart sees what is invisible to the eye."</blockquote>
+        </div>
+
+        <!-- AMPERSAND DIVIDER -->
+        <div class="about-ampersand-col">
+          <span class="about-amp-symbol">&amp;</span>
+        </div>
+
+        <!-- GROOM -->
+        <div class="about-person reveal-right" data-fp-dynamic="true">
+          <div class="about-photo-wrap">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Oliver Duvall — The Groom" loading="lazy">
+            <a href="#rsvp" class="about-photo-btn">More About Oliver</a>
+          </div>
+          <span class="about-person-role">The Groom</span>
+          <h3 class="about-person-name">Oliver Duvall</h3>
+          <p class="about-person-bio">I believe that imagination is stronger than knowledge. That myth is more potent than history. That dreams are more powerful than facts. That hope always triumphs over experience. That laughter is the only cure for grief.</p>
+          <blockquote class="about-quote">"Where there is love there is life."</blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ QUOTE ═══════════════════════════ -->
+  <section id="quote" class="has-bg-image" data-overlay-opacity="0.4">
+    <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1920&q=80');"></div>
+    <div class="quote-content reveal">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">A successful marriage requires falling in love many times, always with the same person.</p>
+      <p class="quote-attribution">— Mignon McLaughlin</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ PEOPLE ══════════════════════════ -->
+  <section id="people">
+    <div class="people-wrap">
+      <div class="people-inner">
+        <span class="people-supertitle reveal">Best Man &amp; Maid of Honour</span>
+        <h2 class="people-title reveal">Our Bridesmaids &amp; Groomsmen's</h2>
+        <p class="people-subtitle reveal">The wonderful people standing by our sides</p>
+        <div class="people-grid" data-fp-dynamic-items="true">
+          <div class="person-card reveal-scale" data-fp-dynamic="true">
+            <span class="person-card-role">Best Man</span>
+            <img src="https://images.unsplash.com/photo-1500048993953-d23a436266cf?w=400&q=80" alt="Mike Stephanson" loading="lazy">
+            <div class="person-card-label">Mike Stephanson</div>
+          </div>
+          <div class="person-card reveal-scale" data-fp-dynamic="true">
+            <span class="person-card-role">Maid of Honour</span>
+            <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80" alt="Lindsey Kent" loading="lazy">
+            <div class="person-card-label">Lindsey Kent</div>
+          </div>
+          <div class="person-card reveal-scale" data-fp-dynamic="true">
+            <span class="person-card-role">Bridesmaid</span>
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80" alt="Elizabeth Lyn" loading="lazy">
+            <div class="person-card-label">Elizabeth Lyn</div>
+          </div>
+          <div class="person-card reveal-scale" data-fp-dynamic="true">
+            <span class="person-card-role">Groomsman</span>
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80" alt="Steve Ray" loading="lazy">
+            <div class="person-card-label">Steve Ray</div>
+          </div>
+        </div>
+        <a href="#rsvp" class="btn-outline-people reveal">View All Bridesmaids &amp; Groomsmen</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════ DETAILS ═════════════════════════ -->
+  <section id="details" class="section-pad">
+    <div class="container">
+      <div class="text-center mb-14 reveal">
+        <span class="section-eyebrow">Important Information</span>
+        <div class="section-divider"><span class="section-divider-icon">&amp;</span></div>
+        <h2 class="section-title">Wedding Details</h2>
+      </div>
+      <div class="details-grid" data-fp-dynamic-items="true">
+        <div class="detail-card reveal" data-fp-dynamic="true">
+          <div class="detail-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2" width="48" height="48">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+            </svg>
+          </div>
+          <h3 class="detail-title">Bachelor Party</h3>
+          <span class="detail-subtitle">Bring Your Dancing Shoes</span>
+          <div class="detail-divider"></div>
+          <p class="detail-desc">An unforgettable evening of music, laughter, and celebration with our closest friends before the big day. Dress code is smart casual — come ready to dance until dawn.</p>
+          <a href="#details" class="btn-outline">Read More</a>
+        </div>
+        <div class="detail-card reveal" data-fp-dynamic="true">
+          <div class="detail-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2" width="48" height="48">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <h3 class="detail-title">Wedding Location</h3>
+          <span class="detail-subtitle">Venice, Italy — Hotel Adami</span>
+          <div class="detail-divider"></div>
+          <p class="detail-desc">The ceremony and reception will be held at the enchanting Hotel Adami on the Grand Canal. Rooms have been reserved at a special rate for our wedding guests. Book early!</p>
+          <a href="#map" class="btn-outline">Get Directions</a>
+        </div>
+        <div class="detail-card reveal" data-fp-dynamic="true">
+          <div class="detail-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2" width="48" height="48">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+            </svg>
+          </div>
+          <h3 class="detail-title">Gift Registry</h3>
+          <span class="detail-subtitle">Given Freely and Out of Pure Love</span>
+          <div class="detail-divider"></div>
+          <p class="detail-desc">Your presence is the greatest gift we could wish for. If you wish to give, we have created a small registry of household items and a honeymoon fund to help us start our journey together.</p>
+          <a href="#details" class="btn-outline">Read More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ SCHEDULE ════════════════════════ -->
+  <section id="schedule" class="section-pad" style="background:var(--color-canvas-alt)">
+    <div class="container">
+      <div class="text-center mb-14 reveal">
+        <span class="section-eyebrow">Plan Your Day</span>
+        <div class="section-divider"><span class="section-divider-icon">&amp;</span></div>
+        <h2 class="section-title">Day Schedule</h2>
+        <p class="section-subtitle" style="margin-top:8px">Here's how our special day will unfold. We want you to know every magical moment in advance.</p>
+      </div>
+      <div class="schedule-list" data-fp-dynamic-items="true">
+        <div class="schedule-item reveal" data-fp-dynamic="true">
+          <span class="schedule-time">3:00 pm</span>
+          <div class="schedule-line"></div>
+          <div class="schedule-body">
+            <p class="schedule-event">Guests Arrive &amp; Welcome Drinks</p>
+            <p class="schedule-where">Hotel Adami Garden Terrace, Venice</p>
+          </div>
+        </div>
+        <div class="schedule-item reveal" data-fp-dynamic="true">
+          <span class="schedule-time">4:00 pm</span>
+          <div class="schedule-line"></div>
+          <div class="schedule-body">
+            <p class="schedule-event">Wedding Ceremony</p>
+            <p class="schedule-where">Hotel Adami Grand Ballroom, Venice</p>
+          </div>
+        </div>
+        <div class="schedule-item reveal" data-fp-dynamic="true">
+          <span class="schedule-time">5:30 pm</span>
+          <div class="schedule-line"></div>
+          <div class="schedule-body">
+            <p class="schedule-event">Cocktail Hour &amp; Canapés</p>
+            <p class="schedule-where">Canal-side Terrace, Hotel Adami</p>
+          </div>
+        </div>
+        <div class="schedule-item reveal" data-fp-dynamic="true">
+          <span class="schedule-time">7:00 pm</span>
+          <div class="schedule-line"></div>
+          <div class="schedule-body">
+            <p class="schedule-event">Wedding Dinner &amp; Speeches</p>
+            <p class="schedule-where">Hotel Adami Grand Dining Room</p>
+          </div>
+        </div>
+        <div class="schedule-item reveal" data-fp-dynamic="true">
+          <span class="schedule-time">9:30 pm</span>
+          <div class="schedule-line"></div>
+          <div class="schedule-body">
+            <p class="schedule-event">First Dance &amp; Evening Celebrations</p>
+            <p class="schedule-where">Hotel Adami Grand Ballroom</p>
+          </div>
+        </div>
+        <div class="schedule-item reveal" data-fp-dynamic="true">
+          <span class="schedule-time">12:00 am</span>
+          <div class="schedule-line"></div>
+          <div class="schedule-body">
+            <p class="schedule-event">Midnight Farewell &amp; Send-off</p>
+            <p class="schedule-where">Hotel Adami Main Entrance</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ MAP ══════════════════════════════ -->
+  <section id="map" class="map-container" data-fp-dynamic="true">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2800.999999999999!2d12.3345!3d45.4371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477eb1daf1d63d89%3A0x6b0b7bbf2a49a6a3!2sVenice%2C%20Metropolitan%20City%20of%20Venice%2C%20Italy!5e0!3m2!1sen!2sus!4v1614000000000!5m2!1sen!2sus"
+      loading="lazy"
+      allowfullscreen
+      title="Wedding Venue Map — Hotel Adami, Venice, Italy">
+    </iframe>
+  </section>
+
+  <!-- ═══════════════════════ GALLERY ═════════════════════════ -->
+  <section id="gallery">
+    <div class="gallery-grid" data-fp-dynamic-items="true">
+      <div class="gallery-item" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=900&q=80" alt="Wedding gallery" loading="lazy">
+      </div>
+      <div class="gallery-item" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80" alt="Wedding gallery" loading="lazy">
+      </div>
+      <div class="gallery-item" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600&q=80" alt="Wedding gallery" loading="lazy">
+      </div>
+      <div class="gallery-item" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&q=80" alt="Wedding gallery" loading="lazy">
+      </div>
+      <div class="gallery-item" data-fp-dynamic="true">
+        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&q=80" alt="Wedding gallery" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FAQS ════════════════════════════ -->
+  <section id="faqs" class="section-pad">
+    <div class="container">
+      <div class="text-center mb-14 reveal">
+        <span class="section-eyebrow">Got Questions?</span>
+        <div class="section-divider"><span class="section-divider-icon">&amp;</span></div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle" style="margin-top:8px">We've answered the questions guests ask most. Don't see yours? Drop us a message below.</p>
+      </div>
+      <div class="faqs-grid" data-fp-dynamic-items="true">
+        <div class="faq-item reveal" data-fp-dynamic="true">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>What is the dress code?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="faq-a">Smart elegant attire is required. Please avoid white, ivory, or cream clothing out of respect for the bride. We'd love to see florals and soft colours for the outdoor ceremony.</div>
+        </div>
+        <div class="faq-item reveal" data-fp-dynamic="true">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Are children welcome?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="faq-a">We love children and they are absolutely welcome! A dedicated kids' corner with entertainment will be set up during the reception. Please note this when completing your RSVP.</div>
+        </div>
+        <div class="faq-item reveal" data-fp-dynamic="true">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Is parking available?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="faq-a">As the venue is in central Venice, we recommend arriving by water taxi or vaporetto. We've arranged shuttle boats from Piazzale Roma for guests. Details in your invitation.</div>
+        </div>
+        <div class="faq-item reveal" data-fp-dynamic="true">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Can I take photos during the ceremony?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="faq-a">We're having an unplugged ceremony — please put phones away and enjoy the moment with us. Our photographer will capture everything beautifully. Photos are welcome during the reception!</div>
+        </div>
+        <div class="faq-item reveal" data-fp-dynamic="true">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>What time should I arrive?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="faq-a">Please arrive by 3:00 pm for welcome drinks on the garden terrace. The ceremony begins promptly at 4:00 pm, so please plan to be seated by 3:45 pm.</div>
+        </div>
+        <div class="faq-item reveal" data-fp-dynamic="true">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Will there be accommodation nearby?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="faq-a">Yes! Hotel Adami has reserved a block of rooms at a special rate for our guests. Please mention "Jennifer & Oliver Wedding" when booking. We recommend reserving early as availability is limited.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FOOTER ══════════════════════════ -->
+  <footer id="footer">
+    <div class="footer-birds" data-emoji-edit>🕊️ 🕊️</div>
+    <p class="footer-logo">Jennifer &amp; Oliver</p>
+    <p class="footer-tagline">12 · 07 · 2026 — Venice, Italy</p>
+    <div class="footer-social">
+      <a href="#footer" aria-label="Twitter">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+      </a>
+      <a href="#footer" aria-label="Facebook">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="#footer" aria-label="Pinterest">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+      </a>
+      <a href="#footer" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+    </div>
+    <div class="footer-nav">
+      <a href="#hero">Home</a>
+      <a href="#about">The Wedding</a>
+      <a href="#rsvp">RSVP</a>
+      <a href="#details">Get In Touch</a>
+      <a href="#faqs">FAQ</a>
+    </div>
+    <p class="footer-copy">
+      <span>Made with</span>
+      <span data-emoji-edit> ♡ </span>
+      <span>© 2026 Jennifer &amp; Oliver. All rights reserved.</span>
+    </p>
+  </footer>
+
+  <script>
+    /* ── Countdown ──────────────────────────────────────────── */
+    (function(){
+      const section = document.querySelector('.countdown-section');
+      if(!section) return;
+      const raw = section.getAttribute('data-wedding-date');
+      if(!raw) return;
+      const target = new Date(raw).getTime();
+      const dEl = document.getElementById('days');
+      const hEl = document.getElementById('hours');
+      const mEl = document.getElementById('minutes');
+      const sEl = document.getElementById('seconds');
+      function update(){
+        const now = Date.now();
+        const diff = target - now;
+        if(diff <= 0){
+          if(dEl) dEl.textContent='000';
+          if(hEl) hEl.textContent='00';
+          if(mEl) mEl.textContent='00';
+          if(sEl) sEl.textContent='00';
+          return;
+        }
+        const d = Math.floor(diff/(1000*60*60*24));
+        const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+        const m = Math.floor((diff%(1000*60*60))/(1000*60));
+        const s = Math.floor((diff%(1000*60))/1000);
+        if(dEl) dEl.textContent = String(d).padStart(3,'0');
+        if(hEl) hEl.textContent = String(h).padStart(2,'0');
+        if(mEl) mEl.textContent = String(m).padStart(2,'0');
+        if(sEl) sEl.textContent = String(s).padStart(2,'0');
+      }
+      update();
+      setInterval(update, 1000);
+    })();
+
+    /* ── Nav scroll ─────────────────────────────────────────── */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    /* ── Mobile menu ────────────────────────────────────────── */
+    function toggleMobileMenu(){
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+    function closeMobileMenu(){
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+
+    /* ── Reveal on scroll ───────────────────────────────────── */
+    const revealEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale');
+    const revealObs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+    revealEls.forEach(el => revealObs.observe(el));
+
+    /* ── RSVP attending toggle ──────────────────────────────── */
+    function toggleAttending(val){
+      const cf = document.getElementById('conditionalFields');
+      if(cf) cf.classList.toggle('active', val === 'yes');
+    }
+
+    /* ── RSVP form submit ───────────────────────────────────── */
+    const rsvpForm = document.getElementById('rsvpForm');
+    if(rsvpForm){
+      rsvpForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        rsvpForm.style.display='none';
+        const success = document.getElementById('rsvpSuccess');
+        if(success) success.style.display='block';
+      });
+    }
+
+    /* ── FAQ accordion ──────────────────────────────────────── */
+    function toggleFaq(el){
+      const answer = el.nextElementSibling;
+      const isOpen = answer.classList.contains('open');
+      document.querySelectorAll('.faq-a.open').forEach(a=>{
+        a.classList.remove('open');
+        a.previousElementSibling.classList.remove('open');
+      });
+      if(!isOpen){ answer.classList.add('open'); el.classList.add('open'); }
+    }
+
+    /* ── Active nav link ────────────────────────────────────── */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav ul li a');
+    const activeObs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          navLinks.forEach(a=>a.classList.remove('active'));
+          const active = document.querySelector(`nav ul li a[href="#${e.target.id}"]`);
+          if(active) active.classList.add('active');
+        }
+      });
+    },{threshold:0.4});
+    sections.forEach(s => activeObs.observe(s));
+  </script>
+</body>
+</html>

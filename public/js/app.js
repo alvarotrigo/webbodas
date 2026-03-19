@@ -1352,7 +1352,20 @@ const themes = [
 // defaultTheme: the wedding theme pre-selected in the Themes panel when the user previews this template
 const templates = [
      { id: 1, is_pro: 0, name: 'Tuscany Wedding', file: 'template1.html', category: 'classic',  tags: ['tuscany', 'villa', 'elegant'],    defaultTheme: 'theme-wedding-terracotta' },
+     { id: 2, is_pro: 0, name: 'Garden Romance', file: 'template2.html', category: 'classic', tags: ['garden', 'romantic', 'elegant'], defaultTheme: 'theme-wedding-dusty-rose' },
     { id: 5, is_pro: 0, name: 'Wedding', file: 'template5.html', category: 'wedding', tags: ['wedding'] },
+    { id: 6, is_pro: 0, name: 'Confetti', file: 'template6.html', category: 'modern', tags: ['bold', 'playful', 'colorful', 'contemporary', 'fun'], defaultTheme: 'theme-wedding-confetti' },
+    { id: 4, is_pro: 0, name: 'Noir Soiree', file: 'template4.html', category: 'luxe', tags: ['dark', 'luxury', 'evening', 'cinematic', 'elegant'], defaultTheme: 'theme-wedding-midnight-stars' },
+    { id: 7, is_pro: 0, name: 'Costa Mediteranea', file: 'template7.html', category: 'classic', tags: ['mediterranean', 'destination', 'coastal', 'villa', 'elegant'], defaultTheme: 'theme-mediterranean' },
+    { id: 8, is_pro: 0, name: 'Dreamy Botanical', file: 'template8.html', category: 'luxe', tags: ['dark', 'botanical', 'gold', 'dreamy', 'nature', 'elegant'], defaultTheme: 'theme-dreamy-botanical' },
+    { id: 9, is_pro: 0, name: 'Modern Bliss', file: 'template9.html', category: 'modern', tags: ['modern', 'blush', 'pink', 'romantic', 'bold', 'contemporary', 'colorful'], defaultTheme: 'theme-wedding-modern-bliss' },
+    { id: 10, is_pro: 0, name: "L'Atelier", file: 'template10.html', category: 'luxe', tags: ['editorial', 'elegant', 'french', 'minimalist', 'luxury', 'cream', 'dark'], defaultTheme: 'theme-atelier' },
+    { id: 11, is_pro: 0, name: 'Botanical Romance', file: 'template11.html', category: 'classic', tags: ['botanical', 'romantic', 'garden', 'floral', 'pastel', 'elegant', 'rose'], defaultTheme: 'theme-botanical-romance' },
+    { id: 12, is_pro: 0, name: 'Kyoto', file: 'template12.html', category: 'luxe', tags: ['minimal', 'editorial', 'japanese', 'destination', 'luxury', 'cream', 'monochromatic', 'elegant'], defaultTheme: 'theme-kyoto' },
+    { id: 13, is_pro: 0, name: 'Avela White', file: 'template13.html', category: 'luxe', tags: ['black-and-white', 'editorial', 'minimalist', 'monochromatic', 'luxury', 'bold', 'elegant', 'castle', 'destination'], defaultTheme: 'theme-avela-white' },
+    { id: 14, is_pro: 0, name: 'Olive Garden', file: 'template14.html', category: 'classic', tags: ['olive', 'classic', 'vintage', 'elegant', 'romantic', 'garden', 'destination', 'italy', 'green'], defaultTheme: 'theme-olive-garden' },
+    { id: 15, is_pro: 0, name: 'Dreamday', file: 'template15.html', category: 'luxe', tags: ['boho', 'dreamy', 'arch', 'cream', 'editorial', 'tuscany', 'destination', 'elegant', 'warm', 'pampas'], defaultTheme: 'theme-dreamday' },
+    { id: 16, is_pro: 0, name: 'Golden Hour', file: 'template16.html', category: 'classic', tags: ['warm', 'editorial', 'mediterranean', 'destination', 'santorini', 'terracotta', 'elegant', 'romantic', 'photography'], defaultTheme: 'theme-golden-hour' },
     ];
 
 // Template style categories - replaces templates/categorias.json

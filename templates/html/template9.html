@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sophia & Robert — March 28, 2025</title>
+    <meta name="description" content="Join us to celebrate the wedding of Sophia and Robert. March 28, 2025.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Nunito:wght@300;400;500;600;700&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ─── MODERN BLISS PALETTE ─── */
+        body.theme-wedding-modern-bliss {
+            --color-canvas:               #fdfaf9;
+            --color-canvas-alt:           #f8f3f1;
+            --color-surface:              #ffffff;
+            --color-surface-alt:          #fdf0f5;
+            --color-surface-raised:       #fffdfb;
+            --color-surface-inverse:      #1a0f14;
+
+            --color-on-canvas:            #1a1117;
+            --color-on-canvas-muted:      #6b5a62;
+            --color-on-surface:           #1a1117;
+            --color-on-surface-muted:     #6b5a62;
+            --color-on-surface-subtle:    #9b8a92;
+            --color-on-surface-inverse:   #f9f0f5;
+
+            --color-primary:              #e8488a;
+            --color-on-primary:           #ffffff;
+            --color-primary-hover:        #d4377a;
+            --color-primary-active:       #be2868;
+            --color-primary-container:    #fde4f0;
+            --color-on-primary-container: #7a1040;
+
+            --color-secondary:              #f97316;
+            --color-on-secondary:           #ffffff;
+            --color-secondary-hover:        #e06210;
+            --color-secondary-active:       #c85210;
+            --color-secondary-container:    #fef0e6;
+            --color-on-secondary-container: #7a3010;
+
+            --color-tertiary:              #9f8fc0;
+            --color-on-tertiary:           #ffffff;
+            --color-tertiary-hover:        #8e7eaf;
+            --color-tertiary-active:       #7d6d9e;
+            --color-tertiary-container:    #ede8f8;
+            --color-on-tertiary-container: #3d2a60;
+
+            --color-link:           #d4377a;
+            --color-link-hover:     #be2868;
+            --color-border-subtle:  #f0e0e8;
+            --color-border:         #e0c8d4;
+            --color-border-strong:  #c0a0b0;
+            --color-focus-ring:     #e8488a;
+
+            --color-overlay:        rgba(20, 10, 15, 0.48);
+            --color-overlay-strong: rgba(20, 10, 15, 0.72);
+            --color-on-overlay:     #fffaf8;
+
+            --color-success:    #4f7a59;
+            --color-on-success: #f7fff8;
+            --color-danger:     #a34c4c;
+            --color-on-danger:  #fff8f8;
+
+            --font-body:    'Nunito', system-ui, sans-serif;
+            --font-heading: 'Cormorant Garamond', Georgia, serif;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-script:  'Dancing Script', cursive;
+        }
+
+        /* ─── BASE ─── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--color-canvas);
+            color: var(--color-on-canvas);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+        }
+        nav.scrolled {
+            background: var(--color-surface-raised);
+            backdrop-filter: blur(12px);
+            padding: 14px 48px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+        }
+        nav .logo {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-on-overlay);
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        nav .logo .logo-heart { color: var(--color-primary); }
+        nav.scrolled .logo { color: var(--color-on-canvas); }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: var(--color-on-overlay);
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s, opacity 0.3s;
+            opacity: 0.85;
+        }
+        nav.scrolled .nav-links li a {
+            color: var(--color-on-canvas-muted);
+            opacity: 1;
+        }
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 1.5px;
+            background: var(--color-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .nav-links li a:hover, .nav-links li a.active { opacity: 1; }
+        nav.scrolled .nav-links li a:hover,
+        nav.scrolled .nav-links li a.active { color: var(--color-primary); }
+        .nav-links li a:hover::after, .nav-links li a.active::after { transform: scaleX(1); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+            z-index: 1001;
+        }
+        .hamburger span {
+            width: 24px; height: 1.5px;
+            background: var(--color-on-overlay);
+            transition: all 0.3s ease;
+            display: block;
+        }
+        nav.scrolled .hamburger span { background: var(--color-on-canvas); }
+
+        /* ─── HERO ─── */
+        section#hero {
+            min-height: 100vh !important;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        section#hero .fp-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center 30%;
+            z-index: 0;
+        }
+        section#hero .fp-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--color-overlay, rgba(20,10,15,0.48));
+            opacity: var(--overlay-opacity, 0.4);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero-circle-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-dots-svg {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1;
+            width: 720px; height: 720px;
+        }
+        .hero-circle {
+            background: var(--color-surface, #ffffff);
+            border-radius: 50%;
+            width: clamp(340px, 48vw, 560px);
+            height: clamp(340px, 48vw, 560px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 56px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+            position: relative;
+            z-index: 2;
+        }
+        .hero-save-date {
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--color-on-surface-muted);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hero-save-date::before, .hero-save-date::after {
+            content: '';
+            width: 18px; height: 1px;
+            background: var(--color-border);
+        }
+        .hero-bride-name {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(52px, 8vw, 100px);
+            line-height: 1;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .hero-and {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 6px 0;
+            width: 100%;
+            justify-content: center;
+        }
+        .hero-and .and-line { flex: 1; height: 1px; background: var(--color-border); }
+        .hero-and .and-text {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-size: 13px;
+            color: var(--color-on-surface-subtle);
+            letter-spacing: 0.2em;
+        }
+        .hero-groom-name {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(52px, 8vw, 100px);
+            line-height: 1;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .hero-date-row {
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hero-date-row .date-month,
+        .hero-date-row .date-year {
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-on-surface-muted);
+        }
+        .hero-date-row .date-num {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 34px;
+            color: var(--color-on-surface);
+            line-height: 1;
+        }
+        .hero-date-row .date-sep { width: 1px; height: 28px; background: var(--color-border); }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 32px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-on-overlay);
+            opacity: 0.6;
+        }
+        .scroll-indicator span {
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+        }
+        .scroll-arrow {
+            width: 1px; height: 36px;
+            background: currentColor;
+            animation: scrollPulse 1.6s ease-in-out infinite;
+        }
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+            50%       { opacity: 1;   transform: scaleY(1);   }
+        }
+
+        /* ─── SECTION COMMON ─── */
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 64px;
+        }
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 10px;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 4vw, 48px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            color: var(--color-on-canvas);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .section-subtitle {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-size: clamp(16px, 2vw, 22px);
+            color: var(--color-on-canvas-muted);
+            margin-bottom: 48px;
+        }
+
+        /* ─── ABOUT ─── */
+        section#about { background: var(--color-canvas); }
+        .about-heading { text-align: center; margin-bottom: 64px; }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .about-person { display: flex; flex-direction: column; gap: 14px; }
+        .about-person-right { text-align: right; }
+        .about-role {
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+        }
+        .about-person-right .about-role { color: var(--color-secondary); }
+        .about-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(18px, 2.2vw, 26px);
+            color: var(--color-on-canvas);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .about-bio {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--color-on-canvas-muted);
+        }
+        .about-social { display: flex; gap: 10px; margin-top: 4px; }
+        .about-person-right .about-social { justify-content: flex-end; }
+        .social-icon {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--color-border);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-on-canvas-muted);
+            transition: border-color 0.3s, color 0.3s;
+        }
+        .social-icon:hover { border-color: var(--color-primary); color: var(--color-primary); }
+        .about-center { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+        .about-photo {
+            width: 210px; height: 210px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid var(--color-surface);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .about-couple-label {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-size: 18px;
+            color: var(--color-on-canvas-muted);
+        }
+        .about-couple-label .heart { color: var(--color-primary); font-style: normal; }
+
+        /* ─── STORY ─── */
+        section#story { background: var(--color-canvas-alt); }
+        .story-heading { text-align: center; margin-bottom: 64px; }
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .story-card {
+            background: var(--color-surface);
+            border-radius: 8px;
+            padding: 28px 22px;
+            position: relative;
+            border-top: 3px solid var(--color-border-subtle);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+        .story-card:hover {
+            border-top-color: var(--color-primary);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+        }
+        .story-card:nth-child(even):hover { border-top-color: var(--color-secondary); }
+        .story-dot {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            margin-bottom: 14px;
+        }
+        .story-card:nth-child(even) .story-dot { background: var(--color-secondary); }
+        .story-bg-num {
+            position: absolute;
+            top: 10px; right: 14px;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 56px;
+            line-height: 1;
+            color: var(--color-primary-container);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .story-card:nth-child(even) .story-bg-num { color: var(--color-secondary-container); }
+        .story-year {
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .story-card:nth-child(even) .story-year { color: var(--color-secondary); }
+        .story-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--color-on-surface);
+            margin-bottom: 8px;
+        }
+        .story-text {
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--color-on-surface-muted);
+        }
+
+        /* ─── GALLERY ─── */
+        section#gallery { background: var(--color-canvas); }
+        .gallery-heading { text-align: center; margin-bottom: 48px; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: 240px 240px;
+            gap: 10px;
+        }
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 6px;
+            position: relative;
+        }
+        .gallery-item:nth-child(2) { grid-row: span 2; }
+        .gallery-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.05); }
+        .gallery-overlay {
+            position: absolute; inset: 0;
+            background: var(--color-overlay, rgba(20,10,15,0.48));
+            opacity: 0;
+            transition: opacity 0.4s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-icon { color: var(--color-on-overlay); width: 36px; height: 36px; }
+
+        /* ─── QUOTE ─── */
+        section#quote {
+            min-height: 50vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        section#quote .fp-bg {
+            position: absolute; inset: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+        section#quote .fp-bg::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: var(--color-overlay-strong, rgba(20,10,15,0.72));
+            opacity: var(--overlay-opacity, 0.4);
+        }
+        .quote-content {
+            position: relative;
+            z-index: 1;
+            padding: 80px 64px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .quote-open {
+            font-family: var(--font-script);
+            font-size: clamp(80px, 12vw, 130px);
+            color: var(--color-on-overlay);
+            line-height: 0.8;
+            opacity: 0.25;
+            display: block;
+            margin-bottom: -16px;
+        }
+        .quote-text {
+            font-family: var(--font-script);
+            font-size: clamp(36px, 5vw, 60px);
+            color: var(--color-on-overlay);
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        .quote-caption {
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.45em;
+            text-transform: uppercase;
+            color: var(--color-on-overlay);
+            opacity: 0.55;
+        }
+
+        /* ─── COUNTDOWN ─── */
+        section#countdown {
+            min-height: 55vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        section#countdown .fp-bg {
+            position: absolute; inset: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+        section#countdown .fp-bg::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: var(--color-overlay-strong, rgba(20,10,15,0.72));
+            opacity: var(--overlay-opacity, 0.6);
+        }
+        .countdown-content {
+            position: relative;
+            z-index: 1;
+            padding: 80px 64px;
+            width: 100%;
+        }
+        .countdown-label {
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: 12px;
+        }
+        .countdown-heading {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(26px, 4vw, 44px);
+            color: var(--color-on-overlay);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 48px;
+        }
+        .countdown-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 32px;
+        }
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .countdown-item .number {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(44px, 7vw, 88px);
+            line-height: 1;
+            color: var(--color-on-overlay);
+        }
+        .countdown-item:nth-child(1) .number,
+        .countdown-item:nth-child(3) .number { color: var(--color-primary); }
+        .countdown-item:nth-child(2) .number,
+        .countdown-item:nth-child(4) .number { color: var(--color-secondary); }
+        .countdown-item .label {
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--color-on-overlay);
+            opacity: 0.55;
+        }
+        .countdown-sep {
+            font-family: var(--font-display);
+            font-size: 44px;
+            font-weight: 300;
+            color: var(--color-on-overlay);
+            opacity: 0.25;
+            line-height: 1;
+            margin-bottom: 22px;
+        }
+
+        /* ─── PEOPLE ─── */
+        section#people { background: var(--color-canvas); }
+        .people-heading { text-align: center; margin-bottom: 56px; }
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+        .people-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+        }
+        .people-photo-wrap {
+            position: relative;
+            width: 150px; height: 150px;
+            flex-shrink: 0;
+        }
+        .people-photo-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: conic-gradient(var(--color-primary) 0%, var(--color-secondary) 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 0;
+        }
+        .people-card:hover .people-photo-wrap::before { opacity: 1; }
+        .people-photo {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--color-canvas);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s, transform 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        .people-card:hover .people-photo {
+            box-shadow: 0 10px 28px rgba(0,0,0,0.14);
+            transform: translateY(-4px);
+        }
+        .people-photo img { width: 100%; height: 100%; object-fit: cover; }
+        /* Groomsmen: pink ring on hover, static pink top border */
+        .people-groomsmen .people-photo { border-top-color: var(--color-primary); }
+        .people-groomsmen .people-photo-wrap::before {
+            background: conic-gradient(var(--color-primary) 0%, var(--color-primary-container) 100%);
+        }
+        /* Bridesmaids: orange ring on hover */
+        .people-bridesmaids .people-photo { border-top-color: var(--color-secondary); }
+        .people-bridesmaids .people-photo-wrap::before {
+            background: conic-gradient(var(--color-secondary) 0%, var(--color-secondary-container) 100%);
+        }
+        .people-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--color-on-canvas);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .people-role {
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--color-on-canvas-muted);
+        }
+        .people-groomsmen .people-role { color: var(--color-primary); }
+        .people-bridesmaids .people-role { color: var(--color-secondary); }
+        .people-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 32px 0 40px;
+        }
+        .people-divider-line { height: 1px; width: 80px; background: var(--color-border); }
+        .people-divider-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--color-secondary);
+        }
+        .people-divider-label {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--color-secondary);
+        }
+
+        /* ─── DETAILS (WHEN & WHERE) ─── */
+        section#details { background: var(--color-canvas); }
+        .details-heading { text-align: center; margin-bottom: 60px; }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .detail-card {
+            background: var(--color-surface);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .detail-card:hover {
+            box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+        }
+        .detail-photo { position: relative; height: 190px; overflow: hidden; }
+        .detail-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+        .detail-card:hover .detail-photo img { transform: scale(1.06); }
+        .detail-date-badge {
+            position: absolute;
+            bottom: -20px; left: 20px;
+            background: var(--color-primary);
+            color: var(--color-on-primary);
+            border-radius: 4px;
+            padding: 6px 14px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(232,72,138,0.3);
+        }
+        .detail-card:nth-child(2) .detail-date-badge { background: var(--color-primary-hover); }
+        .detail-card:nth-child(3) .detail-date-badge { background: var(--color-secondary); box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
+        .badge-month {
+            font-family: var(--font-body);
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            display: block;
+        }
+        .badge-day {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 26px;
+            line-height: 1;
+            display: block;
+        }
+        .detail-body { padding: 34px 20px 22px; }
+        .detail-type {
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: 6px;
+        }
+        .detail-card:nth-child(3) .detail-type { color: var(--color-secondary); }
+        .detail-venue {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 17px;
+            color: var(--color-on-surface);
+            margin-bottom: 14px;
+        }
+        .detail-info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .detail-info-icon {
+            width: 15px; height: 15px;
+            color: var(--color-primary);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+        .detail-card:nth-child(3) .detail-info-icon { color: var(--color-secondary); }
+        .detail-info-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--color-on-surface-muted);
+        }
+
+        /* ─── MAP ─── */
+        section#map { background: var(--color-canvas-alt); }
+        .map-heading { text-align: center; }
+        .map-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 64px 100px; }
+        .map-container {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 32px rgba(0,0,0,0.1);
+        }
+        section#map iframe { width: 100%; height: 420px; border: none; display: block; }
+
+        /* ─── RSVP ─── */
+        section#rsvp { background: var(--color-canvas); }
+        .rsvp-heading { text-align: center; margin-bottom: 60px; }
+        .rsvp-form-wrapper {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: 12px;
+            padding: 52px;
+            box-shadow: 0 10px 36px rgba(0,0,0,0.06);
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px 22px;
+            margin-bottom: 0;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label {
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--color-on-surface-muted);
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: var(--color-canvas);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            padding: 11px 14px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-on-surface);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--color-on-surface-subtle); }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-container);
+        }
+        .form-group textarea { resize: vertical; min-height: 110px; }
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239b8a92' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 38px;
+        }
+        .form-submit { text-align: center; margin-top: 30px; }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 52px;
+            background: var(--color-primary);
+            color: var(--color-on-primary);
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 16px rgba(232,72,138,0.3);
+        }
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(232,72,138,0.4);
+        }
+        .btn-primary:active { background: var(--color-primary-active); transform: none; }
+        .rsvp-success { display: none; text-align: center; padding: 28px; }
+        .rsvp-success.visible { display: block; }
+        .rsvp-success-icon {
+            width: 52px; height: 52px;
+            background: var(--color-primary-container);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 14px;
+            color: var(--color-primary);
+        }
+        .rsvp-success h3 {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--color-on-surface);
+            margin-bottom: 6px;
+        }
+        .rsvp-success p { color: var(--color-on-surface-muted); font-size: 14px; }
+
+        /* ─── FOOTER ─── */
+        footer#footer {
+            background: var(--color-surface-inverse);
+            color: var(--color-on-surface-inverse);
+            padding: 48px 64px;
+        }
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 32px;
+            align-items: center;
+        }
+        .footer-contact { display: flex; flex-direction: column; gap: 4px; }
+        .footer-contact-right { text-align: right; }
+        .footer-contact-label {
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--color-on-surface-inverse);
+            opacity: 0.4;
+        }
+        .footer-contact-value {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-on-surface-inverse);
+            opacity: 0.8;
+        }
+        .footer-logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 26px;
+            color: var(--color-on-surface-inverse);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .footer-logo .heart { color: var(--color-primary); }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 28px auto 0;
+            padding-top: 22px;
+            border-top: 1px solid var(--color-border-strong);
+            text-align: center;
+        }
+        .footer-bottom p {
+            font-size: 11px;
+            color: var(--color-on-surface-inverse);
+            opacity: 0.35;
+            letter-spacing: 0.06em;
+        }
+
+        /* ─── ANIMATIONS ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.visible { opacity: 1; transform: none; }
+        .reveal-left {
+            opacity: 0; transform: translateX(-36px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-left.visible { opacity: 1; transform: none; }
+        .reveal-right {
+            opacity: 0; transform: translateX(36px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-right.visible { opacity: 1; transform: none; }
+        .reveal-scale {
+            opacity: 0; transform: scale(0.92);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-scale.visible { opacity: 1; transform: none; }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1024px) {
+            .section-inner { padding: 80px 40px; }
+            .story-grid { grid-template-columns: repeat(2, 1fr); }
+            .details-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-grid { grid-template-columns: 1fr; gap: 32px; }
+            .about-center { order: -1; }
+            .about-person-right { text-align: left; }
+            .about-person-right .about-social { justify-content: flex-start; }
+            .about-person-right .about-role { color: var(--color-secondary); }
+        }
+        @media (max-width: 768px) {
+            .people-photo-wrap { width: 120px; height: 120px; }
+            .people-photo { width: 120px; height: 120px; }
+            nav { padding: 14px 20px; }
+            nav.scrolled { padding: 10px 20px; }
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                inset: 0;
+                background: var(--color-surface);
+                align-items: center;
+                justify-content: center;
+                gap: 28px;
+                z-index: 999;
+            }
+            .nav-links.open li a {
+                font-size: 16px;
+                color: var(--color-on-canvas) !important;
+                opacity: 1 !important;
+            }
+            .hamburger { display: flex; }
+            .section-inner { padding: 60px 24px; }
+            .story-grid { grid-template-columns: repeat(2, 1fr); }
+            .people-grid { grid-template-columns: repeat(2, 1fr); }
+            .details-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+            .gallery-item:nth-child(2) { grid-row: auto; }
+            .countdown-wrapper { gap: 16px; }
+            .countdown-sep { font-size: 28px; margin-bottom: 16px; }
+            .form-row { grid-template-columns: 1fr; }
+            .rsvp-form-wrapper { padding: 28px 20px; }
+            footer#footer { padding: 36px 24px; }
+            .footer-inner { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+            .footer-contact-right { text-align: center; }
+            .map-wrapper { padding: 0 24px 60px; }
+            .quote-content { padding: 60px 32px; }
+        }
+        @media (max-width: 480px) {
+            .hero-circle { width: 300px; height: 300px; padding: 32px; }
+            .hero-dots-svg { width: 420px; height: 420px; }
+            .hero-bride-name, .hero-groom-name { font-size: 42px; }
+            .story-grid { grid-template-columns: 1fr; }
+            .people-grid { grid-template-columns: repeat(2, 1fr); }
+            .countdown-wrapper { gap: 10px; }
+        }
+    </style>
+</head>
+<body class="theme-wedding-modern-bliss">
+
+    <!-- ─── NAV ─── -->
+    <nav id="nav">
+        <div class="nav-inner">
+            <ul class="nav-links" id="nav-links-left">
+                <li><a href="#about">Couple</a></li>
+                <li><a href="#story">Timeline</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+            </ul>
+            <a href="#hero" class="logo">
+                <span>SO</span>
+                <span class="logo-heart" data-emoji-edit>♥</span>
+                <span>RO</span>
+            </a>
+            <ul class="nav-links" id="nav-links-right">
+                <li><a href="#people">People</a></li>
+                <li><a href="#details">When &amp; Where</a></li>
+                <li><a href="#rsvp">RSVP</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ─── HERO ─── -->
+    <section id="hero" class="has-bg-image" data-overlay-opacity="0.35">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80');"></div>
+        <div class="hero-content">
+            <div class="hero-circle-wrap">
+                <!-- Decorative scatter dots -->
+                <svg class="hero-dots-svg" viewBox="0 0 540 540" aria-hidden="true">
+                    <circle cx="270" cy="28"  r="5" fill="var(--color-primary)"   opacity="0.55"/>
+                    <circle cx="398" cy="55"  r="3" fill="var(--color-secondary)" opacity="0.5"/>
+                    <circle cx="492" cy="148" r="4" fill="var(--color-primary)"   opacity="0.45"/>
+                    <circle cx="514" cy="282" r="3" fill="var(--color-secondary)" opacity="0.5"/>
+                    <circle cx="462" cy="412" r="5" fill="var(--color-primary)"   opacity="0.4"/>
+                    <circle cx="362" cy="492" r="3" fill="var(--color-secondary)" opacity="0.5"/>
+                    <circle cx="178" cy="512" r="4" fill="var(--color-primary)"   opacity="0.5"/>
+                    <circle cx="68"  cy="432" r="3" fill="var(--color-secondary)" opacity="0.4"/>
+                    <circle cx="28"  cy="290" r="5" fill="var(--color-primary)"   opacity="0.4"/>
+                    <circle cx="48"  cy="158" r="3" fill="var(--color-secondary)" opacity="0.5"/>
+                    <circle cx="148" cy="58"  r="4" fill="var(--color-primary)"   opacity="0.5"/>
+                    <circle cx="430" cy="98"  r="2" fill="var(--color-primary)"   opacity="0.6"/>
+                    <circle cx="448" cy="198" r="3" fill="var(--color-secondary)" opacity="0.4"/>
+                    <circle cx="95"  cy="202" r="2" fill="var(--color-secondary)" opacity="0.6"/>
+                    <circle cx="78"  cy="362" r="3" fill="var(--color-primary)"   opacity="0.4"/>
+                    <circle cx="305" cy="522" r="2" fill="var(--color-secondary)" opacity="0.6"/>
+                    <circle cx="320" cy="22"  r="2" fill="var(--color-secondary)" opacity="0.5"/>
+                    <circle cx="220" cy="30"  r="3" fill="var(--color-primary)"   opacity="0.4"/>
+                </svg>
+                <div class="hero-circle">
+                    <p class="hero-save-date">Save the Date</p>
+                    <h1 class="hero-bride-name">Sophia</h1>
+                    <div class="hero-and">
+                        <span class="and-line"></span>
+                        <span class="and-text">and</span>
+                        <span class="and-line"></span>
+                    </div>
+                    <h1 class="hero-groom-name">Robert</h1>
+                    <div class="hero-date-row">
+                        <span class="date-month">March</span>
+                        <span class="date-sep"></span>
+                        <span class="date-num">28</span>
+                        <span class="date-sep"></span>
+                        <span class="date-year">2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- ─── ABOUT ─── -->
+    <section id="about">
+        <div class="section-inner">
+            <div class="about-heading reveal">
+                <p class="section-label">The Couple</p>
+                <h2 class="section-title">We're Getting Married!</h2>
+                <p class="section-subtitle">Two hearts, one beautiful story</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-person reveal-left">
+                    <p class="about-role">The Bride</p>
+                    <h3 class="about-name">Lorene Sophia</h3>
+                    <p class="about-bio">A free spirit with a passion for art and travel. Sophia believes that every adventure leads to a new story worth telling. Her laughter is contagious, her kindness boundless. She met Robert on a rainy autumn evening, and the rest, as they say, is history.</p>
+                    <div class="about-social">
+                        <a href="#" class="social-icon" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter / X">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="about-center reveal-scale">
+                    <div class="about-photo">
+                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=500&q=80" alt="Sophia and Robert" loading="lazy">
+                    </div>
+                    <p class="about-couple-label">Sophia <span class="heart" data-emoji-edit>♥</span> Robert</p>
+                </div>
+                <div class="about-person about-person-right reveal-right">
+                    <p class="about-role" style="color: var(--color-secondary);">The Groom</p>
+                    <h3 class="about-name">Robert Bieber</h3>
+                    <p class="about-bio">An architect with a love for music and late-night stargazing. Robert sees beauty in structure and poetry in design. When Sophia walked into his life, he knew immediately that he had found his greatest masterpiece — a love built to last forever.</p>
+                    <div class="about-social">
+                        <a href="#" class="social-icon" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter / X">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── STORY ─── -->
+    <section id="story">
+        <div class="section-inner">
+            <div class="story-heading reveal">
+                <p class="section-label">Our Journey</p>
+                <h2 class="section-title">Our Love Story</h2>
+                <p class="section-subtitle">The milestones that brought us here</p>
+            </div>
+            <div class="story-grid" data-fp-dynamic-items="true">
+                <div class="story-card reveal reveal-delay-1" data-fp-dynamic="true">
+                    <div class="story-dot"></div>
+                    <span class="story-bg-num">01</span>
+                    <p class="story-year">Oct 2019</p>
+                    <h3 class="story-title">First time we met</h3>
+                    <p class="story-text">A chance encounter at a gallery opening. She was admiring a painting; he was lost looking at her. Neither could have known what would follow.</p>
+                </div>
+                <div class="story-card reveal reveal-delay-2" data-fp-dynamic="true">
+                    <div class="story-dot"></div>
+                    <span class="story-bg-num">02</span>
+                    <p class="story-year">Jan 2020</p>
+                    <h3 class="story-title">Our first date</h3>
+                    <p class="story-text">A candlelit dinner that lasted until midnight. They talked about everything and realized they never wanted to stop talking to each other.</p>
+                </div>
+                <div class="story-card reveal reveal-delay-3" data-fp-dynamic="true">
+                    <div class="story-dot"></div>
+                    <span class="story-bg-num">03</span>
+                    <p class="story-year">Jun 2022</p>
+                    <h3 class="story-title">The proposal</h3>
+                    <p class="story-text">On a rooftop under a thousand stars, with the city glittering below, Robert got down on one knee and asked the question that changed everything.</p>
+                </div>
+                <div class="story-card reveal reveal-delay-4" data-fp-dynamic="true">
+                    <div class="story-dot"></div>
+                    <span class="story-bg-num">04</span>
+                    <p class="story-year">Sep 2022</p>
+                    <h3 class="story-title">Our engagement</h3>
+                    <p class="story-text">Surrounded by family and friends who cheered and cried happy tears. The celebration of a lifetime of love, laughter, and adventure together.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── GALLERY ─── -->
+    <section id="gallery">
+        <div class="section-inner">
+            <div class="gallery-heading reveal">
+                <p class="section-label">Photo Gallery</p>
+                <h2 class="section-title">Captured Moments</h2>
+                <p class="section-subtitle">A glimpse of our journey together</p>
+            </div>
+            <div class="gallery-grid" data-fp-dynamic-items="true">
+                <div class="gallery-item reveal-scale reveal-delay-1" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80" alt="Wedding flowers" loading="lazy">
+                    <div class="gallery-overlay">
+                        <svg class="gallery-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M11 8v6m-3-3h6"/></svg>
+                    </div>
+                </div>
+                <div class="gallery-item reveal-scale reveal-delay-2" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?w=600&q=80" alt="Couple together" loading="lazy">
+                    <div class="gallery-overlay">
+                        <svg class="gallery-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M11 8v6m-3-3h6"/></svg>
+                    </div>
+                </div>
+                <div class="gallery-item reveal-scale reveal-delay-3" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&q=80" alt="Ceremony" loading="lazy">
+                    <div class="gallery-overlay">
+                        <svg class="gallery-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M11 8v6m-3-3h6"/></svg>
+                    </div>
+                </div>
+                <div class="gallery-item reveal-scale reveal-delay-1" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=600&q=80" alt="Wedding rings" loading="lazy">
+                    <div class="gallery-overlay">
+                        <svg class="gallery-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M11 8v6m-3-3h6"/></svg>
+                    </div>
+                </div>
+                <div class="gallery-item reveal-scale reveal-delay-2" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80" alt="First dance" loading="lazy">
+                    <div class="gallery-overlay">
+                        <svg class="gallery-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M11 8v6m-3-3h6"/></svg>
+                    </div>
+                </div>
+                <div class="gallery-item reveal-scale reveal-delay-3" data-fp-dynamic="true">
+                    <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=600&q=80" alt="Outdoor celebration" loading="lazy">
+                    <div class="gallery-overlay">
+                        <svg class="gallery-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M11 8v6m-3-3h6"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── QUOTE ─── -->
+    <section id="quote" class="has-bg-image" data-overlay-opacity="0.4">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=1920&q=80');"></div>
+        <div class="quote-content">
+            <span class="quote-open" aria-hidden="true">"</span>
+            <p class="quote-text reveal-scale">emotion &amp; forever</p>
+            <p class="quote-caption">Two souls, one heart — always</p>
+        </div>
+    </section>
+
+    <!-- ─── COUNTDOWN ─── -->
+    <section id="countdown" class="countdown-section has-bg-image" data-overlay-opacity="0.55" data-wedding-date="2027-03-28T14:00:00">
+        <div class="fp-bg" style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1920&q=80');"></div>
+        <div class="countdown-content">
+            <p class="countdown-label">The Big Day</p>
+            <h2 class="countdown-heading reveal">Start Celebration</h2>
+            <div class="countdown-wrapper">
+                <div class="countdown-item">
+                    <span class="number" id="days" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Days</span>
+                </div>
+                <span class="countdown-sep" aria-hidden="true">:</span>
+                <div class="countdown-item">
+                    <span class="number" id="hours" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Hours</span>
+                </div>
+                <span class="countdown-sep" aria-hidden="true">:</span>
+                <div class="countdown-item">
+                    <span class="number" id="minutes" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Minutes</span>
+                </div>
+                <span class="countdown-sep" aria-hidden="true">:</span>
+                <div class="countdown-item">
+                    <span class="number" id="seconds" contenteditable="false">00</span>
+                    <span class="label" contenteditable="false">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── PEOPLE ─── -->
+    <section id="people">
+        <div class="section-inner">
+            <div class="people-heading reveal">
+                <p class="section-label">Best Friends</p>
+                <h2 class="section-title">Groomsman &amp; Bridesmaid</h2>
+                <p class="section-subtitle">The ones who make every moment brighter</p>
+            </div>
+            <div class="people-grid people-groomsmen" data-fp-dynamic-items="true">
+                <div class="people-card reveal reveal-delay-1" data-fp-dynamic="true">
+                    <div class="people-photo-wrap">
+                        <div class="people-photo">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&q=80" alt="Stefano Corith" loading="lazy">
+                        </div>
+                    </div>
+                    <p class="people-name">Stefano Corith</p>
+                    <p class="people-role">Groomsman</p>
+                </div>
+                <div class="people-card reveal reveal-delay-2" data-fp-dynamic="true">
+                    <div class="people-photo-wrap">
+                        <div class="people-photo">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&q=80" alt="Evan Thompson" loading="lazy">
+                        </div>
+                    </div>
+                    <p class="people-name">Evan Thompson</p>
+                    <p class="people-role">Groomsman</p>
+                </div>
+                <div class="people-card reveal reveal-delay-3" data-fp-dynamic="true">
+                    <div class="people-photo-wrap">
+                        <div class="people-photo">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&q=80" alt="Bryan Johnson" loading="lazy">
+                        </div>
+                    </div>
+                    <p class="people-name">Bryan Johnson</p>
+                    <p class="people-role">Groomsman</p>
+                </div>
+                <div class="people-card reveal reveal-delay-4" data-fp-dynamic="true">
+                    <div class="people-photo-wrap">
+                        <div class="people-photo">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop&q=80" alt="Pablo Dance" loading="lazy">
+                        </div>
+                    </div>
+                    <p class="people-name">Pablo Dance</p>
+                    <p class="people-role">Groomsman</p>
+                </div>
+            </div>
+            <div class="people-divider reveal">
+                <div class="people-divider-line"></div>
+                <div class="people-divider-dot"></div>
+                <span class="people-divider-label">Bridesmaids</span>
+                <div class="people-divider-dot"></div>
+                <div class="people-divider-line"></div>
+            </div>
+            <div class="people-grid people-bridesmaids" data-fp-dynamic-items="true">
+                <div class="people-card reveal reveal-delay-1" data-fp-dynamic="true">
+                    <div class="people-photo-wrap">
+                        <div class="people-photo">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&q=80" alt="Elidor Handrix" loading="lazy">
+                        </div>
+                    </div>
+                    <p class="people-name">Elidor Handrix</p>
+                    <p class="people-role">Bridesmaid</p>
+                </div>
+                <div class="people-card reveal reveal-delay-2" data-fp-dynamic="true">
+                    <div class="people-photo-wrap">
+                        <div class="people-photo">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&q=80" alt="Samantha Jones" loading="lazy">
+                        </div>
+                    </div>
+                    <p class="people-name">Samantha Jones</p>
+                    <p class="people-role">Bridesmaid</p>
+                </div>
+                <div class="people-card reveal reveal-delay-3" data-fp-dynamic="true">
+                    <div class="people-photo-wrap">
+                        <div class="people-photo">
+                            <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&h=200&fit=crop&q=80" alt="Mick Humpherson" loading="lazy">
+                        </div>
+                    </div>
+                    <p class="people-name">Mick Humpherson</p>
+                    <p class="people-role">Bridesmaid</p>
+                </div>
+                <div class="people-card reveal reveal-delay-4" data-fp-dynamic="true">
+                    <div class="people-photo-wrap">
+                        <div class="people-photo">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&q=80" alt="Jonathan James" loading="lazy">
+                        </div>
+                    </div>
+                    <p class="people-name">Jonathan James</p>
+                    <p class="people-role">Bridesmaid</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── DETAILS (WHEN & WHERE) ─── -->
+    <section id="details">
+        <div class="section-inner">
+            <div class="details-heading reveal">
+                <p class="section-label">Time and Place</p>
+                <h2 class="section-title">When &amp; Where</h2>
+                <p class="section-subtitle">All the information you need for the big day</p>
+            </div>
+            <div class="details-grid" data-fp-dynamic-items="true">
+                <div class="detail-card reveal reveal-delay-1" data-fp-dynamic="true">
+                    <div class="detail-photo">
+                        <img src="https://images.unsplash.com/photo-1519741347686-c1e0aadf4611?w=500&q=80" alt="The ceremony" loading="lazy">
+                        <div class="detail-date-badge">
+                            <span class="badge-month">March</span>
+                            <span class="badge-day">28</span>
+                        </div>
+                    </div>
+                    <div class="detail-body">
+                        <p class="detail-type">The Ceremony</p>
+                        <h3 class="detail-venue">St. Mary's Cathedral</h3>
+                        <div class="detail-info-row">
+                            <svg class="detail-info-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+                            <p class="detail-info-text"><span>415 Broadway, Brooklyn</span><br><span>New York, USA 11206</span></p>
+                        </div>
+                        <div class="detail-info-row">
+                            <svg class="detail-info-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <p class="detail-info-text"><span>2:00 pm to 4:00 pm</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-card reveal reveal-delay-2" data-fp-dynamic="true">
+                    <div class="detail-photo">
+                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500&q=80" alt="Cocktail hour" loading="lazy">
+                        <div class="detail-date-badge">
+                            <span class="badge-month">March</span>
+                            <span class="badge-day">28</span>
+                        </div>
+                    </div>
+                    <div class="detail-body">
+                        <p class="detail-type">Cocktail Hour</p>
+                        <h3 class="detail-venue">Rooftop Garden Terrace</h3>
+                        <div class="detail-info-row">
+                            <svg class="detail-info-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+                            <p class="detail-info-text"><span>122 Park Avenue South</span><br><span>New York, USA 10016</span></p>
+                        </div>
+                        <div class="detail-info-row">
+                            <svg class="detail-info-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <p class="detail-info-text"><span>4:30 pm to 6:00 pm</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-card reveal reveal-delay-3" data-fp-dynamic="true">
+                    <div class="detail-photo">
+                        <img src="https://images.unsplash.com/photo-1528823872057-9c018a7a7553?w=500&q=80" alt="Reception dinner" loading="lazy">
+                        <div class="detail-date-badge">
+                            <span class="badge-month">March</span>
+                            <span class="badge-day">28</span>
+                        </div>
+                    </div>
+                    <div class="detail-body">
+                        <p class="detail-type">The Reception</p>
+                        <h3 class="detail-venue">The Grand Ballroom</h3>
+                        <div class="detail-info-row">
+                            <svg class="detail-info-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+                            <p class="detail-info-text"><span>200 Central Park South</span><br><span>New York, USA 10019</span></p>
+                        </div>
+                        <div class="detail-info-row">
+                            <svg class="detail-info-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <p class="detail-info-text"><span>6:30 pm to midnight</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── MAP ─── -->
+    <section id="map">
+        <div class="section-inner" style="padding-bottom: 0;">
+            <div class="map-heading reveal" style="margin-bottom: 48px;">
+                <p class="section-label">Find Us</p>
+                <h2 class="section-title">Location</h2>
+            </div>
+        </div>
+        <div class="map-wrapper">
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.119763973046!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2ses!4v1708000000000!5m2!1sen!2ses"
+                    loading="lazy"
+                    allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Wedding venue location">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── RSVP ─── -->
+    <section id="rsvp">
+        <div class="section-inner">
+            <div class="rsvp-heading reveal">
+                <p class="section-label">Join Us</p>
+                <h2 class="section-title">Are You Attending?</h2>
+                <p class="section-subtitle">Kindly reply by February 28, 2025</p>
+            </div>
+            <div class="rsvp-form-wrapper reveal-scale">
+                <form id="rsvp-form" novalidate>
+                    <div class="form-row" data-fp-dynamic-items="true">
+                        <div class="form-group">
+                            <label for="first-name">First Name <span style="color: var(--color-primary);">*</span></label>
+                            <input type="text" id="first-name" name="first_name" placeholder="Your first name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name <span style="color: var(--color-primary);">*</span></label>
+                            <input type="text" id="last-name" name="last_name" placeholder="Your last name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile">Mobile <span style="color: var(--color-primary);">*</span></label>
+                            <input type="tel" id="mobile" name="mobile" placeholder="+1 (555) 000-0000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="age-group">Guest Type</label>
+                            <select id="age-group" name="age_group">
+                                <option value="adult">Adult</option>
+                                <option value="child">Child</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="attending">Will You Attend? <span style="color: var(--color-primary);">*</span></label>
+                            <select id="attending" name="attending" required>
+                                <option value="">Please select...</option>
+                                <option value="yes">Yes, I will attend!</option>
+                                <option value="no">No, sorry I can't make it</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="cond-allergies" style="display: none;">
+                            <label for="allergies">Allergies / Dietary requirements</label>
+                            <input type="text" id="allergies" name="allergies" placeholder="e.g. vegetarian, nut allergy...">
+                        </div>
+                        <div class="form-group" id="cond-transport" style="display: none;">
+                            <label for="transport">Will you use transportation?</label>
+                            <select id="transport" name="transport">
+                                <option value="yes">Yes, please</option>
+                                <option value="no">No, thanks</option>
+                            </select>
+                        </div>
+                        <div class="form-group full" id="cond-song" style="display: none;">
+                            <label for="fav-song">Favorite Song Request</label>
+                            <input type="text" id="fav-song" name="fav_song" placeholder="Song title – Artist name">
+                        </div>
+                        <div class="form-group full">
+                            <label for="message">Message for the Couple</label>
+                            <textarea id="message" name="message" placeholder="Share your wishes, a memory, or words of love for Sophia &amp; Robert..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-submit">
+                        <button type="submit" class="btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+                            <span>Confirm Attendance</span>
+                        </button>
+                    </div>
+                </form>
+                <div class="rsvp-success" id="rsvp-success">
+                    <div class="rsvp-success-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                    </div>
+                    <h3>Thank you!</h3>
+                    <p>We've received your RSVP. We can't wait to celebrate with you!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer id="footer">
+        <div class="footer-inner">
+            <div class="footer-contact">
+                <p class="footer-contact-label">Call us directly</p>
+                <p class="footer-contact-value">+1 (888) 123 456</p>
+            </div>
+            <div class="footer-logo">
+                <span>SO</span>
+                <span class="heart" data-emoji-edit>♥</span>
+                <span>RO</span>
+            </div>
+            <div class="footer-contact footer-contact-right">
+                <p class="footer-contact-label">Send a message</p>
+                <p class="footer-contact-value">hello@sophia-robert.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>March 28, 2025 &nbsp;·&nbsp; New York City &nbsp;·&nbsp; With love, Sophia &amp; Robert</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ─── NAV: SCROLL + ACTIVE LINKS ─── */
+        const nav = document.getElementById('nav');
+        const navLinks = document.querySelectorAll('.nav-links li a');
+
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+            /* Active section tracking */
+            let current = '';
+            document.querySelectorAll('section[id]').forEach(s => {
+                if (window.scrollY >= s.offsetTop - 110) current = s.id;
+            });
+            navLinks.forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+            });
+        }, { passive: true });
+
+        /* ─── HAMBURGER MENU ─── */
+        const hamburger = document.getElementById('hamburger');
+        const navLeft   = document.getElementById('nav-links-left');
+        const navRight  = document.getElementById('nav-links-right');
+        let menuOpen = false;
+
+        hamburger.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            navLeft.classList.toggle('open', menuOpen);
+            navRight.classList.toggle('open', menuOpen);
+        });
+        document.querySelectorAll('.nav-links li a').forEach(a => {
+            a.addEventListener('click', () => {
+                menuOpen = false;
+                navLeft.classList.remove('open');
+                navRight.classList.remove('open');
+            });
+        });
+
+        /* ─── COUNTDOWN ─── */
+        const cSection = document.querySelector('.countdown-section');
+        if (cSection) {
+            const target = new Date(cSection.dataset.weddingDate || '2027-03-28T14:00:00');
+            const dEl = document.getElementById('days');
+            const hEl = document.getElementById('hours');
+            const mEl = document.getElementById('minutes');
+            const sEl = document.getElementById('seconds');
+
+            function tick() {
+                const diff = target - new Date();
+                if (diff <= 0) {
+                    [dEl, hEl, mEl, sEl].forEach(el => { if (el) el.textContent = '00'; });
+                    return;
+                }
+                if (dEl) dEl.textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+                if (hEl) hEl.textContent = String(Math.floor(diff % 86400000 / 3600000)).padStart(2, '0');
+                if (mEl) mEl.textContent = String(Math.floor(diff % 3600000 / 60000)).padStart(2, '0');
+                if (sEl) sEl.textContent = String(Math.floor(diff % 60000 / 1000)).padStart(2, '0');
+            }
+            tick();
+            setInterval(tick, 1000);
+        }
+
+        /* ─── REVEAL ANIMATIONS ─── */
+        const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+            });
+        }, { threshold: 0.1 });
+        revealEls.forEach(el => observer.observe(el));
+
+        /* ─── RSVP CONDITIONAL FIELDS ─── */
+        const attendingEl  = document.getElementById('attending');
+        const condFields   = ['cond-allergies', 'cond-transport', 'cond-song'];
+        if (attendingEl) {
+            attendingEl.addEventListener('change', () => {
+                const show = attendingEl.value === 'yes';
+                condFields.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = show ? '' : 'none';
+                });
+            });
+        }
+
+        /* ─── RSVP SUBMIT ─── */
+        const rsvpForm    = document.getElementById('rsvp-form');
+        const rsvpSuccess = document.getElementById('rsvp-success');
+        if (rsvpForm) {
+            rsvpForm.addEventListener('submit', e => {
+                e.preventDefault();
+                const fn  = document.getElementById('first-name');
+                const ln  = document.getElementById('last-name');
+                const mob = document.getElementById('mobile');
+                const att = document.getElementById('attending');
+                const invalid = [fn, ln, mob, att].find(el => !el.value.trim());
+                if (invalid) { invalid.focus(); return; }
+                rsvpForm.style.display = 'none';
+                if (rsvpSuccess) rsvpSuccess.classList.add('visible');
+            });
+        }
+
+        /* ─── SMOOTH SCROLL ─── */
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    window.scrollTo({ top: target.offsetTop - (nav ? nav.offsetHeight : 0), behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
