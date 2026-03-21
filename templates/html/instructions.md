@@ -67,7 +67,12 @@ All sections need an `id`. Use these: hero, story, about, quote, rsvp, details, 
 ## 13. Removable items (data-fp-dynamic)
 - Repeatable items (cards, timeline entries): add `data-fp-dynamic="true"` on each, OR `data-fp-dynamic-items="true"` on the parent so all direct children are removable.
 
-## 14. Section background picker (do not hardcode colors)
+## 14. Duplicable items (data-fp-duplicable)
+- Horizontal / multi-column layouts (grid): Put `data-fp-duplicable-right` on each repeatable unit (e.g. cards that read as a row or several columns).
+- Vertical stacks: Put `data-fp-duplicable-down` on each repeatable unit when items read as one per row (e.g. timelines, form rows, single-column lists). 
+- Where to attach: Add the attribute on each duplicable item (each card, each form row), not on the grid/flex container—unless the goal is to duplicate the whole container.
+
+## 15. Section background picker (do not hardcode colors)
 - **Never** use hardcoded colors for text, labels, dividers, form labels, inputs, or buttons inside a section that can have this picker (e.g. RSVP, contact, CTA). No `#fff`, `#ffffff`, or `rgba(255,255,255,...)` for section content.
 - Use **theme variables** only:
   - For **light backgrounds** (Primary, Secondary, Accent, Gradient 1, None): use `--color-on-canvas`, `--color-on-canvas-muted`, `--color-primary`, `--color-border`, `--color-primary-container`, `--color-surface` for buttons.
@@ -75,5 +80,5 @@ All sections need an `id`. Use these: hero, story, about, quote, rsvp, details, 
 - Add override rules for light backgrounds using the `data-bg` attribute, e.g.
   `section#yourid[data-bg="primary"] .section-title { color: var(--color-on-primary); }`
 
-## 15. Style and layout
+## 16. Style and layout
 - Do not make generic and standard designs or layouts, try to adapt them the most to the provided image design (if provided). 
